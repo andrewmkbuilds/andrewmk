@@ -1,112 +1,329 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { CodeDivider } from "@/components/ui/CodeDivider";
-import { CodeLabel } from "@/components/ui/CodeLabel";
-import { ProjectCard } from "@/components/ui/ProjectCard";
+import { Reveal } from "@/components/ui/Reveal";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { StatusDot } from "@/components/ui/StatusDot";
 import { TypingCursor } from "@/components/ui/TypingCursor";
+import { ProjectCard } from "@/components/ui/ProjectCard";
+import { ProjectModal } from "@/components/ui/ProjectModal";
+import { ProjectGrid } from "@/components/ui/ProjectGrid";
+import { TechTag } from "@/components/ui/TechTag";
 import { ArrowRight } from "lucide-react";
+import {
+  buildingCategories,
+  currentlyBuilding,
+  featuredProjects,
+  principles,
+  quickStats,
+  type Project,
+} from "@/data/portfolio";
 
-const featuredProjects = [
-  {
-    name: "Scalable Fintech Platform",
-    slug: "scalable-fintech-platform",
-    description: "Development of a scalable financial platform handling millions of transactions with real-time processing and robust security measures.",
-    stack: ["React", "TypeScript", "Node.js", "PostgreSQL"],
-    impact: "35% latency reduction, millions of users supported",
-  },
-  {
-    name: "Internal Design System",
-    slug: "internal-design-system",
-    description: "Creation of a robust design system enabling multiple teams to build consistent, accessible interfaces at scale.",
-    stack: ["React", "Storybook", "CSS-in-JS"],
-    impact: "40% increase in team productivity",
-  },
-  {
-    name: "Real-Time Analytics Dashboard",
-    slug: "real-time-analytics-dashboard",
-    description: "Real-time dashboard for instant decision-making with live data visualization and customizable metrics.",
-    stack: ["Next.js", "WebSockets", "D3.js"],
-    impact: "Instant insights for product and business teams",
-  },
-  {
-    name: "E-Commerce Microservices",
-    slug: "e-commerce-microservices-architecture",
-    description: "Complete microservices ecosystem for high-traffic e-commerce platform with event-driven architecture and automated scaling.",
-    stack: ["Go", "Kubernetes", "gRPC", "MongoDB"],
-    impact: "99.99% uptime, 10x throughput improvement",
-  },
+const heroNodes = [
+  { label: "AI", x: "68%", y: "22%" },
+  { label: "Robotics", x: "84%", y: "40%" },
+  { label: "Computer Vision", x: "70%", y: "62%" },
+  { label: "Systems", x: "86%", y: "78%" },
+  { label: "Product", x: "62%", y: "88%" },
 ];
 
+
 export default function Home() {
+  const [selected, setSelected] = useState<Project | null>(null);
+  const [open, setOpen] = useState(false);
+
+  const openProject = (project: Project) => {
+    setSelected(project);
+    setOpen(true);
+  };
+
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center bg-grid">
-        <div className="container">
-          <div className="max-w-3xl opacity-0 animate-fade-in-up">
-            {/* Code-style label */}
-            <CodeLabel className="mb-6">Senior Developer</CodeLabel>
+      {/* Hero */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid" aria-hidden="true" />
+        <div
+          className="pointer-events-none absolute -top-32 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-primary/10 blur-[120px]"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute bottom-0 right-0 h-[320px] w-[420px] rounded-full bg-accent/10 blur-[120px]"
+          aria-hidden="true"
+        />
 
-            {/* Headline with typing cursor */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
-              Hi, I'm Diego Ramirez.
-              <br />
-              <span className="text-muted-foreground">I build reliable digital systems</span>
-              <TypingCursor />
-            </h1>
+        {/* Floating technical labels */}
+        <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
+          {heroNodes.map((node, i) => (
+            <span
+              key={node.label}
+              style={{ left: node.x, top: node.y, animationDelay: `${i * 1.1}s` }}
+              className="absolute animate-drift rounded-full border border-border bg-card/60 px-3 py-1 font-mono text-[11px] text-muted-foreground backdrop-blur-sm"
+            >
+              <span className="mr-2 inline-block h-1 w-1 rounded-full bg-primary align-middle" />
+              {node.label}
+            </span>
+          ))}
+        </div>
 
-            {/* Subheadline */}
-            <p className="text-lg text-muted-foreground mb-8 max-w-xl leading-relaxed opacity-0 animate-fade-in-up stagger-1">
-              A Mexico-based developer focused on building products that scale, perform, and deliver real impact. 
-              Working at the intersection of engineering, product, and design to turn 
-              complex problems into elegant solutions.
-            </p>
+        <div className="container relative py-24 md:py-32 lg:py-40">
+          <div className="max-w-3xl">
+            <Reveal className="mb-6 inline-flex items-center gap-3 rounded-full border border-border bg-card/70 px-4 py-2 backdrop-blur-sm">
+              <StatusDot />
+              <span className="font-mono text-xs text-foreground">Currently Building</span>
+            </Reveal>
 
-            {/* CTA */}
-            <div className="opacity-0 animate-fade-in-up stagger-2">
-              <Button asChild size="lg" className="font-mono transition-transform hover:scale-105">
-                <Link to="/work">
-                  View Work
+            <Reveal delay={60}>
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.05] text-balance text-foreground">
+                I build systems that solve real problems.
+                <TypingCursor />
+              </h1>
+            </Reveal>
+
+            <Reveal delay={120}>
+              <p className="mt-6 max-w-2xl text-base md:text-lg text-muted-foreground leading-relaxed">
+                I'm Andrew, a student developer and AI builder from Dubai. I build software,
+                experiment with AI, compete in STEM and engineering challenges, and turn ideas into
+                working products.
+              </p>
+            </Reveal>
+
+            <Reveal delay={180} className="mt-8 flex flex-wrap gap-3">
+              <Button asChild size="lg" className="font-mono transition-transform hover:scale-[1.03]">
+                <Link to="/projects">
+                  Explore My Work
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-            </div>
+              <Button asChild size="lg" variant="outline" className="font-mono">
+                <Link to="/about">About Me</Link>
+              </Button>
+            </Reveal>
+
+            <Reveal delay={240}>
+              <p className="mt-8 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                AI · Software · Robotics · Systems · Product
+              </p>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* Featured Projects */}
-      <section className="py-20">
-        <div className="container">
-          <div className="opacity-0 animate-fade-in-up">
-            <CodeDivider label="Featured Work" />
-          </div>
+      {/* Quick stats */}
+      <section className="border-y border-border bg-card/30" aria-label="Quick statistics">
+        <div className="container grid grid-cols-2 gap-8 py-10 md:grid-cols-4">
+          {quickStats.map((stat, i) => (
+            <Reveal key={stat.label} delay={i * 60}>
+              <p className="text-2xl md:text-3xl font-semibold text-foreground">{stat.value}</p>
+              <p className="mt-1 font-mono text-xs text-muted-foreground">{stat.label}</p>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            {featuredProjects.map((project, index) => (
-              <div 
-                key={project.name} 
-                className={`opacity-0 animate-fade-in-up stagger-${index + 1}`}
-              >
-                <ProjectCard {...project} className="hover-lift" />
-              </div>
+      {/* Featured work */}
+      <section className="py-20 md:py-28" id="work">
+        <div className="container">
+          <SectionHeading
+            label="Featured"
+            title="Things I've Built"
+            subtitle="Different problems. Different systems. One constant: build it."
+          />
+          <div className="grid gap-6 lg:grid-cols-2">
+            {featuredProjects.map((project, i) => (
+              <Reveal key={project.slug} delay={i * 70} className="h-full">
+                <ProjectCard
+                  project={project}
+                  onOpen={openProject}
+                  variant="featured"
+                  className="h-full"
+                />
+              </Reveal>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* View All Link */}
-          <div className="mt-12 text-center opacity-0 animate-fade-in-up stagger-4">
-            <Link 
-              to="/work" 
-              className="inline-flex items-center font-mono text-sm text-muted-foreground hover:text-primary transition-colors link-underline"
-            >
-              <span className="text-primary mr-2">{"//"}</span>
-              View all projects
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+      {/* Ecosystem */}
+      <section className="border-t border-border py-20 md:py-28" id="ecosystem">
+        <div className="container">
+          <SectionHeading
+            label="Ecosystem"
+            title="Everything I Build Has a Purpose."
+            subtitle="Systems, tools, experiments, and concepts built to solve specific problems."
+          />
+          <ProjectGrid />
+          <Reveal className="mt-10 font-mono text-sm text-muted-foreground">
+            <span className="text-primary">//</span> More systems in development.
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Building categories */}
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="container">
+          <SectionHeading label="Focus areas" title="My Building Categories" />
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {buildingCategories.map((cat, i) => (
+              <Reveal key={cat.title} delay={i * 60} className="h-full">
+                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-accent/40">
+                  <h3 className="text-lg font-semibold text-foreground">{cat.title}</h3>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {cat.items.map((item) => (
+                      <TechTag key={item}>{item}</TechTag>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
+
+      {/* How I think */}
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="container">
+          <SectionHeading label="Approach" title="How I Think" />
+          <div className="grid gap-5 md:grid-cols-3">
+            {principles.map((p, i) => (
+              <Reveal key={p.title} delay={i * 70} className="h-full">
+                <div className="group h-full rounded-xl border border-border bg-card p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 motion-reduce:hover:translate-y-0">
+                  <span className="font-mono text-xs text-accent">0{i + 1}</span>
+                  <h3 className="mt-3 text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
+                    {p.title}
+                  </h3>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{p.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Robotics origin */}
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="container">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+            <SectionHeading
+              label="Robotics"
+              title="Where It Started"
+              subtitle="It didn't begin with AI. It began with physically building things — the Mbot@IHS robotics programme at age 9."
+              className="mb-0"
+            />
+            <Reveal delay={80}>
+              <ol className="grid gap-3 sm:grid-cols-2">
+                {["Robotics", "Software", "AI", "Systems"].map((step, i) => (
+                  <li
+                    key={step}
+                    className="flex items-center gap-3 rounded-xl border border-border bg-card p-5 shadow-card"
+                  >
+                    <span className="font-mono text-xs text-accent">0{i + 1}</span>
+                    <span className="text-base font-medium text-foreground">{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* STEM Racing */}
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="container">
+          <SectionHeading
+            label="Engineering"
+            title="STEM Racing"
+            subtitle="Engineering beyond the screen."
+          />
+          <div className="grid gap-5 lg:grid-cols-3">
+            <Reveal className="lg:col-span-2">
+              <div className="h-full rounded-xl border border-border bg-card p-8 shadow-card">
+                <p className="text-base text-muted-foreground leading-relaxed">
+                  I take part in F1 in Schools / STEM Racing, where the work runs through
+                  engineering, design, teamwork, racing, and competition. It's a different kind of
+                  building: constraints are physical, deadlines are real, and the whole team has to
+                  move together.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {["Engineering", "Design", "Teamwork", "Racing", "Competition"].map((t) => (
+                    <TechTag key={t}>{t}</TechTag>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+            <Reveal delay={80}>
+              <div className="flex h-full flex-col justify-between rounded-xl border border-accent/30 bg-card p-8 shadow-card">
+                <div>
+                  <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent">
+                    Connected team
+                  </p>
+                  <h3 className="mt-3 text-2xl font-semibold text-foreground">
+                    Horizon Motorsports
+                  </h3>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                    A UAE-based racing team competing in FLL, Techfest, and engineering
+                    competitions.
+                  </p>
+                </div>
+                <Button asChild variant="outline" className="mt-6 font-mono">
+                  <a
+                    href="https://horizonmotorsports.base44.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visit the team site
+                  </a>
+                </Button>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Currently building */}
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="container">
+          <SectionHeading label="Live" title="Currently Building" />
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {currentlyBuilding.map((item, i) => (
+              <Reveal key={item.name} delay={i * 60} className="h-full">
+                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card">
+                  <div className="flex items-center gap-2">
+                    <StatusDot />
+                    <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-primary">
+                      {item.status}
+                    </span>
+                  </div>
+                  <h3 className="mt-4 text-lg font-semibold text-foreground">{item.name}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{item.note}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="border-t border-border py-20 md:py-24">
+        <div className="container">
+          <Reveal className="rounded-2xl border border-border bg-card p-8 md:p-12 shadow-card">
+            <h2 className="text-3xl md:text-4xl font-semibold text-foreground">
+              Let's build something.
+            </h2>
+            <p className="mt-3 max-w-xl text-muted-foreground">
+              Have an idea, project, competition, or collaboration? Let's talk.
+            </p>
+            <Button asChild size="lg" className="mt-7 font-mono">
+              <Link to="/contact">
+                Get in touch
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </Reveal>
+        </div>
+      </section>
+
+      <ProjectModal project={selected} open={open} onOpenChange={setOpen} />
     </Layout>
   );
 }

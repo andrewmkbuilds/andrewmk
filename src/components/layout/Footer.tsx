@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github } from "lucide-react";
+import { GITHUB_URL } from "@/data/portfolio";
 
-const socialLinks = [
-  { href: "https://github.com", icon: Github, label: "GitHub" },
-  { href: "https://linkedin.com", icon: Linkedin, label: "LinkedIn" },
-  { href: "mailto:hello@developer.dev", icon: Mail, label: "Email" },
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/projects", label: "Projects" },
+  { href: "/about", label: "About" },
+  { href: "/achievements", label: "Achievements" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Footer() {
@@ -12,39 +15,42 @@ export function Footer() {
 
   return (
     <footer className="border-t border-border bg-background">
-      <div className="container py-8">
-        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
-          {/* Copyright */}
-          <p className="font-mono text-sm text-muted-foreground">
-            <span className="text-primary">//</span> © {currentYear} Diego Ramirez
-          </p>
-
-          {/* Footer Links */}
-          <div className="flex items-center gap-6">
-            <Link
-              to="/styleguide"
-              className="font-mono text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              Styleguide
-            </Link>
+      <div className="container py-12">
+        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+          <div>
+            <p className="text-lg font-semibold text-foreground">Andrew Mathews</p>
+            <p className="mt-1 font-mono text-sm text-muted-foreground">
+              Student · Developer · AI Builder
+            </p>
           </div>
 
-          {/* Social Links */}
-          <div className="flex items-center gap-4">
-            {socialLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-                aria-label={link.label}
+          <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-3">
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                className="font-mono text-sm text-muted-foreground transition-colors hover:text-primary"
               >
-                <link.icon className="h-5 w-5" />
-              </a>
+                {link.label}
+              </Link>
             ))}
-          </div>
+          </nav>
+
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 font-mono text-sm text-muted-foreground transition-colors hover:text-primary"
+            aria-label="GitHub profile"
+          >
+            <Github className="h-4 w-4" />
+            andrewmkbuilds
+          </a>
         </div>
+
+        <p className="mt-10 border-t border-border pt-6 font-mono text-xs text-muted-foreground">
+          <span className="text-primary">//</span> Built by Andrew · {currentYear}
+        </p>
       </div>
     </footer>
   );
