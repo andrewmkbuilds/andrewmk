@@ -55,7 +55,7 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
         <ul className="mt-5 grid gap-2 sm:grid-cols-2">
           {project.built.slice(0, 6).map((item) => (
             <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
-              <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-accent" />
+              <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
               {item}
             </li>
           ))}

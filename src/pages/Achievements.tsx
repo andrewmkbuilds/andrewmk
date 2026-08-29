@@ -62,10 +62,10 @@ export default function Achievements() {
           <div className="grid gap-5 md:grid-cols-3">
             {munResults.map((mun, i) => (
               <Reveal key={mun.title} delay={i * 60} className="h-full">
-                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-accent/40">
+                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-primary/40">
                   <h3 className="text-lg font-semibold text-foreground">{mun.title}</h3>
                   {mun.detail && (
-                    <p className="mt-2 font-mono text-sm text-accent">{mun.detail}</p>
+                    <p className="mt-2 font-mono text-sm text-primary">{mun.detail}</p>
                   )}
                 </div>
               </Reveal>
@@ -86,10 +86,10 @@ export default function Achievements() {
           <Reveal className="flex flex-wrap items-center gap-3">
             {exhibitionLoop.map((step, i) => (
               <span key={step} className="flex items-center gap-3">
-                <span className="rounded-lg border border-accent/30 bg-background px-5 py-3 font-mono text-sm text-foreground">
+                <span className="rounded-lg border border-primary/30 bg-background px-5 py-3 font-mono text-sm text-foreground">
                   {step}
                 </span>
-                {i < exhibitionLoop.length - 1 && <span className="text-accent">→</span>}
+                {i < exhibitionLoop.length - 1 && <span className="text-primary">→</span>}
               </span>
             ))}
           </Reveal>
@@ -99,7 +99,7 @@ export default function Achievements() {
               <Reveal key={item} delay={i * 50}>
                 <div className="rounded-xl border border-border bg-background p-5">
                   <p className="font-mono text-sm text-foreground">
-                    <span className="mr-2 text-accent">/</span>
+                    <span className="mr-2 text-primary">/</span>
                     {item}
                   </p>
                 </div>

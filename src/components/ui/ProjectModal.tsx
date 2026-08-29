@@ -40,7 +40,7 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
 
             <div className="space-y-6 pt-2">
               <section>
-                <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-accent mb-3">
+                <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-primary mb-3">
                   {project.problem ? "Problem" : "What it is"}
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
@@ -49,7 +49,7 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
               </section>
 
               <section>
-                <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-accent mb-3">
+                <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-primary mb-3">
                   What I built
                 </h3>
                 <ul className="grid gap-2 sm:grid-cols-2">
@@ -63,7 +63,7 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
               </section>
 
               <section>
-                <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-accent mb-3">
+                <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-primary mb-3">
                   Technology
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -74,7 +74,7 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
               </section>
 
               <section>
-                <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-accent mb-3">
+                <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-primary mb-3">
                   Current status
                 </h3>
                 <p className="font-mono text-sm text-foreground">{project.status}</p>

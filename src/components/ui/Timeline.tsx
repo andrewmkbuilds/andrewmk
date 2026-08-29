@@ -13,7 +13,7 @@ export function Timeline() {
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">{entry.year}</p>
           <h3 className="mt-2 text-xl md:text-2xl font-semibold text-foreground">{entry.title}</h3>
           {entry.meta && (
-            <p className="mt-1 font-mono text-xs text-accent">{entry.meta}</p>
+            <p className="mt-1 font-mono text-xs text-primary">{entry.meta}</p>
           )}
           <div className="mt-3 space-y-2">
             {entry.body.map((line) => (

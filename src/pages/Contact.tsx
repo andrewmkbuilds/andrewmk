@@ -134,7 +134,7 @@ export default function Contact() {
                   className="rounded-xl border border-border bg-card p-4 text-sm"
                 >
                   <p className="flex items-start gap-2 text-muted-foreground">
-                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                     <span>
                       No email service is connected yet, so this form does not send messages. Use
                       GitHub below to reach me in the meantime.
