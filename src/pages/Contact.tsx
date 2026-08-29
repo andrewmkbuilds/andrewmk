@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Github, Mail, Linkedin, AlertTriangle } from "lucide-react";
-import { GITHUB_URL } from "@/data/portfolio";
+import { Github, Mail, AlertTriangle } from "lucide-react";
+import { GITHUB_URL, socialLinks } from "@/data/portfolio";
+import { socialIconMap } from "@/components/ui/SocialIcons";
 
 interface Errors {
   name?: string;
@@ -154,31 +155,52 @@ export default function Contact() {
                   href={GITHUB_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 rounded-xl border border-border bg-card p-5 shadow-card transition-colors hover:border-primary/40"
+                  aria-label="GitHub profile (@andrewmkbuilds)"
+                  className="flex items-center gap-4 rounded-xl border border-primary/40 bg-card p-5 shadow-card transition-colors hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <Github className="h-5 w-5 text-primary" />
                   <span>
-                    <span className="block text-sm font-medium text-foreground">GitHub</span>
+                    <span className="block text-sm font-medium text-foreground">
+                      GitHub <span className="font-mono text-[10px] uppercase tracking-wider text-primary">· Primary</span>
+                    </span>
                     <span className="block font-mono text-xs text-muted-foreground">
-                      andrewmkbuilds
+                      @andrewmkbuilds
                     </span>
                   </span>
                 </a>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {socialLinks
+                    .filter((s) => s.id !== "github")
+                    .map((link) => {
+                      const Icon = socialIconMap[link.id];
+                      return (
+                        <a
+                          key={link.id}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${link.label} profile (${link.handle})`}
+                          className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        >
+                          <Icon className="h-4 w-4 text-primary" />
+                          <span>
+                            <span className="block text-sm font-medium text-foreground">
+                              {link.label}
+                            </span>
+                            <span className="block font-mono text-xs text-muted-foreground">
+                              {link.handle}
+                            </span>
+                          </span>
+                        </a>
+                      );
+                    })}
+                </div>
 
                 <div className="flex items-center gap-4 rounded-xl border border-dashed border-border p-5">
                   <Mail className="h-5 w-5 text-muted-foreground" />
                   <span>
                     <span className="block text-sm font-medium text-foreground">Email</span>
-                    <span className="block font-mono text-xs text-muted-foreground">
-                      Not configured yet
-                    </span>
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-4 rounded-xl border border-dashed border-border p-5">
-                  <Linkedin className="h-5 w-5 text-muted-foreground" />
-                  <span>
-                    <span className="block text-sm font-medium text-foreground">LinkedIn</span>
                     <span className="block font-mono text-xs text-muted-foreground">
                       Not configured yet
                     </span>

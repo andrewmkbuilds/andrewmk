@@ -4,6 +4,7 @@ import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { SocialIcons } from "@/components/ui/SocialIcons";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -59,7 +60,8 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex items-center gap-4">
+          <SocialIcons ids={["github", "x", "instagram"]} className="gap-1.5 [&_a]:h-8 [&_a]:w-8 [&_a]:border-transparent [&_a]:bg-transparent" />
           <Button asChild size="sm" className="font-mono transition-transform hover:scale-[1.03]">
             <Link to="/projects">View My Work</Link>
           </Button>

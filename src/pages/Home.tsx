@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
+import { SocialIcons } from "@/components/ui/SocialIcons";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StatusDot } from "@/components/ui/StatusDot";
@@ -98,6 +99,10 @@ export default function Home() {
               <Button asChild size="lg" variant="outline" className="font-mono">
                 <Link to="/about">About Me</Link>
               </Button>
+            </Reveal>
+
+            <Reveal delay={220}>
+              <SocialIcons className="mt-6" />
             </Reveal>
 
             <Reveal delay={240}>
