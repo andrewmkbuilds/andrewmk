@@ -51,16 +51,17 @@ export default function Home() {
   return (
     <Layout>
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden bg-hero-veil">
         <div className="absolute inset-0 bg-grid" aria-hidden="true" />
         <div
           className="pointer-events-none absolute -top-32 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-primary/10 blur-[120px]"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute bottom-0 right-0 h-[320px] w-[420px] rounded-full bg-primary/10 blur-[120px]"
+          className="pointer-events-none absolute bottom-0 right-0 h-[320px] w-[420px] rounded-full bg-primary-glow/[0.07] blur-[120px]"
           aria-hidden="true"
         />
+
 
         {/* Floating technical labels */}
         <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
