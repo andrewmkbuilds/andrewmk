@@ -100,6 +100,10 @@ export default function Home() {
               </Button>
             </Reveal>
 
+            <Reveal delay={220}>
+              <SocialIcons className="mt-6" />
+            </Reveal>
+
             <Reveal delay={240}>
               <p className="mt-8 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
                 AI · Software · Robotics · Systems · Product

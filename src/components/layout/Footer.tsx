@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { Github } from "lucide-react";
-import { GITHUB_URL } from "@/data/portfolio";
+import { SocialIcons } from "@/components/ui/SocialIcons";
 
 const links = [
   { href: "/", label: "Home" },

@@ -4,6 +4,7 @@ import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { SocialIcons } from "@/components/ui/SocialIcons";
 
 const navItems = [
   { href: "/", label: "Home" },
