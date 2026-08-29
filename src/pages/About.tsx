@@ -1,140 +1,115 @@
 import { Layout } from "@/components/layout/Layout";
-import { CodeDivider } from "@/components/ui/CodeDivider";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Reveal } from "@/components/ui/Reveal";
 import { TechTag } from "@/components/ui/TechTag";
-
-const skills = [
-  "Systems Architecture",
-  "Frontend Engineering",
-  "API Design",
-  "Performance Optimization",
-  "Technical Leadership",
-  "Product Development",
-];
-
-const stack = [
-  "TypeScript",
-  "React",
-  "Node.js",
-  "PostgreSQL",
-  "Next.js",
-  "GraphQL",
-  "Redis",
-  "Docker",
-  "AWS",
-];
+import { buildingCategories, principles } from "@/data/portfolio";
 
 export default function About() {
   return (
     <Layout>
-      <section className="py-20">
+      <section className="py-20 md:py-28">
         <div className="container">
-          {/* Page Header */}
-          <div className="max-w-3xl mb-12 opacity-0 animate-fade-in-up">
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              About
-            </h1>
+          <div className="grid gap-12 lg:grid-cols-3">
+            <div className="lg:col-span-2">
+              <Reveal>
+                <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
+                  About
+                </p>
+                <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
+                  I don't just learn technology. I apply it.
+                </h1>
+              </Reveal>
+
+              <div className="mt-8 space-y-6">
+                <Reveal delay={60}>
+                  <p className="text-lg text-foreground leading-relaxed">
+                    I'm a student, builder, and systems thinker based in Dubai. I work across
+                    artificial intelligence, software development, robotics, product design, and
+                    engineering competitions.
+                  </p>
+                </Reveal>
+                <Reveal delay={120}>
+                  <p className="text-muted-foreground leading-relaxed">
+                    I started building with robotics at age 9 through the Mbot@IHS programme. That
+                    experience gave me the initial instinct to build things physically. From there,
+                    I moved deeper into software, AI, computer vision, and product development.
+                  </p>
+                </Reveal>
+                <Reveal delay={180}>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Today, I build everything from small Python experiments to full product systems
+                    such as Gradr, TerraCart, and ClientFlow OS. I also compete in STEM and
+                    engineering challenges, participate in MUNs, work on F1 in Schools / STEM
+                    Racing, and showcase projects through exhibitions.
+                  </p>
+                </Reveal>
+              </div>
+            </div>
+
+            <aside className="space-y-8">
+              <Reveal delay={80}>
+                <div className="rounded-xl border border-border bg-card p-6 shadow-card">
+                  <h2 className="font-mono text-xs uppercase tracking-[0.16em] text-accent">
+                    Profile
+                  </h2>
+                  <dl className="mt-4 space-y-3 text-sm">
+                    <div>
+                      <dt className="font-mono text-xs text-muted-foreground">Identity</dt>
+                      <dd className="text-foreground">
+                        Student · Developer · AI Builder · Systems Thinker
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="font-mono text-xs text-muted-foreground">Location</dt>
+                      <dd className="text-foreground">Dubai, UAE</dd>
+                    </div>
+                    <div>
+                      <dt className="font-mono text-xs text-muted-foreground">Started building</dt>
+                      <dd className="text-foreground">Age 9 · 2022</dd>
+                    </div>
+                  </dl>
+                </div>
+              </Reveal>
+            </aside>
           </div>
+        </div>
+      </section>
 
-          <div className="grid gap-16 lg:grid-cols-3">
-            {/* Main Content */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Developer Photo */}
-              <div className="mb-8 opacity-0 animate-fade-in-up stagger-1">
-                <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-lg overflow-hidden border-2 border-primary/30 transition-all duration-300 hover:border-primary">
-                  <img
-                    src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400"
-                    alt="Diego Ramirez - Developer"
-                    className="w-full h-full object-cover"
-                  />
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="container">
+          <SectionHeading label="Approach" title="How I Think" />
+          <div className="grid gap-5 md:grid-cols-3">
+            {principles.map((p, i) => (
+              <Reveal key={p.title} delay={i * 70} className="h-full">
+                <div className="group h-full rounded-xl border border-border bg-card p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 motion-reduce:hover:translate-y-0">
+                  <span className="font-mono text-xs text-accent">0{i + 1}</span>
+                  <h3 className="mt-3 text-xl font-semibold text-foreground transition-colors group-hover:text-primary">
+                    {p.title}
+                  </h3>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{p.body}</p>
                 </div>
-              </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
-              <div className="opacity-0 animate-fade-in-up stagger-1">
-                <p className="text-lg text-foreground leading-relaxed">
-                  I'm <span className="text-primary font-medium">Diego Ramirez</span>, a developer based in Mexico focused on building systems that scale, perform, and last. 
-                  I work at the intersection of engineering, product, and design, turning 
-                  complex problems into reliable digital solutions.
-                </p>
-              </div>
-
-              <div className="opacity-0 animate-fade-in-up stagger-2">
-                <p className="text-muted-foreground leading-relaxed">
-                  With years of experience in the industry, I've worked on everything from 
-                  early-stage startups to enterprise-scale systems. My approach combines 
-                  technical depth with product thinking — always focused on delivering 
-                  real impact, not just shipping code.
-                </p>
-              </div>
-
-              <div className="opacity-0 animate-fade-in-up stagger-3">
-                <p className="text-muted-foreground leading-relaxed">
-                  I believe in writing code that's maintainable, documented, and built to 
-                  evolve. Every system I design considers not just the current requirements, 
-                  but how it will need to change and scale over time.
-                </p>
-              </div>
-
-              <div className="opacity-0 animate-fade-in-up stagger-4">
-                <CodeDivider label="Philosophy" />
-              </div>
-
-              <div className="space-y-4 font-mono text-sm opacity-0 animate-fade-in-up stagger-4">
-                <p className="text-muted-foreground transition-colors hover:text-foreground">
-                  <span className="text-primary">{"//"}</span> Build for reliability, not just speed
-                </p>
-                <p className="text-muted-foreground transition-colors hover:text-foreground">
-                  <span className="text-primary">{"//"}</span> Measure impact, not just output
-                </p>
-                <p className="text-muted-foreground transition-colors hover:text-foreground">
-                  <span className="text-primary">{"//"}</span> Simplify complexity, don't hide it
-                </p>
-                <p className="text-muted-foreground transition-colors hover:text-foreground">
-                  <span className="text-primary">{"//"}</span> Document decisions, not just code
-                </p>
-              </div>
-            </div>
-
-            {/* Sidebar */}
-            <div className="space-y-8">
-              {/* Skills */}
-              <div className="opacity-0 animate-fade-in-up stagger-2">
-                <h2 className="font-mono text-sm text-primary mb-4">
-                  <span className="text-muted-foreground">/*</span> Skills <span className="text-muted-foreground">*/</span>
-                </h2>
-                <ul className="space-y-2">
-                  {skills.map((skill) => (
-                    <li key={skill} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-                      <span className="text-primary mr-2">→</span>
-                      {skill}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Tech Stack */}
-              <div className="opacity-0 animate-fade-in-up stagger-3">
-                <h2 className="font-mono text-sm text-primary mb-4">
-                  <span className="text-muted-foreground">/*</span> Stack <span className="text-muted-foreground">*/</span>
-                </h2>
-                <div className="flex flex-wrap gap-2">
-                  {stack.map((tech) => (
-                    <TechTag key={tech}>{tech}</TechTag>
-                  ))}
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="container">
+          <SectionHeading label="Focus areas" title="My Building Categories" />
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {buildingCategories.map((cat, i) => (
+              <Reveal key={cat.title} delay={i * 60} className="h-full">
+                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-accent/40">
+                  <h3 className="text-lg font-semibold text-foreground">{cat.title}</h3>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {cat.items.map((item) => (
+                      <TechTag key={item}>{item}</TechTag>
+                    ))}
+                  </div>
                 </div>
-              </div>
-
-              {/* Experience */}
-              <div className="opacity-0 animate-fade-in-up stagger-4">
-                <h2 className="font-mono text-sm text-primary mb-4">
-                  <span className="text-muted-foreground">/*</span> Experience <span className="text-muted-foreground">*/</span>
-                </h2>
-                <div className="space-y-3 text-sm text-muted-foreground">
-                  <p>8+ years in software development</p>
-                  <p>Startups to enterprise scale</p>
-                  <p>Remote-first since 2018</p>
-                </div>
-              </div>
-            </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
