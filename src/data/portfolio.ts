@@ -469,3 +469,18 @@ export const currentlyBuilding = [
 ];
 
 export const GITHUB_URL = "https://github.com/andrewmkbuilds";
+
+export interface SocialLink {
+  id: string;
+  label: string;
+  handle: string;
+  url: string;
+}
+
+export const socialLinks: SocialLink[] = [
+  { id: "github", label: "GitHub", handle: "@andrewmkbuilds", url: "https://github.com/andrewmkbuilds" },
+  { id: "x", label: "X", handle: "@Andrew444884", url: "https://x.com/Andrew444884" },
+  { id: "instagram", label: "Instagram", handle: "@ysla7x", url: "https://www.instagram.com/ysla7x" },
+  { id: "lovable", label: "Lovable", handle: "@andrewbuilds", url: "https://lovable.dev/@andrewbuilds" },
+  { id: "base44", label: "Base44", handle: "@andrewmkbuilds", url: "https://app.base44.com/@andrewmkbuilds" },
+];
