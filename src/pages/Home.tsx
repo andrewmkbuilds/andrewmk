@@ -21,12 +21,13 @@ import {
 } from "@/data/portfolio";
 
 const heroNodes = [
-  { label: "AI", x: "8%", y: "18%" },
-  { label: "Robotics", x: "72%", y: "12%" },
-  { label: "Computer Vision", x: "82%", y: "58%" },
-  { label: "Systems", x: "20%", y: "78%" },
-  { label: "Product", x: "60%", y: "84%" },
+  { label: "AI", x: "68%", y: "22%" },
+  { label: "Robotics", x: "84%", y: "40%" },
+  { label: "Computer Vision", x: "70%", y: "62%" },
+  { label: "Systems", x: "86%", y: "78%" },
+  { label: "Product", x: "62%", y: "88%" },
 ];
+
 
 export default function Home() {
   const [selected, setSelected] = useState<Project | null>(null);
