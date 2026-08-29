@@ -11,15 +11,24 @@ import { ProjectCard } from "@/components/ui/ProjectCard";
 import { ProjectModal } from "@/components/ui/ProjectModal";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
 import { TechTag } from "@/components/ui/TechTag";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Globe, AppWindow, BrainCircuit, Workflow, Lightbulb, type LucideIcon } from "lucide-react";
 import {
   buildingCategories,
   currentlyBuilding,
   featuredProjects,
   principles,
   quickStats,
+  services,
   type Project,
 } from "@/data/portfolio";
+
+const serviceIcons: Record<string, LucideIcon> = {
+  Globe,
+  AppWindow,
+  BrainCircuit,
+  Workflow,
+  Lightbulb,
+};
 
 const heroNodes = [
   { label: "AI", x: "68%", y: "22%" },
