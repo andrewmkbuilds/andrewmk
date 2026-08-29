@@ -13,13 +13,11 @@ export function FindMeOnline() {
   return (
     <section className="border-t border-border py-20 md:py-28" id="online">
       <div className="container">
-        <Reveal>
-          <SectionHeading
-            label="Online"
-            title="Find Me Online"
-            subtitle="Follow what I'm building, experimenting with, and learning."
-          />
-        </Reveal>
+        <SectionHeading
+          label="Online"
+          title="Find Me Online"
+          subtitle="Follow what I'm building, experimenting with, and learning."
+        />
 
         <div className="mt-12 grid gap-4 lg:grid-cols-3">
           {/* Primary: GitHub, with live public repo preview */}
