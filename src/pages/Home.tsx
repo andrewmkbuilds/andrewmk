@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { SocialIcons } from "@/components/ui/SocialIcons";
+import { FindMeOnline } from "@/components/ui/FindMeOnline";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StatusDot } from "@/components/ui/StatusDot";
@@ -360,6 +361,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <FindMeOnline />
 
       {/* CTA */}
       <section className="border-t border-border py-20 md:py-24">

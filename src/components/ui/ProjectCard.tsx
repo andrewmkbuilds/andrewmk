@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TechTag } from "./TechTag";
+import { BuiltBy } from "./BuiltBy";
 import type { Project } from "@/data/portfolio";
 
 interface ProjectCardProps {
@@ -68,9 +69,12 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
         ))}
       </div>
 
-      <div className="mt-5 flex items-center gap-2 border-t border-border pt-4 font-mono text-xs text-muted-foreground">
-        <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-        {project.status}
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
+        <span className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
+          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+          {project.status}
+        </span>
+        <BuiltBy project={project} className="relative z-20" />
       </div>
     </article>
   );

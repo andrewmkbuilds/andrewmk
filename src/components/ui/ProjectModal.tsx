@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { TechTag } from "./TechTag";
+import { BuiltBy } from "./BuiltBy";
 import type { Project } from "@/data/portfolio";
 
 interface ProjectModalProps {
@@ -79,6 +80,13 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                 </h3>
                 <p className="font-mono text-sm text-foreground">{project.status}</p>
               </section>
+
+              <div className="border-t border-border pt-5">
+                <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-primary mb-3">
+                  Built by Andrew
+                </h3>
+                <BuiltBy project={project} />
+              </div>
 
               {(project.live || project.github) && (
                 <div className="flex flex-wrap gap-3 border-t border-border pt-5">

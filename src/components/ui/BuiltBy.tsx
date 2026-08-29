@@ -1,0 +1,93 @@
+import { ExternalLink } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { socialLinks, type Project } from "@/data/portfolio";
+import { socialIconMap } from "@/components/ui/SocialIcons";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
+interface BuiltByProps {
+  project: Project;
+  className?: string;
+  /** Show the "Built by Andrew" label alongside the links. */
+  showLabel?: boolean;
+}
+
+interface Entry {
+  key: string;
+  href: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+function getEntries(project: Project): Entry[] {
+  const entries: Entry[] = [];
+
+  if (project.github) {
+    entries.push({
+      key: "github",
+      href: project.github,
+      label: `${project.name} on GitHub`,
+      icon: socialIconMap.github,
+    });
+  }
+  if (project.live) {
+    entries.push({
+      key: "live",
+      href: project.live,
+      label: `${project.name} live app`,
+      icon: ExternalLink,
+    });
+  }
+  // Platform profiles only when the project was actually built on that platform.
+  for (const id of ["lovable", "base44"] as const) {
+    const social = socialLinks.find((s) => s.id === id);
+    const builtOn = project.tech.some((t) => t.toLowerCase() === id);
+    if (social && builtOn) {
+      entries.push({
+        key: id,
+        href: social.url,
+        label: `Built on ${social.label} — ${social.handle}`,
+        icon: socialIconMap[id],
+      });
+    }
+  }
+
+  return entries;
+}
+
+/** Small "Built by Andrew" attribution row with only the links relevant to a project. */
+export function BuiltBy({ project, className, showLabel = false }: BuiltByProps) {
+  const entries = getEntries(project);
+  if (entries.length === 0) return null;
+
+  return (
+    <TooltipProvider delayDuration={150}>
+      <div className={cn("flex items-center gap-1.5", className)}>
+        {showLabel && (
+          <span className="mr-1 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+            Built by Andrew
+          </span>
+        )}
+        {entries.map((entry) => {
+          const Icon = entry.icon;
+          return (
+            <Tooltip key={entry.key}>
+              <TooltipTrigger asChild>
+                <a
+                  href={entry.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${entry.label} (opens in a new tab)`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/60 text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <Icon className="h-3.5 w-3.5" />
+                </a>
+              </TooltipTrigger>
+              <TooltipContent>{entry.label}</TooltipContent>
+            </Tooltip>
+          );
+        })}
+      </div>
+    </TooltipProvider>
+  );
+}
