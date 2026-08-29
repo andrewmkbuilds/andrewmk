@@ -2,7 +2,8 @@ import { Layout } from "@/components/layout/Layout";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { TechTag } from "@/components/ui/TechTag";
-import { buildingCategories, principles } from "@/data/portfolio";
+import { buildingCategories, principles, socialLinks } from "@/data/portfolio";
+import { socialIconMap } from "@/components/ui/SocialIcons";
 
 export default function About() {
   return (
@@ -68,6 +69,35 @@ export default function About() {
                       <dd className="text-foreground">Age 9 · 2022</dd>
                     </div>
                   </dl>
+                </div>
+              </Reveal>
+              <Reveal delay={140}>
+                <div className="rounded-xl border border-border bg-card p-6 shadow-card">
+                  <h2 className="font-mono text-xs uppercase tracking-[0.16em] text-accent">
+                    Find me online
+                  </h2>
+                  <ul className="mt-4 space-y-1">
+                    {socialLinks.map((link) => {
+                      const Icon = socialIconMap[link.id];
+                      return (
+                        <li key={link.id}>
+                          <a
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`${link.label} profile (${link.handle})`}
+                            className="group flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                          >
+                            <Icon className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
+                            <span className="text-sm text-foreground">{link.label}</span>
+                            <span className="ml-auto font-mono text-xs text-muted-foreground transition-colors group-hover:text-primary">
+                              {link.handle}
+                            </span>
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
               </Reveal>
             </aside>
