@@ -165,20 +165,38 @@ export default function Contact() {
                   </span>
                 </a>
 
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {socialLinks
+                    .filter((s) => s.id !== "github")
+                    .map((link) => {
+                      const Icon = socialIconMap[link.id];
+                      return (
+                        <a
+                          key={link.id}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${link.label} profile (${link.handle})`}
+                          className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        >
+                          <Icon className="h-4 w-4 text-primary" />
+                          <span>
+                            <span className="block text-sm font-medium text-foreground">
+                              {link.label}
+                            </span>
+                            <span className="block font-mono text-xs text-muted-foreground">
+                              {link.handle}
+                            </span>
+                          </span>
+                        </a>
+                      );
+                    })}
+                </div>
+
                 <div className="flex items-center gap-4 rounded-xl border border-dashed border-border p-5">
                   <Mail className="h-5 w-5 text-muted-foreground" />
                   <span>
                     <span className="block text-sm font-medium text-foreground">Email</span>
-                    <span className="block font-mono text-xs text-muted-foreground">
-                      Not configured yet
-                    </span>
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-4 rounded-xl border border-dashed border-border p-5">
-                  <Linkedin className="h-5 w-5 text-muted-foreground" />
-                  <span>
-                    <span className="block text-sm font-medium text-foreground">LinkedIn</span>
                     <span className="block font-mono text-xs text-muted-foreground">
                       Not configured yet
                     </span>
