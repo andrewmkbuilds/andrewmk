@@ -541,12 +541,52 @@ export interface SocialLink {
   label: string;
   handle: string;
   url: string;
+  /** Short line describing what someone finds there. */
+  description: string;
+  /** Label for the visit button. */
+  cta: string;
 }
 
 export const socialLinks: SocialLink[] = [
-  { id: "github", label: "GitHub", handle: "@andrewmkbuilds", url: "https://github.com/andrewmkbuilds" },
-  { id: "x", label: "X", handle: "@Andrew444884", url: "https://x.com/Andrew444884" },
-  { id: "instagram", label: "Instagram", handle: "@ysla7x", url: "https://www.instagram.com/ysla7x" },
-  { id: "lovable", label: "Lovable", handle: "@andrewbuilds", url: "https://lovable.dev/@andrewbuilds" },
-  { id: "base44", label: "Base44", handle: "@andrewmkbuilds", url: "https://app.base44.com/@andrewmkbuilds" },
+  {
+    id: "github",
+    label: "GitHub",
+    handle: "@andrewmkbuilds",
+    url: "https://github.com/andrewmkbuilds",
+    description: "Projects, experiments, and code.",
+    cta: "View GitHub",
+  },
+  {
+    id: "base44",
+    label: "Base44",
+    handle: "@andrewmkbuilds",
+    url: "https://app.base44.com/@andrewmkbuilds",
+    description: "Apps and products I've built with Base44.",
+    cta: "View Base44",
+  },
+  {
+    id: "lovable",
+    label: "Lovable",
+    handle: "@andrewbuilds",
+    url: "https://lovable.dev/@andrewbuilds",
+    description: "Web products and experiments built with Lovable.",
+    cta: "View Lovable",
+  },
+  {
+    id: "x",
+    label: "X",
+    handle: "@Andrew444884",
+    url: "https://x.com/Andrew444884",
+    description: "Thoughts, updates, and what I'm building.",
+    cta: "View X",
+  },
+  {
+    id: "instagram",
+    label: "Instagram",
+    handle: "@ysla7x",
+    url: "https://www.instagram.com/ysla7x",
+    description: "Personal updates and things I'm working on.",
+    cta: "View Instagram",
+  },
 ];
+
