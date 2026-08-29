@@ -461,6 +461,72 @@ export const exhibitions = [
   "Other project showcases",
 ];
 
+export interface Service {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  details: { label: string; value: string }[];
+}
+
+export const services: Service[] = [
+  {
+    id: "websites",
+    title: "Business Websites",
+    description:
+      "Modern, responsive websites built around your goals. Clean UI, fast performance, mobile-first design, and a structure that makes it easy for visitors to understand what you offer.",
+    icon: "Globe",
+    details: [
+      { label: "Pricing", value: "Custom quote" },
+      { label: "Turnaround", value: "Discuss your project" },
+    ],
+  },
+  {
+    id: "web-apps",
+    title: "Web Applications",
+    description:
+      "Full-scale web applications built around real functionality, not just pretty screens. I can take an idea from concept and interface design through development and deployment.",
+    icon: "AppWindow",
+    details: [
+      { label: "Pricing", value: "Custom quote" },
+      { label: "Turnaround", value: "Discuss your project" },
+    ],
+  },
+  {
+    id: "ai-products",
+    title: "AI-Powered Products",
+    description:
+      "I can integrate AI into an existing product or help build an AI-first application from scratch using modern AI models, APIs, and custom logic.",
+    icon: "BrainCircuit",
+    details: [
+      { label: "Technologies", value: "Gemini · Claude · AI APIs · Custom AI Logic" },
+      { label: "Pricing", value: "Custom quote" },
+    ],
+  },
+  {
+    id: "automation",
+    title: "Automation & Systems",
+    description:
+      "I build connected systems that reduce repetitive work and bring scattered processes into one place, including dashboards, workflows, data systems, and AI-powered automation.",
+    icon: "Workflow",
+    details: [
+      { label: "Pricing", value: "Custom quote" },
+      { label: "Turnaround", value: "Discuss your project" },
+    ],
+  },
+  {
+    id: "consultation",
+    title: "Product & Technical Consultation",
+    description:
+      "Have an idea but don't know how to build it? We can talk through the concept, technology, architecture, features, and development approach and turn the idea into a practical plan.",
+    icon: "Lightbulb",
+    details: [
+      { label: "First session", value: "Free" },
+      { label: "Format", value: "Online" },
+    ],
+  },
+];
+
 export const currentlyBuilding = [
   { name: "Gradr", status: "Building", note: "AI career accelerator." },
   { name: "TerraCart", status: "Developing", note: "Sustainable shopping assistant." },
