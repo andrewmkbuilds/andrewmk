@@ -5,86 +5,86 @@
 @tailwind utilities;
 
 /* Andrew Mathews — Portfolio Design System
-   60-30-10: deep ink navy base (60), layered slate structure (30), signal teal accent (10).
+   60-30-10: deep charcoal-green base (60), slate structure (30), refined emerald accent (10).
    All colors MUST be HSL.
 */
 
 @layer base {
   :root {
     /* 60% — Base: deep ink navy */
-    --background: 215 32% 6%;
-    --foreground: 210 24% 96%;
+    --background: 200 22% 6%;
+    --foreground: 190 16% 96%;
 
     /* 30% — Structure: layered slate surfaces */
-    --card: 216 28% 9%;
-    --card-foreground: 210 24% 96%;
+    --card: 200 18% 9%;
+    --card-foreground: 190 16% 96%;
 
-    --popover: 216 28% 9%;
-    --popover-foreground: 210 24% 96%;
+    --popover: 200 18% 9%;
+    --popover-foreground: 190 16% 96%;
 
-    /* 10% — Accent: refined signal teal */
-    --primary: 178 68% 46%;
-    --primary-foreground: 213 40% 6%;
-    --primary-glow: 172 66% 58%;
+    /* 10% — Accent: refined emerald green */
+    --primary: 156 58% 45%;
+    --primary-foreground: 160 45% 5%;
+    --primary-glow: 148 52% 58%;
 
-    --secondary: 216 24% 13%;
-    --secondary-foreground: 210 24% 96%;
+    --secondary: 200 16% 13%;
+    --secondary-foreground: 190 16% 96%;
 
-    --muted: 216 22% 15%;
-    --muted-foreground: 214 15% 68%;
+    --muted: 200 14% 15%;
+    --muted-foreground: 205 12% 68%;
 
     /* Accent = subtle interactive surface (not a second brand color) */
-    --accent: 216 24% 15%;
-    --accent-foreground: 210 24% 96%;
+    --accent: 200 16% 15%;
+    --accent-foreground: 190 16% 96%;
 
     --destructive: 0 62% 52%;
-    --destructive-foreground: 210 24% 96%;
+    --destructive-foreground: 190 16% 96%;
 
-    --border: 216 20% 17%;
-    --input: 216 20% 17%;
-    --ring: 178 68% 46%;
+    --border: 200 14% 18%;
+    --input: 200 14% 18%;
+    --ring: 156 58% 45%;
 
     --radius: 0.625rem;
 
-    --sidebar-background: 215 32% 7%;
-    --sidebar-foreground: 210 24% 96%;
-    --sidebar-primary: 178 68% 46%;
-    --sidebar-primary-foreground: 213 40% 6%;
-    --sidebar-accent: 216 24% 13%;
-    --sidebar-accent-foreground: 210 24% 96%;
-    --sidebar-border: 216 20% 17%;
-    --sidebar-ring: 178 68% 46%;
+    --sidebar-background: 200 22% 7%;
+    --sidebar-foreground: 190 16% 96%;
+    --sidebar-primary: 156 58% 45%;
+    --sidebar-primary-foreground: 160 45% 5%;
+    --sidebar-accent: 200 16% 13%;
+    --sidebar-accent-foreground: 190 16% 96%;
+    --sidebar-border: 200 14% 18%;
+    --sidebar-ring: 156 58% 45%;
   }
 
   .dark {
-    --background: 215 32% 6%;
-    --foreground: 210 24% 96%;
-    --card: 216 28% 9%;
-    --card-foreground: 210 24% 96%;
-    --popover: 216 28% 9%;
-    --popover-foreground: 210 24% 96%;
-    --primary: 178 68% 46%;
-    --primary-foreground: 213 40% 6%;
-    --primary-glow: 172 66% 58%;
-    --secondary: 216 24% 13%;
-    --secondary-foreground: 210 24% 96%;
-    --muted: 216 22% 15%;
-    --muted-foreground: 214 15% 68%;
-    --accent: 216 24% 15%;
-    --accent-foreground: 210 24% 96%;
+    --background: 200 22% 6%;
+    --foreground: 190 16% 96%;
+    --card: 200 18% 9%;
+    --card-foreground: 190 16% 96%;
+    --popover: 200 18% 9%;
+    --popover-foreground: 190 16% 96%;
+    --primary: 156 58% 45%;
+    --primary-foreground: 160 45% 5%;
+    --primary-glow: 148 52% 58%;
+    --secondary: 200 16% 13%;
+    --secondary-foreground: 190 16% 96%;
+    --muted: 200 14% 15%;
+    --muted-foreground: 205 12% 68%;
+    --accent: 200 16% 15%;
+    --accent-foreground: 190 16% 96%;
     --destructive: 0 62% 45%;
-    --destructive-foreground: 210 24% 96%;
-    --border: 216 20% 17%;
-    --input: 216 20% 17%;
-    --ring: 178 68% 46%;
-    --sidebar-background: 215 32% 7%;
-    --sidebar-foreground: 210 24% 96%;
-    --sidebar-primary: 178 68% 46%;
-    --sidebar-primary-foreground: 213 40% 6%;
-    --sidebar-accent: 216 24% 13%;
-    --sidebar-accent-foreground: 210 24% 96%;
-    --sidebar-border: 216 20% 17%;
-    --sidebar-ring: 178 68% 46%;
+    --destructive-foreground: 190 16% 96%;
+    --border: 200 14% 18%;
+    --input: 200 14% 18%;
+    --ring: 156 58% 45%;
+    --sidebar-background: 200 22% 7%;
+    --sidebar-foreground: 190 16% 96%;
+    --sidebar-primary: 156 58% 45%;
+    --sidebar-primary-foreground: 160 45% 5%;
+    --sidebar-accent: 200 16% 13%;
+    --sidebar-accent-foreground: 190 16% 96%;
+    --sidebar-border: 200 14% 18%;
+    --sidebar-ring: 156 58% 45%;
   }
 }
 
@@ -177,7 +177,7 @@
   }
 
   .shadow-card {
-    box-shadow: 0 1px 0 hsl(var(--foreground) / 0.04) inset, 0 12px 30px -18px hsl(222 60% 2% / 0.9);
+    box-shadow: 0 1px 0 hsl(var(--foreground) / 0.04) inset, 0 12px 30px -18px hsl(200 40% 2% / 0.9);
   }
 
   .shadow-glow {
