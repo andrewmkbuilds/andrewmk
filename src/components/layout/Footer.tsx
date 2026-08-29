@@ -36,16 +36,12 @@ export function Footer() {
             ))}
           </nav>
 
-          <a
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-mono text-sm text-muted-foreground transition-colors hover:text-primary"
-            aria-label="GitHub profile"
-          >
-            <Github className="h-4 w-4" />
-            andrewmkbuilds
-          </a>
+          <div className="flex flex-col gap-3">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              Find me online
+            </p>
+            <SocialIcons />
+          </div>
         </div>
 
         <p className="mt-10 border-t border-border pt-6 font-mono text-xs text-muted-foreground">
