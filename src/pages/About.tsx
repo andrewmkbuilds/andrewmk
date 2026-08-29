@@ -74,8 +74,11 @@ export default function About() {
               <Reveal delay={140}>
                 <div className="rounded-xl border border-border bg-card p-6 shadow-card">
                   <h2 className="font-mono text-xs uppercase tracking-[0.16em] text-primary">
-                    Find me online
+                    Elsewhere
                   </h2>
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    This portfolio is the hub. These are the rest.
+                  </p>
                   <ul className="mt-4 space-y-1">
                     {socialLinks.map((link) => {
                       const Icon = socialIconMap[link.id];
@@ -89,8 +92,13 @@ export default function About() {
                             className="group flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                           >
                             <Icon className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
-                            <span className="text-sm text-foreground">{link.label}</span>
-                            <span className="ml-auto font-mono text-xs text-muted-foreground transition-colors group-hover:text-primary">
+                            <span className="min-w-0">
+                              <span className="block text-sm text-foreground">{link.label}</span>
+                              <span className="block truncate text-xs text-muted-foreground">
+                                {link.description}
+                              </span>
+                            </span>
+                            <span className="ml-auto shrink-0 font-mono text-xs text-muted-foreground transition-colors group-hover:text-primary">
                               {link.handle}
                             </span>
                           </a>
