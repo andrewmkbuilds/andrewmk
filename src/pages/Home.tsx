@@ -194,6 +194,49 @@ export default function Home() {
         </div>
       </section>
 
+      {/* What I Can Build */}
+      <section className="border-t border-border py-20 md:py-28" id="services">
+        <div className="container">
+          <SectionHeading
+            label="Services"
+            title="What I Can Build"
+            subtitle="I turn ideas into working digital products, from websites and web apps to AI-powered systems."
+          />
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {services.map((service, i) => {
+              const Icon = serviceIcons[service.icon] ?? Globe;
+              return (
+                <Reveal key={service.id} delay={i * 60} className="h-full">
+                  <div className="group flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 motion-reduce:hover:translate-y-0">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background/60 text-primary transition-colors group-hover:border-primary/40">
+                      <Icon className="h-5 w-5" aria-hidden="true" />
+                    </div>
+                    <h3 className="mt-5 text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
+                      {service.title}
+                    </h3>
+                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                      {service.description}
+                    </p>
+                    <dl className="mt-5 space-y-2 border-t border-border pt-4">
+                      {service.details.map((d) => (
+                        <div key={d.label} className="flex items-baseline justify-between gap-3">
+                          <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                            {d.label}
+                          </dt>
+                          <dd className="text-right text-sm font-medium text-foreground">
+                            {d.value}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* How I think */}
       <section className="border-t border-border py-20 md:py-28">
         <div className="container">
