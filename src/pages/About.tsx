@@ -50,7 +50,7 @@ export default function About() {
             <aside className="space-y-8">
               <Reveal delay={80}>
                 <div className="rounded-xl border border-border bg-card p-6 shadow-card">
-                  <h2 className="font-mono text-xs uppercase tracking-[0.16em] text-accent">
+                  <h2 className="font-mono text-xs uppercase tracking-[0.16em] text-primary">
                     Profile
                   </h2>
                   <dl className="mt-4 space-y-3 text-sm">
@@ -73,7 +73,7 @@ export default function About() {
               </Reveal>
               <Reveal delay={140}>
                 <div className="rounded-xl border border-border bg-card p-6 shadow-card">
-                  <h2 className="font-mono text-xs uppercase tracking-[0.16em] text-accent">
+                  <h2 className="font-mono text-xs uppercase tracking-[0.16em] text-primary">
                     Find me online
                   </h2>
                   <ul className="mt-4 space-y-1">
@@ -112,7 +112,7 @@ export default function About() {
             {principles.map((p, i) => (
               <Reveal key={p.title} delay={i * 70} className="h-full">
                 <div className="group h-full rounded-xl border border-border bg-card p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 motion-reduce:hover:translate-y-0">
-                  <span className="font-mono text-xs text-accent">0{i + 1}</span>
+                  <span className="font-mono text-xs text-primary">0{i + 1}</span>
                   <h3 className="mt-3 text-xl font-semibold text-foreground transition-colors group-hover:text-primary">
                     {p.title}
                   </h3>
@@ -130,7 +130,7 @@ export default function About() {
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {buildingCategories.map((cat, i) => (
               <Reveal key={cat.title} delay={i * 60} className="h-full">
-                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-accent/40">
+                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-primary/40">
                   <h3 className="text-lg font-semibold text-foreground">{cat.title}</h3>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {cat.items.map((item) => (
