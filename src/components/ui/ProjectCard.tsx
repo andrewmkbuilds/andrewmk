@@ -108,15 +108,43 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
       </p>
 
       {variant === "featured" && project.built.length > 0 && (
-        <ul className="card-depth-sm relative mt-5 grid gap-2 sm:grid-cols-2">
-          {project.built.slice(0, 6).map((item) => (
-            <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
-              <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
-              {item}
-            </li>
-          ))}
-        </ul>
+        <div className="card-depth-sm relative z-20 mt-5" data-pop-target="project-details">
+          <button
+            ref={triggerRef}
+            id={triggerId}
+            type="button"
+            aria-expanded={detailsOpen}
+            aria-controls={panelId}
+            onClick={() => setDetailsOpen((value) => !value)}
+            className="focus-ring inline-flex touch-manipulation items-center gap-2 rounded-md font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary"
+          >
+            {`What's inside ${project.name}`}
+            <ChevronDown
+              aria-hidden="true"
+              className={cn("pop-chevron h-4 w-4", detailsOpen && "rotate-180 text-primary")}
+            />
+          </button>
+          <div
+            id={panelId}
+            role="region"
+            aria-labelledby={triggerId}
+            className="pop-panel"
+            data-open={detailsOpen ? "true" : "false"}
+          >
+            <div className="pop-panel-inner">
+              <ul className="grid gap-2 pt-4 sm:grid-cols-2">
+                {project.built.slice(0, 6).map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
       )}
+
 
       <div className="card-depth-md relative mt-5 flex flex-wrap items-center gap-2">
         <PlatformBadge project={project} className="relative z-20" />
