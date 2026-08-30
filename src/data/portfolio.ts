@@ -485,97 +485,84 @@ export const exhibitions = [
   "Other project showcases",
 ];
 
-/** Official project intake form. Do not change without Andrew's confirmation. */
-export const WEBSITE_INTAKE_FORM_URL = "https://forms.gle/1ZSLJwTv6EUeXaQY8";
-
-export interface Service {
+/** Non-commercial description of the kinds of work Andrew builds. */
+export interface BuildArea {
   id: string;
   title: string;
   description: string;
   icon: string;
   details: { label: string; value: string }[];
-  /** Lead-generation services get a primary action on the card. */
-  cta?: { label: string; href: string; external?: boolean };
-  secondary?: { label: string; href: string };
-  /** Small reassurance line under the CTA. */
-  microcopy?: string;
-  /** Ordered process step labels (no turnaround times). */
-  steps?: string[];
 }
 
-export const services: Service[] = [
+export const buildAreas: BuildArea[] = [
   {
-    id: "websites",
-    title: "Business Websites",
+    id: "ai-ml",
+    title: "AI & Machine Learning",
     description:
-      "Modern, responsive websites built around your goals. Clean UI, fast performance, mobile-first design, and a structure that makes it easy for visitors to understand what you offer.",
-    icon: "Globe",
-    details: [
-      { label: "Pricing", value: "Custom quote" },
-      { label: "Turnaround", value: "Discuss your project" },
-    ],
-    cta: {
-      label: "Start a Website Project",
-      href: WEBSITE_INTAKE_FORM_URL,
-      external: true,
-    },
-    secondary: { label: "See Websites I've Built", href: "/websites" },
-    microcopy: "Tell me what you need and I'll take it from there.",
-    steps: [
-      "Discovery",
-      "Structure & content plan",
-      "Design",
-      "Build",
-      "Review & revisions",
-      "Launch & handover",
-    ],
-  },
-
-  {
-    id: "web-apps",
-    title: "Web Applications",
-    description:
-      "Full-scale web applications built around real functionality, not just pretty screens. I can take an idea from concept and interface design through development and deployment.",
-    icon: "AppWindow",
-    details: [
-      { label: "Pricing", value: "Custom quote" },
-      { label: "Turnaround", value: "Discuss your project" },
-    ],
-  },
-  {
-    id: "ai-products",
-    title: "AI-Powered Products",
-    description:
-      "I can integrate AI into an existing product or help build an AI-first application from scratch using modern AI models, APIs, and custom logic.",
+      "AI-first applications and assistants built with modern models, APIs, and custom logic — from career tools to conversational systems.",
     icon: "BrainCircuit",
     details: [
-      { label: "Technologies", value: "Gemini · Claude · AI APIs · Custom AI Logic" },
-      { label: "Pricing", value: "Custom quote" },
+      { label: "Focus", value: "Assistants · Agents · Model APIs" },
+      { label: "Projects", value: "Gradr · COGNOS · JARVIS" },
     ],
   },
   {
-    id: "automation",
-    title: "Automation & Systems",
+    id: "software",
+    title: "Software Development",
     description:
-      "I build connected systems that reduce repetitive work and bring scattered processes into one place, including dashboards, workflows, data systems, and AI-powered automation.",
+      "Full applications built end to end: interface design, application logic, data models, and deployment of things that actually run.",
+    icon: "AppWindow",
+    details: [
+      { label: "Focus", value: "Web apps · Tools · Platforms" },
+      { label: "Projects", value: "Stack Up · DevOS · TabZen" },
+    ],
+  },
+  {
+    id: "robotics",
+    title: "Robotics & Engineering",
+    description:
+      "Competition robotics and engineering builds, from FLL and STEM Racing to hardware experiments and exhibition demonstrations.",
+    icon: "Cpu",
+    details: [
+      { label: "Focus", value: "FLL · STEM Racing · Hardware" },
+      { label: "Work", value: "Competitions · Exhibitions" },
+    ],
+  },
+  {
+    id: "vision",
+    title: "Computer Vision",
+    description:
+      "Experiments in perception: gesture control, camera systems, and interfaces that respond to the physical world.",
+    icon: "ScanEye",
+    details: [
+      { label: "Focus", value: "Gesture · Tracking · Cameras" },
+      { label: "Projects", value: "GesturePlay · Security Camera System" },
+    ],
+  },
+  {
+    id: "product",
+    title: "Product Development",
+    description:
+      "Taking an idea from a rough concept through structure, interface, and iteration until it becomes a usable product.",
     icon: "Workflow",
     details: [
-      { label: "Pricing", value: "Custom quote" },
-      { label: "Turnaround", value: "Discuss your project" },
+      { label: "Focus", value: "Concept → Interface → Ship" },
+      { label: "Projects", value: "TerraCart · ClientFlow OS" },
     ],
   },
   {
-    id: "consultation",
-    title: "Product & Technical Consultation",
+    id: "data",
+    title: "Data Science",
     description:
-      "Have an idea but don't know how to build it? We can talk through the concept, technology, architecture, features, and development approach and turn the idea into a practical plan.",
-    icon: "Lightbulb",
+      "Working with data to find patterns, build dashboards, and turn scattered information into something understandable.",
+    icon: "LineChart",
     details: [
-      { label: "First session", value: "Free" },
-      { label: "Format", value: "Online" },
+      { label: "Focus", value: "Analysis · Dashboards · Automation" },
+      { label: "Interest", value: "Systems thinking" },
     ],
   },
 ];
+
 
 export const currentlyBuilding = [
   { name: "Gradr", status: "Building", note: "AI career accelerator." },
