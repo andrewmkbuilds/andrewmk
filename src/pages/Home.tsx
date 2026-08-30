@@ -278,7 +278,7 @@ export default function Home() {
                     </dl>
 
                     {service.steps ? (
-                      <div className="mt-5 border-t border-border pt-4">
+                      <div className="section-pop mt-5 border-t border-border pt-4">
                         <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
                           How we work
                         </p>
@@ -299,7 +299,7 @@ export default function Home() {
                     ) : null}
 
                     {service.cta ? (
-                      <div className="mt-auto pt-5">
+                      <div className="section-pop mt-auto pt-5">
                         <Button asChild className="w-full font-mono focus-ring">
                           <a
                             href={service.cta.href}
