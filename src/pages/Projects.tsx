@@ -32,6 +32,8 @@ export default function Projects() {
             </p>
           </Reveal>
 
+          <h2 className="sr-only">Featured projects</h2>
+
           <div className="mt-12 grid gap-6 lg:grid-cols-2">
             {featuredProjects.map((project, i) => (
               <Reveal key={project.slug} delay={i * 70} className="h-full">
