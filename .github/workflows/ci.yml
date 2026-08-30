@@ -46,3 +46,20 @@ jobs:
 
       - name: Accessibility checks
         run: bun run a11y:check -- --base=http://localhost:4173
+
+      - name: Install Playwright browsers (selection visual checks)
+        run: |
+          python3 -m pip install --quiet playwright pillow
+          python3 -m playwright install --with-deps chromium firefox webkit
+
+      - name: Text-selection visual regression
+        run: python3 scripts/selection-visual-check.py http://localhost:4173
+
+      - name: Upload selection screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: selection-visual
+          path: artifacts/selection-visual
+          if-no-files-found: ignore
+

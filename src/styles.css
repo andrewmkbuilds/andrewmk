@@ -133,7 +133,14 @@
   --sidebar-accent-foreground: hsl(190 16% 96%);
   --sidebar-border: hsl(200 14% 18%);
   --sidebar-ring: hsl(156 58% 45%);
+
+  /* Text selection — derived from the green accent, never hardcoded.
+     First declaration is the legacy-WebView fallback (no color-mix support). */
+  --selection-bg: var(--primary);
+  --selection-bg: color-mix(in oklab, var(--primary) 45%, var(--background));
+  --selection-fg: var(--foreground);
 }
+
 
 .dark {
   --background: hsl(200 22% 6%);
@@ -185,12 +192,50 @@
     border-color: var(--color-border);
   }
 
-  ::selection,
+  /* Selection tokens derived from the green accent — theme tweaks flow through. */
+  ::selection {
+    background-color: var(--selection-bg);
+    color: var(--selection-fg);
+    text-shadow: none;
+    -webkit-text-fill-color: var(--selection-fg);
+  }
+
+  /* Separate rule on purpose: a combined list is invalidated in Chrome/Safari. */
   ::-moz-selection {
-    background: color-mix(in oklab, var(--primary) 30%, transparent);
-    color: var(--foreground);
+    background-color: var(--selection-bg);
+    color: var(--selection-fg);
     text-shadow: none;
   }
+
+  /* Elements that create their own selection context / override fill color. */
+  input::selection,
+  textarea::selection,
+  code::selection,
+  pre::selection,
+  kbd::selection,
+  samp::selection,
+  h1::selection, h2::selection, h3::selection,
+  h4::selection, h5::selection, h6::selection,
+  [role="dialog"] ::selection,
+  [data-state] ::selection {
+    background-color: var(--selection-bg);
+    color: var(--selection-fg);
+    text-shadow: none;
+    -webkit-text-fill-color: var(--selection-fg);
+  }
+
+  input::-moz-selection,
+  textarea::-moz-selection,
+  code::-moz-selection,
+  pre::-moz-selection,
+  h1::-moz-selection, h2::-moz-selection, h3::-moz-selection,
+  h4::-moz-selection, h5::-moz-selection, h6::-moz-selection,
+  [role="dialog"] ::-moz-selection {
+    background-color: var(--selection-bg);
+    color: var(--selection-fg);
+    text-shadow: none;
+  }
+
 
   html {
     scroll-behavior: smooth;
