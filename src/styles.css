@@ -185,6 +185,13 @@
     border-color: var(--color-border);
   }
 
+  ::selection,
+  ::-moz-selection {
+    background: color-mix(in oklab, var(--primary) 30%, transparent);
+    color: var(--foreground);
+    text-shadow: none;
+  }
+
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
