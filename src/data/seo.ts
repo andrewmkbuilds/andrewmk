@@ -71,22 +71,12 @@ export const routes: RouteMeta[] = [
     priority: "0.7",
   },
   {
-    path: "/websites",
-    label: "Websites",
-    title: "Websites I've Built | Andrew Mathews",
-    description:
-      "A gallery of business websites designed and built by Andrew Mathews. Currently being put together.",
-    ogHeadline: "Websites I've Built",
-    // Thin until the gallery is populated — keep it out of the index and sitemap.
-    noindex: true,
-  },
-  {
     path: "/contact",
     label: "Contact",
     title: "Contact | Andrew Mathews",
     description:
-      "Have an idea, project, competition, or collaboration? Get in touch with Andrew Mathews.",
-    ogHeadline: "Let's build something.",
+      "Get in touch with Andrew Mathews to talk about technology, projects, collaboration, or something he is building.",
+    ogHeadline: "Get in touch.",
     changefreq: "yearly",
     priority: "0.6",
   },

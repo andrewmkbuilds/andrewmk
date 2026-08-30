@@ -11,8 +11,7 @@ export type AnalyticsPayload = Record<string, string | number | boolean | undefi
 
 /** Canonical event names so call sites can't drift. */
 export const AnalyticsEvents = {
-  websiteProjectCtaClick: "website_project_cta_click",
-  websitesGalleryLinkClick: "websites_gallery_link_click",
+  contactLinkClick: "contact_link_click",
 } as const;
 
 export type AnalyticsEventName =
