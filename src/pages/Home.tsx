@@ -17,6 +17,8 @@ import { ProjectCard } from "@/components/ui/ProjectCard";
 import { ProjectModal } from "@/components/ui/ProjectModal";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
 import { TechTag } from "@/components/ui/TechTag";
+import { PopDisclosure, InlinePopDisclosure } from "@/components/ui/PopDisclosure";
+
 import { ArrowRight, AppWindow, BrainCircuit, Workflow, Cpu, ScanEye, LineChart, type LucideIcon } from "lucide-react";
 import {
   buildingCategories,
