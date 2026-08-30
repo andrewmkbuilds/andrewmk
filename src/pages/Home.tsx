@@ -1,3 +1,4 @@
+import { Seo } from "@/components/Seo";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
@@ -51,6 +52,7 @@ export default function Home() {
 
   return (
     <Layout>
+      <Seo title={"Andrew Mathews | Developer · AI Builder · Systems Thinker"} description={"Andrew Mathews is a student developer and AI builder from Dubai building software, AI systems, robotics projects, and real-world products."} path="/" />
       {/* Hero */}
       <section className="relative overflow-hidden bg-hero-veil">
         <div className="absolute inset-0 bg-grid" aria-hidden="true" />

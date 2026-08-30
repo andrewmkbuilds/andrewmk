@@ -1,3 +1,4 @@
+import { Seo } from "@/components/Seo";
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
@@ -46,6 +47,7 @@ export default function Contact() {
 
   return (
     <Layout>
+      <Seo title={"Contact | Andrew Mathews"} description={"Get in touch with Andrew Mathews about projects, collaborations, competitions, or building a product together."} path="/contact" />
       <section className="py-20 md:py-28">
         <div className="container">
           <Reveal className="max-w-2xl">
