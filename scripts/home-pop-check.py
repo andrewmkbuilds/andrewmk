@@ -139,7 +139,8 @@ async def run_engine(pw, name, reduced: bool):
     # --- keyboard focus -------------------------------------------------
     for locator, label in ((build.nth(0), "What I Build card"), (principles.nth(0), "How I Think card")):
         box_before = await layout_box(locator)
-        await locator.evaluate("n => n.focus()")
+        # focus now lives on the disclosure trigger button inside the card
+        await locator.evaluate("n => (n.querySelector('button') ?? n).focus()")
         await page.keyboard.press("Shift")  # marks focus-visible in all engines
         await page.wait_for_timeout(450)
         focused = await shadow_and_transform(locator)
@@ -159,7 +160,9 @@ async def run_engine(pw, name, reduced: bool):
         await locator.evaluate("n => n.blur()")
 
     # cards are tab-reachable
-    reachable = await build.nth(0).evaluate("n => n.tabIndex >= 0")
+    reachable = await build.nth(0).evaluate(
+        "n => n.tabIndex >= 0 || !!n.querySelector('button:not([disabled])')"
+    )
     check(reachable, f"{tag} What I Build cards are keyboard reachable")
 
     # --- CTA focus + navigation -----------------------------------------
