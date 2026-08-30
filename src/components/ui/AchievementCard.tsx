@@ -7,6 +7,8 @@ interface AchievementCardProps {
   event?: string;
   index?: number;
   className?: string;
+  /** Optional proof action linking the result to a real certificate. */
+  onViewProof?: () => void;
 }
 
 export function AchievementCard({
@@ -15,6 +17,7 @@ export function AchievementCard({
   event,
   index,
   className,
+  onViewProof,
 }: AchievementCardProps) {
   const reduce = useReducedMotion();
 
@@ -52,6 +55,15 @@ export function AchievementCard({
         </h3>
       )}
       {event && <p className="relative mt-1 text-sm text-muted-foreground">{event}</p>}
+      {onViewProof && (
+        <button
+          type="button"
+          onClick={onViewProof}
+          className="focus-ring relative mt-4 inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-mono text-xs text-foreground transition-colors hover:border-primary/50 hover:text-primary"
+        >
+          View Certificate <span aria-hidden="true">&rarr;</span>
+        </button>
+      )}
       <span
         aria-hidden="true"
         className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-linear-to-r from-primary/60 to-transparent transition-transform duration-500 group-hover:scale-x-100"
