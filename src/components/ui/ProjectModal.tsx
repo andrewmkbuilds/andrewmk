@@ -99,11 +99,13 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                     }}
                     className="mt-9 space-y-7"
                   >
-                    <Section title={project.problem ? "Problem" : "What it is"}>
-                      <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                        {project.problem ?? project.description}
-                      </p>
-                    </Section>
+                    {project.problem && (
+                      <Section title="Problem">
+                        <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
+                          {project.problem}
+                        </p>
+                      </Section>
+                    )}
 
                     <Section title="What I built">
                       <ul className="grid gap-2.5 sm:grid-cols-2">
