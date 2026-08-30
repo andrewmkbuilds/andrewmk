@@ -395,7 +395,81 @@
   height: 1px;
 }
 
+/* --- 3D depth layer -------------------------------------------------- */
+
+/* Children of a preserve-3d card float toward the viewer on hover.
+   Desktop pointers only; fully disabled under reduced motion. */
 @layer utilities {
+  .card-depth-sm,
+  .card-depth-md,
+  .card-depth-lg {
+    transform: translateZ(0);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .group:hover .card-depth-sm {
+      transform: translateZ(14px);
+    }
+    .group:hover .card-depth-md {
+      transform: translateZ(26px);
+    }
+    .group:hover .card-depth-lg {
+      transform: translateZ(38px);
+    }
+  }
+
+  /* Soft perspective lift for smaller cards (services, achievements, socials) */
+  .lift-3d {
+    transform-style: preserve-3d;
+    perspective: 900px;
+    transition:
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease;
+    will-change: transform;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .lift-3d:hover,
+    .lift-3d:focus-within {
+      transform: translateY(-5px) rotateX(2.2deg) scale(1.008);
+      box-shadow:
+        inset 0 1px 0 color-mix(in oklab, var(--foreground) 8%, transparent),
+        0 30px 60px -30px hsl(190 60% 2% / 0.95),
+        0 0 0 1px color-mix(in oklab, var(--primary) 18%, transparent);
+    }
+  }
+
+  /* Media/preview panels: slight 3D settle as the cursor enters */
+  .panel-3d {
+    transform-style: preserve-3d;
+    perspective: 1200px;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .panel-3d:hover {
+      transform: perspective(1200px) rotateX(3deg) rotateY(-3deg) translateZ(10px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-depth-sm,
+    .card-depth-md,
+    .card-depth-lg,
+    .lift-3d,
+    .panel-3d,
+    .lift-3d:hover,
+    .panel-3d:hover {
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+}
+
+@layer utilities {
+
   .cursor-none-desktop {
     @media (hover: hover) and (pointer: fine) {
       cursor: none;

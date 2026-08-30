@@ -52,7 +52,7 @@ export function GithubPreview() {
   const retry = useCallback(() => setAttempt((a) => a + 1), []);
 
   return (
-    <div className="rounded-xl border border-border bg-card/60 p-5 shadow-card">
+    <div className="lift-3d rounded-xl border border-border bg-card/60 p-5 shadow-card">
       <div className="flex items-center justify-between gap-4">
         <h3 className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary">
           Live from GitHub

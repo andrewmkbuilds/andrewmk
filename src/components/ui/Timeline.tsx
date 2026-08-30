@@ -49,7 +49,7 @@ export function Timeline() {
             <span className="relative h-[7px] w-[7px] rounded-full bg-primary shadow-glow" />
           </motion.span>
 
-          <div className="surface spotlight relative overflow-hidden rounded-xl p-6 transition-colors duration-300 hover:border-primary/35 md:p-7"
+          <div className="surface spotlight lift-3d relative overflow-hidden rounded-xl p-6 hover:border-primary/35 md:p-7"
             onPointerMove={(e) => {
               const el = e.currentTarget as HTMLElement;
               const rect = el.getBoundingClientRect();

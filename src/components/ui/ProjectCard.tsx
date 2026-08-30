@@ -59,16 +59,18 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
       whileHover={reduce ? {} : { y: -6 }}
       transition={{ type: "spring", stiffness: 260, damping: 26 }}
       className={cn(
-        "surface spotlight edge-glow group relative isolate h-full overflow-hidden rounded-2xl p-6 text-left",
+        "surface spotlight edge-glow group relative isolate h-full rounded-2xl p-6 text-left",
         "transition-colors duration-300 hover:border-primary/35 hover:shadow-glow md:p-7",
         className,
       )}
     >
-      {/* accent wash that rises on hover */}
+      {/* accent wash that rises on hover — isolated so the card can keep 3D depth */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 translate-y-8 bg-linear-to-t from-primary/[0.09] to-transparent opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100"
-      />
+        className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl"
+      >
+        <span className="absolute inset-x-0 bottom-0 h-40 translate-y-8 bg-linear-to-t from-primary/[0.09] to-transparent opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100" />
+      </span>
 
       <button
         type="button"
@@ -77,7 +79,7 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
         aria-label={`View details for ${project.name}`}
       />
 
-      <div className="relative flex items-start justify-between gap-4">
+      <div className="card-depth-lg relative flex items-start justify-between gap-4">
         <div>
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
             {project.category}
@@ -98,7 +100,7 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
 
       <p
         className={cn(
-          "relative mt-3.5 leading-relaxed text-muted-foreground",
+          "card-depth-sm relative mt-3.5 leading-relaxed text-muted-foreground",
           variant === "featured" ? "text-base" : "text-sm",
         )}
       >
@@ -106,7 +108,7 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
       </p>
 
       {variant === "featured" && project.built.length > 0 && (
-        <ul className="relative mt-5 grid gap-2 sm:grid-cols-2">
+        <ul className="card-depth-sm relative mt-5 grid gap-2 sm:grid-cols-2">
           {project.built.slice(0, 6).map((item) => (
             <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
               <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
@@ -116,14 +118,14 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
         </ul>
       )}
 
-      <div className="relative mt-5 flex flex-wrap items-center gap-2">
+      <div className="card-depth-md relative mt-5 flex flex-wrap items-center gap-2">
         <PlatformBadge project={project} className="relative z-20" />
         {project.tech.slice(0, 4).map((tech) => (
           <TechTag key={tech}>{tech}</TechTag>
         ))}
       </div>
 
-      <div className="relative mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
+      <div className="card-depth-sm relative mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
         <span className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
           <span className="h-1.5 w-1.5 rounded-full bg-primary" />
           {project.status}

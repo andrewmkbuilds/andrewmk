@@ -8,6 +8,7 @@ import { FindMeOnline } from "@/components/ui/FindMeOnline";
 import { Reveal, RevealWords } from "@/components/ui/Reveal";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { SystemGraph } from "@/components/ui/SystemGraph";
+import { Tilt3D } from "@/components/ui/Tilt3D";
 import { TechConstellation } from "@/components/ui/TechConstellation";
 import { motion } from "motion/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -134,8 +135,24 @@ export default function Home() {
             transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="relative -mx-2 h-[320px] sm:h-[380px] lg:h-[520px]"
           >
-            <SystemGraph className="h-full w-full" />
+            <Tilt3D className="h-full w-full" intensity={7}>
+              {/* layered depth plates behind the graph */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-6 rounded-3xl border border-border/50 bg-card/20 backdrop-blur-[1px]"
+                style={{ transform: "translateZ(-60px)" }}
+              />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-12 rounded-3xl border border-primary/15"
+                style={{ transform: "translateZ(-28px)" }}
+              />
+              <div style={{ transform: "translateZ(40px)" }} className="h-full w-full">
+                <SystemGraph className="h-full w-full" />
+              </div>
+            </Tilt3D>
           </motion.div>
+
         </div>
       </section>
 
@@ -199,7 +216,7 @@ export default function Home() {
             <div className="grid gap-5 sm:grid-cols-2">
               {buildingCategories.map((cat, i) => (
                 <Reveal key={cat.title} delay={i * 60} className="h-full">
-                  <div className="spotlight h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-primary/40">
+                  <div className="spotlight lift-3d h-full rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40">
                     <h3 className="text-lg font-semibold text-foreground">{cat.title}</h3>
                     <div className="mt-4 flex flex-wrap gap-2">
                       {cat.items.map((item) => (
@@ -211,7 +228,9 @@ export default function Home() {
               ))}
             </div>
             <Reveal delay={120} className="h-full">
-              <TechConstellation className="h-full min-h-[340px]" />
+              <Tilt3D className="h-full" intensity={5}>
+                <TechConstellation className="h-full min-h-[340px]" />
+              </Tilt3D>
             </Reveal>
           </div>
         </div>
@@ -232,7 +251,7 @@ export default function Home() {
               return (
                 <Reveal key={service.id} delay={i * 60} className="h-full">
                   <div
-                    className={`group flex h-full flex-col rounded-xl border bg-card p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 motion-reduce:hover:translate-y-0 ${
+                    className={`group lift-3d flex h-full flex-col rounded-xl border bg-card p-6 shadow-card hover:border-primary/40 ${
                       isLead ? "border-primary/30 ring-1 ring-primary/10" : "border-border"
                     }`}
                   >
@@ -337,7 +356,7 @@ export default function Home() {
           <div className="grid gap-5 md:grid-cols-3">
             {principles.map((p, i) => (
               <Reveal key={p.title} delay={i * 70} className="h-full">
-                <div className="group h-full rounded-xl border border-border bg-card p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 motion-reduce:hover:translate-y-0">
+                <div className="group lift-3d h-full rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40">
                   <span className="font-mono text-xs text-primary">0{i + 1}</span>
                   <h3 className="mt-3 text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
                     {p.title}
@@ -365,7 +384,7 @@ export default function Home() {
                 {["Robotics", "Software", "AI", "Systems"].map((step, i) => (
                   <li
                     key={step}
-                    className="flex items-center gap-3 rounded-xl border border-border bg-card p-5 shadow-card"
+                    className="lift-3d flex items-center gap-3 rounded-xl border border-border bg-card p-5 shadow-card"
                   >
                     <span className="font-mono text-xs text-primary">0{i + 1}</span>
                     <span className="text-base font-medium text-foreground">{step}</span>
@@ -437,7 +456,7 @@ export default function Home() {
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {currentlyBuilding.map((item, i) => (
               <Reveal key={item.name} delay={i * 60} className="h-full">
-                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card">
+                <div className="lift-3d h-full rounded-xl border border-border bg-card p-6 shadow-card">
                   <div className="flex items-center gap-2">
                     <StatusDot />
                     <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-primary">
