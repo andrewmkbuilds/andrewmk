@@ -485,6 +485,8 @@ export interface Service {
   secondary?: { label: string; href: string };
   /** Small reassurance line under the CTA. */
   microcopy?: string;
+  /** Ordered process step labels (no turnaround times). */
+  steps?: string[];
 }
 
 export const services: Service[] = [
@@ -505,6 +507,14 @@ export const services: Service[] = [
     },
     secondary: { label: "See Websites I've Built", href: "/websites" },
     microcopy: "Tell me what you need and I'll take it from there.",
+    steps: [
+      "Discovery",
+      "Structure & content plan",
+      "Design",
+      "Build",
+      "Review & revisions",
+      "Launch & handover",
+    ],
   },
 
   {
