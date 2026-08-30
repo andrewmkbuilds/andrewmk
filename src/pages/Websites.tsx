@@ -2,7 +2,8 @@ import { Link } from "@/lib/router-compat";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/Reveal";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, LayoutTemplate } from "lucide-react";
+import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import { WEBSITE_INTAKE_FORM_URL } from "@/data/portfolio";
 
 /**
@@ -53,20 +54,34 @@ export default function Websites() {
             </div>
           ) : (
             <Reveal delay={80}>
-              <div className="mt-12 rounded-2xl border border-dashed border-border bg-card/50 p-8 md:p-12">
-                <p className="font-mono text-xs uppercase tracking-[0.16em] text-primary">
+              <div className="mt-12 flex flex-col items-center rounded-2xl border border-dashed border-border bg-card/50 p-8 text-center md:p-14">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 text-primary">
+                  <LayoutTemplate className="h-6 w-6" aria-hidden="true" />
+                </div>
+                <p className="mt-5 font-mono text-xs uppercase tracking-[0.16em] text-primary">
                   Gallery in progress
                 </p>
                 <h2 className="mt-3 text-2xl font-semibold text-foreground">
-                  This gallery is being put together.
+                  No websites published here yet.
                 </h2>
                 <p className="mt-3 max-w-xl text-muted-foreground">
-                  Website work is being collected and written up here. In the meantime, you can see
-                  the rest of what I build, or start a project directly.
+                  Client website work is being collected and written up. If you'd like yours to be
+                  one of the first here, start a project through the intake form and I'll take it
+                  from there.
                 </p>
-                <div className="mt-7 flex flex-wrap gap-3">
+                <div className="mt-7 flex flex-wrap justify-center gap-3">
                   <Button asChild className="font-mono focus-ring">
-                    <a href={WEBSITE_INTAKE_FORM_URL} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={WEBSITE_INTAKE_FORM_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() =>
+                        trackEvent(AnalyticsEvents.websiteProjectCtaClick, {
+                          location: "websites_empty_state",
+                          label: "Start a Website Project",
+                        })
+                      }
+                    >
                       Start a Website Project
                       <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                     </a>
