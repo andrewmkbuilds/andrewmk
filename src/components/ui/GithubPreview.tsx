@@ -15,7 +15,7 @@ interface Repo {
 const GITHUB_USER = "andrewmkbuilds";
 
 /** Height reserved for the body so the card never shifts between states. */
-const BODY_MIN_HEIGHT = "min-h-[190px] sm:min-h-[168px]";
+const BODY_MIN_HEIGHT = "min-h-[356px] sm:min-h-[190px]";
 
 /**
  * Live preview of public GitHub repositories via the public, unauthenticated
@@ -61,7 +61,7 @@ export function GithubPreview() {
           href={`https://github.com/${GITHUB_USER}?tab=repositories`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 rounded font-mono text-[11px] text-muted-foreground transition-colors hover:text-primary focus-ring"
+          className="inline-flex items-center gap-1 whitespace-nowrap rounded font-mono text-[11px] text-muted-foreground transition-colors hover:text-primary focus-ring"
           aria-label="See all public repositories on GitHub (opens in a new tab)"
         >
           All repos <ExternalLink className="h-3 w-3" aria-hidden="true" />
@@ -84,7 +84,7 @@ export function GithubPreview() {
         )}
 
         {state === "unavailable" && (
-          <div className="mt-4 flex h-[164px] flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-border/70 bg-background/30 px-4 text-center sm:h-[142px]">
+          <div className="mt-4 flex h-[330px] flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-border/70 bg-background/30 px-4 text-center sm:h-[164px]">
             <CloudOff className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
             <p className="text-xs text-muted-foreground">
               Live repository data isn't available right now.
