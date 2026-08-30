@@ -25,20 +25,29 @@ export const submitContactMessage = createServerFn({ method: "POST" })
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-    const since = new Date(Date.now() - 10 * 60 * 1000).toISOString();
-    const { count } = await supabaseAdmin
-      .from("contact_messages")
-      .select("id", { count: "exact", head: true })
-      .eq("client_hash", hash)
-      .gte("created_at", since);
+    const countSince = async (ms: number) => {
+      const { count } = await supabaseAdmin
+        .from("contact_messages")
+        .select("id", { count: "exact", head: true })
+        .eq("client_hash", hash)
+        .gte("created_at", new Date(Date.now() - ms).toISOString());
+      return count ?? 0;
+    };
 
-    if ((count ?? 0) >= 3) {
+    // Two-tier rate limit: burst (3 / 10 min) and sustained (10 / day).
+    const [burst, daily] = await Promise.all([
+      countSince(10 * 60 * 1000),
+      countSince(24 * 60 * 60 * 1000),
+    ]);
+
+    if (burst >= 3 || daily >= 10) {
       return {
         ok: false,
         delivery: "rejected",
         message: "You've sent a few messages already. Please try again in a little while.",
       };
     }
+
 
     const email = spamScore >= 50 ? null : await deliverEmail(data);
     const deliveryStatus = email?.ok ? "email" : "stored";
