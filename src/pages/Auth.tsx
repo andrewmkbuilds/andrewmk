@@ -14,6 +14,8 @@ export default function Auth() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [notice, setNotice] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [mfa, setMfa] = useState<{ factorId: string } | null>(null);
+  const [mfaCode, setMfaCode] = useState("");
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -38,9 +40,51 @@ export default function Auth() {
     }
 
     const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-    setBusy(false);
     if (signInError) {
+      setBusy(false);
       setError(signInError.message);
+      return;
+    }
+
+    // Optional second factor: only prompt when the account has a verified TOTP factor.
+    const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (aal && aal.nextLevel === "aal2" && aal.nextLevel !== aal.currentLevel) {
+      const { data: factors } = await supabase.auth.mfa.listFactors();
+      const factor = (factors?.totp ?? []).find((f) => f.status === "verified");
+      setBusy(false);
+      if (factor) {
+        setMfa({ factorId: factor.id });
+        setNotice("Enter the 6-digit code from your authenticator app.");
+        return;
+      }
+    } else {
+      setBusy(false);
+    }
+
+    navigate({ to: "/admin/messages" });
+  }
+
+  async function onVerifyMfa(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!mfa) return;
+    setBusy(true);
+    setError(null);
+
+    const challenge = await supabase.auth.mfa.challenge({ factorId: mfa.factorId });
+    if (challenge.error || !challenge.data) {
+      setBusy(false);
+      setError(challenge.error?.message ?? "Could not start the verification challenge.");
+      return;
+    }
+
+    const { error: verifyError } = await supabase.auth.mfa.verify({
+      factorId: mfa.factorId,
+      challengeId: challenge.data.id,
+      code: mfaCode.trim(),
+    });
+    setBusy(false);
+    if (verifyError) {
+      setError(verifyError.message);
       return;
     }
     navigate({ to: "/admin/messages" });
@@ -53,6 +97,41 @@ export default function Auth() {
         Private area. Admin access is required to review contact submissions.
       </p>
 
+      {mfa ? (
+        <form onSubmit={onVerifyMfa} className="mt-8 space-y-5">
+          <div className="space-y-2">
+            <Label htmlFor="mfa-signin-code">Authentication code</Label>
+            <Input
+              id="mfa-signin-code"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              pattern="[0-9]{6}"
+              maxLength={6}
+              required
+              autoFocus
+              value={mfaCode}
+              onChange={(e) => setMfaCode(e.target.value)}
+              className="max-w-40 font-mono"
+            />
+          </div>
+          <Button type="submit" disabled={busy} className="w-full font-mono focus-ring">
+            {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
+            {busy ? "Verifying…" : "Verify code"}
+          </Button>
+          <div aria-live="polite" role="status" className="text-sm">
+            {notice ? (
+              <p className="rounded-xl border border-primary/40 bg-primary/5 p-3 text-foreground">
+                {notice}
+              </p>
+            ) : null}
+            {error ? (
+              <p className="rounded-xl border border-destructive/40 bg-destructive/5 p-3 text-foreground">
+                {error}
+              </p>
+            ) : null}
+          </div>
+        </form>
+      ) : (
       <form onSubmit={onSubmit} className="mt-8 space-y-5">
         <div className="space-y-2">
           <Label htmlFor="auth-email">Email</Label>
@@ -105,6 +184,7 @@ export default function Auth() {
           ) : null}
         </div>
       </form>
+      )}
     </main>
   );
 }
