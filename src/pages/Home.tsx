@@ -245,7 +245,9 @@ export default function Home() {
                           <a
                             href={service.cta.href}
                             target="_blank"
-                            rel="noopener noreferrer"                          >
+                            rel="noopener noreferrer"
+                          >
+
                             {service.cta.label}
                             <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                           </a>
