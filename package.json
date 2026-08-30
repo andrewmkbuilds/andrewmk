@@ -8,6 +8,8 @@
     "dev": "vite dev",
     "preview:check": "bunx tsx scripts/preview-check.ts",
     "seo:regression": "bunx tsx scripts/seo-regression.ts",
+    "a11y:check": "bunx tsx scripts/a11y-check.ts",
+    "ci:verify": "bun run seo:regression && bun run a11y:check",
     "validate:data": "bunx tsx scripts/validate-portfolio-data.ts",
     "prebuild": "bunx tsx scripts/validate-portfolio-data.ts && bunx tsx scripts/generate-sitemap.ts && bunx tsx scripts/generate-og-images.ts",
     "build": "vite build",
