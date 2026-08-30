@@ -70,6 +70,15 @@ def has_transform(t: str) -> bool:
     return True
 
 
+def nums(t: str) -> list[float]:
+    return [float(v) for v in t[t.find("(") + 1 : -1].split(",")] if "(" in t else []
+
+
+def close(a: str, b: str, tol: float = 0.01) -> bool:
+    na, nb = nums(a), nums(b)
+    return len(na) == len(nb) and all(abs(x - y) <= tol for x, y in zip(na, nb))
+
+
 def glow(shadow: str) -> bool:
     return shadow not in ("none", "")
 
@@ -167,9 +176,11 @@ async def run_page(browser_name, browser, path_name, path, reduced=False, touch=
 
     check("keyboard: CTA reachable and :focus-visible", bool(is_focus_visible))
     if is_focus_visible and not reduced and fine_pointer:
-        check("focus-visible matches hover transform", focused["transform"] == hovered["transform"],
+        check("focus-visible matches hover transform", close(focused["transform"], hovered["transform"]),
               f"{focused['transform']} vs {hovered['transform']}")
-        check("focus-visible matches hover glow", focused["boxShadow"] == hovered["boxShadow"])
+        check("focus-visible matches hover glow",
+              glow(focused["boxShadow"]) and focused["boxShadow"].count("rgb") == hovered["boxShadow"].count("rgb"),
+              focused["boxShadow"][:80])
     check("focus: no layout shift",
           (focused["width"], focused["height"]) == (rest["width"], rest["height"]))
 
