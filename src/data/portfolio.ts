@@ -463,9 +463,9 @@ export interface MunResult {
 }
 
 export const competitionResults: CompetitionResult[] = [
-  { place: "1st Place", detail: "Data Science", event: "Techfest", certKey: "techfest-data-science" },
-  { place: "2nd Place", detail: "IoT", event: "Techfest", certKey: "techfest-iot" },
-  { place: "2nd Place", detail: "Space Tech", event: "Group Techfest", certKey: "techfest-space-tech" },
+  { place: "1st Place", detail: "Data Science", event: "Techfest", certKey: "techfest-data-science-1st" },
+  { place: "2nd Place", detail: "IoT", event: "Techfest", certKey: "techfest-iot-2nd" },
+  { place: "2nd Place", detail: "Space Tech", event: "Group Techfest", certKey: "techfest-space-tech-2nd" },
   { place: "Innovation Award", detail: "FLL UAE", event: "Dubai Regional", certKey: "fll-innovation" },
   { place: "2nd Place", detail: "Math Expo", event: '"Math & Me"', certKey: "math-expo" },
   { place: "3rd Place", detail: "Shot Put", event: "Annual Athletic Meet", certKey: "shot-put" },
