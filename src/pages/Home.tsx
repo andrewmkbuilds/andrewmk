@@ -299,7 +299,7 @@ export default function Home() {
                     ) : null}
 
                     {service.cta ? (
-                      <div className="mt-auto pt-5">
+                      <div className="section-pop mt-auto pt-5">
                         <Button asChild className="w-full font-mono focus-ring">
                           <a
                             href={service.cta.href}
