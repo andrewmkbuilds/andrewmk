@@ -3,7 +3,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { TechTag } from "@/components/ui/TechTag";
 import { buildingCategories, principles, socialLinks } from "@/data/portfolio";
-import { socialIconMap } from "@/components/ui/SocialIcons";
+import { getSocialIcon } from "@/components/ui/SocialIcons";
 
 export default function About() {
   return (
@@ -81,7 +81,7 @@ export default function About() {
                   </p>
                   <ul className="mt-4 space-y-1">
                     {socialLinks.map((link) => {
-                      const Icon = socialIconMap[link.id];
+                      const Icon = getSocialIcon(link.id);
                       return (
                         <li key={link.id}>
                           <a

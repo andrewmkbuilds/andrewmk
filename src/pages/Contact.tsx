@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Github, Mail, AlertTriangle } from "lucide-react";
 import { GITHUB_URL, socialLinks } from "@/data/portfolio";
-import { socialIconMap } from "@/components/ui/SocialIcons";
+import { getSocialIcon } from "@/components/ui/SocialIcons";
 
 interface Errors {
   name?: string;
@@ -173,7 +173,7 @@ export default function Contact() {
                   {socialLinks
                     .filter((s) => s.id !== "github")
                     .map((link) => {
-                      const Icon = socialIconMap[link.id];
+                      const Icon = getSocialIcon(link.id);
                       return (
                         <a
                           key={link.id}
