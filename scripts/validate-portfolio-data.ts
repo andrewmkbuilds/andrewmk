@@ -2,7 +2,7 @@
  * Data validation: only the specified projects may carry a Base44 or Lovable
  * platform badge. Run with `bun run scripts/validate-portfolio-data.ts`.
  */
-import { ecosystemProjects, socialLinks, type Project } from "../src/data/portfolio";
+import { allProjects, socialLinks, type Project } from "../src/data/portfolio";
 
 const EXPECTED: Record<"base44" | "lovable", string[]> = {
   base44: ["Stack Up", "DevOS", "COGNOS", "TabZen", "AI for Students"],
@@ -10,7 +10,7 @@ const EXPECTED: Record<"base44" | "lovable", string[]> = {
 };
 
 const errors: string[] = [];
-const byName = new Map<string, Project>(ecosystemProjects.map((p) => [p.name, p]));
+const byName = new Map<string, Project>(allProjects.map((p) => [p.name, p]));
 
 // 1. Every expected project exists and has the right platform.
 for (const [platform, names] of Object.entries(EXPECTED) as [keyof typeof EXPECTED, string[]][]) {
@@ -30,7 +30,7 @@ for (const [platform, names] of Object.entries(EXPECTED) as [keyof typeof EXPECT
 
 // 2. No other project may claim a platform badge.
 const allowed = new Set(Object.values(EXPECTED).flat());
-for (const project of ecosystemProjects) {
+for (const project of allProjects) {
   if (project.platform && !allowed.has(project.name)) {
     errors.push(
       `"${project.name}" claims platform "${project.platform}" but is not in the approved list.`,
@@ -49,7 +49,7 @@ for (const project of ecosystemProjects) {
 
 // 4. Duplicate names would make the checks above ambiguous.
 const seen = new Set<string>();
-for (const project of ecosystemProjects) {
+for (const project of allProjects) {
   if (seen.has(project.name)) errors.push(`Duplicate project name "${project.name}".`);
   seen.add(project.name);
 }
@@ -62,4 +62,4 @@ if (errors.length > 0) {
 const counts = Object.entries(EXPECTED)
   .map(([p, names]) => `${p}: ${names.length}`)
   .join(", ");
-console.log(`Portfolio data OK — ${ecosystemProjects.length} projects, platform badges (${counts}).`);
+console.log(`Portfolio data OK — ${allProjects.length} projects, platform badges (${counts}).`);
