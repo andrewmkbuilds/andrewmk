@@ -11,12 +11,32 @@ export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [notice, setNotice] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setBusy(true);
     setError(null);
+    setNotice(null);
+
+    if (mode === "signup") {
+      const { error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { emailRedirectTo: `${window.location.origin}/auth` },
+      });
+      setBusy(false);
+      if (signUpError) {
+        setError(signUpError.message);
+        return;
+      }
+      setNotice("Account created. Confirm your email if prompted, then sign in.");
+      setMode("signin");
+      return;
+    }
+
     const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
     setBusy(false);
     if (signInError) {
@@ -50,7 +70,7 @@ export default function Auth() {
           <Input
             id="auth-password"
             type="password"
-            autoComplete="current-password"
+            autoComplete={mode === "signup" ? "new-password" : "current-password"}
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -59,10 +79,25 @@ export default function Auth() {
 
         <Button type="submit" disabled={busy} className="w-full font-mono">
           {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
-          {busy ? "Signing in…" : "Sign in"}
+          {busy ? "Working…" : mode === "signup" ? "Create account" : "Sign in"}
+        </Button>
+
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="w-full font-mono"
+          onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+        >
+          {mode === "signin" ? "Create the admin account" : "Back to sign in"}
         </Button>
 
         <div aria-live="polite" role="status" className="text-sm">
+          {notice ? (
+            <p className="rounded-xl border border-primary/40 bg-primary/5 p-3 text-foreground">
+              {notice}
+            </p>
+          ) : null}
           {error ? (
             <p className="rounded-xl border border-destructive/40 bg-destructive/5 p-3 text-foreground">
               {error}
