@@ -178,18 +178,20 @@ export default function Home() {
             title="Things I've Built"
             subtitle="Different problems. Different systems. One constant: build it."
           />
-          <div className="grid gap-6 lg:grid-cols-2">
+          <ul className="grid list-none gap-6 p-0 lg:grid-cols-2">
             {featuredProjects.map((project, i) => (
-              <Reveal key={project.slug} delay={i * 70} className="h-full">
+              <Reveal as="li" key={project.slug} delay={i * 70} className="h-full">
                 <ProjectCard
                   project={project}
                   onOpen={openProject}
                   variant="featured"
-                  className="h-full"
+                  className="pop-card h-full"
                 />
               </Reveal>
             ))}
-          </div>
+          </ul>
+
+
         </div>
       </section>
 
@@ -244,12 +246,18 @@ export default function Home() {
             title="What I Build"
             subtitle="I build software, AI systems, experiments, and technical projects to explore ideas and solve real problems."
           />
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid list-none gap-5 p-0 sm:grid-cols-2 lg:grid-cols-3">
             {buildAreas.map((area, i) => {
               const Icon = buildIcons[area.icon] ?? AppWindow;
               return (
-                <Reveal key={area.id} delay={i * 60} className="h-full">
-                  <div className="group lift-3d flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40">
+                <Reveal as="li" key={area.id} delay={i * 60} className="h-full">
+                  <div
+                    tabIndex={0}
+                    role="group"
+                    aria-label={`Focus area: ${area.title}`}
+                    data-pop-target="build-area"
+                    className="group pop-card flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40"
+                  >
                     <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background/60 text-primary transition-colors group-hover:border-primary/40">
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </div>
@@ -275,7 +283,7 @@ export default function Home() {
                 </Reveal>
               );
             })}
-          </div>
+          </ul>
 
         </div>
       </section>
@@ -285,10 +293,16 @@ export default function Home() {
       <section className="border-t border-border py-20 md:py-28">
         <div className="container">
           <SectionHeading label="Approach" title="How I Think" />
-          <div className="grid gap-5 md:grid-cols-3">
+          <ul className="grid list-none gap-5 p-0 md:grid-cols-3">
             {principles.map((p, i) => (
-              <Reveal key={p.title} delay={i * 70} className="h-full">
-                <div className="group lift-3d h-full rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40">
+              <Reveal as="li" key={p.title} delay={i * 70} className="h-full">
+                <div
+                  tabIndex={0}
+                  role="group"
+                  aria-label={`Principle: ${p.title}`}
+                  data-pop-target="principle"
+                  className="group pop-card h-full rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40"
+                >
                   <span className="font-mono text-xs text-primary">0{i + 1}</span>
                   <h3 className="mt-3 text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
                     {p.title}
@@ -297,7 +311,8 @@ export default function Home() {
                 </div>
               </Reveal>
             ))}
-          </div>
+          </ul>
+
         </div>
       </section>
 
@@ -407,24 +422,33 @@ export default function Home() {
       <FindMeOnline />
 
       {/* CTA */}
-      <section className="border-t border-border py-20 md:py-24">
+      <section className="border-t border-border py-20 md:py-24" aria-labelledby="get-in-touch-heading">
         <div className="container">
-          <Reveal className="rounded-2xl border border-border bg-card p-8 md:p-12 shadow-card">
-            <h2 className="text-3xl md:text-4xl font-semibold text-foreground">
-              Always building something.
-            </h2>
-            <p className="mt-3 max-w-xl text-muted-foreground">
-              Want to talk about technology, a project, collaboration, or something I'm building?
-            </p>
-            <Button asChild size="lg" className="mt-7 font-mono">
-              <Link to="/contact">
-                Get in touch
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+          <Reveal>
+            <div
+              data-pop-target="get-in-touch"
+              className="pop-card rounded-2xl border border-border bg-card p-8 md:p-12 shadow-card"
+            >
+              <h2
+                id="get-in-touch-heading"
+                className="text-3xl md:text-4xl font-semibold text-foreground"
+              >
+                Always building something.
+              </h2>
+              <p className="mt-3 max-w-xl text-muted-foreground">
+                Want to talk about technology, a project, collaboration, or something I'm building?
+              </p>
+              <Button asChild size="lg" className="cta-pop mt-7 font-mono">
+                <Link to="/contact" aria-label="Get in touch with Andrew Mathews">
+                  Get in touch
+                  <ArrowRight className="cta-arrow ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </Reveal>
         </div>
       </section>
+
 
       <ProjectModal project={selected} open={open} onOpenChange={setOpen} />
     </Layout>

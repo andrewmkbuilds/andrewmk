@@ -557,6 +557,62 @@
     }
   }
 
+  /* Generic independent "pop" for card surfaces (featured projects,
+     What I Build, How I Think, closing CTA). Hover pop is limited to real
+     pointer devices; keyboard users get the identical treatment through
+     :focus-visible / :focus-within plus a visible focus ring. Transform-only
+     motion keeps the effect out of layout flow (zero layout shift). */
+  .pop-card {
+    transform: translateZ(0);
+    transition:
+      transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease;
+    will-change: transform, box-shadow;
+    outline: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .pop-card:hover {
+      transform: perspective(900px) translate3d(0, -4px, 14px) scale(1.018);
+      box-shadow:
+        0 20px 42px -18px color-mix(in hsl, var(--primary) 48%, transparent),
+        0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
+        0 16px 28px -16px hsl(190 60% 2% / 0.95);
+    }
+  }
+
+  .pop-card:focus-visible,
+  .pop-card:focus-within {
+    transform: perspective(900px) translate3d(0, -4px, 14px) scale(1.018);
+    box-shadow:
+      0 20px 42px -18px color-mix(in hsl, var(--primary) 48%, transparent),
+      0 0 0 2px var(--primary),
+      0 16px 28px -16px hsl(190 60% 2% / 0.95);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pop-card,
+    .pop-card:hover,
+    .pop-card:focus-visible,
+    .pop-card:focus-within {
+      transition: none !important;
+      transform: none !important;
+    }
+    .pop-card:hover {
+      box-shadow:
+        0 0 0 1px color-mix(in oklab, var(--primary) 32%, transparent),
+        0 0 0 5px color-mix(in oklab, var(--primary) 10%, transparent) !important;
+    }
+    .pop-card:focus-visible,
+    .pop-card:focus-within {
+      box-shadow:
+        0 0 0 2px var(--primary),
+        0 0 0 6px color-mix(in oklab, var(--primary) 18%, transparent) !important;
+    }
+  }
+
+
 }
 
 /* ── Premium surface + motion utilities ─────────────────────────────── */
