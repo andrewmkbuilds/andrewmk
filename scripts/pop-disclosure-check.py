@@ -269,8 +269,12 @@ async def touch_toggle(pw, name):
     await page.goto(BASE, wait_until="networkidle")
 
     trig = page.locator('[data-pop-target="build-area"] button[aria-expanded]').first
-    await trig.evaluate("n => n.scrollIntoView({ block: 'center' })")
-    await page.wait_for_timeout(500)
+    for _ in range(12):
+        await trig.evaluate("n => n.scrollIntoView({ block: 'center' })")
+        await page.wait_for_timeout(300)
+        top = await trig.evaluate("n => n.getBoundingClientRect().top")
+        if 0 < top < (await page.evaluate("() => innerHeight")) - 120:
+            break
     rect_before = await trig.evaluate("n => n.getBoundingClientRect().top")
     await trig.tap()
     await page.wait_for_timeout(450)
