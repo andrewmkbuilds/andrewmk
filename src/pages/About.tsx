@@ -89,7 +89,7 @@ export default function About() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label={`${link.label} profile (${link.handle})`}
-                            className="group flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            className="group flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-secondary focus-ring"
                           >
                             <Icon className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
                             <span className="min-w-0">

@@ -78,7 +78,7 @@ export function BuiltBy({ project, className, showLabel = false }: BuiltByProps)
                   rel="noopener noreferrer"
                   aria-label={`${entry.label} (opens in a new tab)`}
                   onClick={(e) => e.stopPropagation()}
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/60 text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/60 text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary focus-ring"
                 >
                   <Icon className="h-3.5 w-3.5" />
                 </a>

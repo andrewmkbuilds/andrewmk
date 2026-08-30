@@ -23,7 +23,7 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
       <button
         type="button"
         onClick={() => onOpen(project)}
-        className="absolute inset-0 z-10 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        className="absolute inset-0 z-10 rounded-xl focus-ring"
         aria-label={`View details for ${project.name}`}
       />
       <div className="flex items-start justify-between gap-4">

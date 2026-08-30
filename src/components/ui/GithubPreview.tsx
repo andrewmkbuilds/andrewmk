@@ -55,7 +55,7 @@ export function GithubPreview() {
           href={`https://github.com/${GITHUB_USER}?tab=repositories`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 font-mono text-[11px] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
+          className="inline-flex items-center gap-1 font-mono text-[11px] text-muted-foreground transition-colors hover:text-primary focus-ring rounded"
           aria-label="See all public repositories on GitHub"
         >
           All repos <ExternalLink className="h-3 w-3" />
@@ -78,7 +78,7 @@ export function GithubPreview() {
                 href={repo.html_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block h-full rounded-lg border border-border/70 bg-background/40 p-3 transition-all hover:-translate-y-0.5 hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:hover:translate-y-0"
+                className="group block h-full rounded-lg border border-border/70 bg-background/40 p-3 transition-all hover:-translate-y-0.5 hover:border-primary/40 focus-ring motion-reduce:hover:translate-y-0"
               >
                 <p className="font-mono text-sm text-foreground transition-colors group-hover:text-primary">
                   {repo.name}
