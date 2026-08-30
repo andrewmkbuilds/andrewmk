@@ -292,3 +292,123 @@
   .stagger-3 { animation-delay: 0.3s; }
   .stagger-4 { animation-delay: 0.4s; }
 }
+
+/* ── Premium surface + motion utilities ─────────────────────────────── */
+
+@utility text-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.03;
+}
+
+@utility text-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--primary);
+}
+
+/* Layered card surface: inner top light + depth shadow + soft green floor */
+@utility surface {
+  position: relative;
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--foreground) 3%, transparent), transparent 40%),
+    var(--card);
+  border: 1px solid var(--border);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--foreground) 6%, transparent),
+    0 24px 50px -32px hsl(190 60% 2% / 0.95);
+}
+
+/* Pointer-tracked spotlight; requires --mx/--my set on the element */
+@utility spotlight {
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    background: radial-gradient(
+      320px circle at var(--mx, 50%) var(--my, 50%),
+      color-mix(in oklab, var(--primary) 14%, transparent),
+      transparent 60%
+    );
+  }
+  &:hover::before,
+  &:focus-within::before {
+    opacity: 1;
+  }
+}
+
+/* Hairline gradient border that lights up on hover */
+@utility edge-glow {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    background: linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--primary) 55%, transparent),
+      transparent 40%,
+      color-mix(in oklab, var(--primary-glow) 35%, transparent)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+  &:hover::after,
+  &:focus-within::after {
+    opacity: 1;
+  }
+}
+
+@utility grain {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@utility hairline-x {
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--primary) 30%, transparent),
+    transparent
+  );
+  height: 1px;
+}
+
+@layer utilities {
+  .cursor-none-desktop {
+    @media (hover: hover) and (pointer: fine) {
+      cursor: none;
+    }
+  }
+
+  .section-pad {
+    padding-block: 5.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-pad {
+      padding-block: 8rem;
+    }
+  }
+}
