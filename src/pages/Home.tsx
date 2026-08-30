@@ -195,19 +195,24 @@ export default function Home() {
       <section className="border-t border-border py-20 md:py-28">
         <div className="container">
           <SectionHeading label="Focus areas" title="My Building Categories" />
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {buildingCategories.map((cat, i) => (
-              <Reveal key={cat.title} delay={i * 60} className="h-full">
-                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-primary/40">
-                  <h3 className="text-lg font-semibold text-foreground">{cat.title}</h3>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {cat.items.map((item) => (
-                      <TechTag key={item}>{item}</TechTag>
-                    ))}
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+            <div className="grid gap-5 sm:grid-cols-2">
+              {buildingCategories.map((cat, i) => (
+                <Reveal key={cat.title} delay={i * 60} className="h-full">
+                  <div className="spotlight h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-primary/40">
+                    <h3 className="text-lg font-semibold text-foreground">{cat.title}</h3>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {cat.items.map((item) => (
+                        <TechTag key={item}>{item}</TechTag>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              ))}
+            </div>
+            <Reveal delay={120} className="h-full">
+              <TechConstellation className="h-full min-h-[340px]" />
+            </Reveal>
           </div>
         </div>
       </section>
