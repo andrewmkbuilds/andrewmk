@@ -58,6 +58,9 @@ jobs:
       - name: CTA hover / focus visual regression
         run: python3 scripts/cta-visual-check.py http://localhost:4173
 
+      - name: Home card pop hover / focus regression
+        run: python3 scripts/home-pop-check.py http://localhost:4173
+
       - name: Upload selection screenshots
         if: always()
         uses: actions/upload-artifact@v4

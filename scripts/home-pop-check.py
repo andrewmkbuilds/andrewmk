@@ -18,7 +18,7 @@ import sys
 
 from playwright.async_api import async_playwright
 
-BASE = "http://localhost:8080"
+BASE = (sys.argv[1] if len(sys.argv) > 1 else "http://localhost:8080").rstrip("/")
 FORBIDDEN = [
     "how we work",
     "start a website project",
