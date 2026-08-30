@@ -8,7 +8,7 @@ Covers, across Chromium / Firefox / WebKit:
   3. prefers-reduced-motion: no transform/animation, static emphasis instead.
   4. coarse/touch pointers: the 3D lift never triggers (hover media query).
 
-Usage: python3 scripts/cta-visual-check.py
+Usage: python3 scripts/cta-visual-check.py [base-url]
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ from pathlib import Path
 
 from playwright.async_api import async_playwright
 
-BASE = "http://localhost:8080"
+BASE = (sys.argv[1] if len(sys.argv) > 1 else "http://localhost:8080").rstrip("/")
 PAGES = [("websites", "/websites"), ("home", "/")]
 SHOTS = Path("/tmp/browser/cta-visual/screenshots")
 SHOTS.mkdir(parents=True, exist_ok=True)
