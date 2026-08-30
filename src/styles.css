@@ -390,6 +390,8 @@
     transform: translateX(3px);
   }
 
+  /* Reduced motion: no movement, but keep a premium static emphasis so
+     hover/focus still reads as "this is interactive". */
   @media (prefers-reduced-motion: reduce) {
     .cta-pop,
     .cta-pop .cta-arrow {
@@ -401,6 +403,12 @@
     .cta-pop:focus-visible .cta-arrow {
       transform: none !important;
       filter: none !important;
+    }
+    .cta-pop:hover,
+    .cta-pop:focus-visible {
+      box-shadow:
+        0 0 0 1px color-mix(in oklab, var(--primary) 45%, transparent),
+        0 0 0 5px color-mix(in oklab, var(--primary) 14%, transparent) !important;
     }
   }
 
@@ -441,9 +449,15 @@
     .section-pop:focus-within {
       transition: none !important;
       transform: none !important;
-      box-shadow: none !important;
+    }
+    .section-pop:hover,
+    .section-pop:focus-within {
+      box-shadow:
+        0 0 0 1px color-mix(in oklab, var(--primary) 32%, transparent),
+        0 0 0 5px color-mix(in oklab, var(--primary) 10%, transparent) !important;
     }
   }
+
 }
 
 /* ── Premium surface + motion utilities ─────────────────────────────── */
