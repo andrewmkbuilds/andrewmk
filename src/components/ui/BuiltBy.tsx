@@ -92,7 +92,7 @@ export function getProjectPlatforms(project: Project): string[] {
   const labels: Record<string, string> = { github: "GitHub", lovable: "Lovable", base44: "Base44" };
   return getEntries(project)
     .map((entry) => labels[entry.key])
-    .filter(Boolean);
+    .filter((label): label is string => Boolean(label));
 }
 
 /** Small "Built by Andrew" attribution row with only the links relevant to a project. */

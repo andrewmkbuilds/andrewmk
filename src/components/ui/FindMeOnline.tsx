@@ -8,6 +8,7 @@ import { GithubPreview } from "@/components/ui/GithubPreview";
 /** "Find Me Online" — integrated profile hub, not a link list. */
 export function FindMeOnline() {
   const [primary, ...rest] = socialLinks;
+  if (!primary) return null;
   const PrimaryIcon = getSocialIcon(primary.id);
 
   return (

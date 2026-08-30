@@ -16,7 +16,14 @@ const NavLink = forwardRef<HTMLAnchorElement, NavLinkCompatProps>(
     const isActive =
       to === "/" || end ? pathname === to : pathname === to || pathname.startsWith(`${to}/`);
 
-    return <Link ref={ref} to={to} className={cn(className, isActive && activeClassName)} {...props} />;
+    return (
+      <Link
+        ref={ref}
+        to={to}
+        className={cn(className, isActive && activeClassName)}
+        {...(props as Record<string, unknown>)}
+      />
+    );
   },
 );
 
