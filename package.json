@@ -7,6 +7,7 @@
     "predev": "bunx tsx scripts/generate-sitemap.ts && bunx tsx scripts/generate-og-images.ts",
     "dev": "vite dev",
     "preview:check": "bunx tsx scripts/preview-check.ts",
+    "seo:regression": "bunx tsx scripts/seo-regression.ts",
     "validate:data": "bunx tsx scripts/validate-portfolio-data.ts",
     "prebuild": "bunx tsx scripts/validate-portfolio-data.ts && bunx tsx scripts/generate-sitemap.ts && bunx tsx scripts/generate-og-images.ts",
     "build": "vite build",
