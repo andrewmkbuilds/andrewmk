@@ -8,7 +8,7 @@ interface AchievementCardProps {
   index?: number;
   className?: string;
   /** Optional proof action linking the result to a real certificate. */
-  onViewProof?: () => void;
+  onViewProof?: (() => void) | undefined;
 }
 
 export function AchievementCard({

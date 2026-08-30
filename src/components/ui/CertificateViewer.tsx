@@ -39,7 +39,7 @@ export function CertificateViewer({ certificate, onClose }: CertificateViewerPro
 
   if (!certificate) return null;
 
-  const zoom = ZOOM_STEPS[zoomIndex];
+  const zoom = ZOOM_STEPS[zoomIndex] ?? 1;
 
   return (
     <div
