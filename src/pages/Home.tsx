@@ -422,24 +422,33 @@ export default function Home() {
       <FindMeOnline />
 
       {/* CTA */}
-      <section className="border-t border-border py-20 md:py-24">
+      <section className="border-t border-border py-20 md:py-24" aria-labelledby="get-in-touch-heading">
         <div className="container">
-          <Reveal className="rounded-2xl border border-border bg-card p-8 md:p-12 shadow-card">
-            <h2 className="text-3xl md:text-4xl font-semibold text-foreground">
-              Always building something.
-            </h2>
-            <p className="mt-3 max-w-xl text-muted-foreground">
-              Want to talk about technology, a project, collaboration, or something I'm building?
-            </p>
-            <Button asChild size="lg" className="mt-7 font-mono">
-              <Link to="/contact">
-                Get in touch
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+          <Reveal>
+            <div
+              data-pop-target="get-in-touch"
+              className="pop-card rounded-2xl border border-border bg-card p-8 md:p-12 shadow-card"
+            >
+              <h2
+                id="get-in-touch-heading"
+                className="text-3xl md:text-4xl font-semibold text-foreground"
+              >
+                Always building something.
+              </h2>
+              <p className="mt-3 max-w-xl text-muted-foreground">
+                Want to talk about technology, a project, collaboration, or something I'm building?
+              </p>
+              <Button asChild size="lg" className="cta-pop mt-7 font-mono">
+                <Link to="/contact" aria-label="Get in touch with Andrew Mathews">
+                  Get in touch
+                  <ArrowRight className="cta-arrow ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </Reveal>
         </div>
       </section>
+
 
       <ProjectModal project={selected} open={open} onOpenChange={setOpen} />
     </Layout>
