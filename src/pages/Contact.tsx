@@ -197,7 +197,7 @@ export default function Contact() {
 
                 <div className="grid gap-3 sm:grid-cols-2">
                   {socialLinks
-                    .filter((s) => s.id !== "github")
+                    .filter((s) => s.id !== "github" && s.id !== "linktree")
                     .map((link) => {
                       const Icon = getSocialIcon(link.id);
                       return (
