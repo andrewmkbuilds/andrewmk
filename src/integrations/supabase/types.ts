@@ -14,7 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contact_messages: {
+        Row: {
+          client_hash: string | null
+          created_at: string
+          delivery_error: string | null
+          delivery_status: string
+          email: string
+          id: string
+          message: string
+          name: string
+          source_path: string | null
+          spam_score: number
+          user_agent: string | null
+        }
+        Insert: {
+          client_hash?: string | null
+          created_at?: string
+          delivery_error?: string | null
+          delivery_status?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          source_path?: string | null
+          spam_score?: number
+          user_agent?: string | null
+        }
+        Update: {
+          client_hash?: string | null
+          created_at?: string
+          delivery_error?: string | null
+          delivery_status?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          source_path?: string | null
+          spam_score?: number
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
