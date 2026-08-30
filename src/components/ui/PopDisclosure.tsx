@@ -106,3 +106,69 @@ export function PopDisclosure({
     </div>
   );
 }
+
+interface InlinePopDisclosureProps {
+  /** Visible label on the trigger, also the accessible name. */
+  label: string;
+  popTarget?: string;
+  className?: string;
+  children: ReactNode;
+}
+
+/**
+ * Inline variant for pop-out content inside an existing card (e.g. the
+ * closing CTA). Same ARIA contract: aria-expanded + aria-controls on the
+ * trigger, labelled region, Escape closes and restores focus.
+ */
+export function InlinePopDisclosure({
+  label,
+  popTarget,
+  className,
+  children,
+}: InlinePopDisclosureProps) {
+  const uid = useId().replace(/[:]/g, "");
+  const triggerId = `pop-inline-trigger-${uid}`;
+  const panelId = `pop-inline-panel-${uid}`;
+  const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  const onKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLDivElement>) => {
+      if (event.key !== "Escape" || !open) return;
+      event.stopPropagation();
+      setOpen(false);
+      triggerRef.current?.focus();
+    },
+    [open],
+  );
+
+  return (
+    <div
+      data-pop-target={popTarget}
+      data-expanded={open ? "true" : "false"}
+      onKeyDown={onKeyDown}
+      className={className}
+    >
+      <button
+        ref={triggerRef}
+        id={triggerId}
+        type="button"
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={() => setOpen((value) => !value)}
+        className="focus-ring inline-flex touch-manipulation items-center gap-2 rounded-md font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary"
+      >
+        {label}
+        <ChevronDown
+          aria-hidden="true"
+          className={cn("pop-chevron h-4 w-4", open && "rotate-180 text-primary")}
+        />
+      </button>
+      <div id={panelId} role="region" aria-labelledby={triggerId} className="pop-panel" data-open={open ? "true" : "false"}>
+        <div className="pop-panel-inner">
+          <div className="pt-4">{children}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
