@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "@/lib/router-compat";
+import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { SocialIcons } from "@/components/ui/SocialIcons";
@@ -237,6 +238,27 @@ export default function Home() {
                       ))}
                     </dl>
 
+                    {service.steps ? (
+                      <div className="mt-5 border-t border-border pt-4">
+                        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                          How we work
+                        </p>
+                        <ol className="mt-3 space-y-2">
+                          {service.steps.map((step, si) => (
+                            <li key={step} className="flex items-center gap-3 text-sm text-foreground">
+                              <span
+                                aria-hidden="true"
+                                className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/10 font-mono text-[10px] text-primary"
+                              >
+                                {si + 1}
+                              </span>
+                              {step}
+                            </li>
+                          ))}
+                        </ol>
+                      </div>
+                    ) : null}
+
                     {service.cta ? (
                       <div className="mt-auto pt-5">
                         <Button asChild className="w-full font-mono focus-ring">
@@ -244,8 +266,14 @@ export default function Home() {
                             href={service.cta.href}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() =>
+                              trackEvent(AnalyticsEvents.websiteProjectCtaClick, {
+                                location: "home_services_card",
+                                service: service.id,
+                                label: service.cta!.label,
+                              })
+                            }
                           >
-
                             {service.cta.label}
                             <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                           </a>
@@ -258,6 +286,13 @@ export default function Home() {
                         {service.secondary ? (
                           <Link
                             to={service.secondary.href}
+                            onClick={() =>
+                              trackEvent(AnalyticsEvents.websitesGalleryLinkClick, {
+                                location: "home_services_card",
+                                service: service.id,
+                                label: service.secondary!.label,
+                              })
+                            }
                             className="mx-auto mt-3 flex w-fit items-center gap-1 font-mono text-xs text-muted-foreground transition-colors hover:text-primary focus-ring rounded-sm"
                           >
                             {service.secondary.label}
