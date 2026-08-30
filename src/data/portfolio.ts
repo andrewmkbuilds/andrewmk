@@ -110,10 +110,10 @@ export const ecosystemProjects: Project[] = [
     description:
       "Digital home for Horizon Motorsports, a UAE-based racing team competing in FLL, Techfest, and engineering competitions.",
     built: ["Team site", "Competition presence", "Motion-driven interface"],
-    tech: ["Base44", "React", "Framer Motion"],
+    tech: ["React", "Framer Motion"],
     status: "Active",
     live: "https://horizonmotorsports.base44.app/",
-    filters: ["Base44", "React"],
+    filters: ["React"],
   },
   {
     slug: "devos",
@@ -122,10 +122,11 @@ export const ecosystemProjects: Project[] = [
     description:
       "AI-powered developer command center designed to bring tasks, focus sessions, and project threads into one place.",
     built: ["Task system", "Focus sessions", "Project threads", "AI integration"],
-    tech: ["Python", "AI Integration", "Base44"],
+    tech: ["Python", "AI Integration"],
     status: "Live",
     live: "https://dev-os-flow.base44.app/",
     filters: ["Python", "AI", "Base44"],
+    platform: "base44",
   },
   {
     slug: "cognos",
@@ -134,10 +135,11 @@ export const ecosystemProjects: Project[] = [
     description:
       "An AI cognitive operating system designed to capture raw thoughts, classify them, and map connections between ideas.",
     built: ["Thought capture", "AI classification", "Idea graph mapping"],
-    tech: ["AI APIs", "Base44", "NLP", "Graph Architecture"],
+    tech: ["AI APIs", "NLP", "Graph Architecture"],
     status: "Live",
     live: "https://cognos-app.base44.app/",
     filters: ["AI", "Base44"],
+    platform: "base44",
   },
   {
     slug: "tabzen",
@@ -146,10 +148,11 @@ export const ecosystemProjects: Project[] = [
     description:
       "Intelligent tab management that groups tabs by context, summarizes them, and archives them without losing information.",
     built: ["Context grouping", "AI summarization", "Lossless archiving"],
-    tech: ["Browser Extension", "AI Summarization", "Base44"],
+    tech: ["Browser Extension", "AI Summarization"],
     status: "Live",
     live: "https://tabzen.base44.app/",
     filters: ["AI", "Base44"],
+    platform: "base44",
   },
   {
     slug: "ai-for-students",
@@ -158,10 +161,11 @@ export const ecosystemProjects: Project[] = [
     description:
       "A gamified AI learning platform built around making AI easier for students to understand and use.",
     built: ["Guided AI lessons", "Gamification", "API-driven tutoring"],
-    tech: ["Base44", "AI Tutoring", "APIs", "Gamification"],
+    tech: ["AI Tutoring", "APIs", "Gamification"],
     status: "Live",
     live: "https://ai-for-students.base44.app/",
     filters: ["AI", "Base44"],
+    platform: "base44",
   },
   {
     slug: "home-serveai",
@@ -170,9 +174,10 @@ export const ecosystemProjects: Project[] = [
     description:
       "AI-powered home services marketplace concept featuring smart matching, real-time tracking, and recurring service management.",
     built: ["Smart matching", "Real-time tracking", "Recurring services"],
-    tech: ["Marketplace Architecture", "AI Matching", "Base44", "Real-Time Tracking"],
+    tech: ["Marketplace Architecture", "AI Matching", "Real-Time Tracking"],
     status: "Concept",
-    filters: ["AI", "Base44"],
+    filters: ["AI", "Lovable"],
+    platform: "lovable",
   },
   {
     slug: "jarvis",
@@ -287,6 +292,7 @@ export const projectFilters = [
   "React",
   "AI",
   "Base44",
+  "Lovable",
   "OpenCV",
   "Tkinter",
 ];
