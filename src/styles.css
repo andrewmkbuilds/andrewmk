@@ -136,7 +136,9 @@
 
   /* Text selection — derived from the green accent, never hardcoded.
      First declaration is the legacy-WebView fallback (no color-mix support). */
-  --selection-bg: var(--primary);
+  /* Pre-mixed fallback for engines without color-mix (older mobile WebKit):
+     full-strength primary under light text only reaches ~2.4:1. */
+  --selection-bg: #1b573f;
   --selection-bg: color-mix(in oklab, var(--primary) 45%, var(--background));
   --selection-fg: var(--foreground);
 }
@@ -235,6 +237,103 @@
     color: var(--selection-fg);
     text-shadow: none;
   }
+
+  /* Disabled / read-only surfaces.
+     Browsers (notably WebKit and Blink) drop author ::selection colors on
+     disabled controls and fall back to the platform blue, and shadcn's
+     `disabled:opacity-50` washes the highlight out. Restate the tokens and
+     pin -webkit-text-fill-color so the highlight stays theme green. */
+  /* Disabled surfaces are rendered at ~50% opacity, which also washes out the
+     highlight. Deepen the highlight for them so selected text keeps a 4.5:1
+     ratio after that compositing. */
+  :disabled,
+  [disabled],
+  [readonly],
+  [aria-disabled="true"],
+  [data-disabled],
+  fieldset:disabled {
+    --selection-bg: #163f2f;
+    --selection-bg: color-mix(in oklab, var(--primary) 30%, var(--background));
+  }
+
+  :disabled::selection,
+  [disabled]::selection,
+  [readonly]::selection,
+  [aria-disabled="true"]::selection,
+  [data-disabled]::selection,
+  :disabled ::selection,
+  [disabled] ::selection,
+  [aria-disabled="true"] ::selection,
+  [data-disabled] ::selection,
+  fieldset:disabled ::selection {
+    background-color: var(--selection-bg);
+    color: var(--selection-fg);
+    text-shadow: none;
+    -webkit-text-fill-color: var(--selection-fg);
+    opacity: 1;
+  }
+
+  :disabled::-moz-selection,
+  [disabled]::-moz-selection,
+  [readonly]::-moz-selection,
+  [aria-disabled="true"]::-moz-selection,
+  [data-disabled]::-moz-selection,
+  :disabled ::-moz-selection,
+  [disabled] ::-moz-selection,
+  [aria-disabled="true"] ::-moz-selection,
+  [data-disabled] ::-moz-selection,
+  fieldset:disabled ::-moz-selection {
+    background-color: var(--selection-bg);
+    color: var(--selection-fg);
+    text-shadow: none;
+    opacity: 1;
+  }
+
+  /* Windows High Contrast / forced-colors: the OS owns the palette. Hand the
+     selection back to the system keywords so it stays legible instead of
+     painting green-on-green over forced colors. */
+  @media (forced-colors: active) {
+    /* HCM expresses "disabled" with GrayText, not dimming — undo the 50%
+       opacity so selected text in disabled controls stays legible. */
+    :disabled,
+    [disabled],
+    [readonly],
+    [aria-disabled="true"],
+    [data-disabled],
+    fieldset:disabled {
+      opacity: 1 !important;
+    }
+
+    ::selection,
+    ::-moz-selection,
+    :disabled::selection,
+    [disabled]::selection,
+    [readonly]::selection,
+    [aria-disabled="true"]::selection,
+    [data-disabled]::selection,
+    :disabled ::selection,
+    [disabled] ::selection,
+    [aria-disabled="true"] ::selection,
+    [data-disabled] ::selection,
+    input::selection,
+    textarea::selection,
+    code::selection,
+    pre::selection,
+    kbd::selection,
+    samp::selection,
+    h1::selection, h2::selection, h3::selection,
+    h4::selection, h5::selection, h6::selection,
+    [role="dialog"] ::selection,
+    [data-state] ::selection {
+      forced-color-adjust: none;
+      background-color: Highlight;
+      color: HighlightText;
+      -webkit-text-fill-color: HighlightText;
+      text-shadow: none;
+    }
+  }
+
+
 
 
   html {
