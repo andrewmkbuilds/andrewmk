@@ -6,7 +6,8 @@
   "scripts": {
     "predev": "bunx tsx scripts/generate-sitemap.ts && bunx tsx scripts/generate-og-images.ts",
     "dev": "vite dev",
-    "prebuild": "bunx tsx scripts/generate-sitemap.ts && bunx tsx scripts/generate-og-images.ts",
+    "validate:data": "bunx tsx scripts/validate-portfolio-data.ts",
+    "prebuild": "bunx tsx scripts/validate-portfolio-data.ts && bunx tsx scripts/generate-sitemap.ts && bunx tsx scripts/generate-og-images.ts",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
