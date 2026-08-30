@@ -54,6 +54,17 @@ function getEntries(project: Project): Entry[] {
   return entries;
 }
 
+/** Platform options derived from the "Built by Andrew" attribution. */
+export const platformFilters = ["All", "GitHub", "Lovable", "Base44"];
+
+/** Platforms a project is actually attributed to, matching the BuiltBy links. */
+export function getProjectPlatforms(project: Project): string[] {
+  const labels: Record<string, string> = { github: "GitHub", lovable: "Lovable", base44: "Base44" };
+  return getEntries(project)
+    .map((entry) => labels[entry.key])
+    .filter(Boolean);
+}
+
 /** Small "Built by Andrew" attribution row with only the links relevant to a project. */
 export function BuiltBy({ project, className, showLabel = false }: BuiltByProps) {
   const entries = getEntries(project);
