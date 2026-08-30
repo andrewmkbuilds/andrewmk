@@ -18,14 +18,14 @@ import { useMemo, useCallback, forwardRef, type ComponentProps, type ReactNode }
 // ---------- shared URL parsing ----------
 
 function parseTo(to: string): { pathname: string; search?: Record<string, string>; hash?: string } {
-  const [beforeHash, hashStr] = (to ?? "").split("#");
-  const [pathname, searchStr] = beforeHash.split("?");
+  const [beforeHash = "", hashStr] = (to ?? "").split("#");
+  const [pathname = "", searchStr] = beforeHash.split("?");
   return {
     // react-router keeps the current path for search-only ("?a=1") and
     // hash-only ("#section") targets; TanStack's "." means current route.
     pathname: pathname || ".",
-    search: searchStr ? Object.fromEntries(new URLSearchParams(searchStr)) : undefined,
-    hash: hashStr || undefined,
+    ...(searchStr ? { search: Object.fromEntries(new URLSearchParams(searchStr)) } : {}),
+    ...(hashStr ? { hash: hashStr } : {}),
   };
 }
 
@@ -49,10 +49,10 @@ export function useNavigate(): NavigateFn {
     const { pathname, search, hash } = parseTo(to);
     tsNav({
       to: pathname,
-      search: search as never,
-      hash,
+      search: (search ?? {}) as never,
+      ...(hash !== undefined ? { hash } : {}),
       state: options?.state as never,
-      replace: options?.replace,
+      ...(options?.replace !== undefined ? { replace: options.replace } : {}),
     });
   }, [tsNav, router]) as NavigateFn;
 }
@@ -105,7 +105,11 @@ export function useSearchParams(): [URLSearchParams, (init: URLSearchParams | Re
             : new URLSearchParams(init);
       const searchObj: Record<string, string> = {};
       next.forEach((v, k) => { searchObj[k] = v; });
-      nav({ to: live.pathname, search: searchObj as never, replace: opts?.replace });
+      nav({
+        to: live.pathname,
+        search: searchObj as never,
+        ...(opts?.replace !== undefined ? { replace: opts.replace } : {}),
+      });
     },
     [nav, router],
   );
