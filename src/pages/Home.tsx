@@ -228,7 +228,9 @@ export default function Home() {
               ))}
             </div>
             <Reveal delay={120} className="h-full">
-              <TechConstellation className="h-full min-h-[340px]" />
+              <Tilt3D className="h-full" intensity={5}>
+                <TechConstellation className="h-full min-h-[340px]" />
+              </Tilt3D>
             </Reveal>
           </div>
         </div>
