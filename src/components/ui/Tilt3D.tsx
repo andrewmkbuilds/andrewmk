@@ -46,7 +46,7 @@ export function Tilt3D({ children, className, intensity = 6, perspective = 1100 
       onPointerLeave={reset}
       style={
         reduce
-          ? undefined
+          ? {}
           : { rotateX, rotateY, transformPerspective: perspective, transformStyle: "preserve-3d" }
       }
       className={cn("relative", className)}
