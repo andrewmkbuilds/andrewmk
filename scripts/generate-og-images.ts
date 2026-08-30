@@ -30,7 +30,12 @@ function wrap(text: string, maxChars: number, maxLines: number) {
     }
   }
   if (line) lines.push(line);
-  return lines.slice(0, maxLines);
+  if (lines.length > maxLines) {
+    const kept = lines.slice(0, maxLines);
+    kept[maxLines - 1] = `${kept[maxLines - 1].replace(/[,;:]$/, "")}…`;
+    return kept;
+  }
+  return lines;
 }
 
 function svg(label: string, headline: string, description: string) {
