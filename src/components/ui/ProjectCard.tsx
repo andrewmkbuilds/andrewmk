@@ -1,7 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TechTag } from "./TechTag";
-import { BuiltBy } from "./BuiltBy";
+import { BuiltBy, PlatformBadge } from "./BuiltBy";
 import type { Project } from "@/data/portfolio";
 
 interface ProjectCardProps {
@@ -63,7 +63,8 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
         </ul>
       )}
 
-      <div className="mt-5 flex flex-wrap gap-2">
+      <div className="mt-5 flex flex-wrap items-center gap-2">
+        <PlatformBadge project={project} className="relative z-20" />
         {project.tech.slice(0, 4).map((tech) => (
           <TechTag key={tech}>{tech}</TechTag>
         ))}
