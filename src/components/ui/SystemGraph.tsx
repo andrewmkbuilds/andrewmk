@@ -138,7 +138,7 @@ export function SystemGraph({ className }: { className?: string }) {
 
         // travelling pulse
         if (!reduce) {
-          const p = pulses[i];
+          const p = pulses[i]!;
           p.t += p.speed * 0.016;
           if (p.t > 1) p.t -= 1;
           const ease = p.t;

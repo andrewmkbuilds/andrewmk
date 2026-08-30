@@ -56,7 +56,7 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
           ? undefined
           : { rotateX: rotX, rotateY: rotY, transformPerspective: 1000, transformStyle: "preserve-3d" }
       }
-      whileHover={reduce ? undefined : { y: -6 }}
+      whileHover={reduce ? false : { y: -6 }}
       transition={{ type: "spring", stiffness: 260, damping: 26 }}
       className={cn(
         "surface spotlight edge-glow group relative isolate h-full overflow-hidden rounded-2xl p-6 text-left",

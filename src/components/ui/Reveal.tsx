@@ -65,8 +65,8 @@ export function RevealGroup({
     <motion.div
       ref={ref}
       className={cn(className)}
-      initial={reduce ? undefined : "hidden"}
-      animate={reduce ? undefined : inView ? "show" : "hidden"}
+      initial={reduce ? false : "hidden"}
+      animate={reduce ? false : inView ? "show" : "hidden"}
       variants={{
         hidden: {},
         show: { transition: { staggerChildren: stagger, delayChildren: delay } },
