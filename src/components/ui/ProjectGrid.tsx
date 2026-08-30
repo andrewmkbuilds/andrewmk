@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import { SearchX } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Reveal } from "./Reveal";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectModal } from "./ProjectModal";
