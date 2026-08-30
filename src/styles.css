@@ -48,7 +48,8 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   --font-sans: "Inter", system-ui, sans-serif;
-  --font-heading: "Inter", system-ui, sans-serif;
+  --font-heading: "Sora", "Inter", system-ui, sans-serif;
+  --font-display: "Sora", "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
