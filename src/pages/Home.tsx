@@ -53,10 +53,13 @@ export default function Home() {
   return (
     <Layout>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-hero-veil">
+      <section className="relative overflow-hidden bg-hero-veil grain">
         <div className="absolute inset-0 bg-grid" aria-hidden="true" />
-        <div
-          className="pointer-events-none absolute -top-32 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-primary/10 blur-[120px]"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2 }}
+          className="pointer-events-none absolute -top-40 left-1/2 h-[460px] w-[820px] -translate-x-1/2 rounded-full bg-primary/10 blur-[130px]"
           aria-hidden="true"
         />
         <div
@@ -64,75 +67,91 @@ export default function Home() {
           aria-hidden="true"
         />
 
-
-        {/* Floating technical labels */}
-        <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
-          {heroNodes.map((node, i) => (
-            <span
-              key={node.label}
-              style={{ left: node.x, top: node.y, animationDelay: `${i * 1.1}s` }}
-              className="absolute animate-drift rounded-full border border-border bg-card/60 px-3 py-1 font-mono text-[11px] text-muted-foreground backdrop-blur-sm"
+        <div className="container relative grid items-center gap-14 py-24 md:py-32 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:gap-10 lg:py-40">
+          <div className="max-w-2xl">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="mb-7 inline-flex items-center gap-3 rounded-full border border-border bg-card/70 px-4 py-2 backdrop-blur-sm"
             >
-              <span className="mr-2 inline-block h-1 w-1 rounded-full bg-primary align-middle" />
-              {node.label}
-            </span>
-          ))}
-        </div>
-
-        <div className="container relative py-24 md:py-32 lg:py-40">
-          <div className="max-w-3xl">
-            <Reveal className="mb-6 inline-flex items-center gap-3 rounded-full border border-border bg-card/70 px-4 py-2 backdrop-blur-sm">
               <StatusDot />
               <span className="font-mono text-xs text-foreground">Currently Building</span>
-            </Reveal>
+            </motion.div>
 
-            <Reveal delay={60}>
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.05] text-balance text-foreground">
-                I build systems that solve real problems.
-                <TypingCursor />
-              </h1>
-            </Reveal>
+            <h1 className="text-display text-[2.6rem] leading-[1.02] text-balance text-foreground sm:text-5xl md:text-6xl lg:text-[4.25rem]">
+              <RevealWords text="I build systems that solve" delay={0.15} />{" "}
+              <span className="relative inline-block text-primary">
+                <RevealWords text="real problems." delay={0.42} />
+              </span>
+              <TypingCursor />
+            </h1>
 
-            <Reveal delay={120}>
-              <p className="mt-6 max-w-2xl text-base md:text-lg text-muted-foreground leading-relaxed">
-                I'm Andrew, a student developer and AI builder from Dubai. I build software,
-                experiment with AI, compete in STEM and engineering challenges, and turn ideas into
-                working products.
-              </p>
-            </Reveal>
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-7 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
+            >
+              I'm Andrew, a student developer and AI builder from Dubai. I build software,
+              experiment with AI, compete in STEM and engineering challenges, and turn ideas into
+              working products.
+            </motion.p>
 
-            <Reveal delay={180} className="mt-8 flex flex-wrap gap-3">
-              <Button asChild size="lg" className="font-mono transition-transform hover:scale-[1.03]">
-                <Link to="/projects">
-                  Explore My Work
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="font-mono">
-                <Link to="/about">About Me</Link>
-              </Button>
-            </Reveal>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.82, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-9 flex flex-wrap items-center gap-3"
+            >
+              <Magnetic>
+                <Button asChild size="lg" className="font-mono shadow-glow">
+                  <Link to="/projects">
+                    Explore My Work
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </Magnetic>
+              <Magnetic>
+                <Button asChild size="lg" variant="outline" className="font-mono">
+                  <Link to="/about">About Me</Link>
+                </Button>
+              </Magnetic>
+            </motion.div>
 
-            <Reveal delay={220}>
-              <SocialIcons className="mt-6" />
-            </Reveal>
-
-            <Reveal delay={240}>
-              <p className="mt-8 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.95 }}
+            >
+              <SocialIcons className="mt-7" />
+              <p className="mt-9 font-mono text-[11px] uppercase tracking-[0.24em] text-muted-foreground">
                 AI · Software · Robotics · Systems · Product
               </p>
-            </Reveal>
+            </motion.div>
           </div>
+
+          {/* Ecosystem visualisation */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="relative -mx-2 h-[320px] sm:h-[380px] lg:h-[520px]"
+          >
+            <SystemGraph className="h-full w-full" />
+          </motion.div>
         </div>
       </section>
 
       {/* Quick stats */}
       <section className="border-y border-border bg-card/30" aria-label="Quick statistics">
-        <div className="container grid grid-cols-2 gap-8 py-10 md:grid-cols-4">
+        <div className="container grid grid-cols-2 gap-8 py-12 md:grid-cols-4">
           {quickStats.map((stat, i) => (
-            <Reveal key={stat.label} delay={i * 60}>
-              <p className="text-2xl md:text-3xl font-semibold text-foreground">{stat.value}</p>
-              <p className="mt-1 font-mono text-xs text-muted-foreground">{stat.label}</p>
+            <Reveal key={stat.label} delay={i * 70}>
+              <p className="text-display text-3xl text-foreground md:text-4xl">{stat.value}</p>
+              <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+                {stat.label}
+              </p>
             </Reveal>
           ))}
         </div>
