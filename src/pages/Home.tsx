@@ -436,6 +436,26 @@ export default function Home() {
                   <ArrowRight className="cta-arrow ml-2 h-4 w-4" />
                 </Link>
               </Button>
+              <InlinePopDisclosure
+                label="What to reach out about"
+                popTarget="get-in-touch-details"
+                className="mt-6"
+              >
+                <ul className="grid list-none gap-2 p-0 text-sm text-muted-foreground sm:grid-cols-2">
+                  {[
+                    "Technology, AI and systems discussions",
+                    "Project ideas and collaborations",
+                    "Robotics and STEM Racing",
+                    "Feedback on something I've built",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2">
+                      <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </InlinePopDisclosure>
+
             </div>
           </Reveal>
         </div>
