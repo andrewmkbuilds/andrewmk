@@ -98,3 +98,94 @@ export const getAdminStatus = createServerFn({ method: "POST" })
     const claims = context.claims as { email?: string } | undefined;
     return { isAdmin: data === true, email: claims?.email ?? null };
   });
+
+const exportSchema = listSchema;
+
+export const exportContactMessagesCsv = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) => exportSchema.parse(data ?? {}))
+  .handler(async ({ data, context }): Promise<{ filename: string; csv: string; count: number }> => {
+    const supabase = context.supabase as never as {
+      rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>;
+      from: (t: string) => any;
+    };
+    await assertAdmin(supabase, context.userId);
+
+    let query = supabase
+      .from("contact_messages")
+      .select("id,name,email,message,source_path,spam_score,delivery_status,created_at,handled_at,admin_note")
+      .order("created_at", { ascending: false })
+      .limit(1000);
+
+    if (data.status === "open") query = query.is("handled_at", null);
+    if (data.status === "handled") query = query.not("handled_at", "is", null);
+    if (data.search) {
+      const term = data.search.replace(/[%,()]/g, " ").trim();
+      if (term) query = query.or(`name.ilike.%${term}%,email.ilike.%${term}%,message.ilike.%${term}%`);
+    }
+
+    const { data: rows, error } = await query;
+    if (error) throw new Error("Could not export messages.");
+
+    const { recordAudit, toCsv } = await import("./admin-audit.server");
+    const list = (rows ?? []) as ContactMessageRow[];
+
+    const csv = toCsv(
+      ["Received", "Name", "Email", "Message", "Page", "Spam score", "Delivery", "Handled at", "Admin note"],
+      list.map((r) => [
+        r.created_at,
+        r.name,
+        r.email,
+        r.message,
+        r.source_path,
+        r.spam_score,
+        r.delivery_status,
+        r.handled_at,
+        r.admin_note,
+      ]),
+    );
+
+    const claims = context.claims as { email?: string } | undefined;
+    await recordAudit({
+      actorId: context.userId,
+      actorEmail: claims?.email ?? null,
+      action: "export_csv",
+      entity: "contact_message",
+      details: { count: list.length, status: data.status, search: data.search },
+    });
+
+    const stamp = new Date().toISOString().slice(0, 10);
+    return { filename: `contact-messages-${data.status}-${stamp}.csv`, csv, count: list.length };
+  });
+
+export interface AuditLogRow {
+  id: string;
+  actor_email: string | null;
+  action: string;
+  entity: string;
+  entity_id: string | null;
+  details: Record<string, unknown>;
+  created_at: string;
+}
+
+export const listAdminAuditLog = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z.object({ limit: z.number().int().min(1).max(200).optional().default(50) }).parse(data ?? {}),
+  )
+  .handler(async ({ data, context }): Promise<AuditLogRow[]> => {
+    const supabase = context.supabase as never as {
+      rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>;
+      from: (t: string) => any;
+    };
+    await assertAdmin(supabase, context.userId);
+
+    const { data: rows, error } = await supabase
+      .from("admin_audit_log")
+      .select("id,actor_email,action,entity,entity_id,details,created_at")
+      .order("created_at", { ascending: false })
+      .limit(data.limit);
+
+    if (error) throw new Error("Could not load the audit log.");
+    return (rows ?? []) as AuditLogRow[];
+  });
