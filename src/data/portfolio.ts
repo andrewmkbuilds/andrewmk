@@ -13,6 +13,8 @@ export interface Project {
   filters: string[];
   featured?: boolean;
   previously?: string;
+  /** Build platform, only when factually known. Drives the "Built with" badge. */
+  platform?: "base44" | "lovable";
 }
 
 export const featuredProjects: Project[] = [
@@ -31,10 +33,11 @@ export const featuredProjects: Project[] = [
       "Interview analytics",
       "Career development tools",
     ],
-    tech: ["AI", "React", "Base44"],
+    tech: ["AI", "React"],
     status: "Building",
-    filters: ["AI", "React", "Base44"],
+    filters: ["AI", "React", "Lovable"],
     featured: true,
+    platform: "lovable",
   },
   {
     slug: "stack-up",
@@ -50,11 +53,12 @@ export const featuredProjects: Project[] = [
       "Streaks",
       "Financial analytics",
     ],
-    tech: ["Base44", "React"],
+    tech: ["React"],
     status: "Live",
     live: "https://stackup-app.base44.app/",
     filters: ["Base44", "React"],
     featured: true,
+    platform: "base44",
   },
   {
     slug: "terracart",
@@ -69,9 +73,9 @@ export const featuredProjects: Project[] = [
       "Shopping checklist",
       "Browser extension experience",
     ],
-    tech: ["AI", "Base44"],
+    tech: ["AI", "Browser Extension"],
     status: "Developing",
-    filters: ["AI", "Base44"],
+    filters: ["AI"],
     featured: true,
   },
   {
