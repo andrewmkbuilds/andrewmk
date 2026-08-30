@@ -8,6 +8,7 @@ import { FindMeOnline } from "@/components/ui/FindMeOnline";
 import { Reveal, RevealWords } from "@/components/ui/Reveal";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { SystemGraph } from "@/components/ui/SystemGraph";
+import { Tilt3D } from "@/components/ui/Tilt3D";
 import { TechConstellation } from "@/components/ui/TechConstellation";
 import { motion } from "motion/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
