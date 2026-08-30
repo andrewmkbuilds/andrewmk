@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
+import { CustomCursor } from "@/components/ui/CustomCursor";
+import { PageTransition } from "@/components/ui/PageTransition";
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,12 +17,12 @@ export function Layout({ children }: LayoutProps) {
       >
         Skip to content
       </a>
+      <CustomCursor />
       <Header />
       <main id="main" className="flex-1 pt-16">
-        {children}
+        <PageTransition>{children}</PageTransition>
       </main>
       <Footer />
     </div>
-
   );
 }

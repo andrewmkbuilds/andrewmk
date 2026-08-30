@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "@/lib/router-compat";
 import { Menu } from "lucide-react";
+import { motion, useScroll, useSpring } from "motion/react";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,9 @@ export function Header() {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30, mass: 0.3 });
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -44,20 +48,31 @@ export function Header() {
           <span className="text-primary">/</span>Andrew
         </Link>
 
-        <nav aria-label="Main" className="hidden lg:flex items-center gap-7">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              to={item.href}
-              aria-current={location.pathname === item.href ? "page" : undefined}
-              className={cn(
-                "font-mono text-[13px] transition-colors hover:text-primary link-underline",
-                location.pathname === item.href ? "text-primary" : "text-muted-foreground",
-              )}
-            >
-              {item.label}
-            </Link>
-          ))}
+        <nav aria-label="Main" className="hidden lg:flex items-center gap-1">
+          {navItems.map((item) => {
+            const active = location.pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                to={item.href}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "relative rounded-full px-3.5 py-2 font-mono text-[13px] transition-colors hover:text-primary",
+                  active ? "text-primary" : "text-muted-foreground",
+                )}
+              >
+                {active && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    className="absolute inset-0 -z-10 rounded-full border border-primary/25 bg-primary/10"
+                    aria-hidden="true"
+                  />
+                )}
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="hidden lg:flex items-center gap-4">
@@ -105,6 +120,11 @@ export function Header() {
           </SheetContent>
         </Sheet>
       </div>
+      <motion.div
+        aria-hidden="true"
+        style={{ scaleX: progress }}
+        className="absolute inset-x-0 bottom-0 h-px origin-left bg-linear-to-r from-primary via-primary-glow to-primary/30"
+      />
     </header>
   );
 }
