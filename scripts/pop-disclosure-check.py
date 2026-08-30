@@ -271,14 +271,15 @@ async def touch_toggle(pw, name):
     trig = page.locator('[data-pop-target="build-area"] button[aria-expanded]').first
     await trig.evaluate("n => n.scrollIntoView({ block: 'center' })")
     await page.wait_for_timeout(500)
-    scroll_before = await page.evaluate("() => window.scrollY")
+    rect_before = await trig.evaluate("n => n.getBoundingClientRect().top")
     await trig.tap()
     await page.wait_for_timeout(450)
     check(await trig.get_attribute("aria-expanded") == "true", f"{tag} tap opens the panel")
-    scroll_after = await page.evaluate("() => window.scrollY")
+    rect_after = await trig.evaluate("n => n.getBoundingClientRect().top")
     check(
-        abs(scroll_after - scroll_before) <= 12,
-        f"{tag} tap does not scroll the page ({scroll_before} -> {scroll_after})",
+        abs(rect_after - rect_before) <= 12,
+        f"{tag} tap keeps the card in place, no scroll jump"
+        f" ({rect_before:.0f} -> {rect_after:.0f})",
     )
 
     await trig.tap()
