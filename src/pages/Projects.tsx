@@ -1,4 +1,3 @@
-import { Seo } from "@/components/Seo";
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -19,7 +18,6 @@ export default function Projects() {
 
   return (
     <Layout>
-      <Seo path="/projects" />
       <section className="py-20 md:py-28">
         <div className="container">
           <Reveal className="max-w-3xl">

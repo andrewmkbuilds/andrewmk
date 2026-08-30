@@ -1,5 +1,4 @@
-import { Seo } from "@/components/Seo";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/Reveal";
@@ -15,7 +14,6 @@ const websites: { name: string; url: string; summary: string }[] = [];
 export default function Websites() {
   return (
     <Layout>
-      <Seo path="/websites" />
       <section className="py-20 md:py-28">
         <div className="container">
           <Reveal className="max-w-3xl">

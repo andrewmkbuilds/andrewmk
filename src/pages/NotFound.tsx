@@ -1,5 +1,4 @@
-import { Seo } from "@/components/Seo";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "@/lib/router-compat";
 import { useEffect } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -13,7 +12,6 @@ const NotFound = () => {
 
   return (
     <Layout>
-      <Seo path="/404" />
       <section className="flex min-h-[70vh] items-center py-20">
         <div className="container">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">404</p>

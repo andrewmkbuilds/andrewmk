@@ -1,4 +1,3 @@
-import { Seo } from "@/components/Seo";
 import { Layout } from "@/components/layout/Layout";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
@@ -9,7 +8,6 @@ import { socialIconMap } from "@/components/ui/SocialIcons";
 export default function About() {
   return (
     <Layout>
-      <Seo path="/about" />
       <section className="py-20 md:py-28">
         <div className="container">
           <div className="grid gap-12 lg:grid-cols-3">

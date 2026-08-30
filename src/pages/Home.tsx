@@ -1,6 +1,5 @@
-import { Seo } from "@/components/Seo";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { SocialIcons } from "@/components/ui/SocialIcons";
@@ -52,7 +51,6 @@ export default function Home() {
 
   return (
     <Layout>
-      <Seo path="/" />
       {/* Hero */}
       <section className="relative overflow-hidden bg-hero-veil">
         <div className="absolute inset-0 bg-grid" aria-hidden="true" />
