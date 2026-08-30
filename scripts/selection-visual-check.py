@@ -37,7 +37,7 @@ CASES = [
     ("contact-input", "/contact", "input[type='text'], input[name='name']", "field"),
     ("contact-textarea", "/contact", "textarea", "field"),
     ("about-body", "/about", "main p", "text"),
-    ("achievements", "/journey", "h2", "text"),
+    ("achievements", "/achievements", "main h2, main h3, main p", "text"),
 ]
 
 VIEWPORTS = [
@@ -111,8 +111,20 @@ async def run_case(page, engine, vp_name, name, route, selector, kind, failures)
             print(f"  {engine}/{vp_name}/{name}: skipped (no openable card)")
             return
 
-    el = page.locator(selector).first
-    if await el.count() == 0:
+    # Pick the first visible candidate that actually carries selectable text.
+    all_el = page.locator(selector)
+    el = None
+    for i in range(min(await all_el.count(), 12)):
+        cand = all_el.nth(i)
+        try:
+            box = await cand.bounding_box()
+            txt = (await cand.inner_text()).strip()
+        except Exception:
+            continue
+        if box and box["width"] > 40 and box["height"] > 8 and len(txt) > 8:
+            el = cand
+            break
+    if el is None:
         print(f"  {engine}/{vp_name}/{name}: skipped (selector not present)")
         return
 
