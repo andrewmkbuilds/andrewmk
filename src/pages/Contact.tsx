@@ -166,27 +166,50 @@ export default function Contact() {
                   )}
                 </div>
 
-                <Button type="submit" size="lg" className="font-mono">
-                  Check message
+                {/* Honeypot — hidden from users, catches bots. */}
+                <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+                  <label htmlFor="contact-company">Company</label>
+                  <input
+                    id="contact-company"
+                    name="company"
+                    type="text"
+                    ref={honeypot}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="font-mono"
+                  disabled={status.kind === "sending"}
+                >
+                  {status.kind === "sending" ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                      Sending…
+                    </>
+                  ) : (
+                    "Send message"
+                  )}
                 </Button>
 
-                <div
-                  aria-live="polite"
-                  className="rounded-xl border border-border bg-card p-4 text-sm"
-                >
-                  <p className="flex items-start gap-2 text-muted-foreground">
-                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                    <span>
-                      No email service is connected yet, so this form does not send messages. Use
-                      GitHub below to reach me in the meantime.
-                      {validated && (
-                        <span className="mt-2 block text-foreground">
-                          Your message is valid and ready to send once delivery is connected.
-                        </span>
-                      )}
-                    </span>
-                  </p>
+                <div aria-live="polite" role="status" className="text-sm">
+                  {status.kind === "sent" && (
+                    <p className="flex items-start gap-2 rounded-xl border border-primary/40 bg-primary/5 p-4 text-foreground">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                      <span>{status.message}</span>
+                    </p>
+                  )}
+                  {status.kind === "error" && (
+                    <p className="flex items-start gap-2 rounded-xl border border-destructive/40 bg-destructive/5 p-4 text-foreground">
+                      <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" aria-hidden="true" />
+                      <span>{status.message}</span>
+                    </p>
+                  )}
                 </div>
+
               </form>
             </Reveal>
 
