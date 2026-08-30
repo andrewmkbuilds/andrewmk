@@ -107,8 +107,12 @@ async def run_page(browser_name, browser, path_name, path, reduced=False, touch=
         await context.close()
         return
 
+    fine_pointer = await page.evaluate(
+        "() => matchMedia('(hover: hover)').matches && matchMedia('(pointer: fine)').matches"
+    )
+
     hovered = None
-    for attempt in range(4):
+    for attempt in range(6):
         box = await cta.bounding_box()
         assert box
         cx, cy = box["x"] + box["width"] / 2, box["y"] + box["height"] / 2
@@ -120,11 +124,17 @@ async def run_page(browser_name, browser, path_name, path, reduced=False, touch=
             hovered = await settled(cta)
             break
         await page.mouse.move(0, 0)
-        await page.wait_for_timeout(150)
+        await page.wait_for_timeout(250)
     check("hover: :hover state registered", hovered is not None)
     if hovered is None:
         await context.close()
         return
+
+    if not fine_pointer:
+        # Engine reports a non-hover pointer (headless Firefox, touch devices):
+        # the guarded 3D/glow effect must stay off.
+        check("coarse pointer: 3D lift correctly suppressed",
+              not has_transform(hovered["transform"]), hovered["transform"])
     await page.screenshot(path=str(SHOTS / f"{label.replace('/', '_')}_hover.png"))
 
     if reduced:
@@ -134,7 +144,7 @@ async def run_page(browser_name, browser, path_name, path, reduced=False, touch=
         check("reduced motion: transitions effectively disabled", longest <= 0.01,
               hovered["transition"])
         check("reduced motion: static emphasis still present", glow(hovered["boxShadow"]))
-    else:
+    elif fine_pointer:
         check("hover: lift/scale applied", has_transform(hovered["transform"]), hovered["transform"])
         check("hover: emerald glow applied", glow(hovered["boxShadow"]))
         check("hover: no size change (no layout shift)",
@@ -156,7 +166,7 @@ async def run_page(browser_name, browser, path_name, path, reduced=False, touch=
     await page.screenshot(path=str(SHOTS / f"{label.replace('/', '_')}_focus.png"))
 
     check("keyboard: CTA reachable and :focus-visible", bool(is_focus_visible))
-    if is_focus_visible and not reduced:
+    if is_focus_visible and not reduced and fine_pointer:
         check("focus-visible matches hover transform", focused["transform"] == hovered["transform"],
               f"{focused['transform']} vs {hovered['transform']}")
         check("focus-visible matches hover glow", focused["boxShadow"] == hovered["boxShadow"])
