@@ -35,6 +35,7 @@ export default function Journey() {
           </Reveal>
 
           <div className="mt-16">
+            <h2 className="sr-only">Timeline of milestones</h2>
             <Timeline />
           </div>
         </div>
