@@ -292,21 +292,17 @@ export default function Home() {
           <ul className="grid list-none gap-5 p-0 md:grid-cols-3">
             {principles.map((p, i) => (
               <Reveal as="li" key={p.title} delay={i * 70} className="h-full">
-                <div
-                  tabIndex={0}
-                  role="group"
-                  aria-label={`Principle: ${p.title}`}
-                  data-pop-target="principle"
-                  className="group pop-card h-full rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40"
+                <PopDisclosure
+                  title={p.title}
+                  kind="principle, show details"
+                  popTarget="principle"
+                  media={<span className="font-mono text-xs text-primary">0{i + 1}</span>}
                 >
-                  <span className="font-mono text-xs text-primary">0{i + 1}</span>
-                  <h3 className="mt-3 text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
-                    {p.title}
-                  </h3>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{p.body}</p>
-                </div>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{p.body}</p>
+                </PopDisclosure>
               </Reveal>
             ))}
+
           </ul>
 
         </div>
