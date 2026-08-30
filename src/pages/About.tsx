@@ -113,7 +113,7 @@ export default function About() {
                   </ul>
                 </div>
               </Reveal>
-            </aside>
+            </div>
           </div>
         </div>
       </section>
