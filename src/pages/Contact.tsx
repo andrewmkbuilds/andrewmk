@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Github, Mail, AlertTriangle } from "lucide-react";
-import { GITHUB_URL, socialLinks } from "@/data/portfolio";
+import { Github, Mail, AlertTriangle, Share2 } from "lucide-react";
+import { GITHUB_URL, LINKTREE_URL, socialLinks } from "@/data/portfolio";
 import { getSocialIcon } from "@/components/ui/SocialIcons";
 
 interface Errors {
@@ -165,6 +165,32 @@ export default function Contact() {
                     </span>
                     <span className="block font-mono text-xs text-muted-foreground">
                       @andrewmkbuilds
+                    </span>
+                  </span>
+                </a>
+
+                <a
+                  href={LINKTREE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="All My Links — Linktree (linktr.ee/andrewmkbuilds)"
+                  className="flex items-center gap-4 rounded-xl border border-primary/40 bg-primary/5 p-5 shadow-card transition-colors hover:border-primary focus-ring"
+                >
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
+                    <Share2 className="h-5 w-5" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-semibold text-foreground">
+                      All My Links{" "}
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-primary">
+                        · Main hub
+                      </span>
+                    </span>
+                    <span className="block font-mono text-xs text-muted-foreground">
+                      linktr.ee/andrewmkbuilds
+                    </span>
+                    <span className="mt-1 block text-xs text-muted-foreground">
+                      The central place to find every profile, project, and link.
                     </span>
                   </span>
                 </a>
