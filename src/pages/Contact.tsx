@@ -156,7 +156,7 @@ export default function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub profile (@andrewmkbuilds)"
-                  className="flex items-center gap-4 rounded-xl border border-primary/40 bg-card p-5 shadow-card transition-colors hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="flex items-center gap-4 rounded-xl border border-primary/40 bg-card p-5 shadow-card transition-colors hover:border-primary focus-ring"
                 >
                   <Github className="h-5 w-5 text-primary" />
                   <span>
@@ -181,7 +181,7 @@ export default function Contact() {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`${link.label} profile (${link.handle})`}
-                          className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                          className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-primary/40 focus-ring"
                         >
                           <Icon className="h-4 w-4 text-primary" />
                           <span>

@@ -141,6 +141,11 @@
 }
 
 @layer utilities {
+  /* Consistent, predictable keyboard focus treatment across all interactive surfaces. */
+  .focus-ring {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
   @keyframes blink {
     0%, 50% { opacity: 1; }
     51%, 100% { opacity: 0; }

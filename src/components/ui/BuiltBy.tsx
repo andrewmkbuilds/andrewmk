@@ -54,6 +54,17 @@ function getEntries(project: Project): Entry[] {
   return entries;
 }
 
+/** Platform options derived from the "Built by Andrew" attribution. */
+export const platformFilters = ["All", "GitHub", "Lovable", "Base44"];
+
+/** Platforms a project is actually attributed to, matching the BuiltBy links. */
+export function getProjectPlatforms(project: Project): string[] {
+  const labels: Record<string, string> = { github: "GitHub", lovable: "Lovable", base44: "Base44" };
+  return getEntries(project)
+    .map((entry) => labels[entry.key])
+    .filter(Boolean);
+}
+
 /** Small "Built by Andrew" attribution row with only the links relevant to a project. */
 export function BuiltBy({ project, className, showLabel = false }: BuiltByProps) {
   const entries = getEntries(project);
@@ -78,7 +89,7 @@ export function BuiltBy({ project, className, showLabel = false }: BuiltByProps)
                   rel="noopener noreferrer"
                   aria-label={`${entry.label} (opens in a new tab)`}
                   onClick={(e) => e.stopPropagation()}
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/60 text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/60 text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary focus-ring"
                 >
                   <Icon className="h-3.5 w-3.5" />
                 </a>

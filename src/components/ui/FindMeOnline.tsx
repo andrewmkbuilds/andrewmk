@@ -45,7 +45,7 @@ export function FindMeOnline() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${primary.cta} — ${primary.handle} (opens in a new tab)`}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 font-mono text-xs text-primary-foreground transition-all hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 font-mono text-xs text-primary-foreground transition-all hover:brightness-110 focus-ring"
                 >
                   {primary.cta} <ArrowUpRight className="h-3.5 w-3.5" />
                 </a>
@@ -67,7 +67,7 @@ export function FindMeOnline() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${link.cta} — ${link.handle} (opens in a new tab)`}
-                    className="group flex h-full items-start gap-4 rounded-xl border border-border bg-card p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-glow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:hover:translate-y-0"
+                    className="group flex h-full items-start gap-4 rounded-xl border border-border bg-card p-5 shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-glow focus-ring motion-reduce:hover:translate-y-0"
                   >
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background/60 text-muted-foreground transition-colors group-hover:border-primary/40 group-hover:text-primary">
                       <Icon className="h-4 w-4" />
