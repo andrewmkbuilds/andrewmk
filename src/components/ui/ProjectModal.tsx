@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { TechTag } from "./TechTag";
-import { BuiltBy } from "./BuiltBy";
+import { BuiltBy, PlatformBadge } from "./BuiltBy";
 import type { Project } from "@/data/portfolio";
 
 interface ProjectModalProps {
@@ -67,7 +67,8 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                 <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-primary mb-3">
                   Technology
                 </h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <PlatformBadge project={project} />
                   {project.tech.map((tech) => (
                     <TechTag key={tech}>{tech}</TechTag>
                   ))}

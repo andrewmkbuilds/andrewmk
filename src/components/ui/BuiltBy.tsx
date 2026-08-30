@@ -37,21 +37,51 @@ function getEntries(project: Project): Entry[] {
       icon: ExternalLink,
     });
   }
-  // Platform profiles only when the project was actually built on that platform.
-  for (const id of ["lovable", "base44"] as const) {
-    const social = socialLinks.find((s) => s.id === id);
-    const builtOn = project.tech.some((t) => t.toLowerCase() === id);
-    if (social && builtOn) {
+  // Platform profile only when the project was actually built on that platform.
+  if (project.platform) {
+    const social = socialLinks.find((s) => s.id === project.platform);
+    if (social) {
       entries.push({
-        key: id,
+        key: social.id,
         href: social.url,
-        label: `Built on ${social.label} — ${social.handle}`,
-        icon: socialIconMap[id],
+        label: `Built with ${social.label} — ${social.handle}`,
+        icon: socialIconMap[social.id],
       });
     }
   }
 
   return entries;
+}
+
+/** Subtle "Built with Base44/Lovable" badge linking to Andrew's profile on that platform. */
+export function PlatformBadge({
+  project,
+  className,
+}: {
+  project: Project;
+  className?: string;
+}) {
+  if (!project.platform) return null;
+  const social = socialLinks.find((s) => s.id === project.platform);
+  if (!social) return null;
+  const Icon = socialIconMap[social.id];
+
+  return (
+    <a
+      href={social.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${project.name} — built with ${social.label}, view Andrew's ${social.label} profile (opens in a new tab)`}
+      onClick={(e) => e.stopPropagation()}
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 font-mono text-[11px] text-primary transition-colors hover:border-primary/60 hover:bg-primary/15 focus-ring",
+        className,
+      )}
+    >
+      <Icon className="h-3 w-3" />
+      Built with {social.label}
+    </a>
+  );
 }
 
 /** Platform options derived from the "Built by Andrew" attribution. */
