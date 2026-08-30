@@ -134,8 +134,24 @@ export default function Home() {
             transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="relative -mx-2 h-[320px] sm:h-[380px] lg:h-[520px]"
           >
-            <SystemGraph className="h-full w-full" />
+            <Tilt3D className="h-full w-full" intensity={7}>
+              {/* layered depth plates behind the graph */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-6 rounded-3xl border border-border/50 bg-card/20 backdrop-blur-[1px]"
+                style={{ transform: "translateZ(-60px)" }}
+              />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-12 rounded-3xl border border-primary/15"
+                style={{ transform: "translateZ(-28px)" }}
+              />
+              <div style={{ transform: "translateZ(40px)" }} className="h-full w-full">
+                <SystemGraph className="h-full w-full" />
+              </div>
+            </Tilt3D>
           </motion.div>
+
         </div>
       </section>
 
