@@ -1,14 +1,18 @@
 import { useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { CheckCircle2, Loader2, RotateCcw, Search } from "lucide-react";
+import { CheckCircle2, Download, History, Loader2, RotateCcw, Search } from "lucide-react";
 
 import {
+  exportContactMessagesCsv,
   getAdminStatus,
+  listAdminAuditLog,
   listContactMessages,
   setContactMessageHandled,
+  type AuditLogRow,
   type ContactMessageRow,
 } from "@/lib/admin-contact.functions";
+import { MfaPanel } from "@/components/admin/MfaPanel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,6 +29,8 @@ export default function AdminMessages() {
   const fetchStatus = useServerFn(getAdminStatus);
   const fetchMessages = useServerFn(listContactMessages);
   const markHandled = useServerFn(setContactMessageHandled);
+  const exportCsv = useServerFn(exportContactMessagesCsv);
+  const fetchAudit = useServerFn(listAdminAuditLog);
   const queryClient = useQueryClient();
 
   const [search, setSearch] = useState("");
@@ -41,8 +47,42 @@ export default function AdminMessages() {
 
   const mutation = useMutation({
     mutationFn: (vars: { id: string; handled: boolean }) => markHandled({ data: vars }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["contact-messages"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["contact-messages"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-audit-log"] });
+    },
   });
+
+  const audit = useQuery<AuditLogRow[]>({
+    queryKey: ["admin-audit-log"],
+    enabled: admin.data?.isAdmin === true,
+    queryFn: () => fetchAudit({ data: { limit: 50 } }),
+  });
+
+  const [exporting, setExporting] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
+
+  async function downloadCsv() {
+    setExporting(true);
+    setExportError(null);
+    try {
+      const result = await exportCsv({ data: { search: submittedSearch, status, limit: 200 } });
+      const blob = new Blob([`\uFEFF${result.csv}`], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = result.filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      queryClient.invalidateQueries({ queryKey: ["admin-audit-log"] });
+    } catch {
+      setExportError("Could not export right now. Try again.");
+    } finally {
+      setExporting(false);
+    }
+  }
 
   const rows = useMemo<ContactMessageRow[]>(() => messages.data ?? [], [messages.data]);
 
@@ -110,7 +150,27 @@ export default function AdminMessages() {
             {f.label}
           </Button>
         ))}
+
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          className="ml-auto font-mono focus-ring"
+          onClick={downloadCsv}
+          disabled={exporting}
+        >
+          {exporting ? (
+            <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+          ) : (
+            <Download className="h-4 w-4" aria-hidden="true" />
+          )}
+          Export CSV
+        </Button>
       </div>
+
+      <p aria-live="polite" className="mt-2 text-xs text-muted-foreground">
+        {exportError ?? "CSV exports respect the current search and status filter."}
+      </p>
 
       <section aria-live="polite" className="mt-8 space-y-4">
         {messages.isLoading ? (
@@ -175,6 +235,45 @@ export default function AdminMessages() {
           ))
         )}
       </section>
+
+      <section aria-labelledby="audit-heading" className="mt-14">
+        <div className="flex items-center gap-2">
+          <History className="h-5 w-5 text-primary" aria-hidden="true" />
+          <h2 id="audit-heading" className="font-display text-lg font-semibold text-foreground">
+            Admin activity log
+          </h2>
+        </div>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Every admin change is recorded with a timestamp and the admin identity.
+        </p>
+
+        <ul className="mt-4 space-y-2">
+          {audit.isLoading ? (
+            <li className="text-sm text-muted-foreground">Loading activity…</li>
+          ) : (audit.data ?? []).length === 0 ? (
+            <li className="text-sm text-muted-foreground">No admin activity recorded yet.</li>
+          ) : (
+            (audit.data ?? []).map((entry) => (
+              <li
+                key={entry.id}
+                className="flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-xl border border-border bg-card px-4 py-3 text-sm"
+              >
+                <span className="font-mono text-xs text-primary">{entry.action}</span>
+                <span className="text-foreground">{entry.actor_email ?? "unknown admin"}</span>
+                <span className="text-muted-foreground">{entry.entity}</span>
+                <time
+                  dateTime={entry.created_at}
+                  className="ml-auto font-mono text-xs text-muted-foreground"
+                >
+                  {new Date(entry.created_at).toLocaleString()}
+                </time>
+              </li>
+            ))
+          )}
+        </ul>
+      </section>
+
+      <MfaPanel />
     </main>
   );
 }

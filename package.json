@@ -10,14 +10,15 @@
     "seo:regression": "bunx tsx scripts/seo-regression.ts",
     "a11y:check": "bunx tsx scripts/a11y-check.ts",
     "selection:check": "python3 scripts/selection-visual-check.py",
-    "ci:verify": "bun run seo:regression && bun run a11y:check && bun run selection:check",
+    "ci:verify": "bun run seo:regression && bun run a11y:check && bun run selection:check && bun run cta:check",
     "validate:data": "bunx tsx scripts/validate-portfolio-data.ts",
     "prebuild": "bunx tsx scripts/validate-portfolio-data.ts && bunx tsx scripts/generate-sitemap.ts && bunx tsx scripts/generate-og-images.ts",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "cta:check": "python3 scripts/cta-visual-check.py"
   },
   "overrides": {
     "rolldown": "1.2.1"

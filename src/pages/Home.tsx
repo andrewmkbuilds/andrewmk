@@ -300,7 +300,7 @@ export default function Home() {
 
                     {service.cta ? (
                       <div className="section-pop mt-auto pt-5">
-                        <Button asChild className="w-full font-mono focus-ring">
+                        <Button asChild className="w-full font-mono focus-ring cta-pop">
                           <a
                             href={service.cta.href}
                             target="_blank"
@@ -314,7 +314,7 @@ export default function Home() {
                             }
                           >
                             {service.cta.label}
-                            <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                            <ArrowRight className="ml-2 h-4 w-4 cta-arrow" aria-hidden="true" />
                           </a>
                         </Button>
                         {service.microcopy ? (
