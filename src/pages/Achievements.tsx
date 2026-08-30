@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { AchievementCard } from "@/components/ui/AchievementCard";
 import { TechTag } from "@/components/ui/TechTag";
+import { CertificateGallery } from "@/components/ui/CertificateGallery";
+import { CertificateViewer } from "@/components/ui/CertificateViewer";
+import { certificates, type Certificate } from "@/data/certificates";
 import {
   achievementGroups,
   competitionResults,
@@ -12,7 +16,12 @@ import {
 
 const exhibitionLoop = ["Build", "Demonstrate", "Explain", "Iterate"];
 
+const certById = (id?: string): Certificate | undefined =>
+  id ? certificates.find((c) => c.id === id) : undefined;
+
 export default function Achievements() {
+  const [proof, setProof] = useState<Certificate | null>(null);
+
   return (
     <Layout>
       <section className="py-20 md:py-28">
@@ -49,7 +58,13 @@ export default function Achievements() {
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {competitionResults.map((result, i) => (
               <Reveal key={`${result.place}-${result.detail}`} delay={i * 60} className="h-full">
-                <AchievementCard {...result} className="h-full" />
+                <AchievementCard
+                  {...result}
+                  className="h-full"
+                  onViewProof={
+                    certById(result.certKey) ? () => setProof(certById(result.certKey)!) : undefined
+                  }
+                />
               </Reveal>
             ))}
           </div>
@@ -66,6 +81,15 @@ export default function Achievements() {
                   <h3 className="text-lg font-semibold text-foreground">{mun.title}</h3>
                   {mun.detail && (
                     <p className="mt-2 font-mono text-sm text-primary">{mun.detail}</p>
+                  )}
+                  {certById(mun.certKey) && (
+                    <button
+                      type="button"
+                      onClick={() => setProof(certById(mun.certKey)!)}
+                      className="focus-ring mt-4 inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-mono text-xs text-foreground transition-colors hover:border-primary/50 hover:text-primary"
+                    >
+                      View Certificate <span aria-hidden="true">&rarr;</span>
+                    </button>
                   )}
                 </div>
               </Reveal>
@@ -108,6 +132,10 @@ export default function Achievements() {
           </div>
         </div>
       </section>
+
+      <CertificateGallery />
+
+      <CertificateViewer certificate={proof} onClose={() => setProof(null)} />
     </Layout>
   );
 }

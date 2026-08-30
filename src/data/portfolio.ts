@@ -448,17 +448,31 @@ export const achievementGroups = [
   },
 ];
 
-export const competitionResults = [
-  { place: "1st Place", detail: "Data Science", event: "Techfest" },
-  { place: "2nd Place", detail: "IoT", event: "Techfest" },
-  { place: "2nd Place", detail: "Space Tech", event: "Group Techfest" },
-  { place: "Innovation Award", detail: "FLL UAE", event: "Dubai Regional" },
-  { place: "2nd Place", detail: "Math Expo", event: '"Math & Me"' },
-  { place: "3rd Place", detail: "Shot Put", event: "Annual Athletic Meet" },
+/** `certKey` links a result to a real certificate in src/data/certificates.ts. */
+export interface CompetitionResult {
+  place: string;
+  detail?: string;
+  event?: string;
+  certKey?: string;
+}
+
+export interface MunResult {
+  title: string;
+  detail?: string;
+  certKey?: string;
+}
+
+export const competitionResults: CompetitionResult[] = [
+  { place: "1st Place", detail: "Data Science", event: "Techfest", certKey: "techfest-data-science-1st" },
+  { place: "2nd Place", detail: "IoT", event: "Techfest", certKey: "techfest-iot-2nd" },
+  { place: "2nd Place", detail: "Space Tech", event: "Group Techfest", certKey: "techfest-space-tech-2nd" },
+  { place: "Innovation Award", detail: "FLL UAE", event: "Dubai Regional", certKey: "fll-innovation" },
+  { place: "2nd Place", detail: "Math Expo", event: '"Math & Me"', certKey: "math-expo" },
+  { place: "3rd Place", detail: "Shot Put", event: "Annual Athletic Meet", certKey: "shot-put" },
 ];
 
-export const munResults = [
-  { title: "IHSMUN 2025", detail: "FIA · Verbal Commendation" },
+export const munResults: MunResult[] = [
+  { title: "IHSMUN 2025", detail: "FIA · Verbal Commendation", certKey: "mun-ihsmun-2025" },
   { title: "Novara MUN 2026", detail: "UNSC · Verbal Commendation" },
   { title: "IHS UNSummit 2026", detail: "FIA · Verbal Commendation + Best Resolution" },
 ];
