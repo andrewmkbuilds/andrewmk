@@ -37,16 +37,15 @@ function getEntries(project: Project): Entry[] {
       icon: ExternalLink,
     });
   }
-  // Platform profiles only when the project was actually built on that platform.
-  for (const id of ["lovable", "base44"] as const) {
-    const social = socialLinks.find((s) => s.id === id);
-    const builtOn = project.tech.some((t) => t.toLowerCase() === id);
-    if (social && builtOn) {
+  // Platform profile only when the project was actually built on that platform.
+  if (project.platform) {
+    const social = socialLinks.find((s) => s.id === project.platform);
+    if (social) {
       entries.push({
-        key: id,
+        key: social.id,
         href: social.url,
-        label: `Built on ${social.label} — ${social.handle}`,
-        icon: socialIconMap[id],
+        label: `Built with ${social.label} — ${social.handle}`,
+        icon: socialIconMap[social.id],
       });
     }
   }
