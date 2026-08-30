@@ -47,7 +47,7 @@ export default function About() {
               </div>
             </div>
 
-            <aside className="space-y-8">
+            <div className="space-y-8">
               <Reveal delay={80}>
                 <div className="rounded-xl border border-border bg-card p-6 shadow-card">
                   <h2 className="font-mono text-xs uppercase tracking-[0.16em] text-primary">
