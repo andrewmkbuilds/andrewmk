@@ -37,7 +37,7 @@ export function Reveal({
       ref={ref as never}
       className={cn(className)}
       initial={reduce ? false : { opacity: 0, y, scale: scale ? 0.985 : 1 }}
-      animate={reduce || inView ? { opacity: 1, y: 0, scale: 1 } : undefined}
+      animate={reduce || inView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y, scale: scale ? 0.985 : 1 }}
       transition={{ duration: 0.65, delay: delay / 1000, ease: EASE }}
     >
       {children}
@@ -66,7 +66,7 @@ export function RevealGroup({
       ref={ref}
       className={cn(className)}
       initial={reduce ? false : "hidden"}
-      animate={reduce ? false : inView ? "show" : "hidden"}
+      animate={reduce ? "show" : inView ? "show" : "hidden"}
       variants={{
         hidden: {},
         show: { transition: { staggerChildren: stagger, delayChildren: delay } },
