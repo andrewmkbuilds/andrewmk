@@ -260,9 +260,34 @@ export function SystemGraph({ className }: { className?: string }) {
 }
 
 /** Accepts hsl()/oklch() CSS colour strings and applies an alpha channel. */
+/** Applies an alpha channel to any CSS colour string. */
 function withAlpha(color: string, alpha: number) {
   const a = Math.max(0, Math.min(1, alpha));
-  if (color.startsWith("hsl(")) return color.replace("hsl(", "hsla(").replace(")", ` / ${a})`);
-  if (color.startsWith("oklch(")) return color.replace(")", ` / ${a})`);
-  return color;
+  const [r, g, b] = toRgb(color);
+  return `rgba(${r}, ${g}, ${b}, ${a})`;
+}
+
+const rgbCache = new Map<string, [number, number, number]>();
+
+/** Resolves any CSS colour string (hex, hsl, oklch, ...) to rgb triplets. */
+function toRgb(color: string): [number, number, number] {
+  const cached = rgbCache.get(color);
+  if (cached) return cached;
+  let out: [number, number, number] = [48, 181, 128];
+  try {
+    const c = document.createElement("canvas");
+    c.width = 1;
+    c.height = 1;
+    const ctx = c.getContext("2d", { willReadFrequently: true });
+    if (ctx) {
+      ctx.fillStyle = color;
+      ctx.fillRect(0, 0, 1, 1);
+      const d = ctx.getImageData(0, 0, 1, 1).data;
+      out = [d[0] ?? 0, d[1] ?? 0, d[2] ?? 0];
+    }
+  } catch {
+    /* keep fallback */
+  }
+  rgbCache.set(color, out);
+  return out;
 }
