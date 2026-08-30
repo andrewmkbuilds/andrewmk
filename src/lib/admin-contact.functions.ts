@@ -75,6 +75,12 @@ export const setContactMessageHandled = createServerFn({ method: "POST" })
     };
     await assertAdmin(supabase, context.userId);
 
+    const { data: before } = await supabase
+      .from("contact_messages")
+      .select("id,name,email,handled_at,admin_note")
+      .eq("id", data.id)
+      .maybeSingle();
+
     const { error } = await supabase
       .from("contact_messages")
       .update({
@@ -85,6 +91,37 @@ export const setContactMessageHandled = createServerFn({ method: "POST" })
       .eq("id", data.id);
 
     if (error) throw new Error("Could not update the message.");
+
+    const claims = context.claims as { email?: string } | undefined;
+    const actorEmail = claims?.email ?? null;
+    const prev = (before ?? {}) as { name?: string; email?: string; handled_at?: string | null; admin_note?: string | null };
+
+    const { recordAudit, notifyAdmin } = await import("./admin-audit.server");
+
+    await recordAudit({
+      actorId: context.userId,
+      actorEmail,
+      action: data.handled ? "mark_handled" : "reopen",
+      entity: "contact_message",
+      entityId: data.id,
+      details: {
+        from: { handled: Boolean(prev.handled_at), note: prev.admin_note ?? null },
+        to: { handled: data.handled, note: data.note || null },
+        subject_email: prev.email ?? null,
+      },
+    });
+
+    await notifyAdmin(
+      data.handled ? "Contact message marked handled" : "Contact message reopened",
+      [
+        ["From", prev.name ?? "unknown"],
+        ["Email", prev.email ?? "unknown"],
+        ["Admin", actorEmail ?? context.userId],
+        ["When", new Date().toISOString()],
+      ],
+      data.note || undefined,
+    );
+
     return { ok: true };
   });
 
