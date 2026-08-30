@@ -38,7 +38,7 @@ export function CustomCursor() {
       setVisible(true);
       const target = e.target as HTMLElement | null;
       const hit = target?.closest?.("[data-cursor]") as HTMLElement | null;
-      const explicit = hit?.dataset.cursor as CursorState | undefined;
+      const explicit = hit?.dataset['cursor'] as CursorState | undefined;
       if (explicit) {
         setState(explicit);
         return;

@@ -53,7 +53,7 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
       onPointerLeave={reset}
       style={
         reduce
-          ? undefined
+          ? {}
           : { rotateX: rotX, rotateY: rotY, transformPerspective: 1000, transformStyle: "preserve-3d" }
       }
       whileHover={reduce ? {} : { y: -6 }}
