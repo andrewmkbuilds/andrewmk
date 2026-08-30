@@ -113,10 +113,14 @@ async def tab_order_and_escape(page, tag):
         "n => { const s = getComputedStyle(n);"
         " return s.outlineWidth + '|' + s.boxShadow; }"
     )
-    await page.evaluate("() => window.scrollTo(0, 0)")
-    await first.evaluate("n => n.focus({ preventScroll: true })")
-    await page.keyboard.press("Shift+Tab")
-    await page.keyboard.press("Tab")  # keyboard focus => :focus-visible matches
+    await page.evaluate("() => { window.scrollTo(0, 0); document.body.focus(); }")
+    reached = False
+    for _ in range(80):
+        await page.keyboard.press("Tab")
+        if await page.evaluate("() => document.activeElement.id") == ids[0]:
+            reached = True
+            break
+    check(reached, f"{tag} first disclosure trigger is reachable by Tab from the top")
     await page.wait_for_timeout(150)
     focused = await first.evaluate(
         "n => { const s = getComputedStyle(n);"
