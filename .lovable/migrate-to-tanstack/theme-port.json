@@ -1,0 +1,30 @@
+{
+  "customizations": [
+    { "token": "--background (deep charcoal-green 60% base)", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--foreground", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--card / --card-foreground", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--popover / --popover-foreground", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--primary (emerald) / --primary-foreground", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--primary-glow", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--secondary / --secondary-foreground", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--muted / --muted-foreground", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--accent / --accent-foreground", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--destructive / --destructive-foreground", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--border / --input / --ring", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--radius 0.625rem", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--sidebar-* token set", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "font-sans/font-heading Inter + Google Fonts import", "source": "src/index.css + tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "font-mono JetBrains Mono", "source": "src/index.css + tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "container (center, 2rem padding, 1400px cap)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "keyframes blink / drift / fade-in / fade-in-up / accordion", "source": "src/index.css + tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "base layer (border-border, scroll behavior, headings, focus-visible, scrollbar, reduced-motion)", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": ".focus-ring", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": ".text-balance", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": ".bg-grid", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": ".shadow-card", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": ".shadow-glow", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": ".bg-hero-veil", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": ".link-underline", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": ".stagger-1..4", "source": "src/index.css", "reappliedIn": "src/styles.css" }
+  ]
+}

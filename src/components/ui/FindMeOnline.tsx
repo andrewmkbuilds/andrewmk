@@ -1,6 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { socialLinks } from "@/data/portfolio";
-import { socialIconMap } from "@/components/ui/SocialIcons";
+import { getSocialIcon } from "@/components/ui/SocialIcons";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { GithubPreview } from "@/components/ui/GithubPreview";
@@ -8,7 +8,8 @@ import { GithubPreview } from "@/components/ui/GithubPreview";
 /** "Find Me Online" — integrated profile hub, not a link list. */
 export function FindMeOnline() {
   const [primary, ...rest] = socialLinks;
-  const PrimaryIcon = socialIconMap[primary.id];
+  if (!primary) return null;
+  const PrimaryIcon = getSocialIcon(primary.id);
 
   return (
     <section className="border-t border-border py-20 md:py-28" id="online">
@@ -59,7 +60,7 @@ export function FindMeOnline() {
 
           <div className="grid gap-4">
             {rest.map((link, i) => {
-              const Icon = socialIconMap[link.id];
+              const Icon = getSocialIcon(link.id);
               return (
                 <Reveal key={link.id} delay={60 + i * 60}>
                   <a

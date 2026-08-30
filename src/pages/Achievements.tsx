@@ -1,4 +1,3 @@
-import { Seo } from "@/components/Seo";
 import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -16,7 +15,6 @@ const exhibitionLoop = ["Build", "Demonstrate", "Explain", "Iterate"];
 export default function Achievements() {
   return (
     <Layout>
-      <Seo path="/achievements" />
       <section className="py-20 md:py-28">
         <div className="container">
           <Reveal className="max-w-3xl">

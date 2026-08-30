@@ -1,4 +1,3 @@
-import { Seo } from "@/components/Seo";
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
@@ -8,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Github, Mail, AlertTriangle } from "lucide-react";
 import { GITHUB_URL, socialLinks } from "@/data/portfolio";
-import { socialIconMap } from "@/components/ui/SocialIcons";
+import { getSocialIcon } from "@/components/ui/SocialIcons";
 
 interface Errors {
   name?: string;
@@ -47,7 +46,6 @@ export default function Contact() {
 
   return (
     <Layout>
-      <Seo path="/contact" />
       <section className="py-20 md:py-28">
         <div className="container">
           <Reveal className="max-w-2xl">
@@ -175,7 +173,7 @@ export default function Contact() {
                   {socialLinks
                     .filter((s) => s.id !== "github")
                     .map((link) => {
-                      const Icon = socialIconMap[link.id];
+                      const Icon = getSocialIcon(link.id);
                       return (
                         <a
                           key={link.id}

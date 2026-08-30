@@ -1,15 +1,13 @@
-import { Seo } from "@/components/Seo";
 import { Layout } from "@/components/layout/Layout";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { TechTag } from "@/components/ui/TechTag";
 import { buildingCategories, principles, socialLinks } from "@/data/portfolio";
-import { socialIconMap } from "@/components/ui/SocialIcons";
+import { getSocialIcon } from "@/components/ui/SocialIcons";
 
 export default function About() {
   return (
     <Layout>
-      <Seo path="/about" />
       <section className="py-20 md:py-28">
         <div className="container">
           <div className="grid gap-12 lg:grid-cols-3">
@@ -83,7 +81,7 @@ export default function About() {
                   </p>
                   <ul className="mt-4 space-y-1">
                     {socialLinks.map((link) => {
-                      const Icon = socialIconMap[link.id];
+                      const Icon = getSocialIcon(link.id);
                       return (
                         <li key={link.id}>
                           <a

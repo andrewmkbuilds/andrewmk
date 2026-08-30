@@ -22,7 +22,7 @@ export function FilterBar({ label, legend, options, value, onChange, className }
     const buttons = listRef.current?.querySelectorAll<HTMLButtonElement>("button[data-filter]");
     if (!buttons?.length) return;
     const next = (index + buttons.length) % buttons.length;
-    buttons[next].focus();
+    buttons[next]?.focus();
   };
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {

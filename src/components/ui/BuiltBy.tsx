@@ -1,7 +1,7 @@
 import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { socialLinks, type Project } from "@/data/portfolio";
-import { socialIconMap } from "@/components/ui/SocialIcons";
+import { getSocialIcon } from "@/components/ui/SocialIcons";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface BuiltByProps {
@@ -26,7 +26,7 @@ function getEntries(project: Project): Entry[] {
       key: "github",
       href: project.github,
       label: `${project.name} on GitHub`,
-      icon: socialIconMap.github,
+      icon: getSocialIcon("github"),
     });
   }
   if (project.live) {
@@ -45,7 +45,7 @@ function getEntries(project: Project): Entry[] {
         key: social.id,
         href: social.url,
         label: `Built with ${social.label} — ${social.handle}`,
-        icon: socialIconMap[social.id],
+        icon: getSocialIcon(social.id),
       });
     }
   }
@@ -64,7 +64,7 @@ export function PlatformBadge({
   if (!project.platform) return null;
   const social = socialLinks.find((s) => s.id === project.platform);
   if (!social) return null;
-  const Icon = socialIconMap[social.id];
+  const Icon = getSocialIcon(social.id);
 
   return (
     <a
@@ -92,7 +92,7 @@ export function getProjectPlatforms(project: Project): string[] {
   const labels: Record<string, string> = { github: "GitHub", lovable: "Lovable", base44: "Base44" };
   return getEntries(project)
     .map((entry) => labels[entry.key])
-    .filter(Boolean);
+    .filter((label): label is string => Boolean(label));
 }
 
 /** Small "Built by Andrew" attribution row with only the links relevant to a project. */

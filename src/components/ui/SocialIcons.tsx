@@ -11,6 +11,11 @@ export const socialIconMap: Record<string, LucideIcon> = {
   base44: Hexagon,
 };
 
+/** Safe lookup — falls back to a generic mark for unknown ids. */
+export function getSocialIcon(id: string): LucideIcon {
+  return socialIconMap[id] ?? Hexagon;
+}
+
 interface SocialIconsProps {
   /** Which social ids to show, in order. Defaults to all. */
   ids?: string[];
@@ -25,7 +30,7 @@ export function SocialIcons({ ids, className }: SocialIconsProps) {
     <TooltipProvider delayDuration={150}>
       <div className={cn("flex items-center gap-2", className)}>
         {links.map((link) => {
-          const Icon = socialIconMap[link.id];
+          const Icon = getSocialIcon(link.id);
           return (
             <Tooltip key={link.id}>
               <TooltipTrigger asChild>
