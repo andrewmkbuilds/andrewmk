@@ -26,7 +26,7 @@ export function AchievementCard({
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       whileHover={reduce ? {} : { y: -4 }}
       className={cn(
-        "surface spotlight edge-glow group relative isolate overflow-hidden rounded-xl p-5",
+        "surface spotlight edge-glow lift-3d group relative isolate overflow-hidden rounded-xl p-5",
         "transition-colors duration-300 hover:border-primary/40",
         className,
       )}
