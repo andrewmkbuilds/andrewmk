@@ -32,7 +32,7 @@ export function Timeline() {
         <motion.li
           key={entry.year + entry.title}
           initial={reduce ? false : { opacity: 0, y: 24 }}
-          whileInView={reduce ? false : { opacity: 1, y: 0 }}
+          whileInView={reduce ? {} : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "0px 0px -12% 0px" }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="group relative"
@@ -40,7 +40,7 @@ export function Timeline() {
           <motion.span
             aria-hidden="true"
             initial={reduce ? false : { scale: 0.4, opacity: 0 }}
-            whileInView={reduce ? false : { scale: 1, opacity: 1 }}
+            whileInView={reduce ? {} : { scale: 1, opacity: 1 }}
             viewport={{ once: true, margin: "0px 0px -12% 0px" }}
             transition={{ duration: 0.45, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             className="absolute -left-8 top-1.5 flex h-3.5 w-3.5 items-center justify-center md:-left-[2.6rem]"

@@ -49,7 +49,7 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                   <div className="absolute inset-0 bg-grid opacity-50" />
                   <motion.div
                     className="absolute -top-24 left-1/3 h-64 w-96 rounded-full bg-primary/12 blur-[100px]"
-                    animate={reduce ? false : { x: [0, 40, 0], opacity: [0.7, 1, 0.7] }}
+                    animate={reduce ? {} : { x: [0, 40, 0], opacity: [0.7, 1, 0.7] }}
                     transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
                   />
                 </div>
@@ -92,7 +92,7 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
 
                   <motion.div
                     initial={reduce ? false : "hidden"}
-                    animate={reduce ? false : "show"}
+                    animate={reduce ? {} : "show"}
                     variants={{
                       hidden: {},
                       show: { transition: { staggerChildren: 0.07, delayChildren: 0.14 } },

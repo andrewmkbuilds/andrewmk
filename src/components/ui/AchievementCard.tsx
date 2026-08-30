@@ -21,10 +21,10 @@ export function AchievementCard({
   return (
     <motion.article
       initial={reduce ? false : { opacity: 0, y: 18 }}
-      whileInView={reduce ? false : { opacity: 1, y: 0 }}
+      whileInView={reduce ? {} : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "0px 0px -8% 0px" }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={reduce ? false : { y: -4 }}
+      whileHover={reduce ? {} : { y: -4 }}
       className={cn(
         "surface spotlight edge-glow group relative isolate overflow-hidden rounded-xl p-5",
         "transition-colors duration-300 hover:border-primary/40",

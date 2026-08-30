@@ -96,7 +96,7 @@ export function TechConstellation({ className }: { className?: string }) {
               stroke="var(--primary)"
               strokeWidth={lit ? 1.4 : 0.8}
               initial={reduce ? false : { pathLength: 0, opacity: 0 }}
-              whileInView={reduce ? false : { pathLength: 1, opacity: lit ? 0.6 : 0.16 }}
+              whileInView={reduce ? {} : { pathLength: 1, opacity: lit ? 0.6 : 0.16 }}
               animate={{ opacity: lit ? 0.6 : 0.16 }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
@@ -112,7 +112,7 @@ export function TechConstellation({ className }: { className?: string }) {
             className="absolute"
             style={{ left: `${tech.x}%`, top: `${tech.y}%`, translateX: "-50%", translateY: "-50%" }}
             initial={reduce ? false : { opacity: 0, scale: 0.85 }}
-            whileInView={reduce ? false : { opacity: 1, scale: 1 }}
+            whileInView={reduce ? {} : { opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.5, delay: 0.05 * i, ease: [0.22, 1, 0.36, 1] }}
           >
