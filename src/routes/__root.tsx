@@ -32,9 +32,10 @@ const personJsonLd = JSON.stringify({
   sameAs: [
     "https://github.com/andrewmkbuilds",
     "https://x.com/Andrew444884",
-    "https://www.instagram.com/ysla7x",
+    "https://www.instagram.com/andrewmkbuilds/",
     "https://lovable.dev/@andrewbuilds",
     "https://app.base44.com/@andrewmkbuilds",
+    "https://linktr.ee/andrewmkbuilds",
   ],
 });
 

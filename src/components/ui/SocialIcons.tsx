@@ -1,4 +1,4 @@
-import { Github, Instagram, Twitter, Heart, Hexagon, type LucideIcon } from "lucide-react";
+import { Github, Instagram, Twitter, Heart, Hexagon, Share2, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { socialLinks } from "@/data/portfolio";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -9,6 +9,7 @@ export const socialIconMap: Record<string, LucideIcon> = {
   instagram: Instagram,
   lovable: Heart,
   base44: Hexagon,
+  linktree: Share2,
 };
 
 /** Safe lookup — falls back to a generic mark for unknown ids. */
