@@ -70,7 +70,7 @@ export default function Websites() {
                   from there.
                 </p>
                 <div className="mt-7 flex flex-wrap justify-center gap-3">
-                  <Button asChild className="font-mono focus-ring">
+                  <Button asChild className="font-mono focus-ring cta-pop">
                     <a
                       href={WEBSITE_INTAKE_FORM_URL}
                       target="_blank"
@@ -83,7 +83,7 @@ export default function Websites() {
                       }
                     >
                       Start a Website Project
-                      <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                      <ArrowRight className="ml-2 h-4 w-4 cta-arrow" aria-hidden="true" />
                     </a>
                   </Button>
                   <Button asChild variant="outline" className="font-mono focus-ring">
