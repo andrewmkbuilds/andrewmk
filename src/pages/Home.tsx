@@ -236,36 +236,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* What I Can Build */}
-      <section className="border-t border-border py-20 md:py-28" id="services">
+      {/* What I Build */}
+      <section className="border-t border-border py-20 md:py-28" id="what-i-build">
         <div className="container">
           <SectionHeading
-            label="Services"
-            title="What I Can Build"
-            subtitle="I turn ideas into working digital products, from websites and web apps to AI-powered systems."
+            label="Focus areas"
+            title="What I Build"
+            subtitle="I build software, AI systems, experiments, and technical projects to explore ideas and solve real problems."
           />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((service, i) => {
-              const Icon = serviceIcons[service.icon] ?? Globe;
-              const isLead = Boolean(service.cta);
+            {buildAreas.map((area, i) => {
+              const Icon = buildIcons[area.icon] ?? AppWindow;
               return (
-                <Reveal key={service.id} delay={i * 60} className="h-full">
-                  <div
-                    className={`group lift-3d flex h-full flex-col rounded-xl border bg-card p-6 shadow-card hover:border-primary/40 ${
-                      isLead ? "border-primary/30 ring-1 ring-primary/10" : "border-border"
-                    }`}
-                  >
+                <Reveal key={area.id} delay={i * 60} className="h-full">
+                  <div className="group lift-3d flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40">
                     <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background/60 text-primary transition-colors group-hover:border-primary/40">
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </div>
                     <h3 className="mt-5 text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
-                      {service.title}
+                      {area.title}
                     </h3>
                     <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                      {service.description}
+                      {area.description}
                     </p>
-                    <dl className="mt-5 space-y-2 border-t border-border pt-4">
-                      {service.details.map((d) => (
+                    <dl className="mt-auto space-y-2 border-t border-border pt-4 mt-5">
+                      {area.details.map((d) => (
                         <div key={d.label} className="flex items-baseline justify-between gap-3">
                           <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
                             {d.label}
@@ -276,70 +271,6 @@ export default function Home() {
                         </div>
                       ))}
                     </dl>
-
-                    {service.steps ? (
-                      <div className="section-pop mt-5 border-t border-border pt-4">
-                        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-                          How we work
-                        </p>
-                        <ol className="mt-3 space-y-2">
-                          {service.steps.map((step, si) => (
-                            <li key={step} className="flex items-center gap-3 text-sm text-foreground">
-                              <span
-                                aria-hidden="true"
-                                className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/10 font-mono text-[10px] text-primary"
-                              >
-                                {si + 1}
-                              </span>
-                              {step}
-                            </li>
-                          ))}
-                        </ol>
-                      </div>
-                    ) : null}
-
-                    {service.cta ? (
-                      <div className="section-pop mt-auto pt-5">
-                        <Button asChild className="w-full font-mono focus-ring cta-pop">
-                          <a
-                            href={service.cta.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={() =>
-                              trackEvent(AnalyticsEvents.websiteProjectCtaClick, {
-                                location: "home_services_card",
-                                service: service.id,
-                                label: service.cta!.label,
-                              })
-                            }
-                          >
-                            {service.cta.label}
-                            <ArrowRight className="ml-2 h-4 w-4 cta-arrow" aria-hidden="true" />
-                          </a>
-                        </Button>
-                        {service.microcopy ? (
-                          <p className="mt-3 text-center text-xs text-muted-foreground">
-                            {service.microcopy}
-                          </p>
-                        ) : null}
-                        {service.secondary ? (
-                          <Link
-                            to={service.secondary.href}
-                            onClick={() =>
-                              trackEvent(AnalyticsEvents.websitesGalleryLinkClick, {
-                                location: "home_services_card",
-                                service: service.id,
-                                label: service.secondary!.label,
-                              })
-                            }
-                            className="mx-auto mt-3 flex w-fit items-center gap-1 font-mono text-xs text-muted-foreground transition-colors hover:text-primary focus-ring rounded-sm"
-                          >
-                            {service.secondary.label}
-                            <span aria-hidden="true">→</span>
-                          </Link>
-                        ) : null}
-                      </div>
-                    ) : null}
                   </div>
                 </Reveal>
               );
@@ -348,6 +279,7 @@ export default function Home() {
 
         </div>
       </section>
+
 
       {/* How I think */}
       <section className="border-t border-border py-20 md:py-28">
