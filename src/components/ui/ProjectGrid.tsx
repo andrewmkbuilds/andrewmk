@@ -8,9 +8,29 @@ import { ecosystemProjects, projectFilters, type Project } from "@/data/portfoli
 
 interface ProjectGridProps {
   projects?: Project[];
+  /** Render skeleton placeholders instead of cards while data is loading. */
+  loading?: boolean;
 }
 
-export function ProjectGrid({ projects = ecosystemProjects }: ProjectGridProps) {
+function ProjectCardSkeleton() {
+  return (
+    <div className="h-full animate-pulse rounded-xl border border-border bg-card/60 p-5">
+      <div className="h-3 w-24 rounded bg-muted" />
+      <div className="mt-4 h-5 w-2/3 rounded bg-muted" />
+      <div className="mt-3 space-y-2">
+        <div className="h-3 w-full rounded bg-muted/70" />
+        <div className="h-3 w-5/6 rounded bg-muted/70" />
+      </div>
+      <div className="mt-6 flex gap-2">
+        <div className="h-6 w-16 rounded-full bg-muted/70" />
+        <div className="h-6 w-20 rounded-full bg-muted/70" />
+        <div className="h-6 w-14 rounded-full bg-muted/70" />
+      </div>
+    </div>
+  );
+}
+
+export function ProjectGrid({ projects = ecosystemProjects, loading = false }: ProjectGridProps) {
   const [active, setActive] = useState("All");
   const [platform, setPlatform] = useState("All");
   const [selected, setSelected] = useState<Project | null>(null);
