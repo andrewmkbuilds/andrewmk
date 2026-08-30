@@ -1,3 +1,4 @@
+import { Seo } from "@/components/Seo";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Layout } from "@/components/layout/Layout";
@@ -12,6 +13,7 @@ const NotFound = () => {
 
   return (
     <Layout>
+      <Seo title="Page not found | Andrew Mathews" description="This page isn't built yet." path="/404" noindex />
       <section className="flex min-h-[70vh] items-center py-20">
         <div className="container">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">404</p>

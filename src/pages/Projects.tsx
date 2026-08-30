@@ -1,3 +1,4 @@
+import { Seo } from "@/components/Seo";
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -18,6 +19,7 @@ export default function Projects() {
 
   return (
     <Layout>
+      <Seo title={"Projects | Andrew Mathews"} description={"Explore the software, AI systems, tools, and experiments Andrew Mathews has built, filterable by technology and build platform."} path="/projects" />
       <section className="py-20 md:py-28">
         <div className="container">
           <Reveal className="max-w-3xl">
