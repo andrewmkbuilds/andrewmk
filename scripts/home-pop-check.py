@@ -40,7 +40,15 @@ def check(cond: bool, label: str) -> None:
 
 
 def box_equal(a, b, tol=0.75) -> bool:
-    return all(abs(a[k] - b[k]) <= tol for k in ("x", "y", "width", "height"))
+    """Compare layout metrics (offset*), which transforms do not affect."""
+    return all(abs(a[k] - b[k]) <= tol for k in ("top", "left", "width", "height"))
+
+
+async def layout_box(el):
+    return await el.evaluate(
+        "n => ({ top: n.offsetTop, left: n.offsetLeft,"
+        " width: n.offsetWidth, height: n.offsetHeight })"
+    )
 
 
 async def shadow_and_transform(el):
@@ -61,6 +69,10 @@ async def run_engine(pw, name, reduced: bool):
     print(f"\n=== {tag} ===")
 
     await page.goto(BASE, wait_until="networkidle")
+    can_hover = await page.evaluate(
+        "() => matchMedia('(hover: hover) and (pointer: fine)').matches"
+    )
+    print(f"  (hover-capable pointer: {can_hover})")
 
     # --- presence -------------------------------------------------------
     featured = page.locator("#work .pop-card")
@@ -81,8 +93,8 @@ async def run_engine(pw, name, reduced: bool):
 
     # --- hover pop, independence, layout stability ----------------------
     first, second = build.nth(0), build.nth(1)
-    base_first = await first.bounding_box()
-    base_second = await second.bounding_box()
+    base_first = await layout_box(first)
+    base_second = await layout_box(second)
     rest_first = await shadow_and_transform(first)
     rest_second = await shadow_and_transform(second)
 
@@ -91,21 +103,29 @@ async def run_engine(pw, name, reduced: bool):
     hov_first = await shadow_and_transform(first)
     hov_second = await shadow_and_transform(second)
 
-    check(hov_first["shadow"] != rest_first["shadow"], f"{tag} hover changes card shadow")
+    if not can_hover:
+        print(f"  SKIP  {tag} hover assertions (engine reports a coarse pointer)")
+    check(
+        (hov_first["shadow"] != rest_first["shadow"]) if can_hover
+        else (hov_first["shadow"] == rest_first["shadow"]),
+        f"{tag} hover changes card shadow"
+        if can_hover
+        else f"{tag} no fake hover pop on non-hover pointers",
+    )
     check(
         hov_second["shadow"] == rest_second["shadow"]
         and hov_second["transform"] == rest_second["transform"],
         f"{tag} sibling card unaffected by hover (independent pop)",
     )
     check(
-        box_equal(await first.bounding_box(), base_first)
-        and box_equal(await second.bounding_box(), base_second),
+        box_equal(await layout_box(first), base_first)
+        and box_equal(await layout_box(second), base_second),
         f"{tag} hover causes no layout shift",
     )
-    if reduced:
+    if reduced or not can_hover:
         check(
             hov_first["transform"] in ("none", "matrix(1, 0, 0, 1, 0, 0)"),
-            f"{tag} reduced-motion disables hover transform",
+            f"{tag} no hover transform under reduced-motion / coarse pointer",
         )
     else:
         check(
@@ -118,7 +138,7 @@ async def run_engine(pw, name, reduced: bool):
 
     # --- keyboard focus -------------------------------------------------
     for locator, label in ((build.nth(0), "What I Build card"), (principles.nth(0), "How I Think card")):
-        box_before = await locator.bounding_box()
+        box_before = await layout_box(locator)
         await locator.evaluate("n => n.focus()")
         await page.keyboard.press("Shift")  # marks focus-visible in all engines
         await page.wait_for_timeout(450)
@@ -128,7 +148,7 @@ async def run_engine(pw, name, reduced: bool):
             f"{tag} {label} shows a visible focus state",
         )
         check(
-            box_equal(await locator.bounding_box(), box_before),
+            box_equal(await layout_box(locator), box_before),
             f"{tag} {label} focus causes no layout shift",
         )
         if reduced:
