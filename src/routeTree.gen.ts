@@ -11,13 +11,16 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as R404RouteImport } from './routes/404'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AchievementsRouteImport } from './routes/achievements'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as WebsitesRouteImport } from './routes/websites'
 import { Route as WorkRouteImport } from './routes/work'
+import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated/admin.messages'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,6 +32,10 @@ const R404Route = R404RouteImport.update({
   path: '/404',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -37,6 +44,11 @@ const AboutRoute = AboutRouteImport.update({
 const AchievementsRoute = AchievementsRouteImport.update({
   id: '/achievements',
   path: '/achievements',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -64,40 +76,53 @@ const WorkRoute = WorkRouteImport.update({
   path: '/work',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminMessagesRoute =
+  AuthenticatedAdminMessagesRouteImport.update({
+    id: '/admin/messages',
+    path: '/admin/messages',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/404': typeof R404Route
   '/about': typeof AboutRoute
   '/achievements': typeof AchievementsRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/journey': typeof JourneyRoute
   '/projects': typeof ProjectsRoute
   '/websites': typeof WebsitesRoute
   '/work': typeof WorkRoute
+  '/admin/messages': typeof AuthenticatedAdminMessagesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/404': typeof R404Route
   '/about': typeof AboutRoute
   '/achievements': typeof AchievementsRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/journey': typeof JourneyRoute
   '/projects': typeof ProjectsRoute
   '/websites': typeof WebsitesRoute
   '/work': typeof WorkRoute
+  '/admin/messages': typeof AuthenticatedAdminMessagesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/404': typeof R404Route
   '/about': typeof AboutRoute
   '/achievements': typeof AchievementsRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/journey': typeof JourneyRoute
   '/projects': typeof ProjectsRoute
   '/websites': typeof WebsitesRoute
   '/work': typeof WorkRoute
+  '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -106,40 +131,49 @@ export interface FileRouteTypes {
     | '/404'
     | '/about'
     | '/achievements'
+    | '/auth'
     | '/contact'
     | '/journey'
     | '/projects'
     | '/websites'
     | '/work'
+    | '/admin/messages'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/404'
     | '/about'
     | '/achievements'
+    | '/auth'
     | '/contact'
     | '/journey'
     | '/projects'
     | '/websites'
     | '/work'
+    | '/admin/messages'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/404'
     | '/about'
     | '/achievements'
+    | '/auth'
     | '/contact'
     | '/journey'
     | '/projects'
     | '/websites'
     | '/work'
+    | '/_authenticated/admin/messages'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   R404Route: typeof R404Route
   AboutRoute: typeof AboutRoute
   AchievementsRoute: typeof AchievementsRoute
+  AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   JourneyRoute: typeof JourneyRoute
   ProjectsRoute: typeof ProjectsRoute
@@ -163,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof R404RouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -175,6 +216,13 @@ declare module '@tanstack/react-router' {
       path: '/achievements'
       fullPath: '/achievements'
       preLoaderRoute: typeof AchievementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -212,14 +260,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/messages': {
+      id: '/_authenticated/admin/messages'
+      path: '/admin/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AuthenticatedAdminMessagesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminMessagesRoute: typeof AuthenticatedAdminMessagesRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminMessagesRoute: AuthenticatedAdminMessagesRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   R404Route: R404Route,
   AboutRoute: AboutRoute,
   AchievementsRoute: AchievementsRoute,
+  AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   JourneyRoute: JourneyRoute,
   ProjectsRoute: ProjectsRoute,
