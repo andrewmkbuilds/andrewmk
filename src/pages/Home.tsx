@@ -5,7 +5,11 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { SocialIcons } from "@/components/ui/SocialIcons";
 import { FindMeOnline } from "@/components/ui/FindMeOnline";
-import { Reveal } from "@/components/ui/Reveal";
+import { Reveal, RevealWords } from "@/components/ui/Reveal";
+import { Magnetic } from "@/components/ui/Magnetic";
+import { SystemGraph } from "@/components/ui/SystemGraph";
+import { TechConstellation } from "@/components/ui/TechConstellation";
+import { motion } from "motion/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StatusDot } from "@/components/ui/StatusDot";
 import { TypingCursor } from "@/components/ui/TypingCursor";
@@ -31,14 +35,6 @@ const serviceIcons: Record<string, LucideIcon> = {
   Workflow,
   Lightbulb,
 };
-
-const heroNodes = [
-  { label: "AI", x: "68%", y: "22%" },
-  { label: "Robotics", x: "84%", y: "40%" },
-  { label: "Computer Vision", x: "70%", y: "62%" },
-  { label: "Systems", x: "86%", y: "78%" },
-  { label: "Product", x: "62%", y: "88%" },
-];
 
 
 export default function Home() {
