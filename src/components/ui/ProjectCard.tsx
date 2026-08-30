@@ -17,6 +17,12 @@ interface ProjectCardProps {
 export function ProjectCard({ project, onOpen, variant = "compact", className }: ProjectCardProps) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
+  const uid = useId().replace(/[:]/g, "");
+  const triggerId = `project-details-trigger-${uid}`;
+  const panelId = `project-details-panel-${uid}`;
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
 
   // pointer-driven tilt (very restrained) + spotlight tracking
   const px = useMotionValue(0.5);
