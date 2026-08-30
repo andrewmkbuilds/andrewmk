@@ -9,6 +9,7 @@ import {
   listAdminAuditLog,
   listContactMessages,
   setContactMessageHandled,
+  type AuditLogRow,
   type ContactMessageRow,
 } from "@/lib/admin-contact.functions";
 import { MfaPanel } from "@/components/admin/MfaPanel";
@@ -52,7 +53,7 @@ export default function AdminMessages() {
     },
   });
 
-  const audit = useQuery({
+  const audit = useQuery<AuditLogRow[]>({
     queryKey: ["admin-audit-log"],
     enabled: admin.data?.isAdmin === true,
     queryFn: () => fetchAudit({ data: { limit: 50 } }),

@@ -19,7 +19,7 @@ export async function recordAudit(entry: AuditEntry): Promise<void> {
       action: entry.action,
       entity: entry.entity ?? "contact_message",
       entity_id: entry.entityId ?? null,
-      details: entry.details ?? {},
+      details: (entry.details ?? {}) as never,
     });
     if (error) console.error("audit insert failed", error);
   } catch (error) {

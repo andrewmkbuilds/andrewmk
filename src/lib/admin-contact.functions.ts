@@ -201,7 +201,7 @@ export interface AuditLogRow {
   action: string;
   entity: string;
   entity_id: string | null;
-  details: Record<string, unknown>;
+  details: string;
   created_at: string;
 }
 
@@ -224,5 +224,13 @@ export const listAdminAuditLog = createServerFn({ method: "POST" })
       .limit(data.limit);
 
     if (error) throw new Error("Could not load the audit log.");
-    return (rows ?? []) as AuditLogRow[];
+    return ((rows ?? []) as Array<Record<string, unknown>>).map((row) => ({
+      id: String(row["id"]),
+      actor_email: (row["actor_email"] as string | null) ?? null,
+      action: String(row["action"]),
+      entity: String(row["entity"]),
+      entity_id: (row["entity_id"] as string | null) ?? null,
+      details: JSON.stringify(row["details"] ?? {}),
+      created_at: String(row["created_at"]),
+    }));
   });
