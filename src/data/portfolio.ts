@@ -471,12 +471,20 @@ export const exhibitions = [
   "Other project showcases",
 ];
 
+/** Official project intake form. Do not change without Andrew's confirmation. */
+export const WEBSITE_INTAKE_FORM_URL = "https://forms.gle/1ZSLJwTv6EUeXaQY8";
+
 export interface Service {
   id: string;
   title: string;
   description: string;
   icon: string;
   details: { label: string; value: string }[];
+  /** Lead-generation services get a primary action on the card. */
+  cta?: { label: string; href: string; external?: boolean };
+  secondary?: { label: string; href: string };
+  /** Small reassurance line under the CTA. */
+  microcopy?: string;
 }
 
 export const services: Service[] = [
@@ -490,7 +498,15 @@ export const services: Service[] = [
       { label: "Pricing", value: "Custom quote" },
       { label: "Turnaround", value: "Discuss your project" },
     ],
+    cta: {
+      label: "Start a Website Project",
+      href: WEBSITE_INTAKE_FORM_URL,
+      external: true,
+    },
+    secondary: { label: "See Websites I've Built", href: "/websites" },
+    microcopy: "Tell me what you need and I'll take it from there.",
   },
+
   {
     id: "web-apps",
     title: "Web Applications",
