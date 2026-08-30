@@ -25,21 +25,20 @@ export interface ContactResult {
   message: string;
 }
 
-const SPAM_PATTERNS = [
-  /\bhttps?:\/\/\S+/gi,
-  /\b(seo services|crypto|casino|viagra|backlinks|loan offer|bitcoin)\b/gi,
-];
+const LINK_PATTERN = /\bhttps?:\/\/\S+/gi;
+const SPAM_WORDS = /\b(seo services|crypto|casino|viagra|backlinks|loan offer|bitcoin)\b/i;
 
 export function scoreSpam(input: ContactInput): number {
   let score = 0;
   if (input.company.trim().length > 0) score += 100;
   if (input.elapsedMs > 0 && input.elapsedMs < 2000) score += 40;
 
-  const links = input.message.match(SPAM_PATTERNS[0]) ?? [];
+  const links = input.message.match(LINK_PATTERN) ?? [];
   if (links.length >= 3) score += 40;
   else if (links.length > 0) score += 10;
 
-  if (SPAM_PATTERNS[1].test(input.message)) score += 50;
+  if (SPAM_WORDS.test(input.message)) score += 50;
+
   if (/(.)\1{15,}/.test(input.message)) score += 30;
   if (input.message.trim().split(/\s+/).length < 3) score += 20;
   return score;
