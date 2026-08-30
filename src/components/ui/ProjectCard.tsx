@@ -1,5 +1,6 @@
-import { useRef } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { useId, useRef, useState } from "react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
+
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 import { cn } from "@/lib/utils";
 import { TechTag } from "./TechTag";
