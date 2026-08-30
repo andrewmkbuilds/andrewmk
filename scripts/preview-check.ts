@@ -53,7 +53,7 @@ const metaByProperty = (html: string, property: string) =>
     new RegExp(`<meta[^>]+content=["']([^"']*)["'][^>]+property=["']${property}["']`, "i"),
   )?.[1];
 
-async function checkRoute(path: string): Promise<RouteReport> {
+async function checkRoute(path: string, allow404 = false): Promise<RouteReport> {
   const report: RouteReport = { path, status: null, problems: [] };
 
   let html = "";
@@ -65,7 +65,8 @@ async function checkRoute(path: string): Promise<RouteReport> {
     report.problems.push(`request failed: ${(error as Error).message}`);
     return report;
   }
-  if (report.status !== 200) {
+  const okStatus = report.status === 200 || (allow404 && report.status === 404);
+  if (!okStatus) {
     report.problems.push(`HTTP ${report.status}`);
     return report;
   }
@@ -125,7 +126,7 @@ async function checkRoute(path: string): Promise<RouteReport> {
 
 const reports: RouteReport[] = [];
 for (const route of routes) {
-  reports.push(await checkRoute(route.path));
+  reports.push(await checkRoute(route.path, Boolean(route.noindex)));
 }
 
 // Cross-route uniqueness
