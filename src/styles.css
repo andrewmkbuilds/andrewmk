@@ -612,8 +612,46 @@
     }
   }
 
+  /* Disclosure panel used by the pop-out cards. Collapsed height animates
+     via grid-template-rows (no layout thrash, no clipping of focus rings).
+     Content is visibility:hidden while collapsed so it stays out of the
+     tab order for keyboard and screen-reader users. */
+  .pop-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+  }
 
+  .pop-panel[data-open="true"] {
+    grid-template-rows: 1fr;
+  }
+
+  .pop-panel-inner {
+    overflow: hidden;
+    visibility: hidden;
+    transition: visibility 0.34s;
+  }
+
+  .pop-panel[data-open="true"] > .pop-panel-inner {
+    visibility: visible;
+  }
+
+  .pop-chevron {
+    transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pop-panel,
+    .pop-panel-inner,
+    .pop-chevron {
+      transition: none !important;
+    }
+  }
 }
+
+
+
+
 
 /* ── Premium surface + motion utilities ─────────────────────────────── */
 

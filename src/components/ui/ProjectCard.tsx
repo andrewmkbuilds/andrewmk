@@ -1,5 +1,6 @@
-import { useRef } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { useId, useRef, useState } from "react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
+
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 import { cn } from "@/lib/utils";
 import { TechTag } from "./TechTag";
@@ -16,6 +17,12 @@ interface ProjectCardProps {
 export function ProjectCard({ project, onOpen, variant = "compact", className }: ProjectCardProps) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
+  const uid = useId().replace(/[:]/g, "");
+  const triggerId = `project-details-trigger-${uid}`;
+  const panelId = `project-details-panel-${uid}`;
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
 
   // pointer-driven tilt (very restrained) + spotlight tracking
   const px = useMotionValue(0.5);
@@ -51,6 +58,13 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
       data-cursor="view"
       onPointerMove={handleMove}
       onPointerLeave={reset}
+      onKeyDown={(event) => {
+        if (event.key !== "Escape" || !detailsOpen) return;
+        event.stopPropagation();
+        setDetailsOpen(false);
+        triggerRef.current?.focus();
+      }}
+
       style={
         reduce
           ? {}
@@ -108,15 +122,43 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
       </p>
 
       {variant === "featured" && project.built.length > 0 && (
-        <ul className="card-depth-sm relative mt-5 grid gap-2 sm:grid-cols-2">
-          {project.built.slice(0, 6).map((item) => (
-            <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
-              <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
-              {item}
-            </li>
-          ))}
-        </ul>
+        <div className="card-depth-sm relative z-20 mt-5" data-pop-target="project-details">
+          <button
+            ref={triggerRef}
+            id={triggerId}
+            type="button"
+            aria-expanded={detailsOpen}
+            aria-controls={panelId}
+            onClick={() => setDetailsOpen((value) => !value)}
+            className="focus-ring inline-flex touch-manipulation items-center gap-2 rounded-md font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary"
+          >
+            {`What's inside ${project.name}`}
+            <ChevronDown
+              aria-hidden="true"
+              className={cn("pop-chevron h-4 w-4", detailsOpen && "rotate-180 text-primary")}
+            />
+          </button>
+          <div
+            id={panelId}
+            role="region"
+            aria-labelledby={triggerId}
+            className="pop-panel"
+            data-open={detailsOpen ? "true" : "false"}
+          >
+            <div className="pop-panel-inner">
+              <ul className="grid gap-2 pt-4 sm:grid-cols-2">
+                {project.built.slice(0, 6).map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
       )}
+
 
       <div className="card-depth-md relative mt-5 flex flex-wrap items-center gap-2">
         <PlatformBadge project={project} className="relative z-20" />

@@ -17,6 +17,8 @@ import { ProjectCard } from "@/components/ui/ProjectCard";
 import { ProjectModal } from "@/components/ui/ProjectModal";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
 import { TechTag } from "@/components/ui/TechTag";
+import { PopDisclosure, InlinePopDisclosure } from "@/components/ui/PopDisclosure";
+
 import { ArrowRight, AppWindow, BrainCircuit, Workflow, Cpu, ScanEye, LineChart, type LucideIcon } from "lucide-react";
 import {
   buildingCategories,
@@ -251,23 +253,18 @@ export default function Home() {
               const Icon = buildIcons[area.icon] ?? AppWindow;
               return (
                 <Reveal as="li" key={area.id} delay={i * 60} className="h-full">
-                  <div
-                    tabIndex={0}
-                    role="group"
-                    aria-label={`Focus area: ${area.title}`}
-                    data-pop-target="build-area"
-                    className="group pop-card flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40"
+                  <PopDisclosure
+                    title={area.title}
+                    kind="focus area, show details"
+                    popTarget="build-area"
+                    summary={area.description}
+                    media={
+                      <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background/60 text-primary transition-colors group-hover:border-primary/40">
+                        <Icon className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                    }
                   >
-                    <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background/60 text-primary transition-colors group-hover:border-primary/40">
-                      <Icon className="h-5 w-5" aria-hidden="true" />
-                    </div>
-                    <h3 className="mt-5 text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
-                      {area.title}
-                    </h3>
-                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                      {area.description}
-                    </p>
-                    <dl className="mt-auto space-y-2 border-t border-border pt-4 mt-5">
+                    <dl className="space-y-2">
                       {area.details.map((d) => (
                         <div key={d.label} className="flex items-baseline justify-between gap-3">
                           <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
@@ -279,11 +276,12 @@ export default function Home() {
                         </div>
                       ))}
                     </dl>
-                  </div>
+                  </PopDisclosure>
                 </Reveal>
               );
             })}
           </ul>
+
 
         </div>
       </section>
@@ -296,21 +294,17 @@ export default function Home() {
           <ul className="grid list-none gap-5 p-0 md:grid-cols-3">
             {principles.map((p, i) => (
               <Reveal as="li" key={p.title} delay={i * 70} className="h-full">
-                <div
-                  tabIndex={0}
-                  role="group"
-                  aria-label={`Principle: ${p.title}`}
-                  data-pop-target="principle"
-                  className="group pop-card h-full rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40"
+                <PopDisclosure
+                  title={p.title}
+                  kind="principle, show details"
+                  popTarget="principle"
+                  media={<span className="font-mono text-xs text-primary">0{i + 1}</span>}
                 >
-                  <span className="font-mono text-xs text-primary">0{i + 1}</span>
-                  <h3 className="mt-3 text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
-                    {p.title}
-                  </h3>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{p.body}</p>
-                </div>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{p.body}</p>
+                </PopDisclosure>
               </Reveal>
             ))}
+
           </ul>
 
         </div>
@@ -444,6 +438,26 @@ export default function Home() {
                   <ArrowRight className="cta-arrow ml-2 h-4 w-4" />
                 </Link>
               </Button>
+              <InlinePopDisclosure
+                label="What to reach out about"
+                popTarget="get-in-touch-details"
+                className="mt-6"
+              >
+                <ul className="grid list-none gap-2 p-0 text-sm text-muted-foreground sm:grid-cols-2">
+                  {[
+                    "Technology, AI and systems discussions",
+                    "Project ideas and collaborations",
+                    "Robotics and STEM Racing",
+                    "Feedback on something I've built",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2">
+                      <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </InlinePopDisclosure>
+
             </div>
           </Reveal>
         </div>
