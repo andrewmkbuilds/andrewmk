@@ -107,11 +107,24 @@ async def run_page(browser_name, browser, path_name, path, reduced=False, touch=
         await context.close()
         return
 
-    box = await cta.bounding_box()
-    assert box
-    await page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
-    await page.wait_for_timeout(200)
-    hovered = await settled(cta)
+    hovered = None
+    for attempt in range(4):
+        box = await cta.bounding_box()
+        assert box
+        cx, cy = box["x"] + box["width"] / 2, box["y"] + box["height"] / 2
+        # Firefox headless needs a real movement path before it applies :hover.
+        await page.mouse.move(cx - 40, cy - 40)
+        await page.mouse.move(cx, cy, steps=8)
+        await page.wait_for_timeout(250)
+        if await cta.evaluate("(el) => el.matches(':hover')"):
+            hovered = await settled(cta)
+            break
+        await page.mouse.move(0, 0)
+        await page.wait_for_timeout(150)
+    check("hover: :hover state registered", hovered is not None)
+    if hovered is None:
+        await context.close()
+        return
     await page.screenshot(path=str(SHOTS / f"{label.replace('/', '_')}_hover.png"))
 
     if reduced:
@@ -130,11 +143,16 @@ async def run_page(browser_name, browser, path_name, path, reduced=False, touch=
     # Keyboard focus-visible.
     await page.mouse.move(0, 0)
     await page.wait_for_timeout(300)
-    await cta.evaluate("(el) => el.focus()")
-    await page.keyboard.press("Shift+Tab")
-    await page.keyboard.press("Tab")
-    focused = await settled(cta)
-    is_focus_visible = await cta.evaluate("(el) => el.matches(':focus-visible')")
+    is_focus_visible = False
+    focused = rest
+    for _ in range(3):
+        await cta.evaluate("(el) => el.focus())".replace("))", ")"))
+        await page.keyboard.press("Shift+Tab")
+        await page.keyboard.press("Tab")
+        focused = await settled(cta)
+        is_focus_visible = await cta.evaluate("(el) => el.matches(':focus-visible')")
+        if is_focus_visible:
+            break
     await page.screenshot(path=str(SHOTS / f"{label.replace('/', '_')}_focus.png"))
 
     check("keyboard: CTA reachable and :focus-visible", bool(is_focus_visible))
