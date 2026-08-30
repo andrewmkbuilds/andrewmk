@@ -260,7 +260,7 @@ export default function Home() {
                         {service.secondary ? (
                           <Link
                             to={service.secondary.href}
-                            className="mt-3 inline-flex items-center gap-1 font-mono text-xs text-muted-foreground transition-colors hover:text-primary focus-ring rounded-sm"
+                            className="mx-auto mt-3 flex w-fit items-center gap-1 font-mono text-xs text-muted-foreground transition-colors hover:text-primary focus-ring rounded-sm"
                           >
                             {service.secondary.label}
                             <span aria-hidden="true">→</span>
