@@ -94,10 +94,10 @@ export default function Contact() {
               Contact
             </p>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
-              Let's build something.
+              Get in Touch
             </h1>
             <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-              Have an idea, project, competition, or collaboration? Let's talk.
+              Want to talk about technology, a project, collaboration, or something I'm building?
             </p>
           </Reveal>
 

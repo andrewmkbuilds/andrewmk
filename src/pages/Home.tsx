@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "@/lib/router-compat";
-import { AnalyticsEvents, trackEvent } from "@/lib/analytics";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { SocialIcons } from "@/components/ui/SocialIcons";
@@ -18,23 +17,24 @@ import { ProjectCard } from "@/components/ui/ProjectCard";
 import { ProjectModal } from "@/components/ui/ProjectModal";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
 import { TechTag } from "@/components/ui/TechTag";
-import { ArrowRight, Globe, AppWindow, BrainCircuit, Workflow, Lightbulb, type LucideIcon } from "lucide-react";
+import { ArrowRight, AppWindow, BrainCircuit, Workflow, Cpu, ScanEye, LineChart, type LucideIcon } from "lucide-react";
 import {
   buildingCategories,
   currentlyBuilding,
   featuredProjects,
   principles,
   quickStats,
-  services,
+  buildAreas,
   type Project,
 } from "@/data/portfolio";
 
-const serviceIcons: Record<string, LucideIcon> = {
-  Globe,
+const buildIcons: Record<string, LucideIcon> = {
   AppWindow,
   BrainCircuit,
   Workflow,
-  Lightbulb,
+  Cpu,
+  ScanEye,
+  LineChart,
 };
 
 
@@ -411,10 +411,10 @@ export default function Home() {
         <div className="container">
           <Reveal className="rounded-2xl border border-border bg-card p-8 md:p-12 shadow-card">
             <h2 className="text-3xl md:text-4xl font-semibold text-foreground">
-              Let's build something.
+              Always building something.
             </h2>
             <p className="mt-3 max-w-xl text-muted-foreground">
-              Have an idea, project, competition, or collaboration? Let's talk.
+              Want to talk about technology, a project, collaboration, or something I'm building?
             </p>
             <Button asChild size="lg" className="mt-7 font-mono">
               <Link to="/contact">
