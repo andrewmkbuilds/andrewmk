@@ -53,7 +53,7 @@ const metaByProperty = (html: string, property: string) =>
     new RegExp(`<meta[^>]+content=["']([^"']*)["'][^>]+property=["']${property}["']`, "i"),
   )?.[1];
 
-async function checkRoute(path: string, allow404 = false): Promise<RouteReport> {
+async function checkRoute(path: string, noindex = false): Promise<RouteReport> {
   const report: RouteReport = { path, status: null, problems: [] };
 
   let html = "";
@@ -65,7 +65,7 @@ async function checkRoute(path: string, allow404 = false): Promise<RouteReport> 
     report.problems.push(`request failed: ${(error as Error).message}`);
     return report;
   }
-  const okStatus = report.status === 200 || (allow404 && report.status === 404);
+  const okStatus = report.status === 200 || (noindex && report.status === 404);
   if (!okStatus) {
     report.problems.push(`HTTP ${report.status}`);
     return report;
@@ -82,6 +82,9 @@ async function checkRoute(path: string, allow404 = false): Promise<RouteReport> 
   report.twitterTitle = metaByName(html, "twitter:title");
   report.twitterDescription = metaByName(html, "twitter:description");
   report.twitterImage = metaByName(html, "twitter:image");
+
+  // noindex routes (e.g. /404) are never shared as links: they only need to respond.
+  if (noindex) return report;
 
   const required: [keyof RouteReport, string][] = [
     ["title", "<title>"],
@@ -133,12 +136,12 @@ for (const route of routes) {
 const seenTitles = new Map<string, string>();
 const seenDescriptions = new Map<string, string>();
 for (const report of reports) {
-  if (report.title) {
+  if (report.title && !routes.find((r) => r.path === report.path)?.noindex) {
     const clash = seenTitles.get(report.title);
     if (clash) report.problems.push(`duplicate title with ${clash}`);
     else seenTitles.set(report.title, report.path);
   }
-  if (report.description) {
+  if (report.description && !routes.find((r) => r.path === report.path)?.noindex) {
     const clash = seenDescriptions.get(report.description);
     if (clash) report.problems.push(`duplicate description with ${clash}`);
     else seenDescriptions.set(report.description, report.path);
