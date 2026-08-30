@@ -31,7 +31,7 @@ export default function AdminMessages() {
   const [submittedSearch, setSubmittedSearch] = useState("");
   const [status, setStatus] = useState<StatusFilter>("open");
 
-  const admin = useQuery({ queryKey: ["admin-status"], queryFn: () => fetchStatus({ data: {} }) });
+  const admin = useQuery({ queryKey: ["admin-status"], queryFn: () => fetchStatus() });
 
   const messages = useQuery({
     queryKey: ["contact-messages", submittedSearch, status],
