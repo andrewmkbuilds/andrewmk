@@ -561,6 +561,7 @@ export const currentlyBuilding = [
 ];
 
 export const GITHUB_URL = "https://github.com/andrewmkbuilds";
+export const LINKTREE_URL = "https://linktr.ee/andrewmkbuilds";
 
 export interface SocialLink {
   id: string;
@@ -609,10 +610,18 @@ export const socialLinks: SocialLink[] = [
   {
     id: "instagram",
     label: "Instagram",
-    handle: "@ysla7x",
-    url: "https://www.instagram.com/ysla7x",
+    handle: "@andrewmkbuilds",
+    url: "https://www.instagram.com/andrewmkbuilds/",
     description: "Personal updates and things I'm working on.",
     cta: "View Instagram",
+  },
+  {
+    id: "linktree",
+    label: "All My Links",
+    handle: "linktr.ee/andrewmkbuilds",
+    url: "https://linktr.ee/andrewmkbuilds",
+    description: "The central hub for every profile, project, and link of mine.",
+    cta: "View All My Links",
   },
 ];
 
