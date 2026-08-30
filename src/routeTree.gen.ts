@@ -18,7 +18,6 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as ProjectsRouteImport } from './routes/projects'
-import { Route as WebsitesRouteImport } from './routes/websites'
 import { Route as WorkRouteImport } from './routes/work'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated/admin.messages'
 
@@ -66,11 +65,6 @@ const ProjectsRoute = ProjectsRouteImport.update({
   path: '/projects',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WebsitesRoute = WebsitesRouteImport.update({
-  id: '/websites',
-  path: '/websites',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const WorkRoute = WorkRouteImport.update({
   id: '/work',
   path: '/work',
@@ -92,7 +86,6 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/journey': typeof JourneyRoute
   '/projects': typeof ProjectsRoute
-  '/websites': typeof WebsitesRoute
   '/work': typeof WorkRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
 }
@@ -105,7 +98,6 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/journey': typeof JourneyRoute
   '/projects': typeof ProjectsRoute
-  '/websites': typeof WebsitesRoute
   '/work': typeof WorkRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
 }
@@ -120,7 +112,6 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/journey': typeof JourneyRoute
   '/projects': typeof ProjectsRoute
-  '/websites': typeof WebsitesRoute
   '/work': typeof WorkRoute
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
 }
@@ -135,7 +126,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/journey'
     | '/projects'
-    | '/websites'
     | '/work'
     | '/admin/messages'
   fileRoutesByTo: FileRoutesByTo
@@ -148,7 +138,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/journey'
     | '/projects'
-    | '/websites'
     | '/work'
     | '/admin/messages'
   id:
@@ -162,7 +151,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/journey'
     | '/projects'
-    | '/websites'
     | '/work'
     | '/_authenticated/admin/messages'
   fileRoutesById: FileRoutesById
@@ -177,7 +165,6 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   JourneyRoute: typeof JourneyRoute
   ProjectsRoute: typeof ProjectsRoute
-  WebsitesRoute: typeof WebsitesRoute
   WorkRoute: typeof WorkRoute
 }
 
@@ -246,13 +233,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/websites': {
-      id: '/websites'
-      path: '/websites'
-      fullPath: '/websites'
-      preLoaderRoute: typeof WebsitesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/work': {
       id: '/work'
       path: '/work'
@@ -291,7 +271,6 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   JourneyRoute: JourneyRoute,
   ProjectsRoute: ProjectsRoute,
-  WebsitesRoute: WebsitesRoute,
   WorkRoute: WorkRoute,
 }
 export const routeTree = rootRouteImport
