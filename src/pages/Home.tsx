@@ -209,9 +209,14 @@ export default function Home() {
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service, i) => {
               const Icon = serviceIcons[service.icon] ?? Globe;
+              const isLead = Boolean(service.cta);
               return (
                 <Reveal key={service.id} delay={i * 60} className="h-full">
-                  <div className="group flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 motion-reduce:hover:translate-y-0">
+                  <div
+                    className={`group flex h-full flex-col rounded-xl border bg-card p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 motion-reduce:hover:translate-y-0 ${
+                      isLead ? "border-primary/30 ring-1 ring-primary/10" : "border-border"
+                    }`}
+                  >
                     <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background/60 text-primary transition-colors group-hover:border-primary/40">
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </div>
@@ -233,11 +238,42 @@ export default function Home() {
                         </div>
                       ))}
                     </dl>
+
+                    {service.cta ? (
+                      <div className="mt-auto pt-5">
+                        <Button asChild className="w-full font-mono focus-ring">
+                          <a
+                            href={service.cta.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                ./
+                          >
+                            {service.cta.label}
+                            <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                          </a>
+                        </Button>
+                        {service.microcopy ? (
+                          <p className="mt-3 text-center text-xs text-muted-foreground">
+                            {service.microcopy}
+                          </p>
+                        ) : null}
+                        {service.secondary ? (
+                          <Link
+                            to={service.secondary.href}
+                            className="mt-3 inline-flex items-center gap-1 font-mono text-xs text-muted-foreground transition-colors hover:text-primary focus-ring rounded-sm"
+                          >
+                            {service.secondary.label}
+                            <span aria-hidden="true">→</span>
+                          </Link>
+                        ) : null}
+                      </div>
+                    ) : null}
                   </div>
                 </Reveal>
               );
             })}
           </div>
+
         </div>
       </section>
 
