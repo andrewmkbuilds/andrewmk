@@ -9,7 +9,7 @@ import { socialIconMap } from "@/components/ui/SocialIcons";
 export default function About() {
   return (
     <Layout>
-      <Seo title={"About | Andrew Mathews"} description={"How Andrew Mathews thinks about systems, products, and AI — a student developer and builder based in Dubai."} path="/about" />
+      <Seo path="/about" />
       <section className="py-20 md:py-28">
         <div className="container">
           <div className="grid gap-12 lg:grid-cols-3">
