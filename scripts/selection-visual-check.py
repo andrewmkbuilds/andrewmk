@@ -282,7 +282,12 @@ async def run_case(page, engine, vp_name, name, route, selector, kind, failures,
     await target.screenshot(path=str(base))
 
     if kind in ("field", "readonly"):
-        await page.keyboard.press("ControlOrMeta+a")
+        # setSelectionRange beats a Ctrl+A keystroke here: WebKit ignores the
+        # shortcut on read-only inputs.
+        await page.evaluate(
+            "(el) => { el.focus(); el.setSelectionRange(0, (el.value || '').length); }",
+            handle,
+        )
     else:
         await page.evaluate(SELECT_CONTENTS, handle)
     await page.wait_for_timeout(250)
