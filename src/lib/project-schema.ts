@@ -82,7 +82,7 @@ export const allProjectsJsonLd = () =>
 export const featuredProjectsJsonLd = () =>
   projectItemListJsonLd(
     featuredProjects,
-    "/work",
+    "/projects",
     "Featured work by Andrew Mathews",
     "Selected products built by Andrew Mathews, with stack and build platform for each.",
   );
