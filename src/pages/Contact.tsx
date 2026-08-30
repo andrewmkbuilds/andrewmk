@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Github, Mail, AlertTriangle, Share2 } from "lucide-react";
+import { Github, Mail, Share2, Loader2, CheckCircle2, AlertTriangle } from "lucide-react";
 import { GITHUB_URL, LINKTREE_URL, socialLinks } from "@/data/portfolio";
 import { getSocialIcon } from "@/components/ui/SocialIcons";
+import { submitContactMessage } from "@/lib/contact.functions";
 
 interface Errors {
   name?: string;
@@ -15,14 +17,23 @@ interface Errors {
   message?: string;
 }
 
+type Status =
+  | { kind: "idle" }
+  | { kind: "sending" }
+  | { kind: "sent"; message: string }
+  | { kind: "error"; message: string };
+
 export default function Contact() {
   const [values, setValues] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState<Errors>({});
-  const [validated, setValidated] = useState(false);
+  const [status, setStatus] = useState<Status>({ kind: "idle" });
+  const mountedAt = useRef(Date.now());
+  const honeypot = useRef<HTMLInputElement>(null);
+  const send = useServerFn(submitContactMessage);
 
   const validate = (v: typeof values): Errors => {
     const e: Errors = {};
-    if (!v.name.trim()) e.name = "Please enter your name.";
+    if (v.name.trim().length < 2) e.name = "Please enter your name.";
     if (!v.email.trim()) e.email = "Please enter your email.";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email.trim()))
       e.email = "Please enter a valid email address.";
@@ -30,19 +41,49 @@ export default function Contact() {
     return e;
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const next = validate(values);
     setErrors(next);
-    setValidated(Object.keys(next).length === 0);
+    if (Object.keys(next).length > 0) {
+      setStatus({ kind: "error", message: "Please fix the highlighted fields." });
+      return;
+    }
+
+    setStatus({ kind: "sending" });
+    try {
+      const result = await send({
+        data: {
+          name: values.name.trim(),
+          email: values.email.trim(),
+          message: values.message.trim(),
+          company: honeypot.current?.value ?? "",
+          elapsedMs: Date.now() - mountedAt.current,
+          sourcePath: "/contact",
+        },
+      });
+
+      if (result.ok) {
+        setStatus({ kind: "sent", message: result.message });
+        setValues({ name: "", email: "", message: "" });
+      } else {
+        setStatus({ kind: "error", message: result.message });
+      }
+    } catch {
+      setStatus({
+        kind: "error",
+        message: "Couldn't send right now. Please try again or reach me on GitHub.",
+      });
+    }
   };
 
   const update = (field: keyof typeof values) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setValues((prev) => ({ ...prev, [field]: e.target.value }));
-    setValidated(false);
+    if (status.kind !== "sending") setStatus({ kind: "idle" });
   };
+
 
   return (
     <Layout>
