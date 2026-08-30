@@ -113,15 +113,27 @@ async def tab_order_and_escape(page, tag):
         "n => { const s = getComputedStyle(n);"
         " return s.outlineWidth + '|' + s.boxShadow; }"
     )
-    await page.evaluate("() => { window.scrollTo(0, 0); document.body.focus(); }")
-    reached = False
-    for _ in range(80):
-        await page.keyboard.press("Tab")
-        if await page.evaluate("() => document.activeElement.id") == ids[0]:
-            reached = True
-            break
-    check(reached, f"{tag} first disclosure trigger is reachable by Tab from the top")
+    # Focus the element immediately before the trigger, then Tab into it with a
+    # real key press so :focus-visible applies the way it does for keyboard users.
+    reached = await page.evaluate(
+        """(id) => {
+          const focusables = [...document.querySelectorAll(
+            'a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])'
+          )].filter(n => n.offsetParent !== null || n === document.activeElement);
+          const i = focusables.findIndex(n => n.id === id);
+          if (i < 1) return false;
+          focusables[i - 1].focus({ preventScroll: true });
+          return true;
+        }""",
+        ids[0],
+    )
+    check(reached, f"{tag} first disclosure trigger has a focusable predecessor")
+    await page.keyboard.press("Tab")
     await page.wait_for_timeout(150)
+    check(
+        await page.evaluate("() => document.activeElement.id") == ids[0],
+        f"{tag} Tab moves focus onto the first disclosure trigger",
+    )
     focused = await first.evaluate(
         "n => { const s = getComputedStyle(n);"
         " return s.outlineWidth + '|' + s.boxShadow; }"
@@ -257,8 +269,8 @@ async def touch_toggle(pw, name):
     await page.goto(BASE, wait_until="networkidle")
 
     trig = page.locator('[data-pop-target="build-area"] button[aria-expanded]').first
-    await trig.scroll_into_view_if_needed()
-    await page.wait_for_timeout(400)
+    await trig.evaluate("n => n.scrollIntoView({ block: 'center' })")
+    await page.wait_for_timeout(500)
     scroll_before = await page.evaluate("() => window.scrollY")
     await trig.tap()
     await page.wait_for_timeout(450)
