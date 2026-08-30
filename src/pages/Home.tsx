@@ -246,12 +246,18 @@ export default function Home() {
             title="What I Build"
             subtitle="I build software, AI systems, experiments, and technical projects to explore ideas and solve real problems."
           />
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid list-none gap-5 p-0 sm:grid-cols-2 lg:grid-cols-3">
             {buildAreas.map((area, i) => {
               const Icon = buildIcons[area.icon] ?? AppWindow;
               return (
-                <Reveal key={area.id} delay={i * 60} className="h-full">
-                  <div className="group lift-3d flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40">
+                <Reveal as="li" key={area.id} delay={i * 60} className="h-full">
+                  <div
+                    tabIndex={0}
+                    role="group"
+                    aria-label={`Focus area: ${area.title}`}
+                    data-pop-target="build-area"
+                    className="group pop-card flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40"
+                  >
                     <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background/60 text-primary transition-colors group-hover:border-primary/40">
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </div>
@@ -277,7 +283,7 @@ export default function Home() {
                 </Reveal>
               );
             })}
-          </div>
+          </ul>
 
         </div>
       </section>
@@ -287,10 +293,16 @@ export default function Home() {
       <section className="border-t border-border py-20 md:py-28">
         <div className="container">
           <SectionHeading label="Approach" title="How I Think" />
-          <div className="grid gap-5 md:grid-cols-3">
+          <ul className="grid list-none gap-5 p-0 md:grid-cols-3">
             {principles.map((p, i) => (
-              <Reveal key={p.title} delay={i * 70} className="h-full">
-                <div className="group lift-3d h-full rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40">
+              <Reveal as="li" key={p.title} delay={i * 70} className="h-full">
+                <div
+                  tabIndex={0}
+                  role="group"
+                  aria-label={`Principle: ${p.title}`}
+                  data-pop-target="principle"
+                  className="group pop-card h-full rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40"
+                >
                   <span className="font-mono text-xs text-primary">0{i + 1}</span>
                   <h3 className="mt-3 text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
                     {p.title}
@@ -299,7 +311,8 @@ export default function Home() {
                 </div>
               </Reveal>
             ))}
-          </div>
+          </ul>
+
         </div>
       </section>
 
