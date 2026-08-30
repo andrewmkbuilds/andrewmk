@@ -54,8 +54,8 @@ function render(route: RouteMeta) {
 
   // Drop the sitewide placeholders that the per-route tags replace.
   html = html
-    .replace(/\s*<meta property="og:(title|description|type|url)"[\s\S]*?\/>/g, "")
-    .replace(/\s*<meta name="twitter:(card|title|description)"[\s\S]*?\/>/g, "")
+    .replace(/\s*<meta property="og:(title|description|type|url|site_name|image|image:width|image:height)"[\s\S]*?\/>/g, "")
+    .replace(/\s*<meta name="twitter:(card|title|description|image)"[\s\S]*?\/>/g, "")
     .replace(/\s*<link rel="canonical"[^>]*\/>/g, "");
 
   html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeAttr(route.title)}</title>`);
