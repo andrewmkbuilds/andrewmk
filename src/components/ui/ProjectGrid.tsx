@@ -55,7 +55,7 @@ export function ProjectGrid({ projects = ecosystemProjects, loading = false }: P
   };
 
   return (
-    <div data-project-grid>
+    <div data-project-grid="true">
       <div className="mb-8 space-y-3">
         <FilterBar
           label="Filter projects by technology"
