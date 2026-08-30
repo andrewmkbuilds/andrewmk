@@ -178,18 +178,20 @@ export default function Home() {
             title="Things I've Built"
             subtitle="Different problems. Different systems. One constant: build it."
           />
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid gap-6 lg:grid-cols-2" role="list">
             {featuredProjects.map((project, i) => (
-              <Reveal key={project.slug} delay={i * 70} className="h-full">
+              <Reveal key={project.slug} delay={i * 70} className="h-full" role="listitem">
                 <ProjectCard
                   project={project}
                   onOpen={openProject}
                   variant="featured"
-                  className="h-full"
+                  className="pop-card h-full"
+                  data-pop-target="featured-project"
                 />
               </Reveal>
             ))}
           </div>
+
         </div>
       </section>
 
