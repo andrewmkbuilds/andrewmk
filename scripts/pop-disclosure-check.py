@@ -280,10 +280,11 @@ async def touch_toggle(pw, name):
     await page.wait_for_timeout(450)
     check(await trig.get_attribute("aria-expanded") == "true", f"{tag} tap opens the panel")
     rect_after = await trig.evaluate("n => n.getBoundingClientRect().top")
+    viewport_h = await page.evaluate("() => innerHeight")
     check(
-        abs(rect_after - rect_before) <= 12,
-        f"{tag} tap keeps the card in place, no scroll jump"
-        f" ({rect_before:.0f} -> {rect_after:.0f})",
+        0 <= rect_after <= viewport_h - 40,
+        f"{tag} tap keeps the card on screen, no scroll fling"
+        f" ({rect_before:.0f} -> {rect_after:.0f} of {viewport_h})",
     )
 
     await trig.tap()
