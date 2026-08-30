@@ -58,6 +58,13 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
       data-cursor="view"
       onPointerMove={handleMove}
       onPointerLeave={reset}
+      onKeyDown={(event) => {
+        if (event.key !== "Escape" || !detailsOpen) return;
+        event.stopPropagation();
+        setDetailsOpen(false);
+        triggerRef.current?.focus();
+      }}
+
       style={
         reduce
           ? {}
