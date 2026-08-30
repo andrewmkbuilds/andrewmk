@@ -251,23 +251,18 @@ export default function Home() {
               const Icon = buildIcons[area.icon] ?? AppWindow;
               return (
                 <Reveal as="li" key={area.id} delay={i * 60} className="h-full">
-                  <div
-                    tabIndex={0}
-                    role="group"
-                    aria-label={`Focus area: ${area.title}`}
-                    data-pop-target="build-area"
-                    className="group pop-card flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40"
+                  <PopDisclosure
+                    title={area.title}
+                    kind="focus area, show details"
+                    popTarget="build-area"
+                    summary={area.description}
+                    media={
+                      <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background/60 text-primary transition-colors group-hover:border-primary/40">
+                        <Icon className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                    }
                   >
-                    <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background/60 text-primary transition-colors group-hover:border-primary/40">
-                      <Icon className="h-5 w-5" aria-hidden="true" />
-                    </div>
-                    <h3 className="mt-5 text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
-                      {area.title}
-                    </h3>
-                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                      {area.description}
-                    </p>
-                    <dl className="mt-auto space-y-2 border-t border-border pt-4 mt-5">
+                    <dl className="space-y-2">
                       {area.details.map((d) => (
                         <div key={d.label} className="flex items-baseline justify-between gap-3">
                           <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
@@ -279,11 +274,12 @@ export default function Home() {
                         </div>
                       ))}
                     </dl>
-                  </div>
+                  </PopDisclosure>
                 </Reveal>
               );
             })}
           </ul>
+
 
         </div>
       </section>
