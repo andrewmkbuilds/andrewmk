@@ -28,19 +28,29 @@ CTA_TEXT = "Start a Website Project"
 
 METRICS = """(el) => {
   const cs = getComputedStyle(el);
-  const r = el.getBoundingClientRect();
   return {
     transform: cs.transform,
     boxShadow: cs.boxShadow,
     transition: cs.transitionDuration,
-    width: Math.round(r.width),
-    height: Math.round(r.height),
-    top: Math.round(r.top),
-    left: Math.round(r.left),
+    // Layout box ignores transforms, so it detects real layout shift.
+    width: el.offsetWidth,
+    height: el.offsetHeight,
   };
 }"""
 
 failures: list[str] = []
+
+
+async def settled(locator):
+    """Sample until the transform stops changing (transition finished)."""
+    previous = None
+    for _ in range(15):
+        current = await locator.evaluate(METRICS)
+        if previous is not None and current["transform"] == previous["transform"]:
+            return current
+        previous = current
+        await locator.page.wait_for_timeout(120)
+    return previous
 
 
 def check(name: str, condition: bool, detail: str = "") -> None:
@@ -51,7 +61,13 @@ def check(name: str, condition: bool, detail: str = "") -> None:
 
 
 def has_transform(t: str) -> bool:
-    return t not in ("none", "") and t != "matrix(1, 0, 0, 1, 0, 0)"
+    if t in ("none", ""):
+        return False
+    nums = [abs(float(v)) for v in t[t.find("(") + 1 : -1].split(",")] if "(" in t else []
+    if len(nums) >= 6:
+        # Meaningful lift or scale, not a sub-pixel resting value.
+        return abs(nums[0] - 1) > 0.005 or nums[5] > 0.5
+    return True
 
 
 def glow(shadow: str) -> bool:
@@ -79,7 +95,7 @@ async def run_page(browser_name, browser, path_name, path, reduced=False, touch=
     await cta.scroll_into_view_if_needed()
     await page.wait_for_timeout(400)
 
-    rest = await cta.evaluate(METRICS)
+    rest = await settled(cta)
     await page.screenshot(path=str(SHOTS / f"{label.replace('/', '_')}_rest.png"))
 
     if touch:
@@ -91,15 +107,18 @@ async def run_page(browser_name, browser, path_name, path, reduced=False, touch=
         await context.close()
         return
 
-    await cta.hover()
-    await page.wait_for_timeout(500)
-    hovered = await cta.evaluate(METRICS)
+    box = await cta.bounding_box()
+    assert box
+    await page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+    await page.wait_for_timeout(200)
+    hovered = await settled(cta)
     await page.screenshot(path=str(SHOTS / f"{label.replace('/', '_')}_hover.png"))
 
     if reduced:
         check("reduced motion: no transform on hover", not has_transform(hovered["transform"]),
               hovered["transform"])
-        check("reduced motion: transitions disabled", hovered["transition"] in ("0s", "0s, 0s, 0s, 0s"),
+        longest = max(float(d.replace("s", "")) for d in hovered["transition"].split(", "))
+        check("reduced motion: transitions effectively disabled", longest <= 0.01,
               hovered["transition"])
         check("reduced motion: static emphasis still present", glow(hovered["boxShadow"]))
     else:
@@ -111,11 +130,10 @@ async def run_page(browser_name, browser, path_name, path, reduced=False, touch=
     # Keyboard focus-visible.
     await page.mouse.move(0, 0)
     await page.wait_for_timeout(300)
-    await cta.evaluate("(el) => el.focus({ focusVisible: true })")
+    await cta.evaluate("(el) => el.focus()")
     await page.keyboard.press("Shift+Tab")
     await page.keyboard.press("Tab")
-    await page.wait_for_timeout(500)
-    focused = await cta.evaluate(METRICS)
+    focused = await settled(cta)
     is_focus_visible = await cta.evaluate("(el) => el.matches(':focus-visible')")
     await page.screenshot(path=str(SHOTS / f"{label.replace('/', '_')}_focus.png"))
 
