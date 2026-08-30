@@ -1,5 +1,6 @@
 import { Link } from "@/lib/router-compat";
 import { SocialIcons } from "@/components/ui/SocialIcons";
+import logoAsset from "@/assets/andrewbuilds-logo.png.asset.json";
 
 const links = [
   { href: "/", label: "Home" },
@@ -17,7 +18,16 @@ export function Footer() {
       <div className="container py-12">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div>
-            <p className="text-lg font-semibold text-foreground">Andrew Mathews</p>
+            <div className="flex items-center gap-3">
+              <img
+                src={logoAsset.url}
+                alt="AndrewBuilds logo"
+                width={40}
+                height={40}
+                className="h-10 w-10 rounded-md"
+              />
+              <p className="text-lg font-semibold text-foreground">Andrew Mathews</p>
+            </div>
             <p className="mt-1 font-mono text-sm text-muted-foreground">
               Student · Developer · AI Builder
             </p>

@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { SocialIcons } from "@/components/ui/SocialIcons";
+import logoAsset from "@/assets/andrewbuilds-logo.png.asset.json";
+
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -43,9 +45,19 @@ export function Header() {
       <div className="container flex h-16 items-center justify-between">
         <Link
           to="/"
-          className="font-mono text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-primary"
+          aria-label="Andrew Mathews — home"
+          className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
         >
-          <span className="text-primary">/</span>Andrew
+          <img
+            src={logoAsset.url}
+            alt=""
+            width={34}
+            height={34}
+            className="h-[34px] w-[34px] rounded-md"
+          />
+          <span className="font-mono text-sm font-semibold tracking-tight text-foreground">
+            Andrew<span className="text-primary">Builds</span>
+          </span>
         </Link>
 
         <nav aria-label="Main" className="hidden lg:flex items-center gap-1">
