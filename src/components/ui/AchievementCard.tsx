@@ -30,7 +30,7 @@ export function AchievementCard({
       whileHover={reduce ? {} : { y: -4 }}
       className={cn(
         "surface spotlight edge-glow lift-3d group relative isolate overflow-hidden rounded-xl p-5",
-        "transition-colors duration-300 hover:border-primary/40",
+        "gold-hover transition-colors duration-300 hover:border-gold/40",
         className,
       )}
       onPointerMove={(e) => {
@@ -43,12 +43,12 @@ export function AchievementCard({
       {typeof index === "number" && (
         <span
           aria-hidden="true"
-          className="absolute right-4 top-3 font-mono text-4xl font-semibold text-foreground/[0.045] transition-colors duration-300 group-hover:text-primary/15"
+          className="absolute right-4 top-3 font-mono text-4xl font-semibold text-foreground/[0.045] transition-colors duration-300 group-hover:text-gold/15"
         >
           {String(index + 1).padStart(2, "0")}
         </span>
       )}
-      <p className="relative font-mono text-sm text-primary">{place}</p>
+      <p className="relative font-mono text-sm text-gold">{place}</p>
       {detail && (
         <h3 className="relative mt-2 text-lg font-semibold leading-snug text-foreground">
           {detail}
@@ -59,14 +59,14 @@ export function AchievementCard({
         <button
           type="button"
           onClick={onViewProof}
-          className="focus-ring relative mt-4 inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-mono text-xs text-foreground transition-colors hover:border-primary/50 hover:text-primary"
+          className="focus-ring relative mt-4 inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-mono text-xs text-foreground transition-colors hover:border-gold/50 hover:text-gold"
         >
           View Certificate <span aria-hidden="true">&rarr;</span>
         </button>
       )}
       <span
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-linear-to-r from-primary/60 to-transparent transition-transform duration-500 group-hover:scale-x-100"
+        className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-linear-to-r from-gold/60 to-transparent transition-transform duration-500 group-hover:scale-x-100"
       />
     </motion.article>
   );
