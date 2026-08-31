@@ -18,7 +18,7 @@ export function CertificateCard({ certificate, onOpen, className }: CertificateC
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         "surface spotlight edge-glow lift-3d group relative isolate flex h-full flex-col overflow-hidden rounded-xl",
-        "transition-colors duration-300 hover:border-primary/40",
+        "gold-hover transition-colors duration-300 hover:border-gold/40",
         className,
       )}
       onPointerMove={(e) => {
@@ -36,14 +36,14 @@ export function CertificateCard({ certificate, onOpen, className }: CertificateC
           decoding="async"
           className="h-full w-full object-contain p-3 transition-transform duration-500 group-hover:scale-[1.03]"
         />
-        <span className="absolute left-3 top-3 flex items-center gap-1.5 rounded-md border border-primary/30 bg-background/85 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-primary backdrop-blur-sm">
+        <span className="absolute left-3 top-3 flex items-center gap-1.5 rounded-md border border-gold/30 bg-background/85 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-gold backdrop-blur-sm">
           {certificate.type === "pdf" && <FileText className="size-3" />}
           Original certificate
         </span>
       </div>
 
       <div className="relative flex flex-1 flex-col p-5">
-        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary">
+        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
           {certificate.category}
         </p>
         <h3 className="mt-2 text-base font-semibold leading-snug text-foreground">
@@ -68,7 +68,7 @@ export function CertificateCard({ certificate, onOpen, className }: CertificateC
 
       <span
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-linear-to-r from-primary/60 to-transparent transition-transform duration-500 group-hover:scale-x-100"
+        className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-linear-to-r from-gold/60 to-transparent transition-transform duration-500 group-hover:scale-x-100"
       />
     </motion.article>
   );
