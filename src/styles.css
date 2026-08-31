@@ -915,3 +915,13 @@
     )
     1;
 }
+
+/* Gold hairline rule used for eyebrows and small premium markers. */
+@utility hairline-gold {
+  height: 1px;
+  background-image: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--gold) 70%, transparent),
+    transparent
+  );
+}
