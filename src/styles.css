@@ -6,7 +6,8 @@
 @custom-variant dark (&:is(.dark *));
 
 /* Andrew Mathews — Portfolio Design System (ported from src/index.css)
-   60-30-10: deep charcoal-green base (60), slate structure (30), refined emerald accent (10).
+   60-30-10: deep navy base (60), slate-blue structure (30), logo blue accent (10) with gold as a
+   restrained premium highlight. Derived from the AndrewBuilds logo (blue + gold).
 */
 
 @theme inline {
@@ -26,6 +27,10 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-glow: var(--primary-glow);
+  --color-primary-deep: var(--primary-deep);
+  --color-gold: var(--gold);
+  --color-gold-glow: var(--gold-glow);
+  --color-gold-foreground: var(--gold-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -94,85 +99,93 @@
 :root {
   --radius: 0.625rem;
 
-  /* 60% — Base: deep ink navy */
-  --background: hsl(200 22% 6%);
-  --foreground: hsl(190 16% 96%);
+  /* 60% — Base: deep midnight navy (logo backdrop) */
+  --background: hsl(218 32% 6%);
+  --foreground: hsl(210 24% 96%);
 
-  /* 30% — Structure: layered slate surfaces */
-  --card: hsl(200 18% 9%);
-  --card-foreground: hsl(190 16% 96%);
-  --popover: hsl(200 18% 9%);
-  --popover-foreground: hsl(190 16% 96%);
+  /* 30% — Structure: layered slate-blue surfaces */
+  --card: hsl(218 27% 9%);
+  --card-foreground: hsl(210 24% 96%);
+  --popover: hsl(218 27% 9%);
+  --popover-foreground: hsl(210 24% 96%);
 
-  /* 10% — Accent: refined emerald green */
-  --primary: hsl(156 58% 45%);
-  --primary-foreground: hsl(160 45% 5%);
-  --primary-glow: hsl(148 52% 58%);
+  /* 10% — Accent: logo blue, with a cyan glow and a deeper press tone */
+  --primary: hsl(205 82% 54%);
+  --primary-foreground: hsl(216 60% 7%);
+  --primary-glow: hsl(191 88% 62%);
+  --primary-deep: hsl(214 78% 40%);
 
-  --secondary: hsl(200 16% 13%);
-  --secondary-foreground: hsl(190 16% 96%);
-  --muted: hsl(200 14% 15%);
-  --muted-foreground: hsl(205 12% 68%);
+  /* Premium secondary accent: logo gold. Used sparingly. */
+  --gold: hsl(41 72% 58%);
+  --gold-glow: hsl(45 84% 70%);
+  --gold-foreground: hsl(38 60% 8%);
+
+  --secondary: hsl(218 22% 13%);
+  --secondary-foreground: hsl(210 24% 96%);
+  --muted: hsl(218 19% 15%);
+  --muted-foreground: hsl(213 15% 70%);
 
   /* Accent = subtle interactive surface (not a second brand color) */
-  --accent: hsl(200 16% 15%);
-  --accent-foreground: hsl(190 16% 96%);
+  --accent: hsl(218 22% 15%);
+  --accent-foreground: hsl(210 24% 96%);
 
   --destructive: hsl(0 62% 52%);
-  --destructive-foreground: hsl(190 16% 96%);
+  --destructive-foreground: hsl(210 24% 96%);
 
-  --border: hsl(200 14% 18%);
-  --input: hsl(200 14% 18%);
-  --ring: hsl(156 58% 45%);
+  --border: hsl(218 19% 19%);
+  --input: hsl(218 19% 19%);
+  --ring: hsl(205 82% 54%);
 
-  --sidebar: hsl(200 22% 7%);
-  --sidebar-foreground: hsl(190 16% 96%);
-  --sidebar-primary: hsl(156 58% 45%);
-  --sidebar-primary-foreground: hsl(160 45% 5%);
-  --sidebar-accent: hsl(200 16% 13%);
-  --sidebar-accent-foreground: hsl(190 16% 96%);
-  --sidebar-border: hsl(200 14% 18%);
-  --sidebar-ring: hsl(156 58% 45%);
+  --sidebar: hsl(218 32% 7%);
+  --sidebar-foreground: hsl(210 24% 96%);
+  --sidebar-primary: hsl(205 82% 54%);
+  --sidebar-primary-foreground: hsl(216 60% 7%);
+  --sidebar-accent: hsl(218 22% 13%);
+  --sidebar-accent-foreground: hsl(210 24% 96%);
+  --sidebar-border: hsl(218 19% 19%);
+  --sidebar-ring: hsl(205 82% 54%);
 
-  /* Text selection — derived from the green accent, never hardcoded.
+  /* Text selection — derived from the blue accent, never hardcoded.
      First declaration is the legacy-WebView fallback (no color-mix support). */
-  /* Pre-mixed fallback for engines without color-mix (older mobile WebKit):
-     full-strength primary under light text only reaches ~2.4:1. */
-  --selection-bg: #1b573f;
+  --selection-bg: #17456f;
   --selection-bg: color-mix(in oklab, var(--primary) 45%, var(--background));
   --selection-fg: var(--foreground);
 }
 
 
 .dark {
-  --background: hsl(200 22% 6%);
-  --foreground: hsl(190 16% 96%);
-  --card: hsl(200 18% 9%);
-  --card-foreground: hsl(190 16% 96%);
-  --popover: hsl(200 18% 9%);
-  --popover-foreground: hsl(190 16% 96%);
-  --primary: hsl(156 58% 45%);
-  --primary-foreground: hsl(160 45% 5%);
-  --primary-glow: hsl(148 52% 58%);
-  --secondary: hsl(200 16% 13%);
-  --secondary-foreground: hsl(190 16% 96%);
-  --muted: hsl(200 14% 15%);
-  --muted-foreground: hsl(205 12% 68%);
-  --accent: hsl(200 16% 15%);
-  --accent-foreground: hsl(190 16% 96%);
+  --background: hsl(218 32% 6%);
+  --foreground: hsl(210 24% 96%);
+  --card: hsl(218 27% 9%);
+  --card-foreground: hsl(210 24% 96%);
+  --popover: hsl(218 27% 9%);
+  --popover-foreground: hsl(210 24% 96%);
+  --primary: hsl(205 82% 54%);
+  --primary-foreground: hsl(216 60% 7%);
+  --primary-glow: hsl(191 88% 62%);
+  --primary-deep: hsl(214 78% 40%);
+  --gold: hsl(41 72% 58%);
+  --gold-glow: hsl(45 84% 70%);
+  --gold-foreground: hsl(38 60% 8%);
+  --secondary: hsl(218 22% 13%);
+  --secondary-foreground: hsl(210 24% 96%);
+  --muted: hsl(218 19% 15%);
+  --muted-foreground: hsl(213 15% 70%);
+  --accent: hsl(218 22% 15%);
+  --accent-foreground: hsl(210 24% 96%);
   --destructive: hsl(0 62% 45%);
-  --destructive-foreground: hsl(190 16% 96%);
-  --border: hsl(200 14% 18%);
-  --input: hsl(200 14% 18%);
-  --ring: hsl(156 58% 45%);
-  --sidebar: hsl(200 22% 7%);
-  --sidebar-foreground: hsl(190 16% 96%);
-  --sidebar-primary: hsl(156 58% 45%);
-  --sidebar-primary-foreground: hsl(160 45% 5%);
-  --sidebar-accent: hsl(200 16% 13%);
-  --sidebar-accent-foreground: hsl(190 16% 96%);
-  --sidebar-border: hsl(200 14% 18%);
-  --sidebar-ring: hsl(156 58% 45%);
+  --destructive-foreground: hsl(210 24% 96%);
+  --border: hsl(218 19% 19%);
+  --input: hsl(218 19% 19%);
+  --ring: hsl(205 82% 54%);
+  --sidebar: hsl(218 32% 7%);
+  --sidebar-foreground: hsl(210 24% 96%);
+  --sidebar-primary: hsl(205 82% 54%);
+  --sidebar-primary-foreground: hsl(216 60% 7%);
+  --sidebar-accent: hsl(218 22% 13%);
+  --sidebar-accent-foreground: hsl(210 24% 96%);
+  --sidebar-border: hsl(218 19% 19%);
+  --sidebar-ring: hsl(205 82% 54%);
 }
 
 /* Container behaviour ported from tailwind.config.ts (center, 2rem padding, 1400px cap) */
@@ -194,7 +207,7 @@
     border-color: var(--color-border);
   }
 
-  /* Selection tokens derived from the green accent — theme tweaks flow through. */
+  /* Selection tokens derived from the blue accent — theme tweaks flow through. */
   ::selection {
     background-color: var(--selection-bg);
     color: var(--selection-fg);
@@ -242,7 +255,7 @@
      Browsers (notably WebKit and Blink) drop author ::selection colors on
      disabled controls and fall back to the platform blue, and shadcn's
      `disabled:opacity-50` washes the highlight out. Restate the tokens and
-     pin -webkit-text-fill-color so the highlight stays theme green. */
+     pin -webkit-text-fill-color so the highlight stays on-brand blue. */
   /* Disabled surfaces are rendered at ~50% opacity, which also washes out the
      highlight. Deepen the highlight for them so selected text keeps a 4.5:1
      ratio after that compositing. */
@@ -252,7 +265,7 @@
   [aria-disabled="true"],
   [data-disabled],
   fieldset:disabled {
-    --selection-bg: #163f2f;
+    --selection-bg: #123a5e;
     --selection-bg: color-mix(in oklab, var(--primary) 30%, var(--background));
   }
 
@@ -291,7 +304,7 @@
 
   /* Windows High Contrast / forced-colors: the OS owns the palette. Hand the
      selection back to the system keywords so it stays legible instead of
-     painting green-on-green over forced colors. */
+     painting blue-on-blue over forced colors. */
   @media (forced-colors: active) {
     /* HCM expresses "disabled" with GrayText, not dimming — undo the 50%
        opacity so selected text in disabled controls stays legible. */
@@ -414,7 +427,7 @@
   }
 
   .shadow-card {
-    box-shadow: 0 1px 0 color-mix(in hsl, var(--foreground) 4%, transparent) inset, 0 12px 30px -18px hsl(200 40% 2% / 0.9);
+    box-shadow: 0 1px 0 color-mix(in hsl, var(--foreground) 4%, transparent) inset, 0 12px 30px -18px hsl(220 45% 2% / 0.9);
   }
 
   .shadow-glow {
@@ -467,7 +480,7 @@
       box-shadow:
         0 18px 38px -16px color-mix(in hsl, var(--primary) 48%, transparent),
         0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
-        0 14px 26px -14px hsl(190 60% 2% / 0.95);
+        0 14px 26px -14px hsl(220 60% 2% / 0.95);
       filter: brightness(1.08) contrast(1.04);
     }
 
@@ -481,7 +494,7 @@
     box-shadow:
       0 18px 38px -16px color-mix(in hsl, var(--primary) 48%, transparent),
       0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
-      0 14px 26px -14px hsl(190 60% 2% / 0.95);
+      0 14px 26px -14px hsl(220 60% 2% / 0.95);
     filter: brightness(1.08) contrast(1.04);
   }
 
@@ -513,7 +526,7 @@
 
   /* Independent pop for sub-sections inside a card (e.g. "How we work",
      "Start a Website Project"). Reuses the cta-pop timing, lift and
-     emerald glow so it matches the rest of the site. */
+     blue glow so it matches the rest of the site. */
   .section-pop {
     transform: translateZ(0);
     border-radius: var(--radius);
@@ -530,7 +543,7 @@
       box-shadow:
         0 18px 38px -16px color-mix(in hsl, var(--primary) 48%, transparent),
         0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
-        0 14px 26px -14px hsl(190 60% 2% / 0.95);
+        0 14px 26px -14px hsl(220 60% 2% / 0.95);
     }
   }
 
@@ -539,7 +552,7 @@
     box-shadow:
       0 18px 38px -16px color-mix(in hsl, var(--primary) 48%, transparent),
       0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
-      0 14px 26px -14px hsl(190 60% 2% / 0.95);
+      0 14px 26px -14px hsl(220 60% 2% / 0.95);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -578,7 +591,7 @@
       box-shadow:
         0 20px 42px -18px color-mix(in hsl, var(--primary) 48%, transparent),
         0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
-        0 16px 28px -16px hsl(190 60% 2% / 0.95);
+        0 16px 28px -16px hsl(220 60% 2% / 0.95);
     }
   }
 
@@ -588,7 +601,7 @@
     box-shadow:
       0 20px 42px -18px color-mix(in hsl, var(--primary) 48%, transparent),
       0 0 0 2px var(--primary),
-      0 16px 28px -16px hsl(190 60% 2% / 0.95);
+      0 16px 28px -16px hsl(220 60% 2% / 0.95);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -670,7 +683,7 @@
   color: var(--primary);
 }
 
-/* Layered card surface: inner top light + depth shadow + soft green floor */
+/* Layered card surface: inner top light + depth shadow + soft blue floor */
 @utility surface {
   position: relative;
   background:
@@ -679,7 +692,7 @@
   border: 1px solid var(--border);
   box-shadow:
     inset 0 1px 0 color-mix(in oklab, var(--foreground) 6%, transparent),
-    0 24px 50px -32px hsl(190 60% 2% / 0.95);
+    0 24px 50px -32px hsl(220 60% 2% / 0.95);
 }
 
 /* Pointer-tracked spotlight; requires --mx/--my set on the element */
@@ -796,7 +809,7 @@
       transform: translateY(-5px) rotateX(2.2deg) scale(1.008);
       box-shadow:
         inset 0 1px 0 color-mix(in oklab, var(--foreground) 8%, transparent),
-        0 30px 60px -30px hsl(190 60% 2% / 0.95),
+        0 30px 60px -30px hsl(220 60% 2% / 0.95),
         0 0 0 1px color-mix(in oklab, var(--primary) 18%, transparent);
     }
   }
