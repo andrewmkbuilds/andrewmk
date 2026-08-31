@@ -431,11 +431,11 @@
   }
 
   .shadow-glow {
-    box-shadow: 0 18px 45px -22px color-mix(in hsl, var(--primary) 35%, transparent);
+    box-shadow: 0 18px 45px -22px color-mix(in hsl, var(--fx) 35%, transparent);
   }
 
   .bg-hero-veil {
-    background-image: radial-gradient(ellipse 70% 55% at 50% 0%, color-mix(in hsl, var(--primary) 7%, transparent), transparent 70%);
+    background-image: radial-gradient(ellipse 70% 55% at 50% 0%, color-mix(in hsl, var(--primary) 9%, transparent), transparent 70%);
   }
 
   .link-underline {
@@ -444,7 +444,7 @@
 
   .link-underline::after {
     content: '';
-    @apply absolute -bottom-1 left-0 w-0 h-px bg-primary transition-all duration-300;
+    @apply absolute -bottom-1 left-0 w-0 h-px bg-gold transition-all duration-300;
   }
 
   .link-underline:hover::after {
@@ -478,8 +478,8 @@
     .cta-pop:hover {
       transform: translateY(-3px) scale(1.03);
       box-shadow:
-        0 18px 38px -16px color-mix(in hsl, var(--primary) 48%, transparent),
-        0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
+        0 18px 38px -16px color-mix(in hsl, var(--fx) 48%, transparent),
+        0 0 0 1px color-mix(in oklab, var(--fx) 26%, transparent),
         0 14px 26px -14px hsl(220 60% 2% / 0.95);
       filter: brightness(1.08) contrast(1.04);
     }
@@ -492,8 +492,8 @@
   .cta-pop:focus-visible {
     transform: translateY(-3px) scale(1.03);
     box-shadow:
-      0 18px 38px -16px color-mix(in hsl, var(--primary) 48%, transparent),
-      0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
+      0 18px 38px -16px color-mix(in hsl, var(--fx) 48%, transparent),
+      0 0 0 1px color-mix(in oklab, var(--fx) 26%, transparent),
       0 14px 26px -14px hsl(220 60% 2% / 0.95);
     filter: brightness(1.08) contrast(1.04);
   }
@@ -519,8 +519,8 @@
     .cta-pop:hover,
     .cta-pop:focus-visible {
       box-shadow:
-        0 0 0 1px color-mix(in oklab, var(--primary) 45%, transparent),
-        0 0 0 5px color-mix(in oklab, var(--primary) 14%, transparent) !important;
+        0 0 0 1px color-mix(in oklab, var(--fx) 45%, transparent),
+        0 0 0 5px color-mix(in oklab, var(--fx) 14%, transparent) !important;
     }
   }
 
@@ -541,8 +541,8 @@
     .section-pop:hover {
       transform: translateY(-3px) scale(1.02);
       box-shadow:
-        0 18px 38px -16px color-mix(in hsl, var(--primary) 48%, transparent),
-        0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
+        0 18px 38px -16px color-mix(in hsl, var(--fx) 48%, transparent),
+        0 0 0 1px color-mix(in oklab, var(--fx) 26%, transparent),
         0 14px 26px -14px hsl(220 60% 2% / 0.95);
     }
   }
@@ -550,8 +550,8 @@
   .section-pop:focus-within {
     transform: translateY(-3px) scale(1.02);
     box-shadow:
-      0 18px 38px -16px color-mix(in hsl, var(--primary) 48%, transparent),
-      0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
+      0 18px 38px -16px color-mix(in hsl, var(--fx) 48%, transparent),
+      0 0 0 1px color-mix(in oklab, var(--fx) 26%, transparent),
       0 14px 26px -14px hsl(220 60% 2% / 0.95);
   }
 
@@ -565,8 +565,8 @@
     .section-pop:hover,
     .section-pop:focus-within {
       box-shadow:
-        0 0 0 1px color-mix(in oklab, var(--primary) 32%, transparent),
-        0 0 0 5px color-mix(in oklab, var(--primary) 10%, transparent) !important;
+        0 0 0 1px color-mix(in oklab, var(--fx) 32%, transparent),
+        0 0 0 5px color-mix(in oklab, var(--fx) 10%, transparent) !important;
     }
   }
 
@@ -589,8 +589,8 @@
     .pop-card:hover {
       transform: perspective(900px) translate3d(0, -4px, 14px) scale(1.018);
       box-shadow:
-        0 20px 42px -18px color-mix(in hsl, var(--primary) 48%, transparent),
-        0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
+        0 20px 42px -18px color-mix(in hsl, var(--fx) 48%, transparent),
+        0 0 0 1px color-mix(in oklab, var(--fx) 26%, transparent),
         0 16px 28px -16px hsl(220 60% 2% / 0.95);
     }
   }
@@ -599,8 +599,8 @@
   .pop-card:focus-within {
     transform: perspective(900px) translate3d(0, -4px, 14px) scale(1.018);
     box-shadow:
-      0 20px 42px -18px color-mix(in hsl, var(--primary) 48%, transparent),
-      0 0 0 2px var(--primary),
+      0 20px 42px -18px color-mix(in hsl, var(--fx) 48%, transparent),
+      0 0 0 2px var(--fx),
       0 16px 28px -16px hsl(220 60% 2% / 0.95);
   }
 
@@ -614,14 +614,14 @@
     }
     .pop-card:hover {
       box-shadow:
-        0 0 0 1px color-mix(in oklab, var(--primary) 32%, transparent),
-        0 0 0 5px color-mix(in oklab, var(--primary) 10%, transparent) !important;
+        0 0 0 1px color-mix(in oklab, var(--fx) 32%, transparent),
+        0 0 0 5px color-mix(in oklab, var(--fx) 10%, transparent) !important;
     }
     .pop-card:focus-visible,
     .pop-card:focus-within {
       box-shadow:
-        0 0 0 2px var(--primary),
-        0 0 0 6px color-mix(in oklab, var(--primary) 18%, transparent) !important;
+        0 0 0 2px var(--fx),
+        0 0 0 6px color-mix(in oklab, var(--fx) 18%, transparent) !important;
     }
   }
 
@@ -707,7 +707,7 @@
     transition: opacity 0.4s ease;
     background: radial-gradient(
       320px circle at var(--mx, 50%) var(--my, 50%),
-      color-mix(in oklab, var(--primary) 14%, transparent),
+      color-mix(in oklab, var(--fx) 14%, transparent),
       transparent 60%
     );
   }
@@ -730,7 +730,7 @@
     transition: opacity 0.4s ease;
     background: linear-gradient(
       135deg,
-      color-mix(in oklab, var(--primary) 55%, transparent),
+      color-mix(in oklab, var(--fx) 55%, transparent),
       transparent 42%,
       color-mix(in oklab, var(--gold) 38%, transparent)
     );
@@ -762,7 +762,7 @@
   background-image: linear-gradient(
     90deg,
     transparent,
-    color-mix(in oklab, var(--primary) 30%, transparent),
+    color-mix(in oklab, var(--fx) 30%, transparent),
     transparent
   );
   height: 1px;
@@ -810,7 +810,7 @@
       box-shadow:
         inset 0 1px 0 color-mix(in oklab, var(--foreground) 8%, transparent),
         0 30px 60px -30px hsl(220 60% 2% / 0.95),
-        0 0 0 1px color-mix(in oklab, var(--primary) 18%, transparent);
+        0 0 0 1px color-mix(in oklab, var(--fx) 18%, transparent);
     }
   }
 
