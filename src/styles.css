@@ -111,14 +111,14 @@
   --popover-foreground: hsl(210 26% 96%);
 
   /* Brand blue: structure, links, primary CTAs */
-  --primary: hsl(205 82% 54%);
+  --primary: hsl(204 74% 52%);
   --primary-foreground: hsl(216 60% 7%);
-  --primary-glow: hsl(191 88% 62%);
-  --primary-deep: hsl(214 78% 40%);
+  --primary-glow: hsl(198 84% 66%);
+  --primary-deep: hsl(207 70% 36%);
 
   /* Logo gold: interaction, motion, glow. --fx drives every effect. */
-  --gold: hsl(41 72% 58%);
-  --gold-glow: hsl(45 84% 70%);
+  --gold: hsl(41 58% 60%);
+  --gold-glow: hsl(43 76% 72%);
   --gold-foreground: hsl(38 60% 8%);
   --fx: var(--gold);
 
@@ -136,16 +136,16 @@
 
   --border: hsl(214 30% 23%);
   --input: hsl(214 30% 23%);
-  --ring: hsl(41 72% 58%);
+  --ring: hsl(41 58% 60%);
 
   --sidebar: hsl(216 44% 10%);
   --sidebar-foreground: hsl(210 26% 96%);
-  --sidebar-primary: hsl(205 82% 54%);
+  --sidebar-primary: hsl(204 74% 52%);
   --sidebar-primary-foreground: hsl(216 60% 7%);
   --sidebar-accent: hsl(215 36% 16%);
   --sidebar-accent-foreground: hsl(210 26% 96%);
   --sidebar-border: hsl(214 30% 23%);
-  --sidebar-ring: hsl(41 72% 58%);
+  --sidebar-ring: hsl(41 58% 60%);
 
   /* Text selection — gold-tinted highlight on the blue environment.
      First declaration is the legacy-WebView fallback (no color-mix support). */
@@ -163,12 +163,12 @@
   --card-foreground: hsl(210 26% 96%);
   --popover: hsl(215 42% 11%);
   --popover-foreground: hsl(210 26% 96%);
-  --primary: hsl(205 82% 54%);
+  --primary: hsl(204 74% 52%);
   --primary-foreground: hsl(216 60% 7%);
-  --primary-glow: hsl(191 88% 62%);
-  --primary-deep: hsl(214 78% 40%);
-  --gold: hsl(41 72% 58%);
-  --gold-glow: hsl(45 84% 70%);
+  --primary-glow: hsl(198 84% 66%);
+  --primary-deep: hsl(207 70% 36%);
+  --gold: hsl(41 58% 60%);
+  --gold-glow: hsl(43 76% 72%);
   --gold-foreground: hsl(38 60% 8%);
   --fx: var(--gold);
   --secondary: hsl(215 36% 16%);
@@ -181,15 +181,15 @@
   --destructive-foreground: hsl(210 26% 96%);
   --border: hsl(214 30% 23%);
   --input: hsl(214 30% 23%);
-  --ring: hsl(41 72% 58%);
+  --ring: hsl(41 58% 60%);
   --sidebar: hsl(216 44% 10%);
   --sidebar-foreground: hsl(210 26% 96%);
-  --sidebar-primary: hsl(205 82% 54%);
+  --sidebar-primary: hsl(204 74% 52%);
   --sidebar-primary-foreground: hsl(216 60% 7%);
   --sidebar-accent: hsl(215 36% 16%);
   --sidebar-accent-foreground: hsl(210 26% 96%);
   --sidebar-border: hsl(214 30% 23%);
-  --sidebar-ring: hsl(41 72% 58%);
+  --sidebar-ring: hsl(41 58% 60%);
 }
 
 /* Container behaviour ported from tailwind.config.ts (center, 2rem padding, 1400px cap) */
