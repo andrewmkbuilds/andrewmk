@@ -17,8 +17,8 @@ import { Route as AchievementsRouteImport } from './routes/achievements'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as JourneyRouteImport } from './routes/journey'
-import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as WorkRouteImport } from './routes/work'
+import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated/admin.messages'
 
 const IndexRoute = IndexRouteImport.update({
@@ -60,14 +60,14 @@ const JourneyRoute = JourneyRouteImport.update({
   path: '/journey',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProjectsRoute = ProjectsRouteImport.update({
-  id: '/projects',
-  path: '/projects',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const WorkRoute = WorkRouteImport.update({
   id: '/work',
   path: '/work',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminMessagesRoute =
@@ -85,8 +85,8 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/journey': typeof JourneyRoute
-  '/projects': typeof ProjectsRoute
   '/work': typeof WorkRoute
+  '/projects/': typeof ProjectsIndexRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
 }
 export interface FileRoutesByTo {
@@ -97,8 +97,8 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/journey': typeof JourneyRoute
-  '/projects': typeof ProjectsRoute
   '/work': typeof WorkRoute
+  '/projects': typeof ProjectsIndexRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
 }
 export interface FileRoutesById {
@@ -111,8 +111,8 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/journey': typeof JourneyRoute
-  '/projects': typeof ProjectsRoute
   '/work': typeof WorkRoute
+  '/projects/': typeof ProjectsIndexRoute
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
 }
 export interface FileRouteTypes {
@@ -125,8 +125,8 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/journey'
-    | '/projects'
     | '/work'
+    | '/projects/'
     | '/admin/messages'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -137,8 +137,8 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/journey'
-    | '/projects'
     | '/work'
+    | '/projects'
     | '/admin/messages'
   id:
     | '__root__'
@@ -150,8 +150,8 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/journey'
-    | '/projects'
     | '/work'
+    | '/projects/'
     | '/_authenticated/admin/messages'
   fileRoutesById: FileRoutesById
 }
@@ -164,8 +164,8 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   JourneyRoute: typeof JourneyRoute
-  ProjectsRoute: typeof ProjectsRoute
   WorkRoute: typeof WorkRoute
+  ProjectsIndexRoute: typeof ProjectsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -226,18 +226,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JourneyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/projects': {
-      id: '/projects'
-      path: '/projects'
-      fullPath: '/projects'
-      preLoaderRoute: typeof ProjectsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/work': {
       id: '/work'
       path: '/work'
       fullPath: '/work'
       preLoaderRoute: typeof WorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/': {
+      id: '/projects/'
+      path: '/projects'
+      fullPath: '/projects/'
+      preLoaderRoute: typeof ProjectsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/messages': {
@@ -270,8 +270,8 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   JourneyRoute: JourneyRoute,
-  ProjectsRoute: ProjectsRoute,
   WorkRoute: WorkRoute,
+  ProjectsIndexRoute: ProjectsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
