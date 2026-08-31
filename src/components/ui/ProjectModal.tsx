@@ -1,4 +1,5 @@
-import { ExternalLink, Github, X } from "lucide-react";
+import { ArrowRight, ExternalLink, Github, X } from "lucide-react";
+import { Link } from "@/lib/router-compat";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
@@ -128,6 +129,18 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                     <Section title="Built by Andrew">
                       <BuiltBy project={project} />
                     </Section>
+
+                    <motion.div
+                      variants={itemVariants}
+                      className="flex flex-wrap items-center gap-3 border-t border-border pt-6"
+                    >
+                      <Button asChild variant="secondary" className="cta-pop font-mono">
+                        <Link to={`/projects/${project.slug}`} onClick={() => onOpenChange(false)}>
+                          Read full case
+                          <ArrowRight className="cta-arrow ml-2 h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </motion.div>
 
                     {(project.live || project.github) && (
                       <motion.div
