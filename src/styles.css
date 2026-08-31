@@ -903,3 +903,15 @@
     }
   }
 }
+
+/* Gold hairline divider between major sections (replaces flat grey borders). */
+@utility divider-gold {
+  border-top: 1px solid transparent;
+  border-image: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--gold) 34%, transparent),
+      transparent
+    )
+    1;
+}

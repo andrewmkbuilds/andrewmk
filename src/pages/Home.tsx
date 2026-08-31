@@ -159,7 +159,7 @@ export default function Home() {
       </section>
 
       {/* Quick stats */}
-      <section className="border-y border-border bg-card/30" aria-label="Quick statistics">
+      <section className="divider-gold border-b border-b-border bg-card/30" aria-label="Quick statistics">
         <div className="container grid grid-cols-2 gap-8 py-12 md:grid-cols-4">
           {quickStats.map((stat, i) => (
             <Reveal key={stat.label} delay={i * 70}>
@@ -198,7 +198,7 @@ export default function Home() {
       </section>
 
       {/* Ecosystem */}
-      <section className="border-t border-border py-20 md:py-28" id="ecosystem">
+      <section className="divider-gold py-20 md:py-28" id="ecosystem">
         <div className="container">
           <SectionHeading
             label="Ecosystem"
@@ -213,7 +213,7 @@ export default function Home() {
       </section>
 
       {/* Building categories */}
-      <section className="border-t border-border py-20 md:py-28">
+      <section className="divider-gold py-20 md:py-28">
         <div className="container">
           <SectionHeading label="Focus areas" title="My Building Categories" />
           <div className="grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
@@ -241,7 +241,7 @@ export default function Home() {
       </section>
 
       {/* What I Build */}
-      <section className="border-t border-border py-20 md:py-28" id="what-i-build">
+      <section className="divider-gold py-20 md:py-28" id="what-i-build">
         <div className="container">
           <SectionHeading
             label="Focus areas"
@@ -288,7 +288,7 @@ export default function Home() {
 
 
       {/* How I think */}
-      <section className="border-t border-border py-20 md:py-28">
+      <section className="divider-gold py-20 md:py-28">
         <div className="container">
           <SectionHeading label="Approach" title="How I Think" />
           <ul className="grid list-none gap-5 p-0 md:grid-cols-3">
@@ -311,7 +311,7 @@ export default function Home() {
       </section>
 
       {/* Robotics origin */}
-      <section className="border-t border-border py-20 md:py-28">
+      <section className="divider-gold py-20 md:py-28">
         <div className="container">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <SectionHeading
@@ -338,7 +338,7 @@ export default function Home() {
       </section>
 
       {/* STEM Racing */}
-      <section className="border-t border-border py-20 md:py-28">
+      <section className="divider-gold py-20 md:py-28">
         <div className="container">
           <SectionHeading
             label="Engineering"
@@ -391,7 +391,7 @@ export default function Home() {
       </section>
 
       {/* Currently building */}
-      <section className="border-t border-border py-20 md:py-28">
+      <section className="divider-gold py-20 md:py-28">
         <div className="container">
           <SectionHeading label="Live" title="Currently Building" />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -416,7 +416,7 @@ export default function Home() {
       <FindMeOnline />
 
       {/* CTA */}
-      <section className="border-t border-border py-20 md:py-24" aria-labelledby="get-in-touch-heading">
+      <section className="divider-gold py-20 md:py-24" aria-labelledby="get-in-touch-heading">
         <div className="container">
           <Reveal>
             <div
