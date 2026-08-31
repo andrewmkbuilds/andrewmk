@@ -65,13 +65,13 @@ export function CustomCursor() {
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[100]">
       <motion.div
-        className="absolute left-0 top-0 rounded-full bg-primary"
+        className="absolute left-0 top-0 rounded-full bg-gold"
         style={{ x, y, width: 5, height: 5, translateX: "-50%", translateY: "-50%" }}
         animate={{ opacity: visible ? 1 : 0, scale: state === "default" ? 1 : 0.4 }}
         transition={{ duration: 0.18 }}
       />
       <motion.div
-        className="absolute left-0 top-0 flex items-center justify-center rounded-full border border-primary/50 backdrop-blur-[1px]"
+        className="absolute left-0 top-0 flex items-center justify-center rounded-full border border-gold/50 backdrop-blur-[1px]"
         style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }}
         animate={{
           width: ringSize,
@@ -89,7 +89,7 @@ export function CustomCursor() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.7 }}
               transition={{ duration: 0.15 }}
-              className="font-mono text-[9px] uppercase tracking-[0.18em] text-primary"
+              className="font-mono text-[9px] uppercase tracking-[0.18em] text-gold"
             >
               View
             </motion.span>
