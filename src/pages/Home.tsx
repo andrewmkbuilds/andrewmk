@@ -298,7 +298,7 @@ export default function Home() {
                   title={p.title}
                   kind="principle, show details"
                   popTarget="principle"
-                  media={<span className="font-mono text-xs text-primary">0{i + 1}</span>}
+                  media={<span className="font-mono text-xs text-gold">0{i + 1}</span>}
                 >
                   <p className="text-sm leading-relaxed text-muted-foreground">{p.body}</p>
                 </PopDisclosure>
@@ -327,7 +327,7 @@ export default function Home() {
                     key={step}
                     className="lift-3d flex items-center gap-3 rounded-xl border border-border bg-card p-5 shadow-card"
                   >
-                    <span className="font-mono text-xs text-primary">0{i + 1}</span>
+                    <span className="font-mono text-xs text-gold">0{i + 1}</span>
                     <span className="text-base font-medium text-foreground">{step}</span>
                   </li>
                 ))}

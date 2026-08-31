@@ -46,7 +46,7 @@ export function Timeline() {
             className="absolute -left-8 top-1.5 flex h-3.5 w-3.5 items-center justify-center md:-left-[2.6rem]"
           >
             <span className="absolute h-3.5 w-3.5 rounded-full bg-primary/20 transition-transform duration-500 group-hover:scale-150" />
-            <span className="relative h-[7px] w-[7px] rounded-full bg-primary shadow-glow" />
+            <span className="relative h-[7px] w-[7px] rounded-full bg-gold shadow-glow" />
           </motion.span>
 
           <div className="surface spotlight lift-3d relative overflow-hidden rounded-xl p-6 hover:border-gold/35 md:p-7"
