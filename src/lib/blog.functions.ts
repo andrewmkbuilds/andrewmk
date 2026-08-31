@@ -117,6 +117,14 @@ export const savePost = createServerFn({ method: "POST" })
     const supabase = context.supabase as never as any;
     await assertAdmin(supabase, context.userId);
 
+    let publishedAt: string | null = null;
+    if (data.published) {
+      const existing = data.id
+        ? await supabase.from("blog_posts").select("published_at").eq("id", data.id).maybeSingle()
+        : null;
+      publishedAt = existing?.data?.published_at ?? new Date().toISOString();
+    }
+
     const payload = {
       slug: data.slug,
       title: data.title,
@@ -126,7 +134,7 @@ export const savePost = createServerFn({ method: "POST" })
       cover_image: data.cover_image || null,
       published: data.published,
       reading_minutes: data.reading_minutes,
-      published_at: data.published ? new Date().toISOString() : null,
+      published_at: publishedAt,
       author_id: context.userId,
     };
 
