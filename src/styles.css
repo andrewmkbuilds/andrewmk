@@ -28,6 +28,7 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-glow: var(--primary-glow);
   --color-primary-deep: var(--primary-deep);
+  --color-fx: var(--fx);
   --color-gold: var(--gold);
   --color-gold-glow: var(--gold-glow);
   --color-gold-foreground: var(--gold-foreground);
