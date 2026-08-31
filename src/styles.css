@@ -99,58 +99,60 @@
 :root {
   --radius: 0.625rem;
 
-  /* 60% — Base: deep midnight navy (logo backdrop) */
-  --background: hsl(218 32% 6%);
-  --foreground: hsl(210 24% 96%);
+  /* 60% — Base: deep logo blue (the environment) */
+  --background: hsl(216 46% 8%);
+  --foreground: hsl(210 26% 96%);
 
-  /* 30% — Structure: layered slate-blue surfaces */
-  --card: hsl(218 27% 9%);
-  --card-foreground: hsl(210 24% 96%);
-  --popover: hsl(218 27% 9%);
-  --popover-foreground: hsl(210 24% 96%);
+  /* 30% — Structure: lifted blue card surfaces, tonally separated from the base */
+  --card: hsl(215 40% 12%);
+  --card-foreground: hsl(210 26% 96%);
+  --popover: hsl(215 42% 11%);
+  --popover-foreground: hsl(210 26% 96%);
 
-  /* 10% — Accent: logo blue, with a cyan glow and a deeper press tone */
+  /* Brand blue: structure, links, primary CTAs */
   --primary: hsl(205 82% 54%);
   --primary-foreground: hsl(216 60% 7%);
   --primary-glow: hsl(191 88% 62%);
   --primary-deep: hsl(214 78% 40%);
 
-  /* Premium secondary accent: logo gold. Used sparingly. */
+  /* Logo gold: interaction, motion, glow. --fx drives every effect. */
   --gold: hsl(41 72% 58%);
   --gold-glow: hsl(45 84% 70%);
   --gold-foreground: hsl(38 60% 8%);
+  --fx: var(--gold);
 
-  --secondary: hsl(218 22% 13%);
-  --secondary-foreground: hsl(210 24% 96%);
-  --muted: hsl(218 19% 15%);
-  --muted-foreground: hsl(213 15% 70%);
+  --secondary: hsl(215 36% 16%);
+  --secondary-foreground: hsl(210 26% 96%);
+  --muted: hsl(215 32% 18%);
+  --muted-foreground: hsl(212 20% 72%);
 
   /* Accent = subtle interactive surface (not a second brand color) */
-  --accent: hsl(218 22% 15%);
-  --accent-foreground: hsl(210 24% 96%);
+  --accent: hsl(215 34% 19%);
+  --accent-foreground: hsl(210 26% 96%);
 
   --destructive: hsl(0 62% 52%);
-  --destructive-foreground: hsl(210 24% 96%);
+  --destructive-foreground: hsl(210 26% 96%);
 
-  --border: hsl(218 19% 19%);
-  --input: hsl(218 19% 19%);
-  --ring: hsl(205 82% 54%);
+  --border: hsl(214 30% 23%);
+  --input: hsl(214 30% 23%);
+  --ring: hsl(41 72% 58%);
 
-  --sidebar: hsl(218 32% 7%);
-  --sidebar-foreground: hsl(210 24% 96%);
+  --sidebar: hsl(216 44% 10%);
+  --sidebar-foreground: hsl(210 26% 96%);
   --sidebar-primary: hsl(205 82% 54%);
   --sidebar-primary-foreground: hsl(216 60% 7%);
-  --sidebar-accent: hsl(218 22% 13%);
-  --sidebar-accent-foreground: hsl(210 24% 96%);
-  --sidebar-border: hsl(218 19% 19%);
-  --sidebar-ring: hsl(205 82% 54%);
+  --sidebar-accent: hsl(215 36% 16%);
+  --sidebar-accent-foreground: hsl(210 26% 96%);
+  --sidebar-border: hsl(214 30% 23%);
+  --sidebar-ring: hsl(41 72% 58%);
 
-  /* Text selection — derived from the blue accent, never hardcoded.
+  /* Text selection — gold-tinted highlight on the blue environment.
      First declaration is the legacy-WebView fallback (no color-mix support). */
-  --selection-bg: #17456f;
-  --selection-bg: color-mix(in oklab, var(--primary) 45%, var(--background));
+  --selection-bg: #5a4520;
+  --selection-bg: color-mix(in oklab, var(--gold) 38%, var(--background));
   --selection-fg: var(--foreground);
 }
+
 
 
 .dark {
