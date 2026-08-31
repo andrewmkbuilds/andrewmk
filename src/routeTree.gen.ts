@@ -18,6 +18,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as WorkRouteImport } from './routes/work'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated/admin.messages'
@@ -66,6 +67,11 @@ const WorkRoute = WorkRouteImport.update({
   path: '/work',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
   id: '/projects/',
   path: '/projects/',
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/journey': typeof JourneyRoute
   '/work': typeof WorkRoute
   '/projects/$slug': typeof ProjectsSlugRoute
+  '/blog/': typeof BlogIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
 }
@@ -106,6 +113,7 @@ export interface FileRoutesByTo {
   '/journey': typeof JourneyRoute
   '/work': typeof WorkRoute
   '/projects/$slug': typeof ProjectsSlugRoute
+  '/blog': typeof BlogIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
 }
@@ -121,6 +129,7 @@ export interface FileRoutesById {
   '/journey': typeof JourneyRoute
   '/work': typeof WorkRoute
   '/projects/$slug': typeof ProjectsSlugRoute
+  '/blog/': typeof BlogIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
 }
@@ -136,6 +145,7 @@ export interface FileRouteTypes {
     | '/journey'
     | '/work'
     | '/projects/$slug'
+    | '/blog/'
     | '/projects/'
     | '/admin/messages'
   fileRoutesByTo: FileRoutesByTo
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/journey'
     | '/work'
     | '/projects/$slug'
+    | '/blog'
     | '/projects'
     | '/admin/messages'
   id:
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/journey'
     | '/work'
     | '/projects/$slug'
+    | '/blog/'
     | '/projects/'
     | '/_authenticated/admin/messages'
   fileRoutesById: FileRoutesById
@@ -178,6 +190,7 @@ export interface RootRouteChildren {
   JourneyRoute: typeof JourneyRoute
   WorkRoute: typeof WorkRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
 }
 
@@ -246,6 +259,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/projects/': {
       id: '/projects/'
       path: '/projects'
@@ -292,6 +312,7 @@ const rootRouteChildren: RootRouteChildren = {
   JourneyRoute: JourneyRoute,
   WorkRoute: WorkRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
 }
 export const routeTree = rootRouteImport
