@@ -156,12 +156,12 @@
 
 
 .dark {
-  --background: hsl(218 32% 6%);
-  --foreground: hsl(210 24% 96%);
-  --card: hsl(218 27% 9%);
-  --card-foreground: hsl(210 24% 96%);
-  --popover: hsl(218 27% 9%);
-  --popover-foreground: hsl(210 24% 96%);
+  --background: hsl(216 46% 8%);
+  --foreground: hsl(210 26% 96%);
+  --card: hsl(215 40% 12%);
+  --card-foreground: hsl(210 26% 96%);
+  --popover: hsl(215 42% 11%);
+  --popover-foreground: hsl(210 26% 96%);
   --primary: hsl(205 82% 54%);
   --primary-foreground: hsl(216 60% 7%);
   --primary-glow: hsl(191 88% 62%);
@@ -169,25 +169,26 @@
   --gold: hsl(41 72% 58%);
   --gold-glow: hsl(45 84% 70%);
   --gold-foreground: hsl(38 60% 8%);
-  --secondary: hsl(218 22% 13%);
-  --secondary-foreground: hsl(210 24% 96%);
-  --muted: hsl(218 19% 15%);
-  --muted-foreground: hsl(213 15% 70%);
-  --accent: hsl(218 22% 15%);
-  --accent-foreground: hsl(210 24% 96%);
+  --fx: var(--gold);
+  --secondary: hsl(215 36% 16%);
+  --secondary-foreground: hsl(210 26% 96%);
+  --muted: hsl(215 32% 18%);
+  --muted-foreground: hsl(212 20% 72%);
+  --accent: hsl(215 34% 19%);
+  --accent-foreground: hsl(210 26% 96%);
   --destructive: hsl(0 62% 45%);
-  --destructive-foreground: hsl(210 24% 96%);
-  --border: hsl(218 19% 19%);
-  --input: hsl(218 19% 19%);
-  --ring: hsl(205 82% 54%);
-  --sidebar: hsl(218 32% 7%);
-  --sidebar-foreground: hsl(210 24% 96%);
+  --destructive-foreground: hsl(210 26% 96%);
+  --border: hsl(214 30% 23%);
+  --input: hsl(214 30% 23%);
+  --ring: hsl(41 72% 58%);
+  --sidebar: hsl(216 44% 10%);
+  --sidebar-foreground: hsl(210 26% 96%);
   --sidebar-primary: hsl(205 82% 54%);
   --sidebar-primary-foreground: hsl(216 60% 7%);
-  --sidebar-accent: hsl(218 22% 13%);
-  --sidebar-accent-foreground: hsl(210 24% 96%);
-  --sidebar-border: hsl(218 19% 19%);
-  --sidebar-ring: hsl(205 82% 54%);
+  --sidebar-accent: hsl(215 36% 16%);
+  --sidebar-accent-foreground: hsl(210 26% 96%);
+  --sidebar-border: hsl(214 30% 23%);
+  --sidebar-ring: hsl(41 72% 58%);
 }
 
 /* Container behaviour ported from tailwind.config.ts (center, 2rem padding, 1400px cap) */
@@ -267,8 +268,8 @@
   [aria-disabled="true"],
   [data-disabled],
   fieldset:disabled {
-    --selection-bg: #123a5e;
-    --selection-bg: color-mix(in oklab, var(--primary) 30%, var(--background));
+    --selection-bg: #6b5326;
+    --selection-bg: color-mix(in oklab, var(--gold) 52%, var(--background));
   }
 
   :disabled::selection,
