@@ -93,7 +93,7 @@ export function TechConstellation({ className }: { className?: string }) {
               y1={`${na.y}%`}
               x2={`${nb.x}%`}
               y2={`${nb.y}%`}
-              stroke="var(--primary)"
+              stroke="var(--gold)"
               strokeWidth={lit ? 1.4 : 0.8}
               initial={reduce ? false : { pathLength: 0, opacity: 0 }}
               whileInView={reduce ? {} : { pathLength: 1, opacity: lit ? 0.6 : 0.16 }}

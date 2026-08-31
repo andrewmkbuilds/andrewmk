@@ -78,7 +78,7 @@ export function CustomCursor() {
           height: ringSize,
           opacity: visible ? 1 : 0,
           backgroundColor:
-            state === "view" ? "color-mix(in oklab, var(--primary) 16%, transparent)" : "transparent",
+            state === "view" ? "color-mix(in oklab, var(--gold) 16%, transparent)" : "transparent",
         }}
         transition={{ type: "spring", stiffness: 340, damping: 28 }}
       >
