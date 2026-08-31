@@ -28,6 +28,7 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-glow: var(--primary-glow);
   --color-primary-deep: var(--primary-deep);
+  --color-fx: var(--fx);
   --color-gold: var(--gold);
   --color-gold-glow: var(--gold-glow);
   --color-gold-foreground: var(--gold-foreground);
@@ -99,67 +100,69 @@
 :root {
   --radius: 0.625rem;
 
-  /* 60% — Base: deep midnight navy (logo backdrop) */
-  --background: hsl(218 32% 6%);
-  --foreground: hsl(210 24% 96%);
+  /* 60% — Base: deep logo blue (the environment) */
+  --background: hsl(216 46% 8%);
+  --foreground: hsl(210 26% 96%);
 
-  /* 30% — Structure: layered slate-blue surfaces */
-  --card: hsl(218 27% 9%);
-  --card-foreground: hsl(210 24% 96%);
-  --popover: hsl(218 27% 9%);
-  --popover-foreground: hsl(210 24% 96%);
+  /* 30% — Structure: lifted blue card surfaces, tonally separated from the base */
+  --card: hsl(215 40% 12%);
+  --card-foreground: hsl(210 26% 96%);
+  --popover: hsl(215 42% 11%);
+  --popover-foreground: hsl(210 26% 96%);
 
-  /* 10% — Accent: logo blue, with a cyan glow and a deeper press tone */
+  /* Brand blue: structure, links, primary CTAs */
   --primary: hsl(205 82% 54%);
   --primary-foreground: hsl(216 60% 7%);
   --primary-glow: hsl(191 88% 62%);
   --primary-deep: hsl(214 78% 40%);
 
-  /* Premium secondary accent: logo gold. Used sparingly. */
+  /* Logo gold: interaction, motion, glow. --fx drives every effect. */
   --gold: hsl(41 72% 58%);
   --gold-glow: hsl(45 84% 70%);
   --gold-foreground: hsl(38 60% 8%);
+  --fx: var(--gold);
 
-  --secondary: hsl(218 22% 13%);
-  --secondary-foreground: hsl(210 24% 96%);
-  --muted: hsl(218 19% 15%);
-  --muted-foreground: hsl(213 15% 70%);
+  --secondary: hsl(215 36% 16%);
+  --secondary-foreground: hsl(210 26% 96%);
+  --muted: hsl(215 32% 18%);
+  --muted-foreground: hsl(212 20% 72%);
 
   /* Accent = subtle interactive surface (not a second brand color) */
-  --accent: hsl(218 22% 15%);
-  --accent-foreground: hsl(210 24% 96%);
+  --accent: hsl(215 34% 19%);
+  --accent-foreground: hsl(210 26% 96%);
 
   --destructive: hsl(0 62% 52%);
-  --destructive-foreground: hsl(210 24% 96%);
+  --destructive-foreground: hsl(210 26% 96%);
 
-  --border: hsl(218 19% 19%);
-  --input: hsl(218 19% 19%);
-  --ring: hsl(205 82% 54%);
+  --border: hsl(214 30% 23%);
+  --input: hsl(214 30% 23%);
+  --ring: hsl(41 72% 58%);
 
-  --sidebar: hsl(218 32% 7%);
-  --sidebar-foreground: hsl(210 24% 96%);
+  --sidebar: hsl(216 44% 10%);
+  --sidebar-foreground: hsl(210 26% 96%);
   --sidebar-primary: hsl(205 82% 54%);
   --sidebar-primary-foreground: hsl(216 60% 7%);
-  --sidebar-accent: hsl(218 22% 13%);
-  --sidebar-accent-foreground: hsl(210 24% 96%);
-  --sidebar-border: hsl(218 19% 19%);
-  --sidebar-ring: hsl(205 82% 54%);
+  --sidebar-accent: hsl(215 36% 16%);
+  --sidebar-accent-foreground: hsl(210 26% 96%);
+  --sidebar-border: hsl(214 30% 23%);
+  --sidebar-ring: hsl(41 72% 58%);
 
-  /* Text selection — derived from the blue accent, never hardcoded.
+  /* Text selection — gold-tinted highlight on the blue environment.
      First declaration is the legacy-WebView fallback (no color-mix support). */
-  --selection-bg: #17456f;
-  --selection-bg: color-mix(in oklab, var(--primary) 45%, var(--background));
+  --selection-bg: #5a4520;
+  --selection-bg: color-mix(in oklab, var(--gold) 38%, var(--background));
   --selection-fg: var(--foreground);
 }
 
 
+
 .dark {
-  --background: hsl(218 32% 6%);
-  --foreground: hsl(210 24% 96%);
-  --card: hsl(218 27% 9%);
-  --card-foreground: hsl(210 24% 96%);
-  --popover: hsl(218 27% 9%);
-  --popover-foreground: hsl(210 24% 96%);
+  --background: hsl(216 46% 8%);
+  --foreground: hsl(210 26% 96%);
+  --card: hsl(215 40% 12%);
+  --card-foreground: hsl(210 26% 96%);
+  --popover: hsl(215 42% 11%);
+  --popover-foreground: hsl(210 26% 96%);
   --primary: hsl(205 82% 54%);
   --primary-foreground: hsl(216 60% 7%);
   --primary-glow: hsl(191 88% 62%);
@@ -167,25 +170,26 @@
   --gold: hsl(41 72% 58%);
   --gold-glow: hsl(45 84% 70%);
   --gold-foreground: hsl(38 60% 8%);
-  --secondary: hsl(218 22% 13%);
-  --secondary-foreground: hsl(210 24% 96%);
-  --muted: hsl(218 19% 15%);
-  --muted-foreground: hsl(213 15% 70%);
-  --accent: hsl(218 22% 15%);
-  --accent-foreground: hsl(210 24% 96%);
+  --fx: var(--gold);
+  --secondary: hsl(215 36% 16%);
+  --secondary-foreground: hsl(210 26% 96%);
+  --muted: hsl(215 32% 18%);
+  --muted-foreground: hsl(212 20% 72%);
+  --accent: hsl(215 34% 19%);
+  --accent-foreground: hsl(210 26% 96%);
   --destructive: hsl(0 62% 45%);
-  --destructive-foreground: hsl(210 24% 96%);
-  --border: hsl(218 19% 19%);
-  --input: hsl(218 19% 19%);
-  --ring: hsl(205 82% 54%);
-  --sidebar: hsl(218 32% 7%);
-  --sidebar-foreground: hsl(210 24% 96%);
+  --destructive-foreground: hsl(210 26% 96%);
+  --border: hsl(214 30% 23%);
+  --input: hsl(214 30% 23%);
+  --ring: hsl(41 72% 58%);
+  --sidebar: hsl(216 44% 10%);
+  --sidebar-foreground: hsl(210 26% 96%);
   --sidebar-primary: hsl(205 82% 54%);
   --sidebar-primary-foreground: hsl(216 60% 7%);
-  --sidebar-accent: hsl(218 22% 13%);
-  --sidebar-accent-foreground: hsl(210 24% 96%);
-  --sidebar-border: hsl(218 19% 19%);
-  --sidebar-ring: hsl(205 82% 54%);
+  --sidebar-accent: hsl(215 36% 16%);
+  --sidebar-accent-foreground: hsl(210 26% 96%);
+  --sidebar-border: hsl(214 30% 23%);
+  --sidebar-ring: hsl(41 72% 58%);
 }
 
 /* Container behaviour ported from tailwind.config.ts (center, 2rem padding, 1400px cap) */
@@ -265,8 +269,8 @@
   [aria-disabled="true"],
   [data-disabled],
   fieldset:disabled {
-    --selection-bg: #123a5e;
-    --selection-bg: color-mix(in oklab, var(--primary) 30%, var(--background));
+    --selection-bg: #6b5326;
+    --selection-bg: color-mix(in oklab, var(--gold) 52%, var(--background));
   }
 
   :disabled::selection,
@@ -431,11 +435,11 @@
   }
 
   .shadow-glow {
-    box-shadow: 0 18px 45px -22px color-mix(in hsl, var(--primary) 35%, transparent);
+    box-shadow: 0 18px 45px -22px color-mix(in hsl, var(--fx) 35%, transparent);
   }
 
   .bg-hero-veil {
-    background-image: radial-gradient(ellipse 70% 55% at 50% 0%, color-mix(in hsl, var(--primary) 7%, transparent), transparent 70%);
+    background-image: radial-gradient(ellipse 70% 55% at 50% 0%, color-mix(in hsl, var(--primary) 9%, transparent), transparent 70%);
   }
 
   .link-underline {
@@ -444,7 +448,7 @@
 
   .link-underline::after {
     content: '';
-    @apply absolute -bottom-1 left-0 w-0 h-px bg-primary transition-all duration-300;
+    @apply absolute -bottom-1 left-0 w-0 h-px bg-gold transition-all duration-300;
   }
 
   .link-underline:hover::after {
@@ -478,8 +482,8 @@
     .cta-pop:hover {
       transform: translateY(-3px) scale(1.03);
       box-shadow:
-        0 18px 38px -16px color-mix(in hsl, var(--primary) 48%, transparent),
-        0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
+        0 18px 38px -16px color-mix(in hsl, var(--fx) 48%, transparent),
+        0 0 0 1px color-mix(in oklab, var(--fx) 26%, transparent),
         0 14px 26px -14px hsl(220 60% 2% / 0.95);
       filter: brightness(1.08) contrast(1.04);
     }
@@ -492,8 +496,8 @@
   .cta-pop:focus-visible {
     transform: translateY(-3px) scale(1.03);
     box-shadow:
-      0 18px 38px -16px color-mix(in hsl, var(--primary) 48%, transparent),
-      0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
+      0 18px 38px -16px color-mix(in hsl, var(--fx) 48%, transparent),
+      0 0 0 1px color-mix(in oklab, var(--fx) 26%, transparent),
       0 14px 26px -14px hsl(220 60% 2% / 0.95);
     filter: brightness(1.08) contrast(1.04);
   }
@@ -519,8 +523,8 @@
     .cta-pop:hover,
     .cta-pop:focus-visible {
       box-shadow:
-        0 0 0 1px color-mix(in oklab, var(--primary) 45%, transparent),
-        0 0 0 5px color-mix(in oklab, var(--primary) 14%, transparent) !important;
+        0 0 0 1px color-mix(in oklab, var(--fx) 45%, transparent),
+        0 0 0 5px color-mix(in oklab, var(--fx) 14%, transparent) !important;
     }
   }
 
@@ -541,8 +545,8 @@
     .section-pop:hover {
       transform: translateY(-3px) scale(1.02);
       box-shadow:
-        0 18px 38px -16px color-mix(in hsl, var(--primary) 48%, transparent),
-        0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
+        0 18px 38px -16px color-mix(in hsl, var(--fx) 48%, transparent),
+        0 0 0 1px color-mix(in oklab, var(--fx) 26%, transparent),
         0 14px 26px -14px hsl(220 60% 2% / 0.95);
     }
   }
@@ -550,8 +554,8 @@
   .section-pop:focus-within {
     transform: translateY(-3px) scale(1.02);
     box-shadow:
-      0 18px 38px -16px color-mix(in hsl, var(--primary) 48%, transparent),
-      0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
+      0 18px 38px -16px color-mix(in hsl, var(--fx) 48%, transparent),
+      0 0 0 1px color-mix(in oklab, var(--fx) 26%, transparent),
       0 14px 26px -14px hsl(220 60% 2% / 0.95);
   }
 
@@ -565,8 +569,8 @@
     .section-pop:hover,
     .section-pop:focus-within {
       box-shadow:
-        0 0 0 1px color-mix(in oklab, var(--primary) 32%, transparent),
-        0 0 0 5px color-mix(in oklab, var(--primary) 10%, transparent) !important;
+        0 0 0 1px color-mix(in oklab, var(--fx) 32%, transparent),
+        0 0 0 5px color-mix(in oklab, var(--fx) 10%, transparent) !important;
     }
   }
 
@@ -589,8 +593,8 @@
     .pop-card:hover {
       transform: perspective(900px) translate3d(0, -4px, 14px) scale(1.018);
       box-shadow:
-        0 20px 42px -18px color-mix(in hsl, var(--primary) 48%, transparent),
-        0 0 0 1px color-mix(in oklab, var(--primary) 26%, transparent),
+        0 20px 42px -18px color-mix(in hsl, var(--fx) 48%, transparent),
+        0 0 0 1px color-mix(in oklab, var(--fx) 26%, transparent),
         0 16px 28px -16px hsl(220 60% 2% / 0.95);
     }
   }
@@ -599,8 +603,8 @@
   .pop-card:focus-within {
     transform: perspective(900px) translate3d(0, -4px, 14px) scale(1.018);
     box-shadow:
-      0 20px 42px -18px color-mix(in hsl, var(--primary) 48%, transparent),
-      0 0 0 2px var(--primary),
+      0 20px 42px -18px color-mix(in hsl, var(--fx) 48%, transparent),
+      0 0 0 2px var(--fx),
       0 16px 28px -16px hsl(220 60% 2% / 0.95);
   }
 
@@ -614,14 +618,14 @@
     }
     .pop-card:hover {
       box-shadow:
-        0 0 0 1px color-mix(in oklab, var(--primary) 32%, transparent),
-        0 0 0 5px color-mix(in oklab, var(--primary) 10%, transparent) !important;
+        0 0 0 1px color-mix(in oklab, var(--fx) 32%, transparent),
+        0 0 0 5px color-mix(in oklab, var(--fx) 10%, transparent) !important;
     }
     .pop-card:focus-visible,
     .pop-card:focus-within {
       box-shadow:
-        0 0 0 2px var(--primary),
-        0 0 0 6px color-mix(in oklab, var(--primary) 18%, transparent) !important;
+        0 0 0 2px var(--fx),
+        0 0 0 6px color-mix(in oklab, var(--fx) 18%, transparent) !important;
     }
   }
 
@@ -707,7 +711,7 @@
     transition: opacity 0.4s ease;
     background: radial-gradient(
       320px circle at var(--mx, 50%) var(--my, 50%),
-      color-mix(in oklab, var(--primary) 14%, transparent),
+      color-mix(in oklab, var(--fx) 14%, transparent),
       transparent 60%
     );
   }
@@ -730,7 +734,7 @@
     transition: opacity 0.4s ease;
     background: linear-gradient(
       135deg,
-      color-mix(in oklab, var(--primary) 55%, transparent),
+      color-mix(in oklab, var(--fx) 55%, transparent),
       transparent 42%,
       color-mix(in oklab, var(--gold) 38%, transparent)
     );
@@ -762,7 +766,7 @@
   background-image: linear-gradient(
     90deg,
     transparent,
-    color-mix(in oklab, var(--primary) 30%, transparent),
+    color-mix(in oklab, var(--fx) 30%, transparent),
     transparent
   );
   height: 1px;
@@ -810,7 +814,7 @@
       box-shadow:
         inset 0 1px 0 color-mix(in oklab, var(--foreground) 8%, transparent),
         0 30px 60px -30px hsl(220 60% 2% / 0.95),
-        0 0 0 1px color-mix(in oklab, var(--primary) 18%, transparent);
+        0 0 0 1px color-mix(in oklab, var(--fx) 18%, transparent);
     }
   }
 

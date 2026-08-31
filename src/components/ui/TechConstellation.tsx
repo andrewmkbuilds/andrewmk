@@ -93,7 +93,7 @@ export function TechConstellation({ className }: { className?: string }) {
               y1={`${na.y}%`}
               x2={`${nb.x}%`}
               y2={`${nb.y}%`}
-              stroke="var(--primary)"
+              stroke="var(--gold)"
               strokeWidth={lit ? 1.4 : 0.8}
               initial={reduce ? false : { pathLength: 0, opacity: 0 }}
               whileInView={reduce ? {} : { pathLength: 1, opacity: lit ? 0.6 : 0.16 }}
@@ -126,7 +126,7 @@ export function TechConstellation({ className }: { className?: string }) {
                 "focus-ring group flex items-center gap-2 rounded-full border px-3 py-1.5 font-mono text-[11px] backdrop-blur-sm transition-all duration-300 sm:text-xs",
                 active === tech.name
                   ? "border-primary/60 bg-primary/15 text-foreground shadow-glow scale-105"
-                  : "border-border bg-card/80 text-muted-foreground hover:border-primary/40 hover:text-foreground",
+                  : "border-border bg-card/80 text-muted-foreground hover:border-gold/40 hover:text-foreground",
                 isDimmed(tech.name) && "opacity-35",
               )}
             >
@@ -135,7 +135,7 @@ export function TechConstellation({ className }: { className?: string }) {
                   "h-1.5 w-1.5 rounded-full transition-colors",
                   tech.group === "ai" || tech.group === "platform"
                     ? "bg-primary"
-                    : "bg-muted-foreground group-hover:bg-primary",
+                    : "bg-muted-foreground group-hover:bg-gold",
                 )}
                 aria-hidden="true"
               />

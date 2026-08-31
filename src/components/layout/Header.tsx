@@ -69,7 +69,7 @@ export function Header() {
                 to={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "relative rounded-full px-3.5 py-2 font-mono text-[13px] transition-colors hover:text-primary",
+                  "relative rounded-full px-3.5 py-2 font-mono text-[13px] transition-colors hover:text-gold",
                   active ? "text-primary" : "text-muted-foreground",
                 )}
               >
@@ -111,7 +111,7 @@ export function Header() {
                     to={item.href}
                     style={{ animationDelay: `${index * 45}ms` }}
                     className={cn(
-                      "animate-fade-in-up opacity-0 rounded-lg px-3 py-3 font-mono text-lg transition-colors hover:bg-secondary hover:text-primary",
+                      "animate-fade-in-up opacity-0 rounded-lg px-3 py-3 font-mono text-lg transition-colors hover:bg-secondary hover:text-gold",
                       location.pathname === item.href ? "text-primary" : "text-muted-foreground",
                     )}
                   >

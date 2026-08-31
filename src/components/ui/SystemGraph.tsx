@@ -69,7 +69,7 @@ export function SystemGraph({ className }: { className?: string }) {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const styles = getComputedStyle(document.documentElement);
     const primary = styles.getPropertyValue("--primary").trim() || "hsl(205 82% 54%)";
-    const glow = styles.getPropertyValue("--primary-glow").trim() || primary;
+    const glow = styles.getPropertyValue("--gold").trim() || "hsl(41 72% 58%)";
     const fg = styles.getPropertyValue("--muted-foreground").trim() || "hsl(213 15% 70%)";
 
     let width = 0;

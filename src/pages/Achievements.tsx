@@ -77,7 +77,7 @@ export default function Achievements() {
           <div className="grid gap-5 md:grid-cols-3">
             {munResults.map((mun, i) => (
               <Reveal key={mun.title} delay={i * 60} className="h-full">
-                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-primary/40">
+                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-gold/40">
                   <h3 className="text-lg font-semibold text-foreground">{mun.title}</h3>
                   {mun.detail && (
                     <p className="mt-2 font-mono text-sm text-primary">{mun.detail}</p>
@@ -86,7 +86,7 @@ export default function Achievements() {
                     <button
                       type="button"
                       onClick={() => setProof(certById(mun.certKey)!)}
-                      className="focus-ring mt-4 inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-mono text-xs text-foreground transition-colors hover:border-primary/50 hover:text-primary"
+                      className="focus-ring mt-4 inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-mono text-xs text-foreground transition-colors hover:border-gold/50 hover:text-gold"
                     >
                       View Certificate <span aria-hidden="true">&rarr;</span>
                     </button>

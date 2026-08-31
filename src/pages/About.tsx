@@ -91,10 +91,10 @@ export default function About() {
                             aria-label={`${link.label} profile (${link.handle})`}
                             className="group flex items-start gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-secondary focus-ring"
                           >
-                            <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
+                            <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-gold" />
                             <span className="min-w-0 flex-1">
                               <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-                                <span className="text-sm text-foreground transition-colors group-hover:text-primary">
+                                <span className="text-sm text-foreground transition-colors group-hover:text-gold">
                                   {link.label}
                                 </span>
                                 <span className="font-mono text-xs text-muted-foreground">
@@ -124,9 +124,9 @@ export default function About() {
           <div className="grid gap-5 md:grid-cols-3">
             {principles.map((p, i) => (
               <Reveal key={p.title} delay={i * 70} className="h-full">
-                <div className="group h-full rounded-xl border border-border bg-card p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 motion-reduce:hover:translate-y-0">
+                <div className="group h-full rounded-xl border border-border bg-card p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 motion-reduce:hover:translate-y-0">
                   <span className="font-mono text-xs text-primary">0{i + 1}</span>
-                  <h3 className="mt-3 text-xl font-semibold text-foreground transition-colors group-hover:text-primary">
+                  <h3 className="mt-3 text-xl font-semibold text-foreground transition-colors group-hover:text-gold">
                     {p.title}
                   </h3>
                   <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{p.body}</p>
@@ -143,7 +143,7 @@ export default function About() {
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {buildingCategories.map((cat, i) => (
               <Reveal key={cat.title} delay={i * 60} className="h-full">
-                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-primary/40">
+                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-gold/40">
                   <h3 className="text-lg font-semibold text-foreground">{cat.title}</h3>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {cat.items.map((item) => (

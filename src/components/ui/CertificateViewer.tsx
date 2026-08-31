@@ -77,7 +77,7 @@ export function CertificateViewer({ certificate, onClose }: CertificateViewerPro
                 aria-label="Zoom out"
                 disabled={zoomIndex === 0}
                 onClick={() => setZoomIndex((i) => Math.max(0, i - 1))}
-                className="focus-ring rounded-lg border border-border p-2 text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground disabled:opacity-40"
+                className="focus-ring rounded-lg border border-border p-2 text-muted-foreground transition-colors hover:border-gold/40 hover:text-foreground disabled:opacity-40"
               >
                 <ZoomOut className="size-4" />
               </button>
@@ -86,7 +86,7 @@ export function CertificateViewer({ certificate, onClose }: CertificateViewerPro
                 aria-label="Zoom in"
                 disabled={zoomIndex === ZOOM_STEPS.length - 1}
                 onClick={() => setZoomIndex((i) => Math.min(ZOOM_STEPS.length - 1, i + 1))}
-                className="focus-ring rounded-lg border border-border p-2 text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground disabled:opacity-40"
+                className="focus-ring rounded-lg border border-border p-2 text-muted-foreground transition-colors hover:border-gold/40 hover:text-foreground disabled:opacity-40"
               >
                 <ZoomIn className="size-4" />
               </button>
@@ -97,7 +97,7 @@ export function CertificateViewer({ certificate, onClose }: CertificateViewerPro
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Open the original certificate file in a new tab"
-            className="focus-ring rounded-lg border border-border p-2 text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
+            className="focus-ring rounded-lg border border-border p-2 text-muted-foreground transition-colors hover:border-gold/40 hover:text-foreground"
           >
             <ExternalLink className="size-4" />
           </a>
