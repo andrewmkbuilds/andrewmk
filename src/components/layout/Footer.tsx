@@ -5,6 +5,7 @@ import logoAsset from "@/assets/andrewbuilds-logo.png.asset.json";
 const links = [
   { href: "/", label: "Home" },
   { href: "/projects", label: "Projects" },
+  { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
   { href: "/achievements", label: "Achievements" },
   { href: "/contact", label: "Contact" },

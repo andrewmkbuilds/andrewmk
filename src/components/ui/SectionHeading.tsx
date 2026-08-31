@@ -25,7 +25,8 @@ export function SectionHeading({
       )}
     >
       {label && (
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
+        <p className="mb-4 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-gold">
+          <span aria-hidden="true" className="hairline-gold inline-block w-8" />
           {label}
         </p>
       )}

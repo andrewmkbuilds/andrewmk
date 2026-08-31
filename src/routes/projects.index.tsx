@@ -3,7 +3,7 @@ import Projects from "@/pages/Projects";
 import { routeHead } from "@/lib/route-head";
 import { allProjectsJsonLd } from "@/lib/project-schema";
 
-export const Route = createFileRoute("/projects")({
+export const Route = createFileRoute("/projects/")({
   head: () => {
     const base = routeHead("/projects");
     return {

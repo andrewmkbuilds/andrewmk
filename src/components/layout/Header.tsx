@@ -12,6 +12,7 @@ import logoAsset from "@/assets/andrewbuilds-logo.png.asset.json";
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/projects", label: "Projects" },
+  { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
   { href: "/journey", label: "Journey" },
   { href: "/achievements", label: "Achievements" },
