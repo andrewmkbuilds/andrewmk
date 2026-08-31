@@ -55,7 +55,7 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                 </div>
 
                 <DialogPrimitive.Close
-                  className="focus-ring absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/70 text-muted-foreground backdrop-blur transition-colors hover:border-primary/40 hover:text-primary"
+                  className="focus-ring absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/70 text-muted-foreground backdrop-blur transition-colors hover:border-gold/40 hover:text-gold"
                   aria-label="Close project details"
                 >
                   <X className="h-4 w-4" />

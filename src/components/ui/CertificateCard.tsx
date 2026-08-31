@@ -59,7 +59,7 @@ export function CertificateCard({ certificate, onOpen, className }: CertificateC
         <button
           type="button"
           onClick={() => onOpen(certificate)}
-          className="focus-ring mt-4 inline-flex w-fit items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-sm text-foreground transition-colors hover:border-primary/50 hover:text-primary"
+          className="focus-ring mt-4 inline-flex w-fit items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-sm text-foreground transition-colors hover:border-gold/50 hover:text-gold"
         >
           View Certificate
           <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />

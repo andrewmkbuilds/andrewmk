@@ -64,7 +64,7 @@ export function PopDisclosure({
       data-expanded={open ? "true" : "false"}
       onKeyDown={onKeyDown}
       className={cn(
-        "group pop-card flex h-full flex-col rounded-xl border border-border bg-card shadow-card hover:border-primary/40",
+        "group pop-card flex h-full flex-col rounded-xl border border-border bg-card shadow-card hover:border-gold/40",
         className,
       )}
     >
@@ -81,7 +81,7 @@ export function PopDisclosure({
         >
           {media}
           <span className="flex w-full items-start justify-between gap-3">
-            <span className="text-xl font-semibold text-foreground transition-colors group-hover:text-primary">
+            <span className="text-xl font-semibold text-foreground transition-colors group-hover:text-gold">
               {title}
             </span>
             <ChevronDown
@@ -156,7 +156,7 @@ export function InlinePopDisclosure({
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((value) => !value)}
-        className="focus-ring inline-flex touch-manipulation items-center gap-2 rounded-md font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary"
+        className="focus-ring inline-flex touch-manipulation items-center gap-2 rounded-md font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-gold"
       >
         {label}
         <ChevronDown

@@ -40,7 +40,7 @@ export function SocialIcons({ ids, className }: SocialIconsProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${link.label} profile (${link.handle})`}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:text-primary focus-ring motion-reduce:hover:translate-y-0"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground transition-all hover:-translate-y-0.5 hover:border-gold/50 hover:text-gold focus-ring motion-reduce:hover:translate-y-0"
                 >
                   <Icon className="h-4 w-4" />
                 </a>

@@ -73,7 +73,7 @@ export function FilterBar({ label, legend, options, value, onChange, className }
                 "rounded-full border px-4 py-2 font-mono text-xs transition-all duration-200 focus-ring",
                 active
                   ? "border-gold/60 bg-gold/10 text-gold"
-                  : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground",
+                  : "border-border text-muted-foreground hover:border-gold/40 hover:text-foreground",
               )}
             >
               {option}

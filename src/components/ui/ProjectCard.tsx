@@ -74,7 +74,7 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
       transition={{ type: "spring", stiffness: 260, damping: 26 }}
       className={cn(
         "surface spotlight edge-glow group relative isolate h-full rounded-2xl p-6 text-left",
-        "transition-colors duration-300 hover:border-primary/35 hover:shadow-glow md:p-7",
+        "transition-colors duration-300 hover:border-gold/35 hover:shadow-glow md:p-7",
         className,
       )}
     >
@@ -100,14 +100,14 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
           </p>
           <h3
             className={cn(
-              "text-display mt-2.5 text-foreground transition-colors duration-300 group-hover:text-primary",
+              "text-display mt-2.5 text-foreground transition-colors duration-300 group-hover:text-gold",
               variant === "featured" ? "text-2xl md:text-[2rem]" : "text-lg md:text-xl",
             )}
           >
             {project.name}
           </h3>
         </div>
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-background/60 text-muted-foreground transition-all duration-300 group-hover:border-primary/45 group-hover:bg-primary/10 group-hover:text-primary">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-background/60 text-muted-foreground transition-all duration-300 group-hover:border-gold/45 group-hover:bg-gold/10 group-hover:text-gold">
           <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
         </span>
       </div>
@@ -130,7 +130,7 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
             aria-expanded={detailsOpen}
             aria-controls={panelId}
             onClick={() => setDetailsOpen((value) => !value)}
-            className="focus-ring inline-flex touch-manipulation items-center gap-2 rounded-md font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary"
+            className="focus-ring inline-flex touch-manipulation items-center gap-2 rounded-md font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-gold"
           >
             {`What's inside ${project.name}`}
             <ChevronDown

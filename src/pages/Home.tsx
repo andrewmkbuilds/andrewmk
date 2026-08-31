@@ -220,7 +220,7 @@ export default function Home() {
             <div className="grid gap-5 sm:grid-cols-2">
               {buildingCategories.map((cat, i) => (
                 <Reveal key={cat.title} delay={i * 60} className="h-full">
-                  <div className="spotlight lift-3d h-full rounded-xl border border-border bg-card p-6 shadow-card hover:border-primary/40">
+                  <div className="spotlight lift-3d h-full rounded-xl border border-border bg-card p-6 shadow-card hover:border-gold/40">
                     <h3 className="text-lg font-semibold text-foreground">{cat.title}</h3>
                     <div className="mt-4 flex flex-wrap gap-2">
                       {cat.items.map((item) => (
@@ -259,7 +259,7 @@ export default function Home() {
                     popTarget="build-area"
                     summary={area.description}
                     media={
-                      <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background/60 text-primary transition-colors group-hover:border-primary/40">
+                      <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-background/60 text-primary transition-colors group-hover:border-gold/40">
                         <Icon className="h-5 w-5" aria-hidden="true" />
                       </span>
                     }

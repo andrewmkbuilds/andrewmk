@@ -61,7 +61,7 @@ export function GithubPreview() {
           href={`https://github.com/${GITHUB_USER}?tab=repositories`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 whitespace-nowrap rounded font-mono text-[11px] text-muted-foreground transition-colors hover:text-primary focus-ring"
+          className="inline-flex items-center gap-1 whitespace-nowrap rounded font-mono text-[11px] text-muted-foreground transition-colors hover:text-gold focus-ring"
           aria-label="See all public repositories on GitHub (opens in a new tab)"
         >
           All repos <ExternalLink className="h-3 w-3" aria-hidden="true" />
@@ -93,7 +93,7 @@ export function GithubPreview() {
               <button
                 type="button"
                 onClick={retry}
-                className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background/60 px-3 py-1.5 font-mono text-[11px] text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary focus-ring"
+                className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background/60 px-3 py-1.5 font-mono text-[11px] text-muted-foreground transition-colors hover:border-gold/40 hover:text-gold focus-ring"
               >
                 <RefreshCw className="h-3 w-3" aria-hidden="true" /> Try again
               </button>
@@ -118,9 +118,9 @@ export function GithubPreview() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${repo.name} repository on GitHub (opens in a new tab)`}
-                  className="group block h-full rounded-lg border border-border/70 bg-background/40 p-3 transition-all hover:-translate-y-0.5 hover:border-primary/40 focus-ring motion-reduce:hover:translate-y-0"
+                  className="group block h-full rounded-lg border border-border/70 bg-background/40 p-3 transition-all hover:-translate-y-0.5 hover:border-gold/40 focus-ring motion-reduce:hover:translate-y-0"
                 >
-                  <p className="font-mono text-sm text-foreground transition-colors group-hover:text-primary">
+                  <p className="font-mono text-sm text-foreground transition-colors group-hover:text-gold">
                     {repo.name}
                   </p>
                   {repo.description && (

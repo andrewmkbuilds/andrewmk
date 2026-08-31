@@ -74,7 +74,7 @@ export function PlatformBadge({
       aria-label={`${project.name} — built with ${social.label}, view Andrew's ${social.label} profile (opens in a new tab)`}
       onClick={(e) => e.stopPropagation()}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 font-mono text-[11px] text-primary transition-colors hover:border-primary/60 hover:bg-primary/15 focus-ring",
+        "inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 font-mono text-[11px] text-primary transition-colors hover:border-gold/60 hover:bg-primary/15 focus-ring",
         className,
       )}
     >
@@ -119,7 +119,7 @@ export function BuiltBy({ project, className, showLabel = false }: BuiltByProps)
                   rel="noopener noreferrer"
                   aria-label={`${entry.label} (opens in a new tab)`}
                   onClick={(e) => e.stopPropagation()}
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/60 text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary focus-ring"
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/60 text-muted-foreground transition-colors hover:border-gold/40 hover:text-gold focus-ring"
                 >
                   <Icon className="h-3.5 w-3.5" />
                 </a>
