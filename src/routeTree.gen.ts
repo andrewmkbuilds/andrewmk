@@ -22,6 +22,7 @@ import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
+import { Route as AuthenticatedAdminBlogRouteImport } from './routes/_authenticated/admin.blog'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated/admin.messages'
 
 const IndexRoute = IndexRouteImport.update({
@@ -88,6 +89,11 @@ const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
   path: '/projects/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminBlogRoute = AuthenticatedAdminBlogRouteImport.update({
+  id: '/admin/blog',
+  path: '/admin/blog',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAdminMessagesRoute =
   AuthenticatedAdminMessagesRouteImport.update({
     id: '/admin/messages',
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/projects/$slug': typeof ProjectsSlugRoute
   '/blog/': typeof BlogIndexRoute
   '/projects/': typeof ProjectsIndexRoute
+  '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
 }
 export interface FileRoutesByTo {
@@ -123,6 +130,7 @@ export interface FileRoutesByTo {
   '/projects/$slug': typeof ProjectsSlugRoute
   '/blog': typeof BlogIndexRoute
   '/projects': typeof ProjectsIndexRoute
+  '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
 }
 export interface FileRoutesById {
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/projects/$slug': typeof ProjectsSlugRoute
   '/blog/': typeof BlogIndexRoute
   '/projects/': typeof ProjectsIndexRoute
+  '/_authenticated/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
 }
 export interface FileRouteTypes {
@@ -157,6 +166,7 @@ export interface FileRouteTypes {
     | '/projects/$slug'
     | '/blog/'
     | '/projects/'
+    | '/admin/blog'
     | '/admin/messages'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -172,6 +182,7 @@ export interface FileRouteTypes {
     | '/projects/$slug'
     | '/blog'
     | '/projects'
+    | '/admin/blog'
     | '/admin/messages'
   id:
     | '__root__'
@@ -188,6 +199,7 @@ export interface FileRouteTypes {
     | '/projects/$slug'
     | '/blog/'
     | '/projects/'
+    | '/_authenticated/admin/blog'
     | '/_authenticated/admin/messages'
   fileRoutesById: FileRoutesById
 }
@@ -300,6 +312,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/blog': {
+      id: '/_authenticated/admin/blog'
+      path: '/admin/blog'
+      fullPath: '/admin/blog'
+      preLoaderRoute: typeof AuthenticatedAdminBlogRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/messages': {
       id: '/_authenticated/admin/messages'
       path: '/admin/messages'
@@ -311,10 +330,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminBlogRoute: typeof AuthenticatedAdminBlogRoute
   AuthenticatedAdminMessagesRoute: typeof AuthenticatedAdminMessagesRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminBlogRoute: AuthenticatedAdminBlogRoute,
   AuthenticatedAdminMessagesRoute: AuthenticatedAdminMessagesRoute,
 }
 
