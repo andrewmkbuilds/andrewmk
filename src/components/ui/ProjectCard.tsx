@@ -191,6 +191,16 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
             Case study
           </span>
         )}
+        {project.demo && (
+          <Link
+            to={project.demo}
+            onClick={(event) => event.stopPropagation()}
+            className="focus-ring inline-flex items-center gap-1.5 rounded-md font-mono text-[11px] uppercase tracking-[0.16em] text-gold transition-colors hover:text-primary"
+          >
+            Live demo
+            <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
+          </Link>
+        )}
       </div>
 
     </motion.article>

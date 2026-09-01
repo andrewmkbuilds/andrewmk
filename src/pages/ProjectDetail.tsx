@@ -63,8 +63,16 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 ))}
               </div>
 
-              {(project.live || project.github) && (
+              {(project.live || project.github || project.demo) && (
                 <div className="mt-8 flex flex-wrap gap-3">
+                  {project.demo && (
+                    <Button asChild className="cta-pop font-mono">
+                      <Link to={project.demo}>
+                        Try the live demo
+                        <ArrowRight className="cta-arrow ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  )}
                   {project.live && (
                     <Button asChild className="cta-pop font-mono">
                       <a href={project.live} target="_blank" rel="noopener noreferrer">
