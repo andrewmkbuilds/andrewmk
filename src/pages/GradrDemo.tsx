@@ -147,9 +147,9 @@ function FindingIcon({ kind }: { kind: "pass" | "warn" | "fail" }) {
 }
 
 function ResumeDemo() {
-  const [sampleId, setSampleId] = useState(RESUME_SAMPLES[0].id);
+  const [sampleId, setSampleId] = useState(RESUME_SAMPLES[0]!.id);
   const sample = useMemo(
-    () => RESUME_SAMPLES.find((s) => s.id === sampleId) ?? RESUME_SAMPLES[0],
+    () => RESUME_SAMPLES.find((s) => s.id === sampleId) ?? RESUME_SAMPLES[0]!,
     [sampleId],
   );
 
@@ -268,9 +268,9 @@ const INTERVIEW_ANSWERS = [
 ];
 
 function InterviewDemo() {
-  const [answerId, setAnswerId] = useState(INTERVIEW_ANSWERS[0].id);
+  const [answerId, setAnswerId] = useState(INTERVIEW_ANSWERS[0]!.id);
   const answer = useMemo(
-    () => INTERVIEW_ANSWERS.find((a) => a.id === answerId) ?? INTERVIEW_ANSWERS[0],
+    () => INTERVIEW_ANSWERS.find((a) => a.id === answerId) ?? INTERVIEW_ANSWERS[0]!,
     [answerId],
   );
 
@@ -526,7 +526,7 @@ function InsightsDemo() {
 export default function GradrDemo() {
   const [tab, setTab] = useState<TabId>("resume");
   const gradr = allProjects.find((p) => p.slug === "gradr");
-  const active = TABS.find((t) => t.id === tab) ?? TABS[0];
+  const active = TABS.find((t) => t.id === tab) ?? TABS[0]!;
 
   return (
     <Layout>
