@@ -129,7 +129,70 @@ export const featuredProjects: Project[] = [
     filters: ["Base44", "React"],
     featured: true,
     platform: "base44",
+    problem:
+      "Most budgeting apps assume you already have the discipline they are supposed to build. They show you a pie chart after the money is gone. Stack Up started from the opposite question: what would make a student actually open a finance app on a normal Tuesday? The answer was progress — visible streaks, goals that move, and numbers small enough to act on.",
+    stack: [
+      { group: "Interface", items: ["React", "Component-driven UI", "Responsive layouts", "Charting"] },
+      { group: "Logic", items: ["Budget engine", "Streak & XP rules", "Goal projection", "Category rollups"] },
+      { group: "Data", items: ["Per-user records", "Transaction history", "Recurring entries", "Auth"] },
+      { group: "Platform", items: ["Base44", "Hosted deployment"] },
+    ],
+    gallery: [
+      {
+        title: "Dashboard",
+        caption:
+          "One screen answers the only question that matters day to day: how much is left, and is this month on track compared to the last one.",
+        lines: ["Safe-to-spend", "Month trend", "Top categories", "Streak status"],
+      },
+      {
+        title: "Expense capture",
+        caption:
+          "Logging a spend takes a few seconds — amount, category, optional note — because anything slower gets abandoned within a week.",
+        lines: ["Quick add", "Smart categories", "Recurring entries", "Edit history"],
+      },
+      {
+        title: "Budgets & goals",
+        caption:
+          "Budgets are per category with live burn-down, and savings goals project a realistic finish date from actual deposit behaviour.",
+        lines: ["Category caps", "Burn-down bars", "Goal projection", "Overspend alerts"],
+      },
+      {
+        title: "Streaks & analytics",
+        caption:
+          "Gamification is tied to behaviour that actually helps — logging consistently and staying under budget — not to spending more.",
+        lines: ["Daily streak", "XP levels", "Category breakdown", "Month-over-month"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Gamifying finance without encouraging bad habits",
+        detail:
+          "Early reward rules accidentally rewarded activity, which meant more transactions scored higher. I rewrote the scoring so streaks come from consistent logging and staying inside budget, and goal progress is the only thing that drives levels.",
+      },
+      {
+        title: "Making budgets survive real life",
+        detail:
+          "A rigid monthly cap breaks the first time an unexpected bill lands. Budgets became rolling, with carry-over and a separate 'irregular' bucket, so one bad week does not invalidate the whole month.",
+      },
+      {
+        title: "Keeping data entry under ten seconds",
+        detail:
+          "Retention died on friction. I cut the add-expense flow to a single sheet with remembered categories and recurring entries, which removed most repeat typing.",
+      },
+      {
+        title: "Shipping a first product end to end",
+        detail:
+          "This was the first thing I took from idea to live URL — auth, data modelling, state, deployment. The lesson that carried into every project after it was to ship a narrow version and let real usage decide the next feature.",
+      },
+    ],
+    results: [
+      { label: "Status", value: "Live", note: "Publicly usable at stackup-app.base44.app." },
+      { label: "First shipped product", value: "2024", note: "Idea to deployed app end to end." },
+      { label: "Core modules", value: "5", note: "Expenses, budgets, goals, streaks, analytics." },
+      { label: "Entry time", value: "< 10s", note: "Design target for logging a spend." },
+    ],
   },
+
   {
     slug: "terracart",
     name: "TerraCart",
