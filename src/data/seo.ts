@@ -71,6 +71,26 @@ export const routes: RouteMeta[] = [
     priority: "0.7",
   },
   {
+    path: "/resume",
+    label: "Résumé",
+    title: "Résumé | Andrew Mathews",
+    description:
+      "The full résumé of Andrew Mathews: education, projects, STEM and MUN competition results, certificates, and technical skills.",
+    ogHeadline: "Education, projects, competitions, certificates.",
+    changefreq: "monthly",
+    priority: "0.8",
+  },
+  {
+    path: "/profile",
+    label: "Profile",
+    title: "Profile | Andrew Mathews",
+    description:
+      "A profile view of Andrew Mathews — about, projects, education, honors, certifications, skills, and every place to find him online.",
+    ogHeadline: "Student developer, AI builder, systems thinker.",
+    changefreq: "monthly",
+    priority: "0.8",
+  },
+  {
     path: "/contact",
     label: "Contact",
     title: "Contact | Andrew Mathews",
