@@ -355,6 +355,10 @@ export const ecosystemProjects: Project[] = [
 
 export const allProjects: Project[] = [...featuredProjects, ...ecosystemProjects];
 
+export function getProject(slug: string): Project | undefined {
+  return allProjects.find((p) => p.slug === slug);
+}
+
 export const projectFilters = [
   "All",
   "Python",
@@ -577,6 +581,7 @@ export const buildAreas: BuildArea[] = [
       { label: "Focus", value: "Assistants · Agents · Model APIs" },
       { label: "Projects", value: "Gradr · COGNOS · JARVIS" },
     ],
+    projects: ["gradr", "cognos", "jarvis"],
   },
   {
     id: "software",
@@ -588,6 +593,7 @@ export const buildAreas: BuildArea[] = [
       { label: "Focus", value: "Web apps · Tools · Platforms" },
       { label: "Projects", value: "Stack Up · DevOS · TabZen" },
     ],
+    projects: ["stack-up", "devos", "tabzen"],
   },
   {
     id: "robotics",
@@ -599,6 +605,7 @@ export const buildAreas: BuildArea[] = [
       { label: "Focus", value: "FLL · STEM Racing · Hardware" },
       { label: "Work", value: "Competitions · Exhibitions" },
     ],
+    projects: ["horizon-motorsports"],
   },
   {
     id: "vision",
@@ -610,6 +617,7 @@ export const buildAreas: BuildArea[] = [
       { label: "Focus", value: "Gesture · Tracking · Cameras" },
       { label: "Projects", value: "GesturePlay · Security Camera System" },
     ],
+    projects: ["gestureplay", "security-camera-system"],
   },
   {
     id: "product",
@@ -621,6 +629,7 @@ export const buildAreas: BuildArea[] = [
       { label: "Focus", value: "Concept → Interface → Ship" },
       { label: "Projects", value: "TerraCart · ClientFlow OS" },
     ],
+    projects: ["terracart", "clientflow-os"],
   },
   {
     id: "data",
@@ -632,6 +641,7 @@ export const buildAreas: BuildArea[] = [
       { label: "Focus", value: "Analysis · Dashboards · Automation" },
       { label: "Interest", value: "Systems thinking" },
     ],
+    projects: ["gemlab"],
   },
 ];
 
