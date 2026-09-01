@@ -210,7 +210,58 @@ export const featuredProjects: Project[] = [
     status: "Developing",
     filters: ["AI"],
     featured: true,
+    problem:
+      "Shopping sustainably online is mostly guesswork. Product pages optimise for conversion, claims are unverifiable, and comparing a greener alternative means opening five tabs mid-checkout. TerraCart puts the analysis where the decision happens — on the product page — and offers a concrete alternative instead of a lecture.",
+    stack: [
+      { group: "Extension", items: ["Browser extension", "Product page parsing", "Content scripts"] },
+      { group: "AI layer", items: ["Product understanding", "Claim research", "Alternative matching"] },
+      { group: "Interface", items: ["Inline panel", "Comparison view", "Shopping checklist"] },
+      { group: "Data", items: ["Product cache", "Category heuristics", "Saved items"] },
+    ],
+    gallery: [
+      {
+        title: "Product analysis",
+        caption:
+          "The extension reads the product being viewed and breaks down what is actually known about materials, packaging and origin versus what is only marketing language.",
+        lines: ["Material read", "Packaging", "Origin signals", "Claim check"],
+      },
+      {
+        title: "Better alternatives",
+        caption:
+          "Instead of a score with no action attached, it surfaces comparable products that are genuinely more sustainable and similar in price and function.",
+        lines: ["Similar items", "Why it's better", "Price delta", "Availability"],
+      },
+      {
+        title: "Shopping checklist",
+        caption:
+          "A running list keeps intended purchases together so decisions can be reviewed before checkout rather than one impulse at a time.",
+        lines: ["Saved items", "Compare view", "Notes", "Decision log"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Reading messy product pages",
+        detail:
+          "Every retailer structures pages differently. Parsing combines structured data where it exists with content-based extraction as fallback, so the panel still works on pages without clean markup.",
+      },
+      {
+        title: "Not inventing sustainability claims",
+        detail:
+          "The easy failure mode is a confident number with nothing behind it. Analysis separates verifiable attributes from unverified marketing claims and says so explicitly when evidence is thin.",
+      },
+      {
+        title: "Alternatives that are actually comparable",
+        detail:
+          "A greener product at four times the price is not a real option. Matching filters on function and price band first, then ranks on sustainability signals.",
+      },
+    ],
+    results: [
+      { label: "Status", value: "In development", note: "Analysis and alternatives in progress." },
+      { label: "Surface", value: "Browser extension", note: "Works inline on product pages." },
+      { label: "Principle", value: "Evidence over scores", note: "Unverified claims labelled as such." },
+    ],
   },
+
   {
     slug: "clientflow-os",
     name: "ClientFlow OS",
