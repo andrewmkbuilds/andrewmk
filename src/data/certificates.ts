@@ -290,3 +290,56 @@ export const certificateCategories = CATEGORY_ORDER.filter((c) =>
 export function certificateFor(key: string): Certificate | undefined {
   return certificates.find((c) => c.achievementKey === key);
 }
+
+/**
+ * Best-effort sort key from the human-written date on the certificate.
+ * Dates are transcribed verbatim, so this parses "12 November 2025",
+ * "Issued 29 January 2026", "2025-2026" and "Academic year 2022-2023".
+ */
+const MONTHS = [
+  "january", "february", "march", "april", "may", "june",
+  "july", "august", "september", "october", "november", "december",
+];
+
+export function certificateSortKey(cert: Certificate): number {
+  const raw = cert.date ?? "";
+  const years = raw.match(/\d{4}/g);
+  const year = years ? Math.max(...years.map(Number)) : 0;
+  const month = MONTHS.findIndex((m) => raw.toLowerCase().includes(m));
+  const day = Number(raw.match(/\b(\d{1,2})\s+[A-Za-z]{3,}/)?.[1] ?? 1);
+  return year * 10000 + (month >= 0 ? month + 1 : 0) * 100 + day;
+}
+
+/** Short, readable date for cards: "Nov 2025", "2025–2026", or "" when unknown. */
+export function certificateDateLabel(cert: Certificate): string {
+  const raw = cert.date;
+  if (!raw) return "";
+  const range = raw.match(/(\d{4})\s*[-–]\s*(\d{4})/);
+  if (range) return `${range[1]}–${range[2]}`;
+  const year = raw.match(/\d{4}/)?.[0];
+  const monthIndex = MONTHS.findIndex((m) => raw.toLowerCase().includes(m));
+  if (year && monthIndex >= 0) {
+    const month = MONTHS[monthIndex]!;
+    return `${month.slice(0, 3).replace(/^./, (c) => c.toUpperCase())} ${year}`;
+  }
+  return year ?? raw;
+}
+
+/** Issuer split into organisation and programme, for two-line card display. */
+export function certificateIssuerParts(cert: Certificate): { org: string; program?: string } {
+  if (!cert.issuer) return { org: "Independent" };
+  const [org, ...rest] = cert.issuer.split("·").map((part) => part.trim());
+  const program = rest.join(" · ");
+  return program ? { org: org ?? cert.issuer, program } : { org: org ?? cert.issuer };
+}
+
+/** Newest certificates first — used by the gallery and résumé. */
+export const certificatesByRecency: Certificate[] = [...certificates].sort(
+  (a, b) => certificateSortKey(b) - certificateSortKey(a),
+);
+
+/** Filename suggested when a visitor downloads the original document. */
+export function certificateDownloadName(cert: Certificate): string {
+  const ext = cert.type === "pdf" ? "pdf" : "jpg";
+  return `${cert.id}-andrew-mathews.${ext}`;
+}

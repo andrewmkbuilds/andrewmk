@@ -1,16 +1,30 @@
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowUpRight, FileText } from "lucide-react";
-import type { Certificate } from "@/data/certificates";
+import { Download, FileText, Maximize2 } from "lucide-react";
+import {
+  certificateDateLabel,
+  certificateDownloadName,
+  certificateIssuerParts,
+  type Certificate,
+} from "@/data/certificates";
 import { cn } from "@/lib/utils";
 
 interface CertificateCardProps {
   certificate: Certificate;
   onOpen: (certificate: Certificate) => void;
   className?: string;
+  /** Compact layout used by the mobile swipe rail. */
+  compact?: boolean;
 }
 
-export function CertificateCard({ certificate, onOpen, className }: CertificateCardProps) {
+export function CertificateCard({
+  certificate,
+  onOpen,
+  className,
+  compact = false,
+}: CertificateCardProps) {
   const reduce = useReducedMotion();
+  const { org, program } = certificateIssuerParts(certificate);
+  const dateLabel = certificateDateLabel(certificate);
 
   return (
     <motion.article
@@ -28,42 +42,75 @@ export function CertificateCard({ certificate, onOpen, className }: CertificateC
         el.style.setProperty("--my", `${e.clientY - rect.top}px`);
       }}
     >
-      <div className="relative aspect-4/3 overflow-hidden border-b border-border bg-background">
-        <img
-          src={certificate.thumb}
-          alt={`Preview of ${certificate.title}`}
-          loading="lazy"
-          decoding="async"
-          className="h-full w-full object-contain p-3 transition-transform duration-500 group-hover:scale-[1.03]"
-        />
-        <span className="absolute left-3 top-3 flex items-center gap-1.5 rounded-md border border-gold/30 bg-background/85 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-gold backdrop-blur-sm">
-          {certificate.type === "pdf" && <FileText className="size-3" />}
-          Original certificate
+      <button
+        type="button"
+        onClick={() => onOpen(certificate)}
+        aria-label={`Open ${certificate.title} in the full-size viewer`}
+        className="focus-ring relative block w-full overflow-hidden border-b border-border bg-background"
+      >
+        <span className={cn("block", compact ? "aspect-3/2" : "aspect-4/3")}>
+          <img
+            src={certificate.thumb}
+            alt={`Preview of ${certificate.title}`}
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full object-contain p-3 transition-transform duration-500 group-hover:scale-[1.03]"
+          />
         </span>
-      </div>
+        <span className="absolute left-2.5 top-2.5 flex items-center gap-1.5 rounded-md border border-gold/30 bg-background/85 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-gold backdrop-blur-sm">
+          {certificate.type === "pdf" ? <FileText className="size-3" /> : null}
+          {certificate.type === "pdf" ? "PDF" : "Original"}
+        </span>
+        <span className="pointer-events-none absolute bottom-2.5 right-2.5 inline-flex items-center gap-1 rounded-md border border-gold/30 bg-background/80 px-2 py-1 font-mono text-[10px] text-gold opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
+          <Maximize2 className="size-3" /> Zoom
+        </span>
+      </button>
 
-      <div className="relative flex flex-1 flex-col p-5">
-        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
-          {certificate.category}
-        </p>
-        <h3 className="mt-2 text-base font-semibold leading-snug text-foreground">
+      <div className={cn("relative flex flex-1 flex-col", compact ? "p-4" : "p-5")}>
+        <div className="flex items-center justify-between gap-3">
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
+            {certificate.category}
+          </p>
+          {dateLabel && (
+            <p className="shrink-0 font-mono text-[11px] text-muted-foreground">{dateLabel}</p>
+          )}
+        </div>
+
+        <h3
+          className={cn(
+            "mt-2 font-semibold leading-snug text-foreground",
+            compact ? "text-sm" : "text-base",
+          )}
+        >
           {certificate.title}
         </h3>
-        {certificate.issuer && (
-          <p className="mt-1.5 text-sm text-muted-foreground">{certificate.issuer}</p>
+
+        <p className="mt-1.5 text-sm leading-snug text-foreground/75">{org}</p>
+        {program && (
+          <p className="mt-0.5 text-xs leading-snug text-muted-foreground">{program}</p>
         )}
-        {certificate.date && (
-          <p className="mt-1 font-mono text-xs text-muted-foreground">{certificate.date}</p>
+        {certificate.date && certificate.date !== dateLabel && (
+          <p className="mt-1 font-mono text-[11px] text-muted-foreground/80">{certificate.date}</p>
         )}
 
-        <button
-          type="button"
-          onClick={() => onOpen(certificate)}
-          className="focus-ring mt-4 inline-flex w-fit items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-sm text-foreground transition-colors hover:border-gold/50 hover:text-gold"
-        >
-          View Certificate
-          <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-        </button>
+        <div className="mt-4 flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => onOpen(certificate)}
+            className="focus-ring inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-lg border border-border px-3 text-sm text-foreground transition-colors hover:border-gold/50 hover:text-gold"
+          >
+            <Maximize2 className="size-4" />
+            View
+          </button>
+          <a
+            href={certificate.file}
+            download={certificateDownloadName(certificate)}
+            aria-label={`Download ${certificate.title}`}
+            className="focus-ring inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-gold/30 bg-gold/5 text-gold transition-colors hover:border-gold/60 hover:bg-gold/15"
+          >
+            <Download className="size-4" />
+          </a>
+        </div>
       </div>
 
       <span
