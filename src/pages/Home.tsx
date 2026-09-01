@@ -27,6 +27,7 @@ import {
   principles,
   quickStats,
   buildAreas,
+  getProject,
   type Project,
 } from "@/data/portfolio";
 
