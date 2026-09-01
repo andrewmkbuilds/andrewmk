@@ -81,8 +81,21 @@ export async function deliverEmail(
   if (!apiKey || !to) return null;
 
   const from = process.env["CONTACT_FROM_EMAIL"] ?? "Portfolio <onboarding@resend.dev>";
+  /**
+   * Until a sending domain is verified, the default sender may only deliver to
+   * the mailbox that owns the email account. When that happens we retry to this
+   * address so the notification still lands somewhere real.
+   */
+  const fallbackTo = process.env["CONTACT_FALLBACK_EMAIL"];
 
-  try {
+  const html = `<h2>New portfolio message</h2>
+<p><strong>Name:</strong> ${escapeHtml(input.name)}</p>
+<p><strong>Email:</strong> ${escapeHtml(input.email)}</p>
+<p><strong>Page:</strong> ${escapeHtml(input.sourcePath)}</p>
+<hr />
+<p>${escapeHtml(input.message).replace(/\n/g, "<br />")}</p>`;
+
+  const send = async (recipient: string) => {
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -91,22 +104,31 @@ export async function deliverEmail(
       },
       body: JSON.stringify({
         from,
-        to: [to],
+        to: [recipient],
         reply_to: input.email,
         subject: `Portfolio contact — ${input.name}`,
-        html: `<h2>New portfolio message</h2>
-<p><strong>Name:</strong> ${escapeHtml(input.name)}</p>
-<p><strong>Email:</strong> ${escapeHtml(input.email)}</p>
-<p><strong>Page:</strong> ${escapeHtml(input.sourcePath)}</p>
-<hr />
-<p>${escapeHtml(input.message).replace(/\n/g, "<br />")}</p>`,
+        html,
       }),
     });
-
     if (!response.ok) {
       return { ok: false, error: `${response.status} ${await response.text()}`.slice(0, 500) };
     }
     return { ok: true };
+  };
+
+  try {
+    const first = await send(to);
+    if (first.ok) return first;
+
+    const sandboxBlocked =
+      typeof first.error === "string" && first.error.includes("only send testing emails");
+    if (sandboxBlocked && fallbackTo && fallbackTo !== to) {
+      const second = await send(fallbackTo);
+      if (second.ok) return second;
+      return { ok: false, error: `${first.error} | fallback: ${second.error}`.slice(0, 500) };
+    }
+
+    return first;
   } catch (error) {
     return { ok: false, error: (error as Error).message.slice(0, 500) };
   }
