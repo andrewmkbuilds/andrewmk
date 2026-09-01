@@ -15,6 +15,14 @@ export interface Project {
   previously?: string;
   /** Build platform, only when factually known. Drives the "Built with" badge. */
   platform?: "base44" | "lovable";
+  /** Grouped technology stack, shown on the full project page. */
+  stack?: { group: string; items: string[] }[];
+  /** Engineering challenges and how they were solved. */
+  challenges?: { title: string; detail: string }[];
+  /** Outcomes so far — kept honest for in-progress work. */
+  results?: { label: string; value: string; note?: string }[];
+  /** Interface walkthrough panels (screens of the product). */
+  gallery?: { title: string; caption: string; lines?: string[] }[];
 }
 
 export const featuredProjects: Project[] = [
