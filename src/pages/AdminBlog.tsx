@@ -75,7 +75,7 @@ export default function AdminBlog() {
   const posts = useQuery<BlogPost[]>({
     queryKey: ["admin-blog-posts"],
     enabled: admin.data?.isAdmin === true,
-    queryFn: () => fetchPosts({ data: {} }),
+    queryFn: () => fetchPosts(),
   });
 
   const saveMutation = useMutation({
