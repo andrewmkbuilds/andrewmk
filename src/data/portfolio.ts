@@ -273,7 +273,58 @@ export const ecosystemProjects: Project[] = [
     live: "https://cognos-app.base44.app/",
     filters: ["AI", "Base44"],
     platform: "base44",
+    problem:
+      "Notes apps store text; they do not store thinking. Ideas arrive unformed, at bad times, and the connection between two of them is usually the valuable part. COGNOS was an attempt to build a capture surface that classifies a raw thought the moment it lands and then shows how it relates to everything captured before.",
+    stack: [
+      { group: "Capture", items: ["Fast entry", "Voice-to-text input", "Tag inference"] },
+      { group: "AI layer", items: ["Classification", "Embeddings", "Similarity linking", "NLP cleanup"] },
+      { group: "Graph", items: ["Node/edge model", "Cluster detection", "Interactive map"] },
+      { group: "Platform", items: ["Base44", "Persistent store"] },
+    ],
+    gallery: [
+      {
+        title: "Raw capture",
+        caption:
+          "One input box, no folders, no decisions. The cost of capturing a thought has to be near zero or the thought is lost.",
+        lines: ["Instant entry", "No taxonomy", "Timestamped", "Offline-tolerant"],
+      },
+      {
+        title: "Automatic classification",
+        caption:
+          "Each entry is typed — idea, question, task, observation — and tagged, so structure appears after capture instead of blocking it.",
+        lines: ["Type detection", "Auto tags", "Confidence", "Manual correction"],
+      },
+      {
+        title: "Idea graph",
+        caption:
+          "Related thoughts are linked by meaning, and clusters surface themes you did not know you kept returning to.",
+        lines: ["Semantic links", "Clusters", "Timeline view", "Search"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Classification that is useful, not noisy",
+        detail:
+          "Over-eager tagging made everything look connected. I constrained the label set and added a confidence threshold, so low-certainty entries stay unclassified rather than polluting the graph.",
+      },
+      {
+        title: "Meaningful edges",
+        detail:
+          "Keyword overlap linked unrelated notes. Switching to embedding similarity with a minimum distance produced far fewer but far better connections.",
+      },
+      {
+        title: "Graphs that stay readable",
+        detail:
+          "Past a few hundred nodes the map turned into hairball. Rendering now collapses clusters by default and expands on demand.",
+      },
+    ],
+    results: [
+      { label: "Status", value: "Live", note: "Usable at cognos-app.base44.app." },
+      { label: "Pipeline", value: "Capture → classify → connect", note: "Fully automatic." },
+      { label: "Link quality", value: "Embedding-based", note: "Replaced keyword matching." },
+    ],
   },
+
   {
     slug: "tabzen",
     name: "TabZen",
