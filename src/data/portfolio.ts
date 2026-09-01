@@ -260,7 +260,65 @@ export const ecosystemProjects: Project[] = [
     live: "https://dev-os-flow.base44.app/",
     filters: ["Python", "AI", "Base44"],
     platform: "base44",
+    problem:
+      "Building alone means context lives in five places at once — a task list, a terminal, a notes file, a chat with an AI assistant, and whatever was open when you stopped. DevOS came out of my own workflow: one command center where the task, the focus session and the project thread are the same object, so picking work back up does not require reconstructing it.",
+    stack: [
+      { group: "Core", items: ["Python", "Task engine", "Session timer", "Thread store"] },
+      { group: "AI layer", items: ["Assistant integration", "Context summarisation", "Task breakdown"] },
+      { group: "Interface", items: ["Command-driven UI", "Keyboard-first navigation", "Project boards"] },
+      { group: "Platform", items: ["Base44", "Hosted deployment"] },
+    ],
+    gallery: [
+      {
+        title: "Command center",
+        caption:
+          "Everything starts from one input: create a task, start a focus block, or open a project thread without leaving the keyboard.",
+        lines: ["Command palette", "Today view", "Active session", "Quick capture"],
+      },
+      {
+        title: "Focus sessions",
+        caption:
+          "A session is bound to a task, so time tracked is attributable and the end of a block produces a note rather than just a stopped timer.",
+        lines: ["Timed blocks", "Bound task", "Session notes", "History"],
+      },
+      {
+        title: "Project threads",
+        caption:
+          "Each project keeps a running thread of decisions, blockers and AI exchanges, which is what makes returning after a week cheap.",
+        lines: ["Decision log", "Blockers", "AI exchanges", "Linked tasks"],
+      },
+      {
+        title: "AI assist",
+        caption:
+          "The assistant reads the thread, breaks a vague task into concrete steps, and summarises where a project stalled.",
+        lines: ["Task breakdown", "Thread summary", "Next step", "Context recall"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Context that survives a break",
+        detail:
+          "Tasks alone were not enough to resume work. Attaching session notes and decisions to a persistent project thread turned resumption from re-reading code into reading four lines.",
+      },
+      {
+        title: "Keeping AI grounded in the project",
+        detail:
+          "Generic assistant answers were useless. Requests now carry a trimmed slice of the project thread and recent sessions, so suggestions reference actual decisions instead of guessing.",
+      },
+      {
+        title: "Avoiding another tool to maintain",
+        detail:
+          "The system only works if updating it is a side effect of working. Ending a focus block prompts a one-line note, and that single habit keeps the whole thread current.",
+      },
+    ],
+    results: [
+      { label: "Status", value: "Live", note: "Usable at dev-os-flow.base44.app." },
+      { label: "Objects unified", value: "3", note: "Tasks, focus sessions, project threads." },
+      { label: "Built for", value: "Solo builders", note: "Designed around my own workflow." },
+      { label: "Interaction", value: "Keyboard-first", note: "Command-driven navigation." },
+    ],
   },
+
   {
     slug: "cognos",
     name: "COGNOS",
