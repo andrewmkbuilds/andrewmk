@@ -562,6 +562,8 @@ export interface BuildArea {
   description: string;
   icon: string;
   details: { label: string; value: string }[];
+  /** Project slugs surfaced inside the card's detail panel. */
+  projects?: string[];
 }
 
 export const buildAreas: BuildArea[] = [
