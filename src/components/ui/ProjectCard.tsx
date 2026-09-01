@@ -2,6 +2,7 @@ import { useId, useRef, useState } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
+import { Link } from "@/lib/router-compat";
 import { cn } from "@/lib/utils";
 import { TechTag } from "./TechTag";
 import { BuiltBy, PlatformBadge } from "./BuiltBy";
@@ -22,6 +23,7 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
   const panelId = `project-details-panel-${uid}`;
   const [detailsOpen, setDetailsOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const hasCaseStudy = Boolean(project.stack?.length || project.challenges?.length);
 
 
   // pointer-driven tilt (very restrained) + spotlight tracking
