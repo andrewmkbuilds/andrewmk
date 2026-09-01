@@ -5,6 +5,7 @@
 import { writeFileSync } from "fs";
 import { resolve } from "path";
 import { SITE_URL, indexableRoutes } from "../src/data/seo";
+import { allProjects } from "../src/data/portfolio";
 
 const urls = indexableRoutes.map((route) =>
   [
@@ -18,6 +19,29 @@ const urls = indexableRoutes.map((route) =>
     .join("\n"),
 );
 
+// Project case-study pages are generated from portfolio data.
+for (const project of allProjects) {
+  urls.push(
+    [
+      `  <url>`,
+      `    <loc>${SITE_URL}/projects/${project.slug}</loc>`,
+      `    <changefreq>monthly</changefreq>`,
+      `    <priority>0.7</priority>`,
+      `  </url>`,
+    ].join("\n"),
+  );
+}
+
+urls.push(
+  [
+    `  <url>`,
+    `    <loc>${SITE_URL}/blog</loc>`,
+    `    <changefreq>weekly</changefreq>`,
+    `    <priority>0.8</priority>`,
+    `  </url>`,
+  ].join("\n"),
+);
+
 const xml = [
   `<?xml version="1.0" encoding="UTF-8"?>`,
   `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
@@ -26,4 +50,4 @@ const xml = [
 ].join("\n");
 
 writeFileSync(resolve("public/sitemap.xml"), xml);
-console.log(`sitemap.xml written (${indexableRoutes.length} entries)`);
+console.log(`sitemap.xml written (${urls.length} entries)`);
