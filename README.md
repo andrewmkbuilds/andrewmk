@@ -1,73 +1,206 @@
-# Welcome to your Lovable project
+# Andrew Mathews Portfolio
 
-## Project info
+🔧 PROMPT PARA O LOVABLE — DEVELOPER PORTFOLIO
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Crie um website de portfólio para um desenvolvedor sênior, com estética técnica, precisa e orientada a sistemas.
+O site deve comunicar engenharia de alto nível, clareza estrutural e impacto real, evitando qualquer visual genérico ou “criativo demais”.
 
-## How can I edit this code?
+🎯 POSICIONAMENTO
 
-There are several ways of editing your application.
+Desenvolvedor experiente
 
-**Use Lovable**
+Forte em sistemas, produtos digitais e arquitetura
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Mindset de impacto, performance e confiabilidade
 
-Changes made via Lovable will be committed automatically to this repo.
+Público-alvo: startups, scale-ups e empresas de tecnologia
 
-**Use your preferred IDE**
+🎨 IDENTIDADE VISUAL
+Estilo
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Dark, minimalista, técnico
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Visual inspirado em terminais, dashboards e sistemas
 
-Follow these steps:
+Grid rígido, modular, bem alinhado
+
+Cores
+
+Fundo: preto profundo / cinza grafite
+
+Texto principal: branco técnico
+
+Cor de destaque (apenas 1): verde neon OU azul elétrico
+
+Nada de gradientes chamativos ou cores extras
+
+Tipografia
+
+Headings: Inter ou Space Grotesk
+
+Corpo e detalhes técnicos: JetBrains Mono ou IBM Plex Mono
+
+Hierarquia muito clara e objetiva
+
+🧩 ELEMENTO VISUAL ÚNICO (OBRIGATÓRIO)
+
+UI inspirada em código:
+
+divisórias como comentários //
+
+labels como /* Featured */
+
+pequenos detalhes que remetem a syntax
+
+Cursor piscando ou efeito de typing sutil no hero
+
+🏠 HOME (implicitamente criada)
+Hero
+
+Headline curta, forte e técnica
+Exemplo:
+“I design and build reliable digital systems.”
+
+Subheadline explicando foco em produtos, arquitetura e impacto
+
+CTA simples: “View Work”
+
+Featured Projects
+
+Mostrar 3 projetos
+
+Cards técnicos com:
+
+Nome do projeto
+
+Descrição curta
+
+Tech stack
+
+Impacto mensurável
+
+📂 TELA: WORK
+Estrutura
+
+Lista de 3 projetos (criar conteúdos fictícios realistas)
+
+Projeto 1
+
+Nome: Scalable Fintech Platform
+
+Stack: React, TypeScript, Node.js, PostgreSQL
+
+Descrição: Desenvolvimento de uma plataforma financeira escalável
+
+Impacto: Redução de latência em 35%, suporte a milhões de usuários
+
+Projeto 2
+
+Nome: Internal Design System
+
+Stack: React, Storybook, CSS-in-JS
+
+Descrição: Criação de um design system robusto para múltiplos times
+
+Impacto: Aumento de produtividade e consistência visual
+
+Projeto 3
+
+Nome: Real-Time Analytics Dashboard
+
+Stack: Next.js, WebSockets, D3.js
+
+Descrição: Dashboard em tempo real para tomada de decisão
+
+Impacto: Insights instantâneos para equipes de produto e negócio
+
+Visual
+
+Cards escuros
+
+Tags técnicas
+
+Divisórias inspiradas em código
+
+👤 TELA: ABOUT
+Conteúdo
+
+Texto profissional, direto e confiante
+
+Foco em:
+
+Experiência
+
+Filosofia de trabalho
+
+Forma de pensar sistemas e produtos
+
+Exemplo de tom:
+
+“I’m a developer focused on building systems that scale, perform and last. I work at the intersection of engineering, product and design, turning complex problems into reliable digital solutions.”
+
+Estrutura
+
+Texto principal
+
+Lista curta de skills
+
+Stack favorita
+
+Experiência em produtos digitais
+
+🎨 TELA: STYLEGUIDE
+Deve conter
+
+Paleta de cores (fundo, texto, destaque)
+
+Tipografia (heading, body, mono)
+
+Botões
+
+Cards
+
+Labels técnicos
+
+Exemplo de componentes reutilizáveis
+
+Visual
+
+Bem organizada
+
+Parece documentação interna de produto
+
+Estilo “design system técnico”
+
+⚠️ RESTRIÇÕES IMPORTANTES
+
+Não usar ilustrações genéricas
+
+Não usar imagens stock
+
+Não parecer site de agência ou designer
+
+Visual deve parecer produto real em produção
+
+This project was built with [Lovable](https://lovable.dev).
+
+**Live app**: https://andrewmk.lovable.app
+
+## Build with Lovable
+
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/e8d0bbb4-f40c-4321-aa45-201f12c34254).
+
+- **Ship faster**: describe what you want to build and Lovable handles the code.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+
+## Development
+
+Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
+git clone <this-repository-url>
+cd <repository-name>
 npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
