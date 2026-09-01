@@ -1,206 +1,114 @@
-# Andrew Mathews Portfolio
+# Andrew Mathews — Developer Portfolio
 
-🔧 PROMPT PARA O LOVABLE — DEVELOPER PORTFOLIO
+My personal developer portfolio. It brings together the software I build — AI systems, productivity tools, robotics and computer-vision projects — alongside my competition results, certificates and the story of how the work has progressed over time.
 
-Crie um website de portfólio para um desenvolvedor sênior, com estética técnica, precisa e orientada a sistemas.
-O site deve comunicar engenharia de alto nível, clareza estrutural e impacto real, evitando qualquer visual genérico ou “criativo demais”.
+**Live site:** https://andrewmk.lovable.app
 
-🎯 POSICIONAMENTO
+## Overview
 
-Desenvolvedor experiente
+The portfolio is a place to explore what I actually build, not a résumé page. Visitors can:
 
-Forte em sistemas, produtos digitais e arquitetura
+- Browse every project, filter by technology or platform, and open a full case study for the larger ones
+- Read deep-dives covering the problem, interface walkthrough, tech stack, engineering challenges and results
+- Look through competition results, MUN awards and exhibitions, with certificates attached as proof
+- Follow the journey timeline and read blog posts about projects and AI experiments
+- Get in touch through the contact form
 
-Mindset de impacto, performance e confiabilidade
+## Featured Projects
 
-Público-alvo: startups, scale-ups e empresas de tecnologia
+| Project | Focus | Status |
+| --- | --- | --- |
+| **Gradr** | AI career accelerator — resume analysis, ATS scoring, AI mock interviews, job tracking and career analytics | Building |
+| **Stack Up** | Personal finance system with expense tracking, budgets, savings goals, streaks and analytics. The first product I shipped | Live |
+| **TerraCart** | AI shopping assistant that analyses products and surfaces more sustainable alternatives | Developing |
+| **ClientFlow OS** | Unified system for clients, projects, conversations, payments, documents and workflow automation | In active development |
 
-🎨 IDENTIDADE VISUAL
-Estilo
+## Other Projects
 
-Dark, minimalista, técnico
+| Project | Focus | Status |
+| --- | --- | --- |
+| **DevOS** | AI developer command center — tasks, focus sessions and project threads in one place | Live |
+| **COGNOS** | AI cognitive system that captures raw thoughts, classifies them and maps connections between ideas | Live |
+| **TabZen** | Intelligent tab management: context grouping, AI summaries and lossless archiving | Live |
+| **AI for Students** | Gamified platform for learning how to understand and use AI | Live |
+| **Home ServeAI** | Home services marketplace concept with smart matching and real-time tracking | Concept |
+| **JARVIS** | Voice AI assistant with spoken command handling, context memory and action execution | Experiment |
+| **GemLab** | Multi-persona AI chatbot environment (Friendly, Professional, Creative modes) | Built |
+| **Security Camera System** | Motion-activated recording with automatic recording management | Built |
+| **GesturePlay** | Rock, Paper, Scissors, Pencil played through webcam hand gestures | Built |
+| **Watch Walkie Talkie** | Push-to-talk voice communication between smartwatches and phones | Concept |
+| **ConversaCore AI** | Multi-model conversational platform with dynamic model selection and fallbacks | Built |
+| **Arabica AI Chat** | Bilingual English–Arabic chat with translation and context-aware replies | Built |
+| **NeuroTac AI** | Tic Tac Toe engine that evaluates board states and picks optimal moves | Built |
+| **Currency Converter** | Desktop converter for 170+ currencies with live rates and offline fallback | Built |
+| **Horizon Motorsports** | Digital home for a UAE-based racing team competing in FLL, Techfest and engineering competitions | Active |
 
-Visual inspirado em terminais, dashboards e sistemas
+## Technologies
 
-Grid rígido, modular, bem alinhado
+Across the projects above:
 
-Cores
+- **Web:** React, TypeScript, Tailwind CSS, Framer Motion
+- **AI:** LLM and AI APIs, Google Gemini API, NLP, embeddings, multi-model routing, AI summarisation and classification
+- **Python:** Tkinter desktop apps, OpenCV, MediaPipe, Haar cascade classifiers, Pillow, threading
+- **Mobile & cross-device:** Flutter, Android Studio, real-time audio streaming
+- **Backend & data:** Postgres, row-level security, auth, file storage, server functions, graph data models
+- **Payments & integrations:** Stripe, REST APIs, MCP integration
+- **Browser:** browser extension APIs and content scripts
+- **Build platforms:** Base44, Lovable
 
-Fundo: preto profundo / cinza grafite
+### This site
 
-Texto principal: branco técnico
+Built with TanStack Start (React, TypeScript, Vite), Tailwind CSS and Motion, with a Postgres backend for the blog and contact form.
 
-Cor de destaque (apenas 1): verde neon OU azul elétrico
+## Achievements
 
-Nada de gradientes chamativos ou cores extras
+**Competitions**
 
-Tipografia
+- 1st Place — Data Science, Techfest
+- 2nd Place — IoT, Techfest
+- 2nd Place — Space Tech, Group Techfest
+- Innovation Award — FLL UAE, Dubai Regional
+- 2nd Place — Math Expo, "Math & Me"
+- 3rd Place — Shot Put, Annual Athletic Meet
 
-Headings: Inter ou Space Grotesk
+**Model United Nations**
 
-Corpo e detalhes técnicos: JetBrains Mono ou IBM Plex Mono
+- IHSMUN 2025 — FIA · Verbal Commendation
+- Novara MUN 2026 — UNSC · Verbal Commendation
+- IHS UNSummit 2026 — FIA · Verbal Commendation + Best Resolution
 
-Hierarquia muito clara e objetiva
+**Areas:** Techfest, Data Science, IoT, Space Tech, Coding, Robotics, FLL, STEM Racing / F1 in Schools
 
-🧩 ELEMENTO VISUAL ÚNICO (OBRIGATÓRIO)
+**Exhibitions:** robotics exhibitions, school exhibitions, TechFest, STEM and engineering demonstrations, and other project showcases.
 
-UI inspirada em código:
+## Certificates
 
-divisórias como comentários //
+The portfolio includes a Certificates & Proof section with the credentials, competition certificates and milestone documents behind the achievements above. Each certificate can be opened full size, and results link directly to the document that verifies them.
 
-labels como /* Featured */
+## Portfolio
 
-pequenos detalhes que remetem a syntax
+https://andrewmk.lovable.app
 
-Cursor piscando ou efeito de typing sutil no hero
+## Socials
 
-🏠 HOME (implicitamente criada)
-Hero
-
-Headline curta, forte e técnica
-Exemplo:
-“I design and build reliable digital systems.”
-
-Subheadline explicando foco em produtos, arquitetura e impacto
-
-CTA simples: “View Work”
-
-Featured Projects
-
-Mostrar 3 projetos
-
-Cards técnicos com:
-
-Nome do projeto
-
-Descrição curta
-
-Tech stack
-
-Impacto mensurável
-
-📂 TELA: WORK
-Estrutura
-
-Lista de 3 projetos (criar conteúdos fictícios realistas)
-
-Projeto 1
-
-Nome: Scalable Fintech Platform
-
-Stack: React, TypeScript, Node.js, PostgreSQL
-
-Descrição: Desenvolvimento de uma plataforma financeira escalável
-
-Impacto: Redução de latência em 35%, suporte a milhões de usuários
-
-Projeto 2
-
-Nome: Internal Design System
-
-Stack: React, Storybook, CSS-in-JS
-
-Descrição: Criação de um design system robusto para múltiplos times
-
-Impacto: Aumento de produtividade e consistência visual
-
-Projeto 3
-
-Nome: Real-Time Analytics Dashboard
-
-Stack: Next.js, WebSockets, D3.js
-
-Descrição: Dashboard em tempo real para tomada de decisão
-
-Impacto: Insights instantâneos para equipes de produto e negócio
-
-Visual
-
-Cards escuros
-
-Tags técnicas
-
-Divisórias inspiradas em código
-
-👤 TELA: ABOUT
-Conteúdo
-
-Texto profissional, direto e confiante
-
-Foco em:
-
-Experiência
-
-Filosofia de trabalho
-
-Forma de pensar sistemas e produtos
-
-Exemplo de tom:
-
-“I’m a developer focused on building systems that scale, perform and last. I work at the intersection of engineering, product and design, turning complex problems into reliable digital solutions.”
-
-Estrutura
-
-Texto principal
-
-Lista curta de skills
-
-Stack favorita
-
-Experiência em produtos digitais
-
-🎨 TELA: STYLEGUIDE
-Deve conter
-
-Paleta de cores (fundo, texto, destaque)
-
-Tipografia (heading, body, mono)
-
-Botões
-
-Cards
-
-Labels técnicos
-
-Exemplo de componentes reutilizáveis
-
-Visual
-
-Bem organizada
-
-Parece documentação interna de produto
-
-Estilo “design system técnico”
-
-⚠️ RESTRIÇÕES IMPORTANTES
-
-Não usar ilustrações genéricas
-
-Não usar imagens stock
-
-Não parecer site de agência ou designer
-
-Visual deve parecer produto real em produção
-
-This project was built with [Lovable](https://lovable.dev).
-
-**Live app**: https://andrewmk.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/e8d0bbb4-f40c-4321-aa45-201f12c34254).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+| Platform | Link |
+| --- | --- |
+| GitHub | https://github.com/andrewmkbuilds |
+| Lovable | https://lovable.dev/@andrewbuilds |
+| Base44 | https://app.base44.com/@andrewmkbuilds |
+| X | https://x.com/Andrew444884 |
+| Instagram | https://www.instagram.com/andrewmkbuilds/ |
+| Linktree | https://linktr.ee/andrewmkbuilds |
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+This portfolio is an evolving personal project rather than a finished deliverable — projects, case studies, certificates and blog posts are added as the work happens, and the design and structure change along with it.
+
+Running it locally requires Node.js and npm:
 
 ```sh
 git clone <this-repository-url>
 cd <repository-name>
-npm i
+npm install
 npm run dev
 ```
