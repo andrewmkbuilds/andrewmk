@@ -232,7 +232,70 @@ export const featuredProjects: Project[] = [
     github: "https://github.com/andrewmkbuilds/ClientFlow-OS",
     filters: ["AI", "React"],
     featured: true,
+    problem:
+      "Small studios and freelancers run their business across six tools that do not talk: a CRM, a chat app, a spreadsheet of projects, an invoicing tool, a drive folder and a notes app. Every handoff between them is manual and every status question costs a search. ClientFlow OS collapses the client lifecycle — enquiry to delivery to payment — into one connected system.",
+    stack: [
+      { group: "Interface", items: ["React", "TypeScript", "Dashboard layouts", "Approval flows"] },
+      { group: "Backend", items: ["Postgres", "Row-level security", "Auth", "File storage", "Server functions"] },
+      { group: "Payments", items: ["Stripe", "Invoicing", "Payment status sync"] },
+      { group: "AI layer", items: ["Automations", "Conversation summarisation", "Draft generation"] },
+    ],
+    gallery: [
+      {
+        title: "Client lifecycle",
+        caption:
+          "Every client has one record carrying stage, projects, conversations, documents and payment history, so status never has to be reconstructed.",
+        lines: ["Stages", "Contacts", "Linked projects", "Activity feed"],
+      },
+      {
+        title: "Projects & approvals",
+        caption:
+          "Deliverables move through explicit approval states with a client-facing view, which removes the endless 'did you see this?' thread.",
+        lines: ["Milestones", "Approval states", "Client view", "Change log"],
+      },
+      {
+        title: "Payments & invoicing",
+        caption:
+          "Invoices are generated from project milestones and reconciled through Stripe, so paid work and unpaid work are never ambiguous.",
+        lines: ["Invoice builder", "Stripe checkout", "Status sync", "Reminders"],
+      },
+      {
+        title: "AI automation",
+        caption:
+          "Routine work — summarising a thread, drafting an update, flagging a stalled project — is automated so the system reduces admin rather than adding it.",
+        lines: ["Thread summaries", "Draft updates", "Stall detection", "Suggested next steps"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Modelling one lifecycle across many objects",
+        detail:
+          "Clients, projects, invoices and messages each want to be the centre. Making the client the root and treating everything else as a scoped child removed most cross-entity edge cases.",
+      },
+      {
+        title: "Payment state is the hard part",
+        detail:
+          "Invoices can be partially paid, refunded or fail after the fact. Stripe webhooks are the single source of truth and local state is derived from them, never written optimistically.",
+      },
+      {
+        title: "Sharing with clients without leaking data",
+        detail:
+          "Client-facing views needed to expose exactly one project and nothing else. Row-level security policies are written per relationship instead of per role, which keeps access provable.",
+      },
+      {
+        title: "Automation that stays trustworthy",
+        detail:
+          "Anything AI-generated that touches a client goes into a draft state with an approval step, so automation speeds up the operator instead of speaking for them.",
+      },
+    ],
+    results: [
+      { label: "Status", value: "In active development", note: "Core lifecycle working." },
+      { label: "Modules", value: "8", note: "Clients, projects, comms, payments, docs, automation." },
+      { label: "Payments", value: "Stripe", note: "Webhook-driven state." },
+      { label: "Code", value: "Public repo", note: "github.com/andrewmkbuilds/ClientFlow-OS" },
+    ],
   },
+
 ];
 
 export const ecosystemProjects: Project[] = [
