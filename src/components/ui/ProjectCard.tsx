@@ -175,13 +175,22 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
         <BuiltBy project={project} className="relative z-20" />
       </div>
 
-      {/* metadata revealed on hover — desktop only, never hides key info */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-6 right-6 hidden translate-y-2 font-mono text-[10px] uppercase tracking-[0.2em] text-primary opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 lg:block"
-      >
-        Open case →
-      </span>
+      <div className="card-depth-sm relative z-20 mt-4 flex flex-wrap items-center gap-3">
+        <Link
+          to={`/projects/${project.slug}`}
+          onClick={(event) => event.stopPropagation()}
+          className="focus-ring inline-flex items-center gap-1.5 rounded-md font-mono text-[11px] uppercase tracking-[0.16em] text-primary transition-colors hover:text-gold"
+        >
+          {hasCaseStudy ? "Read case study" : "Open project page"}
+          <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
+        </Link>
+        {hasCaseStudy && (
+          <span className="rounded-full border border-gold/30 bg-gold/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.16em] text-gold">
+            Case study
+          </span>
+        )}
+      </div>
+
     </motion.article>
   );
 }
