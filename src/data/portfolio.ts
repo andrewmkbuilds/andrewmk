@@ -10,6 +10,8 @@ export interface Project {
   status: string;
   live?: string;
   github?: string;
+  /** Internal interactive demo page, when one exists. */
+  demo?: string;
   filters: string[];
   featured?: boolean;
   previously?: string;

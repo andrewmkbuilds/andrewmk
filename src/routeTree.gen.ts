@@ -26,6 +26,7 @@ import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
 import { Route as AuthenticatedAdminBlogRouteImport } from './routes/_authenticated/admin.blog'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated/admin.messages'
+import { Route as ProjectsGradrDemoRouteImport } from './routes/projects.gradr.demo'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -112,6 +113,11 @@ const AuthenticatedAdminMessagesRoute =
     path: '/admin/messages',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ProjectsGradrDemoRoute = ProjectsGradrDemoRouteImport.update({
+  id: '/projects/gradr/demo',
+  path: '/projects/gradr/demo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/projects/': typeof ProjectsIndexRoute
   '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
+  '/projects/gradr/demo': typeof ProjectsGradrDemoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/projects': typeof ProjectsIndexRoute
   '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
+  '/projects/gradr/demo': typeof ProjectsGradrDemoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -168,6 +176,7 @@ export interface FileRoutesById {
   '/projects/': typeof ProjectsIndexRoute
   '/_authenticated/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
+  '/projects/gradr/demo': typeof ProjectsGradrDemoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -188,6 +197,7 @@ export interface FileRouteTypes {
     | '/projects/'
     | '/admin/blog'
     | '/admin/messages'
+    | '/projects/gradr/demo'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/admin/blog'
     | '/admin/messages'
+    | '/projects/gradr/demo'
   id:
     | '__root__'
     | '/'
@@ -225,6 +236,7 @@ export interface FileRouteTypes {
     | '/projects/'
     | '/_authenticated/admin/blog'
     | '/_authenticated/admin/messages'
+    | '/projects/gradr/demo'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -243,6 +255,7 @@ export interface RootRouteChildren {
   ProjectsSlugRoute: typeof ProjectsSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
+  ProjectsGradrDemoRoute: typeof ProjectsGradrDemoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -366,6 +379,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminMessagesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/projects/gradr/demo': {
+      id: '/projects/gradr/demo'
+      path: '/projects/gradr/demo'
+      fullPath: '/projects/gradr/demo'
+      preLoaderRoute: typeof ProjectsGradrDemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -398,6 +418,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsSlugRoute: ProjectsSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
+  ProjectsGradrDemoRoute: ProjectsGradrDemoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
