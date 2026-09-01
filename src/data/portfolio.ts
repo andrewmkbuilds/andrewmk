@@ -129,7 +129,70 @@ export const featuredProjects: Project[] = [
     filters: ["Base44", "React"],
     featured: true,
     platform: "base44",
+    problem:
+      "Most budgeting apps assume you already have the discipline they are supposed to build. They show you a pie chart after the money is gone. Stack Up started from the opposite question: what would make a student actually open a finance app on a normal Tuesday? The answer was progress — visible streaks, goals that move, and numbers small enough to act on.",
+    stack: [
+      { group: "Interface", items: ["React", "Component-driven UI", "Responsive layouts", "Charting"] },
+      { group: "Logic", items: ["Budget engine", "Streak & XP rules", "Goal projection", "Category rollups"] },
+      { group: "Data", items: ["Per-user records", "Transaction history", "Recurring entries", "Auth"] },
+      { group: "Platform", items: ["Base44", "Hosted deployment"] },
+    ],
+    gallery: [
+      {
+        title: "Dashboard",
+        caption:
+          "One screen answers the only question that matters day to day: how much is left, and is this month on track compared to the last one.",
+        lines: ["Safe-to-spend", "Month trend", "Top categories", "Streak status"],
+      },
+      {
+        title: "Expense capture",
+        caption:
+          "Logging a spend takes a few seconds — amount, category, optional note — because anything slower gets abandoned within a week.",
+        lines: ["Quick add", "Smart categories", "Recurring entries", "Edit history"],
+      },
+      {
+        title: "Budgets & goals",
+        caption:
+          "Budgets are per category with live burn-down, and savings goals project a realistic finish date from actual deposit behaviour.",
+        lines: ["Category caps", "Burn-down bars", "Goal projection", "Overspend alerts"],
+      },
+      {
+        title: "Streaks & analytics",
+        caption:
+          "Gamification is tied to behaviour that actually helps — logging consistently and staying under budget — not to spending more.",
+        lines: ["Daily streak", "XP levels", "Category breakdown", "Month-over-month"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Gamifying finance without encouraging bad habits",
+        detail:
+          "Early reward rules accidentally rewarded activity, which meant more transactions scored higher. I rewrote the scoring so streaks come from consistent logging and staying inside budget, and goal progress is the only thing that drives levels.",
+      },
+      {
+        title: "Making budgets survive real life",
+        detail:
+          "A rigid monthly cap breaks the first time an unexpected bill lands. Budgets became rolling, with carry-over and a separate 'irregular' bucket, so one bad week does not invalidate the whole month.",
+      },
+      {
+        title: "Keeping data entry under ten seconds",
+        detail:
+          "Retention died on friction. I cut the add-expense flow to a single sheet with remembered categories and recurring entries, which removed most repeat typing.",
+      },
+      {
+        title: "Shipping a first product end to end",
+        detail:
+          "This was the first thing I took from idea to live URL — auth, data modelling, state, deployment. The lesson that carried into every project after it was to ship a narrow version and let real usage decide the next feature.",
+      },
+    ],
+    results: [
+      { label: "Status", value: "Live", note: "Publicly usable at stackup-app.base44.app." },
+      { label: "First shipped product", value: "2024", note: "Idea to deployed app end to end." },
+      { label: "Core modules", value: "5", note: "Expenses, budgets, goals, streaks, analytics." },
+      { label: "Entry time", value: "< 10s", note: "Design target for logging a spend." },
+    ],
   },
+
   {
     slug: "terracart",
     name: "TerraCart",
@@ -147,7 +210,58 @@ export const featuredProjects: Project[] = [
     status: "Developing",
     filters: ["AI"],
     featured: true,
+    problem:
+      "Shopping sustainably online is mostly guesswork. Product pages optimise for conversion, claims are unverifiable, and comparing a greener alternative means opening five tabs mid-checkout. TerraCart puts the analysis where the decision happens — on the product page — and offers a concrete alternative instead of a lecture.",
+    stack: [
+      { group: "Extension", items: ["Browser extension", "Product page parsing", "Content scripts"] },
+      { group: "AI layer", items: ["Product understanding", "Claim research", "Alternative matching"] },
+      { group: "Interface", items: ["Inline panel", "Comparison view", "Shopping checklist"] },
+      { group: "Data", items: ["Product cache", "Category heuristics", "Saved items"] },
+    ],
+    gallery: [
+      {
+        title: "Product analysis",
+        caption:
+          "The extension reads the product being viewed and breaks down what is actually known about materials, packaging and origin versus what is only marketing language.",
+        lines: ["Material read", "Packaging", "Origin signals", "Claim check"],
+      },
+      {
+        title: "Better alternatives",
+        caption:
+          "Instead of a score with no action attached, it surfaces comparable products that are genuinely more sustainable and similar in price and function.",
+        lines: ["Similar items", "Why it's better", "Price delta", "Availability"],
+      },
+      {
+        title: "Shopping checklist",
+        caption:
+          "A running list keeps intended purchases together so decisions can be reviewed before checkout rather than one impulse at a time.",
+        lines: ["Saved items", "Compare view", "Notes", "Decision log"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Reading messy product pages",
+        detail:
+          "Every retailer structures pages differently. Parsing combines structured data where it exists with content-based extraction as fallback, so the panel still works on pages without clean markup.",
+      },
+      {
+        title: "Not inventing sustainability claims",
+        detail:
+          "The easy failure mode is a confident number with nothing behind it. Analysis separates verifiable attributes from unverified marketing claims and says so explicitly when evidence is thin.",
+      },
+      {
+        title: "Alternatives that are actually comparable",
+        detail:
+          "A greener product at four times the price is not a real option. Matching filters on function and price band first, then ranks on sustainability signals.",
+      },
+    ],
+    results: [
+      { label: "Status", value: "In development", note: "Analysis and alternatives in progress." },
+      { label: "Surface", value: "Browser extension", note: "Works inline on product pages." },
+      { label: "Principle", value: "Evidence over scores", note: "Unverified claims labelled as such." },
+    ],
   },
+
   {
     slug: "clientflow-os",
     name: "ClientFlow OS",
@@ -169,7 +283,70 @@ export const featuredProjects: Project[] = [
     github: "https://github.com/andrewmkbuilds/ClientFlow-OS",
     filters: ["AI", "React"],
     featured: true,
+    problem:
+      "Small studios and freelancers run their business across six tools that do not talk: a CRM, a chat app, a spreadsheet of projects, an invoicing tool, a drive folder and a notes app. Every handoff between them is manual and every status question costs a search. ClientFlow OS collapses the client lifecycle — enquiry to delivery to payment — into one connected system.",
+    stack: [
+      { group: "Interface", items: ["React", "TypeScript", "Dashboard layouts", "Approval flows"] },
+      { group: "Backend", items: ["Postgres", "Row-level security", "Auth", "File storage", "Server functions"] },
+      { group: "Payments", items: ["Stripe", "Invoicing", "Payment status sync"] },
+      { group: "AI layer", items: ["Automations", "Conversation summarisation", "Draft generation"] },
+    ],
+    gallery: [
+      {
+        title: "Client lifecycle",
+        caption:
+          "Every client has one record carrying stage, projects, conversations, documents and payment history, so status never has to be reconstructed.",
+        lines: ["Stages", "Contacts", "Linked projects", "Activity feed"],
+      },
+      {
+        title: "Projects & approvals",
+        caption:
+          "Deliverables move through explicit approval states with a client-facing view, which removes the endless 'did you see this?' thread.",
+        lines: ["Milestones", "Approval states", "Client view", "Change log"],
+      },
+      {
+        title: "Payments & invoicing",
+        caption:
+          "Invoices are generated from project milestones and reconciled through Stripe, so paid work and unpaid work are never ambiguous.",
+        lines: ["Invoice builder", "Stripe checkout", "Status sync", "Reminders"],
+      },
+      {
+        title: "AI automation",
+        caption:
+          "Routine work — summarising a thread, drafting an update, flagging a stalled project — is automated so the system reduces admin rather than adding it.",
+        lines: ["Thread summaries", "Draft updates", "Stall detection", "Suggested next steps"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Modelling one lifecycle across many objects",
+        detail:
+          "Clients, projects, invoices and messages each want to be the centre. Making the client the root and treating everything else as a scoped child removed most cross-entity edge cases.",
+      },
+      {
+        title: "Payment state is the hard part",
+        detail:
+          "Invoices can be partially paid, refunded or fail after the fact. Stripe webhooks are the single source of truth and local state is derived from them, never written optimistically.",
+      },
+      {
+        title: "Sharing with clients without leaking data",
+        detail:
+          "Client-facing views needed to expose exactly one project and nothing else. Row-level security policies are written per relationship instead of per role, which keeps access provable.",
+      },
+      {
+        title: "Automation that stays trustworthy",
+        detail:
+          "Anything AI-generated that touches a client goes into a draft state with an approval step, so automation speeds up the operator instead of speaking for them.",
+      },
+    ],
+    results: [
+      { label: "Status", value: "In active development", note: "Core lifecycle working." },
+      { label: "Modules", value: "8", note: "Clients, projects, comms, payments, docs, automation." },
+      { label: "Payments", value: "Stripe", note: "Webhook-driven state." },
+      { label: "Code", value: "Public repo", note: "github.com/andrewmkbuilds/ClientFlow-OS" },
+    ],
   },
+
 ];
 
 export const ecosystemProjects: Project[] = [
@@ -197,7 +374,65 @@ export const ecosystemProjects: Project[] = [
     live: "https://dev-os-flow.base44.app/",
     filters: ["Python", "AI", "Base44"],
     platform: "base44",
+    problem:
+      "Building alone means context lives in five places at once — a task list, a terminal, a notes file, a chat with an AI assistant, and whatever was open when you stopped. DevOS came out of my own workflow: one command center where the task, the focus session and the project thread are the same object, so picking work back up does not require reconstructing it.",
+    stack: [
+      { group: "Core", items: ["Python", "Task engine", "Session timer", "Thread store"] },
+      { group: "AI layer", items: ["Assistant integration", "Context summarisation", "Task breakdown"] },
+      { group: "Interface", items: ["Command-driven UI", "Keyboard-first navigation", "Project boards"] },
+      { group: "Platform", items: ["Base44", "Hosted deployment"] },
+    ],
+    gallery: [
+      {
+        title: "Command center",
+        caption:
+          "Everything starts from one input: create a task, start a focus block, or open a project thread without leaving the keyboard.",
+        lines: ["Command palette", "Today view", "Active session", "Quick capture"],
+      },
+      {
+        title: "Focus sessions",
+        caption:
+          "A session is bound to a task, so time tracked is attributable and the end of a block produces a note rather than just a stopped timer.",
+        lines: ["Timed blocks", "Bound task", "Session notes", "History"],
+      },
+      {
+        title: "Project threads",
+        caption:
+          "Each project keeps a running thread of decisions, blockers and AI exchanges, which is what makes returning after a week cheap.",
+        lines: ["Decision log", "Blockers", "AI exchanges", "Linked tasks"],
+      },
+      {
+        title: "AI assist",
+        caption:
+          "The assistant reads the thread, breaks a vague task into concrete steps, and summarises where a project stalled.",
+        lines: ["Task breakdown", "Thread summary", "Next step", "Context recall"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Context that survives a break",
+        detail:
+          "Tasks alone were not enough to resume work. Attaching session notes and decisions to a persistent project thread turned resumption from re-reading code into reading four lines.",
+      },
+      {
+        title: "Keeping AI grounded in the project",
+        detail:
+          "Generic assistant answers were useless. Requests now carry a trimmed slice of the project thread and recent sessions, so suggestions reference actual decisions instead of guessing.",
+      },
+      {
+        title: "Avoiding another tool to maintain",
+        detail:
+          "The system only works if updating it is a side effect of working. Ending a focus block prompts a one-line note, and that single habit keeps the whole thread current.",
+      },
+    ],
+    results: [
+      { label: "Status", value: "Live", note: "Usable at dev-os-flow.base44.app." },
+      { label: "Objects unified", value: "3", note: "Tasks, focus sessions, project threads." },
+      { label: "Built for", value: "Solo builders", note: "Designed around my own workflow." },
+      { label: "Interaction", value: "Keyboard-first", note: "Command-driven navigation." },
+    ],
   },
+
   {
     slug: "cognos",
     name: "COGNOS",
@@ -210,7 +445,58 @@ export const ecosystemProjects: Project[] = [
     live: "https://cognos-app.base44.app/",
     filters: ["AI", "Base44"],
     platform: "base44",
+    problem:
+      "Notes apps store text; they do not store thinking. Ideas arrive unformed, at bad times, and the connection between two of them is usually the valuable part. COGNOS was an attempt to build a capture surface that classifies a raw thought the moment it lands and then shows how it relates to everything captured before.",
+    stack: [
+      { group: "Capture", items: ["Fast entry", "Voice-to-text input", "Tag inference"] },
+      { group: "AI layer", items: ["Classification", "Embeddings", "Similarity linking", "NLP cleanup"] },
+      { group: "Graph", items: ["Node/edge model", "Cluster detection", "Interactive map"] },
+      { group: "Platform", items: ["Base44", "Persistent store"] },
+    ],
+    gallery: [
+      {
+        title: "Raw capture",
+        caption:
+          "One input box, no folders, no decisions. The cost of capturing a thought has to be near zero or the thought is lost.",
+        lines: ["Instant entry", "No taxonomy", "Timestamped", "Offline-tolerant"],
+      },
+      {
+        title: "Automatic classification",
+        caption:
+          "Each entry is typed — idea, question, task, observation — and tagged, so structure appears after capture instead of blocking it.",
+        lines: ["Type detection", "Auto tags", "Confidence", "Manual correction"],
+      },
+      {
+        title: "Idea graph",
+        caption:
+          "Related thoughts are linked by meaning, and clusters surface themes you did not know you kept returning to.",
+        lines: ["Semantic links", "Clusters", "Timeline view", "Search"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Classification that is useful, not noisy",
+        detail:
+          "Over-eager tagging made everything look connected. I constrained the label set and added a confidence threshold, so low-certainty entries stay unclassified rather than polluting the graph.",
+      },
+      {
+        title: "Meaningful edges",
+        detail:
+          "Keyword overlap linked unrelated notes. Switching to embedding similarity with a minimum distance produced far fewer but far better connections.",
+      },
+      {
+        title: "Graphs that stay readable",
+        detail:
+          "Past a few hundred nodes the map turned into hairball. Rendering now collapses clusters by default and expands on demand.",
+      },
+    ],
+    results: [
+      { label: "Status", value: "Live", note: "Usable at cognos-app.base44.app." },
+      { label: "Pipeline", value: "Capture → classify → connect", note: "Fully automatic." },
+      { label: "Link quality", value: "Embedding-based", note: "Replaced keyword matching." },
+    ],
   },
+
   {
     slug: "tabzen",
     name: "TabZen",
@@ -223,7 +509,58 @@ export const ecosystemProjects: Project[] = [
     live: "https://tabzen.base44.app/",
     filters: ["AI", "Base44"],
     platform: "base44",
+    problem:
+      "Research sessions end with forty tabs and no memory of why half of them were opened. Closing them loses the thread; keeping them makes the browser unusable. TabZen treats tabs as a working set that should be grouped, summarised and archived without losing the reason each one existed.",
+    stack: [
+      { group: "Extension", items: ["Browser extension APIs", "Tab & window events", "Local storage"] },
+      { group: "AI layer", items: ["Page summarisation", "Topic clustering", "Title normalisation"] },
+      { group: "Interface", items: ["Group view", "Search over archive", "One-click restore"] },
+      { group: "Platform", items: ["Base44", "Hosted app surface"] },
+    ],
+    gallery: [
+      {
+        title: "Context groups",
+        caption:
+          "Open tabs are clustered by topic rather than by the order they were opened, so a research thread stays together even when it was interrupted.",
+        lines: ["Auto grouping", "Manual override", "Group naming", "Pin important"],
+      },
+      {
+        title: "Summaries",
+        caption:
+          "Each tab gets a one-line summary so a group can be understood at a glance weeks later, without reopening every page.",
+        lines: ["Per-tab summary", "Group digest", "Key links", "Read state"],
+      },
+      {
+        title: "Lossless archive",
+        caption:
+          "Archiving closes the tabs but keeps URL, title, summary and group, so nothing is lost and everything is searchable.",
+        lines: ["Archive session", "Full-text search", "Restore group", "Export"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Grouping that matches human intent",
+        detail:
+          "Pure keyword clustering split obviously related pages. Grouping now combines page content signals with opener relationships and time proximity, which matches how a session actually forms.",
+      },
+      {
+        title: "Summarising cheaply",
+        detail:
+          "Summarising every tab on every change is wasteful. Summaries are generated once per URL, cached, and refreshed only when the page changes materially.",
+      },
+      {
+        title: "Never losing a tab",
+        detail:
+          "Any archive feature is only trusted if restore is perfect. Archive writes the full record before closing anything, and restore rebuilds the window layout exactly.",
+      },
+    ],
+    results: [
+      { label: "Status", value: "Live", note: "Usable at tabzen.base44.app." },
+      { label: "Core loop", value: "Group → summarise → archive", note: "Three-step workflow." },
+      { label: "Data loss", value: "Zero by design", note: "Archive precedes close." },
+    ],
   },
+
   {
     slug: "ai-for-students",
     name: "AI for Students",
