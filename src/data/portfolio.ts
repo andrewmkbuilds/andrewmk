@@ -48,6 +48,7 @@ export const featuredProjects: Project[] = [
     filters: ["AI", "React", "Lovable"],
     featured: true,
     platform: "lovable",
+    demo: "/projects/gradr/demo",
     problem:
       "Early-career candidates get almost no useful feedback. Resumes disappear into applicant tracking systems without explanation, interview practice is either expensive or unstructured, and applications end up scattered across spreadsheets, inboxes and browser tabs. The missing piece is not more advice — it is a system that reviews your material, tells you exactly what is weak, and keeps the whole search in one place.",
     stack: [
