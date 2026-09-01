@@ -286,7 +286,58 @@ export const ecosystemProjects: Project[] = [
     live: "https://tabzen.base44.app/",
     filters: ["AI", "Base44"],
     platform: "base44",
+    problem:
+      "Research sessions end with forty tabs and no memory of why half of them were opened. Closing them loses the thread; keeping them makes the browser unusable. TabZen treats tabs as a working set that should be grouped, summarised and archived without losing the reason each one existed.",
+    stack: [
+      { group: "Extension", items: ["Browser extension APIs", "Tab & window events", "Local storage"] },
+      { group: "AI layer", items: ["Page summarisation", "Topic clustering", "Title normalisation"] },
+      { group: "Interface", items: ["Group view", "Search over archive", "One-click restore"] },
+      { group: "Platform", items: ["Base44", "Hosted app surface"] },
+    ],
+    gallery: [
+      {
+        title: "Context groups",
+        caption:
+          "Open tabs are clustered by topic rather than by the order they were opened, so a research thread stays together even when it was interrupted.",
+        lines: ["Auto grouping", "Manual override", "Group naming", "Pin important"],
+      },
+      {
+        title: "Summaries",
+        caption:
+          "Each tab gets a one-line summary so a group can be understood at a glance weeks later, without reopening every page.",
+        lines: ["Per-tab summary", "Group digest", "Key links", "Read state"],
+      },
+      {
+        title: "Lossless archive",
+        caption:
+          "Archiving closes the tabs but keeps URL, title, summary and group, so nothing is lost and everything is searchable.",
+        lines: ["Archive session", "Full-text search", "Restore group", "Export"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Grouping that matches human intent",
+        detail:
+          "Pure keyword clustering split obviously related pages. Grouping now combines page content signals with opener relationships and time proximity, which matches how a session actually forms.",
+      },
+      {
+        title: "Summarising cheaply",
+        detail:
+          "Summarising every tab on every change is wasteful. Summaries are generated once per URL, cached, and refreshed only when the page changes materially.",
+      },
+      {
+        title: "Never losing a tab",
+        detail:
+          "Any archive feature is only trusted if restore is perfect. Archive writes the full record before closing anything, and restore rebuilds the window layout exactly.",
+      },
+    ],
+    results: [
+      { label: "Status", value: "Live", note: "Usable at tabzen.base44.app." },
+      { label: "Core loop", value: "Group → summarise → archive", note: "Three-step workflow." },
+      { label: "Data loss", value: "Zero by design", note: "Archive precedes close." },
+    ],
   },
+
   {
     slug: "ai-for-students",
     name: "AI for Students",
