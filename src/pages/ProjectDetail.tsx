@@ -165,6 +165,139 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           </div>
         </section>
 
+        {project.gallery && project.gallery.length > 0 && (
+          <section className="divider-gold py-16 md:py-20">
+            <div className="container">
+              <h2 className="text-display text-2xl text-foreground md:text-3xl">
+                Inside the product
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                The main screens and what each one does.
+              </p>
+              <ul className="mt-8 grid list-none gap-5 p-0 sm:grid-cols-2">
+                {project.gallery.map((shot, i) => (
+                  <Reveal as="li" key={shot.title} delay={i * 60} className="h-full">
+                    <figure className="pop-card m-0 flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card">
+                      <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-border bg-background/60">
+                        <div className="absolute inset-0 bg-grid opacity-40" aria-hidden="true" />
+                        <div
+                          className="pointer-events-none absolute -top-16 left-1/3 h-40 w-56 rounded-full bg-primary/15 blur-[70px]"
+                          aria-hidden="true"
+                        />
+                        <div className="relative flex h-full flex-col p-4">
+                          <div className="flex items-center gap-1.5" aria-hidden="true">
+                            <span className="h-2 w-2 rounded-full bg-gold/70" />
+                            <span className="h-2 w-2 rounded-full bg-primary/60" />
+                            <span className="h-2 w-2 rounded-full bg-muted-foreground/40" />
+                            <span className="ml-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                              {project.name} · {shot.title}
+                            </span>
+                          </div>
+                          <div className="mt-4 grid flex-1 content-start gap-2">
+                            {(shot.lines ?? []).map((line) => (
+                              <div
+                                key={line}
+                                className="flex items-center justify-between gap-3 rounded-md border border-border/70 bg-card/70 px-3 py-2"
+                              >
+                                <span className="truncate font-mono text-[11px] text-muted-foreground">
+                                  {line}
+                                </span>
+                                <span
+                                  className="h-1.5 w-10 rounded-full bg-gold/50"
+                                  aria-hidden="true"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <figcaption className="flex flex-1 flex-col p-5">
+                        <h3 className="text-base font-semibold text-foreground">{shot.title}</h3>
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                          {shot.caption}
+                        </p>
+                      </figcaption>
+                    </figure>
+                  </Reveal>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {project.stack && project.stack.length > 0 && (
+          <section className="divider-gold py-16 md:py-20">
+            <div className="container">
+              <h2 className="text-display text-2xl text-foreground md:text-3xl">Tech stack</h2>
+              <ul className="mt-8 grid list-none gap-5 p-0 sm:grid-cols-2 lg:grid-cols-4">
+                {project.stack.map((group, i) => (
+                  <Reveal as="li" key={group.group} delay={i * 60} className="h-full">
+                    <div className="pop-card h-full rounded-xl border border-border bg-card p-5 shadow-card">
+                      <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">
+                        {group.group}
+                      </h3>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {group.items.map((item) => (
+                          <TechTag key={item}>{item}</TechTag>
+                        ))}
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {project.challenges && project.challenges.length > 0 && (
+          <section className="divider-gold py-16 md:py-20">
+            <div className="container">
+              <h2 className="text-display text-2xl text-foreground md:text-3xl">
+                Challenges &amp; how I solved them
+              </h2>
+              <ul className="mt-8 grid list-none gap-5 p-0 md:grid-cols-2">
+                {project.challenges.map((c, i) => (
+                  <Reveal as="li" key={c.title} delay={i * 60} className="h-full">
+                    <div className="pop-card h-full rounded-xl border border-border bg-card p-6 shadow-card">
+                      <h3 className="text-base font-semibold text-foreground">{c.title}</h3>
+                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                        {c.detail}
+                      </p>
+                    </div>
+                  </Reveal>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
+
+        {project.results && project.results.length > 0 && (
+          <section className="divider-gold py-16 md:py-20">
+            <div className="container">
+              <h2 className="text-display text-2xl text-foreground md:text-3xl">Results so far</h2>
+              <dl className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {project.results.map((r, i) => (
+                  <Reveal key={r.label} delay={i * 60} className="h-full">
+                    <div className="pop-card h-full rounded-xl border border-border bg-card p-5 shadow-card">
+                      <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+                        {r.label}
+                      </dt>
+                      <dd className="mt-2">
+                        <span className="block text-lg font-semibold text-gold">{r.value}</span>
+                        {r.note && (
+                          <span className="mt-1.5 block text-sm leading-relaxed text-muted-foreground">
+                            {r.note}
+                          </span>
+                        )}
+                      </dd>
+                    </div>
+                  </Reveal>
+                ))}
+              </dl>
+            </div>
+          </section>
+        )}
+
         {others.length > 0 && (
           <section className="divider-gold py-16 md:py-20">
             <div className="container">

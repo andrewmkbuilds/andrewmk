@@ -27,6 +27,7 @@ import {
   principles,
   quickStats,
   buildAreas,
+  getProject,
   type Project,
 } from "@/data/portfolio";
 
@@ -266,16 +267,54 @@ export default function Home() {
                   >
                     <dl className="space-y-2">
                       {area.details.map((d) => (
-                        <div key={d.label} className="flex items-baseline justify-between gap-3">
+                        <div
+                          key={d.label}
+                          className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3"
+                        >
                           <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
                             {d.label}
                           </dt>
-                          <dd className="text-right text-sm font-medium text-foreground">
+                          <dd className="text-sm font-medium text-foreground sm:text-right">
                             {d.value}
                           </dd>
                         </div>
                       ))}
                     </dl>
+
+                    {(area.projects ?? []).length > 0 && (
+                      <ul className="mt-5 grid list-none gap-3 border-t border-border/70 p-0 pt-4">
+                        {(area.projects ?? []).map((slug) => {
+                          const p = getProject(slug);
+                          if (!p) return null;
+                          return (
+                            <li key={slug}>
+                              <Link
+                                to={`/projects/${p.slug}`}
+                                className="focus-ring block rounded-lg border border-border/70 bg-background/40 p-3 transition-colors hover:border-gold/40"
+                              >
+                                <span className="flex flex-wrap items-center justify-between gap-2">
+                                  <span className="text-sm font-semibold text-foreground">
+                                    {p.name}
+                                  </span>
+                                  <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-gold">
+                                    Open
+                                    <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                                  </span>
+                                </span>
+                                <span className="mt-1.5 block text-sm leading-relaxed text-muted-foreground">
+                                  {p.description}
+                                </span>
+                                <span className="mt-2.5 flex flex-wrap gap-1.5">
+                                  {p.tech.map((t) => (
+                                    <TechTag key={t}>{t}</TechTag>
+                                  ))}
+                                </span>
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
                   </PopDisclosure>
                 </Reveal>
               );

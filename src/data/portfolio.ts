@@ -15,6 +15,14 @@ export interface Project {
   previously?: string;
   /** Build platform, only when factually known. Drives the "Built with" badge. */
   platform?: "base44" | "lovable";
+  /** Grouped technology stack, shown on the full project page. */
+  stack?: { group: string; items: string[] }[];
+  /** Engineering challenges and how they were solved. */
+  challenges?: { title: string; detail: string }[];
+  /** Outcomes so far — kept honest for in-progress work. */
+  results?: { label: string; value: string; note?: string }[];
+  /** Interface walkthrough panels (screens of the product). */
+  gallery?: { title: string; caption: string; lines?: string[] }[];
 }
 
 export const featuredProjects: Project[] = [
@@ -38,6 +46,68 @@ export const featuredProjects: Project[] = [
     filters: ["AI", "React", "Lovable"],
     featured: true,
     platform: "lovable",
+    problem:
+      "Early-career candidates get almost no useful feedback. Resumes disappear into applicant tracking systems without explanation, interview practice is either expensive or unstructured, and applications end up scattered across spreadsheets, inboxes and browser tabs. The missing piece is not more advice — it is a system that reviews your material, tells you exactly what is weak, and keeps the whole search in one place.",
+    stack: [
+      { group: "Interface", items: ["React", "TypeScript", "Tailwind CSS", "Component library"] },
+      { group: "AI layer", items: ["LLM APIs", "Structured prompting", "Scoring rubrics", "Streaming responses"] },
+      { group: "Backend", items: ["Postgres", "Row-level security", "Auth", "File storage", "Server functions"] },
+      { group: "Platform", items: ["Lovable", "MCP integration", "Credit-based usage metering"] },
+    ],
+    gallery: [
+      {
+        title: "Resume analysis",
+        caption:
+          "Upload a resume and get a structured breakdown: ATS score, keyword coverage, weak bullet points and concrete rewrite suggestions instead of vague feedback.",
+        lines: ["ATS score", "Keyword gaps", "Bullet rewrites", "Section checks"],
+      },
+      {
+        title: "AI mock interviews",
+        caption:
+          "Role-specific interview sessions that ask follow-up questions, then score answers on structure, specificity and relevance so practice actually compounds.",
+        lines: ["Role selection", "Live Q&A", "Answer scoring", "Session replay"],
+      },
+      {
+        title: "Job tracker",
+        caption:
+          "Every application in one board with stage, source and reminders, so nothing is lost between applying and following up.",
+        lines: ["Saved jobs", "Stages", "Reminders", "Match signals"],
+      },
+      {
+        title: "Career plan & analytics",
+        caption:
+          "A progress view that turns sessions and applications into trends — where scores improve, where they stall, and what to work on next.",
+        lines: ["Score trend", "Skill gaps", "Next actions", "Weekly summary"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Making AI feedback specific, not generic",
+        detail:
+          "The first versions returned polite but useless advice. I moved from open-ended prompts to fixed scoring rubrics with structured output, so every response has to point at a real line in the resume or answer and explain what to change.",
+      },
+      {
+        title: "Approximating ATS behaviour honestly",
+        detail:
+          "Real applicant tracking systems are closed. Instead of pretending to replicate one, the score is built from things that are actually checkable — parseability, section structure, keyword coverage against the job description and formatting risks — and the app explains each component.",
+      },
+      {
+        title: "Keeping AI cost predictable",
+        detail:
+          "Long resumes and interview transcripts get expensive fast. Requests are trimmed and cached, heavy analysis runs on demand rather than on every keystroke, and usage is metered with a credit balance so cost stays bounded per user.",
+      },
+      {
+        title: "Data privacy on personal documents",
+        detail:
+          "Resumes are sensitive. Everything is scoped per user with row-level security, files live in access-controlled storage, and no document is readable across accounts.",
+      },
+    ],
+    results: [
+      { label: "Status", value: "In active development", note: "Core flows working end to end." },
+      { label: "Core modules", value: "6", note: "Resume, ATS, interviews, tracker, analytics, plan." },
+      { label: "Feedback loop", value: "Analyse → practise → apply", note: "One connected system." },
+      { label: "Integrations", value: "MCP tools", note: "Resumes, jobs and reminders exposed to assistants." },
+    ],
   },
   {
     slug: "stack-up",
@@ -285,6 +355,10 @@ export const ecosystemProjects: Project[] = [
 
 export const allProjects: Project[] = [...featuredProjects, ...ecosystemProjects];
 
+export function getProject(slug: string): Project | undefined {
+  return allProjects.find((p) => p.slug === slug);
+}
+
 export const projectFilters = [
   "All",
   "Python",
@@ -492,6 +566,8 @@ export interface BuildArea {
   description: string;
   icon: string;
   details: { label: string; value: string }[];
+  /** Project slugs surfaced inside the card's detail panel. */
+  projects?: string[];
 }
 
 export const buildAreas: BuildArea[] = [
@@ -505,6 +581,7 @@ export const buildAreas: BuildArea[] = [
       { label: "Focus", value: "Assistants · Agents · Model APIs" },
       { label: "Projects", value: "Gradr · COGNOS · JARVIS" },
     ],
+    projects: ["gradr", "cognos", "jarvis"],
   },
   {
     id: "software",
@@ -516,6 +593,7 @@ export const buildAreas: BuildArea[] = [
       { label: "Focus", value: "Web apps · Tools · Platforms" },
       { label: "Projects", value: "Stack Up · DevOS · TabZen" },
     ],
+    projects: ["stack-up", "devos", "tabzen"],
   },
   {
     id: "robotics",
@@ -527,6 +605,7 @@ export const buildAreas: BuildArea[] = [
       { label: "Focus", value: "FLL · STEM Racing · Hardware" },
       { label: "Work", value: "Competitions · Exhibitions" },
     ],
+    projects: ["horizon-motorsports"],
   },
   {
     id: "vision",
@@ -538,6 +617,7 @@ export const buildAreas: BuildArea[] = [
       { label: "Focus", value: "Gesture · Tracking · Cameras" },
       { label: "Projects", value: "GesturePlay · Security Camera System" },
     ],
+    projects: ["gestureplay", "security-camera-system"],
   },
   {
     id: "product",
@@ -549,6 +629,7 @@ export const buildAreas: BuildArea[] = [
       { label: "Focus", value: "Concept → Interface → Ship" },
       { label: "Projects", value: "TerraCart · ClientFlow OS" },
     ],
+    projects: ["terracart", "clientflow-os"],
   },
   {
     id: "data",
@@ -560,6 +641,7 @@ export const buildAreas: BuildArea[] = [
       { label: "Focus", value: "Analysis · Dashboards · Automation" },
       { label: "Interest", value: "Systems thinking" },
     ],
+    projects: ["gemlab"],
   },
 ];
 

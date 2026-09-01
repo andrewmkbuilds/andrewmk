@@ -40,7 +40,7 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={reduce ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.99 }}
                 transition={{ duration: 0.4, ease: EASE }}
-                className="surface grain fixed left-1/2 top-1/2 z-50 max-h-[88vh] w-[calc(100vw-2rem)] max-w-3xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto overscroll-contain rounded-2xl"
+                className="surface grain fixed left-1/2 top-1/2 z-50 max-h-[90dvh] w-[calc(100vw-1.5rem)] max-w-3xl sm:w-[calc(100vw-3rem)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto overscroll-contain rounded-2xl"
               >
                 {/* animated background elements */}
                 <div
@@ -62,7 +62,7 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                   <X className="h-4 w-4" />
                 </DialogPrimitive.Close>
 
-                <div className="relative p-6 md:p-9">
+                <div className="relative p-5 sm:p-6 md:p-9">
                   <motion.header
                     initial={reduce ? false : { opacity: 0, y: 14 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -72,7 +72,7 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                     <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-primary">
                       {project.category}
                     </p>
-                    <DialogPrimitive.Title className="text-display mt-3 text-3xl text-foreground md:text-5xl">
+                    <DialogPrimitive.Title className="text-display mt-3 text-2xl text-foreground sm:text-3xl md:text-5xl">
                       {project.name}
                     </DialogPrimitive.Title>
                     <p className="mt-4 text-base leading-relaxed text-muted-foreground">
@@ -109,7 +109,7 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                     )}
 
                     <Section title="What I built">
-                      <ul className="grid gap-2.5 sm:grid-cols-2">
+                      <ul className="grid list-none gap-2.5 p-0 sm:grid-cols-2">
                         {project.built.map((item) => (
                           <li
                             key={item}
@@ -132,7 +132,7 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
 
                     <motion.div
                       variants={itemVariants}
-                      className="flex flex-wrap items-center gap-3 border-t border-border pt-6"
+                      className="flex flex-wrap items-center gap-3 border-t border-border pt-6 [&_a]:w-full sm:[&_a]:w-auto"
                     >
                       <Button asChild variant="secondary" className="cta-pop font-mono">
                         <Link to={`/projects/${project.slug}`} onClick={() => onOpenChange(false)}>
