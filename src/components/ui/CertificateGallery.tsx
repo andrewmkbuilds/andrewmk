@@ -32,11 +32,11 @@ export function CertificateGallery() {
       <div className="container">
         <SectionHeading
           label="Proof"
-          title="Certificate Gallery"
-          subtitle="Every certificate below is the original document — issued by the school, competition or programme named on it. Open one to zoom in, or download the file."
+          title="Certificates & Proof"
+          subtitle="Verified credentials, competition results and milestones from my journey as a builder — every file below is the original certificate."
         />
         <h2 id="certificates-title" className="sr-only">
-          Certificate Gallery
+          Certificates and Proof
         </h2>
 
         <Reveal>
