@@ -2,7 +2,18 @@
 // Consumed by <Seo /> at runtime and by the build scripts
 // (sitemap, og:image generation, prerendered head tags, SEO checks).
 
-export const SITE_URL = "https://andrewmkbuilds.lovable.app";
+// The public address every canonical, OG tag, sitemap entry and JSON-LD URL uses.
+// Flip DEFAULT_SITE_URL to CUSTOM_DOMAIN_URL the moment the custom domain goes live,
+// or set VITE_SITE_URL to override without a code change.
+export const CUSTOM_DOMAIN_URL = "https://www.andrewmk.is-a.dev";
+export const PUBLISHED_URL = "https://andrewmk.lovable.app";
+const DEFAULT_SITE_URL = PUBLISHED_URL;
+
+const envSiteUrl =
+  (typeof import.meta !== "undefined" ? (import.meta as { env?: Record<string, string> }).env?.["VITE_SITE_URL"] : undefined) ??
+  (typeof process !== "undefined" ? process.env?.["VITE_SITE_URL"] : undefined);
+
+export const SITE_URL = (envSiteUrl || DEFAULT_SITE_URL).replace(/\/$/, "");
 export const SITE_NAME = "Andrew Mathews";
 export const AUTHOR = "Andrew Mathews";
 
