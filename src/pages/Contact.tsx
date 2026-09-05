@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Github, Mail, Share2, Loader2, CheckCircle2, AlertTriangle } from "lucide-react";
-import { GITHUB_URL, LINKTREE_URL, socialLinks } from "@/data/portfolio";
+import { CONTACT_EMAIL, GITHUB_URL, LINKTREE_URL, socialLinks } from "@/data/portfolio";
 import { getSocialIcon } from "@/components/ui/SocialIcons";
 import { submitContactMessage } from "@/lib/contact.functions";
 
