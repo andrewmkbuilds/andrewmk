@@ -80,11 +80,18 @@ export default function Home() {
             </motion.div>
 
             <h1 className="text-display text-[2.6rem] leading-[1.02] text-balance text-foreground sm:text-5xl md:text-6xl lg:text-[4.25rem]">
-              <RevealWords text="I build systems that solve" delay={0.15} />{" "}
-              <span className="relative inline-block text-primary">
-                <RevealWords text="real problems." delay={0.42} />
+              {/* Real page heading for search engines and screen readers; the
+                  animated tagline below stays exactly as designed. */}
+              <span className="sr-only">
+                Andrew Mathews — Student Developer, AI Builder &amp; Robotics Engineer
               </span>
-              <TypingCursor />
+              <span aria-hidden="true">
+                <RevealWords text="I build systems that solve" delay={0.15} />{" "}
+                <span className="relative inline-block text-primary">
+                  <RevealWords text="real problems." delay={0.42} />
+                </span>
+                <TypingCursor />
+              </span>
             </h1>
 
             <motion.p
