@@ -12,5 +12,7 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /auth
 
-Sitemap: https://andrewmk.lovable.app/sitemap.xml
+Sitemap: https://andrewmk.is-a.dev/sitemap.xml

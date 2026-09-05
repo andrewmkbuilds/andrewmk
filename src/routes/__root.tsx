@@ -52,11 +52,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { title: "Andrew Mathews | Developer · AI Builder · Systems Thinker" },
+      { title: "Andrew Mathews | Student Developer, AI Builder & Robotics Engineer" },
       {
         name: "description",
         content:
-          "Andrew Mathews is a student developer and AI builder from Dubai building software, AI systems, robotics projects, and real-world products.",
+          "Andrew Mathews is a student developer and technology builder from Dubai, UAE, creating AI applications, robotics projects, web apps, and innovative technology solutions.",
       },
       { name: "author", content: AUTHOR },
       {

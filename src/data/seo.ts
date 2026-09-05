@@ -5,9 +5,9 @@
 // The public address every canonical, OG tag, sitemap entry and JSON-LD URL uses.
 // Flip DEFAULT_SITE_URL to CUSTOM_DOMAIN_URL the moment the custom domain goes live,
 // or set VITE_SITE_URL to override without a code change.
-export const CUSTOM_DOMAIN_URL = "https://www.andrewmk.is-a.dev";
+export const CUSTOM_DOMAIN_URL = "https://andrewmk.is-a.dev";
 export const PUBLISHED_URL = "https://andrewmk.lovable.app";
-const DEFAULT_SITE_URL = PUBLISHED_URL;
+const DEFAULT_SITE_URL = CUSTOM_DOMAIN_URL;
 
 const envSiteUrl =
   (typeof import.meta !== "undefined" ? (import.meta as { env?: Record<string, string> }).env?.["VITE_SITE_URL"] : undefined) ??
@@ -34,9 +34,9 @@ export const routes: RouteMeta[] = [
   {
     path: "/",
     label: "Home",
-    title: "Andrew Mathews | Developer · AI Builder · Systems Thinker",
+    title: "Andrew Mathews | Student Developer, AI Builder & Robotics Engineer",
     description:
-      "Andrew Mathews is a student developer and AI builder from Dubai building software, AI systems, robotics projects, and real-world products.",
+      "Andrew Mathews is a student developer and technology builder from Dubai, UAE, creating AI applications, robotics projects, web apps, and innovative technology solutions.",
     ogHeadline: "I build systems that solve real problems.",
     changefreq: "weekly",
     priority: "1.0",
