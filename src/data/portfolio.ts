@@ -33,6 +33,20 @@ export interface Project {
     items: { value: string; label: string; note?: string }[];
     breakdown?: { label: string; value: string }[];
   };
+  /* ---- Fields supplied by the content dashboard (optional everywhere) ---- */
+  /** Long-form description shown under the intro on the project page. */
+  fullDescription?: string;
+  solution?: string;
+  features?: string[];
+  process?: string;
+  learned?: string;
+  featuredImage?: string;
+  imageAlt?: string;
+  images?: { url: string; alt?: string; caption?: string }[];
+  startDate?: string;
+  endDate?: string;
+  /** Per-project SEO overrides; blanks fall back to generated defaults. */
+  seo?: { title?: string; description?: string; canonical?: string; ogImage?: string };
 }
 
 export const featuredProjects: Project[] = [
