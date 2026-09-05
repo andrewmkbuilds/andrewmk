@@ -119,6 +119,15 @@ export const featuredProjects: Project[] = [
       { label: "Feedback loop", value: "Analyse → practise → apply", note: "One connected system." },
       { label: "Integrations", value: "MCP tools", note: "Resumes, jobs and reminders exposed to assistants." },
     ],
+    metrics: {
+      title: "Early traction",
+      intro:
+        "Gradr attracted 300+ visitors within its first three days after launch, demonstrating strong early interest in the platform.",
+      source: "Figure measures website visitors, not registered or active users.",
+      items: [
+        { value: "300+", label: "Website visitors", note: "First three days after launch." },
+      ],
+    },
   },
   {
     slug: "stack-up",
@@ -202,6 +211,15 @@ export const featuredProjects: Project[] = [
       { label: "Core modules", value: "5", note: "Expenses, budgets, goals, streaks, analytics." },
       { label: "Entry time", value: "< 10s", note: "Design target for logging a spend." },
     ],
+    metrics: {
+      title: "Early traction",
+      intro:
+        "Stack Up attracted 600+ visitors within its first week after launch, demonstrating strong early interest following launch.",
+      source: "Figure measures website visitors, not registered or active users.",
+      items: [
+        { value: "600+", label: "Website visitors", note: "First week after launch." },
+      ],
+    },
   },
 
   {
