@@ -1007,6 +1007,9 @@ export interface SocialLink {
   cta: string;
 }
 
+/** Public contact address shown on the contact page. */
+export const CONTACT_EMAIL = "buildwithandrewmk@gmail.com";
+
 export const socialLinks: SocialLink[] = [
   {
     id: "github",
