@@ -287,15 +287,18 @@ export default function Contact() {
                     })}
                 </div>
 
-                <div className="flex items-center gap-4 rounded-xl border border-dashed border-border p-5">
-                  <Mail className="h-5 w-5 text-muted-foreground" />
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  className="focus-ring flex items-center gap-4 rounded-xl border border-border bg-card p-5 shadow-card transition-colors hover:border-gold/40"
+                >
+                  <Mail className="h-5 w-5 text-primary" />
                   <span>
                     <span className="block text-sm font-medium text-foreground">Email</span>
                     <span className="block font-mono text-xs text-muted-foreground">
-                      Not configured yet
+                      {CONTACT_EMAIL}
                     </span>
                   </span>
-                </div>
+                </a>
               </div>
             </Reveal>
           </div>
