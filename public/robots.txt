@@ -14,5 +14,6 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /auth
+Disallow: /404
 
 Sitemap: https://andrewmk.is-a.dev/sitemap.xml

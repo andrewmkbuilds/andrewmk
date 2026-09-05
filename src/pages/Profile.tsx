@@ -57,7 +57,7 @@ export default function Profile() {
               <div className="px-6 pb-7 md:px-8">
                 <img
                   src={logoUrl}
-                  alt="Andrew Mathews"
+                  alt="AndrewBuilds logo — Andrew Mathews, student developer in Dubai"
                   width={96}
                   height={96}
                   className="-mt-12 h-24 w-24 rounded-2xl border border-gold/40 bg-card p-2 shadow-card"
