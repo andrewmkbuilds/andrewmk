@@ -356,6 +356,49 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Based in Dubai */}
+      <section className="divider-gold py-20 md:py-28" aria-labelledby="dubai-heading">
+        <div className="container">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">Location</p>
+              <h2
+                id="dubai-heading"
+                className="text-display mt-3 text-2xl text-foreground md:text-3xl"
+              >
+                Based in Dubai, UAE
+              </h2>
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                I build from Dubai. The robotics work started here through a school programme, and
+                the software, AI and racing projects since have all been built alongside UAE
+                technology and STEM competitions — FLL, Techfest and MUN among them. Most of what is
+                on this site was designed, built and tested in Dubai.
+              </p>
+            </div>
+            <Reveal delay={80}>
+              <ul className="grid list-none gap-3 p-0 sm:grid-cols-2">
+                {[
+                  { k: "Base", v: "Dubai, United Arab Emirates" },
+                  { k: "Competitions", v: "UAE STEM & technology events" },
+                  { k: "Focus", v: "AI, software and robotics" },
+                  { k: "Working with", v: "Remote and local collaborators" },
+                ].map((item) => (
+                  <li
+                    key={item.k}
+                    className="lift-3d rounded-xl border border-border bg-card p-5 shadow-card"
+                  >
+                    <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
+                      {item.k}
+                    </span>
+                    <span className="mt-2 block text-sm text-foreground">{item.v}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* Robotics origin */}
       <section className="divider-gold py-20 md:py-28">
         <div className="container">

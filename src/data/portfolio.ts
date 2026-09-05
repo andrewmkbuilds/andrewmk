@@ -25,6 +25,14 @@ export interface Project {
   results?: { label: string; value: string; note?: string }[];
   /** Interface walkthrough panels (screens of the product). */
   gallery?: { title: string; caption: string; lines?: string[] }[];
+  /** Verified, measured figures. Only real reported numbers belong here. */
+  metrics?: {
+    title: string;
+    intro?: string;
+    source?: string;
+    items: { value: string; label: string; note?: string }[];
+    breakdown?: { label: string; value: string }[];
+  };
 }
 
 export const featuredProjects: Project[] = [
@@ -111,6 +119,15 @@ export const featuredProjects: Project[] = [
       { label: "Feedback loop", value: "Analyse → practise → apply", note: "One connected system." },
       { label: "Integrations", value: "MCP tools", note: "Resumes, jobs and reminders exposed to assistants." },
     ],
+    metrics: {
+      title: "Early traction",
+      intro:
+        "Gradr attracted 300+ visitors within its first three days after launch, demonstrating strong early interest in the platform.",
+      source: "Figure measures website visitors, not registered or active users.",
+      items: [
+        { value: "300+", label: "Website visitors", note: "First three days after launch." },
+      ],
+    },
   },
   {
     slug: "stack-up",
@@ -194,6 +211,15 @@ export const featuredProjects: Project[] = [
       { label: "Core modules", value: "5", note: "Expenses, budgets, goals, streaks, analytics." },
       { label: "Entry time", value: "< 10s", note: "Design target for logging a spend." },
     ],
+    metrics: {
+      title: "Early traction",
+      intro:
+        "Stack Up attracted 600+ visitors within its first week after launch, demonstrating strong early interest following launch.",
+      source: "Figure measures website visitors, not registered or active users.",
+      items: [
+        { value: "600+", label: "Website visitors", note: "First week after launch." },
+      ],
+    },
   },
 
   {
@@ -364,6 +390,69 @@ export const ecosystemProjects: Project[] = [
     status: "Active",
     live: "https://horizonmotorsports.base44.app/",
     filters: ["React"],
+    platform: "base44",
+    problem:
+      "Horizon Motorsports needed a presence that matched how the team actually operates: a Dubai-based racing and engineering team competing in FLL, Techfest and other UAE competitions, with a following that lives mostly on social. The site had to work as the anchor visitors land on from Instagram — fast, motion-driven, and clear about who the team is and what it competes in.",
+    stack: [
+      { group: "Interface", items: ["React", "Framer Motion", "Responsive layout"] },
+      { group: "Content", items: ["Team profile", "Competition history", "Media sections"] },
+      { group: "Platform", items: ["Base44", "Hosted deployment"] },
+    ],
+    challenges: [
+      {
+        title: "Motion that does not cost load time",
+        detail:
+          "The identity of the site is movement, but heavy animation on a phone over mobile data is a bounce. Transitions are kept to transform and opacity, staged on scroll, so the first screen paints before anything animates.",
+      },
+      {
+        title: "Designed for social traffic",
+        detail:
+          "Most visitors arrive from a link in an Instagram profile, on a phone, mid-scroll. The layout leads with the team identity and current competitions rather than a long narrative, so the first screen answers who and what.",
+      },
+      {
+        title: "Content that survives a competition season",
+        detail:
+          "Results and events change through the season. Sections are structured so competition entries can be added without reworking layout.",
+      },
+    ],
+    results: [
+      { label: "Status", value: "Active", note: "Live team site." },
+      { label: "Competitions", value: "FLL · Techfest", note: "UAE engineering and robotics circuit." },
+      { label: "Base", value: "Dubai, UAE", note: "Team operates locally." },
+      { label: "Primary channel", value: "Instagram", note: "Site is the landing point for social traffic." },
+    ],
+    metrics: {
+      title: "Digital reach",
+      intro:
+        "These figures come from recent Instagram analytics for the team account, which is the team's main audience channel.",
+      source:
+        "Source: Instagram account analytics for the reporting period shown in the app. Views, accounts reached, interactions and profile visits are distinct Instagram metrics and are not website visits.",
+      items: [
+        { value: "6,631", label: "Total views", note: "Instagram content views." },
+        { value: "486", label: "Accounts reached", note: "Unique Instagram accounts." },
+        { value: "857", label: "Interactions", note: "Instagram content interactions." },
+        { value: "494", label: "Profile visits", note: "Visits to the Instagram profile." },
+        { value: "14", label: "External link clicks", note: "Clicks on the profile link." },
+        { value: "149", label: "Followers", note: "Instagram account followers." },
+      ],
+      breakdown: [
+        { label: "Accounts reached — followers", value: "65.6%" },
+        { label: "Accounts reached — non-followers", value: "34.4%" },
+        { label: "Interactions — followers", value: "72.8%" },
+        { label: "Interactions — non-followers", value: "27.2%" },
+        { label: "Views — posts", value: "68.3%" },
+        { label: "Views — stories", value: "25.4%" },
+        { label: "Views — reels", value: "6.4%" },
+        { label: "Interactions — posts", value: "94.3%" },
+        { label: "Interactions — reels", value: "5%" },
+        { label: "Interactions — stories", value: "0.7%" },
+        { label: "Top content — Apr 14", value: "336 views" },
+        { label: "Top content — Apr 13", value: "297 views" },
+        { label: "Top content — Apr 13", value: "263 views" },
+        { label: "Top content — Apr 3", value: "225 views" },
+        { label: "Top content — Apr 5", value: "219 views" },
+      ],
+    },
   },
   {
     slug: "devos",

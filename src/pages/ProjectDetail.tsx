@@ -279,6 +279,58 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           </section>
         )}
 
+        {project.metrics && (
+          <section className="divider-gold py-16 md:py-20">
+            <div className="container">
+              <h2 className="text-display text-2xl text-foreground md:text-3xl">
+                {project.metrics.title}
+              </h2>
+              {project.metrics.intro && (
+                <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                  {project.metrics.intro}
+                </p>
+              )}
+              <dl className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {project.metrics.items.map((m, i) => (
+                  <Reveal key={m.label} delay={i * 60} className="h-full">
+                    <div className="pop-card h-full rounded-xl border border-gold/25 bg-card p-6 shadow-card">
+                      <dd className="text-display text-3xl leading-none text-gold md:text-4xl">
+                        {m.value}
+                      </dd>
+                      <dt className="mt-3 font-mono text-[11px] uppercase tracking-[0.16em] text-foreground">
+                        {m.label}
+                      </dt>
+                      {m.note && (
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{m.note}</p>
+                      )}
+                    </div>
+                  </Reveal>
+                ))}
+              </dl>
+              {project.metrics.breakdown && project.metrics.breakdown.length > 0 && (
+                <Reveal delay={120}>
+                  <dl className="mt-8 grid gap-x-8 gap-y-3 rounded-xl border border-border bg-card/60 p-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {project.metrics.breakdown.map((b) => (
+                      <div
+                        key={`${b.label}-${b.value}`}
+                        className="flex items-baseline justify-between gap-4 border-b border-border/60 pb-2"
+                      >
+                        <dt className="text-sm text-muted-foreground">{b.label}</dt>
+                        <dd className="font-mono text-sm text-gold">{b.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </Reveal>
+              )}
+              {project.metrics.source && (
+                <p className="mt-6 max-w-3xl text-xs leading-relaxed text-muted-foreground">
+                  {project.metrics.source}
+                </p>
+              )}
+            </div>
+          </section>
+        )}
+
         {project.results && project.results.length > 0 && (
           <section className="divider-gold py-16 md:py-20">
             <div className="container">
