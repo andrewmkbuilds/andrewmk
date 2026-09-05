@@ -72,12 +72,18 @@ export const getPublishedPost = createServerFn({ method: "GET" })
 /* ---------------------------------- admin --------------------------------- */
 
 async function assertAdmin(
-  supabase: { rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }> },
+  supabase: { from: (t: string) => any },
   userId: string,
 ) {
-  const { data, error } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
-  if (error || data !== true) throw new Error("Forbidden");
+  const { data, error } = await supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", userId)
+    .eq("role", "admin")
+    .maybeSingle();
+  if (error || !data) throw new Error("Forbidden");
 }
+
 
 const postSchema = z.object({
   id: z.string().uuid().optional(),
