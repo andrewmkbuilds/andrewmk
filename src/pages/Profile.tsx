@@ -2,7 +2,7 @@ import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { Link } from "@/lib/router-compat";
 import { MapPin, ExternalLink, Award, GraduationCap, Wrench, Globe } from "lucide-react";
-import logoAsset from "@/assets/andrewbuilds-logo.png.asset.json";
+import logoUrl from "@/assets/andrewbuilds-logo.png";
 import {
   allProjects,
   buildingCategories,
@@ -56,7 +56,7 @@ export default function Profile() {
               </div>
               <div className="px-6 pb-7 md:px-8">
                 <img
-                  src={logoAsset.url}
+                  src={logoUrl}
                   alt="Andrew Mathews"
                   width={96}
                   height={96}
