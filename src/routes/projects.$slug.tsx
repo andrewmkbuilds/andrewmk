@@ -25,8 +25,8 @@ export const Route = createFileRoute("/projects/$slug")({
 
     const url = `${SITE_URL}/projects/${project.slug}`;
     const image = `${SITE_URL}${ogImagePath("/projects")}`;
-    const title = `${project.name} — ${project.category} | ${SITE_NAME}`;
-    const description = project.description.slice(0, 155);
+    const title = `${project.name} | ${project.category} by ${SITE_NAME}`;
+    const description = `${project.name} is ${project.description.charAt(0).toLowerCase()}${project.description.slice(1)}`.slice(0, 158);
 
     return {
       meta: [
