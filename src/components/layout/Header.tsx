@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { SocialIcons } from "@/components/ui/SocialIcons";
-import logoAsset from "@/assets/andrewbuilds-logo.png.asset.json";
+import logoUrl from "@/assets/andrewbuilds-logo.png";
 
 
 const navItems = [
@@ -52,7 +52,7 @@ export function Header() {
           className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
         >
           <img
-            src={logoAsset.url}
+            src={logoUrl}
             alt=""
             width={34}
             height={34}

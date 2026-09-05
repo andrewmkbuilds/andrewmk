@@ -1,6 +1,6 @@
 import { Link } from "@/lib/router-compat";
 import { SocialIcons } from "@/components/ui/SocialIcons";
-import logoAsset from "@/assets/andrewbuilds-logo.png.asset.json";
+import logoUrl from "@/assets/andrewbuilds-logo.png";
 
 const links = [
   { href: "/", label: "Home" },
@@ -21,7 +21,7 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-3">
               <img
-                src={logoAsset.url}
+                src={logoUrl}
                 alt="AndrewBuilds logo"
                 width={40}
                 height={40}
