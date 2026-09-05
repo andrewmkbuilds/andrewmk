@@ -12,8 +12,11 @@ const NotFound = () => {
 
   return (
     <Layout>
+      {/* Unknown URLs must never become indexable duplicates. */}
+      <meta name="robots" content="noindex, nofollow" />
       <section className="flex min-h-[70vh] items-center py-20">
         <div className="container">
+
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">404</p>
           <h1 className="mt-4 text-4xl md:text-5xl font-bold text-foreground">
             This page isn't built yet.
