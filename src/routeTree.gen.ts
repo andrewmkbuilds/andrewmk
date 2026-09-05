@@ -27,6 +27,7 @@ import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
 import { Route as AuthenticatedAdminBlogRouteImport } from './routes/_authenticated/admin.blog'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated/admin.messages'
 import { Route as ProjectsGradrDemoRouteImport } from './routes/projects.gradr.demo'
+import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -118,6 +119,11 @@ const ProjectsGradrDemoRoute = ProjectsGradrDemoRouteImport.update({
   path: '/projects/gradr/demo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
+  id: '/api/public/media/$',
+  path: '/api/public/media/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/projects/gradr/demo': typeof ProjectsGradrDemoRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/projects/gradr/demo': typeof ProjectsGradrDemoRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/blog': typeof AuthenticatedAdminBlogRoute
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/projects/gradr/demo': typeof ProjectsGradrDemoRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -198,6 +207,7 @@ export interface FileRouteTypes {
     | '/admin/blog'
     | '/admin/messages'
     | '/projects/gradr/demo'
+    | '/api/public/media/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -217,6 +227,7 @@ export interface FileRouteTypes {
     | '/admin/blog'
     | '/admin/messages'
     | '/projects/gradr/demo'
+    | '/api/public/media/$'
   id:
     | '__root__'
     | '/'
@@ -237,6 +248,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/blog'
     | '/_authenticated/admin/messages'
     | '/projects/gradr/demo'
+    | '/api/public/media/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -256,6 +268,7 @@ export interface RootRouteChildren {
   BlogIndexRoute: typeof BlogIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   ProjectsGradrDemoRoute: typeof ProjectsGradrDemoRoute
+  ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -386,6 +399,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsGradrDemoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/media/$': {
+      id: '/api/public/media/$'
+      path: '/api/public/media/$'
+      fullPath: '/api/public/media/$'
+      preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -419,6 +439,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogIndexRoute: BlogIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
   ProjectsGradrDemoRoute: ProjectsGradrDemoRoute,
+  ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

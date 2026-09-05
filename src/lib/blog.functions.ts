@@ -16,10 +16,20 @@ export interface BlogPost {
   reading_minutes: number;
   created_at: string;
   updated_at: string;
+  cover_image_alt: string;
+  author: string;
+  category: string;
+  featured: boolean;
+  archived: boolean;
+  scheduled_at: string | null;
+  seo_title: string | null;
+  seo_description: string | null;
+  canonical_url: string | null;
+  og_image: string | null;
 }
 
 const COLUMNS =
-  "id,slug,title,excerpt,content,tags,cover_image,published,published_at,reading_minutes,created_at,updated_at";
+  "id,slug,title,excerpt,content,tags,cover_image,published,published_at,reading_minutes,created_at,updated_at,cover_image_alt,author,category,featured,archived,scheduled_at,seo_title,seo_description,canonical_url,og_image";
 
 /** Publishable (anon) client for public reads — RLS only exposes published posts. */
 function publicClient() {
@@ -49,6 +59,8 @@ export const listPublishedPosts = createServerFn({ method: "GET" }).handler(
       .from("blog_posts")
       .select(COLUMNS)
       .eq("published", true)
+      .eq("archived", false)
+      .lte("published_at", new Date().toISOString())
       .order("published_at", { ascending: false })
       .limit(60);
     if (error) throw new Error("Could not load posts.");
@@ -64,6 +76,8 @@ export const getPublishedPost = createServerFn({ method: "GET" })
       .select(COLUMNS)
       .eq("slug", data.slug)
       .eq("published", true)
+      .eq("archived", false)
+      .lte("published_at", new Date().toISOString())
       .maybeSingle();
     if (error) throw new Error("Could not load post.");
     return (row as BlogPost | null) ?? null;
@@ -100,6 +114,17 @@ const postSchema = z.object({
   cover_image: z.string().trim().max(500).nullable().optional(),
   published: z.boolean().default(false),
   reading_minutes: z.number().int().min(1).max(60).default(3),
+  cover_image_alt: z.string().trim().max(300).default(""),
+  author: z.string().trim().max(120).default("Andrew Mathews"),
+  category: z.string().trim().max(120).default(""),
+  featured: z.boolean().default(false),
+  archived: z.boolean().default(false),
+  /** ISO timestamp. In the future = scheduled; the public site hides it until then. */
+  publish_at: z.string().trim().max(40).nullable().optional(),
+  seo_title: z.string().trim().max(200).nullable().optional(),
+  seo_description: z.string().trim().max(320).nullable().optional(),
+  canonical_url: z.string().trim().max(500).nullable().optional(),
+  og_image: z.string().trim().max(600).nullable().optional(),
 });
 
 export const listAllPosts = createServerFn({ method: "POST" })
@@ -128,7 +153,10 @@ export const savePost = createServerFn({ method: "POST" })
       const existing = data.id
         ? await supabase.from("blog_posts").select("published_at").eq("id", data.id).maybeSingle()
         : null;
-      publishedAt = existing?.data?.published_at ?? new Date().toISOString();
+      publishedAt =
+        (data.publish_at ? new Date(data.publish_at).toISOString() : null) ??
+        existing?.data?.published_at ??
+        new Date().toISOString();
     }
 
     const payload = {
@@ -141,6 +169,19 @@ export const savePost = createServerFn({ method: "POST" })
       published: data.published,
       reading_minutes: data.reading_minutes,
       published_at: publishedAt,
+      cover_image_alt: data.cover_image_alt,
+      author: data.author,
+      category: data.category,
+      featured: data.featured,
+      archived: data.archived,
+      scheduled_at:
+        data.published && data.publish_at && new Date(data.publish_at).getTime() > Date.now()
+          ? new Date(data.publish_at).toISOString()
+          : null,
+      seo_title: data.seo_title || null,
+      seo_description: data.seo_description || null,
+      canonical_url: data.canonical_url || null,
+      og_image: data.og_image || null,
       author_id: context.userId,
     };
 
