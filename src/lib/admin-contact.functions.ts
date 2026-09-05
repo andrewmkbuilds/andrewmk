@@ -136,12 +136,11 @@ export const setContactMessageHandled = createServerFn({ method: "POST" })
 export const getAdminStatus = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<{ isAdmin: boolean; email: string | null }> => {
-    const supabase = context.supabase as never as {
-      rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>;
-    };
-    const { data } = await supabase.rpc("has_role", { _user_id: context.userId, _role: "admin" });
+    const supabase = context.supabase as never as { from: (t: string) => any };
+    const admin = await isAdmin(supabase, context.userId);
     const claims = context.claims as { email?: string } | undefined;
-    return { isAdmin: data === true, email: claims?.email ?? null };
+    return { isAdmin: admin, email: claims?.email ?? null };
+
   });
 
 const exportSchema = listSchema;
