@@ -59,6 +59,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Andrew Mathews is a student developer and AI builder from Dubai building software, AI systems, robotics projects, and real-world products.",
       },
       { name: "author", content: AUTHOR },
+      {
+        name: "google-site-verification",
+        content: "N0LjBnLEMo8ZqJ1lwaVLoswy8UkfIXMwgdfk35YEY-s",
+      },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
