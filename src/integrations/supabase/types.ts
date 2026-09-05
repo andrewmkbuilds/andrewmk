@@ -49,45 +49,75 @@ export type Database = {
       }
       blog_posts: {
         Row: {
+          archived: boolean
+          author: string
           author_id: string | null
+          canonical_url: string | null
+          category: string
           content: string
           cover_image: string | null
+          cover_image_alt: string
           created_at: string
           excerpt: string
+          featured: boolean
           id: string
+          og_image: string | null
           published: boolean
           published_at: string | null
           reading_minutes: number
+          scheduled_at: string | null
+          seo_description: string | null
+          seo_title: string | null
           slug: string
           tags: string[]
           title: string
           updated_at: string
         }
         Insert: {
+          archived?: boolean
+          author?: string
           author_id?: string | null
+          canonical_url?: string | null
+          category?: string
           content?: string
           cover_image?: string | null
+          cover_image_alt?: string
           created_at?: string
           excerpt?: string
+          featured?: boolean
           id?: string
+          og_image?: string | null
           published?: boolean
           published_at?: string | null
           reading_minutes?: number
+          scheduled_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
           slug: string
           tags?: string[]
           title: string
           updated_at?: string
         }
         Update: {
+          archived?: boolean
+          author?: string
           author_id?: string | null
+          canonical_url?: string | null
+          category?: string
           content?: string
           cover_image?: string | null
+          cover_image_alt?: string
           created_at?: string
           excerpt?: string
+          featured?: boolean
           id?: string
+          og_image?: string | null
           published?: boolean
           published_at?: string | null
           reading_minutes?: number
+          scheduled_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
           slug?: string
           tags?: string[]
           title?: string
@@ -143,6 +173,180 @@ export type Database = {
           source_path?: string | null
           spam_score?: number
           user_agent?: string | null
+        }
+        Relationships: []
+      }
+      media_assets: {
+        Row: {
+          alt: string
+          caption: string | null
+          created_at: string
+          filename: string
+          id: string
+          mime_type: string
+          path: string
+          size_bytes: number
+          title: string | null
+          uploaded_by: string | null
+          url: string
+        }
+        Insert: {
+          alt?: string
+          caption?: string | null
+          created_at?: string
+          filename?: string
+          id?: string
+          mime_type?: string
+          path: string
+          size_bytes?: number
+          title?: string | null
+          uploaded_by?: string | null
+          url: string
+        }
+        Update: {
+          alt?: string
+          caption?: string | null
+          created_at?: string
+          filename?: string
+          id?: string
+          mime_type?: string
+          path?: string
+          size_bytes?: number
+          title?: string | null
+          uploaded_by?: string | null
+          url?: string
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          archived: boolean
+          author_id: string | null
+          built: string[]
+          canonical_url: string | null
+          category: string
+          challenges: Json | null
+          created_at: string
+          demo: string | null
+          description: string
+          end_date: string | null
+          featured: boolean
+          featured_image: string | null
+          features: string[]
+          filters: string[]
+          full_description: string
+          gallery: Json | null
+          github: string | null
+          id: string
+          image_alt: string | null
+          images: Json
+          learned: string | null
+          live: string | null
+          metrics: Json | null
+          name: string
+          og_image: string | null
+          platform: string | null
+          previously: string | null
+          problem: string | null
+          process: string | null
+          published: boolean
+          results: Json | null
+          seo_description: string | null
+          seo_title: string | null
+          slug: string
+          solution: string | null
+          sort_order: number
+          stack: Json | null
+          start_date: string | null
+          status: string
+          tech: string[]
+          updated_at: string
+        }
+        Insert: {
+          archived?: boolean
+          author_id?: string | null
+          built?: string[]
+          canonical_url?: string | null
+          category?: string
+          challenges?: Json | null
+          created_at?: string
+          demo?: string | null
+          description?: string
+          end_date?: string | null
+          featured?: boolean
+          featured_image?: string | null
+          features?: string[]
+          filters?: string[]
+          full_description?: string
+          gallery?: Json | null
+          github?: string | null
+          id?: string
+          image_alt?: string | null
+          images?: Json
+          learned?: string | null
+          live?: string | null
+          metrics?: Json | null
+          name: string
+          og_image?: string | null
+          platform?: string | null
+          previously?: string | null
+          problem?: string | null
+          process?: string | null
+          published?: boolean
+          results?: Json | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug: string
+          solution?: string | null
+          sort_order?: number
+          stack?: Json | null
+          start_date?: string | null
+          status?: string
+          tech?: string[]
+          updated_at?: string
+        }
+        Update: {
+          archived?: boolean
+          author_id?: string | null
+          built?: string[]
+          canonical_url?: string | null
+          category?: string
+          challenges?: Json | null
+          created_at?: string
+          demo?: string | null
+          description?: string
+          end_date?: string | null
+          featured?: boolean
+          featured_image?: string | null
+          features?: string[]
+          filters?: string[]
+          full_description?: string
+          gallery?: Json | null
+          github?: string | null
+          id?: string
+          image_alt?: string | null
+          images?: Json
+          learned?: string | null
+          live?: string | null
+          metrics?: Json | null
+          name?: string
+          og_image?: string | null
+          platform?: string | null
+          previously?: string | null
+          problem?: string | null
+          process?: string | null
+          published?: boolean
+          results?: Json | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug?: string
+          solution?: string | null
+          sort_order?: number
+          stack?: Json | null
+          start_date?: string | null
+          status?: string
+          tech?: string[]
+          updated_at?: string
         }
         Relationships: []
       }
