@@ -2,7 +2,7 @@
 
 My personal developer portfolio. It brings together the software I build — AI systems, productivity tools, robotics and computer-vision projects — alongside my competition results, certificates and the story of how the work has progressed over time.
 
-**Live site:** https://andrewmk.lovable.app
+**Live site:** https://andrewmk.is-a.dev
 
 ## Overview
 
@@ -87,7 +87,7 @@ The portfolio includes a Certificates & Proof section with the credentials, comp
 
 ## Portfolio
 
-https://andrewmk.lovable.app
+https://andrewmk.is-a.dev
 
 ## Socials
 
