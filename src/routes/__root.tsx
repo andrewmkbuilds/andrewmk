@@ -28,7 +28,28 @@ const personJsonLd = JSON.stringify({
   name: AUTHOR,
   url: `${SITE_URL}/`,
   jobTitle: "Student · Developer · AI Builder · Systems Thinker",
-  address: { "@type": "PostalAddress", addressLocality: "Dubai", addressCountry: "AE" },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Dubai",
+    addressRegion: "Dubai",
+    addressCountry: "AE",
+  },
+  homeLocation: {
+    "@type": "Place",
+    name: "Dubai, United Arab Emirates",
+    address: { "@type": "PostalAddress", addressLocality: "Dubai", addressCountry: "AE" },
+  },
+  workLocation: {
+    "@type": "Place",
+    name: "Dubai, United Arab Emirates",
+  },
+  nationality: { "@type": "Country", name: "United Arab Emirates" },
+  knowsAbout: [
+    "Artificial intelligence",
+    "Robotics",
+    "Web development",
+    "STEM competitions in the UAE",
+  ],
   sameAs: [
     "https://github.com/andrewmkbuilds",
     "https://x.com/Andrew444884",
