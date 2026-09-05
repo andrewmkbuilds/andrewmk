@@ -25,6 +25,14 @@ export interface Project {
   results?: { label: string; value: string; note?: string }[];
   /** Interface walkthrough panels (screens of the product). */
   gallery?: { title: string; caption: string; lines?: string[] }[];
+  /** Verified, measured figures. Only real reported numbers belong here. */
+  metrics?: {
+    title: string;
+    intro?: string;
+    source?: string;
+    items: { value: string; label: string; note?: string }[];
+    breakdown?: { label: string; value: string }[];
+  };
 }
 
 export const featuredProjects: Project[] = [
