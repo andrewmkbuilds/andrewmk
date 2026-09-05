@@ -21,12 +21,20 @@ const listSchema = z.object({
   limit: z.number().int().min(1).max(200).optional().default(50),
 });
 
-async function assertAdmin(supabase: {
-  rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>;
-}, userId: string) {
-  const { data, error } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
-  if (error || data !== true) throw new Error("Forbidden");
+async function isAdmin(supabase: { from: (t: string) => any }, userId: string): Promise<boolean> {
+  const { data, error } = await supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", userId)
+    .eq("role", "admin")
+    .maybeSingle();
+  return !error && !!data;
 }
+
+async function assertAdmin(supabase: { from: (t: string) => any }, userId: string) {
+  if (!(await isAdmin(supabase, userId))) throw new Error("Forbidden");
+}
+
 
 export const listContactMessages = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
