@@ -32,6 +32,17 @@ for (const project of allProjects) {
   );
 }
 
+// Interactive Gradr demo page (linked from the Gradr case study).
+urls.push(
+  [
+    `  <url>`,
+    `    <loc>${SITE_URL}/projects/gradr/demo</loc>`,
+    `    <changefreq>monthly</changefreq>`,
+    `    <priority>0.6</priority>`,
+    `  </url>`,
+  ].join("\n"),
+);
+
 urls.push(
   [
     `  <url>`,
@@ -41,6 +52,39 @@ urls.push(
     `  </url>`,
   ].join("\n"),
 );
+
+// Published blog posts, when build-time database credentials are available.
+// Cloudflare builds without them simply ship the static routes above.
+try {
+  const url = process.env["SUPABASE_URL"] ?? process.env["VITE_SUPABASE_URL"];
+  const key =
+    process.env["SUPABASE_PUBLISHABLE_KEY"] ?? process.env["VITE_SUPABASE_PUBLISHABLE_KEY"];
+  if (url && key) {
+    const res = await fetch(
+      `${url}/rest/v1/blog_posts?select=slug,updated_at&published=eq.true&order=published_at.desc`,
+      { headers: { apikey: key } },
+    );
+    if (res.ok) {
+      const posts = (await res.json()) as { slug: string; updated_at?: string }[];
+      for (const post of posts) {
+        urls.push(
+          [
+            `  <url>`,
+            `    <loc>${SITE_URL}/blog/${encodeURIComponent(post.slug)}</loc>`,
+            post.updated_at ? `    <lastmod>${post.updated_at}</lastmod>` : null,
+            `    <changefreq>monthly</changefreq>`,
+            `    <priority>0.6</priority>`,
+            `  </url>`,
+          ]
+            .filter(Boolean)
+            .join("\n"),
+        );
+      }
+    }
+  }
+} catch (error) {
+  console.warn("sitemap: skipped blog posts —", (error as Error).message);
+}
 
 const xml = [
   `<?xml version="1.0" encoding="UTF-8"?>`,
