@@ -11,16 +11,18 @@ import { allProjects, type Project } from "@/data/portfolio";
 
 interface ProjectDetailProps {
   project: Project;
+  /** Full catalogue used for "related projects"; defaults to the built-in data. */
+  catalogue?: Project[];
 }
 
-function related(project: Project) {
-  return allProjects
+function related(project: Project, catalogue: Project[] = allProjects) {
+  return catalogue
     .filter((p) => p.slug !== project.slug && p.filters.some((f) => project.filters.includes(f)))
     .slice(0, 3);
 }
 
-export default function ProjectDetail({ project }: ProjectDetailProps) {
-  const others = related(project);
+export default function ProjectDetail({ project, catalogue }: ProjectDetailProps) {
+  const others = related(project, catalogue);
 
   return (
     <Layout>
@@ -105,6 +107,32 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                   </h2>
                   <p className="mt-4 text-base leading-relaxed text-muted-foreground">
                     {project.problem}
+                  </p>
+                </Reveal>
+              )}
+
+              {project.fullDescription && (
+                <Reveal delay={40}>
+                  <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
+                    Overview
+                  </h2>
+                  <div className="mt-4 space-y-4">
+                    {project.fullDescription.split(/\n{2,}/).map((para, i) => (
+                      <p key={i} className="text-base leading-relaxed text-muted-foreground">
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                </Reveal>
+              )}
+
+              {project.solution && (
+                <Reveal delay={50}>
+                  <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
+                    Solution
+                  </h2>
+                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                    {project.solution}
                   </p>
                 </Reveal>
               )}
