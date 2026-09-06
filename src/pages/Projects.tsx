@@ -5,9 +5,18 @@ import { Reveal } from "@/components/ui/Reveal";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { ProjectModal } from "@/components/ui/ProjectModal";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
-import { featuredProjects, type Project } from "@/data/portfolio";
+import { ecosystemProjects, featuredProjects, type Project } from "@/data/portfolio";
 
-export default function Projects() {
+interface ProjectsProps {
+  /** Supplied by the route loader from the content dashboard; falls back to the built-in data. */
+  featured?: Project[];
+  ecosystem?: Project[];
+}
+
+export default function Projects({
+  featured = featuredProjects,
+  ecosystem = ecosystemProjects,
+}: ProjectsProps) {
   const [selected, setSelected] = useState<Project | null>(null);
   const [open, setOpen] = useState(false);
 
@@ -35,7 +44,7 @@ export default function Projects() {
           <h2 className="sr-only">Featured projects</h2>
 
           <div className="mt-12 grid gap-6 lg:grid-cols-2">
-            {featuredProjects.map((project, i) => (
+            {featured.map((project, i) => (
               <Reveal key={project.slug} delay={i * 70} className="h-full">
                 <ProjectCard
                   project={project}
@@ -56,7 +65,7 @@ export default function Projects() {
             title="Everything I Build Has a Purpose."
             subtitle="Systems, tools, experiments, and concepts built to solve specific problems."
           />
-          <ProjectGrid />
+          <ProjectGrid projects={ecosystem} />
           <Reveal className="mt-10 font-mono text-sm text-muted-foreground">
             <span className="text-primary">//</span> More systems in development.
           </Reveal>

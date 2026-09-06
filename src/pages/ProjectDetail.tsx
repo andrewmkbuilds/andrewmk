@@ -11,16 +11,18 @@ import { allProjects, type Project } from "@/data/portfolio";
 
 interface ProjectDetailProps {
   project: Project;
+  /** Full catalogue used for "related projects"; defaults to the built-in data. */
+  catalogue?: Project[];
 }
 
-function related(project: Project) {
-  return allProjects
+function related(project: Project, catalogue: Project[] = allProjects) {
+  return catalogue
     .filter((p) => p.slug !== project.slug && p.filters.some((f) => project.filters.includes(f)))
     .slice(0, 3);
 }
 
-export default function ProjectDetail({ project }: ProjectDetailProps) {
-  const others = related(project);
+export default function ProjectDetail({ project, catalogue }: ProjectDetailProps) {
+  const others = related(project, catalogue);
 
   return (
     <Layout>
