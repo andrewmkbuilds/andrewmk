@@ -111,6 +111,32 @@ export default function ProjectDetail({ project, catalogue }: ProjectDetailProps
                 </Reveal>
               )}
 
+              {project.fullDescription && (
+                <Reveal delay={40}>
+                  <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
+                    Overview
+                  </h2>
+                  <div className="mt-4 space-y-4">
+                    {project.fullDescription.split(/\n{2,}/).map((para, i) => (
+                      <p key={i} className="text-base leading-relaxed text-muted-foreground">
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                </Reveal>
+              )}
+
+              {project.solution && (
+                <Reveal delay={50}>
+                  <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
+                    Solution
+                  </h2>
+                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                    {project.solution}
+                  </p>
+                </Reveal>
+              )}
+
               <Reveal delay={70}>
                 <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
                   What I built
