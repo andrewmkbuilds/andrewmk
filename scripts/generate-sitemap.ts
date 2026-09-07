@@ -19,12 +19,32 @@ const urls = indexableRoutes.map((route) =>
     .join("\n"),
 );
 
-// Project case-study pages are generated from portfolio data.
-for (const project of allProjects) {
+// Project case-study pages: published rows from the content dashboard when the
+// database is reachable at build time, otherwise the bundled portfolio data.
+let projectSlugs = allProjects.map((p) => p.slug);
+const dbUrl = process.env["SUPABASE_URL"] ?? process.env["VITE_SUPABASE_URL"];
+const dbKey =
+  process.env["SUPABASE_PUBLISHABLE_KEY"] ?? process.env["VITE_SUPABASE_PUBLISHABLE_KEY"];
+if (dbUrl && dbKey) {
+  try {
+    const res = await fetch(
+      `${dbUrl}/rest/v1/projects?select=slug&published=eq.true&archived=eq.false&order=sort_order.asc`,
+      { headers: { apikey: dbKey } },
+    );
+    if (res.ok) {
+      const rows = (await res.json()) as { slug: string }[];
+      if (rows.length > 0) projectSlugs = rows.map((r) => r.slug);
+    }
+  } catch (error) {
+    console.warn("sitemap: falling back to bundled projects —", (error as Error).message);
+  }
+}
+
+for (const slug of projectSlugs) {
   urls.push(
     [
       `  <url>`,
-      `    <loc>${SITE_URL}/projects/${project.slug}</loc>`,
+      `    <loc>${SITE_URL}/projects/${slug}</loc>`,
       `    <changefreq>monthly</changefreq>`,
       `    <priority>0.7</priority>`,
       `  </url>`,
