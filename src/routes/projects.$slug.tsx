@@ -1,32 +1,57 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import ProjectDetail from "@/pages/ProjectDetail";
 import NotFound from "@/pages/NotFound";
-import { allProjects } from "@/data/portfolio";
+import { allProjects, type Project } from "@/data/portfolio";
+import { getPublishedProject, listPublishedProjects } from "@/lib/projects.functions";
 import { projectJsonLd } from "@/lib/project-schema";
 import { SITE_NAME, SITE_URL, ogImagePath } from "@/data/seo";
 
-function findProject(slug: string) {
+function staticProject(slug: string) {
   return allProjects.find((p) => p.slug === slug);
 }
 
+/** Absolute URL for an image reference that may be site-relative. */
+function absolute(url?: string) {
+  if (!url) return undefined;
+  return url.startsWith("http") ? url : `${SITE_URL}${url}`;
+}
+
 export const Route = createFileRoute("/projects/$slug")({
-  loader: ({ params }) => {
-    const project = findProject(params.slug);
+  loader: async ({ params }): Promise<{ project: Project; catalogue: Project[] }> => {
+    let project: Project | null = null;
+    let catalogue: Project[] = allProjects;
+
+    try {
+      project = await getPublishedProject({ data: { slug: params.slug } });
+      const all = await listPublishedProjects();
+      if (all.length > 0) catalogue = all;
+    } catch {
+      project = null;
+    }
+
+    project = project ?? staticProject(params.slug) ?? null;
     if (!project) throw notFound();
-    return { slug: project.slug };
+    return { project, catalogue };
   },
-  head: ({ params }) => {
-    const project = findProject(params.slug);
-    if (!project) {
+  head: ({ loaderData }) => {
+    if (!loaderData) {
       return {
         meta: [{ title: `Project not found | ${SITE_NAME}` }, { name: "robots", content: "noindex" }],
       };
     }
 
+    const { project } = loaderData;
     const url = `${SITE_URL}/projects/${project.slug}`;
-    const image = `${SITE_URL}${ogImagePath("/projects")}`;
-    const title = `${project.name} | ${project.category} by ${SITE_NAME}`;
-    const description = `${project.name} is ${project.description.charAt(0).toLowerCase()}${project.description.slice(1)}`.slice(0, 158);
+    const canonical = project.seo?.canonical || url;
+    const image =
+      absolute(project.seo?.ogImage) ??
+      absolute(project.featuredImage) ??
+      `${SITE_URL}${ogImagePath("/projects")}`;
+    const title = project.seo?.title || `${project.name} | ${project.category} by ${SITE_NAME}`;
+    const description = (
+      project.seo?.description ||
+      `${project.name} is ${project.description.charAt(0).toLowerCase()}${project.description.slice(1)}`
+    ).slice(0, 158);
 
     return {
       meta: [
@@ -45,7 +70,7 @@ export const Route = createFileRoute("/projects/$slug")({
         { name: "twitter:description", content: description },
         { name: "twitter:image", content: image },
       ],
-      links: [{ rel: "canonical", href: url }],
+      links: [{ rel: "canonical", href: canonical }],
       scripts: [
         {
           type: "application/ld+json",
@@ -75,8 +100,6 @@ export const Route = createFileRoute("/projects/$slug")({
 });
 
 function ProjectDetailRoute() {
-  const { slug } = Route.useLoaderData();
-  const project = findProject(slug);
-  if (!project) return <NotFound />;
-  return <ProjectDetail project={project} />;
+  const { project, catalogue } = Route.useLoaderData();
+  return <ProjectDetail project={project} catalogue={catalogue} />;
 }
