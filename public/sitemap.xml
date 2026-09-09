@@ -145,46 +145,4 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  <url>
-    <loc>https://andrewmk.is-a.dev/blog/building-gradr-ai-career-accelerator</loc>
-    <lastmod>2026-09-01T13:27:07.417966+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://andrewmk.is-a.dev/blog/conversacore-multi-model-ai-fallbacks</loc>
-    <lastmod>2026-09-01T14:20:25.991259+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://andrewmk.is-a.dev/blog/robotics-lessons-from-a-teenage-workshop</loc>
-    <lastmod>2026-08-31T19:10:19.203768+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://andrewmk.is-a.dev/blog/devos-context-that-survives-a-break</loc>
-    <lastmod>2026-09-01T14:20:25.991259+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://andrewmk.is-a.dev/blog/shipping-stack-up-first-product</loc>
-    <lastmod>2026-09-01T14:20:25.991259+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://andrewmk.is-a.dev/blog/shipping-ai-features-that-do-not-hallucinate</loc>
-    <lastmod>2026-08-31T19:10:19.203768+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://andrewmk.is-a.dev/blog/why-i-build-systems-not-apps</loc>
-    <lastmod>2026-08-31T19:10:19.203768+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
 </urlset>
