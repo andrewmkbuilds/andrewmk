@@ -1,15 +1,11 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Loader2, Plus, Save, Trash2 } from "lucide-react";
+import { ExternalLink, Loader2, Plus, Save, Trash2 } from "lucide-react";
 
-import {
-  deletePost,
-  listAllPosts,
-  savePost,
-  type BlogPost,
-} from "@/lib/blog.functions";
-import { getAdminStatus } from "@/lib/admin-contact.functions";
+import { deletePost, listAllPosts, savePost, type BlogPost } from "@/lib/blog.functions";
+import AdminShell from "@/components/admin/AdminShell";
+import MediaPicker from "@/components/admin/MediaPicker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,8 +19,18 @@ interface Draft {
   content: string;
   tags: string;
   cover_image: string;
+  cover_image_alt: string;
+  author: string;
+  category: string;
+  featured: boolean;
+  archived: boolean;
   published: boolean;
+  publish_at: string;
   reading_minutes: number;
+  seo_title: string;
+  seo_description: string;
+  canonical_url: string;
+  og_image: string;
 }
 
 const EMPTY: Draft = {
@@ -34,9 +40,28 @@ const EMPTY: Draft = {
   content: "",
   tags: "",
   cover_image: "",
+  cover_image_alt: "",
+  author: "Andrew Mathews",
+  category: "",
+  featured: false,
+  archived: false,
   published: false,
+  publish_at: "",
   reading_minutes: 3,
+  seo_title: "",
+  seo_description: "",
+  canonical_url: "",
+  og_image: "",
 };
+
+/** ISO timestamp -> value for <input type="datetime-local">. */
+function toLocalInput(iso: string | null) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
 
 function toDraft(post: BlogPost): Draft {
   return {
@@ -47,8 +72,18 @@ function toDraft(post: BlogPost): Draft {
     content: post.content,
     tags: post.tags.join(", "),
     cover_image: post.cover_image ?? "",
+    cover_image_alt: post.cover_image_alt ?? "",
+    author: post.author || "Andrew Mathews",
+    category: post.category ?? "",
+    featured: post.featured,
+    archived: post.archived,
     published: post.published,
+    publish_at: toLocalInput(post.scheduled_at ?? post.published_at),
     reading_minutes: post.reading_minutes,
+    seo_title: post.seo_title ?? "",
+    seo_description: post.seo_description ?? "",
+    canonical_url: post.canonical_url ?? "",
+    og_image: post.og_image ?? "",
   };
 }
 
@@ -60,8 +95,14 @@ function slugify(value: string) {
     .slice(0, 120);
 }
 
+function statusLabel(post: BlogPost) {
+  if (post.archived) return "Archived";
+  if (!post.published) return "Draft";
+  if (post.scheduled_at && new Date(post.scheduled_at).getTime() > Date.now()) return "Scheduled";
+  return "Published";
+}
+
 export default function AdminBlog() {
-  const fetchStatus = useServerFn(getAdminStatus);
   const fetchPosts = useServerFn(listAllPosts);
   const save = useServerFn(savePost);
   const remove = useServerFn(deletePost);
@@ -70,11 +111,8 @@ export default function AdminBlog() {
   const [draft, setDraft] = useState<Draft>(EMPTY);
   const [error, setError] = useState<string | null>(null);
 
-  const admin = useQuery({ queryKey: ["admin-status"], queryFn: () => fetchStatus() });
-
   const posts = useQuery<BlogPost[]>({
     queryKey: ["admin-blog-posts"],
-    enabled: admin.data?.isAdmin === true,
     queryFn: () => fetchPosts(),
   });
 
@@ -92,14 +130,24 @@ export default function AdminBlog() {
             .map((t) => t.trim())
             .filter(Boolean),
           cover_image: draft.cover_image || null,
+          cover_image_alt: draft.cover_image_alt,
+          author: draft.author,
+          category: draft.category,
+          featured: draft.featured,
+          archived: draft.archived,
           published: draft.published,
+          publish_at: draft.publish_at ? new Date(draft.publish_at).toISOString() : null,
           reading_minutes: draft.reading_minutes,
+          seo_title: draft.seo_title || null,
+          seo_description: draft.seo_description || null,
+          canonical_url: draft.canonical_url || null,
+          og_image: draft.og_image || null,
         },
       }),
     onSuccess: (post) => {
       setError(null);
       setDraft(toDraft(post));
-      queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });
+      void queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });
     },
     onError: (e: unknown) => setError(e instanceof Error ? e.message : "Could not save post."),
   });
@@ -108,43 +156,24 @@ export default function AdminBlog() {
     mutationFn: (id: string) => remove({ data: { id } }),
     onSuccess: () => {
       setDraft(EMPTY);
-      queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });
+      void queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });
     },
   });
 
-  if (admin.isLoading) {
-    return (
-      <main className="container flex min-h-screen items-center justify-center">
-        <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-      </main>
-    );
-  }
-
-  if (!admin.data?.isAdmin) {
-    return (
-      <main className="container py-24">
-        <h1 className="text-2xl font-semibold text-foreground">Not authorised</h1>
-        <p className="mt-2 text-muted-foreground">This area is restricted to the site admin.</p>
-      </main>
-    );
-  }
-
   return (
-    <main className="container py-14">
-      <header className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold">Admin</p>
-          <h1 className="text-display mt-2 text-3xl text-foreground">Blog editor</h1>
-        </div>
+    <AdminShell
+      title="Blog"
+      description="Write, schedule and publish posts. Drafts stay private until you publish them."
+      actions={
         <Button variant="outline" className="font-mono" onClick={() => setDraft(EMPTY)}>
-          <Plus className="mr-2 h-4 w-4" />
+          <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
           New post
         </Button>
-      </header>
-
-      <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+      }
+    >
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
         <form
-          className="space-y-5 rounded-xl border border-border bg-card p-6"
+          className="space-y-5 rounded-xl border border-border bg-card p-5 sm:p-6"
           onSubmit={(e) => {
             e.preventDefault();
             saveMutation.mutate();
@@ -167,7 +196,7 @@ export default function AdminBlog() {
               />
             </div>
             <div>
-              <Label htmlFor="slug">Slug</Label>
+              <Label htmlFor="slug">Web address (slug)</Label>
               <Input
                 id="slug"
                 value={draft.slug}
@@ -188,7 +217,7 @@ export default function AdminBlog() {
           </div>
 
           <div>
-            <Label htmlFor="content">Content (markdown-lite: ## heading, - bullet, 1. list)</Label>
+            <Label htmlFor="content">Content (## heading, - bullet, 1. list)</Label>
             <Textarea
               id="content"
               rows={16}
@@ -208,6 +237,14 @@ export default function AdminBlog() {
               />
             </div>
             <div>
+              <Label htmlFor="category">Category</Label>
+              <Input
+                id="category"
+                value={draft.category}
+                onChange={(e) => setDraft((d) => ({ ...d, category: e.target.value }))}
+              />
+            </div>
+            <div>
               <Label htmlFor="minutes">Reading minutes</Label>
               <Input
                 id="minutes"
@@ -220,37 +257,138 @@ export default function AdminBlog() {
                 }
               />
             </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <MediaPicker
+              id="cover"
+              label="Cover image"
+              value={draft.cover_image}
+              onChange={(url) => setDraft((d) => ({ ...d, cover_image: url }))}
+            />
             <div>
-              <Label htmlFor="cover">Cover image URL</Label>
+              <Label htmlFor="cover-alt">Cover image description (alt text)</Label>
               <Input
-                id="cover"
-                value={draft.cover_image}
-                onChange={(e) => setDraft((d) => ({ ...d, cover_image: e.target.value }))}
+                id="cover-alt"
+                value={draft.cover_image_alt}
+                onChange={(e) => setDraft((d) => ({ ...d, cover_image_alt: e.target.value }))}
               />
             </div>
           </div>
 
-          <label className="flex items-center gap-2 text-sm text-foreground">
-            <input
-              type="checkbox"
-              className="h-4 w-4 accent-[var(--gold)]"
-              checked={draft.published}
-              onChange={(e) => setDraft((d) => ({ ...d, published: e.target.checked }))}
-            />
-            Published
-          </label>
+          <fieldset className="rounded-lg border border-border p-4">
+            <legend className="px-1 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+              Search engines
+            </legend>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <Label htmlFor="seo-title">SEO title (optional)</Label>
+                <Input
+                  id="seo-title"
+                  value={draft.seo_title}
+                  onChange={(e) => setDraft((d) => ({ ...d, seo_title: e.target.value }))}
+                />
+              </div>
+              <div>
+                <Label htmlFor="canonical">Canonical URL (optional)</Label>
+                <Input
+                  id="canonical"
+                  value={draft.canonical_url}
+                  onChange={(e) => setDraft((d) => ({ ...d, canonical_url: e.target.value }))}
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <Label htmlFor="seo-desc">SEO description (optional)</Label>
+                <Textarea
+                  id="seo-desc"
+                  rows={2}
+                  value={draft.seo_description}
+                  onChange={(e) => setDraft((d) => ({ ...d, seo_description: e.target.value }))}
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <MediaPicker
+                  id="og-image"
+                  label="Social share image (optional)"
+                  value={draft.og_image}
+                  onChange={(url) => setDraft((d) => ({ ...d, og_image: url }))}
+                />
+              </div>
+            </div>
+          </fieldset>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="publish-at">Publish date and time</Label>
+              <Input
+                id="publish-at"
+                type="datetime-local"
+                value={draft.publish_at}
+                onChange={(e) => setDraft((d) => ({ ...d, publish_at: e.target.value }))}
+              />
+              <p className="mt-1 text-xs text-muted-foreground">
+                Leave empty to publish immediately. A future time schedules the post.
+              </p>
+            </div>
+            <div>
+              <Label htmlFor="author">Author</Label>
+              <Input
+                id="author"
+                value={draft.author}
+                onChange={(e) => setDraft((d) => ({ ...d, author: e.target.value }))}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-5">
+            <label className="flex items-center gap-2 text-sm text-foreground">
+              <input
+                type="checkbox"
+                className="h-4 w-4 accent-[var(--gold)]"
+                checked={draft.published}
+                onChange={(e) => setDraft((d) => ({ ...d, published: e.target.checked }))}
+              />
+              Published
+            </label>
+            <label className="flex items-center gap-2 text-sm text-foreground">
+              <input
+                type="checkbox"
+                className="h-4 w-4 accent-[var(--gold)]"
+                checked={draft.featured}
+                onChange={(e) => setDraft((d) => ({ ...d, featured: e.target.checked }))}
+              />
+              Featured
+            </label>
+            <label className="flex items-center gap-2 text-sm text-foreground">
+              <input
+                type="checkbox"
+                className="h-4 w-4 accent-[var(--gold)]"
+                checked={draft.archived}
+                onChange={(e) => setDraft((d) => ({ ...d, archived: e.target.checked }))}
+              />
+              Archived
+            </label>
+          </div>
 
           {error && <p className="text-sm text-destructive">{error}</p>}
 
           <div className="flex flex-wrap gap-3">
             <Button type="submit" className="font-mono" disabled={saveMutation.isPending}>
               {saveMutation.isPending ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
               ) : (
-                <Save className="mr-2 h-4 w-4" />
+                <Save className="mr-2 h-4 w-4" aria-hidden="true" />
               )}
               Save post
             </Button>
+            {draft.slug && (
+              <Button asChild type="button" variant="outline" className="font-mono">
+                <a href={`/blog/${draft.slug}`} target="_blank" rel="noreferrer">
+                  <ExternalLink className="mr-2 h-4 w-4" aria-hidden="true" />
+                  Preview
+                </a>
+              </Button>
+            )}
             {draft.id && (
               <Button
                 type="button"
@@ -259,7 +397,7 @@ export default function AdminBlog() {
                 onClick={() => draft.id && deleteMutation.mutate(draft.id)}
                 disabled={deleteMutation.isPending}
               >
-                <Trash2 className="mr-2 h-4 w-4" />
+                <Trash2 className="mr-2 h-4 w-4" aria-hidden="true" />
                 Delete
               </Button>
             )}
@@ -280,7 +418,7 @@ export default function AdminBlog() {
                 >
                   <span className="block text-sm font-medium text-foreground">{post.title}</span>
                   <span className="mt-1 block font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-                    {post.published ? "Published" : "Draft"} · /{post.slug}
+                    {statusLabel(post)} · /{post.slug}
                   </span>
                 </button>
               </li>
@@ -289,6 +427,6 @@ export default function AdminBlog() {
           </ul>
         </aside>
       </div>
-    </main>
+    </AdminShell>
   );
 }
