@@ -51,9 +51,14 @@ export interface CmsProject {
 export const PROJECT_COLUMNS =
   "id,slug,name,category,description,full_description,problem,solution,features,process,learned,built,tech,filters,status,live,github,demo,previously,platform,stack,challenges,results,gallery,metrics,featured,featured_image,image_alt,images,start_date,end_date,sort_order,published,archived,seo_title,seo_description,canonical_url,og_image,created_at,updated_at";
 
+/** Drops keys whose value is undefined so optional fields stay truly absent. */
+function compact<T extends Record<string, unknown>>(value: T): T {
+  return Object.fromEntries(Object.entries(value).filter(([, v]) => v !== undefined)) as T;
+}
+
 /** Maps a CMS row onto the shape the existing public components already render. */
 export function toProject(row: CmsProject): Project {
-  return {
+  return compact({
     slug: row.slug,
     name: row.name,
     category: row.category,
@@ -84,15 +89,15 @@ export function toProject(row: CmsProject): Project {
     images: row.images?.length ? row.images : undefined,
     startDate: row.start_date ?? undefined,
     endDate: row.end_date ?? undefined,
-    seo: {
-      ...(row.seo_title ? { title: row.seo_title } : {}),
-      ...(row.seo_description ? { description: row.seo_description } : {}),
-      ...(row.canonical_url ? { canonical: row.canonical_url } : {}),
-      ...(row.og_image ? { ogImage: row.og_image } : {}),
-    },
-
-  };
+    seo: compact({
+      title: row.seo_title ?? undefined,
+      description: row.seo_description ?? undefined,
+      canonical: row.canonical_url ?? undefined,
+      ogImage: row.og_image ?? undefined,
+    }),
+  } as Project);
 }
+
 
 /** Publishable (anon) client — RLS only exposes published, non-archived rows. */
 function publicClient() {
