@@ -52,9 +52,12 @@ export const PROJECT_COLUMNS =
   "id,slug,name,category,description,full_description,problem,solution,features,process,learned,built,tech,filters,status,live,github,demo,previously,platform,stack,challenges,results,gallery,metrics,featured,featured_image,image_alt,images,start_date,end_date,sort_order,published,archived,seo_title,seo_description,canonical_url,og_image,created_at,updated_at";
 
 /** Drops keys whose value is undefined so optional fields stay truly absent. */
-function compact<T extends Record<string, unknown>>(value: T): T {
-  return Object.fromEntries(Object.entries(value).filter(([, v]) => v !== undefined)) as T;
+function compact<T>(value: T): T {
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>).filter(([, v]) => v !== undefined),
+  ) as T;
 }
+
 
 /** Maps a CMS row onto the shape the existing public components already render. */
 export function toProject(row: CmsProject): Project {
