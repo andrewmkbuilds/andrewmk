@@ -85,11 +85,12 @@ export function toProject(row: CmsProject): Project {
     startDate: row.start_date ?? undefined,
     endDate: row.end_date ?? undefined,
     seo: {
-      title: row.seo_title ?? undefined,
-      description: row.seo_description ?? undefined,
-      canonical: row.canonical_url ?? undefined,
-      ogImage: row.og_image ?? undefined,
+      ...(row.seo_title ? { title: row.seo_title } : {}),
+      ...(row.seo_description ? { description: row.seo_description } : {}),
+      ...(row.canonical_url ? { canonical: row.canonical_url } : {}),
+      ...(row.og_image ? { ogImage: row.og_image } : {}),
     },
+
   };
 }
 
