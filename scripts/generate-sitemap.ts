@@ -52,17 +52,6 @@ for (const slug of projectSlugs) {
   );
 }
 
-// Interactive Gradr demo page (linked from the Gradr case study).
-urls.push(
-  [
-    `  <url>`,
-    `    <loc>${SITE_URL}/projects/gradr/demo</loc>`,
-    `    <changefreq>monthly</changefreq>`,
-    `    <priority>0.6</priority>`,
-    `  </url>`,
-  ].join("\n"),
-);
-
 urls.push(
   [
     `  <url>`,

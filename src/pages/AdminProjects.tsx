@@ -36,7 +36,6 @@ const EMPTY: Draft = {
   status: "Building",
   live: "",
   github: "",
-  demo: "",
   previously: "",
   platform: null,
   stack: null,
@@ -78,7 +77,6 @@ function toDraft(row: CmsProject): Draft {
     status: row.status,
     live: row.live ?? "",
     github: row.github ?? "",
-    demo: row.demo ?? "",
     previously: row.previously ?? "",
     platform: (row.platform as Draft["platform"]) ?? null,
     stack: row.stack,
@@ -313,7 +311,7 @@ export default function AdminProjects() {
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="p-live">Live link</Label>
               <Input id="p-live" value={draft.live ?? ""} onChange={(e) => set("live", e.target.value)} />
@@ -325,10 +323,6 @@ export default function AdminProjects() {
                 value={draft.github ?? ""}
                 onChange={(e) => set("github", e.target.value)}
               />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="p-demo">Demo link</Label>
-              <Input id="p-demo" value={draft.demo ?? ""} onChange={(e) => set("demo", e.target.value)} />
             </div>
           </div>
 

@@ -65,16 +65,8 @@ export default function ProjectDetail({ project, catalogue }: ProjectDetailProps
                 ))}
               </div>
 
-              {(project.live || project.github || project.demo) && (
+              {(project.live || project.github) && (
                 <div className="mt-8 flex flex-wrap gap-3">
-                  {project.demo && (
-                    <Button asChild className="cta-pop font-mono">
-                      <Link to={project.demo}>
-                        Try the live demo
-                        <ArrowRight className="cta-arrow ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
-                  )}
                   {project.live && (
                     <Button asChild className="cta-pop font-mono">
                       <a href={project.live} target="_blank" rel="noopener noreferrer">
@@ -200,66 +192,6 @@ export default function ProjectDetail({ project, catalogue }: ProjectDetailProps
             </Reveal>
           </div>
         </section>
-
-        {project.gallery && project.gallery.length > 0 && (
-          <section className="divider-gold py-16 md:py-20">
-            <div className="container">
-              <h2 className="text-display text-2xl text-foreground md:text-3xl">
-                Inside the product
-              </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                The main screens and what each one does.
-              </p>
-              <ul className="mt-8 grid list-none gap-5 p-0 sm:grid-cols-2">
-                {project.gallery.map((shot, i) => (
-                  <Reveal as="li" key={shot.title} delay={i * 60} className="h-full">
-                    <figure className="pop-card m-0 flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card">
-                      <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-border bg-background/60">
-                        <div className="absolute inset-0 bg-grid opacity-40" aria-hidden="true" />
-                        <div
-                          className="pointer-events-none absolute -top-16 left-1/3 h-40 w-56 rounded-full bg-primary/15 blur-[70px]"
-                          aria-hidden="true"
-                        />
-                        <div className="relative flex h-full flex-col p-4">
-                          <div className="flex items-center gap-1.5" aria-hidden="true">
-                            <span className="h-2 w-2 rounded-full bg-gold/70" />
-                            <span className="h-2 w-2 rounded-full bg-primary/60" />
-                            <span className="h-2 w-2 rounded-full bg-muted-foreground/40" />
-                            <span className="ml-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                              {project.name} · {shot.title}
-                            </span>
-                          </div>
-                          <div className="mt-4 grid flex-1 content-start gap-2">
-                            {(shot.lines ?? []).map((line) => (
-                              <div
-                                key={line}
-                                className="flex items-center justify-between gap-3 rounded-md border border-border/70 bg-card/70 px-3 py-2"
-                              >
-                                <span className="truncate font-mono text-[11px] text-muted-foreground">
-                                  {line}
-                                </span>
-                                <span
-                                  className="h-1.5 w-10 rounded-full bg-gold/50"
-                                  aria-hidden="true"
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                      <figcaption className="flex flex-1 flex-col p-5">
-                        <h3 className="text-base font-semibold text-foreground">{shot.title}</h3>
-                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                          {shot.caption}
-                        </p>
-                      </figcaption>
-                    </figure>
-                  </Reveal>
-                ))}
-              </ul>
-            </div>
-          </section>
-        )}
 
         {project.stack && project.stack.length > 0 && (
           <section className="divider-gold py-16 md:py-20">

@@ -10,8 +10,6 @@ export interface Project {
   status: string;
   live?: string;
   github?: string;
-  /** Internal interactive demo page, when one exists. */
-  demo?: string;
   filters: string[];
   featured?: boolean;
   previously?: string;
@@ -23,7 +21,7 @@ export interface Project {
   challenges?: { title: string; detail: string }[];
   /** Outcomes so far — kept honest for in-progress work. */
   results?: { label: string; value: string; note?: string }[];
-  /** Interface walkthrough panels (screens of the product). */
+  /** Structured project walkthrough panels. */
   gallery?: { title: string; caption: string; lines?: string[] }[];
   /** Verified, measured figures. Only real reported numbers belong here. */
   metrics?: {
@@ -70,7 +68,6 @@ export const featuredProjects: Project[] = [
     filters: ["AI", "React", "Lovable"],
     featured: true,
     platform: "lovable",
-    demo: "/projects/gradr/demo",
     problem:
       "Early-career candidates get almost no useful feedback. Resumes disappear into applicant tracking systems without explanation, interview practice is either expensive or unstructured, and applications end up scattered across spreadsheets, inboxes and browser tabs. The missing piece is not more advice — it is a system that reviews your material, tells you exactly what is weak, and keeps the whole search in one place.",
     stack: [
@@ -1163,4 +1160,3 @@ export const socialLinks: SocialLink[] = [
     cta: "View All My Links",
   },
 ];
-
