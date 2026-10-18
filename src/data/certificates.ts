@@ -41,6 +41,24 @@ const DIR = "/certificates";
 
 export const certificates: Certificate[] = [
   {
+    id: "claude-code-101",
+    title: "Claude Code 101 — Certificate of Completion",
+    issuer: "Anthropic",
+    category: "Certifications",
+    file: `${DIR}/claude-code-101-certificate.pdf`,
+    thumb: `${DIR}/thumbs/claude-code-101-certificate.webp`,
+    type: "pdf",
+  },
+  {
+    id: "claude-101",
+    title: "Claude 101 — Certificate of Completion",
+    issuer: "Anthropic",
+    category: "Certifications",
+    file: `${DIR}/claude-101-certificate.pdf`,
+    thumb: `${DIR}/thumbs/claude-101-certificate.webp`,
+    type: "pdf",
+  },
+  {
     id: "tks-letter-of-acceptance",
     title: "Letter of Acceptance — TKS 2026–2027",
     issuer: "The Knowledge Society (TKS)",
