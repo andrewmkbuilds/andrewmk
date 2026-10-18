@@ -1,5 +1,5 @@
 import { s as require_jsx_runtime } from "../_libs/@radix-ui/react-collection+[...].mjs";
-import { M as GraduationCap, N as Globe, R as ExternalLink, i as Wrench, q as Award, w as MapPin } from "../_libs/lucide-react.mjs";
+import { M as GraduationCap, N as Globe, R as ExternalLink, Y as Award, i as Wrench, w as MapPin } from "../_libs/lucide-react.mjs";
 import { C as munResults, D as socialLinks, E as quickStats, O as timeline, _ as currentlyBuilding, a as Link$1, f as allProjects, g as competitionResults, h as buildingCategories, i as Layout, p as andrewbuilds_logo_default } from "./Layout-C1nd09HF.mjs";
 import { t as Reveal } from "./Reveal-DX10E9CC.mjs";
 import { n as certificateDateLabel, o as certificatesByRecency } from "./certificates-CO64SbXT.mjs";

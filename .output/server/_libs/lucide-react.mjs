@@ -303,6 +303,33 @@ var CircleCheck = createLucideIcon("circle-check", [["circle", {
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
+var CirclePlay = createLucideIcon("circle-play", [["path", {
+	d: "M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z",
+	key: "kmsa83"
+}], ["circle", {
+	cx: "12",
+	cy: "12",
+	r: "10",
+	key: "1mglay"
+}]]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
+var Circle = createLucideIcon("circle", [["circle", {
+	cx: "12",
+	cy: "12",
+	r: "10",
+	key: "1mglay"
+}]]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
 var CloudOff = createLucideIcon("cloud-off", [
 	["path", {
 		d: "M10.94 5.274A7 7 0 0 1 15.71 10h1.79a4.5 4.5 0 0 1 4.222 6.057",
@@ -1201,4 +1228,4 @@ var ZoomOut = createLucideIcon("zoom-out", [
 	}]
 ]);
 //#endregion
-export { Hexagon as A, Cpu as B, Maximize2 as C, Instagram as D, LoaderCircle as E, GitFork as F, ChartLine as G, CloudOff as H, FileText as I, ArrowUpRight as J, BrainCircuit as K, Eye as L, GraduationCap as M, Globe as N, ImagePlus as O, Github as P, ExternalLink as R, Menu as S, Mail as T, CircleCheck as U, Copy as V, ChevronDown as W, ArrowLeft as X, ArrowRight as Y, AppWindow as Z, RotateCcw as _, Workflow as a, Plus as b, Trash2 as c, ShieldAlert as d, Share2 as f, Save as g, ScanEye as h, Wrench as i, Heart as j, History as k, Star as l, SearchX as m, ZoomIn as n, Twitter as o, Search as p, Award as q, X as r, TriangleAlert as s, ZoomOut as t, ShieldCheck as u, RefreshCw as v, MapPin as w, PenLine as x, Printer as y, Download as z };
+export { AppWindow as $, Hexagon as A, Cpu as B, Maximize2 as C, Instagram as D, LoaderCircle as E, GitFork as F, CircleCheck as G, CloudOff as H, FileText as I, BrainCircuit as J, ChevronDown as K, Eye as L, GraduationCap as M, Globe as N, ImagePlus as O, Github as P, ArrowLeft as Q, ExternalLink as R, Menu as S, Mail as T, Circle as U, Copy as V, CirclePlay as W, ArrowUpRight as X, Award as Y, ArrowRight as Z, RotateCcw as _, Workflow as a, Plus as b, Trash2 as c, ShieldAlert as d, Share2 as f, Save as g, ScanEye as h, Wrench as i, Heart as j, History as k, Star as l, SearchX as m, ZoomIn as n, Twitter as o, Search as p, ChartLine as q, X as r, TriangleAlert as s, ZoomOut as t, ShieldCheck as u, RefreshCw as v, MapPin as w, PenLine as x, Printer as y, Download as z };
