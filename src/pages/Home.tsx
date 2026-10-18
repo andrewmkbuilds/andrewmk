@@ -18,8 +18,9 @@ import { ProjectModal } from "@/components/ui/ProjectModal";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
 import { TechTag } from "@/components/ui/TechTag";
 import { PopDisclosure, InlinePopDisclosure } from "@/components/ui/PopDisclosure";
+import { ContactForm } from "@/components/ui/ContactForm";
 
-import { ArrowRight, AppWindow, BrainCircuit, Workflow, Cpu, ScanEye, LineChart, type LucideIcon } from "lucide-react";
+import { ArrowRight, AppWindow, BrainCircuit, Workflow, Cpu, ScanEye, LineChart, Download, type LucideIcon } from "lucide-react";
 import {
   buildingCategories,
   currentlyBuilding,
@@ -122,6 +123,14 @@ export default function Home() {
               <Magnetic>
                 <Button asChild size="lg" variant="outline" className="font-mono">
                   <Link to="/about">About Me</Link>
+                </Button>
+              </Magnetic>
+              <Magnetic>
+                <Button asChild size="lg" className="font-mono shadow-glow">
+                  <Link to="/resume" aria-label="Download Andrew Mathews' résumé">
+                    <Download className="mr-2 h-4 w-4" />
+                    Download Résumé
+                  </Link>
                 </Button>
               </Magnetic>
             </motion.div>
@@ -552,6 +561,24 @@ export default function Home() {
         </div>
       </section>
 
+
+      {/* Direct contact form */}
+      <section className="divider-gold py-20 md:py-28" id="contact" aria-labelledby="home-contact-heading">
+        <div className="container max-w-2xl">
+          <Reveal>
+            <SectionHeading
+              label="Contact"
+              title="Reach Out Directly"
+            />
+            <p className="mt-4 text-muted-foreground">
+              Send me a message and I'll get back to you. No middlemen, just a direct line.
+            </p>
+            <div className="mt-10">
+              <ContactForm sourcePath="/" />
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
       <ProjectModal project={selected} open={open} onOpenChange={setOpen} />
     </Layout>

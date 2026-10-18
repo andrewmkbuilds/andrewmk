@@ -1,0 +1,1 @@
+import{i as e,o as t,t as n}from"./useRouter-Dpb7RwMI.js";import{a as r}from"./createServerFn-CakKMmrw.js";var i=t(e(),1);function a(e){let t=n();return i.useCallback(async(...n)=>{try{let t=await e(...n);if(r(t))throw t;return t}catch(e){if(r(e))return e.options._fromLocation=t.stores.location.get(),t.navigate(t.resolveRedirect(e).options);throw e}},[t,e])}export{a as t};

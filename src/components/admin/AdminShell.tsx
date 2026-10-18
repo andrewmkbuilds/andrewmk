@@ -13,6 +13,7 @@ const NAV = [
   { to: "/admin/media", label: "Media" },
   { to: "/admin/messages", label: "Messages" },
   { to: "/admin/settings", label: "Settings" },
+  { to: "/admin/settings/security", label: "Security" },
 ] as const;
 
 interface AdminShellProps {

@@ -77,7 +77,7 @@ export function CertificateGallery() {
         </div>
 
         {/* Tablet and up: standard grid. */}
-        <div className="hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3">
+        <div className="hidden gap-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {visible.map((certificate, i) => (
             <Reveal key={certificate.id} delay={Math.min(i, 6) * 60} className="h-full">
               <CertificateCard certificate={certificate} onOpen={setActive} className="h-full" />

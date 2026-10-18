@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, Link } from "@tanstack/react-router";
 
 import AdminShell from "@/components/admin/AdminShell";
 import { MfaPanel } from "@/components/admin/MfaPanel";
@@ -35,6 +35,12 @@ export default function AdminSettings() {
           <Button variant="outline" className="mt-5 font-mono" onClick={signOut}>
             Sign out
           </Button>
+          <Link
+            to="/admin/settings/security"
+            className="focus-ring mt-3 inline-flex font-mono text-xs uppercase tracking-[0.16em] text-gold"
+          >
+            Security settings →
+          </Link>
         </section>
 
         <section className="rounded-xl border border-border bg-card p-6 shadow-card">

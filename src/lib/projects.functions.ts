@@ -305,6 +305,18 @@ export const saveProject = createServerFn({ method: "POST" })
 
     const { data: row, error } = await query.select(PROJECT_COLUMNS).single();
     if (error) throw new Error(error.message ?? "Could not save project.");
+
+    const { recordAudit } = await import("./admin-audit.server");
+    const claims = context.claims as { email?: string } | undefined;
+    await recordAudit({
+      actorId: context.userId,
+      actorEmail: claims?.email ?? null,
+      action: id ? "update_project" : "create_project",
+      entity: "project",
+      entityId: row.id,
+      details: { slug: row.slug, name: row.name, published: row.published },
+    });
+
     return row as CmsProject;
   });
 
@@ -316,6 +328,17 @@ export const deleteProject = createServerFn({ method: "POST" })
     await assertAdmin(supabase, context.userId);
     const { error } = await supabase.from("projects").delete().eq("id", data.id);
     if (error) throw new Error("Could not delete project.");
+
+    const { recordAudit } = await import("./admin-audit.server");
+    const claims = context.claims as { email?: string } | undefined;
+    await recordAudit({
+      actorId: context.userId,
+      actorEmail: claims?.email ?? null,
+      action: "delete_project",
+      entity: "project",
+      entityId: data.id,
+    });
+
     return { ok: true };
   });
 
