@@ -1,0 +1,1 @@
+import{r as e}from"./useRouter-Dpb7RwMI.js";import{n as t}from"./button-DyuDyHEh.js";var n=e();function r({children:e,className:r}){return(0,n.jsx)(`span`,{className:t(`inline-flex items-center px-2 py-1 font-mono text-xs text-muted-foreground bg-secondary rounded-sm border border-border`,r),children:e})}export{r as t};
