@@ -191,6 +191,18 @@ export const savePost = createServerFn({ method: "POST" })
 
     const { data: row, error } = await query.select(COLUMNS).single();
     if (error) throw new Error(error.message ?? "Could not save post.");
+
+    const { recordAudit } = await import("./admin-audit.server");
+    const claims = context.claims as { email?: string } | undefined;
+    await recordAudit({
+      actorId: context.userId,
+      actorEmail: claims?.email ?? null,
+      action: data.id ? "update_post" : "create_post",
+      entity: "blog_post",
+      entityId: row.id,
+      details: { slug: row.slug, title: row.title, published: row.published },
+    });
+
     return row as BlogPost;
   });
 
@@ -202,5 +214,16 @@ export const deletePost = createServerFn({ method: "POST" })
     await assertAdmin(supabase, context.userId);
     const { error } = await supabase.from("blog_posts").delete().eq("id", data.id);
     if (error) throw new Error("Could not delete post.");
+
+    const { recordAudit } = await import("./admin-audit.server");
+    const claims = context.claims as { email?: string } | undefined;
+    await recordAudit({
+      actorId: context.userId,
+      actorEmail: claims?.email ?? null,
+      action: "delete_post",
+      entity: "blog_post",
+      entityId: data.id,
+    });
+
     return { ok: true };
   });

@@ -326,6 +326,28 @@ export default function AdminProjects() {
             </div>
           </div>
 
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="p-start">Start date</Label>
+              <Input
+                id="p-start"
+                type="date"
+                value={draft.start_date ?? ""}
+                onChange={(e) => set("start_date", e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="p-end">End date</Label>
+              <Input
+                id="p-end"
+                type="date"
+                value={draft.end_date ?? ""}
+                onChange={(e) => set("end_date", e.target.value)}
+              />
+              <p className="text-xs text-muted-foreground">Leave empty for in-progress projects.</p>
+            </div>
+          </div>
+
           <MediaPicker
             id="p-image"
             label="Cover image"

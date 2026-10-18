@@ -5,13 +5,13 @@ import { CheckCircle2, Download, History, Loader2, RotateCcw, Search } from "luc
 
 import {
   exportContactMessagesCsv,
-  getAdminStatus,
   listAdminAuditLog,
   listContactMessages,
   setContactMessageHandled,
   type AuditLogRow,
   type ContactMessageRow,
 } from "@/lib/admin-contact.functions";
+import AdminShell from "@/components/admin/AdminShell";
 import { MfaPanel } from "@/components/admin/MfaPanel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,7 +26,6 @@ const FILTERS: { value: StatusFilter; label: string }[] = [
 ];
 
 export default function AdminMessages() {
-  const fetchStatus = useServerFn(getAdminStatus);
   const fetchMessages = useServerFn(listContactMessages);
   const markHandled = useServerFn(setContactMessageHandled);
   const exportCsv = useServerFn(exportContactMessagesCsv);
@@ -37,11 +36,8 @@ export default function AdminMessages() {
   const [submittedSearch, setSubmittedSearch] = useState("");
   const [status, setStatus] = useState<StatusFilter>("open");
 
-  const admin = useQuery({ queryKey: ["admin-status"], queryFn: () => fetchStatus() });
-
   const messages = useQuery({
     queryKey: ["contact-messages", submittedSearch, status],
-    enabled: admin.data?.isAdmin === true,
     queryFn: () => fetchMessages({ data: { search: submittedSearch, status, limit: 100 } }),
   });
 
@@ -55,7 +51,6 @@ export default function AdminMessages() {
 
   const audit = useQuery<AuditLogRow[]>({
     queryKey: ["admin-audit-log"],
-    enabled: admin.data?.isAdmin === true,
     queryFn: () => fetchAudit({ data: { limit: 50 } }),
   });
 
@@ -86,34 +81,11 @@ export default function AdminMessages() {
 
   const rows = useMemo<ContactMessageRow[]>(() => messages.data ?? [], [messages.data]);
 
-  if (admin.isLoading) {
-    return (
-      <main className="mx-auto w-full max-w-5xl px-6 py-24">
-        <p className="text-sm text-muted-foreground">Checking access…</p>
-      </main>
-    );
-  }
-
-  if (!admin.data?.isAdmin) {
-    return (
-      <main className="mx-auto w-full max-w-5xl px-6 py-24">
-        <h1 className="font-display text-3xl font-semibold text-foreground">Admin</h1>
-        <p className="mt-3 text-sm text-muted-foreground">
-          This account does not have admin access to contact submissions.
-        </p>
-      </main>
-    );
-  }
-
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 py-24">
-      <header>
-        <h1 className="font-display text-3xl font-semibold text-foreground">Contact submissions</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Search, review and mark messages as handled.
-        </p>
-      </header>
-
+    <AdminShell
+      title="Contact submissions"
+      description="Search, review and mark messages as handled."
+    >
       <form
         className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-end"
         onSubmit={(e) => {
@@ -274,6 +246,6 @@ export default function AdminMessages() {
       </section>
 
       <MfaPanel />
-    </main>
+    </AdminShell>
   );
 }
