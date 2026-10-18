@@ -7,6 +7,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { TechTag } from "@/components/ui/TechTag";
 import { BuiltBy, PlatformBadge } from "@/components/ui/BuiltBy";
 import { StatusDot } from "@/components/ui/StatusDot";
+import { ProjectTimeline } from "@/components/ui/ProjectTimeline";
 import { allProjects, type Project } from "@/data/portfolio";
 
 interface ProjectDetailProps {
@@ -88,6 +89,8 @@ export default function ProjectDetail({ project, catalogue }: ProjectDetailProps
             </motion.div>
           </div>
         </section>
+
+        <ProjectTimeline project={project} />
 
         <section className="divider-gold py-16 md:py-20">
           <div className="container grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">

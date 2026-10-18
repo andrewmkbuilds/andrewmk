@@ -1,9 +1,14 @@
+import { useMemo, useState } from "react";
 import { Link } from "@/lib/router-compat";
 import { ArrowRight, PenLine } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
+import { FilterBar } from "@/components/ui/FilterBar";
 import { TechTag } from "@/components/ui/TechTag";
 import type { BlogPost } from "@/lib/blog.functions";
+
+/** Fixed category taxonomy visitors can filter by. */
+const BLOG_CATEGORIES = ["Project", "Personal", "Technical"] as const;
 
 function formatDate(value: string | null) {
   if (!value) return "";
@@ -15,6 +20,20 @@ function formatDate(value: string | null) {
 }
 
 export default function Blog({ posts }: { posts: BlogPost[] }) {
+  const [category, setCategory] = useState("All");
+
+  // Only show categories that actually have published posts, in the canonical order.
+  const options = useMemo(() => {
+    const used = new Set(posts.map((p) => p.category?.trim()).filter(Boolean) as string[]);
+    const present = BLOG_CATEGORIES.filter((c) => used.has(c));
+    return ["All", ...present];
+  }, [posts]);
+
+  const visible = useMemo(
+    () => (category === "All" ? posts : posts.filter((p) => p.category === category)),
+    [category, posts],
+  );
+
   return (
     <Layout>
       <section className="py-20 md:py-28">
@@ -52,9 +71,32 @@ export default function Blog({ posts }: { posts: BlogPost[] }) {
               </div>
             </Reveal>
           ) : (
-            <ul className="mt-14 grid list-none gap-6 p-0 md:grid-cols-2">
-              {posts.map((post, i) => (
-                <Reveal as="li" key={post.id} delay={i * 70} className="h-full">
+            <>
+              <Reveal delay={60}>
+                <FilterBar
+                  label="Filter posts by category"
+                  legend="Category"
+                  options={options}
+                  value={category}
+                  onChange={setCategory}
+                  className="mt-10"
+                />
+              </Reveal>
+              <p aria-live="polite" className="sr-only">
+                {visible.length} posts shown
+              </p>
+              {visible.length === 0 ? (
+                <Reveal delay={80}>
+                  <div className="mt-14 rounded-xl border border-dashed border-border bg-card p-10 text-center">
+                    <p className="text-sm text-muted-foreground">
+                      No posts in this category yet.
+                    </p>
+                  </div>
+                </Reveal>
+              ) : (
+                <ul className="mt-10 grid list-none gap-6 p-0 md:grid-cols-2">
+                  {visible.map((post, i) => (
+                    <Reveal as="li" key={post.id} delay={Math.min(i, 6) * 70} className="h-full">
                   <Link
                     to={`/blog/${post.slug}`}
                     className="pop-card focus-ring flex h-full flex-col rounded-2xl border border-border bg-card p-7 shadow-card"
@@ -64,6 +106,7 @@ export default function Blog({ posts }: { posts: BlogPost[] }) {
                         {formatDate(post.published_at)}
                       </time>
                       <span aria-hidden="true" className="hairline-gold h-px flex-1" />
+                      {post.category && <span className="text-gold/90">{post.category}</span>}
                       <span>{post.reading_minutes} min read</span>
                     </div>
                     <h2 className="text-display mt-4 text-xl text-foreground md:text-2xl">
@@ -84,7 +127,9 @@ export default function Blog({ posts }: { posts: BlogPost[] }) {
                   </Link>
                 </Reveal>
               ))}
-            </ul>
+                </ul>
+              )}
+            </>
           )}
         </div>
       </section>

@@ -46,7 +46,7 @@ export function CertificateCard({
         type="button"
         onClick={() => onOpen(certificate)}
         aria-label={`Open ${certificate.title} in the full-size viewer`}
-        className="focus-ring relative block w-full overflow-hidden border-b border-border bg-background"
+        className="focus-ring relative block w-full overflow-hidden border-b border-border bg-linear-to-b from-muted/30 to-background"
       >
         <span className={cn("block", compact ? "aspect-3/2" : "aspect-4/3")}>
           <img
@@ -54,7 +54,7 @@ export function CertificateCard({
             alt={`Preview of ${certificate.title}`}
             loading="lazy"
             decoding="async"
-            className="h-full w-full object-contain p-3 transition-transform duration-500 group-hover:scale-[1.03]"
+            className="h-full w-full object-contain p-2 transition-transform duration-500 group-hover:scale-[1.03]"
           />
         </span>
         <span className="absolute left-2.5 top-2.5 flex items-center gap-1.5 rounded-md border border-gold/30 bg-background/85 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-gold backdrop-blur-sm">
