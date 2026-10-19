@@ -23,45 +23,46 @@ export default function Auth() {
     setError(null);
     setNotice(null);
 
-    if (mode === "signup") {
-      const { error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { emailRedirectTo: `${window.location.origin}/auth` },
-      });
-      setBusy(false);
-      if (signUpError) {
-        setError(signUpError.message);
+    try {
+      if (mode === "signup") {
+        const { error: signUpError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { emailRedirectTo: `${window.location.origin}/auth` },
+        });
+        if (signUpError) {
+          setError(signUpError.message);
+          return;
+        }
+        setNotice("Account created. Confirm your email if prompted, then sign in.");
+        setMode("signin");
         return;
       }
-      setNotice("Account created. Confirm your email if prompted, then sign in.");
-      setMode("signin");
-      return;
-    }
 
-    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-    if (signInError) {
-      setBusy(false);
-      setError(signInError.message);
-      return;
-    }
-
-    // Optional second factor: only prompt when the account has a verified TOTP factor.
-    const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-    if (aal && aal.nextLevel === "aal2" && aal.nextLevel !== aal.currentLevel) {
-      const { data: factors } = await supabase.auth.mfa.listFactors();
-      const factor = (factors?.totp ?? []).find((f) => f.status === "verified");
-      setBusy(false);
-      if (factor) {
-        setMfa({ factorId: factor.id });
-        setNotice("Enter the 6-digit code from your authenticator app.");
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInError) {
+        setError(signInError.message);
         return;
       }
-    } else {
+
+      // Optional second factor: only prompt when the account has a verified TOTP factor.
+      const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (aal && aal.nextLevel === "aal2" && aal.nextLevel !== aal.currentLevel) {
+        const { data: factors } = await supabase.auth.mfa.listFactors();
+        const factor = (factors?.totp ?? []).find((f) => f.status === "verified");
+        if (factor) {
+          setMfa({ factorId: factor.id });
+          setNotice("Enter the 6-digit code from your authenticator app.");
+          return;
+        }
+      }
+
+      navigate({ to: "/admin/messages" });
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Sign-in failed. Please try again.");
+    } finally {
       setBusy(false);
     }
-
-    navigate({ to: "/admin/messages" });
   }
 
   async function onVerifyMfa(event: React.FormEvent<HTMLFormElement>) {
@@ -70,24 +71,28 @@ export default function Auth() {
     setBusy(true);
     setError(null);
 
-    const challenge = await supabase.auth.mfa.challenge({ factorId: mfa.factorId });
-    if (challenge.error || !challenge.data) {
-      setBusy(false);
-      setError(challenge.error?.message ?? "Could not start the verification challenge.");
-      return;
-    }
+    try {
+      const challenge = await supabase.auth.mfa.challenge({ factorId: mfa.factorId });
+      if (challenge.error || !challenge.data) {
+        setError(challenge.error?.message ?? "Could not start the verification challenge.");
+        return;
+      }
 
-    const { error: verifyError } = await supabase.auth.mfa.verify({
-      factorId: mfa.factorId,
-      challengeId: challenge.data.id,
-      code: mfaCode.trim(),
-    });
-    setBusy(false);
-    if (verifyError) {
-      setError(verifyError.message);
-      return;
+      const { error: verifyError } = await supabase.auth.mfa.verify({
+        factorId: mfa.factorId,
+        challengeId: challenge.data.id,
+        code: mfaCode.trim(),
+      });
+      if (verifyError) {
+        setError(verifyError.message);
+        return;
+      }
+      navigate({ to: "/admin/messages" });
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Verification failed. Please try again.");
+    } finally {
+      setBusy(false);
     }
-    navigate({ to: "/admin/messages" });
   }
 
   return (

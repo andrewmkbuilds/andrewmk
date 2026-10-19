@@ -69,6 +69,20 @@ const websiteJsonLd = JSON.stringify({
   author: { "@type": "Person", name: AUTHOR },
 });
 
+// Inject the public Supabase config (URL + publishable key) from server-side
+// process.env into the browser at runtime, so the client works even when the
+// VITE_ build-time variables aren't set (e.g. in a preview sandbox).
+const supabaseBootstrap = (() => {
+  try {
+    const url = process.env['SUPABASE_URL'] || "";
+    const publishableKey = process.env['SUPABASE_PUBLISHABLE_KEY'] || "";
+    if (!url || !publishableKey) return "";
+    return `window.__SUPABASE_CONFIG__=${JSON.stringify({ url, publishableKey })};`;
+  } catch {
+    return "";
+  }
+})();
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
@@ -101,6 +115,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", type: "image/png", href: "/favicon.png" },
     ],
     scripts: [
+      ...(supabaseBootstrap
+        ? [{ type: "text/javascript", children: supabaseBootstrap }]
+        : []),
       { type: "application/ld+json", children: personJsonLd },
       { type: "application/ld+json", children: websiteJsonLd },
     ],
