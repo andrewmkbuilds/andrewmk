@@ -8,22 +8,26 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
  *  - Client-side route guard (_authenticated/route.tsx) for fast UX feedback.
  *  - Server-side requireSupabaseAuth + assertAdmin on every mutating RPC.
  *
- * This module adds the sign-in flow on top of that:
- *  - getAuthPageState  — public, tells the sign-in page whether the first
- *                       admin has been provisioned yet (controls signup UI).
- *  - getSignInState    — after sign-in, reports whether the current user is
- *                       an admin (read via the user's own RLS-scoped client).
- *  - claimAdmin        — secure first-claim: grants the admin role to the
- *                       signed-in user ONLY when no admin exists yet. This
- *                       recovers accounts created before the
- *                       bootstrap_first_admin trigger was installed.
+ * This module backs the sign-in page:
+ *  - getAuthPageState — public, tells the sign-in page whether the first
+ *                      admin has been provisioned yet (gates the signup UI).
+ *  - getSignInState   — after sign-in, reports whether the current user is an
+ *                      admin (read via the user's own RLS-scoped client) and
+ *                      records a login audit event for admins.
+ *
+ * First-admin provisioning is handled entirely by the database
+ * `bootstrap_first_admin` trigger on auth.users — the very first signup is
+ * granted the admin role server-side. There is deliberately no client-facing
+ * "claim admin" RPC: a browser must never be able to grant itself the admin
+ * role. Once an admin exists, the `block_signup_after_admin` trigger closes
+ * public registration automatically.
  */
 
 export interface AuthPageState {
   adminExists: boolean;
 }
 
-/** Public: has any admin been provisioned? Drives whether signup is offered. */
+/** Public: has any admin been provisioned? Drives whether first-admin signup is offered. */
 export const getAuthPageState = createServerFn({ method: "POST" }).handler(
   async (): Promise<AuthPageState> => {
     try {
@@ -59,38 +63,19 @@ export const getSignInState = createServerFn({ method: "POST" })
       .eq("role", "admin")
       .maybeSingle();
     const claims = context.claims as { email?: string } | undefined;
-    return {
-      isAdmin: !!role,
-      email: claims?.email ?? null,
-    };
-  });
+    const isAdmin = !!role;
+    const email = claims?.email ?? null;
 
-/** Secure first-claim: grant admin to the signed-in user iff no admin exists. */
-export const claimAdmin = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .handler(async ({ context }): Promise<{ ok: true }> => {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-
-    // Re-check atomically: only the first claimant may become admin.
-    const { count, error: checkError } = await supabaseAdmin
-      .from("user_roles")
-      .select("*", { count: "exact", head: true })
-      .eq("role", "admin");
-    if (checkError) throw new Error("Could not verify admin state.");
-    if ((count ?? 0) > 0) {
-      throw new Error("An administrator already exists. Ask an admin to grant you access.");
+    // Record a login audit event for admins (fire-and-forget; never throws).
+    if (isAdmin) {
+      const { recordAudit } = await import("./admin-audit.server");
+      void recordAudit({
+        actorId: context.userId,
+        actorEmail: email,
+        action: "login",
+        entity: "auth",
+      });
     }
 
-    const { error: insertError } = await supabaseAdmin
-      .from("user_roles")
-      .insert({ user_id: context.userId, role: "admin" });
-    if (insertError) {
-      // Unique constraint race: another claimant just won.
-      if (insertError.code === "23505") {
-        throw new Error("An administrator already exists. Ask an admin to grant you access.");
-      }
-      throw new Error("Could not grant admin access.");
-    }
-
-    return { ok: true };
+    return { isAdmin, email };
   });

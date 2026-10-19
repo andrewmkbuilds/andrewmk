@@ -5,20 +5,26 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, ShieldCheck, LockKeyhole, LogOut } from "lucide-react";
-import {
-  getAuthPageState,
-  getSignInState,
-  claimAdmin,
-} from "@/lib/admin-auth.functions";
+import { Loader2, LockKeyhole, LogOut, ShieldAlert } from "lucide-react";
+import { getAuthPageState, getSignInState } from "@/lib/admin-auth.functions";
 
-type PostSignIn = "idle" | "can-claim" | "denied";
-
+/**
+ * Admin sign-in.
+ *
+ * Flow:
+ *  1. Email + password → supabase.auth.signInWithPassword.
+ *  2. If a verified TOTP factor exists, require the 6-digit code (AAL2).
+ *  3. Server-side getSignInState checks the admin role (RLS-scoped) and
+ *     redirects to /admin on success, or shows "access denied" otherwise.
+ *
+ * First-admin signup is offered only when no admin exists yet; the database
+ * bootstrap trigger grants the role on that first signup. There is no
+ * client-facing admin-grant RPC.
+ */
 export default function Auth() {
   const navigate = useNavigate();
   const fetchAuthState = useServerFn(getAuthPageState);
   const fetchSignInState = useServerFn(getSignInState);
-  const fetchClaimAdmin = useServerFn(claimAdmin);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,10 +33,10 @@ export default function Auth() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [adminExists, setAdminExists] = useState<boolean | null>(null);
-  const [postSignIn, setPostSignIn] = useState<PostSignIn>("idle");
+  const [denied, setDenied] = useState(false);
   const [signedInEmail, setSignedInEmail] = useState<string | null>(null);
 
-  // MFA
+  // MFA second factor
   const [mfa, setMfa] = useState<{ factorId: string } | null>(null);
   const [mfaCode, setMfaCode] = useState("");
 
@@ -40,9 +46,11 @@ export default function Auth() {
       .catch(() => setAdminExists(true));
   }, [fetchAuthState]);
 
-  const goToAdmin = useCallback(() => navigate({ to: "/admin/messages" }), [navigate]);
+  const goToAdmin = useCallback(() => navigate({ to: "/admin" }), [navigate]);
 
-  async function resolveSignInState() {
+  // After credentials are accepted (and any MFA cleared), verify the admin
+  // role server-side and route accordingly.
+  async function resolveSignIn() {
     setBusy(true);
     setError(null);
     try {
@@ -52,10 +60,7 @@ export default function Auth() {
         goToAdmin();
         return;
       }
-      // Not an admin. If no admin has been provisioned yet, this signed-in
-      // user may claim it (recovers accounts created before the bootstrap
-      // trigger). Otherwise access is denied.
-      setPostSignIn("can-claim");
+      setDenied(true);
       setBusy(false);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Could not verify your account.");
@@ -68,7 +73,7 @@ export default function Auth() {
     setBusy(true);
     setError(null);
     setNotice(null);
-    setPostSignIn("idle");
+    setDenied(false);
 
     if (mode === "signup") {
       const { error: signUpError } = await supabase.auth.signUp({
@@ -81,7 +86,9 @@ export default function Auth() {
         setError(signUpError.message);
         return;
       }
-      setNotice("Admin account created. The bootstrap trigger grants the admin role on signup. Sign in to continue.");
+      setNotice(
+        "Admin account created. The bootstrap trigger grants the admin role on signup. Sign in to continue.",
+      );
       setMode("signin");
       return;
     }
@@ -93,20 +100,20 @@ export default function Auth() {
       return;
     }
 
-    // Optional second factor
+    // If a verified second factor exists, require it before checking the role.
     const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
     if (aal && aal.nextLevel === "aal2" && aal.nextLevel !== aal.currentLevel) {
       const { data: factors } = await supabase.auth.mfa.listFactors();
       const factor = (factors?.totp ?? []).find((f) => f.status === "verified");
-      setBusy(false);
       if (factor) {
+        setBusy(false);
         setMfa({ factorId: factor.id });
         setNotice("Enter the 6-digit code from your authenticator app.");
         return;
       }
     }
 
-    await resolveSignInState();
+    await resolveSignIn();
   }
 
   async function onVerifyMfa(event: React.FormEvent<HTMLFormElement>) {
@@ -132,30 +139,12 @@ export default function Auth() {
       setError(verifyError.message);
       return;
     }
-    await resolveSignInState();
-  }
-
-  async function onClaimAdmin() {
-    setBusy(true);
-    setError(null);
-    try {
-      await fetchClaimAdmin();
-      goToAdmin();
-    } catch (e) {
-      // If an admin already exists, this user can't claim — show denied.
-      const msg = e instanceof Error ? e.message : "Could not grant admin access.";
-      if (/already exists/i.test(msg)) {
-        setPostSignIn("denied");
-      } else {
-        setError(msg);
-      }
-      setBusy(false);
-    }
+    await resolveSignIn();
   }
 
   async function onSignOut() {
     await supabase.auth.signOut();
-    setPostSignIn("idle");
+    setDenied(false);
     setSignedInEmail(null);
     setPassword("");
     setMfa(null);
@@ -201,41 +190,19 @@ export default function Auth() {
           </Button>
           <StatusLine notice={notice} error={error} />
         </form>
-      ) : postSignIn !== "idle" ? (
+      ) : denied ? (
         <div className="space-y-5">
-          {postSignIn === "can-claim" ? (
-            <>
-              <div className="rounded-xl border border-primary/30 bg-primary/5 p-5">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="h-5 w-5 text-primary" aria-hidden="true" />
-                  <p className="text-sm font-medium text-foreground">
-                    Signed in as {signedInEmail ?? "your account"}
-                  </p>
-                </div>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  No administrator has been set up on this site yet. You can claim admin access to
-                  manage content, projects and settings.
-                </p>
-              </div>
-              <Button
-                type="button"
-                disabled={busy}
-                onClick={onClaimAdmin}
-                className="w-full font-mono focus-ring"
-              >
-                {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
-                {busy ? "Granting access…" : "Claim admin access"}
-              </Button>
-            </>
-          ) : (
-            <div className="rounded-xl border border-destructive/40 bg-destructive/5 p-5">
+          <div className="rounded-xl border border-destructive/40 bg-destructive/5 p-5">
+            <div className="flex items-center gap-2">
+              <ShieldAlert className="h-5 w-5 text-destructive" aria-hidden="true" />
               <p className="text-sm font-medium text-foreground">Access denied</p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                An administrator already exists and your account doesn't have admin access. Ask an
-                admin to grant you the role, or sign in with an admin account.
-              </p>
             </div>
-          )}
+            <p className="mt-2 text-sm text-muted-foreground">
+              {signedInEmail ? `Signed in as ${signedInEmail}. ` : ""}
+              This account doesn't have admin access. An administrator must grant you the role, or
+              sign in with an admin account.
+            </p>
+          </div>
           <Button
             type="button"
             variant="ghost"
