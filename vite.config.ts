@@ -12,4 +12,19 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    // The Supabase publishable keys are public (browser-safe) but the platform
+    // secrets store delivers them as SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY
+    // (no VITE_ prefix). Vite only exposes VITE_-prefixed vars to the browser
+    // bundle, so inject the public keys here via define; the client falls back
+    // to process.env.SUPABASE_URL when import.meta.env.VITE_SUPABASE_URL is empty.
+    // The service-role key is intentionally NOT defined — it must never reach
+    // the browser.
+    define: {
+      "process.env.SUPABASE_URL": JSON.stringify(process.env.SUPABASE_URL ?? ""),
+      "process.env.SUPABASE_PUBLISHABLE_KEY": JSON.stringify(
+        process.env.SUPABASE_PUBLISHABLE_KEY ?? "",
+      ),
+    },
+  },
 });
