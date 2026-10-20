@@ -21,9 +21,9 @@ export default defineConfig({
     // The service-role key is intentionally NOT defined — it must never reach
     // the browser.
     define: {
-      "process.env.SUPABASE_URL": JSON.stringify(process.env.SUPABASE_URL ?? ""),
+      "process.env.SUPABASE_URL": JSON.stringify(process.env["SUPABASE_URL"] ?? ""),
       "process.env.SUPABASE_PUBLISHABLE_KEY": JSON.stringify(
-        process.env.SUPABASE_PUBLISHABLE_KEY ?? "",
+        process.env["SUPABASE_PUBLISHABLE_KEY"] ?? "",
       ),
     },
   },

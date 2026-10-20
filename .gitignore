@@ -30,3 +30,8 @@ dist-ssr
 
 # selection visual regression artifacts
 artifacts/
+
+# Build output — never commit (stale bundles)
+.output
+.wrangler
+.nitro

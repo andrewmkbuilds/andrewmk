@@ -6,7 +6,12 @@ import { SITE_NAME, SITE_URL, ogImagePath } from "@/data/seo";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: async ({ params }) => {
-    const post = await getPublishedPost({ data: { slug: params.slug } });
+    let post: Awaited<ReturnType<typeof getPublishedPost>> = null;
+    try {
+      post = await getPublishedPost({ data: { slug: params.slug } });
+    } catch {
+      post = null; // backend unavailable → treat as not found, never crash
+    }
     if (!post) throw notFound();
     return { post };
   },
