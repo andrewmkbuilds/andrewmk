@@ -61,9 +61,9 @@ export default function Auth() {
         return;
       }
       setDenied(true);
-      setBusy(false);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Could not verify your account.");
+    } finally {
       setBusy(false);
     }
   }
@@ -75,45 +75,48 @@ export default function Auth() {
     setNotice(null);
     setDenied(false);
 
-    if (mode === "signup") {
-      const { error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { emailRedirectTo: `${window.location.origin}/auth` },
-      });
-      setBusy(false);
-      if (signUpError) {
-        setError(signUpError.message);
+    try {
+      if (mode === "signup") {
+        const { error: signUpError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { emailRedirectTo: `${window.location.origin}/auth` },
+        });
+        if (signUpError) {
+          setError(signUpError.message);
+          return;
+        }
+        setNotice(
+          "Admin account created. The bootstrap trigger grants the admin role on signup. Sign in to continue.",
+        );
+        setMode("signin");
         return;
       }
-      setNotice(
-        "Admin account created. The bootstrap trigger grants the admin role on signup. Sign in to continue.",
-      );
-      setMode("signin");
-      return;
-    }
 
-    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-    if (signInError) {
-      setBusy(false);
-      setError(signInError.message);
-      return;
-    }
-
-    // If a verified second factor exists, require it before checking the role.
-    const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-    if (aal && aal.nextLevel === "aal2" && aal.nextLevel !== aal.currentLevel) {
-      const { data: factors } = await supabase.auth.mfa.listFactors();
-      const factor = (factors?.totp ?? []).find((f) => f.status === "verified");
-      if (factor) {
-        setBusy(false);
-        setMfa({ factorId: factor.id });
-        setNotice("Enter the 6-digit code from your authenticator app.");
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInError) {
+        setError(signInError.message);
         return;
       }
-    }
 
-    await resolveSignIn();
+      // If a verified second factor exists, require it before checking the role.
+      const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (aal && aal.nextLevel === "aal2" && aal.nextLevel !== aal.currentLevel) {
+        const { data: factors } = await supabase.auth.mfa.listFactors();
+        const factor = (factors?.totp ?? []).find((f) => f.status === "verified");
+        if (factor) {
+          setMfa({ factorId: factor.id });
+          setNotice("Enter the 6-digit code from your authenticator app.");
+          return;
+        }
+      }
+
+      await resolveSignIn();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Sign-in failed. Please try again.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function onVerifyMfa(event: React.FormEvent<HTMLFormElement>) {
@@ -122,24 +125,28 @@ export default function Auth() {
     setBusy(true);
     setError(null);
 
-    const challenge = await supabase.auth.mfa.challenge({ factorId: mfa.factorId });
-    if (challenge.error || !challenge.data) {
-      setBusy(false);
-      setError(challenge.error?.message ?? "Could not start the verification challenge.");
-      return;
-    }
+    try {
+      const challenge = await supabase.auth.mfa.challenge({ factorId: mfa.factorId });
+      if (challenge.error || !challenge.data) {
+        setError(challenge.error?.message ?? "Could not start the verification challenge.");
+        return;
+      }
 
-    const { error: verifyError } = await supabase.auth.mfa.verify({
-      factorId: mfa.factorId,
-      challengeId: challenge.data.id,
-      code: mfaCode.trim(),
-    });
-    setBusy(false);
-    if (verifyError) {
-      setError(verifyError.message);
-      return;
+      const { error: verifyError } = await supabase.auth.mfa.verify({
+        factorId: mfa.factorId,
+        challengeId: challenge.data.id,
+        code: mfaCode.trim(),
+      });
+      if (verifyError) {
+        setError(verifyError.message);
+        return;
+      }
+      await resolveSignIn();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Verification failed. Please try again.");
+    } finally {
+      setBusy(false);
     }
-    await resolveSignIn();
   }
 
   async function onSignOut() {
