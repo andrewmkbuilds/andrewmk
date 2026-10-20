@@ -38,7 +38,8 @@ function publicClient() {
     process.env["SUPABASE_PUBLISHABLE_KEY"] ??
     process.env["VITE_SUPABASE_PUBLISHABLE_KEY"] ??
     process.env["SUPABASE_ANON_KEY"];
-  if (!url || !key) throw new Error("Supabase public credentials are not configured.");
+  // No backend configured → public pages fall back to bundled content.
+  if (!url || !key) return null;
 
   return createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
@@ -55,7 +56,9 @@ function publicClient() {
 
 export const listPublishedPosts = createServerFn({ method: "GET" }).handler(
   async (): Promise<BlogPost[]> => {
-    const { data, error } = await publicClient()
+    const db = publicClient();
+    if (!db) return [];
+    const { data, error } = await db
       .from("blog_posts")
       .select(COLUMNS)
       .eq("published", true)
@@ -71,7 +74,9 @@ export const listPublishedPosts = createServerFn({ method: "GET" }).handler(
 export const getPublishedPost = createServerFn({ method: "GET" })
   .inputValidator((data: unknown) => z.object({ slug: z.string().min(1).max(160) }).parse(data))
   .handler(async ({ data }): Promise<BlogPost | null> => {
-    const { data: row, error } = await publicClient()
+    const db = publicClient();
+    if (!db) return null;
+    const { data: row, error } = await db
       .from("blog_posts")
       .select(COLUMNS)
       .eq("slug", data.slug)
