@@ -61,9 +61,9 @@ Quirks worth knowing:
   instead of erroring; nothing reads or writes those tables. Media uploads (`/admin/media`) still
   need a real Supabase Storage endpoint; the public site serves bundled assets.
 - **`schema.sh` fails loudly.** It runs `apply_all.sql` with `ON_ERROR_STOP=1`, so a migration that
-  cannot apply stops the `schema` job instead of scrolling past. The only remaining first-boot
-  error in the logs is GoTrue's own `select * from schema_migrations` before it creates that table
-  (`pop` bootstrap); it is expected and gone on the next `auth-migrate` run.
+  cannot apply stops the `schema` job instead of scrolling past. `00-roles.sql` pre-creates
+  GoTrue's empty `auth.schema_migrations` metadata table, avoiding its initial missing-table log
+  while GoTrue records its migrations normally.
 - **Navigation is a full document load.** The site's nav links are plain `<a href>`s (no client-side
   route transition), so each click re-renders the route server-side. Check a route with
   `curl -s http://localhost:3000/blog | grep -ao '<h1[^>]*>[^<]*'` or by opening the path directly;
