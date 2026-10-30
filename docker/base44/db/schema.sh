@@ -16,10 +16,10 @@ if [ "$(psql "$url" -tAc "SELECT to_regclass('public.blog_posts') IS NOT NULL")"
   exit 0
 fi
 
-# No Supabase Storage service runs in this stack, so the handful of
-# storage.objects policies in apply_all.sql fail with "relation does not exist".
-# psql continues past them; every app table, policy and seed row still applies.
-psql "$url" -f /sql/apply_all.sql
+# Stop on the first error: prelude.sql provides the auth helpers and the
+# storage-schema stub the migrations' storage policies need, so a clean run
+# should have none.
+psql "$url" -q -v ON_ERROR_STOP=1 -f /sql/apply_all.sql
 
 if [ "$(psql "$url" -tAc "SELECT to_regclass('public.blog_posts') IS NOT NULL")" != "t" ]; then
   echo "schema: apply_all.sql did not create the app tables" >&2

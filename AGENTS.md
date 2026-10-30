@@ -40,7 +40,7 @@ instead of a hosted project:
 | -------------- | ----------------------------------------------------------------------- |
 | `db`           | `postgres:16`; `docker/base44/db/init/00-roles.sql` creates the Supabase roles and the `auth` schema |
 | `auth-migrate` | one-shot `gotrue migrate` (creates `auth.users` and friends)             |
-| `schema`       | one-shot: `docker/base44/db/prelude.sql` (auth.uid/role/jwt helpers) then `supabase/apply_all.sql` |
+| `schema`       | one-shot: `docker/base44/db/prelude.sql` (auth.uid/role/jwt helpers, stub `storage` schema) then `supabase/apply_all.sql` |
 | `auth`         | GoTrue on 9999 (email + password, auto-confirmed, no SMTP)               |
 | `rest`         | PostgREST on 3000 with the `anon` role for publishable reads             |
 | `gateway`      | nginx on 8000, resolves the API containers per request via Docker DNS    |
@@ -56,10 +56,18 @@ Quirks worth knowing:
 - **`supabase/apply_all.sql` runs once per DB volume.** It is idempotent for the schema, but its
   `blog_posts` seed rows are plain `INSERT`s, so the job skips if `public.blog_posts` already
   exists. Use `down -v` to re-seed.
-- **No Storage service runs here**, so the four `storage.objects` policies in
-  `apply_all.sql` error out during setup (`schema "storage" does not exist`). psql keeps going and
-  every app table, policy and seed row still applies. Media uploads (`/admin/media`) therefore
+- **No Storage API runs here.** `docker/base44/db/prelude.sql` creates a stub `storage` schema
+  (`buckets`, `objects`) so the four `storage.objects` admin policies in `apply_all.sql` apply
+  instead of erroring; nothing reads or writes those tables. Media uploads (`/admin/media`) still
   need a real Supabase Storage endpoint; the public site serves bundled assets.
+- **`schema.sh` fails loudly.** It runs `apply_all.sql` with `ON_ERROR_STOP=1`, so a migration that
+  cannot apply stops the `schema` job instead of scrolling past. The only remaining first-boot
+  error in the logs is GoTrue's own `select * from schema_migrations` before it creates that table
+  (`pop` bootstrap); it is expected and gone on the next `auth-migrate` run.
+- **Navigation is a full document load.** The site's nav links are plain `<a href>`s (no client-side
+  route transition), so each click re-renders the route server-side. Check a route with
+  `curl -s http://localhost:3000/blog | grep -ao '<h1[^>]*>[^<]*'` or by opening the path directly;
+  a pushState-based SPA navigation helper will report the route as not rendered.
 - **Admin:** the first account created at `/auth` ("Create the first admin account") is promoted
   to `admin` by the `bootstrap_first_admin` trigger; later public signups are blocked by design.
 - **Contact form** writes to `contact_messages`. Email delivery additionally needs
