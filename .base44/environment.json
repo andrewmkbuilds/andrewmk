@@ -1,0 +1,22 @@
+{
+  "previewPort": 3000,
+  "healthPath": "/",
+  "startCommand": "docker compose -f docker-compose.base44.yml up -d",
+  "secrets": [
+    {
+      "name": "RESEND_API_KEY",
+      "description": "Optional. Resend API key so contact-form submissions are also emailed; without it messages are stored in Postgres only.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "CONTACT_TO_EMAIL",
+      "description": "Optional. Inbox that receives contact-form notifications when RESEND_API_KEY is set.",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "CONTACT_FROM_EMAIL",
+      "description": "Optional. From address for contact notifications (must be verified in Resend). Defaults to the Resend onboarding sender.",
+      "requiredAtBoot": false
+    }
+  ]
+}

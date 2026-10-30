@@ -1,0 +1,86 @@
+# AGENTS.md
+
+Notes for anyone (human or agent) running this repo inside the Base44 sandbox.
+
+## Start / stop
+
+```sh
+docker compose -f docker-compose.base44.yml up -d --build   # dev stack, live reload
+docker compose -f docker-compose.base44.yml ps              # health
+docker compose -f docker-compose.base44.yml down            # stop (keeps the DB volume)
+docker compose -f docker-compose.base44.yml down -v         # stop + wipe DB (re-applies schema)
+```
+
+- **Host port 3000** is the preview entry point: `vite dev` (TanStack Start, SSR) run from the
+  bind-mounted repo, so edits hot-reload. Verified: HMR logs `hmr update /src/styles.css`.
+- **Host port 8000** is the Supabase-compatible API gateway (`docker/base44/nginx.conf`):
+  `/rest/v1` → PostgREST, `/auth/v1` → GoTrue, with CORS for the preview origin.
+
+## Package manager
+
+`bun.lock` is the source of truth; the `web` service runs
+`bun install --frozen-lockfile` at container start (dependencies live in the bind-mounted
+`node_modules`, which is gitignored). `package-lock.json` is not used by the container.
+
+`bun run dev`'s `predev` step (sitemap + OG image generation via `bunx tsx`) is skipped in
+the container because it needs extra network fetches on every start; `public/sitemap.xml`
+and `public/og/` are committed. Run them on demand:
+
+```sh
+docker compose -f docker-compose.base44.yml exec -T web bunx tsx scripts/generate-sitemap.ts
+docker compose -f docker-compose.base44.yml exec -T web bunx tsx scripts/generate-og-images.ts
+```
+
+## Backend (self-hosted Supabase subset)
+
+The app talks to `@supabase/supabase-js`, so the sandbox runs Postgres + PostgREST + GoTrue
+instead of a hosted project:
+
+| service        | role                                                                    |
+| -------------- | ----------------------------------------------------------------------- |
+| `db`           | `postgres:16`; `docker/base44/db/init/00-roles.sql` creates the Supabase roles and the `auth` schema |
+| `auth-migrate` | one-shot `gotrue migrate` (creates `auth.users` and friends)             |
+| `schema`       | one-shot: `docker/base44/db/prelude.sql` (auth.uid/role/jwt helpers) then `supabase/apply_all.sql` |
+| `auth`         | GoTrue on 9999 (email + password, auto-confirmed, no SMTP)               |
+| `rest`         | PostgREST on 3000 with the `anon` role for publishable reads             |
+| `gateway`      | nginx on 8000, resolves the API containers per request via Docker DNS    |
+
+Quirks worth knowing:
+
+- **GoTrue config is half-unprefixed.** Both `gotrue migrate` and `gotrue serve` require
+  `API_EXTERNAL_URL` (no `GOTRUE_` prefix) while the DB/JWT keys are prefixed. Compose sets both.
+- **`auth` schema must exist before `gotrue migrate`**, because it migrates with
+  `search_path=auth` (created in `00-roles.sql`).
+- **Keys are local-only.** `docker/base44/jwt.mjs` mints `anon`/`service_role` JWTs at `web`
+  start from the dev JWT secret in the compose file. No real Supabase project is contacted.
+- **`supabase/apply_all.sql` runs once per DB volume.** It is idempotent for the schema, but its
+  `blog_posts` seed rows are plain `INSERT`s, so the job skips if `public.blog_posts` already
+  exists. Use `down -v` to re-seed.
+- **No Storage service runs here**, so the four `storage.objects` policies in
+  `apply_all.sql` error out during setup (`schema "storage" does not exist`). psql keeps going and
+  every app table, policy and seed row still applies. Media uploads (`/admin/media`) therefore
+  need a real Supabase Storage endpoint; the public site serves bundled assets.
+- **Admin:** the first account created at `/auth` ("Create the first admin account") is promoted
+  to `admin` by the `bootstrap_first_admin` trigger; later public signups are blocked by design.
+- **Contact form** writes to `contact_messages`. Email delivery additionally needs
+  `RESEND_API_KEY` + `CONTACT_TO_EMAIL` (optional, see `.base44/environment.json`); without them
+  the form reports "saved" and the row is stored only.
+
+## What to check after a change
+
+```sh
+curl -s -o /dev/null -w '%{http_code}\n' http://localhost:3000/           # 200 + real HTML
+curl -s 'http://localhost:8000/rest/v1/blog_posts?select=slug&limit=1'   # seeded rows
+curl -s http://localhost:8000/auth/v1/health                             # GoTrue up
+docker compose -f docker-compose.base44.yml logs web --tail 30           # build/runtime errors
+```
+
+Known non-blocking noise: the dev SSR pass logs a React hydration mismatch for the nav link's
+`active` class (client re-renders it), and TanStack warns that `inputValidator()` is deprecated.
+
+## Sandbox-only overrides
+
+`vite.config.ts` adds `server.allowedHosts` for the preview proxy host, gated on
+`BASE44_PREVIEW_MODE === "1"` plus `BASE44_SANDBOX_HOST_DOMAIN`; with the flag unset the config is
+unchanged and Vite's default localhost behaviour applies. The compose file passes
+`BASE44_PREVIEW_MODE` through from the platform unchanged.

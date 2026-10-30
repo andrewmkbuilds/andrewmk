@@ -6,6 +6,13 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+// Sandbox preview only: the preview proxy forwards the app under
+// <port>-<sandbox id>.<sandbox host domain>, which Vite's dev server rejects as
+// an unknown host unless it is allowlisted. Unset (normal development) leaves
+// Vite's default localhost behaviour untouched.
+const previewMode = process.env["BASE44_PREVIEW_MODE"] === "1";
+const sandboxHostDomain = process.env["BASE44_SANDBOX_HOST_DOMAIN"];
+
 export default defineConfig({
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
@@ -13,6 +20,9 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
+    ...(previewMode && sandboxHostDomain
+      ? { server: { allowedHosts: [`.${sandboxHostDomain}`] } }
+      : {}),
     // The Supabase publishable keys are public (browser-safe) but the platform
     // secrets store delivers them as SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY
     // (no VITE_ prefix). Vite only exposes VITE_-prefixed vars to the browser
