@@ -58,7 +58,7 @@ export default function Resume() {
                 className="pointer-events-none absolute inset-x-0 top-0 h-px divider-gold"
               />
               <p className="font-mono text-xs uppercase tracking-[0.22em] text-gold">Résumé</p>
-              <h1 className="mt-3 text-4xl font-bold leading-[1.05] text-foreground md:text-5xl">
+              <h1 className="headline-3d mt-3 text-4xl font-bold leading-[1.05] text-foreground md:text-5xl">
                 Andrew Mathews
               </h1>
               <p className="mt-3 text-lg text-primary">

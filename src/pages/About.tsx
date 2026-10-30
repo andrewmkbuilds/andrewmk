@@ -16,7 +16,7 @@ export default function About() {
                 <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
                   About
                 </p>
-                <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
+                <h1 className="headline-3d text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
                   I don't just learn technology. I apply it.
                 </h1>
               </Reveal>

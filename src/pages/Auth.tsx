@@ -161,7 +161,13 @@ export default function Auth() {
   const showSignup = adminExists === false;
 
   return (
-    <main className="mx-auto flex min-h-[80vh] w-full max-w-md flex-col justify-center px-6 py-20">
+    <main className="relative isolate mx-auto flex min-h-[80vh] w-full max-w-md flex-col justify-center px-6 py-20">
+      {/* ambient key light behind the sign-in surface */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-24 left-1/2 -z-10 h-72 w-[130%] -translate-x-1/2 rounded-full bg-primary/12 blur-[100px]"
+      />
+      <div className="glass rounded-2xl p-6 shadow-[var(--elev-3)] md:p-8">
       <div className="mb-8 flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-primary/30 bg-primary/5">
           <LockKeyhole className="h-5 w-5 text-primary" aria-hidden="true" />
@@ -268,6 +274,7 @@ export default function Auth() {
           <StatusLine notice={notice} error={error} />
         </form>
       )}
+      </div>
     </main>
   );
 }

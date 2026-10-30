@@ -86,6 +86,25 @@ docker run --rm -v "$PWD:/w" -w /w python:3.12-slim \
   python .claude/skills/ui-ux-pro-max/scripts/search.py "<query>" --domain style
 ```
 
+## UI depth system
+
+The visual language is built around one physical space rather than flat panels:
+
+- `src/components/ui/AmbientLayers.tsx` mounts once in `Layout` (fixed, `-z-10`,
+  `aria-hidden`) and supplies the shared environment: atmospheric wash → drifting
+  aurora light → perspective floor → vignette. Sections with their own background sit
+  on top of it.
+- `src/components/ui/Parallax.tsx` is the only scroll-parallax primitive (transform
+  only, spring-smoothed). It is disabled under `prefers-reduced-motion` and halved
+  below 768px.
+- `src/styles.css` owns the tokens and utilities: `--elev-1..3` elevation ladder,
+  `--ease-out-expo` / `--dur-*` motion scale, `.glass`, `.headline-3d`,
+  `.headline-3d-gold`, `.aurora*`, `.depth-floor`, `.sheen`.
+- `Tilt3D` publishes `--mx` / `--my`; pass `glare` to render the `.sheen` light that
+  follows the pointer (desktop pointers only).
+- `SectionHeading` and every page `<h1>` use the dimensional heading utilities, so
+  new pages inherit the type treatment by reusing those, not by adding new shadows.
+
 ## What to check after a change
 
 ```sh

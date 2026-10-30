@@ -46,7 +46,7 @@ export default function AdminShell({ title, description, actions, children }: Ad
 
       <header className="mt-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-display text-2xl text-foreground md:text-3xl">{title}</h1>
+          <h1 className="headline-3d text-display text-2xl text-foreground md:text-3xl">{title}</h1>
           {description ? (
             <p className="mt-2 max-w-2xl text-sm text-muted-foreground">{description}</p>
           ) : null}

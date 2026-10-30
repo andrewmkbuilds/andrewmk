@@ -8,6 +8,7 @@ import { Reveal, RevealWords } from "@/components/ui/Reveal";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { SystemGraph } from "@/components/ui/SystemGraph";
 import { Tilt3D } from "@/components/ui/Tilt3D";
+import { Parallax } from "@/components/ui/Parallax";
 import { TechConstellation } from "@/components/ui/TechConstellation";
 import { motion } from "motion/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -53,20 +54,26 @@ export default function Home() {
 
   return (
     <Layout>
-      {/* Hero */}
+      {/* Hero — three depth layers: atmosphere, structure, content */}
       <section className="relative overflow-hidden bg-hero-veil grain">
-        <div className="absolute inset-0 bg-grid" aria-hidden="true" />
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2 }}
-          className="pointer-events-none absolute -top-40 left-1/2 h-[460px] w-[820px] -translate-x-1/2 rounded-full bg-primary/10 blur-[130px]"
-          aria-hidden="true"
-        />
-        <div
-          className="pointer-events-none absolute bottom-0 right-0 h-[320px] w-[420px] rounded-full bg-primary-glow/[0.07] blur-[120px]"
-          aria-hidden="true"
-        />
+        <Parallax distance={44} ariaHidden className="absolute inset-0">
+          <div className="absolute inset-0 bg-grid" aria-hidden="true" />
+        </Parallax>
+        <Parallax distance={72} ariaHidden className="pointer-events-none absolute -top-40 left-1/2 h-[460px] w-[820px]">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2 }}
+            className="-translate-x-1/2 h-full w-full rounded-full bg-primary/12 blur-[130px]"
+            aria-hidden="true"
+          />
+        </Parallax>
+        <Parallax distance={-34} ariaHidden className="pointer-events-none absolute bottom-0 right-0 h-[320px] w-[420px]">
+          <div
+            className="h-full w-full rounded-full bg-primary-glow/[0.09] blur-[120px]"
+            aria-hidden="true"
+          />
+        </Parallax>
 
         <div className="container relative grid items-center gap-14 py-24 md:py-32 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:gap-10 lg:py-40">
           <div className="max-w-2xl">
@@ -80,7 +87,7 @@ export default function Home() {
               <span className="font-mono text-xs text-foreground">Currently Building</span>
             </motion.div>
 
-            <h1 className="text-display text-[2.6rem] leading-[1.02] text-balance text-foreground sm:text-5xl md:text-6xl lg:text-[4.25rem]">
+            <h1 className="headline-3d text-display text-[2.6rem] leading-[1.02] text-balance text-foreground sm:text-5xl md:text-6xl lg:text-[4.25rem]">
               {/* Real page heading for search engines and screen readers; the
                   animated tagline below stays exactly as designed. */}
               <span className="sr-only">
@@ -88,7 +95,7 @@ export default function Home() {
               </span>
               <span aria-hidden="true">
                 <RevealWords text="I build systems that solve" delay={0.15} />{" "}
-                <span className="relative inline-block text-primary">
+                <span className="headline-3d-gold relative inline-block text-primary">
                   <RevealWords text="real problems." delay={0.42} />
                 </span>
                 <TypingCursor />
@@ -154,24 +161,37 @@ export default function Home() {
             transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="relative -mx-2 h-[320px] sm:h-[380px] lg:h-[520px]"
           >
-            <Tilt3D className="h-full w-full" intensity={7}>
-              {/* layered depth plates behind the graph */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-6 rounded-3xl border border-border/50 bg-card/20 backdrop-blur-[1px]"
-                style={{ transform: "translateZ(-60px)" }}
-              />
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-12 rounded-3xl border border-primary/15"
-                style={{ transform: "translateZ(-28px)" }}
-              />
-              <div style={{ transform: "translateZ(40px)" }} className="h-full w-full">
-                <SystemGraph className="h-full w-full" />
-              </div>
-            </Tilt3D>
+            <Parallax distance={-22} className="h-full w-full">
+              <Tilt3D className="h-full w-full" intensity={7} glare>
+                {/* layered depth plates behind the graph */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-6 rounded-3xl border border-border/50 bg-card/20 backdrop-blur-[1px]"
+                  style={{ transform: "translateZ(-60px)" }}
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-12 rounded-3xl border border-primary/15"
+                  style={{ transform: "translateZ(-28px)" }}
+                />
+                <div style={{ transform: "translateZ(40px)" }} className="h-full w-full">
+                  <SystemGraph className="h-full w-full" />
+                </div>
+              </Tilt3D>
+            </Parallax>
           </motion.div>
 
+        </div>
+
+        {/* scroll indicator — part of the hero's depth language */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-5 hidden justify-center md:flex"
+        >
+          <span className="scroll-cue flex flex-col items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+            Scroll
+            <span className="h-8 w-px bg-linear-to-b from-gold/70 to-transparent" />
+          </span>
         </div>
       </section>
 
@@ -180,7 +200,9 @@ export default function Home() {
         <div className="container grid grid-cols-2 gap-8 py-12 md:grid-cols-4">
           {quickStats.map((stat, i) => (
             <Reveal key={stat.label} delay={i * 70}>
-              <p className="text-display text-3xl text-foreground md:text-4xl">{stat.value}</p>
+              <p className="headline-3d text-display text-3xl text-foreground md:text-4xl">
+                {stat.value}
+              </p>
               <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
                 {stat.label}
               </p>

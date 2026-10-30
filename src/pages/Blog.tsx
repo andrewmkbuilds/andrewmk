@@ -43,7 +43,7 @@ export default function Blog({ posts }: { posts: BlogPost[] }) {
               <span aria-hidden="true" className="hairline-gold inline-block w-8" />
               Writing
             </p>
-            <h1 className="text-display text-4xl text-balance text-foreground md:text-5xl">
+            <h1 className="headline-3d text-display text-4xl text-balance text-foreground md:text-5xl">
               Notes from the build log
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">

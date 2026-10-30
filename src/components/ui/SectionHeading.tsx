@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Reveal } from "./Reveal";
+import { Parallax } from "./Parallax";
 
 interface SectionHeadingProps {
   label?: string;
@@ -19,18 +20,29 @@ export function SectionHeading({
   return (
     <Reveal
       className={cn(
-        "max-w-3xl mb-10 md:mb-14",
+        "relative max-w-3xl mb-10 md:mb-14",
         align === "center" && "mx-auto text-center",
         className,
       )}
     >
+      {/* ambient light behind the heading — the midground of each section */}
+      <Parallax
+        distance={16}
+        ariaHidden
+        className={cn(
+          "pointer-events-none absolute -top-14 -z-10 h-44 w-64",
+          align === "center" ? "left-1/2 -translate-x-1/2" : "-left-8",
+        )}
+      >
+        <div className="h-full w-full rounded-full bg-gold/[0.07] blur-[70px]" />
+      </Parallax>
       {label && (
         <p className="mb-4 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-gold">
           <span aria-hidden="true" className="hairline-gold inline-block w-8" />
           {label}
         </p>
       )}
-      <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-semibold text-foreground leading-[1.1] text-balance">
+      <h2 className="headline-3d text-3xl md:text-4xl lg:text-[2.75rem] font-semibold text-foreground leading-[1.1] text-balance">
         {title}
       </h2>
       {subtitle && (

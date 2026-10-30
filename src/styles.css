@@ -431,7 +431,11 @@
   }
 
   .shadow-card {
-    box-shadow: 0 1px 0 color-mix(in hsl, var(--foreground) 4%, transparent) inset, 0 12px 30px -18px hsl(220 45% 2% / 0.9);
+    box-shadow:
+      0 1px 0 color-mix(in hsl, var(--foreground) 7%, transparent) inset,
+      0 -1px 0 hsl(220 45% 2% / 0.4) inset,
+      0 2px 4px -2px hsl(220 45% 2% / 0.55),
+      0 18px 36px -22px hsl(220 45% 2% / 0.9);
   }
 
   .shadow-glow {
@@ -695,8 +699,10 @@
     var(--card);
   border: 1px solid var(--border);
   box-shadow:
-    inset 0 1px 0 color-mix(in oklab, var(--foreground) 6%, transparent),
-    0 24px 50px -32px hsl(220 60% 2% / 0.95);
+    inset 0 1px 0 color-mix(in oklab, var(--foreground) 7%, transparent),
+    inset 0 -1px 0 hsl(220 60% 2% / 0.45),
+    0 2px 4px -2px hsl(220 60% 2% / 0.6),
+    0 26px 54px -34px hsl(220 60% 2% / 0.95);
 }
 
 /* Pointer-tracked spotlight; requires --mx/--my set on the element */
@@ -924,4 +930,260 @@
     color-mix(in oklab, var(--gold) 70%, transparent),
     transparent
   );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DEPTH SYSTEM — one physical space for the whole site.
+
+   Every surface shares a single virtual light (key light top-left, rim from
+   the brand accent) and a single motion scale, so cards, navigation, forms
+   and the footer read as objects inside the same environment rather than
+   flat panels. Elevation communicates hierarchy:
+     --elev-1  resting surface        --elev-2  interactive / raised
+     --elev-3  floating (nav, modals)
+   Motion is transform/opacity only and fully neutralised under
+   prefers-reduced-motion.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Motion scale — subtle (UI), standard (entrance), expressive (hero) */
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-subtle: 180ms;
+  --dur-standard: 340ms;
+  --dur-expressive: 620ms;
+
+  /* Virtual light */
+  --light-key: color-mix(in oklab, var(--foreground) 9%, transparent);
+
+  /* Elevation ladder */
+  --elev-1:
+    inset 0 1px 0 color-mix(in oklab, var(--foreground) 6%, transparent),
+    0 2px 4px -2px hsl(220 60% 2% / 0.55),
+    0 10px 24px -18px hsl(220 60% 2% / 0.9);
+  --elev-2:
+    inset 0 1px 0 color-mix(in oklab, var(--foreground) 8%, transparent),
+    0 3px 6px -3px hsl(220 60% 2% / 0.6),
+    0 18px 40px -26px hsl(220 60% 2% / 0.95);
+  --elev-3:
+    inset 0 1px 0 color-mix(in oklab, var(--foreground) 9%, transparent),
+    inset 0 -1px 0 hsl(220 60% 2% / 0.45),
+    0 30px 64px -34px hsl(220 60% 2% / 1);
+
+  /* Glass fill — layered translucency, lit from the top-left */
+  --glass-fill: linear-gradient(
+    150deg,
+    color-mix(in oklab, var(--foreground) 8%, transparent),
+    color-mix(in oklab, var(--card) 58%, transparent) 46%,
+    color-mix(in oklab, var(--background) 84%, transparent)
+  );
+}
+
+@keyframes aurora-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(3%, -4%, 0) scale(1.12);
+  }
+}
+
+@keyframes aurora-drift-alt {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.06);
+  }
+  50% {
+    transform: translate3d(-5%, 3%, 0) scale(0.94);
+  }
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes cue-nudge {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  /* Glass surface — sits above the ambient field without hiding it. */
+  .glass {
+    background: var(--glass-fill);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    backdrop-filter: blur(18px) saturate(150%);
+    border: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
+    box-shadow:
+      var(--elev-2),
+      inset 0 1px 0 var(--light-key),
+      inset 0 -1px 0 hsl(220 60% 2% / 0.5);
+  }
+
+  .depth-1 {
+    box-shadow: var(--elev-1);
+  }
+  .depth-2 {
+    box-shadow: var(--elev-2);
+  }
+  .depth-3 {
+    box-shadow: var(--elev-3);
+  }
+
+  /* Dimensional display type: a lit top edge plus an atmospheric shadow.
+     Shadow only — the ink colour is untouched, so contrast is preserved. */
+  .headline-3d {
+    text-shadow:
+      0 1px 0 color-mix(in oklab, var(--foreground) 5%, transparent),
+      0 14px 38px hsl(220 70% 2% / 0.72);
+  }
+
+  .headline-3d-gold {
+    text-shadow:
+      0 1px 0 color-mix(in oklab, var(--gold) 20%, transparent),
+      0 14px 40px hsl(220 70% 2% / 0.68),
+      0 0 34px color-mix(in oklab, var(--gold) 16%, transparent);
+  }
+
+  /* Ambient aurora light — the midground of the depth environment. */
+  .aurora {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(90px);
+    opacity: 0.5;
+    pointer-events: none;
+    will-change: transform;
+    animation: aurora-drift 26s var(--ease-out-expo) infinite;
+  }
+
+  .aurora-1 {
+    top: -20%;
+    left: -10%;
+    width: 54vw;
+    height: 48vh;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--primary) 26%, transparent),
+      transparent 70%
+    );
+  }
+
+  .aurora-2 {
+    top: 4%;
+    right: -16%;
+    width: 46vw;
+    height: 46vh;
+    opacity: 0.34;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--gold) 20%, transparent),
+      transparent 70%
+    );
+    animation-name: aurora-drift-alt;
+    animation-duration: 34s;
+  }
+
+  .aurora-3 {
+    bottom: -24%;
+    left: 26%;
+    width: 58vw;
+    height: 42vh;
+    opacity: 0.28;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--primary-glow) 18%, transparent),
+      transparent 70%
+    );
+    animation-duration: 42s;
+  }
+
+  /* Perspective floor — the deepest layer, giving the page a horizon. */
+  .depth-floor {
+    background-image:
+      linear-gradient(
+        color-mix(in oklab, var(--primary) 40%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in oklab, var(--primary) 40%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 76px 76px;
+    transform: perspective(520px) rotateX(72deg);
+    transform-origin: bottom center;
+    opacity: 0.16;
+    -webkit-mask-image: linear-gradient(to top, black, transparent 78%);
+    mask-image: linear-gradient(to top, black, transparent 78%);
+  }
+
+  /* Cursor-tracked sheen: the key light gliding across a surface.
+     Requires --mx / --my (set by Tilt3D) and a hovered .group ancestor. */
+  .sheen {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--dur-standard) var(--ease-out-expo);
+    background:
+      radial-gradient(
+        240px circle at var(--mx, 50%) var(--my, 0%),
+        color-mix(in oklab, var(--foreground) 14%, transparent),
+        transparent 62%
+      ),
+      radial-gradient(
+        420px circle at var(--mx, 50%) var(--my, 0%),
+        color-mix(in oklab, var(--fx) 10%, transparent),
+        transparent 72%
+      );
+    mix-blend-mode: soft-light;
+  }
+
+  .group:hover .sheen,
+  .group:focus-within .sheen {
+    opacity: 1;
+  }
+
+  .scroll-cue {
+    animation: cue-nudge 2.6s var(--ease-out-expo) infinite;
+  }
+
+  .float-soft {
+    animation: float-soft 9s var(--ease-out-expo) infinite;
+  }
+
+  /* Mobile: lighter environment — fewer blobs, tighter blur, no floor. */
+  @media (max-width: 767px) {
+    .aurora {
+      filter: blur(64px);
+    }
+    .aurora-3 {
+      display: none;
+    }
+    .depth-floor {
+      opacity: 0.1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora,
+    .scroll-cue,
+    .float-soft {
+      animation: none !important;
+    }
+  }
 }

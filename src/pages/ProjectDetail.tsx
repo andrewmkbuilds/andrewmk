@@ -49,7 +49,7 @@ export default function ProjectDetail({ project, catalogue }: ProjectDetailProps
                 <span aria-hidden="true" className="hairline-gold inline-block w-8" />
                 {project.category}
               </p>
-              <h1 className="text-display mt-4 text-4xl text-balance text-foreground md:text-6xl">
+              <h1 className="headline-3d text-display mt-4 text-4xl text-balance text-foreground md:text-6xl">
                 {project.name}
               </h1>
               <p className="mt-5 text-base leading-relaxed text-muted-foreground md:text-lg">

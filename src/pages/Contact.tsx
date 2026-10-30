@@ -14,7 +14,7 @@ export default function Contact() {
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
               Contact
             </p>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
+            <h1 className="headline-3d text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
               Get in Touch
             </h1>
             <p className="mt-4 text-lg text-muted-foreground leading-relaxed">

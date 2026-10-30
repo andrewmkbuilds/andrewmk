@@ -14,7 +14,7 @@ export default function Journey() {
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
               Journey
             </p>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
+            <h1 className="headline-3d text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
               The Journey
             </h1>
             <p className="mt-4 text-lg text-muted-foreground leading-relaxed">

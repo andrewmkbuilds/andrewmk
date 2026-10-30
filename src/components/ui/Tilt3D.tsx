@@ -9,14 +9,25 @@ interface Tilt3DProps {
   intensity?: number;
   /** Perspective depth in px. */
   perspective?: number;
+  /** Light gliding across the surface as the pointer moves. */
+  glare?: boolean;
 }
 
 /**
  * Pointer-driven 3D tilt wrapper.
  * Desktop mouse only: touch pointers, coarse pointers and reduced-motion users
  * get a plain static container so nothing feels laggy or gimmicky on mobile.
+ *
+ * Also publishes `--mx` / `--my` (pointer position within the element) so a
+ * `.sheen` child can carry the key light across the surface.
  */
-export function Tilt3D({ children, className, intensity = 6, perspective = 1100 }: Tilt3DProps) {
+export function Tilt3D({
+  children,
+  className,
+  intensity = 6,
+  perspective = 1100,
+  glare = false,
+}: Tilt3DProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
 
@@ -28,10 +39,13 @@ export function Tilt3D({ children, className, intensity = 6, perspective = 1100 
 
   const handleMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (reduce || e.pointerType !== "mouse") return;
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
+    const el = ref.current;
+    const rect = el?.getBoundingClientRect();
+    if (!el || !rect) return;
     px.set((e.clientX - rect.left) / rect.width);
     py.set((e.clientY - rect.top) / rect.height);
+    el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+    el.style.setProperty("--my", `${e.clientY - rect.top}px`);
   };
 
   const reset = () => {
@@ -49,8 +63,9 @@ export function Tilt3D({ children, className, intensity = 6, perspective = 1100 
           ? {}
           : { rotateX, rotateY, transformPerspective: perspective, transformStyle: "preserve-3d" }
       }
-      className={cn("relative", className)}
+      className={cn("group relative", className)}
     >
+      {glare && <span aria-hidden="true" className="sheen" />}
       {children}
     </motion.div>
   );
