@@ -74,6 +74,18 @@ Quirks worth knowing:
   `RESEND_API_KEY` + `CONTACT_TO_EMAIL` (optional, see `.base44/environment.json`); without them
   the form reports "saved" and the row is stored only.
 
+## Skills
+
+`.claude/skills/ui-ux-pro-max/` holds the UI/UX Pro Max skill (MIT, v2.15.0, `uupm.cc`): a local
+CSV design database plus a stdlib-only Python search tool. Query it from the repo root, e.g.
+`python .claude/skills/ui-ux-pro-max/scripts/search.py "portfolio dark minimal" --design-system`
+or `... "focus ring" --domain ux`. The sandbox host has no Python, so run it in a container:
+
+```sh
+docker run --rm -v "$PWD:/w" -w /w python:3.12-slim \
+  python .claude/skills/ui-ux-pro-max/scripts/search.py "<query>" --domain style
+```
+
 ## What to check after a change
 
 ```sh
