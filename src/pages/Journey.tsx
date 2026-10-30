@@ -15,15 +15,21 @@ export default function Journey() {
               Journey
             </p>
             <h1 className="headline-3d text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
-              The Journey
+              The{" "}
+              <em className="serif-display mark-underline italic text-gold">
+                Journey
+              </em>
             </h1>
             <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-              From a first robotics certification at age 9 to a growing ecosystem of products,
-              experiments, and competitions.
+              From a first robotics certification at age 9 to a growing
+              ecosystem of products, experiments, and competitions.
             </p>
           </Reveal>
 
-          <Reveal delay={80} className="mt-10 flex flex-wrap items-center gap-3">
+          <Reveal
+            delay={80}
+            className="mt-10 flex flex-wrap items-center gap-3"
+          >
             {flow.map((step, i) => (
               <span key={step} className="flex items-center gap-3">
                 <span className="rounded-full border border-border bg-card px-4 py-2 font-mono text-xs text-foreground">

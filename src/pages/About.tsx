@@ -17,31 +17,38 @@ export default function About() {
                   About
                 </p>
                 <h1 className="headline-3d text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
-                  I don't just learn technology. I apply it.
+                  I don&rsquo;t just learn technology. I{" "}
+                  <em className="serif-display mark-underline italic text-gold">
+                    apply
+                  </em>{" "}
+                  it.
                 </h1>
               </Reveal>
 
               <div className="mt-8 space-y-6">
                 <Reveal delay={60}>
                   <p className="text-lg text-foreground leading-relaxed">
-                    I'm a student, builder, and systems thinker based in Dubai. I work across
-                    artificial intelligence, software development, robotics, product design, and
-                    engineering competitions.
+                    I'm a student, builder, and systems thinker based in Dubai.
+                    I work across artificial intelligence, software development,
+                    robotics, product design, and engineering competitions.
                   </p>
                 </Reveal>
                 <Reveal delay={120}>
                   <p className="text-muted-foreground leading-relaxed">
-                    I started building with robotics at age 9 through the Mbot@IHS programme. That
-                    experience gave me the initial instinct to build things physically. From there,
-                    I moved deeper into software, AI, computer vision, and product development.
+                    I started building with robotics at age 9 through the
+                    Mbot@IHS programme. That experience gave me the initial
+                    instinct to build things physically. From there, I moved
+                    deeper into software, AI, computer vision, and product
+                    development.
                   </p>
                 </Reveal>
                 <Reveal delay={180}>
                   <p className="text-muted-foreground leading-relaxed">
-                    Today, I build everything from small Python experiments to full product systems
-                    such as Gradr, TerraCart, and ClientFlow OS. I also compete in STEM and
-                    engineering challenges, participate in MUNs, work on F1 in Schools / STEM
-                    Racing, and showcase projects through exhibitions.
+                    Today, I build everything from small Python experiments to
+                    full product systems such as Gradr, TerraCart, and
+                    ClientFlow OS. I also compete in STEM and engineering
+                    challenges, participate in MUNs, work on F1 in Schools /
+                    STEM Racing, and showcase projects through exhibitions.
                   </p>
                 </Reveal>
               </div>
@@ -55,17 +62,23 @@ export default function About() {
                   </h2>
                   <dl className="mt-4 space-y-3 text-sm">
                     <div>
-                      <dt className="font-mono text-xs text-muted-foreground">Identity</dt>
+                      <dt className="font-mono text-xs text-muted-foreground">
+                        Identity
+                      </dt>
                       <dd className="text-foreground">
                         Student · Developer · AI Builder · Systems Thinker
                       </dd>
                     </div>
                     <div>
-                      <dt className="font-mono text-xs text-muted-foreground">Location</dt>
+                      <dt className="font-mono text-xs text-muted-foreground">
+                        Location
+                      </dt>
                       <dd className="text-foreground">Dubai, UAE</dd>
                     </div>
                     <div>
-                      <dt className="font-mono text-xs text-muted-foreground">Started building</dt>
+                      <dt className="font-mono text-xs text-muted-foreground">
+                        Started building
+                      </dt>
                       <dd className="text-foreground">Age 9 · 2022</dd>
                     </div>
                   </dl>
@@ -106,7 +119,6 @@ export default function About() {
                               </span>
                             </span>
                           </a>
-
                         </li>
                       );
                     })}
@@ -125,11 +137,15 @@ export default function About() {
             {principles.map((p, i) => (
               <Reveal key={p.title} delay={i * 70} className="h-full">
                 <div className="group h-full rounded-xl border border-border bg-card p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 motion-reduce:hover:translate-y-0">
-                  <span className="font-mono text-xs text-primary">0{i + 1}</span>
+                  <span className="font-mono text-xs text-primary">
+                    0{i + 1}
+                  </span>
                   <h3 className="mt-3 text-xl font-semibold text-foreground transition-colors group-hover:text-gold">
                     {p.title}
                   </h3>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{p.body}</p>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                    {p.body}
+                  </p>
                 </div>
               </Reveal>
             ))}
@@ -144,7 +160,9 @@ export default function About() {
             {buildingCategories.map((cat, i) => (
               <Reveal key={cat.title} delay={i * 60} className="h-full">
                 <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-gold/40">
-                  <h3 className="text-lg font-semibold text-foreground">{cat.title}</h3>
+                  <h3 className="text-lg font-semibold text-foreground">
+                    {cat.title}
+                  </h3>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {cat.items.map((item) => (
                       <TechTag key={item}>{item}</TechTag>

@@ -4,10 +4,28 @@ import { Parallax } from "./Parallax";
 
 interface SectionHeadingProps {
   label?: string;
+  /** Wrap a word in *asterisks* to set it in the gold editorial serif. */
   title: string;
   subtitle?: string;
   className?: string;
   align?: "left" | "center";
+}
+
+/** Splits "*word*" markers out of a heading into emphasised serif runs. */
+function renderTitle(title: string) {
+  return title.split(/(\*[^*]+\*)/g).map((part, i) => {
+    if (part.length > 2 && part.startsWith("*") && part.endsWith("*")) {
+      return (
+        <em
+          key={i}
+          className="serif-display mark-underline text-[1.06em] text-gold not-italic"
+        >
+          {part.slice(1, -1)}
+        </em>
+      );
+    }
+    return <span key={i}>{part}</span>;
+  });
 }
 
 export function SectionHeading({
@@ -43,7 +61,7 @@ export function SectionHeading({
         </p>
       )}
       <h2 className="headline-3d text-3xl md:text-4xl lg:text-[2.75rem] font-semibold text-foreground leading-[1.1] text-balance">
-        {title}
+        {renderTitle(title)}
       </h2>
       {subtitle && (
         <p className="mt-4 text-base md:text-lg text-muted-foreground leading-relaxed">

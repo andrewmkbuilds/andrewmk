@@ -5,7 +5,11 @@ import { Reveal } from "@/components/ui/Reveal";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { ProjectModal } from "@/components/ui/ProjectModal";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
-import { ecosystemProjects, featuredProjects, type Project } from "@/data/portfolio";
+import {
+  ecosystemProjects,
+  featuredProjects,
+  type Project,
+} from "@/data/portfolio";
 
 interface ProjectsProps {
   /** Supplied by the route loader from the content dashboard; falls back to the built-in data. */
@@ -34,7 +38,10 @@ export default function Projects({
               Projects
             </p>
             <h1 className="headline-3d text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
-              Things I've Built
+              Things I&rsquo;ve{" "}
+              <em className="serif-display mark-underline italic text-gold">
+                Built
+              </em>
             </h1>
             <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
               Different problems. Different systems. One constant: build it.
@@ -67,7 +74,8 @@ export default function Projects({
           />
           <ProjectGrid projects={ecosystem} />
           <Reveal className="mt-10 font-mono text-sm text-muted-foreground">
-            <span className="text-primary">//</span> More systems in development.
+            <span className="text-primary">//</span> More systems in
+            development.
           </Reveal>
         </div>
       </section>

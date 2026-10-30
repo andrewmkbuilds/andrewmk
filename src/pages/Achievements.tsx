@@ -31,17 +31,22 @@ export default function Achievements() {
               Achievements
             </p>
             <h1 className="headline-3d text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
-              Competitions, Recognition, and Results
+              Competitions, Recognition, and{" "}
+              <em className="serif-display mark-underline italic text-gold">
+                Results
+              </em>
             </h1>
             <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-              STEM, engineering, robotics, and MUN — the places where the work gets tested against
-              other people's work.
+              STEM, engineering, robotics, and MUN — the places where the work
+              gets tested against other people's work.
             </p>
           </Reveal>
 
           {achievementGroups.map((group) => (
             <Reveal key={group.title} className="mt-14">
-              <h2 className="text-2xl font-semibold text-foreground">{group.title}</h2>
+              <h2 className="text-2xl font-semibold text-foreground">
+                {group.title}
+              </h2>
               <div className="mt-5 flex flex-wrap gap-2">
                 {group.items.map((item) => (
                   <TechTag key={item}>{item}</TechTag>
@@ -57,12 +62,18 @@ export default function Achievements() {
           <SectionHeading label="Results" title="Competitions" />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {competitionResults.map((result, i) => (
-              <Reveal key={`${result.place}-${result.detail}`} delay={i * 60} className="h-full">
+              <Reveal
+                key={`${result.place}-${result.detail}`}
+                delay={i * 60}
+                className="h-full"
+              >
                 <AchievementCard
                   {...result}
                   className="h-full"
                   onViewProof={
-                    certById(result.certKey) ? () => setProof(certById(result.certKey)!) : undefined
+                    certById(result.certKey)
+                      ? () => setProof(certById(result.certKey)!)
+                      : undefined
                   }
                 />
               </Reveal>
@@ -78,9 +89,13 @@ export default function Achievements() {
             {munResults.map((mun, i) => (
               <Reveal key={mun.title} delay={i * 60} className="h-full">
                 <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-gold/40">
-                  <h3 className="text-lg font-semibold text-foreground">{mun.title}</h3>
+                  <h3 className="text-lg font-semibold text-foreground">
+                    {mun.title}
+                  </h3>
                   {mun.detail && (
-                    <p className="mt-2 font-mono text-sm text-primary">{mun.detail}</p>
+                    <p className="mt-2 font-mono text-sm text-primary">
+                      {mun.detail}
+                    </p>
                   )}
                   {certById(mun.certKey) && (
                     <button
@@ -113,7 +128,9 @@ export default function Achievements() {
                 <span className="rounded-lg border border-primary/30 bg-background px-5 py-3 font-mono text-sm text-foreground">
                   {step}
                 </span>
-                {i < exhibitionLoop.length - 1 && <span className="text-primary">→</span>}
+                {i < exhibitionLoop.length - 1 && (
+                  <span className="text-primary">→</span>
+                )}
               </span>
             ))}
           </Reveal>

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "@/lib/router-compat";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -6,7 +5,9 @@ import { SocialIcons } from "@/components/ui/SocialIcons";
 import { FindMeOnline } from "@/components/ui/FindMeOnline";
 import { Reveal, RevealWords } from "@/components/ui/Reveal";
 import { Magnetic } from "@/components/ui/Magnetic";
-import { SystemGraph } from "@/components/ui/SystemGraph";
+import { HeroCardStack } from "@/components/ui/HeroCardStack";
+import { TechMarquee } from "@/components/ui/TechMarquee";
+import { CaseStudyRow } from "@/components/ui/CaseStudyRow";
 import { Tilt3D } from "@/components/ui/Tilt3D";
 import { Parallax } from "@/components/ui/Parallax";
 import { TechConstellation } from "@/components/ui/TechConstellation";
@@ -14,14 +15,25 @@ import { motion } from "motion/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StatusDot } from "@/components/ui/StatusDot";
 import { TypingCursor } from "@/components/ui/TypingCursor";
-import { ProjectCard } from "@/components/ui/ProjectCard";
-import { ProjectModal } from "@/components/ui/ProjectModal";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
 import { TechTag } from "@/components/ui/TechTag";
-import { PopDisclosure, InlinePopDisclosure } from "@/components/ui/PopDisclosure";
+import {
+  PopDisclosure,
+  InlinePopDisclosure,
+} from "@/components/ui/PopDisclosure";
 import { ContactForm } from "@/components/ui/ContactForm";
 
-import { ArrowRight, AppWindow, BrainCircuit, Workflow, Cpu, ScanEye, LineChart, Download, type LucideIcon } from "lucide-react";
+import {
+  ArrowRight,
+  AppWindow,
+  BrainCircuit,
+  Workflow,
+  Cpu,
+  ScanEye,
+  LineChart,
+  Download,
+  type LucideIcon,
+} from "lucide-react";
 import {
   buildingCategories,
   currentlyBuilding,
@@ -30,7 +42,6 @@ import {
   quickStats,
   buildAreas,
   getProject,
-  type Project,
 } from "@/data/portfolio";
 
 const buildIcons: Record<string, LucideIcon> = {
@@ -42,16 +53,29 @@ const buildIcons: Record<string, LucideIcon> = {
   LineChart,
 };
 
+const toolRowOne = [
+  "Python",
+  "TypeScript",
+  "JavaScript",
+  "React",
+  "Flutter",
+  "Tkinter",
+  "OpenCV",
+  "MediaPipe",
+];
+
+const toolRowTwo = [
+  "Base44",
+  "Lovable",
+  "Gemini API",
+  "Tailwind CSS",
+  "Supabase",
+  "Git",
+  "GitHub",
+  "AI APIs",
+];
 
 export default function Home() {
-  const [selected, setSelected] = useState<Project | null>(null);
-  const [open, setOpen] = useState(false);
-
-  const openProject = (project: Project) => {
-    setSelected(project);
-    setOpen(true);
-  };
-
   return (
     <Layout>
       {/* Hero — three depth layers: atmosphere, structure, content */}
@@ -59,7 +83,11 @@ export default function Home() {
         <Parallax distance={44} ariaHidden className="absolute inset-0">
           <div className="absolute inset-0 bg-grid" aria-hidden="true" />
         </Parallax>
-        <Parallax distance={72} ariaHidden className="pointer-events-none absolute -top-40 left-1/2 h-[460px] w-[820px]">
+        <Parallax
+          distance={72}
+          ariaHidden
+          className="pointer-events-none absolute -top-40 left-1/2 h-[460px] w-[820px]"
+        >
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -68,121 +96,176 @@ export default function Home() {
             aria-hidden="true"
           />
         </Parallax>
-        <Parallax distance={-34} ariaHidden className="pointer-events-none absolute bottom-0 right-0 h-[320px] w-[420px]">
+        <Parallax
+          distance={-34}
+          ariaHidden
+          className="pointer-events-none absolute bottom-0 right-0 h-[320px] w-[420px]"
+        >
           <div
             className="h-full w-full rounded-full bg-primary-glow/[0.09] blur-[120px]"
             aria-hidden="true"
           />
         </Parallax>
 
-        <div className="container relative grid items-center gap-14 py-24 md:py-32 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:gap-10 lg:py-40">
+        <div className="container relative grid items-center gap-12 pt-32 pb-16 md:pt-40 md:pb-20 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] lg:gap-8 lg:pt-40 lg:pb-24">
           <div className="max-w-2xl">
+            {/* identity pill — name and place, the way the reference opens */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-7 inline-flex items-center gap-3 rounded-full border border-border bg-card/70 px-4 py-2 backdrop-blur-sm"
+              className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 py-1.5 pr-3.5 pl-3 backdrop-blur-sm"
             >
+              <span aria-hidden="true" className="text-sm">
+                👋
+              </span>
+              <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-gold-glow">
+                Andrew Mathews · Dubai, UAE
+              </span>
               <StatusDot />
-              <span className="font-mono text-xs text-foreground">Currently Building</span>
             </motion.div>
 
-            <h1 className="headline-3d text-display text-[2.6rem] leading-[1.02] text-balance text-foreground sm:text-5xl md:text-6xl lg:text-[4.25rem]">
+            <h1 className="headline-3d text-display text-[2.6rem] leading-[1.03] text-balance text-foreground sm:text-5xl md:text-6xl lg:text-[4.05rem]">
               {/* Real page heading for search engines and screen readers; the
-                  animated tagline below stays exactly as designed. */}
+                  animated display line below stays exactly as designed. */}
               <span className="sr-only">
-                Andrew Mathews — Student Developer, AI Builder &amp; Robotics Engineer
+                Andrew Mathews — Student Developer, AI Builder &amp; Robotics
+                Engineer
               </span>
               <span aria-hidden="true">
-                <RevealWords text="I build systems that solve" delay={0.15} />{" "}
-                <span className="headline-3d-gold relative inline-block text-primary">
-                  <RevealWords text="real problems." delay={0.42} />
+                <span className="block">
+                  <RevealWords text="I build systems that" delay={0.12} />
                 </span>
-                <TypingCursor />
+                <span className="mt-1 block">
+                  <RevealWords
+                    text="solve"
+                    delay={0.3}
+                    className="serif-display mark-underline pr-1 italic text-gold-glow"
+                  />{" "}
+                  <span className="text-primary">
+                    <RevealWords text="real problems." delay={0.38} />
+                  </span>
+                </span>
               </span>
             </h1>
+
+            {/* margin note — hand-written ink beside the headline */}
+            <motion.p
+              aria-hidden="true"
+              initial={{ opacity: 0, rotate: -4 }}
+              animate={{ opacity: 1, rotate: -2 }}
+              transition={{
+                duration: 0.7,
+                delay: 0.9,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="note-hand mt-4 ml-1 hidden items-center gap-2 text-base sm:inline-flex"
+            >
+              <svg
+                viewBox="0 0 44 16"
+                className="h-3 w-9 text-gold/70"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              >
+                <path d="M2 12c8-8 18-10 30-8" />
+                <path d="M24 2l8 2-3 8" />
+              </svg>
+              right now: building Gradr
+            </motion.p>
 
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-7 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
+              transition={{
+                duration: 0.6,
+                delay: 0.62,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
             >
-              I'm Andrew, a student developer and AI builder from Dubai. I build software,
-              experiment with AI, compete in STEM and engineering challenges, and turn ideas into
-              working products.
+              I&rsquo;m Andrew, a student developer and AI builder from Dubai. I
+              build software, experiment with AI, compete in STEM and
+              engineering challenges, and turn ideas into working products.
             </motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.82, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-9 flex flex-wrap items-center gap-3"
+              transition={{
+                duration: 0.6,
+                delay: 0.74,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mt-8 flex flex-wrap items-center gap-3"
             >
               <Magnetic>
-                <Button asChild size="lg" className="font-mono shadow-glow">
+                <Button
+                  asChild
+                  size="lg"
+                  className="group font-mono shadow-glow"
+                >
                   <Link to="/projects">
-                    Explore My Work
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    See my work
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
                 </Button>
               </Magnetic>
               <Magnetic>
-                <Button asChild size="lg" variant="outline" className="font-mono">
-                  <Link to="/about">About Me</Link>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="font-mono"
+                >
+                  <Link to="/contact">Get in touch</Link>
                 </Button>
               </Magnetic>
-              <Magnetic>
-                <Button asChild size="lg" className="font-mono shadow-glow">
-                  <Link to="/resume" aria-label="Download Andrew Mathews' résumé">
-                    <Download className="mr-2 h-4 w-4" />
-                    Download Résumé
-                  </Link>
-                </Button>
-              </Magnetic>
+              <Link
+                to="/resume"
+                aria-label="Download Andrew Mathews' résumé"
+                className="focus-ring inline-flex items-center gap-1.5 rounded-full px-1 py-2 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-gold"
+              >
+                <Download className="h-3.5 w-3.5" aria-hidden="true" />
+                Résumé
+              </Link>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.95 }}
+              transition={{ duration: 0.6, delay: 0.9 }}
+              className="mt-8 flex flex-wrap items-center gap-2"
+            >
+              <span className="sticker">Student Developer</span>
+              <span className="sticker rotate-1">Full-Stack Builder</span>
+              <span className="sticker -rotate-1">AI &amp; Automation</span>
+              <span className="sticker sticker-gold">STEM Innovator</span>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 1 }}
             >
               <SocialIcons className="mt-7" />
-              <p className="mt-9 font-mono text-[11px] uppercase tracking-[0.24em] text-muted-foreground">
+              <p className="mt-7 font-mono text-[11px] uppercase tracking-[0.24em] text-muted-foreground">
                 AI · Software · Robotics · Systems · Product
               </p>
             </motion.div>
           </div>
 
-          {/* Ecosystem visualisation */}
+          {/* Draggable paper cards — the hero's signature surface */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="relative -mx-2 h-[320px] sm:h-[380px] lg:h-[520px]"
+            transition={{ duration: 1, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="relative -mx-2 lg:mx-0"
           >
-            <Parallax distance={-22} className="h-full w-full">
-              <Tilt3D className="h-full w-full" intensity={7} glare>
-                {/* layered depth plates behind the graph */}
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-6 rounded-3xl border border-border/50 bg-card/20 backdrop-blur-[1px]"
-                  style={{ transform: "translateZ(-60px)" }}
-                />
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-12 rounded-3xl border border-primary/15"
-                  style={{ transform: "translateZ(-28px)" }}
-                />
-                <div style={{ transform: "translateZ(40px)" }} className="h-full w-full">
-                  <SystemGraph className="h-full w-full" />
-                </div>
-              </Tilt3D>
-            </Parallax>
+            <HeroCardStack projects={featuredProjects} />
           </motion.div>
-
         </div>
-
         {/* scroll indicator — part of the hero's depth language */}
         <div
           aria-hidden="true"
@@ -196,7 +279,10 @@ export default function Home() {
       </section>
 
       {/* Quick stats */}
-      <section className="divider-gold border-b border-b-border bg-card/30" aria-label="Quick statistics">
+      <section
+        className="divider-gold border-b border-b-border bg-card/30"
+        aria-label="Quick statistics"
+      >
         <div className="container grid grid-cols-2 gap-8 py-12 md:grid-cols-4">
           {quickStats.map((stat, i) => (
             <Reveal key={stat.label} delay={i * 70}>
@@ -211,28 +297,64 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured work */}
+      {/* Tools ribbon — the reference's logo band, in AndrewBuilds ink */}
+      <section
+        className="border-y border-border/70 bg-card/20 py-14 md:py-16"
+        aria-labelledby="tools-heading"
+      >
+        <div className="container">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
+            <h2
+              id="tools-heading"
+              className="serif-display text-2xl text-foreground md:text-[2rem]"
+            >
+              Stuff I build{" "}
+              <em className="mark-underline italic text-gold">with</em>.
+            </h2>
+            <Link
+              to="/projects"
+              className="focus-ring inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-gold"
+            >
+              See all projects
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
+        <div className="space-y-3">
+          <TechMarquee label="Languages and frameworks" items={toolRowOne} />
+          <TechMarquee
+            label="Platforms and tooling"
+            items={toolRowTwo}
+            reverse
+          />
+        </div>
+      </section>
+
+      {/* Case studies */}
       <section className="py-20 md:py-28" id="work">
         <div className="container">
           <SectionHeading
-            label="Featured"
-            title="Things I've Built"
-            subtitle="Different problems. Different systems. One constant: build it."
+            label="Selected work"
+            title="Stuff I made, and *why* I made it."
+            subtitle="Four flagship builds, each starting from a real problem. Everything below comes from the project itself — no invented numbers."
           />
-          <ul className="grid list-none gap-6 p-0 lg:grid-cols-2">
+          <div className="grid gap-16 md:gap-24">
             {featuredProjects.map((project, i) => (
-              <Reveal as="li" key={project.slug} delay={i * 70} className="h-full">
-                <ProjectCard
-                  project={project}
-                  onOpen={openProject}
-                  variant="featured"
-                  className="pop-card h-full"
-                />
-              </Reveal>
+              <CaseStudyRow key={project.slug} project={project} index={i} />
             ))}
-          </ul>
-
-
+          </div>
+          <Reveal className="mt-14">
+            <Link
+              to="/projects"
+              className="group focus-ring inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.16em] text-gold transition-colors hover:bg-gold/20"
+            >
+              All projects and experiments
+              <ArrowRight
+                className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1"
+                aria-hidden="true"
+              />
+            </Link>
+          </Reveal>
         </div>
       </section>
 
@@ -241,12 +363,13 @@ export default function Home() {
         <div className="container">
           <SectionHeading
             label="Ecosystem"
-            title="Everything I Build Has a Purpose."
+            title="Everything I Build Has a *Purpose*."
             subtitle="Systems, tools, experiments, and concepts built to solve specific problems."
           />
           <ProjectGrid />
           <Reveal className="mt-10 font-mono text-sm text-muted-foreground">
-            <span className="text-primary">//</span> More systems in development.
+            <span className="text-primary">//</span> More systems in
+            development.
           </Reveal>
         </div>
       </section>
@@ -254,13 +377,18 @@ export default function Home() {
       {/* Building categories */}
       <section className="divider-gold py-20 md:py-28">
         <div className="container">
-          <SectionHeading label="Focus areas" title="My Building Categories" />
+          <SectionHeading
+            label="Focus areas"
+            title="My Building *Categories*"
+          />
           <div className="grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
             <div className="grid gap-5 sm:grid-cols-2">
               {buildingCategories.map((cat, i) => (
                 <Reveal key={cat.title} delay={i * 60} className="h-full">
                   <div className="spotlight lift-3d h-full rounded-xl border border-border bg-card p-6 shadow-card hover:border-gold/40">
-                    <h3 className="text-lg font-semibold text-foreground">{cat.title}</h3>
+                    <h3 className="text-lg font-semibold text-foreground">
+                      {cat.title}
+                    </h3>
                     <div className="mt-4 flex flex-wrap gap-2">
                       {cat.items.map((item) => (
                         <TechTag key={item}>{item}</TechTag>
@@ -284,7 +412,7 @@ export default function Home() {
         <div className="container">
           <SectionHeading
             label="Focus areas"
-            title="What I Build"
+            title="What I *Build*"
             subtitle="I build software, AI systems, experiments, and technical projects to explore ideas and solve real problems."
           />
           <ul className="grid list-none gap-5 p-0 sm:grid-cols-2 lg:grid-cols-3">
@@ -336,7 +464,10 @@ export default function Home() {
                                   </span>
                                   <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-gold">
                                     Open
-                                    <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                                    <ArrowRight
+                                      className="h-3 w-3"
+                                      aria-hidden="true"
+                                    />
                                   </span>
                                 </span>
                                 <span className="mt-1.5 block text-sm leading-relaxed text-muted-foreground">
@@ -358,16 +489,13 @@ export default function Home() {
               );
             })}
           </ul>
-
-
         </div>
       </section>
-
 
       {/* How I think */}
       <section className="divider-gold py-20 md:py-28">
         <div className="container">
-          <SectionHeading label="Approach" title="How I Think" />
+          <SectionHeading label="Approach" title="How I *Think*" />
           <ul className="grid list-none gap-5 p-0 md:grid-cols-3">
             {principles.map((p, i) => (
               <Reveal as="li" key={p.title} delay={i * 70} className="h-full">
@@ -375,24 +503,33 @@ export default function Home() {
                   title={p.title}
                   kind="principle, show details"
                   popTarget="principle"
-                  media={<span className="font-mono text-xs text-gold">0{i + 1}</span>}
+                  media={
+                    <span className="font-mono text-xs text-gold">
+                      0{i + 1}
+                    </span>
+                  }
                 >
-                  <p className="text-sm leading-relaxed text-muted-foreground">{p.body}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    {p.body}
+                  </p>
                 </PopDisclosure>
               </Reveal>
             ))}
-
           </ul>
-
         </div>
       </section>
 
       {/* Based in Dubai */}
-      <section className="divider-gold py-20 md:py-28" aria-labelledby="dubai-heading">
+      <section
+        className="divider-gold py-20 md:py-28"
+        aria-labelledby="dubai-heading"
+      >
         <div className="container">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">Location</p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">
+                Location
+              </p>
               <h2
                 id="dubai-heading"
                 className="text-display mt-3 text-2xl text-foreground md:text-3xl"
@@ -400,9 +537,10 @@ export default function Home() {
                 Based in Dubai, UAE
               </h2>
               <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                I build from Dubai. The robotics work started here through a school programme, and
-                the software, AI and racing projects since have all been built alongside UAE
-                technology and STEM competitions — FLL, Techfest and MUN among them. Most of what is
+                I build from Dubai. The robotics work started here through a
+                school programme, and the software, AI and racing projects since
+                have all been built alongside UAE technology and STEM
+                competitions — FLL, Techfest and MUN among them. Most of what is
                 on this site was designed, built and tested in Dubai.
               </p>
             </div>
@@ -421,7 +559,9 @@ export default function Home() {
                     <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
                       {item.k}
                     </span>
-                    <span className="mt-2 block text-sm text-foreground">{item.v}</span>
+                    <span className="mt-2 block text-sm text-foreground">
+                      {item.v}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -436,7 +576,7 @@ export default function Home() {
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <SectionHeading
               label="Robotics"
-              title="Where It Started"
+              title="Where It *Started*"
               subtitle="It didn't begin with AI. It began with physically building things — the Mbot@IHS robotics programme at age 9."
               className="mb-0"
             />
@@ -447,8 +587,12 @@ export default function Home() {
                     key={step}
                     className="lift-3d flex items-center gap-3 rounded-xl border border-border bg-card p-5 shadow-card"
                   >
-                    <span className="font-mono text-xs text-gold">0{i + 1}</span>
-                    <span className="text-base font-medium text-foreground">{step}</span>
+                    <span className="font-mono text-xs text-gold">
+                      0{i + 1}
+                    </span>
+                    <span className="text-base font-medium text-foreground">
+                      {step}
+                    </span>
                   </li>
                 ))}
               </ol>
@@ -469,13 +613,20 @@ export default function Home() {
             <Reveal className="lg:col-span-2">
               <div className="h-full rounded-xl border border-border bg-card p-8 shadow-card">
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  I take part in F1 in Schools / STEM Racing, where the work runs through
-                  engineering, design, teamwork, racing, and competition. It's a different kind of
-                  building: constraints are physical, deadlines are real, and the whole team has to
+                  I take part in F1 in Schools / STEM Racing, where the work
+                  runs through engineering, design, teamwork, racing, and
+                  competition. It's a different kind of building: constraints
+                  are physical, deadlines are real, and the whole team has to
                   move together.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-2">
-                  {["Engineering", "Design", "Teamwork", "Racing", "Competition"].map((t) => (
+                  {[
+                    "Engineering",
+                    "Design",
+                    "Teamwork",
+                    "Racing",
+                    "Competition",
+                  ].map((t) => (
                     <TechTag key={t}>{t}</TechTag>
                   ))}
                 </div>
@@ -491,8 +642,8 @@ export default function Home() {
                     Horizon Motorsports
                   </h3>
                   <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                    A UAE-based racing team competing in FLL, Techfest, and engineering
-                    competitions.
+                    A UAE-based racing team competing in FLL, Techfest, and
+                    engineering competitions.
                   </p>
                 </div>
                 <Button asChild variant="outline" className="mt-6 font-mono">
@@ -513,7 +664,7 @@ export default function Home() {
       {/* Currently building */}
       <section className="divider-gold py-20 md:py-28">
         <div className="container">
-          <SectionHeading label="Live" title="Currently Building" />
+          <SectionHeading label="Live" title="Currently *Building*" />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {currentlyBuilding.map((item, i) => (
               <Reveal key={item.name} delay={i * 60} className="h-full">
@@ -524,8 +675,12 @@ export default function Home() {
                       {item.status}
                     </span>
                   </div>
-                  <h3 className="mt-4 text-lg font-semibold text-foreground">{item.name}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{item.note}</p>
+                  <h3 className="mt-4 text-lg font-semibold text-foreground">
+                    {item.name}
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {item.note}
+                  </p>
                 </div>
               </Reveal>
             ))}
@@ -536,32 +691,53 @@ export default function Home() {
       <FindMeOnline />
 
       {/* CTA */}
-      <section className="divider-gold py-20 md:py-24" aria-labelledby="get-in-touch-heading">
+      <section
+        className="divider-gold py-20 md:py-24"
+        aria-labelledby="get-in-touch-heading"
+      >
         <div className="container">
           <Reveal>
             <div
               data-pop-target="get-in-touch"
               className="pop-card rounded-2xl border border-border bg-card p-8 md:p-12 shadow-card"
             >
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
+                Over to you
+              </p>
               <h2
                 id="get-in-touch-heading"
-                className="text-3xl md:text-4xl font-semibold text-foreground"
+                className="headline-3d serif-display mt-4 text-4xl text-foreground md:text-6xl"
               >
-                Always building something.
+                Always building{" "}
+                <em className="mark-underline italic text-gold">something</em>.
               </h2>
-              <p className="mt-3 max-w-xl text-muted-foreground">
-                Want to talk about technology, a project, collaboration, or something I'm building?
+              <p className="mt-4 max-w-xl text-muted-foreground">
+                Want to talk about technology, a project, collaboration, or
+                something I'm building?
               </p>
-              <Button asChild size="lg" className="cta-pop mt-7 font-mono">
-                <Link to="/contact" aria-label="Get in touch with Andrew Mathews">
-                  Get in touch
-                  <ArrowRight className="cta-arrow ml-2 h-4 w-4" />
-                </Link>
-              </Button>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <Button asChild size="lg" className="cta-pop font-mono">
+                  <Link
+                    to="/contact"
+                    aria-label="Get in touch with Andrew Mathews"
+                  >
+                    Get in touch
+                    <ArrowRight className="cta-arrow ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="font-mono"
+                >
+                  <Link to="/projects">See the work</Link>
+                </Button>
+              </div>
               <InlinePopDisclosure
                 label="What to reach out about"
                 popTarget="get-in-touch-details"
-                className="mt-6"
+                className="mt-8"
               >
                 <ul className="grid list-none gap-2 p-0 text-sm text-muted-foreground sm:grid-cols-2">
                   {[
@@ -577,23 +753,23 @@ export default function Home() {
                   ))}
                 </ul>
               </InlinePopDisclosure>
-
             </div>
           </Reveal>
         </div>
       </section>
 
-
       {/* Direct contact form */}
-      <section className="divider-gold py-20 md:py-28" id="contact" aria-labelledby="home-contact-heading">
+      <section
+        className="divider-gold py-20 md:py-28"
+        id="contact"
+        aria-labelledby="home-contact-heading"
+      >
         <div className="container max-w-2xl">
           <Reveal>
-            <SectionHeading
-              label="Contact"
-              title="Reach Out Directly"
-            />
+            <SectionHeading label="Contact" title="Reach Out *Directly*" />
             <p className="mt-4 text-muted-foreground">
-              Send me a message and I'll get back to you. No middlemen, just a direct line.
+              Send me a message and I'll get back to you. No middlemen, just a
+              direct line.
             </p>
             <div className="mt-10">
               <ContactForm sourcePath="/" />
@@ -601,8 +777,6 @@ export default function Home() {
           </Reveal>
         </div>
       </section>
-
-      <ProjectModal project={selected} open={open} onOpenChange={setOpen} />
     </Layout>
   );
 }

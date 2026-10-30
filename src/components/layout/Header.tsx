@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "@/lib/router-compat";
-import { Menu } from "lucide-react";
+import { Menu, ArrowUpRight } from "lucide-react";
 import { motion, useScroll, useSpring } from "motion/react";
 import { cn } from "@/lib/utils";
 import {
@@ -13,6 +13,17 @@ import { Button } from "@/components/ui/button";
 import { SocialIcons } from "@/components/ui/SocialIcons";
 import logoUrl from "@/assets/andrewbuilds-logo.png";
 
+/** Desktop pill links — the shortest path through the site. */
+const primaryNav = [
+  { href: "/projects", label: "Work" },
+  { href: "/about", label: "About" },
+  { href: "/journey", label: "Journey" },
+  { href: "/achievements", label: "Awards" },
+  { href: "/blog", label: "Writing" },
+  { href: "/contact", label: "Contact" },
+];
+
+/** Everything, for the mobile sheet. */
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/projects", label: "Projects" },
@@ -26,12 +37,12 @@ const navItems = [
 ];
 
 /**
- * Floating glass navigation.
+ * Floating pill navigation.
  *
- * At rest it sits flush in the environment; once the page scrolls it settles
- * into a glass bar with a real elevation shadow (--elev-3), so navigation
- * reads as the closest object in the scene without ever covering content
- * (the bar keeps a constant 64px footprint).
+ * A single glass capsule floats at the top of the page: avatar + wordmark,
+ * the core routes, and one primary action. It sits flush in the environment
+ * at rest and settles onto a real elevation shadow (--elev-3) once the page
+ * scrolls, so it reads as the closest object in the scene.
  */
 export function Header() {
   const location = useLocation();
@@ -46,7 +57,7 @@ export function Header() {
   });
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 16);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -54,49 +65,54 @@ export function Header() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
-      <div className="container">
+      <div className="flex justify-center px-3">
         <div
           className={cn(
-            "relative mt-2 flex h-14 items-center justify-between gap-4 rounded-2xl px-3 transition-all duration-500 md:px-4",
+            "relative mt-3 flex items-center gap-1 rounded-full p-1.5 transition-all duration-500 sm:mt-4",
             scrolled
               ? "glass shadow-[var(--elev-3)]"
-              : "border border-transparent bg-background/20 backdrop-blur-sm",
+              : "border border-foreground/10 bg-background/45 backdrop-blur-md",
           )}
         >
+          {/* Brand — avatar disc + wordmark */}
           <Link
             to="/"
             aria-label="Andrew Mathews — home"
-            className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
+            className="group flex items-center gap-2 rounded-full py-1 pr-2 pl-1 transition-opacity hover:opacity-90"
           >
             <span className="relative inline-flex">
               <img
                 src={logoUrl}
                 alt=""
-                width={32}
-                height={32}
-                className="relative h-8 w-8 rounded-md ring-1 ring-foreground/15 shadow-[var(--elev-1)]"
-              />
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 rounded-md bg-linear-to-b from-foreground/15 to-transparent"
+                width={30}
+                height={30}
+                className="h-[30px] w-[30px] rounded-full object-cover ring-1 ring-gold/35 shadow-[var(--elev-1)] transition-transform duration-500 group-hover:scale-105"
               />
             </span>
-            <span className="font-mono text-sm font-semibold tracking-tight text-foreground">
+            <span className="font-mono text-[13px] font-semibold tracking-tight text-foreground">
               Andrew<span className="text-primary">Builds</span>
             </span>
           </Link>
 
-          <nav aria-label="Main" className="hidden lg:flex items-center gap-1">
-            {navItems.map((item) => {
-              const active = location.pathname === item.href;
+          <span
+            aria-hidden="true"
+            className="mx-1 hidden h-4 w-px bg-foreground/12 lg:block"
+          />
+
+          <nav
+            aria-label="Main"
+            className="hidden items-center gap-0.5 lg:flex"
+          >
+            {primaryNav.map((item) => {
+              const active = location.pathname.startsWith(item.href);
               return (
                 <Link
                   key={item.href}
                   to={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "relative rounded-full px-3.5 py-2 font-mono text-[13px] transition-colors duration-300 hover:text-gold",
-                    active ? "text-primary" : "text-muted-foreground",
+                    "relative rounded-full px-3 py-1.5 font-mono text-[12.5px] transition-colors duration-300 hover:text-gold",
+                    active ? "text-foreground" : "text-muted-foreground",
                   )}
                 >
                   {active && (
@@ -107,7 +123,7 @@ export function Header() {
                         stiffness: 380,
                         damping: 32,
                       }}
-                      className="absolute inset-0 -z-10 rounded-full border border-primary/30 bg-primary/10 shadow-[inset_0_1px_0_hsl(0_0%_100%/.12),0_10px_22px_-14px_hsl(204_74%_52%/.9)]"
+                      className="absolute inset-0 -z-10 rounded-full border border-gold/25 bg-foreground/[0.06] shadow-[inset_0_1px_0_hsl(0_0%_100%/.1)]"
                       aria-hidden="true"
                     />
                   )}
@@ -117,26 +133,29 @@ export function Header() {
             })}
           </nav>
 
-          <div className="hidden lg:flex items-center gap-4">
-            <SocialIcons
-              ids={["github", "x", "instagram"]}
-              className="gap-1.5 [&_a]:h-8 [&_a]:w-8 [&_a]:border-transparent [&_a]:bg-transparent"
-            />
+          <div className="ml-1 hidden items-center gap-1.5 lg:flex">
             <Button
               asChild
               size="sm"
-              className="font-mono shadow-glow transition-transform hover:scale-[1.03]"
+              className="group h-9 rounded-full px-4 font-mono text-[12.5px] shadow-glow transition-transform hover:scale-[1.03]"
             >
-              <Link to="/projects">View My Work</Link>
+              <Link to="/contact">
+                Let&rsquo;s talk
+                <ArrowUpRight
+                  className="ml-1 h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                />
+              </Link>
             </Button>
           </div>
 
+          {/* Mobile / tablet trigger stays inside the pill */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
               <Button
                 variant="ghost"
                 size="icon"
-                className="min-h-11 min-w-11"
+                className="ml-0.5 h-9 w-9 rounded-full"
                 aria-label="Open menu"
               >
                 <Menu className="h-5 w-5" />
@@ -144,7 +163,7 @@ export function Header() {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-[85vw] max-w-sm border-border bg-background"
+              className="w-[86vw] max-w-sm border-border bg-background"
             >
               <div
                 aria-hidden="true"
@@ -160,7 +179,7 @@ export function Header() {
                       to={item.href}
                       style={{ animationDelay: `${index * 45}ms` }}
                       className={cn(
-                        "animate-fade-in-up opacity-0 rounded-lg px-3 py-3 font-mono text-lg transition-colors hover:bg-secondary hover:text-gold",
+                        "animate-fade-in-up rounded-lg px-3 py-3 font-mono text-lg opacity-0 transition-colors hover:bg-secondary hover:text-gold",
                         location.pathname === item.href
                           ? "text-primary"
                           : "text-muted-foreground",
@@ -173,21 +192,24 @@ export function Header() {
                 ))}
                 <SheetClose asChild>
                   <Link
-                    to="/projects"
+                    to="/contact"
                     className="mt-6 inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-5 font-mono text-sm text-primary-foreground shadow-glow transition-transform hover:scale-[1.02]"
                   >
-                    View My Work
+                    Get in touch
                   </Link>
                 </SheetClose>
+                <div className="mt-6 border-t border-border pt-5">
+                  <SocialIcons ids={["github", "x", "instagram"]} />
+                </div>
               </nav>
             </SheetContent>
           </Sheet>
 
-          {/* Reading progress — the bar's lit bottom edge */}
+          {/* Reading progress — the capsule's lit bottom edge */}
           <motion.div
             aria-hidden="true"
             style={{ scaleX: progress }}
-            className="absolute inset-x-3 bottom-0 h-px origin-left bg-linear-to-r from-primary via-primary-glow to-transparent"
+            className="absolute inset-x-4 bottom-0 h-px origin-left rounded-full bg-linear-to-r from-primary via-gold to-transparent"
           />
         </div>
       </div>

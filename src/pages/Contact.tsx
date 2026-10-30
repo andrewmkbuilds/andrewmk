@@ -2,7 +2,12 @@ import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { Github, Mail, Share2 } from "lucide-react";
-import { CONTACT_EMAIL, GITHUB_URL, LINKTREE_URL, socialLinks } from "@/data/portfolio";
+import {
+  CONTACT_EMAIL,
+  GITHUB_URL,
+  LINKTREE_URL,
+  socialLinks,
+} from "@/data/portfolio";
 import { getSocialIcon } from "@/components/ui/SocialIcons";
 
 export default function Contact() {
@@ -15,10 +20,14 @@ export default function Contact() {
               Contact
             </p>
             <h1 className="headline-3d text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
-              Get in Touch
+              Get in{" "}
+              <em className="serif-display mark-underline italic text-gold">
+                Touch
+              </em>
             </h1>
             <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-              Want to talk about technology, a project, collaboration, or something I'm building?
+              Want to talk about technology, a project, collaboration, or
+              something I'm building?
             </p>
           </Reveal>
 
@@ -39,7 +48,10 @@ export default function Contact() {
                   <Github className="h-5 w-5 text-primary" />
                   <span>
                     <span className="block text-sm font-medium text-foreground">
-                      GitHub <span className="font-mono text-[10px] uppercase tracking-wider text-primary">· Primary</span>
+                      GitHub{" "}
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-primary">
+                        · Primary
+                      </span>
                     </span>
                     <span className="block font-mono text-xs text-muted-foreground">
                       @andrewmkbuilds
@@ -68,7 +80,8 @@ export default function Contact() {
                       linktr.ee/andrewmkbuilds
                     </span>
                     <span className="mt-1 block text-xs text-muted-foreground">
-                      The central place to find every profile, project, and link.
+                      The central place to find every profile, project, and
+                      link.
                     </span>
                   </span>
                 </a>
@@ -107,7 +120,9 @@ export default function Contact() {
                 >
                   <Mail className="h-5 w-5 text-primary" />
                   <span>
-                    <span className="block text-sm font-medium text-foreground">Email</span>
+                    <span className="block text-sm font-medium text-foreground">
+                      Email
+                    </span>
                     <span className="block font-mono text-xs text-muted-foreground">
                       {CONTACT_EMAIL}
                     </span>

@@ -105,6 +105,26 @@ The visual language is built around one physical space rather than flat panels:
 - `SectionHeading` and every page `<h1>` use the dimensional heading utilities, so
   new pages inherit the type treatment by reusing those, not by adding new shadows.
 
+## Editorial layer
+
+The layout language borrowed from the reference design (aatmanjain.com), translated
+into the blue-and-gold palette. Colours are never taken from the reference.
+
+- `--font-serif` (Instrument Serif, loaded with the other Google fonts in
+  `src/routes/__root.tsx`) is the headline/pull-quote voice. `SectionHeading` turns
+  `*word*` inside its `title` into that serif plus the gold hand-drawn underline, and
+  page `<h1>`s use the same inline `<em className="serif-display mark-underline …">`.
+- `src/components/ui/HeroCardStack.tsx` is the hero's taped, draggable card collage;
+  cards are pointer-draggable on desktop and static under reduced motion.
+- `src/components/ui/TechMarquee.tsx` is the infinite tools ribbon (two CSS tracks,
+  duplicate hidden from assistive tech, paused on hover, wrapped and static under
+  reduced motion).
+- `src/components/ui/CaseStudyRow.tsx` renders one project as a case study: numbered
+  eyebrow, serif title, real highlights, figures taken from `project.results`, and a
+  media panel that lifts when the row is hovered.
+- Paper/ink utilities live at the end of `src/styles.css`: `.paper`, `.tape`,
+  `.sticker`, `.note-hand`, `.mark-underline`, `.case-media`, `.marquee*`.
+
 ## What to check after a change
 
 ```sh
