@@ -140,7 +140,11 @@ into the blue-and-gold palette. Colours are never taken from the reference.
   cards are pointer-draggable on desktop and static under reduced motion.
 - `src/components/ui/TechMarquee.tsx` is the infinite tools ribbon (two CSS tracks,
   duplicate hidden from assistive tech, paused on hover, wrapped and static under
-  reduced motion).
+  reduced motion). The ribbon is full-bleed (`width: 100vw` + negative inline margin,
+  clipped at the screen edge, no end mask) and its animation duration scales with the
+  row length so a long row does not scroll faster than a short one. The rows' content is
+  the owner-supplied build stack (`toolRowOne/Two/Three` in `src/pages/Home.tsx`), which
+  is intentionally broader than the skill taxonomy published on the source site.
 - `src/components/ui/CaseStudyRow.tsx` renders one project as a case study: numbered
   eyebrow, serif title, real highlights, figures taken from `project.results`, and a
   media panel that lifts when the row is hovered.

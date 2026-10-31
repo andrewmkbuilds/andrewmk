@@ -21,6 +21,9 @@ export function TechMarquee({
   label,
 }: TechMarqueeProps) {
   const trackRef = useRef<HTMLDivElement>(null);
+  // Constant reading speed: the loop takes longer as the row gets longer,
+  // so a wide row does not whip past faster than a short one.
+  const duration = items.length * 5;
 
   useEffect(() => {
     const track = trackRef.current;
@@ -75,6 +78,7 @@ export function TechMarquee({
       <div
         ref={trackRef}
         className={cn("marquee-track", reverse && "marquee-track-reverse")}
+        style={{ animationDuration: `${reverse ? duration * 1.26 : duration}s` }}
       >
         {group(false)}
         {group(true)}

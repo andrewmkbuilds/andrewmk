@@ -1324,12 +1324,13 @@
     transform: translateX(4px);
   }
 
-  /* Infinite marquee ribbon. Two identical tracks side by side; the mask
-     fades both ends into the page so the loop has no visible seam. */
+  /* Infinite marquee ribbon. Two identical tracks side by side, so the loop
+     has no visible seam. The ribbon is full-bleed: it spans the whole viewport
+     edge to edge, even inside a padded parent, and clips at the screen edge. */
   .marquee {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
-    mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
   }
 
   .marquee-track {
@@ -1362,10 +1363,6 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .marquee {
-      -webkit-mask-image: none;
-      mask-image: none;
-    }
     .marquee-track {
       width: 100%;
       animation: none !important;

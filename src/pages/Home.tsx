@@ -72,24 +72,53 @@ const toolRowOne = [
   "Python",
   "TypeScript",
   "JavaScript",
-  "React",
-  "Flutter",
-  "Tkinter",
-  "OpenCV",
-  "MediaPipe",
+  "Swift",
+  "Objective-C",
+  "Kotlin",
+  "Java",
+  "C++",
+  "C#",
+  "Rust",
+  "Go",
+  "Ruby",
+  "PHP",
+  "SQL",
+  "HTML",
+  "CSS",
 ];
 
 const stepIcons = [Lightbulb, Hammer, Rocket];
 
 const toolRowTwo = [
+  "React",
+  "Next.js",
+  "Vue",
+  "Nuxt",
+  "Node.js",
+  "Express",
+  "Flutter",
+  "React Native",
+  "Tailwind CSS",
+  "Tkinter",
+  "OpenCV",
+  "MediaPipe",
+];
+
+const toolRowThree = [
   "Base44",
   "Lovable",
+  "Claude",
   "Gemini API",
-  "Tailwind CSS",
+  "OpenAI API",
   "Supabase",
+  "Firebase",
+  "Docker",
   "Git",
   "GitHub",
-  "AI APIs",
+  "Xcode",
+  "Figma",
+  "Postman",
+  "Vercel",
 ];
 
 export default function Home() {
@@ -345,12 +374,13 @@ export default function Home() {
           </div>
         </div>
         <div className="space-y-3">
-          <TechMarquee label="Languages and frameworks" items={toolRowOne} />
+          <TechMarquee label="Languages" items={toolRowOne} />
           <TechMarquee
-            label="Platforms and tooling"
+            label="Frameworks and runtimes"
             items={toolRowTwo}
             reverse
           />
+          <TechMarquee label="Platforms and tooling" items={toolRowThree} />
         </div>
       </section>
 
