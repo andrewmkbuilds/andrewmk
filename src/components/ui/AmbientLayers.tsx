@@ -1,13 +1,13 @@
 /**
  * The site's shared depth environment, mounted once behind every route.
  *
- * Three layers, back to front: an atmospheric wash, slowly drifting aurora
- * light (the midground), and a perspective floor that gives the page a
- * horizon. Purely decorative — `aria-hidden`, `pointer-events-none`, and
- * outside the layout flow, so it costs no space and no tab stops.
+ * Two slowly drifting light fields sit behind an atmospheric wash and a
+ * vignette. Everything is painted with plain radial gradients — no
+ * `filter: blur()` on a full-screen layer — so the compositor keeps the whole
+ * environment cheap while it drifts, and phones keep the same look.
  *
- * Mobile gets a lighter environment (fewer blobs, tighter blur) via the
- * `.aurora` media query in styles.css; reduced motion freezes the drift.
+ * Purely decorative — `aria-hidden`, `pointer-events-none`, and outside the
+ * layout flow, so it costs no space and no tab stops.
  */
 export function AmbientLayers() {
   return (
@@ -21,7 +21,6 @@ export function AmbientLayers() {
       {/* midground — ambient light */}
       <div className="aurora aurora-1" />
       <div className="aurora aurora-2" />
-      <div className="aurora aurora-3" />
 
       {/* background — horizon floor */}
       <div className="depth-floor absolute inset-x-0 bottom-0 h-[46vh]" />

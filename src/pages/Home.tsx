@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { Link } from "@/lib/router-compat";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -11,17 +12,22 @@ import { CaseStudyRow } from "@/components/ui/CaseStudyRow";
 import { Tilt3D } from "@/components/ui/Tilt3D";
 import { Parallax } from "@/components/ui/Parallax";
 import { TechConstellation } from "@/components/ui/TechConstellation";
-import { motion } from "motion/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StatusDot } from "@/components/ui/StatusDot";
-import { TypingCursor } from "@/components/ui/TypingCursor";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
 import { TechTag } from "@/components/ui/TechTag";
 import {
   PopDisclosure,
   InlinePopDisclosure,
 } from "@/components/ui/PopDisclosure";
-import { ContactForm } from "@/components/ui/ContactForm";
+
+// The contact form is below the fold and carries the form/server-function
+// bundle, so it is fetched only when the reader scrolls that far.
+const ContactForm = lazy(() =>
+  import("@/components/ui/ContactForm").then((m) => ({
+    default: m.ContactForm,
+  })),
+);
 
 import {
   ArrowRight,
@@ -80,42 +86,20 @@ export default function Home() {
     <Layout>
       {/* Hero — three depth layers: atmosphere, structure, content */}
       <section className="relative overflow-hidden bg-hero-veil grain">
-        <Parallax distance={44} ariaHidden className="absolute inset-0">
+        <Parallax distance={36} ariaHidden className="absolute inset-0">
           <div className="absolute inset-0 bg-grid" aria-hidden="true" />
         </Parallax>
-        <Parallax
-          distance={72}
-          ariaHidden
-          className="pointer-events-none absolute -top-40 left-1/2 h-[460px] w-[820px]"
-        >
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2 }}
-            className="-translate-x-1/2 h-full w-full rounded-full bg-primary/12 blur-[130px]"
-            aria-hidden="true"
-          />
-        </Parallax>
-        <Parallax
-          distance={-34}
-          ariaHidden
-          className="pointer-events-none absolute bottom-0 right-0 h-[320px] w-[420px]"
-        >
-          <div
-            className="h-full w-full rounded-full bg-primary-glow/[0.09] blur-[120px]"
-            aria-hidden="true"
-          />
-        </Parallax>
+        {/* A soft gradient instead of a blurred element: same light, no
+            full-size filter repaint. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-32 left-1/2 h-[420px] w-[760px] -translate-x-1/2 bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--primary)_16%,transparent),transparent_100%)]"
+        />
 
         <div className="container relative grid items-center gap-12 pt-32 pb-16 md:pt-40 md:pb-20 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] lg:gap-8 lg:pt-40 lg:pb-24">
           <div className="max-w-2xl">
             {/* identity pill — name and place, the way the reference opens */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 py-1.5 pr-3.5 pl-3 backdrop-blur-sm"
-            >
+            <div className="enter mb-7 inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 py-1.5 pr-3.5 pl-3">
               <span aria-hidden="true" className="text-sm">
                 👋
               </span>
@@ -123,7 +107,7 @@ export default function Home() {
                 Andrew Mathews · Dubai, UAE
               </span>
               <StatusDot />
-            </motion.div>
+            </div>
 
             <h1 className="headline-3d text-display text-[2.6rem] leading-[1.03] text-balance text-foreground sm:text-5xl md:text-6xl lg:text-[4.05rem]">
               {/* Real page heading for search engines and screen readers; the
@@ -150,16 +134,10 @@ export default function Home() {
             </h1>
 
             {/* margin note — hand-written ink beside the headline */}
-            <motion.p
+            <p
               aria-hidden="true"
-              initial={{ opacity: 0, rotate: -4 }}
-              animate={{ opacity: 1, rotate: -2 }}
-              transition={{
-                duration: 0.7,
-                delay: 0.9,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="note-hand mt-4 ml-1 hidden items-center gap-2 text-base sm:inline-flex"
+              style={{ animationDelay: "520ms" }}
+              className="enter note-hand mt-4 ml-1 hidden items-center gap-2 text-base sm:inline-flex"
             >
               <svg
                 viewBox="0 0 44 16"
@@ -173,32 +151,20 @@ export default function Home() {
                 <path d="M24 2l8 2-3 8" />
               </svg>
               right now: building Gradr
-            </motion.p>
+            </p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.6,
-                delay: 0.62,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
+            <p
+              style={{ animationDelay: "120ms" }}
+              className="enter mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
             >
-              I&rsquo;m Andrew, a student developer and AI builder from Dubai. I
-              build software, experiment with AI, compete in STEM and
+              I&rsquo;m Andrew, a student developer at The Indian High School,
+              Dubai. I build software, experiment with AI, compete in STEM and
               engineering challenges, and turn ideas into working products.
-            </motion.p>
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.6,
-                delay: 0.74,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="mt-8 flex flex-wrap items-center gap-3"
+            <div
+              style={{ animationDelay: "220ms" }}
+              className="enter mt-8 flex flex-wrap items-center gap-3"
             >
               <Magnetic>
                 <Button
@@ -230,41 +196,33 @@ export default function Home() {
                 <Download className="h-3.5 w-3.5" aria-hidden="true" />
                 Résumé
               </Link>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
-              className="mt-8 flex flex-wrap items-center gap-2"
+            <div
+              style={{ animationDelay: "320ms" }}
+              className="enter mt-8 flex flex-wrap items-center gap-2"
             >
               <span className="sticker">Student Developer</span>
               <span className="sticker rotate-1">Full-Stack Builder</span>
               <span className="sticker -rotate-1">AI &amp; Automation</span>
               <span className="sticker sticker-gold">STEM Innovator</span>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1 }}
-            >
+            <div className="enter" style={{ animationDelay: "400ms" }}>
               <SocialIcons className="mt-7" />
               <p className="mt-7 font-mono text-[11px] uppercase tracking-[0.24em] text-muted-foreground">
                 AI · Software · Robotics · Systems · Product
               </p>
-            </motion.div>
+            </div>
           </div>
 
           {/* Draggable paper cards — the hero's signature surface */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="relative -mx-2 lg:mx-0"
+          <div
+            className="enter relative -mx-2 lg:mx-0"
+            style={{ animationDelay: "180ms" }}
           >
             <HeroCardStack projects={featuredProjects} />
-          </motion.div>
+          </div>
         </div>
         {/* scroll indicator — part of the hero's depth language */}
         <div
@@ -294,6 +252,59 @@ export default function Home() {
               </p>
             </Reveal>
           ))}
+        </div>
+      </section>
+
+      {/* Idea → Prototype → Product — the builder narrative, stated once */}
+      <section
+        className="border-b border-border/70 py-14 md:py-16"
+        aria-labelledby="process-heading"
+      >
+        <div className="container">
+          <div className="flex flex-wrap items-baseline justify-between gap-3">
+            <h2
+              id="process-heading"
+              className="serif-display text-2xl text-foreground md:text-[2rem]"
+            >
+              From &ldquo;this would be cool&rdquo; to a{" "}
+              <em className="mark-underline italic text-gold">
+                working product
+              </em>
+              .
+            </h2>
+            <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+              Every project on this site moved through the same three steps, and
+              most of them are still moving.
+            </p>
+          </div>
+          <ol className="mt-8 grid list-none gap-4 p-0 sm:grid-cols-3">
+            {[
+              {
+                step: "Idea",
+                body: "A real problem, written down plainly before anything gets built.",
+              },
+              {
+                step: "Prototype",
+                body: "The smallest version that can be used, tested and argued with.",
+              },
+              {
+                step: "Product",
+                body: "Ship it, watch what actually breaks, then improve the part that matters.",
+              },
+            ].map((item, i) => (
+              <li
+                key={item.step}
+                className="rounded-xl border border-border bg-card p-6 shadow-card"
+              >
+                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">
+                  0{i + 1} · {item.step}
+                </span>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {item.body}
+                </p>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
@@ -548,8 +559,8 @@ export default function Home() {
               <ul className="grid list-none gap-3 p-0 sm:grid-cols-2">
                 {[
                   { k: "Base", v: "Dubai, United Arab Emirates" },
-                  { k: "Competitions", v: "UAE STEM & technology events" },
-                  { k: "Focus", v: "AI, software and robotics" },
+                  { k: "School", v: "The Indian High School, Dubai" },
+                  { k: "Focus", v: "AI, software, robotics and STEM" },
                   { k: "Working with", v: "Remote and local collaborators" },
                 ].map((item) => (
                   <li
@@ -613,11 +624,11 @@ export default function Home() {
             <Reveal className="lg:col-span-2">
               <div className="h-full rounded-xl border border-border bg-card p-8 shadow-card">
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  I take part in F1 in Schools / STEM Racing, where the work
-                  runs through engineering, design, teamwork, racing, and
-                  competition. It's a different kind of building: constraints
-                  are physical, deadlines are real, and the whole team has to
-                  move together.
+                  I work with Horizon Motorsports in F1 in Schools / STEM Racing
+                  as Sponsorship Manager, alongside the engineering and
+                  competition work. It's a different kind of building:
+                  constraints are physical, deadlines are real, and the whole
+                  team has to move together.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {[
@@ -642,8 +653,8 @@ export default function Home() {
                     Horizon Motorsports
                   </h3>
                   <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                    A UAE-based racing team competing in FLL, Techfest, and
-                    engineering competitions.
+                    A UAE-based STEM Racing team competing in FLL, Techfest and
+                    engineering competitions. My role: Sponsorship Manager.
                   </p>
                 </div>
                 <Button asChild variant="outline" className="mt-6 font-mono">
@@ -772,7 +783,15 @@ export default function Home() {
               direct line.
             </p>
             <div className="mt-10">
-              <ContactForm sourcePath="/" />
+              <Suspense
+                fallback={
+                  <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                    Loading the form…
+                  </p>
+                }
+              >
+                <ContactForm sourcePath="/" />
+              </Suspense>
             </div>
           </Reveal>
         </div>

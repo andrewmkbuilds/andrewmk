@@ -10,7 +10,9 @@ export const PUBLISHED_URL = "https://andrewmk.lovable.app";
 const DEFAULT_SITE_URL = CUSTOM_DOMAIN_URL;
 
 const envSiteUrl =
-  (typeof import.meta !== "undefined" ? (import.meta as { env?: Record<string, string> }).env?.["VITE_SITE_URL"] : undefined) ??
+  (typeof import.meta !== "undefined"
+    ? (import.meta as { env?: Record<string, string> }).env?.["VITE_SITE_URL"]
+    : undefined) ??
   (typeof process !== "undefined" ? process.env?.["VITE_SITE_URL"] : undefined);
 
 export const SITE_URL = (envSiteUrl || DEFAULT_SITE_URL).replace(/\/$/, "");
@@ -26,7 +28,8 @@ export interface RouteMeta {
   /** Headline rendered into the generated og:image. */
   ogHeadline: string;
   noindex?: boolean;
-  changefreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
+  changefreq?:
+    "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
   priority?: string;
 }
 
@@ -68,6 +71,16 @@ export const routes: RouteMeta[] = [
     description:
       "From a robotics programme at age 9 to shipping AI products: the timeline behind Andrew Mathews' work.",
     ogHeadline: "From robotics at 9 to shipping AI products.",
+    changefreq: "monthly",
+    priority: "0.7",
+  },
+  {
+    path: "/skills",
+    label: "Skills",
+    title: "Skills | Andrew Mathews",
+    description:
+      "The development, AI, backend, hardware and tooling skills behind Andrew Mathews' projects, grouped by what they are actually used for.",
+    ogHeadline: "What I build with.",
     changefreq: "monthly",
     priority: "0.7",
   },
@@ -139,7 +152,8 @@ export function getRoute(path: string): RouteMeta {
 
 export function breadcrumbJsonLd(route: RouteMeta) {
   const items = [{ name: "Home", item: `${SITE_URL}/` }];
-  if (route.path !== "/") items.push({ name: route.label, item: `${SITE_URL}${route.path}` });
+  if (route.path !== "/")
+    items.push({ name: route.label, item: `${SITE_URL}${route.path}` });
 
   return {
     "@context": "https://schema.org",

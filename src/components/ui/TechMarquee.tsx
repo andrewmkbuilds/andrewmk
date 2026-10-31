@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 interface TechMarqueeProps {
@@ -8,9 +9,10 @@ interface TechMarqueeProps {
 }
 
 /**
- * Infinite ribbon of tools. Two identical groups scroll inside one track so the
- * loop is seamless; the duplicate is hidden from assistive tech. Hovering pauses
- * it, and under prefers-reduced-motion the ribbon becomes a static wrapped list.
+ * Infinite ribbon of tools. The loop is a single CSS transform animation on a
+ * compositor layer — no JavaScript positions anything per frame. It pauses when
+ * the ribbon is off-screen or the tab is hidden, hovering pauses it, and under
+ * prefers-reduced-motion it becomes a static wrapped list.
  */
 export function TechMarquee({
   items,
@@ -18,6 +20,33 @@ export function TechMarquee({
   className,
   label,
 }: TechMarqueeProps) {
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    let onScreen = true;
+    const sync = () => {
+      track.dataset["paused"] = onScreen && !document.hidden ? "false" : "true";
+    };
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        onScreen = Boolean(entry?.isIntersecting);
+        sync();
+      },
+      { threshold: 0 },
+    );
+    io.observe(track);
+
+    document.addEventListener("visibilitychange", sync);
+    return () => {
+      io.disconnect();
+      document.removeEventListener("visibilitychange", sync);
+    };
+  }, []);
+
   const group = (copy: boolean) => (
     <ul
       aria-hidden={copy || undefined}
@@ -29,7 +58,7 @@ export function TechMarquee({
       {items.map((item) => (
         <li
           key={item}
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-4 py-2 font-mono text-[12px] whitespace-nowrap text-foreground/85 shadow-[var(--elev-1)] transition-[transform,color,border-color,background-color] duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:border-gold/40 hover:text-foreground motion-reduce:transition-none motion-reduce:hover:transform-none"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-4 py-2 font-mono text-[12px] whitespace-nowrap text-foreground/85 shadow-[var(--elev-1)] transition-colors duration-300 hover:border-gold/40 hover:text-foreground"
         >
           <span
             aria-hidden="true"
@@ -43,7 +72,10 @@ export function TechMarquee({
 
   return (
     <div className={cn("marquee", className)} aria-label={label} role="group">
-      <div className={cn("marquee-track", reverse && "marquee-track-reverse")}>
+      <div
+        ref={trackRef}
+        className={cn("marquee-track", reverse && "marquee-track-reverse")}
+      >
         {group(false)}
         {group(true)}
       </div>

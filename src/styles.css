@@ -474,14 +474,11 @@
     transition:
       transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 0.34s cubic-bezier(0.22, 1, 0.36, 1),
-      filter 0.34s cubic-bezier(0.22, 1, 0.36, 1),
       background-color 0.2s ease;
-    will-change: transform, box-shadow;
   }
 
   .cta-pop .cta-arrow {
     transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: transform;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -491,7 +488,6 @@
         0 18px 38px -16px color-mix(in hsl, var(--fx) 48%, transparent),
         0 0 0 1px color-mix(in oklab, var(--fx) 26%, transparent),
         0 14px 26px -14px hsl(220 60% 2% / 0.95);
-      filter: brightness(1.08) contrast(1.04);
     }
 
     .cta-pop:hover .cta-arrow {
@@ -505,7 +501,6 @@
       0 18px 38px -16px color-mix(in hsl, var(--fx) 48%, transparent),
       0 0 0 1px color-mix(in oklab, var(--fx) 26%, transparent),
       0 14px 26px -14px hsl(220 60% 2% / 0.95);
-    filter: brightness(1.08) contrast(1.04);
   }
 
   .cta-pop:focus-visible .cta-arrow {
@@ -524,7 +519,6 @@
     .cta-pop:hover .cta-arrow,
     .cta-pop:focus-visible .cta-arrow {
       transform: none !important;
-      filter: none !important;
     }
     .cta-pop:hover,
     .cta-pop:focus-visible {
@@ -544,7 +538,6 @@
       transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 0.34s cubic-bezier(0.22, 1, 0.36, 1),
       border-color 0.3s ease;
-    will-change: transform, box-shadow;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -591,7 +584,6 @@
       transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 0.34s cubic-bezier(0.22, 1, 0.36, 1),
       border-color 0.3s ease;
-    will-change: transform, box-shadow;
     outline: none;
   }
 
@@ -812,7 +804,6 @@
       transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
       border-color 0.3s ease;
-    will-change: transform;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -854,12 +845,6 @@
 }
 
 @layer utilities {
-
-  .cursor-none-desktop {
-    @media (hover: hover) and (pointer: fine) {
-      cursor: none;
-    }
-  }
 
   .section-pad {
     padding-block: 5.5rem;
@@ -975,8 +960,8 @@
   --glass-fill: linear-gradient(
     150deg,
     color-mix(in oklab, var(--foreground) 8%, transparent),
-    color-mix(in oklab, var(--card) 58%, transparent) 46%,
-    color-mix(in oklab, var(--background) 84%, transparent)
+    color-mix(in oklab, var(--card) 94%, transparent) 46%,
+    color-mix(in oklab, var(--background) 97%, transparent)
   );
 }
 
@@ -1024,10 +1009,11 @@
 
 @layer utilities {
   /* Glass surface — sits above the ambient field without hiding it. */
+  /* Glass surface. No backdrop-filter: a blurred sticky header repaints the
+     whole strip on every scroll frame, which was the single biggest scroll
+     cost. An opaque gradient reads the same and stays on the compositor. */
   .glass {
     background: var(--glass-fill);
-    -webkit-backdrop-filter: blur(18px) saturate(150%);
-    backdrop-filter: blur(18px) saturate(150%);
     border: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
     box-shadow:
       var(--elev-2),
@@ -1061,55 +1047,44 @@
   }
 
   /* Ambient aurora light — the midground of the depth environment. */
+  /* Soft light fields. The gradient itself is the soft edge — no blur filter,
+     so the drift animates a single composited layer instead of re-blurring a
+     full-screen element every frame. */
   .aurora {
     position: absolute;
     border-radius: 999px;
-    filter: blur(90px);
     opacity: 0.5;
     pointer-events: none;
-    will-change: transform;
-    animation: aurora-drift 26s var(--ease-out-expo) infinite;
+    animation: aurora-drift 30s var(--ease-out-expo) infinite;
+    background: radial-gradient(
+      closest-side,
+      color-mix(in oklab, var(--primary) 22%, transparent),
+      color-mix(in oklab, var(--primary) 9%, transparent) 55%,
+      transparent 100%
+    );
   }
 
   .aurora-1 {
-    top: -20%;
-    left: -10%;
-    width: 54vw;
-    height: 48vh;
-    background: radial-gradient(
-      circle,
-      color-mix(in oklab, var(--primary) 26%, transparent),
-      transparent 70%
-    );
+    top: -24%;
+    left: -12%;
+    width: 62vw;
+    height: 56vh;
   }
 
   .aurora-2 {
-    top: 4%;
-    right: -16%;
-    width: 46vw;
-    height: 46vh;
+    top: 2%;
+    right: -18%;
+    width: 52vw;
+    height: 52vh;
     opacity: 0.34;
     background: radial-gradient(
-      circle,
-      color-mix(in oklab, var(--gold) 20%, transparent),
-      transparent 70%
+      closest-side,
+      color-mix(in oklab, var(--gold) 18%, transparent),
+      color-mix(in oklab, var(--gold) 7%, transparent) 52%,
+      transparent 100%
     );
     animation-name: aurora-drift-alt;
-    animation-duration: 34s;
-  }
-
-  .aurora-3 {
-    bottom: -24%;
-    left: 26%;
-    width: 58vw;
-    height: 42vh;
-    opacity: 0.28;
-    background: radial-gradient(
-      circle,
-      color-mix(in oklab, var(--primary-glow) 18%, transparent),
-      transparent 70%
-    );
-    animation-duration: 42s;
+    animation-duration: 38s;
   }
 
   /* Perspective floor — the deepest layer, giving the page a horizon. */
@@ -1168,12 +1143,13 @@
     animation: float-soft 9s var(--ease-out-expo) infinite;
   }
 
-  /* Mobile: lighter environment — fewer blobs, tighter blur, no floor. */
+  /* Mobile: lighter environment — no drifting light at all, softer floor. */
   @media (max-width: 767px) {
     .aurora {
-      filter: blur(64px);
+      animation: none;
+      opacity: 0.4;
     }
-    .aurora-3 {
+    .aurora-2 {
       display: none;
     }
     .depth-floor {
@@ -1246,7 +1222,6 @@
     border-left: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
     border-right: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
     box-shadow: 0 2px 8px -4px hsl(220 60% 2% / 0.9);
-    backdrop-filter: blur(1px);
     pointer-events: none;
   }
 
@@ -1266,7 +1241,6 @@
     text-transform: uppercase;
     color: var(--foreground);
     box-shadow: var(--elev-1);
-    backdrop-filter: blur(10px);
     rotate: -1.5deg;
   }
 
@@ -1287,9 +1261,10 @@
     box-shadow:
       0 1px 0 color-mix(in oklab, var(--foreground) 10%, transparent) inset,
       0 30px 60px -34px hsl(220 60% 2% / 1);
-    transition:
-      transform 0.5s var(--ease-out-expo),
-      box-shadow 0.5s var(--ease-out-expo);
+    /* No transform transition: the hero cards are dragged through a motion
+       value, and a CSS transition on the same property smoothed (lagged)
+       every pointer move. */
+    transition: box-shadow 0.5s var(--ease-out-expo);
   }
 
   /* Media panel inside a case study that settles as the row is hovered. */
@@ -1368,6 +1343,11 @@
     animation-duration: 58s;
   }
 
+  /* Off-screen or hidden tab: stop the loop entirely (set from JS). */
+  .marquee-track[data-paused="true"] {
+    animation-play-state: paused;
+  }
+
   .marquee:hover .marquee-track {
     animation-play-state: paused;
   }
@@ -1401,6 +1381,97 @@
     .step-arrow {
       transition: none !important;
       transform: none !important;
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MOTION BUDGET — reveals and entrances.
+
+   Scroll reveals are one shared IntersectionObserver adding `.is-revealed`;
+   hero entrances are CSS keyframes. Nothing here touches the main thread
+   beyond a class toggle, and only opacity/transform animate.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@keyframes enter-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes word-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 105%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, var(--reveal-y, 18px), 0);
+    transition:
+      opacity 0.5s var(--ease-out-expo),
+      transform 0.5s var(--ease-out-expo);
+  }
+
+  .reveal-scale {
+    transform: translate3d(0, var(--reveal-y, 18px), 0) scale(0.985);
+  }
+
+  .reveal.is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  .enter {
+    animation: enter-up 0.55s var(--ease-out-expo) both;
+  }
+
+  .reveal-word {
+    display: inline-block;
+    animation: word-rise 0.7s var(--ease-out-expo) both;
+  }
+
+  /* Tilt3D writes its transform directly; this just softens the follow. */
+  .tilt-3d {
+    transition: transform 0.3s var(--ease-out-expo);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal-scale {
+      opacity: 1;
+      transform: none;
+      transition: none !important;
+    }
+    .enter,
+    .reveal-word {
+      animation: none !important;
+    }
+    .tilt-3d {
+      transition: none !important;
+    }
+    .scroll-cue {
+      display: none;
+    }
+  }
+
+  /* Without JavaScript nothing would ever reveal; keep the content readable. */
+  @media (scripting: none) {
+    .reveal,
+    .reveal-scale {
+      opacity: 1;
+      transform: none;
     }
   }
 }

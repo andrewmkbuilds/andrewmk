@@ -21,6 +21,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://andrewmk.is-a.dev/skills</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://andrewmk.is-a.dev/achievements</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -57,6 +62,16 @@
   </url>
   <url>
     <loc>https://andrewmk.is-a.dev/projects/clientflow-os</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://andrewmk.is-a.dev/projects/symbiosense</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://andrewmk.is-a.dev/projects/aquaguard-ai</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

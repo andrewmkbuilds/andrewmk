@@ -1,9 +1,9 @@
-import { useRef, type ReactNode } from "react";
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
+import { useEffect, useRef } from "react";
+import { useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface Tilt3DProps {
-  children: ReactNode;
+  children: React.ReactNode;
   className?: string;
   /** Max rotation in degrees. Keep small — this should read as depth, not spin. */
   intensity?: number;
@@ -14,12 +14,12 @@ interface Tilt3DProps {
 }
 
 /**
- * Pointer-driven 3D tilt wrapper.
- * Desktop mouse only: touch pointers, coarse pointers and reduced-motion users
- * get a plain static container so nothing feels laggy or gimmicky on mobile.
+ * Pointer-driven 3D tilt wrapper for desktop mice only.
  *
- * Also publishes `--mx` / `--my` (pointer position within the element) so a
- * `.sheen` child can carry the key light across the surface.
+ * The element's box is measured once per pointer entry (not per move) and the
+ * style writes are coalesced into one frame, so a fast sweep across the card
+ * costs a couple of transforms instead of a layout read for every event.
+ * Touch, coarse pointers and reduced-motion users get a static container.
  */
 export function Tilt3D({
   children,
@@ -30,43 +30,55 @@ export function Tilt3D({
 }: Tilt3DProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
+  const rect = useRef<DOMRect | null>(null);
+  const pending = useRef<{ x: number; y: number } | null>(null);
+  const frame = useRef(0);
 
-  const px = useMotionValue(0.5);
-  const py = useMotionValue(0.5);
-  const spring = { stiffness: 150, damping: 22, mass: 0.6 };
-  const rotateX = useSpring(useTransform(py, [0, 1], [intensity, -intensity]), spring);
-  const rotateY = useSpring(useTransform(px, [0, 1], [-intensity, intensity]), spring);
+  useEffect(() => () => cancelAnimationFrame(frame.current), []);
+
+  const paint = () => {
+    frame.current = 0;
+    const el = ref.current;
+    const point = pending.current;
+    if (!el || !point) return;
+    el.style.transform = `perspective(${perspective}px) rotateX(${(-(point.y - 0.5) * intensity * 2).toFixed(2)}deg) rotateY(${((point.x - 0.5) * intensity * 2).toFixed(2)}deg)`;
+    el.style.setProperty("--mx", `${(point.x * 100).toFixed(1)}%`);
+    el.style.setProperty("--my", `${(point.y * 100).toFixed(1)}%`);
+  };
+
+  const handleEnter = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (reduce || e.pointerType !== "mouse") return;
+    rect.current = e.currentTarget.getBoundingClientRect();
+  };
 
   const handleMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (reduce || e.pointerType !== "mouse") return;
-    const el = ref.current;
-    const rect = el?.getBoundingClientRect();
-    if (!el || !rect) return;
-    px.set((e.clientX - rect.left) / rect.width);
-    py.set((e.clientY - rect.top) / rect.height);
-    el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-    el.style.setProperty("--my", `${e.clientY - rect.top}px`);
+    const box = rect.current;
+    if (!box) return;
+    pending.current = {
+      x: Math.min(1, Math.max(0, (e.clientX - box.left) / box.width)),
+      y: Math.min(1, Math.max(0, (e.clientY - box.top) / box.height)),
+    };
+    if (!frame.current) frame.current = requestAnimationFrame(paint);
   };
 
   const reset = () => {
-    px.set(0.5);
-    py.set(0.5);
+    rect.current = null;
+    pending.current = null;
+    const el = ref.current;
+    if (el) el.style.transform = "";
   };
 
   return (
-    <motion.div
+    <div
       ref={ref}
+      onPointerEnter={handleEnter}
       onPointerMove={handleMove}
       onPointerLeave={reset}
-      style={
-        reduce
-          ? {}
-          : { rotateX, rotateY, transformPerspective: perspective, transformStyle: "preserve-3d" }
-      }
-      className={cn("group relative", className)}
+      className={cn("tilt-3d group relative", className)}
     >
       {glare && <span aria-hidden="true" className="sheen" />}
       {children}
-    </motion.div>
+    </div>
   );
 }

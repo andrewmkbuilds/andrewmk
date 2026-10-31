@@ -76,7 +76,7 @@ export function TechConstellation({ className }: { className?: string }) {
     >
       <div className="pointer-events-none absolute inset-0 bg-grid opacity-40" aria-hidden="true" />
       <div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[90px]"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--primary)_14%,transparent),transparent_100%)]"
         aria-hidden="true"
       />
 

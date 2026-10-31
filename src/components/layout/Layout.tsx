@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
-import { CustomCursor } from "@/components/ui/CustomCursor";
 import { PageTransition } from "@/components/ui/PageTransition";
 import { AmbientLayers } from "@/components/ui/AmbientLayers";
 
@@ -19,7 +18,6 @@ export function Layout({ children }: LayoutProps) {
       >
         Skip to content
       </a>
-      <CustomCursor />
       <Header />
       <main id="main" className="relative flex-1 pt-16">
         <PageTransition>{children}</PageTransition>

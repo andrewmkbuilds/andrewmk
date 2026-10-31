@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@/lib/router-compat";
 import { animate, motion, useMotionValue } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
@@ -37,6 +37,8 @@ interface HeroCardProps {
   pos: { rotate: number; className: string };
   index: number;
   bounds: React.RefObject<HTMLDivElement | null>;
+  /** Dragging is a fine-pointer interaction; touch keeps normal scrolling. */
+  canDrag: boolean;
 }
 
 /**
@@ -44,13 +46,13 @@ interface HeroCardProps {
  * with the pointer's velocity and spring it back to its resting angle on
  * release — the card reads as a physical object rather than a box that moves.
  */
-function HeroCard({ project, pos, index, bounds }: HeroCardProps) {
+function HeroCard({ project, pos, index, bounds, canDrag }: HeroCardProps) {
   const reduce = useHydratedReducedMotion();
   const rotate = useMotionValue(pos.rotate);
 
   return (
     <motion.div
-      drag={!reduce}
+      drag={canDrag && !reduce}
       dragConstraints={bounds}
       dragElastic={0.14}
       dragMomentum={false}
@@ -78,25 +80,12 @@ function HeroCard({ project, pos, index, bounds }: HeroCardProps) {
         delay: reduce ? 0 : 0.35 + index * 0.12,
         ease: [0.22, 1, 0.36, 1],
       }}
-      whileHover={
-        reduce
-          ? {}
-          : {
-              y: -6,
-              scale: 1.015,
-              boxShadow: "0 40px 70px -34px hsl(220 60% 2% / 0.95)",
-            }
-      }
-      whileDrag={{
-        scale: 1.05,
-        zIndex: 60,
-        cursor: "grabbing",
-        boxShadow: "0 46px 80px -32px hsl(220 60% 2% / 1)",
-      }}
+      whileHover={canDrag && !reduce ? { y: -6, scale: 1.015 } : {}}
+      whileDrag={{ scale: 1.04, zIndex: 60, cursor: "grabbing" }}
       style={{ rotate }}
       className={cn(
         "paper tape absolute p-2.5 focus-within:ring-2 focus-within:ring-gold/50",
-        !reduce && "cursor-grab motion-reduce:cursor-auto",
+        canDrag && !reduce && "cursor-grab motion-reduce:cursor-auto",
         pos.className,
       )}
     >
@@ -138,6 +127,15 @@ function HeroCard({ project, pos, index, bounds }: HeroCardProps) {
 
 export function HeroCardStack({ projects, className }: HeroCardStackProps) {
   const bounds = useRef<HTMLDivElement>(null);
+  const [canDrag, setCanDrag] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const apply = () => setCanDrag(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
 
   return (
     <div
@@ -173,6 +171,7 @@ export function HeroCardStack({ projects, className }: HeroCardStackProps) {
           pos={layout[i] ?? fallbackPosition}
           index={i}
           bounds={bounds}
+          canDrag={canDrag}
         />
       ))}
 

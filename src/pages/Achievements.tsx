@@ -9,8 +9,10 @@ import { CertificateViewer } from "@/components/ui/CertificateViewer";
 import { certificates, type Certificate } from "@/data/certificates";
 import {
   achievementGroups,
+  certificationGroups,
   competitionResults,
   exhibitions,
+  fllSeasons,
   munResults,
 } from "@/data/portfolio";
 
@@ -110,6 +112,81 @@ export default function Achievements() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="container">
+          <SectionHeading
+            label="Robotics"
+            title="FIRST LEGO League"
+            subtitle="Regional competition, then nationals — and the BIOGLOW season now in progress with team SYMBIONIX."
+          />
+          <div className="grid gap-5 md:grid-cols-2">
+            {fllSeasons.map((season, i) => (
+              <Reveal key={season.season} delay={i * 60} className="h-full">
+                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-gold/40">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
+                    {season.season}
+                  </p>
+                  <h3 className="mt-3 text-lg font-semibold text-foreground">
+                    {season.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {season.detail}
+                  </p>
+                  <ul className="mt-4 grid list-none gap-2 p-0">
+                    {season.points.map((point) => (
+                      <li
+                        key={point}
+                        className="flex items-start gap-2 text-sm text-foreground/85"
+                      >
+                        <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-gold" />
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="container">
+          <SectionHeading
+            label="Learning"
+            title="Certifications & Learning"
+            subtitle="Course and programme completions, listed as exactly that — learning milestones rather than professional accreditation."
+          />
+          <div className="grid gap-5 md:grid-cols-3">
+            {certificationGroups.map((group, i) => (
+              <Reveal key={group.title} delay={i * 60} className="h-full">
+                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card">
+                  <h3 className="text-sm font-mono uppercase tracking-[0.16em] text-primary">
+                    {group.title}
+                  </h3>
+                  <ul className="mt-4 grid list-none gap-3 p-0">
+                    {group.items.map((item) => (
+                      <li key={item.name}>
+                        <p className="text-sm font-medium text-foreground">
+                          {item.name}
+                        </p>
+                        <p className="mt-0.5 text-xs text-muted-foreground">
+                          {item.detail}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <p className="mt-8 font-mono text-xs text-muted-foreground">
+            <span className="text-primary">//</span> Original certificates are
+            viewable in the gallery below.
+          </p>
         </div>
       </section>
 

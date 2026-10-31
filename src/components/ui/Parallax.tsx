@@ -1,15 +1,13 @@
-import { type ReactNode, useEffect, useRef, useState } from "react";
-import { motion, useScroll, useSpring, useTransform } from "motion/react";
+import { type ReactNode, useEffect, useRef } from "react";
+import { subscribeScroll } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
-import { useHydratedReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 
 interface ParallaxProps {
   children: ReactNode;
   className?: string;
   /**
-   * Travel in px across the element's full viewport pass. Positive moves the
-   * element against the scroll (background layers); negative moves it with
-   * the scroll (foreground layers). Keep it small — depth, not decoration.
+   * Travel in px across the element's full viewport pass. Keep it small —
+   * depth, not decoration.
    */
   distance?: number;
   /** Extra scale at the edges of the pass — subtle zoom, 0 disables. */
@@ -19,12 +17,10 @@ interface ParallaxProps {
 }
 
 /**
- * Scroll-linked depth. Only `transform` is animated, so it stays on the
- * compositor and never causes layout shift.
- *
- * Disabled for reduced-motion users (the child renders exactly as it would
- * outside the wrapper) and halved on narrow viewports so phones keep a light
- * motion budget.
+ * Scroll-linked depth with a strict budget: one shared scroll listener for the
+ * whole page, transforms only, and work limited to elements actually on
+ * screen. It never runs on phones (below 768px) or for reduced-motion users,
+ * where the child simply renders in place.
  */
 export function Parallax({
   children,
@@ -34,39 +30,82 @@ export function Parallax({
   ariaHidden = false,
 }: ParallaxProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useHydratedReducedMotion();
-  const [factor, setFactor] = useState(1);
 
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
-    const apply = () => setFactor(mq.matches ? 0.45 : 1);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Phones get a static composition: no scroll-linked work at all.
+    if (window.matchMedia("(max-width: 767px)").matches) return;
 
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
+    let visible = false;
+    let top = 0;
+    let height = 1;
+    let viewport = window.innerHeight;
+    let unsubscribe: (() => void) | undefined;
 
-  const travel = distance * factor;
-  const rawY = useTransform(scrollYProgress, [0, 1], [travel, -travel]);
-  const y = useSpring(rawY, { stiffness: 120, damping: 30, mass: 0.35 });
-  const rawScale = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    [1, 1 + scale, 1],
-  );
+    const measure = () => {
+      const rect = el.getBoundingClientRect();
+      top = rect.top + window.scrollY;
+      height = Math.max(1, rect.height);
+      viewport = window.innerHeight;
+    };
+
+    const apply = (y: number) => {
+      if (!visible) return;
+      const passed = y + viewport - top;
+      const progress = Math.min(1, Math.max(0, passed / (viewport + height)));
+      const offset = (0.5 - progress) * 2 * distance;
+      el.style.transform =
+        scale > 0
+          ? `translate3d(0, ${offset.toFixed(2)}px, 0) scale(${(1 + (0.5 - Math.abs(progress - 0.5)) * scale).toFixed(4)})`
+          : `translate3d(0, ${offset.toFixed(2)}px, 0)`;
+    };
+
+    const start = () => {
+      if (visible) return;
+      visible = true;
+      el.style.willChange = "transform";
+      measure();
+      unsubscribe = subscribeScroll(apply);
+    };
+
+    const stop = () => {
+      visible = false;
+      el.style.willChange = "";
+      unsubscribe?.();
+      unsubscribe = undefined;
+    };
+
+    const io = new IntersectionObserver(
+      ([entry]) => (entry?.isIntersecting ? start() : stop()),
+      { threshold: 0 },
+    );
+    io.observe(el);
+
+    const ro = new ResizeObserver(() => {
+      if (visible) {
+        measure();
+        apply(window.scrollY);
+      }
+    });
+    ro.observe(el);
+
+    return () => {
+      stop();
+      io.disconnect();
+      ro.disconnect();
+      el.style.transform = "";
+    };
+  }, [distance, scale]);
 
   return (
-    <motion.div
+    <div
       ref={ref}
       aria-hidden={ariaHidden || undefined}
       className={cn(className)}
-      style={reduce ? {} : { y, scale: rawScale, willChange: "transform" }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

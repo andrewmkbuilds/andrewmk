@@ -1,7 +1,6 @@
 import { Link } from "@/lib/router-compat";
 import { ArrowRight } from "lucide-react";
 import { SocialIcons } from "@/components/ui/SocialIcons";
-import { Magnetic } from "@/components/ui/Magnetic";
 import { Parallax } from "@/components/ui/Parallax";
 import logoUrl from "@/assets/andrewbuilds-logo.png";
 
@@ -11,6 +10,7 @@ const links = [
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
   { href: "/achievements", label: "Achievements" },
+  { href: "/skills", label: "Skills" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -33,7 +33,7 @@ export function Footer() {
           distance={26}
           className="absolute -top-40 left-1/2 h-72 w-[110%]"
         >
-          <div className="-translate-x-1/2 h-full w-full rounded-full bg-primary/10 blur-[120px]" />
+          <div className="-translate-x-1/2 h-full w-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--primary)_12%,transparent),transparent_100%)]" />
         </Parallax>
         <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-gold/40 to-transparent" />
       </div>
@@ -57,7 +57,7 @@ export function Footer() {
               Student · Developer · AI Builder
             </p>
 
-            <Magnetic className="mt-7">
+            <div className="mt-7 inline-flex">
               <Link
                 to="/contact"
                 className="cta-pop group inline-flex items-center gap-3 rounded-full border border-gold/30 bg-gold/10 px-5 py-3 font-mono text-sm text-foreground"
@@ -68,7 +68,7 @@ export function Footer() {
                   aria-hidden="true"
                 />
               </Link>
-            </Magnetic>
+            </div>
           </div>
 
           <nav aria-label="Footer" className="flex flex-col gap-3">

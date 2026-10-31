@@ -19,6 +19,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ResumeRouteImport } from './routes/resume'
+import { Route as SkillsRouteImport } from './routes/skills'
 import { Route as WorkRouteImport } from './routes/work'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
@@ -80,6 +81,11 @@ const ProfileRoute = ProfileRouteImport.update({
 const ResumeRoute = ResumeRouteImport.update({
   id: '/resume',
   path: '/resume',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsRoute = SkillsRouteImport.update({
+  id: '/skills',
+  path: '/skills',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WorkRoute = WorkRouteImport.update({
@@ -162,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/journey': typeof JourneyRoute
   '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
+  '/skills': typeof SkillsRoute
   '/work': typeof WorkRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -186,6 +193,7 @@ export interface FileRoutesByTo {
   '/journey': typeof JourneyRoute
   '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
+  '/skills': typeof SkillsRoute
   '/work': typeof WorkRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -212,6 +220,7 @@ export interface FileRoutesById {
   '/journey': typeof JourneyRoute
   '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
+  '/skills': typeof SkillsRoute
   '/work': typeof WorkRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -238,6 +247,7 @@ export interface FileRouteTypes {
     | '/journey'
     | '/profile'
     | '/resume'
+    | '/skills'
     | '/work'
     | '/blog/$slug'
     | '/projects/$slug'
@@ -262,6 +272,7 @@ export interface FileRouteTypes {
     | '/journey'
     | '/profile'
     | '/resume'
+    | '/skills'
     | '/work'
     | '/blog/$slug'
     | '/projects/$slug'
@@ -287,6 +298,7 @@ export interface FileRouteTypes {
     | '/journey'
     | '/profile'
     | '/resume'
+    | '/skills'
     | '/work'
     | '/blog/$slug'
     | '/projects/$slug'
@@ -313,6 +325,7 @@ export interface RootRouteChildren {
   JourneyRoute: typeof JourneyRoute
   ProfileRoute: typeof ProfileRoute
   ResumeRoute: typeof ResumeRoute
+  SkillsRoute: typeof SkillsRoute
   WorkRoute: typeof WorkRoute
   BlogSlugRoute: typeof BlogSlugRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
@@ -391,6 +404,13 @@ declare module '@tanstack/react-router' {
       path: '/resume'
       fullPath: '/resume'
       preLoaderRoute: typeof ResumeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills': {
+      id: '/skills'
+      path: '/skills'
+      fullPath: '/skills'
+      preLoaderRoute: typeof SkillsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/work': {
@@ -534,6 +554,7 @@ const rootRouteChildren: RootRouteChildren = {
   JourneyRoute: JourneyRoute,
   ProfileRoute: ProfileRoute,
   ResumeRoute: ResumeRoute,
+  SkillsRoute: SkillsRoute,
   WorkRoute: WorkRoute,
   BlogSlugRoute: BlogSlugRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,

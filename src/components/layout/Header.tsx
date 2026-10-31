@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "@/lib/router-compat";
 import { Menu, ArrowUpRight } from "lucide-react";
-import { motion, useScroll, useSpring } from "motion/react";
+import { subscribeScroll } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
 import {
   Sheet,
@@ -29,6 +29,7 @@ const primaryNav = [
   { href: "/about", label: "About" },
   { href: "/journey", label: "Journey" },
   { href: "/achievements", label: "Awards" },
+  { href: "/skills", label: "Skills" },
   { href: "/blog", label: "Writing" },
   { href: "/contact", label: "Contact" },
 ];
@@ -43,6 +44,7 @@ const navItems = [
   { href: "/about", label: "About" },
   { href: "/journey", label: "Journey" },
   { href: "/achievements", label: "Achievements" },
+  { href: "/skills", label: "Skills" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -59,19 +61,27 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, {
-    stiffness: 140,
-    damping: 30,
-    mass: 0.3,
-  });
+  const progressRef = useRef<HTMLDivElement>(null);
+  const scrolledRef = useRef(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  // One shared, frame-batched scroll listener drives both the capsule's
+  // elevation and its reading-progress edge. The progress bar is written
+  // straight to the DOM, so scrolling never triggers a React render.
+  useEffect(
+    () =>
+      subscribeScroll((y) => {
+        const next = y > 16;
+        if (next !== scrolledRef.current) {
+          scrolledRef.current = next;
+          setScrolled(next);
+        }
+        const el = progressRef.current;
+        if (!el) return;
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        el.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max).toFixed(4) : "0"})`;
+      }),
+    [],
+  );
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
@@ -81,7 +91,7 @@ export function Header() {
             "relative mt-3 flex max-w-[calc(100vw-1.5rem)] items-center gap-1 rounded-full p-1.5 transition-[box-shadow,background-color,border-color] duration-500 sm:mt-4",
             scrolled
               ? "glass shadow-[var(--elev-3)]"
-              : "border border-foreground/10 bg-background/45 backdrop-blur-md",
+              : "border border-foreground/10 bg-background/80",
           )}
         >
           {/* Brand — avatar disc + wordmark */}
@@ -127,13 +137,7 @@ export function Header() {
                   )}
                 >
                   {active && (
-                    <motion.span
-                      layoutId="nav-pill"
-                      transition={{
-                        type: "spring",
-                        stiffness: 380,
-                        damping: 32,
-                      }}
+                    <span
                       className="absolute inset-0 -z-10 rounded-full border border-gold/25 bg-foreground/[0.06] shadow-[inset_0_1px_0_hsl(0_0%_100%/.1)]"
                       aria-hidden="true"
                     />
@@ -224,9 +228,10 @@ export function Header() {
           </Sheet>
 
           {/* Reading progress — the capsule's lit bottom edge */}
-          <motion.div
+          <div
+            ref={progressRef}
             aria-hidden="true"
-            style={{ scaleX: progress }}
+            style={{ transform: "scaleX(0)" }}
             className="absolute inset-x-4 bottom-0 h-px origin-left rounded-full bg-linear-to-r from-primary via-gold to-transparent"
           />
         </div>

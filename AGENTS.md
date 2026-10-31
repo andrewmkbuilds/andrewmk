@@ -72,19 +72,25 @@ Quirks worth knowing:
   observe, so open routes with `preview_screenshot path=` / a direct URL instead.)
 - **Admin:** the first account created at `/auth` ("Create the first admin account") is promoted
   to `admin` by the `bootstrap_first_admin` trigger; later public signups are blocked by design.
-  This sandbox already has that first admin — **`andrew@andrewbuilds.dev` / `AndrewBuilds!Admin2026`**
-  (sign in at `/auth`, land on `/admin`). Change the password from `/admin/settings/security`.
-  It lives in the `db-data` volume only, so after `down -v` create it again; a direct GoTrue call
-  works and runs the trigger:
+  A sandbox database may already hold that first admin. **Admin credentials are never recorded in
+  this repository** — no email, password or token belongs in docs, source, or committed env files.
+  If you need to create the first admin on a fresh volume, choose the password yourself and pass it
+  through your shell environment (never paste it into a file that git tracks):
 
   ```sh
+  read -r -s ADMIN_PASSWORD                       # prompt, not echoed, not stored
   ANON=$(docker compose -f docker-compose.base44.yml exec -T web sh -c 'bun /app/docker/base44/jwt.mjs anon')
   curl -s -X POST 'http://localhost:8000/auth/v1/signup' \
     -H "apikey: $ANON" -H "Authorization: Bearer $ANON" -H 'Content-Type: application/json' \
-    -d '{"email":"andrew@andrewbuilds.dev","password":"AndrewBuilds!Admin2026"}'
+    -d "{\"email\":\"<your-admin-email>\",\"password\":\"$ADMIN_PASSWORD\"}"; unset ADMIN_PASSWORD
   docker compose -f docker-compose.base44.yml exec -T db psql -U postgres -d postgres \
     -c 'select user_id, role from public.user_roles;'
   ```
+
+  Admin routes are gated server-side (the `_authenticated` route loads the session and role, and
+  every admin server function re-checks it against `public.user_roles`), so a client-side route
+  guard is never the only check. Rotate any password that has ever appeared in a transcript, doc or
+  commit from `/admin/settings/security`.
 
 - **Contact form** writes to `contact_messages`. Email delivery additionally needs
   `RESEND_API_KEY` + `CONTACT_TO_EMAIL` (optional, see `.base44/environment.json`); without them
@@ -155,9 +161,42 @@ Known non-blocking noise: TanStack warns that `inputValidator()` is deprecated.
 Hydration: motion's `useReducedMotion()` resolves to `null` on the server, so any component that
 branches on it while rendering (structure, inline styles, classNames) sent markup the client could
 not match. `src/hooks/use-hydrated-reduced-motion.ts` returns `false` until mount; use it instead of
-`useReducedMotion()` wherever the value changes markup (`Reveal`, `RevealWords`, `Parallax`,
-`PageTransition`, `HeroCardStack`). Header's active pill is derived only from the router's resolved
-location (`isActiveRoute`), never from `window`.
+`useReducedMotion()` wherever the value changes markup (`HeroCardStack`). Header's active pill is
+derived only from the router's resolved location (`isActiveRoute`), never from `window`.
+
+## Performance budget
+
+The site is deliberately cheap to run. Keep it that way — these are the rules the current build
+follows and the reasons behind them:
+
+- **One scroll listener.** `src/lib/scroll.ts` owns the only `scroll` subscription, batches work into
+  one `requestAnimationFrame`, and every subscriber unsubscribes when it goes off screen. Header
+  (capsule elevation + progress bar) and `Parallax` use it; nothing adds its own scroll handler.
+- **Reveals are CSS.** `Reveal` / `RevealWords` use a single shared `IntersectionObserver` that adds
+  `.is-revealed` (styles in the "MOTION BUDGET" block at the end of `src/styles.css`). No per-element
+  springs, no inline animation styles, and `prefers-reduced-motion` is handled in CSS so SSR and
+  hydration agree.
+- **No `backdrop-filter` on sticky or repeated surfaces.** A blurred sticky header repaints the strip
+  every scroll frame; `.glass`, `.sticker` and `.tape` use layered translucent gradients instead.
+- **No `filter: blur()` light fields.** Ambient and hero glows are radial gradients whose falloff is
+  the blur — a full-screen filter would be re-blurred each frame.
+- **Never `will-change` at rest.** Only the marquee tracks and the parallax elements while they are
+  on screen opt in; permanent hints on every card cost GPU memory.
+- **Marquee is one CSS transform.** `TechMarquee` pauses via `data-paused` when the ribbon is
+  off screen or the tab is hidden, and does no per-frame positioning in JS.
+- **Hero cards drag on fine pointers only.** `HeroCardStack` uses motion values (no React state per
+  pointer move), and the `.paper` surface has no CSS transform transition — that transition used to
+  smooth (lag) every drag frame.
+- **Parallax never runs on phones** (below 768px) and stops entirely under reduced motion.
+- **Below-the-fold bundles are split.** The home contact form is `React.lazy`; TanStack splits each
+  route file into its own chunk automatically (verified in `vite build` output).
+- **Fonts** are limited to the weights the design uses (Sora 400/600/700, Inter 400/500/600,
+  JetBrains Mono 400/500, Instrument Serif).
+
+Measured on the sandbox (production build, `bunx vite build` in the `web` service): the shared
+entry chunk is ~156 KB gzip, the layout/vendor chunk ~81 KB gzip before the animation library was
+removed from Header/Footer/PageTransition, and each route ships its own chunk (e.g. `/journey`
+~12 KB, `/achievements` ~19 KB raw). Re-measure after any change to shared components.
 
 ## Sandbox-only overrides
 

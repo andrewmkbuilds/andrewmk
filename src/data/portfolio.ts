@@ -44,7 +44,12 @@ export interface Project {
   startDate?: string;
   endDate?: string;
   /** Per-project SEO overrides; blanks fall back to generated defaults. */
-  seo?: { title?: string; description?: string; canonical?: string; ogImage?: string };
+  seo?: {
+    title?: string;
+    description?: string;
+    canonical?: string;
+    ogImage?: string;
+  };
 }
 
 export const featuredProjects: Project[] = [
@@ -72,23 +77,56 @@ export const featuredProjects: Project[] = [
     problem:
       "Early-career candidates get almost no useful feedback. Resumes disappear into applicant tracking systems without explanation, interview practice is either expensive or unstructured, and applications end up scattered across spreadsheets, inboxes and browser tabs. The missing piece is not more advice — it is a system that reviews your material, tells you exactly what is weak, and keeps the whole search in one place.",
     stack: [
-      { group: "Interface", items: ["React", "TypeScript", "Tailwind CSS", "Component library"] },
-      { group: "AI layer", items: ["LLM APIs", "Structured prompting", "Scoring rubrics", "Streaming responses"] },
-      { group: "Backend", items: ["Postgres", "Row-level security", "Auth", "File storage", "Server functions"] },
-      { group: "Platform", items: ["Lovable", "MCP integration", "Credit-based usage metering"] },
+      {
+        group: "Interface",
+        items: ["React", "TypeScript", "Tailwind CSS", "Component library"],
+      },
+      {
+        group: "AI layer",
+        items: [
+          "LLM APIs",
+          "Structured prompting",
+          "Scoring rubrics",
+          "Streaming responses",
+        ],
+      },
+      {
+        group: "Backend",
+        items: [
+          "Postgres",
+          "Row-level security",
+          "Auth",
+          "File storage",
+          "Server functions",
+        ],
+      },
+      {
+        group: "Platform",
+        items: ["Lovable", "MCP integration", "Credit-based usage metering"],
+      },
     ],
     gallery: [
       {
         title: "Resume analysis",
         caption:
           "Upload a resume and get a structured breakdown: ATS score, keyword coverage, weak bullet points and concrete rewrite suggestions instead of vague feedback.",
-        lines: ["ATS score", "Keyword gaps", "Bullet rewrites", "Section checks"],
+        lines: [
+          "ATS score",
+          "Keyword gaps",
+          "Bullet rewrites",
+          "Section checks",
+        ],
       },
       {
         title: "AI mock interviews",
         caption:
           "Role-specific interview sessions that ask follow-up questions, then score answers on structure, specificity and relevance so practice actually compounds.",
-        lines: ["Role selection", "Live Q&A", "Answer scoring", "Session replay"],
+        lines: [
+          "Role selection",
+          "Live Q&A",
+          "Answer scoring",
+          "Session replay",
+        ],
       },
       {
         title: "Job tracker",
@@ -126,18 +164,39 @@ export const featuredProjects: Project[] = [
       },
     ],
     results: [
-      { label: "Status", value: "In active development", note: "Core flows working end to end." },
-      { label: "Core modules", value: "6", note: "Resume, ATS, interviews, tracker, analytics, plan." },
-      { label: "Feedback loop", value: "Analyse → practise → apply", note: "One connected system." },
-      { label: "Integrations", value: "MCP tools", note: "Resumes, jobs and reminders exposed to assistants." },
+      {
+        label: "Status",
+        value: "In active development",
+        note: "Core flows working end to end.",
+      },
+      {
+        label: "Core modules",
+        value: "6",
+        note: "Resume, ATS, interviews, tracker, analytics, plan.",
+      },
+      {
+        label: "Feedback loop",
+        value: "Analyse → practise → apply",
+        note: "One connected system.",
+      },
+      {
+        label: "Integrations",
+        value: "MCP tools",
+        note: "Resumes, jobs and reminders exposed to assistants.",
+      },
     ],
     metrics: {
       title: "Early traction",
       intro:
         "Gradr attracted 300+ visitors within its first three days after launch, demonstrating strong early interest in the platform.",
-      source: "Figure measures website visitors, not registered or active users.",
+      source:
+        "Figure measures website visitors, not registered or active users.",
       items: [
-        { value: "300+", label: "Website visitors", note: "First three days after launch." },
+        {
+          value: "300+",
+          label: "Website visitors",
+          note: "First three days after launch.",
+        },
       ],
     },
   },
@@ -166,9 +225,33 @@ export const featuredProjects: Project[] = [
     problem:
       "Most budgeting apps assume you already have the discipline they are supposed to build. They show you a pie chart after the money is gone. Stack Up started from the opposite question: what would make a student actually open a finance app on a normal Tuesday? The answer was progress — visible streaks, goals that move, and numbers small enough to act on.",
     stack: [
-      { group: "Interface", items: ["React", "Component-driven UI", "Responsive layouts", "Charting"] },
-      { group: "Logic", items: ["Budget engine", "Streak & XP rules", "Goal projection", "Category rollups"] },
-      { group: "Data", items: ["Per-user records", "Transaction history", "Recurring entries", "Auth"] },
+      {
+        group: "Interface",
+        items: [
+          "React",
+          "Component-driven UI",
+          "Responsive layouts",
+          "Charting",
+        ],
+      },
+      {
+        group: "Logic",
+        items: [
+          "Budget engine",
+          "Streak & XP rules",
+          "Goal projection",
+          "Category rollups",
+        ],
+      },
+      {
+        group: "Data",
+        items: [
+          "Per-user records",
+          "Transaction history",
+          "Recurring entries",
+          "Auth",
+        ],
+      },
       { group: "Platform", items: ["Base44", "Hosted deployment"] },
     ],
     gallery: [
@@ -176,25 +259,45 @@ export const featuredProjects: Project[] = [
         title: "Dashboard",
         caption:
           "One screen answers the only question that matters day to day: how much is left, and is this month on track compared to the last one.",
-        lines: ["Safe-to-spend", "Month trend", "Top categories", "Streak status"],
+        lines: [
+          "Safe-to-spend",
+          "Month trend",
+          "Top categories",
+          "Streak status",
+        ],
       },
       {
         title: "Expense capture",
         caption:
           "Logging a spend takes a few seconds — amount, category, optional note — because anything slower gets abandoned within a week.",
-        lines: ["Quick add", "Smart categories", "Recurring entries", "Edit history"],
+        lines: [
+          "Quick add",
+          "Smart categories",
+          "Recurring entries",
+          "Edit history",
+        ],
       },
       {
         title: "Budgets & goals",
         caption:
           "Budgets are per category with live burn-down, and savings goals project a realistic finish date from actual deposit behaviour.",
-        lines: ["Category caps", "Burn-down bars", "Goal projection", "Overspend alerts"],
+        lines: [
+          "Category caps",
+          "Burn-down bars",
+          "Goal projection",
+          "Overspend alerts",
+        ],
       },
       {
         title: "Streaks & analytics",
         caption:
           "Gamification is tied to behaviour that actually helps — logging consistently and staying under budget — not to spending more.",
-        lines: ["Daily streak", "XP levels", "Category breakdown", "Month-over-month"],
+        lines: [
+          "Daily streak",
+          "XP levels",
+          "Category breakdown",
+          "Month-over-month",
+        ],
       },
     ],
     challenges: [
@@ -220,18 +323,39 @@ export const featuredProjects: Project[] = [
       },
     ],
     results: [
-      { label: "Status", value: "Live", note: "Publicly usable at stackup-app.base44.app." },
-      { label: "First shipped product", value: "2024", note: "Idea to deployed app end to end." },
-      { label: "Core modules", value: "5", note: "Expenses, budgets, goals, streaks, analytics." },
-      { label: "Entry time", value: "< 10s", note: "Design target for logging a spend." },
+      {
+        label: "Status",
+        value: "Live",
+        note: "Publicly usable at stackup-app.base44.app.",
+      },
+      {
+        label: "First shipped product",
+        value: "2024",
+        note: "Idea to deployed app end to end.",
+      },
+      {
+        label: "Core modules",
+        value: "5",
+        note: "Expenses, budgets, goals, streaks, analytics.",
+      },
+      {
+        label: "Entry time",
+        value: "< 10s",
+        note: "Design target for logging a spend.",
+      },
     ],
     metrics: {
       title: "Early traction",
       intro:
         "Stack Up attracted 600+ visitors within its first week after launch, demonstrating strong early interest following launch.",
-      source: "Figure measures website visitors, not registered or active users.",
+      source:
+        "Figure measures website visitors, not registered or active users.",
       items: [
-        { value: "600+", label: "Website visitors", note: "First week after launch." },
+        {
+          value: "600+",
+          label: "Website visitors",
+          note: "First week after launch.",
+        },
       ],
     },
   },
@@ -257,10 +381,26 @@ export const featuredProjects: Project[] = [
     problem:
       "Shopping sustainably online is mostly guesswork. Product pages optimise for conversion, claims are unverifiable, and comparing a greener alternative means opening five tabs mid-checkout. TerraCart puts the analysis where the decision happens — on the product page — and offers a concrete alternative instead of a lecture.",
     stack: [
-      { group: "Extension", items: ["Browser extension", "Product page parsing", "Content scripts"] },
-      { group: "AI layer", items: ["Product understanding", "Claim research", "Alternative matching"] },
-      { group: "Interface", items: ["Inline panel", "Comparison view", "Shopping checklist"] },
-      { group: "Data", items: ["Product cache", "Category heuristics", "Saved items"] },
+      {
+        group: "Extension",
+        items: ["Browser extension", "Product page parsing", "Content scripts"],
+      },
+      {
+        group: "AI layer",
+        items: [
+          "Product understanding",
+          "Claim research",
+          "Alternative matching",
+        ],
+      },
+      {
+        group: "Interface",
+        items: ["Inline panel", "Comparison view", "Shopping checklist"],
+      },
+      {
+        group: "Data",
+        items: ["Product cache", "Category heuristics", "Saved items"],
+      },
     ],
     gallery: [
       {
@@ -273,7 +413,12 @@ export const featuredProjects: Project[] = [
         title: "Better alternatives",
         caption:
           "Instead of a score with no action attached, it surfaces comparable products that are genuinely more sustainable and similar in price and function.",
-        lines: ["Similar items", "Why it's better", "Price delta", "Availability"],
+        lines: [
+          "Similar items",
+          "Why it's better",
+          "Price delta",
+          "Availability",
+        ],
       },
       {
         title: "Shopping checklist",
@@ -300,9 +445,21 @@ export const featuredProjects: Project[] = [
       },
     ],
     results: [
-      { label: "Status", value: "In development", note: "Analysis and alternatives in progress." },
-      { label: "Surface", value: "Browser extension", note: "Works inline on product pages." },
-      { label: "Principle", value: "Evidence over scores", note: "Unverified claims labelled as such." },
+      {
+        label: "Status",
+        value: "In development",
+        note: "Analysis and alternatives in progress.",
+      },
+      {
+        label: "Surface",
+        value: "Browser extension",
+        note: "Works inline on product pages.",
+      },
+      {
+        label: "Principle",
+        value: "Evidence over scores",
+        note: "Unverified claims labelled as such.",
+      },
     ],
   },
 
@@ -331,10 +488,32 @@ export const featuredProjects: Project[] = [
     problem:
       "Small studios and freelancers run their business across six tools that do not talk: a CRM, a chat app, a spreadsheet of projects, an invoicing tool, a drive folder and a notes app. Every handoff between them is manual and every status question costs a search. ClientFlow OS collapses the client lifecycle — enquiry to delivery to payment — into one connected system.",
     stack: [
-      { group: "Interface", items: ["React", "TypeScript", "Dashboard layouts", "Approval flows"] },
-      { group: "Backend", items: ["Postgres", "Row-level security", "Auth", "File storage", "Server functions"] },
-      { group: "Payments", items: ["Stripe", "Invoicing", "Payment status sync"] },
-      { group: "AI layer", items: ["Automations", "Conversation summarisation", "Draft generation"] },
+      {
+        group: "Interface",
+        items: ["React", "TypeScript", "Dashboard layouts", "Approval flows"],
+      },
+      {
+        group: "Backend",
+        items: [
+          "Postgres",
+          "Row-level security",
+          "Auth",
+          "File storage",
+          "Server functions",
+        ],
+      },
+      {
+        group: "Payments",
+        items: ["Stripe", "Invoicing", "Payment status sync"],
+      },
+      {
+        group: "AI layer",
+        items: [
+          "Automations",
+          "Conversation summarisation",
+          "Draft generation",
+        ],
+      },
     ],
     gallery: [
       {
@@ -353,13 +532,23 @@ export const featuredProjects: Project[] = [
         title: "Payments & invoicing",
         caption:
           "Invoices are generated from project milestones and reconciled through Stripe, so paid work and unpaid work are never ambiguous.",
-        lines: ["Invoice builder", "Stripe checkout", "Status sync", "Reminders"],
+        lines: [
+          "Invoice builder",
+          "Stripe checkout",
+          "Status sync",
+          "Reminders",
+        ],
       },
       {
         title: "AI automation",
         caption:
           "Routine work — summarising a thread, drafting an update, flagging a stalled project — is automated so the system reduces admin rather than adding it.",
-        lines: ["Thread summaries", "Draft updates", "Stall detection", "Suggested next steps"],
+        lines: [
+          "Thread summaries",
+          "Draft updates",
+          "Stall detection",
+          "Suggested next steps",
+        ],
       },
     ],
     challenges: [
@@ -385,33 +574,262 @@ export const featuredProjects: Project[] = [
       },
     ],
     results: [
-      { label: "Status", value: "In active development", note: "Core lifecycle working." },
-      { label: "Modules", value: "8", note: "Clients, projects, comms, payments, docs, automation." },
+      {
+        label: "Status",
+        value: "In active development",
+        note: "Core lifecycle working.",
+      },
+      {
+        label: "Modules",
+        value: "8",
+        note: "Clients, projects, comms, payments, docs, automation.",
+      },
       { label: "Payments", value: "Stripe", note: "Webhook-driven state." },
-      { label: "Code", value: "Public repo", note: "github.com/andrewmkbuilds/ClientFlow-OS" },
+      {
+        label: "Code",
+        value: "Public repo",
+        note: "github.com/andrewmkbuilds/ClientFlow-OS",
+      },
     ],
   },
-
 ];
 
 export const ecosystemProjects: Project[] = [
   {
+    slug: "symbiosense",
+    name: "SYMBIOSENSE",
+    category: "STEM · AI · Environmental Monitoring",
+    description:
+      "Team SYMBIONIX's FIRST LEGO League BIOGLOW innovation project — Connected by Nature. Driven by Innovation. Lichen observations, environmental measurements and AI-assisted invasive-plant detection, built to help conservation teams decide where to investigate first.",
+    built: [
+      "Environmental sensing rig",
+      "Lichen observation workflow",
+      "AI-assisted detection concept",
+      "Monitoring dashboard",
+    ],
+    tech: ["LEGO SPIKE Prime", "ESP32", "Sensors", "AI"],
+    status: "In progress",
+    filters: ["AI", "IoT"],
+    problem:
+      "Detect the warning. Protect the ecosystem. Conservation teams cannot survey everything, and invasive plant spread is easiest to stop while it is still small — but finding those spots means walking large areas with limited people. SYMBIOSENSE explores a different starting point: lichen and local environmental readings change in ways that can point to stress, so a small sensor rig plus phone-camera observations could help a team decide which locations deserve a site visit first, instead of guessing.",
+    stack: [
+      {
+        group: "Hardware",
+        items: [
+          "LEGO SPIKE Prime",
+          "ESP32-WROOM-32",
+          "BME280 (temperature, humidity, pressure)",
+          "VEML7700 (ambient light)",
+          "Android phone camera",
+        ],
+      },
+      {
+        group: "Software",
+        items: [
+          "Environmental monitoring dashboard",
+          "Lichen observation workflow",
+          "AI-assisted invasive-plant detection",
+        ],
+      },
+      {
+        group: "Team",
+        items: ["Team SYMBIONIX", "Andrew: Material Manager / Project Manager"],
+      },
+    ],
+    gallery: [
+      {
+        title: "Detect the warning",
+        caption:
+          "The workflow starts with observation: lichen coverage and condition recorded alongside temperature, humidity, pressure and light at each location.",
+        lines: [
+          "Lichen survey",
+          "BME280 readings",
+          "Light levels",
+          "Geotagged notes",
+        ],
+      },
+      {
+        title: "Protect the ecosystem",
+        caption:
+          "Readings and observations are collected on a dashboard so a conservation team can see which locations stand out and prioritise them for a real investigation.",
+        lines: [
+          "Monitoring dashboard",
+          "Location list",
+          "Risk flags",
+          "Priority view",
+        ],
+      },
+      {
+        title: "AI-assisted detection",
+        caption:
+          "Phone-camera images feed an AI-assisted detection step that flags possible invasive plants for a human to confirm — a prompt for investigation, never an automatic verdict.",
+        lines: [
+          "Image capture",
+          "Candidate detection",
+          "Human review",
+          "Logged outcome",
+        ],
+      },
+    ],
+    challenges: [
+      {
+        title: "Keeping the claim proportional to the evidence",
+        detail:
+          "Environmental indicators are noisy, and a school project cannot prove a causal link. The project is framed as a prioritisation aid for conservation teams, with every output labelled as a candidate for investigation rather than a validated finding.",
+      },
+      {
+        title: "Working across two very different toolchains",
+        detail:
+          "LEGO SPIKE Prime handles the team's build and demonstration, while the ESP32 with BME280 and VEML7700 carries the actual environmental sensing. Coordinating both in one demonstration took more planning than either part alone.",
+      },
+      {
+        title: "Running a project as well as building it",
+        detail:
+          "As Material Manager and Project Manager I tracked parts, build order and deadlines so the team could spend its time on the prototype instead of on logistics.",
+      },
+    ],
+    results: [
+      {
+        label: "Team",
+        value: "SYMBIONIX",
+        note: "FIRST LEGO League, BIOGLOW season.",
+      },
+      { label: "My role", value: "Material Manager / Project Manager" },
+      {
+        label: "Stage",
+        value: "Prototype · in progress",
+        note: "Concept and prototype work. No scientific validation claimed.",
+      },
+    ],
+  },
+  {
+    slug: "aquaguard-ai",
+    name: "AquaGuard AI",
+    category: "AI · Computer Vision · IoT",
+    description:
+      "A STEM build exploring how satellite and drone water imagery can become a pixel-grid risk map, combined with environmental sensing to flag where water quality deserves a closer look.",
+    built: [
+      "Pixel-grid risk mapping",
+      "Environmental sensing",
+      "Risk visualisation",
+      "Prototype hardware",
+    ],
+    tech: ["AI", "Computer Vision", "ESP32", "IoT"],
+    status: "Prototype",
+    filters: ["AI", "IoT", "Python"],
+    problem:
+      "Water problems are usually noticed after they are visible. Satellite and drone imagery is cheap and frequent, but raw images are hard to act on — a whole lake looks like a whole lake. AquaGuard AI explores turning imagery into a grid of smaller cells, each carrying a risk value, so a monitoring team can see which parts of a water body changed and combine that with sensor readings from the site.",
+    stack: [
+      {
+        group: "Imagery",
+        items: [
+          "Satellite imagery",
+          "Drone imagery",
+          "Pixel-grid analysis",
+          "Change detection",
+        ],
+      },
+      {
+        group: "Sensing",
+        items: ["ESP32", "Water and environmental sensors", "Field readings"],
+      },
+      {
+        group: "Interface",
+        items: ["Risk map visualisation", "Grid cell detail", "Sensor overlay"],
+      },
+      {
+        group: "AI",
+        items: ["Computer vision", "Risk scoring concept"],
+      },
+    ],
+    gallery: [
+      {
+        title: "Pixel-grid risk map",
+        caption:
+          "Imagery is divided into a grid instead of being treated as one flat picture, so risk can be expressed per cell and change can be compared cell by cell over time.",
+        lines: ["Grid overlay", "Per-cell values", "Change view", "Legend"],
+      },
+      {
+        title: "Sensor layer",
+        caption:
+          "ESP32-based sensing adds on-the-ground context — the map shows where to look, the sensors say what the water is actually doing there.",
+        lines: [
+          "ESP32 node",
+          "Sensor readings",
+          "Timestamped logs",
+          "Location match",
+        ],
+      },
+      {
+        title: "Investigation list",
+        caption:
+          "The output is a shortlist of cells worth checking, not a verdict, so the next step stays a human inspection.",
+        lines: ["Ranked cells", "Notes", "Follow-up", "History"],
+      },
+    ],
+    challenges: [
+      {
+        title: "Imagery is not measurement",
+        detail:
+          "Pixel colour and index values suggest conditions; they do not confirm contamination. The project keeps the map as an indicator layer and pairs it with sensor data rather than presenting imagery alone as evidence.",
+      },
+      {
+        title: "Making a grid readable",
+        detail:
+          "A dense grid of numbers is unusable. Risk is expressed as a small number of bands with an explicit legend, so a viewer can read the map in seconds.",
+      },
+      {
+        title: "Honest scope for a student build",
+        detail:
+          "This is prototype work: the pipeline and visualisation are the deliverable. No field validation or accuracy figures are claimed.",
+      },
+    ],
+    results: [
+      {
+        label: "Status",
+        value: "Prototype",
+        note: "Concept, pipeline and visualisation work.",
+      },
+      {
+        label: "Approach",
+        value: "Imagery + sensors",
+        note: "Grid risk map plus ESP32 readings.",
+      },
+      {
+        label: "Validation",
+        value: "Not yet validated",
+        note: "No field results or accuracy claims.",
+      },
+    ],
+  },
+  {
     slug: "horizon-motorsports",
     name: "Horizon Motorsports",
-    category: "Racing / Community",
+    category: "STEM Racing / Team",
     description:
-      "Digital home for Horizon Motorsports, a UAE-based racing team competing in FLL, Techfest, and engineering competitions.",
-    built: ["Team site", "Competition presence", "Motion-driven interface"],
+      "Horizon Motorsports is the UAE-based STEM Racing team I work with as Sponsorship Manager — engineering, marketing and competition work around a real racing programme.",
+    built: [
+      "Sponsorship & partnerships",
+      "Team site",
+      "Competition presence",
+      "Motion-driven interface",
+    ],
     tech: ["React", "Framer Motion"],
     status: "Active",
     live: "https://horizonmotorsports.base44.app/",
     filters: ["React"],
     platform: "base44",
     problem:
-      "Horizon Motorsports needed a presence that matched how the team actually operates: a Dubai-based racing and engineering team competing in FLL, Techfest and other UAE competitions, with a following that lives mostly on social. The site had to work as the anchor visitors land on from Instagram — fast, motion-driven, and clear about who the team is and what it competes in.",
+      "Horizon Motorsports needed a presence that matched how the team actually operates: a Dubai-based STEM Racing and engineering team competing in FLL, Techfest and other UAE competitions, with a following that lives mostly on social. As Sponsorship Manager I work on the partnership and marketing side of that programme, and the site had to work as the anchor visitors land on from Instagram — fast, motion-driven, and clear about who the team is and what it competes in.",
     stack: [
-      { group: "Interface", items: ["React", "Framer Motion", "Responsive layout"] },
-      { group: "Content", items: ["Team profile", "Competition history", "Media sections"] },
+      {
+        group: "Interface",
+        items: ["React", "Framer Motion", "Responsive layout"],
+      },
+      {
+        group: "Content",
+        items: ["Team profile", "Competition history", "Media sections"],
+      },
       { group: "Platform", items: ["Base44", "Hosted deployment"] },
     ],
     challenges: [
@@ -432,10 +850,22 @@ export const ecosystemProjects: Project[] = [
       },
     ],
     results: [
-      { label: "Status", value: "Active", note: "Live team site." },
-      { label: "Competitions", value: "FLL · Techfest", note: "UAE engineering and robotics circuit." },
+      {
+        label: "My role",
+        value: "Sponsorship Manager",
+        note: "Partnerships and team marketing.",
+      },
+      {
+        label: "Team",
+        value: "Horizon Motorsports",
+        note: "UAE-based STEM Racing team.",
+      },
+      {
+        label: "Competitions",
+        value: "FLL · Techfest",
+        note: "UAE engineering and robotics circuit.",
+      },
       { label: "Base", value: "Dubai, UAE", note: "Team operates locally." },
-      { label: "Primary channel", value: "Instagram", note: "Site is the landing point for social traffic." },
     ],
     metrics: {
       title: "Digital reach",
@@ -444,12 +874,36 @@ export const ecosystemProjects: Project[] = [
       source:
         "Source: Instagram account analytics for the reporting period shown in the app. Views, accounts reached, interactions and profile visits are distinct Instagram metrics and are not website visits.",
       items: [
-        { value: "6,631", label: "Total views", note: "Instagram content views." },
-        { value: "486", label: "Accounts reached", note: "Unique Instagram accounts." },
-        { value: "857", label: "Interactions", note: "Instagram content interactions." },
-        { value: "494", label: "Profile visits", note: "Visits to the Instagram profile." },
-        { value: "14", label: "External link clicks", note: "Clicks on the profile link." },
-        { value: "149", label: "Followers", note: "Instagram account followers." },
+        {
+          value: "6,631",
+          label: "Total views",
+          note: "Instagram content views.",
+        },
+        {
+          value: "486",
+          label: "Accounts reached",
+          note: "Unique Instagram accounts.",
+        },
+        {
+          value: "857",
+          label: "Interactions",
+          note: "Instagram content interactions.",
+        },
+        {
+          value: "494",
+          label: "Profile visits",
+          note: "Visits to the Instagram profile.",
+        },
+        {
+          value: "14",
+          label: "External link clicks",
+          note: "Clicks on the profile link.",
+        },
+        {
+          value: "149",
+          label: "Followers",
+          note: "Instagram account followers.",
+        },
       ],
       breakdown: [
         { label: "Accounts reached — followers", value: "65.6%" },
@@ -476,7 +930,12 @@ export const ecosystemProjects: Project[] = [
     category: "Productivity / AI",
     description:
       "AI-powered developer command center designed to bring tasks, focus sessions, and project threads into one place.",
-    built: ["Task system", "Focus sessions", "Project threads", "AI integration"],
+    built: [
+      "Task system",
+      "Focus sessions",
+      "Project threads",
+      "AI integration",
+    ],
     tech: ["Python", "AI Integration"],
     status: "Live",
     live: "https://dev-os-flow.base44.app/",
@@ -485,9 +944,26 @@ export const ecosystemProjects: Project[] = [
     problem:
       "Building alone means context lives in five places at once — a task list, a terminal, a notes file, a chat with an AI assistant, and whatever was open when you stopped. DevOS came out of my own workflow: one command center where the task, the focus session and the project thread are the same object, so picking work back up does not require reconstructing it.",
     stack: [
-      { group: "Core", items: ["Python", "Task engine", "Session timer", "Thread store"] },
-      { group: "AI layer", items: ["Assistant integration", "Context summarisation", "Task breakdown"] },
-      { group: "Interface", items: ["Command-driven UI", "Keyboard-first navigation", "Project boards"] },
+      {
+        group: "Core",
+        items: ["Python", "Task engine", "Session timer", "Thread store"],
+      },
+      {
+        group: "AI layer",
+        items: [
+          "Assistant integration",
+          "Context summarisation",
+          "Task breakdown",
+        ],
+      },
+      {
+        group: "Interface",
+        items: [
+          "Command-driven UI",
+          "Keyboard-first navigation",
+          "Project boards",
+        ],
+      },
       { group: "Platform", items: ["Base44", "Hosted deployment"] },
     ],
     gallery: [
@@ -495,7 +971,12 @@ export const ecosystemProjects: Project[] = [
         title: "Command center",
         caption:
           "Everything starts from one input: create a task, start a focus block, or open a project thread without leaving the keyboard.",
-        lines: ["Command palette", "Today view", "Active session", "Quick capture"],
+        lines: [
+          "Command palette",
+          "Today view",
+          "Active session",
+          "Quick capture",
+        ],
       },
       {
         title: "Focus sessions",
@@ -513,7 +994,12 @@ export const ecosystemProjects: Project[] = [
         title: "AI assist",
         caption:
           "The assistant reads the thread, breaks a vague task into concrete steps, and summarises where a project stalled.",
-        lines: ["Task breakdown", "Thread summary", "Next step", "Context recall"],
+        lines: [
+          "Task breakdown",
+          "Thread summary",
+          "Next step",
+          "Context recall",
+        ],
       },
     ],
     challenges: [
@@ -534,10 +1020,26 @@ export const ecosystemProjects: Project[] = [
       },
     ],
     results: [
-      { label: "Status", value: "Live", note: "Usable at dev-os-flow.base44.app." },
-      { label: "Objects unified", value: "3", note: "Tasks, focus sessions, project threads." },
-      { label: "Built for", value: "Solo builders", note: "Designed around my own workflow." },
-      { label: "Interaction", value: "Keyboard-first", note: "Command-driven navigation." },
+      {
+        label: "Status",
+        value: "Live",
+        note: "Usable at dev-os-flow.base44.app.",
+      },
+      {
+        label: "Objects unified",
+        value: "3",
+        note: "Tasks, focus sessions, project threads.",
+      },
+      {
+        label: "Built for",
+        value: "Solo builders",
+        note: "Designed around my own workflow.",
+      },
+      {
+        label: "Interaction",
+        value: "Keyboard-first",
+        note: "Command-driven navigation.",
+      },
     ],
   },
 
@@ -556,9 +1058,23 @@ export const ecosystemProjects: Project[] = [
     problem:
       "Notes apps store text; they do not store thinking. Ideas arrive unformed, at bad times, and the connection between two of them is usually the valuable part. COGNOS was an attempt to build a capture surface that classifies a raw thought the moment it lands and then shows how it relates to everything captured before.",
     stack: [
-      { group: "Capture", items: ["Fast entry", "Voice-to-text input", "Tag inference"] },
-      { group: "AI layer", items: ["Classification", "Embeddings", "Similarity linking", "NLP cleanup"] },
-      { group: "Graph", items: ["Node/edge model", "Cluster detection", "Interactive map"] },
+      {
+        group: "Capture",
+        items: ["Fast entry", "Voice-to-text input", "Tag inference"],
+      },
+      {
+        group: "AI layer",
+        items: [
+          "Classification",
+          "Embeddings",
+          "Similarity linking",
+          "NLP cleanup",
+        ],
+      },
+      {
+        group: "Graph",
+        items: ["Node/edge model", "Cluster detection", "Interactive map"],
+      },
       { group: "Platform", items: ["Base44", "Persistent store"] },
     ],
     gallery: [
@@ -566,13 +1082,23 @@ export const ecosystemProjects: Project[] = [
         title: "Raw capture",
         caption:
           "One input box, no folders, no decisions. The cost of capturing a thought has to be near zero or the thought is lost.",
-        lines: ["Instant entry", "No taxonomy", "Timestamped", "Offline-tolerant"],
+        lines: [
+          "Instant entry",
+          "No taxonomy",
+          "Timestamped",
+          "Offline-tolerant",
+        ],
       },
       {
         title: "Automatic classification",
         caption:
           "Each entry is typed — idea, question, task, observation — and tagged, so structure appears after capture instead of blocking it.",
-        lines: ["Type detection", "Auto tags", "Confidence", "Manual correction"],
+        lines: [
+          "Type detection",
+          "Auto tags",
+          "Confidence",
+          "Manual correction",
+        ],
       },
       {
         title: "Idea graph",
@@ -599,9 +1125,21 @@ export const ecosystemProjects: Project[] = [
       },
     ],
     results: [
-      { label: "Status", value: "Live", note: "Usable at cognos-app.base44.app." },
-      { label: "Pipeline", value: "Capture → classify → connect", note: "Fully automatic." },
-      { label: "Link quality", value: "Embedding-based", note: "Replaced keyword matching." },
+      {
+        label: "Status",
+        value: "Live",
+        note: "Usable at cognos-app.base44.app.",
+      },
+      {
+        label: "Pipeline",
+        value: "Capture → classify → connect",
+        note: "Fully automatic.",
+      },
+      {
+        label: "Link quality",
+        value: "Embedding-based",
+        note: "Replaced keyword matching.",
+      },
     ],
   },
 
@@ -620,9 +1158,26 @@ export const ecosystemProjects: Project[] = [
     problem:
       "Research sessions end with forty tabs and no memory of why half of them were opened. Closing them loses the thread; keeping them makes the browser unusable. TabZen treats tabs as a working set that should be grouped, summarised and archived without losing the reason each one existed.",
     stack: [
-      { group: "Extension", items: ["Browser extension APIs", "Tab & window events", "Local storage"] },
-      { group: "AI layer", items: ["Page summarisation", "Topic clustering", "Title normalisation"] },
-      { group: "Interface", items: ["Group view", "Search over archive", "One-click restore"] },
+      {
+        group: "Extension",
+        items: [
+          "Browser extension APIs",
+          "Tab & window events",
+          "Local storage",
+        ],
+      },
+      {
+        group: "AI layer",
+        items: [
+          "Page summarisation",
+          "Topic clustering",
+          "Title normalisation",
+        ],
+      },
+      {
+        group: "Interface",
+        items: ["Group view", "Search over archive", "One-click restore"],
+      },
       { group: "Platform", items: ["Base44", "Hosted app surface"] },
     ],
     gallery: [
@@ -630,7 +1185,12 @@ export const ecosystemProjects: Project[] = [
         title: "Context groups",
         caption:
           "Open tabs are clustered by topic rather than by the order they were opened, so a research thread stays together even when it was interrupted.",
-        lines: ["Auto grouping", "Manual override", "Group naming", "Pin important"],
+        lines: [
+          "Auto grouping",
+          "Manual override",
+          "Group naming",
+          "Pin important",
+        ],
       },
       {
         title: "Summaries",
@@ -642,7 +1202,12 @@ export const ecosystemProjects: Project[] = [
         title: "Lossless archive",
         caption:
           "Archiving closes the tabs but keeps URL, title, summary and group, so nothing is lost and everything is searchable.",
-        lines: ["Archive session", "Full-text search", "Restore group", "Export"],
+        lines: [
+          "Archive session",
+          "Full-text search",
+          "Restore group",
+          "Export",
+        ],
       },
     ],
     challenges: [
@@ -664,8 +1229,16 @@ export const ecosystemProjects: Project[] = [
     ],
     results: [
       { label: "Status", value: "Live", note: "Usable at tabzen.base44.app." },
-      { label: "Core loop", value: "Group → summarise → archive", note: "Three-step workflow." },
-      { label: "Data loss", value: "Zero by design", note: "Archive precedes close." },
+      {
+        label: "Core loop",
+        value: "Group → summarise → archive",
+        note: "Three-step workflow.",
+      },
+      {
+        label: "Data loss",
+        value: "Zero by design",
+        note: "Archive precedes close.",
+      },
     ],
   },
 
@@ -755,8 +1328,17 @@ export const ecosystemProjects: Project[] = [
     category: "Real-Time Communication",
     description:
       "Push-to-talk voice communication concept connecting smartwatches and phones for instant communication.",
-    built: ["Push-to-talk", "Real-time audio streaming", "Cross-device pairing"],
-    tech: ["Flutter", "Python", "Real-Time Audio Streaming", "Cross-Device Communication"],
+    built: [
+      "Push-to-talk",
+      "Real-time audio streaming",
+      "Cross-device pairing",
+    ],
+    tech: [
+      "Flutter",
+      "Python",
+      "Real-Time Audio Streaming",
+      "Cross-Device Communication",
+    ],
     status: "Concept",
     filters: ["Flutter", "Python"],
   },
@@ -798,7 +1380,10 @@ export const ecosystemProjects: Project[] = [
   },
 ];
 
-export const allProjects: Project[] = [...featuredProjects, ...ecosystemProjects];
+export const allProjects: Project[] = [
+  ...featuredProjects,
+  ...ecosystemProjects,
+];
 
 export function getProject(slug: string): Project | undefined {
   return allProjects.find((p) => p.slug === slug);
@@ -826,11 +1411,24 @@ export const quickStats = [
 export const buildingCategories = [
   {
     title: "AI",
-    items: ["Generative AI", "AI APIs", "AI applications", "AI assistants", "AI integrations"],
+    items: [
+      "Generative AI",
+      "AI APIs",
+      "AI applications",
+      "AI assistants",
+      "AI integrations",
+    ],
   },
   {
     title: "Software",
-    items: ["Python", "TypeScript", "JavaScript", "React", "Flutter", "Tkinter"],
+    items: [
+      "Python",
+      "TypeScript",
+      "JavaScript",
+      "React",
+      "Flutter",
+      "Tkinter",
+    ],
   },
   {
     title: "Computer Vision",
@@ -838,15 +1436,31 @@ export const buildingCategories = [
   },
   {
     title: "Robotics",
-    items: ["Robotics", "Sensors", "Hardware integration", "Engineering competitions"],
+    items: [
+      "Robotics",
+      "Sensors",
+      "Hardware integration",
+      "Engineering competitions",
+    ],
   },
   {
     title: "Product",
-    items: ["Product design", "Systems thinking", "Rapid prototyping", "Problem solving"],
+    items: [
+      "Product design",
+      "Systems thinking",
+      "Rapid prototyping",
+      "Problem solving",
+    ],
   },
   {
     title: "Competition",
-    items: ["Techfest", "FLL", "F1 in Schools / STEM Racing", "MUN", "Exhibitions"],
+    items: [
+      "Techfest",
+      "FLL",
+      "F1 in Schools / STEM Racing",
+      "MUN",
+      "Exhibitions",
+    ],
   },
 ];
 
@@ -895,7 +1509,9 @@ export const timeline: TimelineEntry[] = [
     year: "2024",
     title: "Techfest Breakout",
     meta: "Age 11 · Grade 5-6",
-    body: ["Participated across Coding, Data Science, and Space Tech pathways."],
+    body: [
+      "Participated across Coding, Data Science, and Space Tech pathways.",
+    ],
     points: [
       "2nd Place Space Tech at Group Techfest",
       "Certificate of Merit",
@@ -944,9 +1560,29 @@ export const timeline: TimelineEntry[] = [
     ],
   },
   {
+    year: "2026",
+    title: "Competing, Certifying, Shipping",
+    meta: "The Indian High School, Dubai · Grade 7-8",
+    body: [
+      "Alongside building, the year went into competition work: MUN conferences, FIRST LEGO League with team SYMBIONIX, and STEM Racing with Horizon Motorsports.",
+    ],
+    points: [
+      "IHSMUN 2025 — Honourable Mention, Best Position Paper",
+      "IHS UNSummit 2026 — Verbal Commendation, Best Resolution",
+      "Novara MUN 2026 — Verbal Commendation",
+      "FLL 2025–26 — qualified from regionals to nationals",
+      "FLL 2026–27 — BIOGLOW season, team SYMBIONIX, project SYMBIOSENSE",
+      "Sponsorship Manager, Horizon Motorsports (STEM Racing)",
+      "Accepted into TKS 2026–27",
+      "AquaGuard AI prototype · SYMBIOSENSE build",
+    ],
+  },
+  {
     year: "NOW",
     title: "Building What's Next",
-    body: ["More ambitious products. More competitions. More experiments. More systems."],
+    body: [
+      "More ambitious products. More competitions. More experiments. More systems.",
+    ],
   },
 ];
 
@@ -982,18 +1618,80 @@ export interface MunResult {
 }
 
 export const competitionResults: CompetitionResult[] = [
-  { place: "1st Place", detail: "Data Science", event: "Techfest", certKey: "techfest-data-science-1st" },
-  { place: "2nd Place", detail: "IoT", event: "Techfest", certKey: "techfest-iot-2nd" },
-  { place: "2nd Place", detail: "Space Tech", event: "Group Techfest", certKey: "techfest-space-tech-2nd" },
-  { place: "Innovation Award", detail: "FLL UAE", event: "Dubai Regional", certKey: "fll-innovation" },
-  { place: "2nd Place", detail: "Math Expo", event: '"Math & Me"', certKey: "math-expo" },
-  { place: "3rd Place", detail: "Shot Put", event: "Annual Athletic Meet", certKey: "shot-put" },
+  {
+    place: "1st Place",
+    detail: "Data Science",
+    event: "Techfest",
+    certKey: "techfest-data-science-1st",
+  },
+  {
+    place: "2nd Place",
+    detail: "IoT",
+    event: "Techfest",
+    certKey: "techfest-iot-2nd",
+  },
+  {
+    place: "2nd Place",
+    detail: "Space Tech",
+    event: "Group Techfest",
+    certKey: "techfest-space-tech-2nd",
+  },
+  {
+    place: "Innovation Award",
+    detail: "FLL UAE",
+    event: "Dubai Regional",
+    certKey: "fll-innovation",
+  },
+  {
+    place: "2nd Place",
+    detail: "Math Expo",
+    event: '"Math & Me"',
+    certKey: "math-expo",
+  },
+  {
+    place: "3rd Place",
+    detail: "Shot Put",
+    event: "Annual Athletic Meet",
+    certKey: "shot-put",
+  },
 ];
 
 export const munResults: MunResult[] = [
-  { title: "IHSMUN 2025", detail: "FIA · Verbal Commendation", certKey: "mun-ihsmun-2025" },
-  { title: "Novara MUN 2026", detail: "UNSC · Verbal Commendation" },
-  { title: "IHS UNSummit 2026", detail: "FIA · Verbal Commendation + Best Resolution" },
+  {
+    title: "IHSMUN 2025",
+    detail: "Honourable Mention · Best Position Paper",
+    certKey: "mun-ihsmun-2025",
+  },
+  {
+    title: "IHS UNSummit 2026",
+    detail: "Verbal Commendation · Best Resolution",
+  },
+  { title: "Novara MUN 2026", detail: "Verbal Commendation" },
+];
+
+/** FIRST LEGO League seasons, listed only as far as they are confirmed. */
+export const fllSeasons = [
+  {
+    season: "2025–26",
+    title: "FIRST LEGO League · UNEARTHED",
+    detail:
+      "Competed at the Dubai Regional and qualified from regionals to nationals.",
+    points: [
+      "Innovation Award at the Dubai Regional",
+      "Qualified from regionals through to nationals",
+    ],
+  },
+  {
+    season: "2026–27",
+    title: "BIOGLOW · Team SYMBIONIX",
+    detail:
+      "Current season: team SYMBIONIX, innovation project SYMBIOSENSE — lichen observations and environmental sensing to support conservation teams.",
+    points: [
+      "Team: SYMBIONIX",
+      "Innovation project: SYMBIOSENSE",
+      "Role: Material Manager / Project Manager",
+    ],
+  },
 ];
 
 export const exhibitions = [
@@ -1090,11 +1788,18 @@ export const buildAreas: BuildArea[] = [
   },
 ];
 
-
 export const currentlyBuilding = [
   { name: "Gradr", status: "Building", note: "AI career accelerator." },
-  { name: "TerraCart", status: "Developing", note: "Sustainable shopping assistant." },
-  { name: "ClientFlow OS", status: "In Active Development", note: "Business operating system." },
+  {
+    name: "TerraCart",
+    status: "Developing",
+    note: "Sustainable shopping assistant.",
+  },
+  {
+    name: "ClientFlow OS",
+    status: "In Active Development",
+    note: "Business operating system.",
+  },
   { name: "Horizon Motorsports", status: "Active", note: "UAE racing team." },
 ];
 
@@ -1161,7 +1866,167 @@ export const socialLinks: SocialLink[] = [
     label: "All My Links",
     handle: "linktr.ee/andrewmkbuilds",
     url: "https://linktr.ee/andrewmkbuilds",
-    description: "The central hub for every profile, project, and link of mine.",
+    description:
+      "The central hub for every profile, project, and link of mine.",
     cta: "View All My Links",
+  },
+];
+
+/** One-line professional description, used wherever the site states who I am. */
+export const PROFILE_TITLE =
+  "Student Developer · Full-Stack Builder · AI & Automation Enthusiast · STEM Innovator";
+
+export const SCHOOL = "The Indian High School, Dubai";
+
+export const interests = [
+  "Artificial intelligence",
+  "Full-stack development",
+  "SaaS",
+  "Automation",
+  "Cybersecurity",
+  "Ethical hacking",
+  "Robotics",
+  "IoT",
+  "Data science",
+  "STEM",
+  "Developer tools",
+  "Product building",
+];
+
+export interface SkillGroup {
+  title: string;
+  /** Where this capability actually comes from, so the list stays honest. */
+  note: string;
+  items: string[];
+}
+
+export const skillGroups: SkillGroup[] = [
+  {
+    title: "Development",
+    note: "Used across the shipped projects on this site.",
+    items: [
+      "Python",
+      "JavaScript",
+      "TypeScript",
+      "React",
+      "Full-stack development",
+      "Web development",
+    ],
+  },
+  {
+    title: "AI",
+    note: "AI-first products, assistants and vision experiments.",
+    items: [
+      "AI application development",
+      "AI-assisted workflows",
+      "AI automation",
+      "Computer vision",
+      "AI product experimentation",
+    ],
+  },
+  {
+    title: "Backend & Data",
+    note: "The data and auth layer behind the web products.",
+    items: [
+      "Supabase",
+      "SQL",
+      "APIs",
+      "Databases",
+      "Authentication",
+      "Data workflows",
+    ],
+  },
+  {
+    title: "Hardware & STEM",
+    note: "Robotics, IoT and environmental sensing builds.",
+    items: [
+      "ESP32",
+      "LEGO SPIKE Prime",
+      "Robotics",
+      "IoT",
+      "Sensors",
+      "Embedded experimentation",
+    ],
+  },
+  {
+    title: "Cybersecurity",
+    note: "Learning and hands-on security experimentation.",
+    items: ["Ethical hacking", "Cybersecurity", "Security experimentation"],
+  },
+  {
+    title: "Developer Tools",
+    note: "What I actually build and ship with.",
+    items: [
+      "GitHub",
+      "Cursor",
+      "Base44",
+      "Lovable",
+      "Vercel",
+      "Figma",
+      "Supabase",
+    ],
+  },
+];
+
+export interface CertificationEntry {
+  name: string;
+  detail: string;
+}
+
+export interface CertificationGroup {
+  title: string;
+  items: CertificationEntry[];
+}
+
+/**
+ * Learning and completion certificates. These are course and programme
+ * completions, not professional accreditations, and they are labelled that way.
+ */
+export const certificationGroups: CertificationGroup[] = [
+  {
+    title: "AI & developer skills",
+    items: [
+      { name: "Claude 101", detail: "Anthropic · completion certificate" },
+      { name: "Claude Code 101", detail: "Anthropic · completion certificate" },
+      {
+        name: "AI Fluency for Students",
+        detail: "Anthropic · completion certificate",
+      },
+      {
+        name: "Software Engineer Intern",
+        detail: "HackerRank · certificate of accomplishment",
+      },
+      {
+        name: "Frontend Developer (React)",
+        detail: "HackerRank · certificate of accomplishment",
+      },
+    ],
+  },
+  {
+    title: "Data & cloud",
+    items: [
+      {
+        name: "MongoDB Indexing Design Fundamentals",
+        detail: "MongoDB · proof of completion",
+      },
+      {
+        name: "CRUD Operations in MongoDB",
+        detail: "MongoDB · proof of completion",
+      },
+      {
+        name: "Google Cloud learning track",
+        detail: "DataCamp · four statement-of-accomplishment courses",
+      },
+    ],
+  },
+  {
+    title: "Academic & programmes",
+    items: [
+      { name: "Environmental Short Course", detail: "ASDAN · 4 credits" },
+      {
+        name: "TKS 2026–27",
+        detail: "The Knowledge Society · accepted for the 2026–27 cohort",
+      },
+    ],
   },
 ];

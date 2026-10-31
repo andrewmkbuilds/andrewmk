@@ -2,7 +2,14 @@ import { Layout } from "@/components/layout/Layout";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { TechTag } from "@/components/ui/TechTag";
-import { buildingCategories, principles, socialLinks } from "@/data/portfolio";
+import {
+  PROFILE_TITLE,
+  SCHOOL,
+  buildingCategories,
+  interests,
+  principles,
+  socialLinks,
+} from "@/data/portfolio";
 import { getSocialIcon } from "@/components/ui/SocialIcons";
 
 export default function About() {
@@ -28,9 +35,9 @@ export default function About() {
               <div className="mt-8 space-y-6">
                 <Reveal delay={60}>
                   <p className="text-lg text-foreground leading-relaxed">
-                    I'm a student, builder, and systems thinker based in Dubai.
-                    I work across artificial intelligence, software development,
-                    robotics, product design, and engineering competitions.
+                    I'm Andrew Mathews — a student developer at The Indian High
+                    School, Dubai, and a full-stack builder working across
+                    artificial intelligence, automation, robotics and STEM.
                   </p>
                 </Reveal>
                 <Reveal delay={120}>
@@ -65,9 +72,13 @@ export default function About() {
                       <dt className="font-mono text-xs text-muted-foreground">
                         Identity
                       </dt>
-                      <dd className="text-foreground">
-                        Student · Developer · AI Builder · Systems Thinker
-                      </dd>
+                      <dd className="text-foreground">{PROFILE_TITLE}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-mono text-xs text-muted-foreground">
+                        School
+                      </dt>
+                      <dd className="text-foreground">{SCHOOL}</dd>
                     </div>
                     <div>
                       <dt className="font-mono text-xs text-muted-foreground">
@@ -149,6 +160,87 @@ export default function About() {
                 </div>
               </Reveal>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="container">
+          <SectionHeading
+            label="Method"
+            title="Idea → Prototype → Product"
+            subtitle="The way I work on everything, from a Python experiment to a full product."
+          />
+          <div className="grid gap-5 md:grid-cols-3">
+            {[
+              {
+                title: "Idea",
+                body: "Start from a problem I actually have, or have watched someone else struggle with. Write it down plainly before touching code.",
+              },
+              {
+                title: "Prototype",
+                body: "Build the smallest version that can be used. Ugly is fine; unused is not. The prototype is where the assumptions break.",
+              },
+              {
+                title: "Product",
+                body: "Ship it, watch how it is actually used, then fix the part that matters. Gradr and ClientFlow OS are both still in this step.",
+              },
+            ].map((step, i) => (
+              <Reveal key={step.title} delay={i * 60} className="h-full">
+                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card">
+                  <span className="font-mono text-xs text-gold">0{i + 1}</span>
+                  <h3 className="mt-3 text-lg font-semibold text-foreground">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {step.body}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="container">
+          <div className="grid gap-10 lg:grid-cols-2">
+            <div>
+              <SectionHeading label="Interests" title="What I'm Drawn To" />
+              <ul className="mt-6 flex list-none flex-wrap gap-2 p-0">
+                {interests.map((interest) => (
+                  <li key={interest}>
+                    <TechTag>{interest}</TechTag>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <Reveal delay={80}>
+              <div className="rounded-xl border border-border bg-card p-6 shadow-card md:p-8">
+                <h2 className="font-mono text-xs uppercase tracking-[0.16em] text-primary">
+                  Current direction
+                </h2>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  I'm a student, and this site is honest about that: the point
+                  right now is learning fast and building real things with what
+                  I learn.
+                </p>
+                <ul className="mt-4 grid list-none gap-2 p-0 text-sm text-foreground/85">
+                  {[
+                    "Stay balanced academically while building",
+                    "Deepen full-stack and AI engineering skills",
+                    "Earn meaningful technical certifications",
+                    "Ship projects with real users rather than demos",
+                    "Push further into robotics, IoT and STEM competition work",
+                  ].map((goal) => (
+                    <li key={goal} className="flex items-start gap-2">
+                      <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-gold" />
+                      {goal}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
