@@ -6,6 +6,8 @@ import { Link } from "@/lib/router-compat";
 import { cn } from "@/lib/utils";
 import { TechTag } from "./TechTag";
 import { BuiltBy, PlatformBadge } from "./BuiltBy";
+import { Badge } from "./badge";
+import { StatusBadge } from "./Badges";
 import type { Project } from "@/data/portfolio";
 
 interface ProjectCardProps {
@@ -170,10 +172,7 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
       </div>
 
       <div className="card-depth-sm relative mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
-        <span className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
-          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-          {project.status}
-        </span>
+        <StatusBadge status={project.status} size="sm" />
         <BuiltBy project={project} className="relative z-20" />
       </div>
 
@@ -187,9 +186,9 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
           <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
         </Link>
         {hasCaseStudy && (
-          <span className="rounded-full border border-gold/30 bg-gold/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.16em] text-gold">
+          <Badge tone="category" size="sm">
             Case study
-          </span>
+          </Badge>
         )}
       </div>
 

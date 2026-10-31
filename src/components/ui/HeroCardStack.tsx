@@ -5,6 +5,9 @@ import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useHydratedReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 import { TechTag } from "./TechTag";
+import { Badge } from "./badge";
+import { SketchArrow } from "./Sketch";
+import { setCursorState } from "@/lib/pointer";
 import type { Project } from "@/data/portfolio";
 
 interface HeroCardStackProps {
@@ -66,13 +69,15 @@ function HeroCard({ project, pos, index, bounds, canDrag }: HeroCardProps) {
           ),
         )
       }
-      onDragEnd={() =>
+      onDragStart={() => setCursorState("grabbing")}
+      onDragEnd={() => {
+        setCursorState(canDrag && !reduce ? "grab" : "default");
         animate(rotate, pos.rotate, {
           type: "spring",
           stiffness: 260,
           damping: 22,
-        })
-      }
+        });
+      }}
       initial={reduce ? false : { opacity: 0, y: 26, rotate: pos.rotate * 2 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
@@ -83,6 +88,7 @@ function HeroCard({ project, pos, index, bounds, canDrag }: HeroCardProps) {
       whileHover={canDrag && !reduce ? { y: -6, scale: 1.015 } : {}}
       whileDrag={{ scale: 1.04, zIndex: 60, cursor: "grabbing" }}
       style={{ rotate }}
+      data-cursor={canDrag && !reduce ? "grab" : undefined}
       className={cn(
         "paper tape absolute p-2.5 focus-within:ring-2 focus-within:ring-gold/50",
         canDrag && !reduce && "cursor-grab motion-reduce:cursor-auto",
@@ -114,10 +120,12 @@ function HeroCard({ project, pos, index, bounds, canDrag }: HeroCardProps) {
           <Link
             to={`/projects/${project.slug}`}
             aria-label={`Open the ${project.name} case study`}
-            className="focus-ring inline-flex items-center gap-1 rounded-full border border-gold/30 bg-gold/10 px-2 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-gold transition-colors hover:bg-gold/20"
+            className="focus-ring rounded-sm"
           >
-            Case study
-            <ArrowUpRight className="h-2.5 w-2.5" aria-hidden="true" />
+            <Badge tone="category" size="sm" className="badge-link">
+              <span className="badge-label">Case study</span>
+              <ArrowUpRight className="badge-icon badge-arrow" aria-hidden="true" />
+            </Badge>
           </Link>
         </div>
       </div>
@@ -151,17 +159,7 @@ export function HeroCardStack({ projects, className }: HeroCardStackProps) {
         className="note-hand absolute -top-2 right-2 z-40 rotate-3 text-sm sm:text-base"
       >
         go on, drag one
-        <svg
-          viewBox="0 0 60 24"
-          className="ml-6 h-4 w-14 text-gold/70"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-        >
-          <path d="M2 4c10 10 24 14 40 12" />
-          <path d="M34 12l9 4-6 6" />
-        </svg>
+        <SketchArrow className="ml-6 h-4 w-14 text-gold/70" />
       </p>
 
       {projects.slice(0, 3).map((project, i) => (

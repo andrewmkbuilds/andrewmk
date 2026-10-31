@@ -202,7 +202,7 @@ export default function Resume() {
           </Block>
 
           <Block eyebrow="Credentials" title="Certificates">
-            <ul className="surface divide-y divide-border rounded-xl md:grid md:grid-cols-2 md:divide-y-0">
+            <ul className="cert-list surface divide-y divide-border rounded-xl md:grid md:grid-cols-2 md:divide-y-0">
               {credentials.map((cert, index) => (
                 <li
                   key={cert.id}

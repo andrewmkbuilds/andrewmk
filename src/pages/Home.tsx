@@ -16,6 +16,8 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StatusDot } from "@/components/ui/StatusDot";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
 import { TechTag } from "@/components/ui/TechTag";
+import { RoleBadge } from "@/components/ui/Badges";
+import { SketchArrow, SketchSeparator, SketchStar } from "@/components/ui/Sketch";
 import {
   PopDisclosure,
   InlinePopDisclosure,
@@ -33,6 +35,13 @@ import {
   ArrowRight,
   AppWindow,
   BrainCircuit,
+  CircuitBoard,
+  Hammer,
+  Lightbulb,
+  PenLine,
+  Rocket,
+  Sparkles,
+  Waypoints,
   Workflow,
   Cpu,
   ScanEye,
@@ -69,6 +78,8 @@ const toolRowOne = [
   "OpenCV",
   "MediaPipe",
 ];
+
+const stepIcons = [Lightbulb, Hammer, Rocket];
 
 const toolRowTwo = [
   "Base44",
@@ -116,7 +127,7 @@ export default function Home() {
                 Andrew Mathews — Student Developer, AI Builder &amp; Robotics
                 Engineer
               </span>
-              <span aria-hidden="true">
+              <span aria-hidden="true" className="relative block">
                 <span className="block">
                   <RevealWords text="I build systems that" delay={0.12} />
                 </span>
@@ -130,6 +141,10 @@ export default function Home() {
                     <RevealWords text="real problems." delay={0.38} />
                   </span>
                 </span>
+                <SketchStar
+                  className="absolute -top-2 right-[4%] hidden h-5 w-5 text-gold/80 sm:block md:h-6 md:w-6"
+                  weight={1.7}
+                />
               </span>
             </h1>
 
@@ -139,17 +154,7 @@ export default function Home() {
               style={{ animationDelay: "520ms" }}
               className="enter note-hand mt-4 ml-1 hidden items-center gap-2 text-base sm:inline-flex"
             >
-              <svg
-                viewBox="0 0 44 16"
-                className="h-3 w-9 text-gold/70"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-              >
-                <path d="M2 12c8-8 18-10 30-8" />
-                <path d="M24 2l8 2-3 8" />
-              </svg>
+              <SketchArrow className="h-3 w-9 shrink-0 text-gold/70" />
               right now: building Gradr
             </p>
 
@@ -170,6 +175,7 @@ export default function Home() {
                 <Button
                   asChild
                   size="lg"
+                  data-cursor="cta"
                   className="group font-mono shadow-glow"
                 >
                   <Link to="/projects">
@@ -183,6 +189,7 @@ export default function Home() {
                   asChild
                   size="lg"
                   variant="outline"
+                  data-cursor="cta"
                   className="font-mono"
                 >
                   <Link to="/contact">Get in touch</Link>
@@ -202,10 +209,10 @@ export default function Home() {
               style={{ animationDelay: "320ms" }}
               className="enter mt-8 flex flex-wrap items-center gap-2"
             >
-              <span className="sticker">Student Developer</span>
-              <span className="sticker rotate-1">AI Builder</span>
-              <span className="sticker -rotate-1">Robotics &amp; Systems</span>
-              <span className="sticker sticker-gold">Systems Thinker</span>
+              <RoleBadge label="Student Developer" icon={PenLine} className="-rotate-1" />
+              <RoleBadge label="AI Builder" icon={Sparkles} className="rotate-1" />
+              <RoleBadge label="Robotics &amp; Systems" icon={CircuitBoard} className="-rotate-[1.5deg]" />
+              <RoleBadge label="Systems Thinker" icon={Waypoints} className="rotate-[0.6deg]" />
             </div>
 
             <div className="enter" style={{ animationDelay: "400ms" }}>
@@ -291,19 +298,25 @@ export default function Home() {
                 step: "Product",
                 body: "Ship it, watch what actually breaks, then improve the part that matters.",
               },
-            ].map((item, i) => (
+            ].map((item, i) => {
+              const StepIcon = stepIcons[i] ?? Lightbulb;
+              return (
               <li
                 key={item.step}
-                className="rounded-xl border border-border bg-card p-6 shadow-card"
+                className="spotlight lift-3d group rounded-xl border border-border bg-card p-6 shadow-card hover:border-gold/35"
               >
-                <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">
+                <span className="flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-gold">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-md border border-gold/25 bg-gold/10 text-gold transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105">
+                    <StepIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                  </span>
                   0{i + 1} · {item.step}
                 </span>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                   {item.body}
                 </p>
               </li>
-            ))}
+              );
+            })}
           </ol>
         </div>
       </section>

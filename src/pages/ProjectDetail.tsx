@@ -7,6 +7,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { TechTag } from "@/components/ui/TechTag";
 import { BuiltBy, PlatformBadge } from "@/components/ui/BuiltBy";
 import { StatusDot } from "@/components/ui/StatusDot";
+import { StatusBadge } from "@/components/ui/Badges";
 import { ProjectTimeline } from "@/components/ui/ProjectTimeline";
 import { allProjects, type Project } from "@/data/portfolio";
 
@@ -60,6 +61,7 @@ export default function ProjectDetail({ project, catalogue }: ProjectDetailProps
               )}
 
               <div className="mt-6 flex flex-wrap items-center gap-2">
+                <StatusBadge status={project.status} size="sm" />
                 <PlatformBadge project={project} />
                 {project.tech.map((tech) => (
                   <TechTag key={tech}>{tech}</TechTag>
@@ -69,7 +71,7 @@ export default function ProjectDetail({ project, catalogue }: ProjectDetailProps
               {(project.live || project.github) && (
                 <div className="mt-8 flex flex-wrap gap-3">
                   {project.live && (
-                    <Button asChild className="cta-pop font-mono">
+                    <Button asChild data-cursor="cta" className="cta-pop font-mono">
                       <a href={project.live} target="_blank" rel="noopener noreferrer">
                         Live app
                         <ExternalLink className="cta-arrow ml-2 h-4 w-4" />

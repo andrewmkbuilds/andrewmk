@@ -1,5 +1,16 @@
 import { motion, useReducedMotion } from "motion/react";
+import { Award, Medal, Star, Trophy, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+/** The award mark follows how the result is actually described. */
+function awardIcon(place: string): LucideIcon {
+  const p = place.toLowerCase();
+  if (p.includes("1st") || p.includes("first") || p.includes("gold")) return Trophy;
+  if (p.includes("2nd") || p.includes("second") || p.includes("runner")) return Medal;
+  if (p.includes("3rd") || p.includes("third")) return Award;
+  if (p.includes("finalist") || p.includes("participant")) return Star;
+  return Award;
+}
 
 interface AchievementCardProps {
   place: string;
@@ -48,7 +59,17 @@ export function AchievementCard({
           {String(index + 1).padStart(2, "0")}
         </span>
       )}
-      <p className="relative font-mono text-sm text-gold">{place}</p>
+      {(() => {
+        const Icon = awardIcon(place);
+        return (
+          <div className="relative flex items-center gap-2.5">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-gold/30 bg-gold/10 text-gold transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110">
+              <Icon className="h-4 w-4" aria-hidden="true" />
+            </span>
+            <p className="font-mono text-sm text-gold">{place}</p>
+          </div>
+        );
+      })()}
       {detail && (
         <h3 className="relative mt-2 text-lg font-semibold leading-snug text-foreground">
           {detail}

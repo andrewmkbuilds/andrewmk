@@ -1,5 +1,6 @@
 import { Link } from "@/lib/router-compat";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUp } from "lucide-react";
+import { SketchSeparator, SketchStar } from "@/components/ui/Sketch";
 import { SocialIcons } from "@/components/ui/SocialIcons";
 import { Parallax } from "@/components/ui/Parallax";
 import logoUrl from "@/assets/andrewbuilds-logo.png";
@@ -61,12 +62,17 @@ export function Footer() {
             <div className="mt-7 inline-flex">
               <Link
                 to="/contact"
-                className="cta-pop group inline-flex items-center gap-3 rounded-full border border-gold/30 bg-gold/10 px-5 py-3 font-mono text-sm text-foreground"
+                data-cursor="cta"
+                className="cta-pop group relative inline-flex items-center gap-3 rounded-full border border-gold/30 bg-gold/10 px-5 py-3 font-mono text-sm text-foreground"
               >
                 Let's build something
                 <ArrowRight
                   className="cta-arrow h-4 w-4 text-gold"
                   aria-hidden="true"
+                />
+                <SketchStar
+                  className="absolute -top-2.5 -right-2 h-3.5 w-3.5 text-gold/90"
+                  weight={2}
                 />
               </Link>
             </div>
@@ -100,14 +106,38 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-3 border-t border-border/60 pt-6 font-mono text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
+        <SketchSeparator className="mt-14" />
+
+        <div className="mt-6 flex flex-col gap-4 font-mono text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
           <p>
             <span className="text-primary">//</span> Built by Andrew ·{" "}
             {currentYear}
           </p>
-          <p className="text-muted-foreground/80">
-            AI · Software · Robotics · Systems
-          </p>
+          <div className="flex flex-wrap items-center gap-4">
+            <p className="text-muted-foreground/80">
+              AI · Software · Robotics · Systems
+            </p>
+            <button
+              type="button"
+              data-cursor="cta"
+              onClick={() => {
+                const reduce = window.matchMedia(
+                  "(prefers-reduced-motion: reduce)",
+                ).matches;
+                document.documentElement.scrollTo({
+                  top: 0,
+                  behavior: reduce ? "auto" : "smooth",
+                });
+              }}
+              className="focus-ring group inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3.5 py-2 uppercase tracking-[0.16em] transition-colors hover:border-gold/45 hover:text-gold"
+            >
+              <ArrowUp
+                className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5"
+                aria-hidden="true"
+              />
+              Back to top
+            </button>
+          </div>
         </div>
       </div>
 

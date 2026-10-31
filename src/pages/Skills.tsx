@@ -2,6 +2,7 @@ import { Link } from "@/lib/router-compat";
 import { Layout } from "@/components/layout/Layout";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
+import { SkillBadge } from "@/components/ui/Badges";
 import { PROFILE_TITLE, SCHOOL, skillGroups } from "@/data/portfolio";
 import { ArrowRight } from "lucide-react";
 
@@ -37,18 +38,14 @@ export default function Skills() {
           <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {skillGroups.map((group, i) => (
               <Reveal key={group.title} delay={i * 50} className="h-full">
-                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-gold/40">
+                <div className="spotlight lift-3d h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-gold/40">
                   <h2 className="text-lg font-semibold text-foreground">
                     {group.title}
                   </h2>
-                  <ul className="mt-5 grid list-none gap-2 p-0">
+                  <ul className="mt-5 flex list-none flex-wrap gap-2 p-0">
                     {group.items.map((item) => (
-                      <li
-                        key={item}
-                        className="flex items-start gap-2 text-sm text-foreground/85"
-                      >
-                        <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-gold" />
-                        {item}
+                      <li key={item}>
+                        <SkillBadge label={item} size="sm" />
                       </li>
                     ))}
                   </ul>

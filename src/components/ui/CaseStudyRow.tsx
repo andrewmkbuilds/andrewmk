@@ -2,6 +2,9 @@ import { Link } from "@/lib/router-compat";
 import { ArrowRight, ArrowUpRight, Check, Github } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Reveal } from "./Reveal";
+import { Badge } from "./badge";
+import { StatusBadge } from "./Badges";
+import { TechTag } from "./TechTag";
 import type { Project } from "@/data/portfolio";
 
 interface CaseStudyRowProps {
@@ -36,7 +39,7 @@ export function CaseStudyRow({ project, index }: CaseStudyRowProps) {
           />
           <div className="case-media-inner bg-grid flex aspect-[4/3] max-h-[420px] flex-col justify-between p-5 sm:p-7">
             <div className="flex items-start justify-between gap-3">
-              <span className="sticker sticker-gold">{project.status}</span>
+              <StatusBadge status={project.status} size="sm" />
               <span
                 aria-hidden="true"
                 className="serif-display text-4xl text-foreground/12 tabular-nums sm:text-5xl"
@@ -57,12 +60,7 @@ export function CaseStudyRow({ project, index }: CaseStudyRowProps) {
             <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
               <span className="flex flex-wrap gap-1.5">
                 {project.tech.slice(0, 4).map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-full border border-foreground/12 bg-background/40 px-2.5 py-1 font-mono text-[10px] tracking-wide text-foreground/80 backdrop-blur-sm"
-                  >
-                    {t}
-                  </span>
+                  <TechTag key={t}>{t}</TechTag>
                 ))}
               </span>
               {project.live && (
@@ -70,16 +68,17 @@ export function CaseStudyRow({ project, index }: CaseStudyRowProps) {
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="focus-ring inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-gold/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-gold transition-colors hover:bg-gold/20"
+                  aria-label={`${project.name} live app (opens in a new tab)`}
+                  className="focus-ring rounded-full"
                 >
-                  <span
-                    aria-hidden="true"
-                    className="relative flex h-1.5 w-1.5"
-                  >
-                    <span className="absolute inset-0 rounded-full bg-gold" />
-                  </span>
-                  Live
-                  <ArrowUpRight className="h-2.5 w-2.5" aria-hidden="true" />
+                  <Badge tone="live" size="sm" className="badge-link">
+                    <span className="badge-pulse" aria-hidden="true" />
+                    <span className="badge-label">Live</span>
+                    <ArrowUpRight
+                      className="badge-icon badge-arrow"
+                      aria-hidden="true"
+                    />
+                  </Badge>
                 </a>
               )}
             </div>

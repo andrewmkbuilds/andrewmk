@@ -1,3 +1,5 @@
+import { PointerLight } from "./PointerLight";
+
 /**
  * The site's shared depth environment, mounted once behind every route.
  *
@@ -6,6 +8,8 @@
  * `filter: blur()` on a full-screen layer — so the compositor keeps the whole
  * environment cheap while it drifts, and phones keep the same look.
  *
+ * A pointer-tracked gold light and a fine grain pass sit on top of the
+ * vignette, which is what makes the space feel lit rather than painted.
  * Purely decorative — `aria-hidden`, `pointer-events-none`, and outside the
  * layout flow, so it costs no space and no tab stops.
  */
@@ -27,6 +31,12 @@ export function AmbientLayers() {
 
       {/* foreground — vignette that seats the content inside the space */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_42%,hsl(216_46%_5%/.92)_100%)]" />
+
+      {/* interactive light — one element, transform only */}
+      <PointerLight />
+
+      {/* fine grain so the gradients read as a surface, not a wash */}
+      <div className="ambient-grain" />
     </div>
   );
 }

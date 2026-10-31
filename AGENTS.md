@@ -175,8 +175,23 @@ sites, GitHub, social media or inference.
   `certificatesByRecency` — the same full certificate list the source résumé prints. Competition
   results and their certificates both appear, exactly as on the source.
 - `src/styles.css` ends with a `@media print` block (light tokens, no header/footer/decorative
-  layers, no shadows, no break inside a section) that backs the masthead's "Print / Save as PDF"
-  button. Page-specific print rules belong there, not in components.
+  layers, no shadows, sections that flow across pages) that backs the masthead's "Print / Save as
+  PDF" button. Page-specific print rules belong there, not in components.
+- Paper-specific gotchas found by rendering the PDF in headless Chrome (`print` media, A4, the
+  export's 12 mm/10 mm margins) and reading the per-page text stream:
+  - `.reveal*` wrappers start at `opacity: 0` / `clip-path: inset(...)` and only switch on when
+    they scroll into view, so printing without scrolling used to emit blank or half-clipped
+    sections. The print block resets them to visible; keep that rule when adding reveal variants.
+  - `break-after: avoid-page` belongs on headings only. Put on `p`, it chained a section's eyebrow
+    to its heading and then to the whole following block, pushing the section to the next sheet
+    and leaving half-empty pages (9 pages, three of them < 50% full). Headings only: 7 pages, all
+    full.
+  - A4 content width (~718 px) sits below Tailwind's `md` breakpoint, so `md:grid-cols-2` never
+    applies on paper. The certificate list carries a `cert-list` class that the print block
+    re-flows into two columns with its own rules.
+  - Measure a change with: `page.emulateMediaType('print')` then `page.pdf(...)`, and check page
+    count plus the bottom gap of each page from the PDF text coordinates. A ~150 MB throwaway
+    node + `chrome-headless-shell` container is enough; nothing is added to the repo.
 - The one-line positioning copy is `PROFILE_TITLE` in `src/data/portfolio.ts`; the résumé, the
   footer and `/skills` read it, and `PROFILE_IDENTITY` holds the verbatim About/JSON-LD identity
   line. The home `<h1>`, `/profile` and the Person JSON-LD each use the exact wording the source

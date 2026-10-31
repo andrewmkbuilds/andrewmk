@@ -38,6 +38,11 @@ function getObserver() {
   return observer;
 }
 
+/** Shared reveal hook — also used by the hand-drawn sketch layer. */
+export function useReveal<T extends HTMLElement = HTMLElement>() {
+  return useRevealRef<T>();
+}
+
 function useRevealRef<T extends HTMLElement>() {
   const ref = useRef<T | null>(null);
 
@@ -66,6 +71,13 @@ interface RevealProps {
   y?: number;
   /** optional slight scale-in for hero-level elements */
   scale?: boolean;
+  /**
+   * Entrance family. Every variant is CSS-only and shares the same observer.
+   * - rise: fade + travel (default)
+   * - mask: the element is unveiled from the bottom edge
+   * - clip: the element is wiped in from the left
+   */
+  variant?: "rise" | "mask" | "clip";
 }
 
 export function Reveal({
@@ -75,6 +87,7 @@ export function Reveal({
   as = "div",
   y = 18,
   scale = false,
+  variant = "rise",
 }: RevealProps) {
   const ref = useRevealRef<HTMLElement>();
   const Comp = as as ElementType;
@@ -82,7 +95,13 @@ export function Reveal({
   return (
     <Comp
       ref={ref}
-      className={cn("reveal", scale && "reveal-scale", className)}
+      className={cn(
+        "reveal",
+        scale && "reveal-scale",
+        variant === "mask" && "reveal-mask",
+        variant === "clip" && "reveal-clip",
+        className,
+      )}
       style={
         {
           "--reveal-y": `${y}px`,

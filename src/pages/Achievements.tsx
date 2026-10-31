@@ -3,7 +3,7 @@ import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { AchievementCard } from "@/components/ui/AchievementCard";
-import { TechTag } from "@/components/ui/TechTag";
+import { AchievementBadge } from "@/components/ui/Badges";
 import { CertificateGallery } from "@/components/ui/CertificateGallery";
 import { CertificateViewer } from "@/components/ui/CertificateViewer";
 import { certificates, type Certificate } from "@/data/certificates";
@@ -51,7 +51,7 @@ export default function Achievements() {
               </h2>
               <div className="mt-5 flex flex-wrap gap-2">
                 {group.items.map((item) => (
-                  <TechTag key={item}>{item}</TechTag>
+                  <AchievementBadge key={item} label={item} size="sm" />
                 ))}
               </div>
             </Reveal>

@@ -1,6 +1,35 @@
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useSpring } from "motion/react";
+import {
+  Bot,
+  BrainCircuit,
+  CodeXml,
+  GraduationCap,
+  PenTool,
+  Rocket,
+  Trophy,
+  type LucideIcon,
+} from "lucide-react";
 import { timeline } from "@/data/portfolio";
+
+/**
+ * Milestone icon per entry, chosen from what the entry actually says.
+ * Purely decorative (`aria-hidden`) — the year and title carry the meaning.
+ */
+const milestoneIcons: { match: RegExp; icon: LucideIcon }[] = [
+  { match: /robot|fll|lego/i, icon: Bot },
+  { match: /ai|machine|model/i, icon: BrainCircuit },
+  { match: /compet|award|win|mun|techfest/i, icon: Trophy },
+  { match: /school|study|learn|course/i, icon: GraduationCap },
+  { match: /design|brand|product/i, icon: PenTool },
+  { match: /ship|launch|build|first/i, icon: Rocket },
+];
+
+function milestoneIcon(index: number, label: string): LucideIcon {
+  const hit = milestoneIcons.find((m) => m.match.test(label));
+  if (hit) return hit.icon;
+  return [CodeXml, Rocket, Trophy, Bot][index % 4] ?? CodeXml;
+}
 
 /**
  * Signature journey timeline: a scroll-linked progress spine with year markers
@@ -58,6 +87,14 @@ export function Timeline() {
             }}
           >
             <div className="relative flex flex-wrap items-baseline gap-x-4 gap-y-1">
+              {(() => {
+                const Icon = milestoneIcon(index, `${entry.title} ${entry.meta ?? ""}`);
+                return (
+                  <span className="timeline-icon mb-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background/60 text-primary">
+                    <Icon className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                );
+              })()}
               <p className="font-mono text-xs uppercase tracking-[0.24em] text-primary">
                 {entry.year}
               </p>

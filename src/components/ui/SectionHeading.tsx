@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Reveal } from "./Reveal";
 import { Parallax } from "./Parallax";
+import { SketchStar } from "./Sketch";
 
 interface SectionHeadingProps {
   label?: string;
@@ -18,7 +19,7 @@ function renderTitle(title: string) {
       return (
         <em
           key={i}
-          className="serif-display mark-underline text-[1.06em] text-gold not-italic"
+          className="serif-display mark-underline mark-underline-draw relative text-[1.06em] text-gold not-italic"
         >
           {part.slice(1, -1)}
         </em>
@@ -37,6 +38,7 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <Reveal
+      variant="mask"
       className={cn(
         "relative max-w-3xl mb-10 md:mb-14",
         align === "center" && "mx-auto text-center",
@@ -56,6 +58,7 @@ export function SectionHeading({
       </Parallax>
       {label && (
         <p className="mb-4 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-gold">
+          <SketchStar className="sketch-star h-3 w-3 shrink-0" weight={2.2} />
           <span aria-hidden="true" className="hairline-gold inline-block w-8" />
           {label}
         </p>

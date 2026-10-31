@@ -70,12 +70,19 @@ export function FilterBar({ label, legend, options, value, onChange, className }
               onKeyDown={(event) => onKeyDown(event, index)}
               aria-pressed={active}
               className={cn(
-                "rounded-full border px-4 py-2 font-mono text-xs transition-all duration-200 focus-ring",
+                "inline-flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-xs transition-all duration-200 active:scale-[0.97] focus-ring motion-reduce:active:scale-100",
                 active
-                  ? "border-gold/60 bg-gold/10 text-gold"
+                  ? "border-gold/60 bg-gold/10 text-gold shadow-[0_10px_24px_-18px_color-mix(in_oklab,var(--gold)_70%,transparent)]"
                   : "border-border text-muted-foreground hover:border-gold/40 hover:text-foreground",
               )}
             >
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "h-1 w-1 rounded-full bg-gold transition-transform duration-300",
+                  active ? "scale-100" : "scale-0",
+                )}
+              />
               {option}
             </button>
           );

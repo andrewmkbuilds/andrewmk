@@ -1,6 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "@/lib/router-compat";
-import { Menu, ArrowUpRight } from "lucide-react";
+import {
+  ArrowUpRight,
+  FileText,
+  FolderKanban,
+  House,
+  Info,
+  Mail,
+  Menu,
+  PenLine,
+  Route,
+  Trophy,
+  User,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react";
 import { subscribeScroll } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
 import {
@@ -34,18 +48,18 @@ const primaryNav = [
   { href: "/contact", label: "Contact" },
 ];
 
-/** Everything, for the mobile sheet. */
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
-  { href: "/blog", label: "Blog" },
-  { href: "/profile", label: "Profile" },
-  { href: "/resume", label: "Résumé" },
-  { href: "/about", label: "About" },
-  { href: "/journey", label: "Journey" },
-  { href: "/achievements", label: "Achievements" },
-  { href: "/skills", label: "Skills" },
-  { href: "/contact", label: "Contact" },
+/** Everything, for the mobile sheet — each route carries its own icon. */
+const navItems: { href: string; label: string; icon: LucideIcon }[] = [
+  { href: "/", label: "Home", icon: House },
+  { href: "/projects", label: "Projects", icon: FolderKanban },
+  { href: "/blog", label: "Blog", icon: PenLine },
+  { href: "/profile", label: "Profile", icon: User },
+  { href: "/resume", label: "Résumé", icon: FileText },
+  { href: "/about", label: "About", icon: Info },
+  { href: "/journey", label: "Journey", icon: Route },
+  { href: "/achievements", label: "Achievements", icon: Trophy },
+  { href: "/skills", label: "Skills", icon: Wrench },
+  { href: "/contact", label: "Contact", icon: Mail },
 ];
 
 /**
@@ -137,10 +151,16 @@ export function Header() {
                   )}
                 >
                   {active && (
-                    <span
-                      className="absolute inset-0 -z-10 rounded-full border border-gold/25 bg-foreground/[0.06] shadow-[inset_0_1px_0_hsl(0_0%_100%/.1)]"
-                      aria-hidden="true"
-                    />
+                    <>
+                      <span
+                        className="absolute inset-0 -z-10 rounded-full border border-gold/25 bg-foreground/[0.06] shadow-[inset_0_1px_0_hsl(0_0%_100%/.1)]"
+                        aria-hidden="true"
+                      />
+                      <span
+                        className="nav-dot absolute top-1 right-1.5 h-1 w-1 rounded-full bg-gold"
+                        aria-hidden="true"
+                      />
+                    </>
                   )}
                   {item.label}
                 </Link>
@@ -190,28 +210,37 @@ export function Header() {
                 <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-primary">
                   Navigation
                 </p>
-                {navItems.map((item, index) => (
-                  <SheetClose asChild key={item.href}>
-                    <Link
-                      to={item.href}
-                      style={{ animationDelay: `${index * 45}ms` }}
-                      aria-current={
-                        isActiveRoute(location.pathname, item.href)
-                          ? "page"
-                          : undefined
-                      }
-                      className={cn(
-                        "animate-fade-in-up rounded-lg px-3 py-3 font-mono text-lg opacity-0 transition-colors hover:bg-secondary hover:text-gold focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:outline-none",
-                        isActiveRoute(location.pathname, item.href)
-                          ? "bg-secondary/60 text-primary"
-                          : "text-muted-foreground",
-                      )}
-                    >
-                      <span className="mr-3 text-primary">→</span>
-                      {item.label}
-                    </Link>
-                  </SheetClose>
-                ))}
+                {navItems.map((item, index) => {
+                  const active = isActiveRoute(location.pathname, item.href);
+                  const Icon = item.icon;
+                  return (
+                    <SheetClose asChild key={item.href}>
+                      <Link
+                        to={item.href}
+                        style={{ animationDelay: `${index * 45}ms` }}
+                        aria-current={active ? "page" : undefined}
+                        className={cn(
+                          "group animate-fade-in-up flex items-center gap-3 rounded-lg px-3 py-3 font-mono text-lg opacity-0 transition-colors hover:bg-secondary hover:text-gold focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:outline-none",
+                          active
+                            ? "bg-secondary/60 text-primary"
+                            : "text-muted-foreground",
+                        )}
+                      >
+                        <span
+                          className={cn(
+                            "flex h-8 w-8 shrink-0 items-center justify-center rounded-md border transition-transform duration-300 group-hover:-rotate-6",
+                            active
+                              ? "border-gold/35 bg-gold/10 text-gold"
+                              : "border-border bg-background/60 text-muted-foreground group-hover:text-gold",
+                          )}
+                        >
+                          <Icon className="h-4 w-4" aria-hidden="true" />
+                        </span>
+                        {item.label}
+                      </Link>
+                    </SheetClose>
+                  );
+                })}
                 <SheetClose asChild>
                   <Link
                     to="/contact"
