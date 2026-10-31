@@ -172,6 +172,15 @@ into the blue-and-gold palette. Colours are never taken from the reference.
   half the pixel ratio and no pointer interaction on touch. `AmbientLayers` renders it
   between the atmospheric wash and the aurora, dimmed by `.depth-field` opacity so paper
   surfaces keep their contrast. It is decoration: `pointer-events: none`, `aria-hidden`.
+  The field is taller than the viewport (`inset: -12% 0`) and creeps up with the page
+  through the shared `subscribeScroll` subscription — transform only, clamped to 72 px,
+  so it never adds a scroll listener or triggers layout.
+- `src/components/reactbits/Particles.tsx` is **Particles** (`Particles-TS-TW`), vendored
+  the same way, and `src/components/ui/ParticleField.tsx` owns it: sparse drifting motes
+  with depth of field and a pointer parallax — the foreground dust of the environment.
+  It mounts 900 ms after first paint, never under `prefers-reduced-motion`, and on touch
+  gets 70 motes, half the pixel ratio and no rotation. `AmbientLayers` renders it *after*
+  the vignette so the motes read in front of the folds rather than being dimmed with them.
 - The marquee brand marks come from Logo.dev when a token is configured (`theme=dark`, so
   GitHub/X/Next/Vercel arrive light-on-dark instead of near-black), and fall back to the
   vendored `currentColor` masks. Every brand the ribbon names has an official mark now:
@@ -328,10 +337,13 @@ follows and the reasons behind them:
   values (no React state per pointer move), `touch-action: pan-y` leaves vertical scrolling to the
   page, and the `.paper` surface has no CSS transform transition — that transition used to smooth
   (lag) every drag frame.
-- **The WebGL field is optional.** Silk ships as its own lazy chunk
-  (`.output/public/assets/Silk-*.js`), stops its own loop when the tab is hidden or the canvas is
-  off-screen, and is the only extra pointer listener in the app (internal to the component; app
-  surfaces still share `src/lib/pointer.ts`).
+- **The WebGL fields are optional.** Silk and Particles each ship as their own lazy chunks
+  (`.output/public/assets/Silk-*.js`, `Particles-*.js`), are mounted only after the first paint
+  (400 ms / 900 ms), stop their own loops when the tab is hidden or the canvas is off-screen, and
+  are never mounted under reduced motion or on a print. Both add their own passive pointer
+  listeners inside the vendored components — they are the only extra listeners in the app; every
+  app surface still shares `src/lib/pointer.ts`. Keep both layers sparse: they are decoration, and
+  the page must stay cheap to scroll.
 - **Parallax never runs on phones** (below 768px) and stops entirely under reduced motion.
 - **Below-the-fold bundles are split.** The home contact form is `React.lazy`; TanStack splits each
   route file into its own chunk automatically (verified in `vite build` output).

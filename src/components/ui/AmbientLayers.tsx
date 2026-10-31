@@ -1,4 +1,5 @@
 import { DepthField } from "./DepthField";
+import { ParticleField } from "./ParticleField";
 import { PointerLight } from "./PointerLight";
 
 /**
@@ -35,6 +36,9 @@ export function AmbientLayers() {
 
       {/* foreground — vignette that seats the content inside the space */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_42%,hsl(216_46%_5%/.92)_100%)]" />
+
+      {/* foreground — drifting motes in front of the folds (lazy, pointer-aware) */}
+      <ParticleField />
 
       {/* interactive light — one element, transform only */}
       <PointerLight />
