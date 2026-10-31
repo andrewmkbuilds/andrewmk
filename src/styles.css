@@ -2103,6 +2103,11 @@ html[data-cursor-out] .cursor-layer {
 .brand-mark-img {
   display: inline-block;
   flex-shrink: 0;
+  /* Never a plate: the logo sits directly on whatever surface holds it. */
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
   object-fit: contain;
   transition:
     transform 0.35s var(--ease-out-expo),
@@ -2111,6 +2116,15 @@ html[data-cursor-out] .cursor-layer {
 
 .badge .brand-mark {
   color: color-mix(in oklab, var(--primary-glow) 75%, transparent);
+}
+
+/* One optical slot for every mark: the logo and a fallback glyph share the
+   same size and sit on the pill's own baseline, with no plate behind them. */
+.badge .brand-mark,
+.badge .brand-mark-img {
+  align-self: center;
+  vertical-align: middle;
+  margin-block: 0;
 }
 
 /* ── Verified credentials ──────────────────────────────────────────────── */
@@ -2204,8 +2218,12 @@ html[data-cursor-out] .cursor-layer {
   }
 
   .marquee li:hover .marquee-brand {
-    background-color: var(--gold);
     transform: scale(1.15);
+  }
+
+  /* Only a mask-painted mark takes the gold tint; an image keeps its own ink. */
+  .marquee li:hover .brand-mark.marquee-brand {
+    background-color: var(--gold);
   }
 
   .certificate-verified-card:hover .credential-verified:not(:hover) {

@@ -82,7 +82,9 @@ export function BrandLogo({
         loading="lazy"
         decoding="async"
         onError={() => setRemoteFailed(true)}
-        className={cn("brand-mark brand-mark-img", className)}
+        // `brand-mark` paints a plate behind a mask; a real image must not
+        // receive it, or the pill shows a solid block around the logo.
+        className={cn("brand-mark-img", className)}
         style={{ width: px, height: px }}
         aria-hidden={label ? undefined : true}
       />
