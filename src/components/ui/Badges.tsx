@@ -33,12 +33,19 @@ interface BaseProps {
 
 function Glyph({ icon: Icon, spin }: { icon: LucideIcon; spin?: boolean }) {
   return (
-    <Icon aria-hidden="true" className={cn("badge-icon", spin && "badge-icon-spin")} />
+    <Icon
+      aria-hidden="true"
+      className={cn("badge-icon", spin && "badge-icon-spin")}
+    />
   );
 }
 
 /** Technology chip — squared mono chip with the technology's own icon. */
-export function TechBadge({ name, className, size }: BaseProps & { name: string }) {
+export function TechBadge({
+  name,
+  className,
+  size,
+}: BaseProps & { name: string }) {
   const Icon = techIcon(name);
   return (
     <Badge tone="tech" size={size} className={className}>
@@ -53,14 +60,17 @@ export function TechBadge({ name, className, size }: BaseProps & { name: string 
   );
 }
 
-type StatusKind = "live" | "building" | "built" | "concept" | "experiment" | "active";
+type StatusKind =
+  "live" | "building" | "built" | "concept" | "experiment" | "active";
 
 /** Honest project status: only a genuinely live project pulses. */
 export function statusKind(status: string): StatusKind {
   const s = status.toLowerCase();
-  if (s.includes("live") || s.includes("deployed") || s.includes("shipped")) return "live";
+  if (s.includes("live") || s.includes("deployed") || s.includes("shipped"))
+    return "live";
   if (s.includes("build") || s.includes("develop")) return "building";
-  if (s.includes("built") || s.includes("complete") || s.includes("done")) return "built";
+  if (s.includes("built") || s.includes("complete") || s.includes("done"))
+    return "built";
   if (s.includes("concept") || s.includes("idea")) return "concept";
   if (s.includes("experiment")) return "experiment";
   return "active";
@@ -75,7 +85,11 @@ const statusIcons: Record<StatusKind, LucideIcon> = {
   active: CircleDot,
 };
 
-export function StatusBadge({ status, className, size }: BaseProps & { status: string }) {
+export function StatusBadge({
+  status,
+  className,
+  size,
+}: BaseProps & { status: string }) {
   const kind = statusKind(status);
   return (
     <Badge
@@ -83,14 +97,22 @@ export function StatusBadge({ status, className, size }: BaseProps & { status: s
       size={size}
       className={cn(`badge-status-${kind}`, className)}
     >
-      {kind === "live" ? <span className="badge-pulse" aria-hidden="true" /> : <Glyph icon={statusIcons[kind]} spin={kind === "building"} />}
+      {kind === "live" ? (
+        <span className="badge-pulse" aria-hidden="true" />
+      ) : (
+        <Glyph icon={statusIcons[kind]} spin={kind === "building"} />
+      )}
       <span className="badge-label">{status}</span>
     </Badge>
   );
 }
 
 /** Achievement — gold award badge with a slow highlight sweep. */
-export function AchievementBadge({ label, className, size }: BaseProps & { label: string }) {
+export function AchievementBadge({
+  label,
+  className,
+  size,
+}: BaseProps & { label: string }) {
   return (
     <Badge tone="achievement" size={size} className={className}>
       <Glyph icon={Award} />
@@ -100,7 +122,11 @@ export function AchievementBadge({ label, className, size }: BaseProps & { label
 }
 
 /** Certification — verified check with a hairline seal. */
-export function CertificationBadge({ label, className, size }: BaseProps & { label: string }) {
+export function CertificationBadge({
+  label,
+  className,
+  size,
+}: BaseProps & { label: string }) {
   return (
     <Badge tone="certification" size={size} className={className}>
       <Glyph icon={BadgeCheck} />
@@ -145,7 +171,11 @@ export function RoleBadge({
 }
 
 /** Category — index mark used beside project names. */
-export function CategoryBadge({ label, className, size }: BaseProps & { label: string }) {
+export function CategoryBadge({
+  label,
+  className,
+  size,
+}: BaseProps & { label: string }) {
   return (
     <Badge tone="category" size={size} className={className}>
       <Glyph icon={Tag} />
@@ -171,7 +201,11 @@ export function ExternalBadge({
       aria-label={ariaLabel ?? `${label} (opens in a new tab)`}
       className="focus-ring rounded-full"
     >
-      <Badge tone="external" size={size} className={cn("badge-link", className)}>
+      <Badge
+        tone="external"
+        size={size}
+        className={cn("badge-link", className)}
+      >
         <span className="badge-label">{label}</span>
         <ArrowUpRight aria-hidden="true" className="badge-icon badge-arrow" />
       </Badge>
@@ -180,7 +214,11 @@ export function ExternalBadge({
 }
 
 /** Featured — the one badge allowed a resting shimmer, kept very quiet. */
-export function FeaturedBadge({ label = "Featured", className, size }: BaseProps & { label?: string }) {
+export function FeaturedBadge({
+  label = "Featured",
+  className,
+  size,
+}: BaseProps & { label?: string }) {
   return (
     <Badge tone="featured" size={size} className={className}>
       <Glyph icon={Sparkles} />
@@ -190,7 +228,11 @@ export function FeaturedBadge({ label = "Featured", className, size }: BaseProps
 }
 
 /** Focus-area / principle marker with a target icon. */
-export function FocusBadge({ label, className, size }: BaseProps & { label: string }) {
+export function FocusBadge({
+  label,
+  className,
+  size,
+}: BaseProps & { label: string }) {
   return (
     <Badge tone="skill" size={size} className={className}>
       <Glyph icon={Target} />

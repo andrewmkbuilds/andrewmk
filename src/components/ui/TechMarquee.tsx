@@ -1,9 +1,10 @@
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { BrandLogo } from "./BrandLogo";
+import type { MarqueeItem } from "@/data/toolMarquee";
 
 interface TechMarqueeProps {
-  items: string[];
+  items: MarqueeItem[];
   reverse?: boolean;
   className?: string;
   label: string;
@@ -14,6 +15,9 @@ interface TechMarqueeProps {
  * compositor layer — no JavaScript positions anything per frame. It pauses when
  * the ribbon is off-screen or the tab is hidden, hovering pauses it, and under
  * prefers-reduced-motion it becomes a static wrapped list.
+ *
+ * Two sizes of chip carry the hierarchy: the five headline platforms are large
+ * and gold-edged, everything else rides past compactly.
  */
 export function TechMarquee({
   items,
@@ -24,7 +28,7 @@ export function TechMarquee({
   const trackRef = useRef<HTMLDivElement>(null);
   // Constant reading speed: the loop takes longer as the row gets longer,
   // so a wide row does not whip past faster than a short one.
-  const duration = items.length * 5;
+  const duration = items.length * 2.8;
 
   useEffect(() => {
     const track = trackRef.current;
@@ -54,29 +58,27 @@ export function TechMarquee({
   const group = (copy: boolean) => (
     <ul
       aria-hidden={copy || undefined}
-      className={cn(
-        "flex shrink-0 list-none items-center gap-2.5 p-0 pr-2.5",
-        copy && "marquee-track-copy",
-      )}
+      className={cn("marquee-group", copy && "marquee-track-copy")}
     >
-      {items.map((item) => (
-        <li
-          key={item}
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-4 py-2 font-mono text-[12px] whitespace-nowrap text-foreground/85 shadow-[var(--elev-1)] transition-colors duration-300 hover:border-gold/40 hover:text-foreground"
-        >
-          <span className="marquee-chip-mark" aria-hidden="true">
-            <BrandLogo
-              name={item}
-              size="xs"
-              className="marquee-brand"
-              fallback={
-                <span className="h-1.5 w-1.5 rounded-full bg-gold/70" />
-              }
-            />
-          </span>
-          {item}
-        </li>
-      ))}
+      {items.map((item, index) => {
+        const primary = item.tier === "primary";
+        return (
+          <li
+            key={`${item.name}-${index}`}
+            className={cn("marquee-chip", primary && "marquee-chip-primary")}
+          >
+            <span className="marquee-chip-mark" aria-hidden="true">
+              <BrandLogo
+                name={item.name}
+                size={primary ? "md" : "sm"}
+                className="marquee-brand"
+                fallback={<span className="marquee-chip-dot" />}
+              />
+            </span>
+            <span className="marquee-chip-label">{item.name}</span>
+          </li>
+        );
+      })}
     </ul>
   );
 
@@ -85,7 +87,9 @@ export function TechMarquee({
       <div
         ref={trackRef}
         className={cn("marquee-track", reverse && "marquee-track-reverse")}
-        style={{ animationDuration: `${reverse ? duration * 1.26 : duration}s` }}
+        style={{
+          animationDuration: `${reverse ? duration * 1.18 : duration}s`,
+        }}
       >
         {group(false)}
         {group(true)}

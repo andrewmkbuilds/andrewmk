@@ -129,9 +129,9 @@ const BRANDS: Record<string, Brand> = {
   reactnative: { domain: "reactnative.dev", label: "React Native" },
   xcode: { domain: "developer.apple.com", label: "Xcode" },
   postman: { domain: "postman.com", label: "Postman" },
-  openai: { domain: "openai.com", label: "OpenAI" },
+  openai: { slug: "openai", domain: "openai.com", label: "OpenAI" },
   base44: { domain: "base44.com", label: "Base44" },
-  lovable: { domain: "lovable.dev", label: "Lovable" },
+  lovable: { slug: "lovable", domain: "lovable.dev", label: "Lovable" },
 };
 
 /** Names as written in the portfolio content → brand key. */
@@ -199,6 +199,7 @@ const NAMES: Record<string, keyof typeof BRANDS> = {
   Postman: "postman",
   OpenAI: "openai",
   "OpenAI API": "openai",
+  ChatGPT: "openai",
   Base44: "base44",
   Lovable: "lovable",
 };

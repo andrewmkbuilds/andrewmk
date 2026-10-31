@@ -136,20 +136,46 @@ into the blue-and-gold palette. Colours are never taken from the reference.
   `src/routes/__root.tsx`) is the headline/pull-quote voice. `SectionHeading` turns
   `*word*` inside its `title` into that serif plus the gold hand-drawn underline, and
   page `<h1>`s use the same inline `<em className="serif-display mark-underline …">`.
-- `src/components/ui/HeroCardStack.tsx` is the hero's taped, draggable card collage;
-  cards are pointer-draggable on desktop and static under reduced motion.
-- `src/components/ui/TechMarquee.tsx` is the infinite tools ribbon (two CSS tracks,
-  duplicate hidden from assistive tech, paused on hover, wrapped and static under
-  reduced motion). The ribbon is full-bleed (`width: 100vw` + negative inline margin,
-  clipped at the screen edge, no end mask) and its animation duration scales with the
-  row length so a long row does not scroll faster than a short one. The rows' content is
-  the owner-supplied build stack (`toolRowOne/Two/Three` in `src/pages/Home.tsx`), which
-  is intentionally broader than the skill taxonomy published on the source site.
+- `src/components/ui/HeroCardStack.tsx` is the hero's taped, draggable card collage,
+  and carries the hand-written **"Drag me"** cue (`SketchArrow` pointing at the top
+  card). Cards drag with mouse and touch — `touch-action: pan-y` keeps vertical page
+  scrolling working under a thumb — and are static under reduced motion. A drag lifts
+  the card (scaled, deeper shadow) and springs it back on release.
+- `src/components/ui/TechMarquee.tsx` is the infinite tools ribbon: **exactly two rows**,
+  moving in opposite directions at different speeds (two CSS tracks each, duplicate
+  hidden from assistive tech, paused on hover/off-screen, static and capped at 15 chips
+  under reduced motion). The ribbon is full-bleed (`width: 100vw` + negative inline
+  margin, clipped at the screen edge, no end mask) and its animation duration scales with
+  the row length so a long row does not scroll faster than a short one. Row content comes
+  from `src/data/toolMarquee.ts`, which weaves two primary chips for every guest: the
+  five headline platforms (Base44, Lovable, GitHub, Claude, ChatGPT) recur constantly
+  while the rest of the owner-supplied build stack drifts past. Primary chips are the
+  larger, gold-edged variant.
 - `src/components/ui/CaseStudyRow.tsx` renders one project as a case study: numbered
   eyebrow, serif title, real highlights, figures taken from `project.results`, and a
   media panel that lifts when the row is hovered.
 - Paper/ink utilities live at the end of `src/styles.css`: `.paper`, `.tape`,
   `.sticker`, `.note-hand`, `.mark-underline`, `.case-media`, `.marquee*`.
+
+## React Bits and the depth field
+
+- `components.json` declares the React Bits registry (`@react-bits` →
+  `https://reactbits.dev/r/{name}.json`). Components are pulled from that registry and
+  vendored under `src/components/reactbits/` — do not hand-roll a CSS imitation of a
+  component the registry already ships.
+- `src/components/reactbits/Silk.tsx` is **Silk** (`Silk-TS-TW`), the site's dimensional
+  background: a WebGL2 shader of satin folds that tilts toward the pointer. It is vendored
+  verbatim and carries `@ts-nocheck` because it targets a looser tsconfig than this repo's;
+  restyle it from `DepthField`/`styles.css`, never by editing its shader.
+- `src/components/ui/DepthField.tsx` owns it: lazy chunk, mounted 400 ms after first paint,
+  never mounted under `prefers-reduced-motion` (the CSS depth system paints that case),
+  half the pixel ratio and no pointer interaction on touch. `AmbientLayers` renders it
+  between the atmospheric wash and the aurora, dimmed by `.depth-field` opacity so paper
+  surfaces keep their contrast. It is decoration: `pointer-events: none`, `aria-hidden`.
+- The marquee brand marks stay monochrome masks tinted with `currentColor` (the site's
+  established system). OpenAI and Lovable marks are vendored in `public/brands` so the
+  two platforms the ribbon leads with have real logos; Base44 has no official mark
+  available, so its chip carries the name and the Lucide fallback glyph.
 
 ## Brand marks and verified credentials
 
@@ -263,9 +289,14 @@ follows and the reasons behind them:
   on screen opt in; permanent hints on every card cost GPU memory.
 - **Marquee is one CSS transform.** `TechMarquee` pauses via `data-paused` when the ribbon is
   off screen or the tab is hidden, and does no per-frame positioning in JS.
-- **Hero cards drag on fine pointers only.** `HeroCardStack` uses motion values (no React state per
-  pointer move), and the `.paper` surface has no CSS transform transition — that transition used to
-  smooth (lag) every drag frame.
+- **Hero cards drag on every pointer, but only horizontally on touch.** `HeroCardStack` uses motion
+  values (no React state per pointer move), `touch-action: pan-y` leaves vertical scrolling to the
+  page, and the `.paper` surface has no CSS transform transition — that transition used to smooth
+  (lag) every drag frame.
+- **The WebGL field is optional.** Silk ships as its own lazy chunk
+  (`.output/public/assets/Silk-*.js`), stops its own loop when the tab is hidden or the canvas is
+  off-screen, and is the only extra pointer listener in the app (internal to the component; app
+  surfaces still share `src/lib/pointer.ts`).
 - **Parallax never runs on phones** (below 768px) and stops entirely under reduced motion.
 - **Below-the-fold bundles are split.** The home contact form is `React.lazy`; TanStack splits each
   route file into its own chunk automatically (verified in `vite build` output).

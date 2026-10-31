@@ -9,7 +9,8 @@ export const Route = createFileRoute("/api/cv/docx")({
     handlers: {
       GET: async () => {
         try {
-          const { buildCvDocx, CV_DOCX_FILENAME } = await import("@/lib/cv/docx");
+          const { buildCvDocx, CV_DOCX_FILENAME } =
+            await import("@/lib/cv/docx");
           const bytes = await buildCvDocx();
           return new Response(new Uint8Array(bytes), {
             headers: {
@@ -24,7 +25,10 @@ export const Route = createFileRoute("/api/cv/docx")({
         } catch (error) {
           console.error("[cv] docx generation failed", error);
           return Response.json(
-            { error: "The CV document could not be generated. Please try again." },
+            {
+              error:
+                "The CV document could not be generated. Please try again.",
+            },
             { status: 500 },
           );
         }

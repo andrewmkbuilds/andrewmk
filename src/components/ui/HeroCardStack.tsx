@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { Link } from "@/lib/router-compat";
-import { animate, motion, useMotionValue } from "motion/react";
+import { animate, motion, useDragControls, useMotionValue } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useHydratedReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 import { TechTag } from "./TechTag";
 import { Badge } from "./badge";
 import { SketchArrow } from "./Sketch";
-import { setCursorState } from "@/lib/pointer";
+import { isFinePointer, setCursorState } from "@/lib/pointer";
 import type { Project } from "@/data/portfolio";
 
 interface HeroCardStackProps {
@@ -40,8 +40,12 @@ interface HeroCardProps {
   pos: { rotate: number; className: string };
   index: number;
   bounds: React.RefObject<HTMLDivElement | null>;
-  /** Dragging is a fine-pointer interaction; touch keeps normal scrolling. */
-  canDrag: boolean;
+  /**
+   * Dragging is off under reduced motion. On touch the card only claims
+   * horizontal gestures (`touch-action: pan-y`), so the page still scrolls
+   * vertically when a thumb lands on a card.
+   */
+  draggable: boolean;
 }
 
 /**
@@ -49,13 +53,41 @@ interface HeroCardProps {
  * with the pointer's velocity and spring it back to its resting angle on
  * release — the card reads as a physical object rather than a box that moves.
  */
-function HeroCard({ project, pos, index, bounds, canDrag }: HeroCardProps) {
+function HeroCard({ project, pos, index, bounds, draggable }: HeroCardProps) {
   const reduce = useHydratedReducedMotion();
   const rotate = useMotionValue(pos.rotate);
+  // Drag starts on a mouse press immediately, but on a touch only after a
+  // short hold — so a thumb that just wants to scroll the page is never
+  // hijacked into a drag.
+  const controls = useDragControls();
+  const hold = useRef<number | null>(null);
+  const endHold = () => {
+    if (hold.current !== null) {
+      window.clearTimeout(hold.current);
+      hold.current = null;
+    }
+  };
 
   return (
     <motion.div
-      drag={canDrag && !reduce}
+      drag={draggable && !reduce}
+      dragListener={false}
+      dragControls={controls}
+      onPointerDown={(event) => {
+        if (!draggable || reduce) return;
+        if (event.pointerType === "touch") {
+          endHold();
+          hold.current = window.setTimeout(
+            () => controls.start(event.nativeEvent),
+            170,
+          );
+          return;
+        }
+        controls.start(event.nativeEvent);
+      }}
+      onPointerUp={endHold}
+      onPointerCancel={endHold}
+      onPointerLeave={endHold}
       dragConstraints={bounds}
       dragElastic={0.14}
       dragMomentum={false}
@@ -69,9 +101,11 @@ function HeroCard({ project, pos, index, bounds, canDrag }: HeroCardProps) {
           ),
         )
       }
-      onDragStart={() => setCursorState("grabbing")}
+      onDragStart={() => {
+        if (isFinePointer()) setCursorState("grabbing");
+      }}
       onDragEnd={() => {
-        setCursorState(canDrag && !reduce ? "grab" : "default");
+        if (isFinePointer()) setCursorState("grab");
         animate(rotate, pos.rotate, {
           type: "spring",
           stiffness: 260,
@@ -85,13 +119,21 @@ function HeroCard({ project, pos, index, bounds, canDrag }: HeroCardProps) {
         delay: reduce ? 0 : 0.35 + index * 0.12,
         ease: [0.22, 1, 0.36, 1],
       }}
-      whileHover={canDrag && !reduce ? { y: -6, scale: 1.015 } : {}}
-      whileDrag={{ scale: 1.04, zIndex: 60, cursor: "grabbing" }}
-      style={{ rotate }}
-      data-cursor={canDrag && !reduce ? "grab" : undefined}
+      whileHover={draggable && !reduce ? { y: -6, scale: 1.015 } : {}}
+      whileDrag={{
+        scale: 1.06,
+        y: -4,
+        zIndex: 60,
+        cursor: "grabbing",
+        // The card lifts off the page while it is held: deeper, softer shadow.
+        boxShadow: "0 34px 64px -22px hsl(220 70% 2% / 0.82)",
+      }}
+      // No transform transition on the surface: it would lag every drag frame.
+      style={{ rotate, touchAction: draggable ? "pan-y" : undefined }}
+      data-cursor={draggable && !reduce ? "grab" : undefined}
       className={cn(
         "paper tape absolute p-2.5 focus-within:ring-2 focus-within:ring-gold/50",
-        canDrag && !reduce && "cursor-grab motion-reduce:cursor-auto",
+        draggable && !reduce && "cursor-grab motion-reduce:cursor-auto",
         pos.className,
       )}
     >
@@ -124,7 +166,10 @@ function HeroCard({ project, pos, index, bounds, canDrag }: HeroCardProps) {
           >
             <Badge tone="category" size="sm" className="badge-link">
               <span className="badge-label">Case study</span>
-              <ArrowUpRight className="badge-icon badge-arrow" aria-hidden="true" />
+              <ArrowUpRight
+                className="badge-icon badge-arrow"
+                aria-hidden="true"
+              />
             </Badge>
           </Link>
         </div>
@@ -135,15 +180,6 @@ function HeroCard({ project, pos, index, bounds, canDrag }: HeroCardProps) {
 
 export function HeroCardStack({ projects, className }: HeroCardStackProps) {
   const bounds = useRef<HTMLDivElement>(null);
-  const [canDrag, setCanDrag] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const apply = () => setCanDrag(mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
 
   return (
     <div
@@ -153,14 +189,19 @@ export function HeroCardStack({ projects, className }: HeroCardStackProps) {
         className,
       )}
     >
-      {/* handwritten invitation */}
-      <p
+      {/* Hand-written invitation. It sits in the gap above the top card and
+          its arrow curves down onto it, so the cue points at the thing it is
+          talking about. Hidden on phones, where the stack fills the column and
+          the label would land on a card. */}
+      <div
         aria-hidden="true"
-        className="note-hand absolute -top-2 right-2 z-40 rotate-3 text-sm sm:text-base"
+        className="drag-hint pointer-events-none absolute -top-10 left-[3%] z-40 hidden -rotate-[4deg] flex-col items-start gap-0.5 sm:flex"
       >
-        go on, drag one
-        <SketchArrow className="ml-6 h-4 w-14 text-gold/70" />
-      </p>
+        <span className="note-hand text-[1.05rem] tracking-[0.08em] uppercase">
+          Drag me
+        </span>
+        <SketchArrow className="drag-hint-arrow ml-5 h-7 w-16 rotate-[68deg] text-gold/85" />
+      </div>
 
       {projects.slice(0, 3).map((project, i) => (
         <HeroCard
@@ -169,7 +210,7 @@ export function HeroCardStack({ projects, className }: HeroCardStackProps) {
           pos={layout[i] ?? fallbackPosition}
           index={i}
           bounds={bounds}
-          canDrag={canDrag}
+          draggable
         />
       ))}
 

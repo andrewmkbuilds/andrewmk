@@ -8,6 +8,7 @@ import { Reveal, RevealWords } from "@/components/ui/Reveal";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { HeroCardStack } from "@/components/ui/HeroCardStack";
 import { TechMarquee } from "@/components/ui/TechMarquee";
+import { marqueeRows } from "@/data/toolMarquee";
 import { CaseStudyRow } from "@/components/ui/CaseStudyRow";
 import { Tilt3D } from "@/components/ui/Tilt3D";
 import { Parallax } from "@/components/ui/Parallax";
@@ -68,58 +69,7 @@ const buildIcons: Record<string, LucideIcon> = {
   LineChart,
 };
 
-const toolRowOne = [
-  "Python",
-  "TypeScript",
-  "JavaScript",
-  "Swift",
-  "Objective-C",
-  "Kotlin",
-  "Java",
-  "C++",
-  "C#",
-  "Rust",
-  "Go",
-  "Ruby",
-  "PHP",
-  "SQL",
-  "HTML",
-  "CSS",
-];
-
 const stepIcons = [Lightbulb, Hammer, Rocket];
-
-const toolRowTwo = [
-  "React",
-  "Next.js",
-  "Vue",
-  "Nuxt",
-  "Node.js",
-  "Express",
-  "Flutter",
-  "React Native",
-  "Tailwind CSS",
-  "Tkinter",
-  "OpenCV",
-  "MediaPipe",
-];
-
-const toolRowThree = [
-  "Base44",
-  "Lovable",
-  "Claude",
-  "Gemini API",
-  "OpenAI API",
-  "Supabase",
-  "Firebase",
-  "Docker",
-  "Git",
-  "GitHub",
-  "Xcode",
-  "Figma",
-  "Postman",
-  "Vercel",
-];
 
 export default function Home() {
   return (
@@ -373,14 +323,15 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <div className="space-y-3">
-          <TechMarquee label="Languages" items={toolRowOne} />
-          <TechMarquee
-            label="Frameworks and runtimes"
-            items={toolRowTwo}
-            reverse
-          />
-          <TechMarquee label="Platforms and tooling" items={toolRowThree} />
+        <div className="space-y-3.5">
+          {marqueeRows.map((row) => (
+            <TechMarquee
+              key={row.label}
+              label={row.label}
+              items={row.items}
+              reverse={row.reverse}
+            />
+          ))}
         </div>
       </section>
 

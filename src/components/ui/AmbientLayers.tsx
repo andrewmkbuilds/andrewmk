@@ -1,3 +1,4 @@
+import { DepthField } from "./DepthField";
 import { PointerLight } from "./PointerLight";
 
 /**
@@ -21,6 +22,9 @@ export function AmbientLayers() {
     >
       {/* background — atmospheric wash from the brand blue */}
       <div className="absolute inset-0 bg-[radial-gradient(120%_85%_at_50%_-10%,hsl(207_70%_24%/.55),transparent_62%)]" />
+
+      {/* midground — the dimensional WebGL field (lazy, pointer-aware) */}
+      <DepthField />
 
       {/* midground — ambient light */}
       <div className="aurora aurora-1" />

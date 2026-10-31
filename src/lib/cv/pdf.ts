@@ -1,10 +1,30 @@
-import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
-import { CV_FILENAME, cv, githubLabel, portfolioLabel } from "@/data/cv";
+import {
+  PDFDocument,
+  StandardFonts,
+  rgb,
+  type PDFFont,
+  type PDFPage,
+} from "pdf-lib";
+import {
+  CV_FILENAME,
+  cv,
+  gavellingLabel,
+  githubLabel,
+  portfolioLabel,
+} from "@/data/cv";
 
 /**
  * Builds the downloadable CV as a real PDF: real text (selectable, searchable,
  * ATS-parseable) drawn with the standard Helvetica faces, A4 pages, clickable
- * links for email, portfolio and GitHub. No screenshot, no print dialog.
+ * links for email, portfolio, GitHub and the Gavelling profile. No screenshot,
+ * no print dialog.
+ *
+ * Layout rules that keep the sheet readable:
+ * - one A4 column with a single 46pt margin on every side;
+ * - a section heading never starts lower than ~64pt from the bottom, so it
+ *   keeps its first entry with it;
+ * - a MUN entry stays on one page as a block;
+ * - the footer rule is only drawn on the page the document actually ends on.
  */
 
 const A4 = { width: 595.28, height: 841.89 };
@@ -50,7 +70,14 @@ export async function buildCvPdf(): Promise<Uint8Array> {
   doc.setTitle(`${cv.name} — CV`);
   doc.setAuthor(cv.name);
   doc.setSubject("Curriculum Vitae");
-  doc.setKeywords(["CV", "curriculum vitae", "student developer", "AI", "robotics"]);
+  doc.setKeywords([
+    "CV",
+    "curriculum vitae",
+    "Model United Nations",
+    "student developer",
+    "AI",
+    "robotics",
+  ]);
   doc.setCreator(portfolioLabel);
   doc.setProducer(portfolioLabel);
 
@@ -113,13 +140,19 @@ export async function buildCvPdf(): Promise<Uint8Array> {
 
   /** Bullet whose label is bold and whose detail wraps beside it. */
   const bulleted = (label: string, detail: string, size = 9.2) => {
-    ensureSpace(12);
-    y -= 12;
-    page.drawText("•", { x: MARGIN + 2, y, size, font: body, color: accent });
     const labelText = `${label} — `;
-    page.drawText(labelText, { x: MARGIN + 12, y, size, font: bold, color: ink });
     const labelWidth = measure(labelText, bold, size);
     const lines = wrap(detail, body, size, CONTENT_WIDTH - 12 - labelWidth);
+    ensureSpace(12 + lines.length * 11.6);
+    y -= 12;
+    page.drawText("•", { x: MARGIN + 2, y, size, font: body, color: accent });
+    page.drawText(labelText, {
+      x: MARGIN + 12,
+      y,
+      size,
+      font: bold,
+      color: ink,
+    });
     lines.forEach((line, i) => {
       if (i > 0) y -= 11.6;
       page.drawText(line, {
@@ -130,39 +163,12 @@ export async function buildCvPdf(): Promise<Uint8Array> {
         color: muted,
       });
     });
+    y -= 2;
   };
 
-  // ---- Masthead ----------------------------------------------------------
-  y -= 26;
-  page.drawText(cv.name, { x: MARGIN, y, size: 23, font: bold, color: ink });
-  y -= 17;
-  page.drawText(cv.role, { x: MARGIN, y, size: 10.5, font: body, color: accent });
-  y -= 15;
-
-  // Contact line: location · email · portfolio · github, each link clickable.
-  const contactSize = 9;
-  const separator = "  ·  ";
-  let cx = MARGIN;
-  const contactItems: { text: string; url?: string }[] = [
-    { text: cv.location },
-    { text: cv.email, url: `mailto:${cv.email}` },
-    { text: portfolioLabel, url: cv.portfolio },
-    { text: githubLabel, url: cv.github },
-  ];
-  contactItems.forEach((item, index) => {
-    const prefix = index === 0 ? "" : separator;
-    const text = `${prefix}${item.text}`;
-    page.drawText(text, { x: cx, y, size: contactSize, font: body, color: muted });
-    if (item.url) {
-      const start = cx + measure(prefix, body, contactSize);
-      addLink(doc, page, item.url, start, y, measure(item.text, body, contactSize), contactSize);
-    }
-    cx += measure(text, body, contactSize);
-  });
-  y -= 12;
-
   const section = (title: string) => {
-    ensureSpace(30);
+    // Keep the heading with at least its first entry rather than stranding it.
+    ensureSpace(64);
     y -= 16;
     page.drawText(title.toUpperCase(), {
       x: MARGIN,
@@ -181,6 +187,56 @@ export async function buildCvPdf(): Promise<Uint8Array> {
     y -= 11;
   };
 
+  // ---- Masthead ----------------------------------------------------------
+  y -= 26;
+  page.drawText(cv.name, { x: MARGIN, y, size: 23, font: bold, color: ink });
+  y -= 17;
+  page.drawText(cv.role, {
+    x: MARGIN,
+    y,
+    size: 10.5,
+    font: body,
+    color: accent,
+  });
+  y -= 15;
+
+  // Contact line: location · phone · email · portfolio · github, links clickable.
+  const contactSize = 9;
+  const separator = "  ·  ";
+  let cx = MARGIN;
+  const contactItems: { text: string; url?: string }[] = [
+    { text: cv.location },
+    { text: cv.phone },
+    { text: cv.email, url: `mailto:${cv.email}` },
+    { text: portfolioLabel, url: cv.portfolio },
+    { text: githubLabel, url: cv.github },
+  ];
+  contactItems.forEach((item, index) => {
+    const prefix = index === 0 ? "" : separator;
+    const text = `${prefix}${item.text}`;
+    page.drawText(text, {
+      x: cx,
+      y,
+      size: contactSize,
+      font: body,
+      color: muted,
+    });
+    if (item.url) {
+      const start = cx + measure(prefix, body, contactSize);
+      addLink(
+        doc,
+        page,
+        item.url,
+        start,
+        y,
+        measure(item.text, body, contactSize),
+        contactSize,
+      );
+    }
+    cx += measure(text, body, contactSize);
+  });
+  y -= 12;
+
   // ---- Profile -----------------------------------------------------------
   section("Profile");
   paragraph(cv.profile, { gapAfter: 2 });
@@ -192,13 +248,55 @@ export async function buildCvPdf(): Promise<Uint8Array> {
     paragraph(`${entry.detail} · ${entry.meta}`, { color: muted, gapAfter: 2 });
   }
 
+  // ---- Model United Nations ---------------------------------------------
+  section("Model United Nations Experience");
+  for (const entry of cv.mun) {
+    ensureSpace(58);
+    paragraph(entry.event, { font: bold, size: 9.9 });
+    paragraph(`${entry.role} · ${entry.committee} · ${entry.date}`, {
+      size: 9.2,
+    });
+    if (entry.portfolio) {
+      paragraph(`Represented ${entry.portfolio}`, { size: 9.2, color: muted });
+    }
+    paragraph(`Awards: ${entry.awards.join(" · ")}`, {
+      size: 9.2,
+      font: bold,
+      color: accent,
+      gapAfter: 6,
+    });
+  }
+  for (const highlight of cv.munHighlights) {
+    ensureSpace(12);
+    y -= 12;
+    page.drawText("•", {
+      x: MARGIN + 2,
+      y,
+      size: 9.2,
+      font: body,
+      color: accent,
+    });
+    paragraph(highlight, {
+      x: MARGIN + 12,
+      width: CONTENT_WIDTH - 12,
+      size: 9.2,
+    });
+  }
+  y -= 2;
+
   // ---- Technical skills --------------------------------------------------
   section("Technical Skills");
   for (const group of cv.skills) {
     ensureSpace(14);
     const labelWidth = 104;
     y -= 12.4;
-    page.drawText(group.label, { x: MARGIN, y, size: 9.2, font: bold, color: ink });
+    page.drawText(group.label, {
+      x: MARGIN,
+      y,
+      size: 9.2,
+      font: bold,
+      color: ink,
+    });
     const lines = wrap(group.value, body, 9.2, CONTENT_WIDTH - labelWidth);
     lines.forEach((line, i) => {
       if (i > 0) y -= 11.6;
@@ -215,13 +313,24 @@ export async function buildCvPdf(): Promise<Uint8Array> {
   // ---- Development experience -------------------------------------------
   section("Development Experience");
   for (const entry of cv.experience) {
+    ensureSpace(30);
     paragraph(entry.title, { font: bold, size: 9.8 });
     paragraph(entry.meta, { size: 8.8, color: muted });
     for (const point of entry.points) {
       ensureSpace(12);
       y -= 12;
-      page.drawText("•", { x: MARGIN + 2, y, size: 9.2, font: body, color: accent });
-      paragraph(point, { x: MARGIN + 12, width: CONTENT_WIDTH - 12, size: 9.2 });
+      page.drawText("•", {
+        x: MARGIN + 2,
+        y,
+        size: 9.2,
+        font: body,
+        color: accent,
+      });
+      paragraph(point, {
+        x: MARGIN + 12,
+        width: CONTENT_WIDTH - 12,
+        size: 9.2,
+      });
     }
     y -= 2;
   }
@@ -232,7 +341,13 @@ export async function buildCvPdf(): Promise<Uint8Array> {
     ensureSpace(26);
     y -= 12.4;
     const nameSize = 9.6;
-    page.drawText(project.name, { x: MARGIN, y, size: nameSize, font: bold, color: ink });
+    page.drawText(project.name, {
+      x: MARGIN,
+      y,
+      size: nameSize,
+      font: bold,
+      color: ink,
+    });
     page.drawText(` — ${project.status}`, {
       x: MARGIN + measure(project.name, bold, nameSize),
       y,
@@ -241,20 +356,27 @@ export async function buildCvPdf(): Promise<Uint8Array> {
       color: accent,
     });
     paragraph(project.summary, { size: 9, color: muted, leading: 11.6 });
-    paragraph(project.tech, { size: 8.4, color: muted, leading: 10.6, gapAfter: 4 });
+    paragraph(project.tech, {
+      size: 8.4,
+      color: muted,
+      leading: 10.6,
+      gapAfter: 4,
+    });
   }
 
-  // ---- Awards ------------------------------------------------------------
-  section("MUN Experience and Awards");
-  for (const award of cv.awards) bulleted(award.title, award.detail);
+  // ---- Competitions and awards ------------------------------------------
+  section("Competitions and Awards");
+  for (const result of cv.results) {
+    bulleted(`${result.place} — ${result.detail}`, result.event);
+  }
 
   // ---- Leadership --------------------------------------------------------
   section("Leadership and Extracurricular");
   for (const item of cv.leadership) bulleted(item.title, item.detail);
 
   // ---- Footer ------------------------------------------------------------
-  y -= 20;
-  ensureSpace(8);
+  y -= 18;
+  ensureSpace(24);
   page.drawLine({
     start: { x: MARGIN, y },
     end: { x: A4.width - MARGIN, y },
@@ -262,8 +384,32 @@ export async function buildCvPdf(): Promise<Uint8Array> {
     color: rule,
   });
   y -= 11;
-  page.drawText(portfolioLabel, { x: MARGIN, y, size: 8.4, font: body, color: accent });
-  addLink(doc, page, cv.portfolio, MARGIN, y, measure(portfolioLabel, body, 8.4), 8.4);
+  page.drawText(`${portfolioLabel}  ·  ${gavellingLabel}`, {
+    x: MARGIN,
+    y,
+    size: 8.4,
+    font: body,
+    color: accent,
+  });
+  addLink(
+    doc,
+    page,
+    cv.portfolio,
+    MARGIN,
+    y,
+    measure(portfolioLabel, body, 8.4),
+    8.4,
+  );
+  const gavellingOffset = measure(`${portfolioLabel}  ·  `, body, 8.4);
+  addLink(
+    doc,
+    page,
+    cv.gavelling,
+    MARGIN + gavellingOffset,
+    y,
+    measure(gavellingLabel, body, 8.4),
+    8.4,
+  );
 
   return doc.save();
 }

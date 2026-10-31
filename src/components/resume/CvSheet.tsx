@@ -26,10 +26,16 @@ export function CvSheet() {
       className="cv-sheet mx-auto w-full max-w-3xl rounded-xl bg-white px-6 py-8 shadow-[0_24px_60px_-30px_rgba(0,0,0,0.7)] sm:px-10 sm:py-12"
     >
       <header className="border-b border-[#cbd5e1] pb-4">
-        <h2 className={`text-3xl font-bold tracking-tight ${INK}`}>{cv.name}</h2>
+        <h2 className={`text-3xl font-bold tracking-tight ${INK}`}>
+          {cv.name}
+        </h2>
         <p className={`mt-1 text-sm ${ACCENT}`}>{cv.role}</p>
-        <p className={`mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs ${MUTED}`}>
+        <p
+          className={`mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs ${MUTED}`}
+        >
           <span>{cv.location}</span>
+          <span aria-hidden="true">·</span>
+          <span>{cv.phone}</span>
           <span aria-hidden="true">·</span>
           <a
             href={`mailto:${cv.email}`}
@@ -70,7 +76,9 @@ export function CvSheet() {
           <SectionTitle>Education</SectionTitle>
           {cv.education.map((entry) => (
             <div key={entry.school}>
-              <p className={`text-[13px] font-semibold ${INK}`}>{entry.school}</p>
+              <p className={`text-[13px] font-semibold ${INK}`}>
+                {entry.school}
+              </p>
               <p className={`text-[12.5px] ${MUTED}`}>
                 {entry.detail} · {entry.meta}
               </p>
@@ -82,8 +90,13 @@ export function CvSheet() {
           <SectionTitle>Technical Skills</SectionTitle>
           <dl className="space-y-1">
             {cv.skills.map((group) => (
-              <div key={group.label} className="flex gap-3 text-[12.5px] leading-snug">
-                <dt className={`w-32 shrink-0 font-semibold ${INK}`}>{group.label}</dt>
+              <div
+                key={group.label}
+                className="flex gap-3 text-[12.5px] leading-snug"
+              >
+                <dt className={`w-32 shrink-0 font-semibold ${INK}`}>
+                  {group.label}
+                </dt>
                 <dd className={INK}>{group.value}</dd>
               </div>
             ))}
@@ -94,9 +107,13 @@ export function CvSheet() {
           <SectionTitle>Development Experience</SectionTitle>
           {cv.experience.map((entry) => (
             <div key={entry.title}>
-              <p className={`text-[13px] font-semibold ${INK}`}>{entry.title}</p>
+              <p className={`text-[13px] font-semibold ${INK}`}>
+                {entry.title}
+              </p>
               <p className={`text-[12px] ${MUTED}`}>{entry.meta}</p>
-              <ul className={`mt-1 list-disc space-y-1 pl-5 text-[12.5px] leading-snug ${INK}`}>
+              <ul
+                className={`mt-1 list-disc space-y-1 pl-5 text-[12.5px] leading-snug ${INK}`}
+              >
                 {entry.points.map((point) => (
                   <li key={point}>{point}</li>
                 ))}
@@ -112,10 +129,17 @@ export function CvSheet() {
               <li key={project.name}>
                 <p className={`text-[13px] font-semibold ${INK}`}>
                   {project.name}
-                  <span className={`font-normal ${ACCENT}`}> — {project.status}</span>
+                  <span className={`font-normal ${ACCENT}`}>
+                    {" "}
+                    — {project.status}
+                  </span>
                 </p>
-                <p className={`text-[12.5px] leading-snug ${MUTED}`}>{project.summary}</p>
-                <p className={`mt-0.5 text-[11px] uppercase tracking-[0.1em] ${MUTED}`}>
+                <p className={`text-[12.5px] leading-snug ${MUTED}`}>
+                  {project.summary}
+                </p>
+                <p
+                  className={`mt-0.5 text-[11px] uppercase tracking-[0.1em] ${MUTED}`}
+                >
                   {project.tech}
                 </p>
               </li>
@@ -124,12 +148,47 @@ export function CvSheet() {
         </section>
 
         <section>
-          <SectionTitle>MUN Experience and Awards</SectionTitle>
-          <ul className={`list-disc space-y-1 pl-5 text-[12.5px] leading-snug ${INK}`}>
-            {cv.awards.map((award) => (
-              <li key={award.title}>
-                <span className="font-semibold">{award.title}</span>
-                <span className={MUTED}> — {award.detail}</span>
+          <SectionTitle>Model United Nations Experience</SectionTitle>
+          <ul className="space-y-2">
+            {cv.mun.map((entry) => (
+              <li key={entry.event}>
+                <p className={`text-[13px] font-semibold ${INK}`}>
+                  {entry.event}
+                  <span className={`font-normal ${MUTED}`}>
+                    {" "}
+                    · {entry.date}
+                  </span>
+                </p>
+                <p className={`text-[12.5px] leading-snug ${INK}`}>
+                  {entry.role} · {entry.committee}
+                  {entry.portfolio ? ` · ${entry.portfolio}` : ""}
+                </p>
+                <p className={`text-[12px] font-semibold ${ACCENT}`}>
+                  Awards: {entry.awards.join(" · ")}
+                </p>
+              </li>
+            ))}
+          </ul>
+          <ul
+            className={`mt-2 list-disc space-y-1 pl-5 text-[12.5px] leading-snug ${INK}`}
+          >
+            {cv.munHighlights.map((highlight) => (
+              <li key={highlight}>{highlight}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <SectionTitle>Competitions and Awards</SectionTitle>
+          <ul
+            className={`list-disc space-y-1 pl-5 text-[12.5px] leading-snug ${INK}`}
+          >
+            {cv.results.map((result) => (
+              <li key={`${result.place}-${result.detail}`}>
+                <span className="font-semibold">
+                  {result.place} — {result.detail}
+                </span>
+                <span className={MUTED}> · {result.event}</span>
               </li>
             ))}
           </ul>
@@ -137,7 +196,9 @@ export function CvSheet() {
 
         <section>
           <SectionTitle>Leadership and Extracurricular</SectionTitle>
-          <ul className={`list-disc space-y-1 pl-5 text-[12.5px] leading-snug ${INK}`}>
+          <ul
+            className={`list-disc space-y-1 pl-5 text-[12.5px] leading-snug ${INK}`}
+          >
             {cv.leadership.map((item) => (
               <li key={item.title}>
                 <span className="font-semibold">{item.title}</span>
@@ -148,7 +209,9 @@ export function CvSheet() {
         </section>
       </div>
 
-      <footer className={`mt-6 border-t border-[#cbd5e1] pt-3 text-[11px] ${ACCENT}`}>
+      <footer
+        className={`mt-6 border-t border-[#cbd5e1] pt-3 text-[11px] ${ACCENT}`}
+      >
         <a
           href={cv.portfolio}
           target="_blank"

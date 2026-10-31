@@ -86,9 +86,17 @@ export function CvDownloadButton({
         )}
       >
         <Icon className={cn("size-4", state === "working" && "animate-spin")} />
-        {state === "working" ? "Preparing…" : state === "done" ? "Downloaded" : label}
+        {state === "working"
+          ? "Preparing…"
+          : state === "done"
+            ? "Downloaded"
+            : label}
       </button>
-      <span role="status" aria-live="polite" className="min-h-4 font-mono text-[11px] leading-4">
+      <span
+        role="status"
+        aria-live="polite"
+        className="min-h-4 font-mono text-[11px] leading-4"
+      >
         {state === "error" && error ? (
           <span className="text-destructive">{error}</span>
         ) : hint ? (
