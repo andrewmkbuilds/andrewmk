@@ -256,6 +256,30 @@ sites, GitHub, social media or inference.
   uses `window.scrollTo` can appear not to move the page; set
   `document.documentElement.scrollTop` instead.
 
+## Master CV deliverables
+
+- `docs/cv/` holds the two committed deliverables
+  (`Andrew_Mathews_Kalathil_Master_CV.pdf` and `.docx`), the audit of the ten
+  supplied CV documents (`MASTER_CV_SOURCE_AUDIT.md`) and the open questions
+  (`MASTER_CV_CONFLICTS.md`). Regenerate both from `src/data/cv.ts` — the same
+  source `/api/cv/pdf` and `/api/cv/docx` serve:
+
+  ```sh
+  docker compose -f docker-compose.base44.yml exec -T web \
+    bunx tsx scripts/generate-master-cv.ts
+  ```
+
+- Verify a layout change by rendering the PDF pages and measuring its text
+  boxes (margins, page break, overlapping line boxes, trailing white space), not
+  by comparing extracted text with `cv.ts`. `paragraph()` in `src/lib/cv/pdf.ts`
+  draws its first line `0.72 × leading` below the cursor, so a heading drawn
+  with `drawText` needs the cursor dropped before the paragraph that follows it
+  or the two line boxes overlap.
+- `docs/EMAIL_DELIVERY.md` records why contact-form mail is stored but not
+  delivered while the Resend account is in testing mode, and the single
+  configuration change needed once a sending domain is verified. Do not send
+  repeated test messages.
+
 ## What to check after a change
 
 ```sh

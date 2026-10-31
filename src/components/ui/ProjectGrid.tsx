@@ -6,7 +6,11 @@ import { ProjectCard } from "./ProjectCard";
 import { ProjectModal } from "./ProjectModal";
 import { FilterBar } from "./FilterBar";
 import { getProjectPlatforms, platformFilters } from "./BuiltBy";
-import { ecosystemProjects, projectFilters, type Project } from "@/data/portfolio";
+import {
+  ecosystemProjects,
+  projectFilters,
+  type Project,
+} from "@/data/portfolio";
 
 interface ProjectGridProps {
   projects?: Project[];
@@ -32,7 +36,10 @@ function ProjectCardSkeleton() {
   );
 }
 
-export function ProjectGrid({ projects = ecosystemProjects, loading = false }: ProjectGridProps) {
+export function ProjectGrid({
+  projects = ecosystemProjects,
+  loading = false,
+}: ProjectGridProps) {
   const [active, setActive] = useState("All");
   const [platform, setPlatform] = useState("All");
   const [selected, setSelected] = useState<Project | null>(null);
@@ -85,7 +92,10 @@ export function ProjectGrid({ projects = ecosystemProjects, loading = false }: P
       </p>
 
       {loading ? (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-hidden="true">
+        <div
+          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+          aria-hidden="true"
+        >
           {Array.from({ length: 6 }).map((_, index) => (
             <ProjectCardSkeleton key={index} />
           ))}
@@ -93,10 +103,15 @@ export function ProjectGrid({ projects = ecosystemProjects, loading = false }: P
       ) : visible.length === 0 ? (
         <div className="rounded-xl border border-dashed border-border bg-card/40 px-6 py-12 text-center">
           <SearchX className="mx-auto h-8 w-8 text-muted-foreground/60" />
-          <p className="mt-4 font-mono text-sm text-foreground">No projects match these filters</p>
+          <p className="mt-4 font-mono text-sm text-foreground">
+            No projects match these filters
+          </p>
           <p className="mx-auto mt-2 max-w-sm text-sm text-muted-foreground">
             Nothing here combines{" "}
-            <span className="text-foreground">{active === "All" ? "every tech" : active}</span> with{" "}
+            <span className="text-foreground">
+              {active === "All" ? "every tech" : active}
+            </span>{" "}
+            with{" "}
             <span className="text-foreground">
               {platform === "All" ? "every platform" : platform}
             </span>

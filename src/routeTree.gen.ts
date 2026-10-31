@@ -16,7 +16,6 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AchievementsRouteImport } from './routes/achievements'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CvAuditRouteImport } from './routes/cv-audit'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ResumeRouteImport } from './routes/resume'
@@ -69,11 +68,6 @@ const AuthRoute = AuthRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CvAuditRoute = CvAuditRouteImport.update({
-  id: '/cv-audit',
-  path: '/cv-audit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JourneyRoute = JourneyRouteImport.update({
@@ -183,7 +177,6 @@ export interface FileRoutesByFullPath {
   '/achievements': typeof AchievementsRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/cv-audit': typeof CvAuditRoute
   '/journey': typeof JourneyRoute
   '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
@@ -211,7 +204,6 @@ export interface FileRoutesByTo {
   '/achievements': typeof AchievementsRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/cv-audit': typeof CvAuditRoute
   '/journey': typeof JourneyRoute
   '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
@@ -241,7 +233,6 @@ export interface FileRoutesById {
   '/achievements': typeof AchievementsRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/cv-audit': typeof CvAuditRoute
   '/journey': typeof JourneyRoute
   '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
@@ -271,7 +262,6 @@ export interface FileRouteTypes {
     | '/achievements'
     | '/auth'
     | '/contact'
-    | '/cv-audit'
     | '/journey'
     | '/profile'
     | '/resume'
@@ -299,7 +289,6 @@ export interface FileRouteTypes {
     | '/achievements'
     | '/auth'
     | '/contact'
-    | '/cv-audit'
     | '/journey'
     | '/profile'
     | '/resume'
@@ -328,7 +317,6 @@ export interface FileRouteTypes {
     | '/achievements'
     | '/auth'
     | '/contact'
-    | '/cv-audit'
     | '/journey'
     | '/profile'
     | '/resume'
@@ -358,7 +346,6 @@ export interface RootRouteChildren {
   AchievementsRoute: typeof AchievementsRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
-  CvAuditRoute: typeof CvAuditRoute
   JourneyRoute: typeof JourneyRoute
   ProfileRoute: typeof ProfileRoute
   ResumeRoute: typeof ResumeRoute
@@ -422,13 +409,6 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cv-audit': {
-      id: '/cv-audit'
-      path: '/cv-audit'
-      fullPath: '/cv-audit'
-      preLoaderRoute: typeof CvAuditRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/journey': {
@@ -611,7 +591,6 @@ const rootRouteChildren: RootRouteChildren = {
   AchievementsRoute: AchievementsRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
-  CvAuditRoute: CvAuditRoute,
   JourneyRoute: JourneyRoute,
   ProfileRoute: ProfileRoute,
   ResumeRoute: ResumeRoute,

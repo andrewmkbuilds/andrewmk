@@ -355,6 +355,10 @@ export async function buildCvPdf(): Promise<Uint8Array> {
       font: body,
       color: accent,
     });
+    // `paragraph` draws its first line 0.72 × leading below the cursor, so the
+    // name and its summary would otherwise sit only ~8.4pt apart (less than the
+    // 9.6pt name itself). Drop the cursor first for a 12pt baseline step.
+    y -= 3.6;
     paragraph(project.summary, { size: 9, color: muted, leading: 11.6 });
     paragraph(project.tech, {
       size: 8.4,

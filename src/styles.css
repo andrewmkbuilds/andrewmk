@@ -1846,7 +1846,9 @@ html[data-cursor-out] .cursor-layer {
   font-size: 0.6875rem;
   line-height: 1;
   color: var(--foreground);
-  white-space: nowrap;
+  /* A chip never truncates its label: in a narrow card it wraps onto a second
+     line instead of showing "F1 in Schools / STEM Raci…". */
+  white-space: normal;
   overflow: hidden;
   isolation: isolate;
   transition:
@@ -1864,8 +1866,8 @@ html[data-cursor-out] .cursor-layer {
 
 .badge-label {
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
 }
 
 .badge-icon {

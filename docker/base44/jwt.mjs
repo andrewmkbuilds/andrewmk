@@ -25,6 +25,8 @@ const payload = b64url(
     exp: issuedAt + 60 * 60 * 24 * 365 * 10,
   }),
 );
-const signature = createHmac("sha256", secret).update(`${header}.${payload}`).digest("base64url");
+const signature = createHmac("sha256", secret)
+  .update(`${header}.${payload}`)
+  .digest("base64url");
 
 process.stdout.write(`${header}.${payload}.${signature}`);

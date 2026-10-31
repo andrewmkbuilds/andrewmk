@@ -8,7 +8,10 @@ const NotFound = () => {
   const location = useLocation();
 
   useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
+    console.error(
+      "404 Error: User attempted to access non-existent route:",
+      location.pathname,
+    );
   }, [location.pathname]);
 
   return (
@@ -31,14 +34,18 @@ const NotFound = () => {
           className="pointer-events-none absolute -top-20 left-1/3 h-64 w-64 rounded-full bg-gold/10 blur-[110px]"
         />
         <div className="container relative">
-
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">404</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">
+            404
+          </p>
           <h1 className="headline-3d mt-4 text-4xl md:text-5xl font-bold text-foreground">
             This page isn't built yet.
           </h1>
           <p className="mt-4 max-w-md text-muted-foreground">
-            The route <span className="font-mono text-foreground">{location.pathname}</span> doesn't
-            exist. Head back and explore the work instead.
+            The route{" "}
+            <span className="font-mono text-foreground">
+              {location.pathname}
+            </span>{" "}
+            doesn't exist. Head back and explore the work instead.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild className="font-mono">

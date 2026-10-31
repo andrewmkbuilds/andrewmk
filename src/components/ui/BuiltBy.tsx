@@ -133,7 +133,7 @@ export function BuiltBy({
                   rel="noopener noreferrer"
                   aria-label={`${entry.label} (opens in a new tab)`}
                   onClick={(e) => e.stopPropagation()}
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/60 text-muted-foreground transition-colors hover:border-gold/40 hover:text-gold focus-ring"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border bg-background/60 text-muted-foreground transition-colors hover:border-gold/40 hover:text-gold focus-ring"
                 >
                   {entry.socialId ? (
                     <SocialMark id={entry.socialId} size="sm" />

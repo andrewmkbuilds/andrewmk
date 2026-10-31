@@ -86,7 +86,7 @@ export function Footer() {
               <Link
                 key={link.href}
                 to={link.href}
-                className="link-underline -my-1 w-fit py-1 font-mono text-sm text-muted-foreground transition-colors hover:text-gold"
+                className="link-underline -my-2.5 w-fit py-2.5 font-mono text-sm text-muted-foreground transition-colors hover:text-gold"
               >
                 {link.label}
               </Link>
@@ -129,7 +129,7 @@ export function Footer() {
                   behavior: reduce ? "auto" : "smooth",
                 });
               }}
-              className="focus-ring group inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3.5 py-2 uppercase tracking-[0.16em] transition-colors hover:border-gold/45 hover:text-gold"
+              className="focus-ring group inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3.5 py-2.5 uppercase tracking-[0.16em] transition-colors hover:border-gold/45 hover:text-gold"
             >
               <ArrowUp
                 className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5"

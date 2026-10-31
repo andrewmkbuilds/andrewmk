@@ -1,7 +1,14 @@
 import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { Link } from "@/lib/router-compat";
-import { MapPin, ExternalLink, Award, GraduationCap, Wrench, Globe } from "lucide-react";
+import {
+  MapPin,
+  ExternalLink,
+  Award,
+  GraduationCap,
+  Wrench,
+  Globe,
+} from "lucide-react";
 import logoUrl from "@/assets/andrewbuilds-logo.png";
 import {
   allProjects,
@@ -13,7 +20,10 @@ import {
   socialLinks,
   timeline,
 } from "@/data/portfolio";
-import { certificateDateLabel, certificatesByRecency } from "@/data/certificates";
+import {
+  certificateDateLabel,
+  certificatesByRecency,
+} from "@/data/certificates";
 
 function Panel({
   icon: Icon,
@@ -29,7 +39,10 @@ function Panel({
   return (
     <Reveal>
       <section className="surface relative overflow-hidden rounded-2xl p-6 md:p-7">
-        <span aria-hidden="true" className="absolute inset-x-0 top-0 h-px divider-gold" />
+        <span
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 h-px divider-gold"
+        />
         <div className="flex items-center justify-between gap-4">
           <h2 className="flex items-center gap-2.5 text-lg font-semibold text-foreground">
             <Icon className="size-4 text-gold" />
@@ -52,7 +65,10 @@ export default function Profile() {
           <Reveal>
             <article className="surface relative overflow-hidden rounded-2xl">
               <div className="relative h-32 bg-linear-to-r from-primary/25 via-primary/10 to-gold/20 md:h-40">
-                <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px divider-gold" />
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 bottom-0 h-px divider-gold"
+                />
               </div>
               <div className="px-6 pb-7 md:px-8">
                 <img
@@ -96,9 +112,14 @@ export default function Profile() {
 
                 <dl className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
                   {quickStats.map((stat) => (
-                    <div key={stat.label} className="rounded-xl border border-border p-3">
+                    <div
+                      key={stat.label}
+                      className="rounded-xl border border-border p-3"
+                    >
                       <dt className="sr-only">{stat.label}</dt>
-                      <dd className="font-mono text-xl font-semibold text-gold">{stat.value}</dd>
+                      <dd className="font-mono text-xl font-semibold text-gold">
+                        {stat.value}
+                      </dd>
                       <p className="mt-1 text-xs leading-snug text-muted-foreground">
                         {stat.label}
                       </p>
@@ -111,10 +132,11 @@ export default function Profile() {
 
           <Panel icon={Globe} title="About">
             <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-              I'm a student developer from Dubai who builds AI systems, software products and
-              robotics projects. I started with a school robotics programme at nine and have been
-              shipping ever since — from computer-vision experiments and Python tools to full
-              AI-powered products. I care about systems that solve a complete problem, not
+              I'm a student developer from Dubai who builds AI systems, software
+              products and robotics projects. I started with a school robotics
+              programme at nine and have been shipping ever since — from
+              computer-vision experiments and Python tools to full AI-powered
+              products. I care about systems that solve a complete problem, not
               features in isolation.
             </p>
             <ul className="mt-5 grid gap-2 sm:grid-cols-2">
@@ -123,7 +145,9 @@ export default function Profile() {
                   key={item.name}
                   className="flex items-baseline gap-2 rounded-lg border border-border p-3 text-sm"
                 >
-                  <span className="font-medium text-foreground">{item.name}</span>
+                  <span className="font-medium text-foreground">
+                    {item.name}
+                  </span>
                   <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-gold">
                     {item.status}
                   </span>
@@ -147,7 +171,10 @@ export default function Profile() {
           >
             <ul className="space-y-4">
               {allProjects.slice(0, 5).map((project) => (
-                <li key={project.slug} className="flex gap-4 border-b border-border pb-4 last:border-0 last:pb-0">
+                <li
+                  key={project.slug}
+                  className="flex gap-4 border-b border-border pb-4 last:border-0 last:pb-0"
+                >
                   <span
                     aria-hidden="true"
                     className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-gold"
@@ -175,11 +202,17 @@ export default function Profile() {
             <ol className="space-y-4">
               {timeline.slice(0, 6).map((entry) => (
                 <li key={`${entry.year}-${entry.title}`} className="flex gap-4">
-                  <span className="w-14 shrink-0 font-mono text-xs text-gold">{entry.year}</span>
+                  <span className="w-14 shrink-0 font-mono text-xs text-gold">
+                    {entry.year}
+                  </span>
                   <div className="min-w-0 border-l border-border pl-4">
-                    <p className="text-sm font-semibold text-foreground">{entry.title}</p>
+                    <p className="text-sm font-semibold text-foreground">
+                      {entry.title}
+                    </p>
                     {entry.meta && (
-                      <p className="text-xs text-muted-foreground">{entry.meta}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {entry.meta}
+                      </p>
                     )}
                     <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                       {entry.body[0]}
@@ -204,8 +237,13 @@ export default function Profile() {
           >
             <ul className="space-y-2">
               {competitionResults.map((result) => (
-                <li key={`${result.place}-${result.detail}`} className="text-sm">
-                  <span className="font-semibold text-gold">{result.place}</span>
+                <li
+                  key={`${result.place}-${result.detail}`}
+                  className="text-sm"
+                >
+                  <span className="font-semibold text-gold">
+                    {result.place}
+                  </span>
                   <span className="text-muted-foreground">
                     {" "}
                     — {[result.detail, result.event].filter(Boolean).join(", ")}
@@ -214,9 +252,14 @@ export default function Profile() {
               ))}
               {munResults.map((result) => (
                 <li key={result.title} className="text-sm">
-                  <span className="font-semibold text-gold">{result.title}</span>
+                  <span className="font-semibold text-gold">
+                    {result.title}
+                  </span>
                   {result.detail && (
-                    <span className="text-muted-foreground"> — {result.detail}</span>
+                    <span className="text-muted-foreground">
+                      {" "}
+                      — {result.detail}
+                    </span>
                   )}
                 </li>
               ))}
@@ -224,10 +267,17 @@ export default function Profile() {
 
             <ul className="mt-5 grid gap-2 sm:grid-cols-2">
               {certificatesByRecency.slice(0, 8).map((cert) => (
-                <li key={cert.id} className="rounded-lg border border-border p-3">
-                  <p className="text-sm font-medium leading-snug text-foreground">{cert.title}</p>
+                <li
+                  key={cert.id}
+                  className="rounded-lg border border-border p-3"
+                >
+                  <p className="text-sm font-medium leading-snug text-foreground">
+                    {cert.title}
+                  </p>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    {[cert.issuer, certificateDateLabel(cert)].filter(Boolean).join(" · ")}
+                    {[cert.issuer, certificateDateLabel(cert)]
+                      .filter(Boolean)
+                      .join(" · ")}
                   </p>
                 </li>
               ))}

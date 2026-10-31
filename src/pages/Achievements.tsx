@@ -103,7 +103,7 @@ export default function Achievements() {
                     <button
                       type="button"
                       onClick={() => setProof(certById(mun.certKey)!)}
-                      className="focus-ring mt-4 inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-mono text-xs text-foreground transition-colors hover:border-gold/50 hover:text-gold"
+                      className="focus-ring mt-4 inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-2.5 font-mono text-xs text-foreground transition-colors hover:border-gold/50 hover:text-gold"
                     >
                       View Certificate <span aria-hidden="true">&rarr;</span>
                     </button>

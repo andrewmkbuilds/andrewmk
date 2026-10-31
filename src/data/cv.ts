@@ -7,7 +7,8 @@ import { CONTACT_EMAIL, PROFILE_TITLE, SCHOOL } from "@/data/portfolio";
  * Provenance:
  * - Model United Nations facts, the full name, the phone number and the
  *   Gavelling profile come from the owner's ten supplied CV documents
- *   (five distinct contents; see `docs/cv/MASTER_CV_SOURCE_AUDIT.md`).
+ *   (five byte-identical pairs, four distinct contents; see
+ *   `docs/cv/MASTER_CV_SOURCE_AUDIT.md`).
  * - Development, competition and leadership facts mirror
  *   https://andrewmk.is-a.dev (see `src/data/portfolio.ts`).
  *
