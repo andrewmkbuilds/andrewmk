@@ -1314,6 +1314,32 @@
       0 0 0 2px var(--fx);
   }
 
+  /* The panel's contents drift a touch further than the panel itself, so the
+     composition reads as depth rather than a single sliding card. */
+  .case-media-inner {
+    transition: transform 0.7s var(--ease-out-expo);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .case-row:hover .case-media-inner {
+      transform: scale(1.02);
+    }
+  }
+
+  /* Case-study title: the rule draws along the baseline as the row engages. */
+  .case-title-link {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size 0.45s var(--ease-out-expo);
+  }
+
+  .case-row:hover .case-title-link,
+  .case-title-link:focus-visible {
+    background-size: 100% 1px;
+  }
+
   /* Arrow that steps forward when its row or button is engaged. */
   .step-arrow {
     transition: transform 0.4s var(--ease-out-expo);
@@ -1370,6 +1396,8 @@
       display: none;
     }
     .case-media,
+    .case-media-inner,
+    .case-title-link,
     .step-arrow {
       transition: none !important;
       transform: none !important;

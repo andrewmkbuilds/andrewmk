@@ -1,12 +1,7 @@
 import { type ReactNode, useEffect, useRef, useState } from "react";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "motion/react";
+import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { cn } from "@/lib/utils";
+import { useHydratedReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 
 interface ParallaxProps {
   children: ReactNode;
@@ -39,7 +34,7 @@ export function Parallax({
   ariaHidden = false,
 }: ParallaxProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useHydratedReducedMotion();
   const [factor, setFactor] = useState(1);
 
   useEffect(() => {
@@ -69,11 +64,7 @@ export function Parallax({
       ref={ref}
       aria-hidden={ariaHidden || undefined}
       className={cn(className)}
-      style={
-        reduce
-          ? undefined
-          : { y, scale: scale ? rawScale : undefined, willChange: "transform" }
-      }
+      style={reduce ? {} : { y, scale: rawScale, willChange: "transform" }}
     >
       {children}
     </motion.div>

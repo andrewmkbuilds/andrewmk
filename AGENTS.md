@@ -67,9 +67,25 @@ Quirks worth knowing:
 - **Navigation is a full document load.** The site's nav links are plain `<a href>`s (no client-side
   route transition), so each click re-renders the route server-side. Check a route with
   `curl -s http://localhost:3000/blog | grep -ao '<h1[^>]*>[^<]*'` or by opening the path directly;
-  a pushState-based SPA navigation helper will report the route as not rendered.
+  a pushState-based SPA navigation helper will report the route as not rendered. (The preview
+  `navigate()` helper is one of those — it drives `history.pushState`, which this router does not
+  observe, so open routes with `preview_screenshot path=` / a direct URL instead.)
 - **Admin:** the first account created at `/auth` ("Create the first admin account") is promoted
   to `admin` by the `bootstrap_first_admin` trigger; later public signups are blocked by design.
+  This sandbox already has that first admin — **`andrew@andrewbuilds.dev` / `AndrewBuilds!Admin2026`**
+  (sign in at `/auth`, land on `/admin`). Change the password from `/admin/settings/security`.
+  It lives in the `db-data` volume only, so after `down -v` create it again; a direct GoTrue call
+  works and runs the trigger:
+
+  ```sh
+  ANON=$(docker compose -f docker-compose.base44.yml exec -T web sh -c 'bun /app/docker/base44/jwt.mjs anon')
+  curl -s -X POST 'http://localhost:8000/auth/v1/signup' \
+    -H "apikey: $ANON" -H "Authorization: Bearer $ANON" -H 'Content-Type: application/json' \
+    -d '{"email":"andrew@andrewbuilds.dev","password":"AndrewBuilds!Admin2026"}'
+  docker compose -f docker-compose.base44.yml exec -T db psql -U postgres -d postgres \
+    -c 'select user_id, role from public.user_roles;'
+  ```
+
 - **Contact form** writes to `contact_messages`. Email delivery additionally needs
   `RESEND_API_KEY` + `CONTACT_TO_EMAIL` (optional, see `.base44/environment.json`); without them
   the form reports "saved" and the row is stored only.
@@ -134,8 +150,14 @@ curl -s http://localhost:8000/auth/v1/health                             # GoTru
 docker compose -f docker-compose.base44.yml logs web --tail 30           # build/runtime errors
 ```
 
-Known non-blocking noise: the dev SSR pass logs a React hydration mismatch for the nav link's
-`active` class (client re-renders it), and TanStack warns that `inputValidator()` is deprecated.
+Known non-blocking noise: TanStack warns that `inputValidator()` is deprecated.
+
+Hydration: motion's `useReducedMotion()` resolves to `null` on the server, so any component that
+branches on it while rendering (structure, inline styles, classNames) sent markup the client could
+not match. `src/hooks/use-hydrated-reduced-motion.ts` returns `false` until mount; use it instead of
+`useReducedMotion()` wherever the value changes markup (`Reveal`, `RevealWords`, `Parallax`,
+`PageTransition`, `HeroCardStack`). Header's active pill is derived only from the router's resolved
+location (`isActiveRoute`), never from `window`.
 
 ## Sandbox-only overrides
 

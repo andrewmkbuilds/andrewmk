@@ -11,7 +11,17 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { SocialIcons } from "@/components/ui/SocialIcons";
+import { Magnetic } from "@/components/ui/Magnetic";
 import logoUrl from "@/assets/andrewbuilds-logo.png";
+
+/**
+ * Route match for the active pill. Derived from the router's resolved location
+ * only (never `window`), so the server pass and the hydration pass agree.
+ * `/projects` stays active on `/projects/gradr`, but `/projects-x` does not.
+ */
+function isActiveRoute(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 
 /** Desktop pill links — the shortest path through the site. */
 const primaryNav = [
@@ -68,7 +78,7 @@ export function Header() {
       <div className="flex justify-center px-3">
         <div
           className={cn(
-            "relative mt-3 flex items-center gap-1 rounded-full p-1.5 transition-all duration-500 sm:mt-4",
+            "relative mt-3 flex max-w-[calc(100vw-1.5rem)] items-center gap-1 rounded-full p-1.5 transition-[box-shadow,background-color,border-color] duration-500 sm:mt-4",
             scrolled
               ? "glass shadow-[var(--elev-3)]"
               : "border border-foreground/10 bg-background/45 backdrop-blur-md",
@@ -89,7 +99,7 @@ export function Header() {
                 className="h-[30px] w-[30px] rounded-full object-cover ring-1 ring-gold/35 shadow-[var(--elev-1)] transition-transform duration-500 group-hover:scale-105"
               />
             </span>
-            <span className="font-mono text-[13px] font-semibold tracking-tight text-foreground">
+            <span className="hidden font-mono text-[13px] font-semibold tracking-tight text-foreground min-[380px]:inline">
               Andrew<span className="text-primary">Builds</span>
             </span>
           </Link>
@@ -104,14 +114,15 @@ export function Header() {
             className="hidden items-center gap-0.5 lg:flex"
           >
             {primaryNav.map((item) => {
-              const active = location.pathname.startsWith(item.href);
+              const active = isActiveRoute(location.pathname, item.href);
               return (
                 <Link
                   key={item.href}
                   to={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "relative rounded-full px-3 py-1.5 font-mono text-[12.5px] transition-colors duration-300 hover:text-gold",
+                    "relative rounded-full px-3 py-1.5 font-mono text-[12.5px] transition-[color,background-color] duration-300",
+                    "hover:bg-foreground/[0.05] hover:text-gold focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:outline-none",
                     active ? "text-foreground" : "text-muted-foreground",
                   )}
                 >
@@ -134,19 +145,21 @@ export function Header() {
           </nav>
 
           <div className="ml-1 hidden items-center gap-1.5 lg:flex">
-            <Button
-              asChild
-              size="sm"
-              className="group h-9 rounded-full px-4 font-mono text-[12.5px] shadow-glow transition-transform hover:scale-[1.03]"
-            >
-              <Link to="/contact">
-                Let&rsquo;s talk
-                <ArrowUpRight
-                  className="ml-1 h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                  aria-hidden="true"
-                />
-              </Link>
-            </Button>
+            <Magnetic strength={0.18} radius={60}>
+              <Button
+                asChild
+                size="sm"
+                className="group h-9 rounded-full px-4 font-mono text-[12.5px] shadow-glow transition-transform duration-200 hover:scale-[1.03] active:scale-[0.98]"
+              >
+                <Link to="/contact">
+                  Let&rsquo;s talk
+                  <ArrowUpRight
+                    className="ml-1 h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  />
+                </Link>
+              </Button>
+            </Magnetic>
           </div>
 
           {/* Mobile / tablet trigger stays inside the pill */}
@@ -178,10 +191,15 @@ export function Header() {
                     <Link
                       to={item.href}
                       style={{ animationDelay: `${index * 45}ms` }}
+                      aria-current={
+                        isActiveRoute(location.pathname, item.href)
+                          ? "page"
+                          : undefined
+                      }
                       className={cn(
-                        "animate-fade-in-up rounded-lg px-3 py-3 font-mono text-lg opacity-0 transition-colors hover:bg-secondary hover:text-gold",
-                        location.pathname === item.href
-                          ? "text-primary"
+                        "animate-fade-in-up rounded-lg px-3 py-3 font-mono text-lg opacity-0 transition-colors hover:bg-secondary hover:text-gold focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:outline-none",
+                        isActiveRoute(location.pathname, item.href)
+                          ? "bg-secondary/60 text-primary"
                           : "text-muted-foreground",
                       )}
                     >

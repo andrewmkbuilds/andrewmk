@@ -1,6 +1,7 @@
 import { type ReactNode, useRef } from "react";
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { motion, useInView } from "motion/react";
 import { cn } from "@/lib/utils";
+import { useHydratedReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 
 type RevealTag = "div" | "li" | "section" | "article" | "span" | "p";
 
@@ -28,7 +29,7 @@ export function Reveal({
 }: RevealProps) {
   const ref = useRef<HTMLElement | null>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
-  const reduce = useReducedMotion();
+  const reduce = useHydratedReducedMotion();
 
   const Comp = motion[as] as typeof motion.div;
 
@@ -37,7 +38,11 @@ export function Reveal({
       ref={ref as never}
       className={cn(className)}
       initial={reduce ? false : { opacity: 0, y, scale: scale ? 0.985 : 1 }}
-      animate={reduce || inView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y, scale: scale ? 0.985 : 1 }}
+      animate={
+        reduce || inView
+          ? { opacity: 1, y: 0, scale: 1 }
+          : { opacity: 0, y, scale: scale ? 0.985 : 1 }
+      }
       transition={{ duration: 0.65, delay: delay / 1000, ease: EASE }}
     >
       {children}
@@ -59,7 +64,7 @@ export function RevealGroup({
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
-  const reduce = useReducedMotion();
+  const reduce = useHydratedReducedMotion();
 
   return (
     <motion.div
@@ -69,7 +74,9 @@ export function RevealGroup({
       animate={reduce ? "show" : inView ? "show" : "hidden"}
       variants={{
         hidden: {},
-        show: { transition: { staggerChildren: stagger, delayChildren: delay } },
+        show: {
+          transition: { staggerChildren: stagger, delayChildren: delay },
+        },
       }}
     >
       {children}
@@ -109,28 +116,40 @@ export function RevealWords({
   className?: string;
   delay?: number;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useHydratedReducedMotion();
   const words = text.split(" ");
 
-  if (reduce) return <span className={className}>{text}</span>;
-
+  // The word wrappers stay in the tree for every preference: swapping them for
+  // a plain string would change the markup between the server and client pass.
   return (
     <motion.span
       className={cn("inline", className)}
-      initial="hidden"
+      initial={reduce ? false : "hidden"}
       animate="show"
       variants={{
         hidden: {},
-        show: { transition: { staggerChildren: 0.045, delayChildren: delay } },
+        show: {
+          transition: {
+            staggerChildren: reduce ? 0 : 0.045,
+            delayChildren: reduce ? 0 : delay,
+          },
+        },
       }}
     >
       {words.map((word, i) => (
-        <span key={`${word}-${i}`} className="inline-block overflow-hidden align-bottom">
+        <span
+          key={`${word}-${i}`}
+          className="inline-block overflow-hidden align-bottom"
+        >
           <motion.span
             className="inline-block"
             variants={{
               hidden: { y: "110%", opacity: 0 },
-              show: { y: "0%", opacity: 1, transition: { duration: 0.7, ease: EASE } },
+              show: {
+                y: "0%",
+                opacity: 1,
+                transition: { duration: reduce ? 0 : 0.7, ease: EASE },
+              },
             }}
           >
             {word}

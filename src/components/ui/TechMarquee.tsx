@@ -29,7 +29,7 @@ export function TechMarquee({
       {items.map((item) => (
         <li
           key={item}
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-4 py-2 font-mono text-[12px] whitespace-nowrap text-foreground/85 shadow-[var(--elev-1)]"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-4 py-2 font-mono text-[12px] whitespace-nowrap text-foreground/85 shadow-[var(--elev-1)] transition-[transform,color,border-color,background-color] duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.03] hover:border-gold/40 hover:text-foreground motion-reduce:transition-none motion-reduce:hover:transform-none"
         >
           <span
             aria-hidden="true"

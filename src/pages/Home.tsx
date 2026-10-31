@@ -338,7 +338,7 @@ export default function Home() {
             title="Stuff I made, and *why* I made it."
             subtitle="Four flagship builds, each starting from a real problem. Everything below comes from the project itself — no invented numbers."
           />
-          <div className="grid gap-16 md:gap-24">
+          <div className="grid gap-20 md:gap-28">
             {featuredProjects.map((project, i) => (
               <CaseStudyRow key={project.slug} project={project} index={i} />
             ))}
