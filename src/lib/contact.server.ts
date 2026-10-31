@@ -80,7 +80,10 @@ export async function deliverEmail(
   const to = process.env["CONTACT_TO_EMAIL"];
   if (!apiKey || !to) return null;
 
-  const from = process.env["CONTACT_FROM_EMAIL"] ?? "Portfolio <onboarding@resend.dev>";
+  // An empty secret (stored blank in the dashboard) must also fall back, so compare
+  // the trimmed value instead of relying on `??`.
+  const from =
+    process.env["CONTACT_FROM_EMAIL"]?.trim() || "Portfolio <onboarding@resend.dev>";
   /**
    * Until a sending domain is verified, the default sender may only deliver to
    * the mailbox that owns the email account. When that happens we retry to this
