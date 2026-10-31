@@ -61,7 +61,10 @@ export function CertificateGallery() {
             style={{ scrollbarWidth: "none" }}
           >
             {visible.map((certificate) => (
-              <li key={certificate.id} className="w-[72vw] shrink-0 snap-center">
+              <li
+                key={certificate.id}
+                className="w-[72vw] shrink-0 snap-center"
+              >
                 <CertificateCard
                   certificate={certificate}
                   onOpen={setActive}
@@ -83,8 +86,16 @@ export function CertificateGallery() {
           className="hidden gap-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
         >
           {visible.map((certificate, i) => (
-            <Reveal key={certificate.id} delay={Math.min(i, 8) * 55} className="h-full">
-              <CertificateCard certificate={certificate} onOpen={setActive} className="h-full" />
+            <Reveal
+              key={certificate.id}
+              delay={Math.min(i, 8) * 55}
+              className="h-full"
+            >
+              <CertificateCard
+                certificate={certificate}
+                onOpen={setActive}
+                className="h-full"
+              />
             </Reveal>
           ))}
         </div>

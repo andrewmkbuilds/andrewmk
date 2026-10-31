@@ -18,7 +18,11 @@ import { StatusDot } from "@/components/ui/StatusDot";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
 import { TechTag } from "@/components/ui/TechTag";
 import { RoleBadge } from "@/components/ui/Badges";
-import { SketchArrow, SketchSeparator, SketchStar } from "@/components/ui/Sketch";
+import {
+  SketchArrow,
+  SketchSeparator,
+  SketchStar,
+} from "@/components/ui/Sketch";
 import {
   PopDisclosure,
   InlinePopDisclosure,
@@ -141,8 +145,8 @@ export default function Home() {
               style={{ animationDelay: "120ms" }}
               className="enter mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
             >
-              I&rsquo;m Andrew, a student developer and AI builder from Dubai.
-              I build software, experiment with AI, compete in STEM and
+              I&rsquo;m Andrew, a student developer and AI builder from Dubai. I
+              build software, experiment with AI, compete in STEM and
               engineering challenges, and turn ideas into working products.
             </p>
 
@@ -188,10 +192,26 @@ export default function Home() {
               style={{ animationDelay: "320ms" }}
               className="enter mt-8 flex flex-wrap items-center gap-2"
             >
-              <RoleBadge label="Student Developer" icon={PenLine} className="-rotate-1" />
-              <RoleBadge label="AI Builder" icon={Sparkles} className="rotate-1" />
-              <RoleBadge label="Robotics &amp; Systems" icon={CircuitBoard} className="-rotate-[1.5deg]" />
-              <RoleBadge label="Systems Thinker" icon={Waypoints} className="rotate-[0.6deg]" />
+              <RoleBadge
+                label="Student Developer"
+                icon={PenLine}
+                className="-rotate-1"
+              />
+              <RoleBadge
+                label="AI Builder"
+                icon={Sparkles}
+                className="rotate-1"
+              />
+              <RoleBadge
+                label="Robotics &amp; Systems"
+                icon={CircuitBoard}
+                className="-rotate-[1.5deg]"
+              />
+              <RoleBadge
+                label="Systems Thinker"
+                icon={Waypoints}
+                className="rotate-[0.6deg]"
+              />
             </div>
 
             <div className="enter" style={{ animationDelay: "400ms" }}>
@@ -280,20 +300,20 @@ export default function Home() {
             ].map((item, i) => {
               const StepIcon = stepIcons[i] ?? Lightbulb;
               return (
-              <li
-                key={item.step}
-                className="spotlight lift-3d group rounded-xl border border-border bg-card p-6 shadow-card hover:border-gold/35"
-              >
-                <span className="flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-gold">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-md border border-gold/25 bg-gold/10 text-gold transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105">
-                    <StepIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                <li
+                  key={item.step}
+                  className="spotlight lift-3d group rounded-xl border border-border bg-card p-6 shadow-card hover:border-gold/35"
+                >
+                  <span className="flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-gold">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-md border border-gold/25 bg-gold/10 text-gold transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105">
+                      <StepIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                    </span>
+                    0{i + 1} · {item.step}
                   </span>
-                  0{i + 1} · {item.step}
-                </span>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {item.body}
-                </p>
-              </li>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    {item.body}
+                  </p>
+                </li>
               );
             })}
           </ol>
@@ -316,7 +336,7 @@ export default function Home() {
             </h2>
             <Link
               to="/projects"
-              className="focus-ring inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-gold"
+              className="focus-ring -my-1 inline-flex items-center gap-1.5 py-1 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-gold"
             >
               See all projects
               <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -618,10 +638,11 @@ export default function Home() {
             <Reveal className="lg:col-span-2">
               <div className="h-full rounded-xl border border-border bg-card p-8 shadow-card">
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  I take part in F1 in Schools / STEM Racing, where the work runs
-                  through engineering, design, teamwork, racing, and competition.
-                  It's a different kind of building: constraints are physical,
-                  deadlines are real, and the whole team has to move together.
+                  I take part in F1 in Schools / STEM Racing, where the work
+                  runs through engineering, design, teamwork, racing, and
+                  competition. It's a different kind of building: constraints
+                  are physical, deadlines are real, and the whole team has to
+                  move together.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {[

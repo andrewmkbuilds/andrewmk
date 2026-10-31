@@ -1627,8 +1627,7 @@ export const socialLinks: SocialLink[] = [
 ];
 
 /** One-line professional description, used wherever the site states who I am. */
-export const PROFILE_TITLE =
-  "Student Developer · AI Builder · Systems Thinker";
+export const PROFILE_TITLE = "Student Developer · AI Builder · Systems Thinker";
 
 /** Verbatim identity line from the source About page and Person JSON-LD. */
 export const PROFILE_IDENTITY =
@@ -1654,7 +1653,14 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     title: "Software",
-    items: ["Python", "TypeScript", "JavaScript", "React", "Flutter", "Tkinter"],
+    items: [
+      "Python",
+      "TypeScript",
+      "JavaScript",
+      "React",
+      "Flutter",
+      "Tkinter",
+    ],
   },
   {
     title: "Computer Vision",
@@ -1680,7 +1686,13 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     title: "Competition",
-    items: ["Techfest", "FLL", "F1 in Schools / STEM Racing", "MUN", "Exhibitions"],
+    items: [
+      "Techfest",
+      "FLL",
+      "F1 in Schools / STEM Racing",
+      "MUN",
+      "Exhibitions",
+    ],
   },
 ];
 

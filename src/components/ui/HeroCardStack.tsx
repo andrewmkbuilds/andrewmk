@@ -153,7 +153,7 @@ function HeroCard({ project, pos, index, bounds, draggable }: HeroCardProps) {
         <p className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-muted-foreground">
           {project.category}
         </p>
-        <div className="mt-2 flex items-center justify-between gap-2">
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
           <span className="flex flex-wrap gap-1">
             {project.tech.slice(0, 2).map((t) => (
               <TechTag key={t}>{t}</TechTag>

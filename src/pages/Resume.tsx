@@ -18,13 +18,15 @@ export default function Resume() {
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-x-0 top-0 h-px divider-gold"
               />
-              <p className="font-mono text-xs uppercase tracking-[0.22em] text-gold">Résumé</p>
+              <p className="font-mono text-xs uppercase tracking-[0.22em] text-gold">
+                Résumé
+              </p>
               <h1 className="headline-3d mt-3 text-4xl font-bold leading-[1.05] text-foreground md:text-5xl">
                 Andrew Mathews
               </h1>
               <p className="mt-3 text-balance text-base leading-relaxed text-primary sm:text-lg">
-                A one-page CV generated from this site&rsquo;s own data — download it as a PDF or
-                an editable Word document.
+                A one-page CV generated from this site&rsquo;s own data —
+                download it as a PDF or an editable Word document.
               </p>
 
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-start">
@@ -45,7 +47,11 @@ export default function Resume() {
 
               <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-xs">
                 <a
-                  href={portfolioLabel ? `https://${portfolioLabel}` : "https://andrewmk.is-a.dev"}
+                  href={
+                    portfolioLabel
+                      ? `https://${portfolioLabel}`
+                      : "https://andrewmk.is-a.dev"
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                   className="focus-ring inline-flex items-center gap-1 text-muted-foreground transition-colors hover:text-gold"

@@ -41,12 +41,17 @@ const badgeVariants = cva("badge", {
 export type BadgeTone = NonNullable<VariantProps<typeof badgeVariants>["tone"]>;
 
 export interface BadgeProps
-  extends React.HTMLAttributes<HTMLSpanElement>,
+  extends
+    React.HTMLAttributes<HTMLSpanElement>,
     VariantProps<typeof badgeVariants> {}
 
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   ({ className, tone, size, ...props }, ref) => (
-    <span ref={ref} className={cn(badgeVariants({ tone, size }), className)} {...props} />
+    <span
+      ref={ref}
+      className={cn(badgeVariants({ tone, size }), className)}
+      {...props}
+    />
   ),
 );
 Badge.displayName = "Badge";

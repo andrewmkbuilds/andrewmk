@@ -1,6 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { socialLinks } from "@/data/portfolio";
-import { getSocialIcon } from "@/components/ui/SocialIcons";
+import { SocialMark } from "@/components/ui/SocialMark";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { GithubPreview } from "@/components/ui/GithubPreview";
@@ -9,7 +9,6 @@ import { GithubPreview } from "@/components/ui/GithubPreview";
 export function FindMeOnline() {
   const [primary, ...rest] = socialLinks;
   if (!primary) return null;
-  const PrimaryIcon = getSocialIcon(primary.id);
 
   return (
     <section className="border-t border-border py-20 md:py-28" id="online">
@@ -27,18 +26,27 @@ export function FindMeOnline() {
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="flex items-start gap-4">
                   <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-primary/25 bg-primary/10 text-primary">
-                    <PrimaryIcon className="h-5 w-5" />
+                    <SocialMark id={primary.id} size="lg" />
                   </span>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h3 className="text-lg font-semibold text-foreground">{primary.label}</h3>
-                      <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
+                      <h3 className="text-lg font-semibold text-foreground">
+                        {primary.label}
+                      </h3>
+                      <span
+                        className="h-1.5 w-1.5 rounded-full bg-primary"
+                        aria-hidden="true"
+                      />
                       <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary">
                         Primary
                       </span>
                     </div>
-                    <p className="font-mono text-sm text-muted-foreground">{primary.handle}</p>
-                    <p className="mt-2 text-sm text-muted-foreground">{primary.description}</p>
+                    <p className="font-mono text-sm text-muted-foreground">
+                      {primary.handle}
+                    </p>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      {primary.description}
+                    </p>
                   </div>
                 </div>
                 <a
@@ -60,7 +68,6 @@ export function FindMeOnline() {
 
           <div className="grid gap-4">
             {rest.map((link, i) => {
-              const Icon = getSocialIcon(link.id);
               return (
                 <Reveal key={link.id} delay={60 + i * 60}>
                   <a
@@ -71,7 +78,7 @@ export function FindMeOnline() {
                     className="group lift-3d flex h-full items-start gap-4 rounded-xl border border-border bg-card p-5 shadow-card hover:border-gold/40 hover:shadow-glow focus-ring"
                   >
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background/60 text-muted-foreground transition-colors group-hover:border-gold/40 group-hover:text-gold">
-                      <Icon className="h-4 w-4" />
+                      <SocialMark id={link.id} size="md" />
                     </span>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-3">
@@ -80,8 +87,12 @@ export function FindMeOnline() {
                         </h3>
                         <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-gold" />
                       </div>
-                      <p className="font-mono text-xs text-muted-foreground">{link.handle}</p>
-                      <p className="mt-1.5 text-sm text-muted-foreground">{link.description}</p>
+                      <p className="font-mono text-xs text-muted-foreground">
+                        {link.handle}
+                      </p>
+                      <p className="mt-1.5 text-sm text-muted-foreground">
+                        {link.description}
+                      </p>
                     </div>
                   </a>
                 </Reveal>

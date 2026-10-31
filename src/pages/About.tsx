@@ -9,7 +9,7 @@ import {
   principles,
   socialLinks,
 } from "@/data/portfolio";
-import { getSocialIcon } from "@/components/ui/SocialIcons";
+import { SocialMark } from "@/components/ui/SocialMark";
 
 export default function About() {
   return (
@@ -34,8 +34,8 @@ export default function About() {
               <div className="mt-8 space-y-6">
                 <Reveal delay={60}>
                   <p className="text-lg text-foreground leading-relaxed">
-                    I'm a student, builder, and systems thinker based in Dubai. I
-                    work across artificial intelligence, software development,
+                    I'm a student, builder, and systems thinker based in Dubai.
+                    I work across artificial intelligence, software development,
                     robotics, product design, and engineering competitions.
                   </p>
                 </Reveal>
@@ -104,7 +104,6 @@ export default function About() {
                   </p>
                   <ul className="mt-4 space-y-1">
                     {socialLinks.map((link) => {
-                      const Icon = getSocialIcon(link.id);
                       return (
                         <li key={link.id}>
                           <a
@@ -114,7 +113,11 @@ export default function About() {
                             aria-label={`${link.label} profile (${link.handle})`}
                             className="group flex items-start gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-secondary focus-ring"
                           >
-                            <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-gold" />
+                            <SocialMark
+                              id={link.id}
+                              size="md"
+                              className="mt-0.5 shrink-0 text-muted-foreground transition-colors group-hover:text-gold"
+                            />
                             <span className="min-w-0 flex-1">
                               <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
                                 <span className="text-sm text-foreground transition-colors group-hover:text-gold">

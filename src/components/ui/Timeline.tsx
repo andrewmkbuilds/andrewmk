@@ -42,10 +42,17 @@ export function Timeline() {
     target: ref,
     offset: ["start 75%", "end 60%"],
   });
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 30,
+    mass: 0.4,
+  });
 
   return (
-    <ol ref={ref} className="relative m-0 list-none space-y-12 pl-8 md:space-y-16 md:pl-12">
+    <ol
+      ref={ref}
+      className="relative m-0 list-none space-y-12 pl-8 md:space-y-16 md:pl-12"
+    >
       {/* spine */}
       <div
         aria-hidden="true"
@@ -71,14 +78,19 @@ export function Timeline() {
             initial={reduce ? false : { scale: 0.4, opacity: 0 }}
             whileInView={reduce ? {} : { scale: 1, opacity: 1 }}
             viewport={{ once: true, margin: "0px 0px -12% 0px" }}
-            transition={{ duration: 0.45, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.45,
+              delay: 0.1,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             className="absolute -left-8 top-1.5 flex h-3.5 w-3.5 items-center justify-center md:-left-[2.6rem]"
           >
             <span className="absolute h-3.5 w-3.5 rounded-full bg-primary/20 transition-transform duration-500 group-hover:scale-150" />
             <span className="relative h-[7px] w-[7px] rounded-full bg-gold shadow-glow" />
           </motion.span>
 
-          <div className="surface spotlight lift-3d relative overflow-hidden rounded-xl p-6 hover:border-gold/35 md:p-7"
+          <div
+            className="surface spotlight lift-3d relative overflow-hidden rounded-xl p-6 hover:border-gold/35 md:p-7"
             onPointerMove={(e) => {
               const el = e.currentTarget as HTMLElement;
               const rect = el.getBoundingClientRect();
@@ -88,7 +100,10 @@ export function Timeline() {
           >
             <div className="relative flex flex-wrap items-baseline gap-x-4 gap-y-1">
               {(() => {
-                const Icon = milestoneIcon(index, `${entry.title} ${entry.meta ?? ""}`);
+                const Icon = milestoneIcon(
+                  index,
+                  `${entry.title} ${entry.meta ?? ""}`,
+                );
                 return (
                   <span className="timeline-icon mb-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background/60 text-primary">
                     <Icon className="h-4 w-4" aria-hidden="true" />
@@ -98,20 +113,31 @@ export function Timeline() {
               <p className="font-mono text-xs uppercase tracking-[0.24em] text-primary">
                 {entry.year}
               </p>
-              <span className="hidden h-px flex-1 bg-border sm:block" aria-hidden="true" />
+              <span
+                className="hidden h-px flex-1 bg-border sm:block"
+                aria-hidden="true"
+              />
               <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                {String(index + 1).padStart(2, "0")} / {String(timeline.length).padStart(2, "0")}
+                {String(index + 1).padStart(2, "0")} /{" "}
+                {String(timeline.length).padStart(2, "0")}
               </span>
             </div>
 
             <h3 className="text-display mt-3 text-2xl text-foreground md:text-3xl">
               {entry.title}
             </h3>
-            {entry.meta && <p className="mt-2 font-mono text-xs text-primary">{entry.meta}</p>}
+            {entry.meta && (
+              <p className="mt-2 font-mono text-xs text-primary">
+                {entry.meta}
+              </p>
+            )}
 
             <div className="mt-4 space-y-2">
               {entry.body.map((line) => (
-                <p key={line} className="text-sm leading-relaxed text-muted-foreground md:text-base">
+                <p
+                  key={line}
+                  className="text-sm leading-relaxed text-muted-foreground md:text-base"
+                >
                   {line}
                 </p>
               ))}

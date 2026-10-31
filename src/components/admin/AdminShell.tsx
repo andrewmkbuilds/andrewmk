@@ -24,9 +24,17 @@ interface AdminShellProps {
 }
 
 /** Shared frame for the private content dashboard: nav, admin gate, page header. */
-export default function AdminShell({ title, description, actions, children }: AdminShellProps) {
+export default function AdminShell({
+  title,
+  description,
+  actions,
+  children,
+}: AdminShellProps) {
   const fetchStatus = useServerFn(getAdminStatus);
-  const admin = useQuery({ queryKey: ["admin-status"], queryFn: () => fetchStatus() });
+  const admin = useQuery({
+    queryKey: ["admin-status"],
+    queryFn: () => fetchStatus(),
+  });
 
   return (
     <main className="container py-14 md:py-20">
@@ -46,9 +54,13 @@ export default function AdminShell({ title, description, actions, children }: Ad
 
       <header className="mt-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="headline-3d text-display text-2xl text-foreground md:text-3xl">{title}</h1>
+          <h1 className="headline-3d text-display text-2xl text-foreground md:text-3xl">
+            {title}
+          </h1>
           {description ? (
-            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">{description}</p>
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+              {description}
+            </p>
           ) : null}
         </div>
         {actions}
@@ -57,7 +69,8 @@ export default function AdminShell({ title, description, actions, children }: Ad
       <div className="mt-8">
         {admin.isLoading ? (
           <p className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> Checking your access…
+            <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />{" "}
+            Checking your access…
           </p>
         ) : admin.data?.isAdmin ? (
           children

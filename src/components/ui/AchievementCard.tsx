@@ -5,8 +5,10 @@ import { cn } from "@/lib/utils";
 /** The award mark follows how the result is actually described. */
 function awardIcon(place: string): LucideIcon {
   const p = place.toLowerCase();
-  if (p.includes("1st") || p.includes("first") || p.includes("gold")) return Trophy;
-  if (p.includes("2nd") || p.includes("second") || p.includes("runner")) return Medal;
+  if (p.includes("1st") || p.includes("first") || p.includes("gold"))
+    return Trophy;
+  if (p.includes("2nd") || p.includes("second") || p.includes("runner"))
+    return Medal;
   if (p.includes("3rd") || p.includes("third")) return Award;
   if (p.includes("finalist") || p.includes("participant")) return Star;
   return Award;
@@ -75,7 +77,9 @@ export function AchievementCard({
           {detail}
         </h3>
       )}
-      {event && <p className="relative mt-1 text-sm text-muted-foreground">{event}</p>}
+      {event && (
+        <p className="relative mt-1 text-sm text-muted-foreground">{event}</p>
+      )}
       {onViewProof && (
         <button
           type="button"

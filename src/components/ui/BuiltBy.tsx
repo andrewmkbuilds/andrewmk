@@ -1,8 +1,13 @@
 import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { socialLinks, type Project } from "@/data/portfolio";
-import { getSocialIcon } from "@/components/ui/SocialIcons";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { SocialMark } from "@/components/ui/SocialMark";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface BuiltByProps {
   project: Project;
@@ -15,7 +20,9 @@ interface Entry {
   key: string;
   href: string;
   label: string;
-  icon: React.ComponentType<{ className?: string }>;
+  /** Social id whose official brand mark renders, when the link is one. */
+  socialId?: string;
+  icon?: React.ComponentType<{ className?: string }>;
 }
 
 function getEntries(project: Project): Entry[] {
@@ -26,7 +33,7 @@ function getEntries(project: Project): Entry[] {
       key: "github",
       href: project.github,
       label: `${project.name} on GitHub`,
-      icon: getSocialIcon("github"),
+      socialId: "github",
     });
   }
   if (project.live) {
@@ -45,7 +52,7 @@ function getEntries(project: Project): Entry[] {
         key: social.id,
         href: social.url,
         label: `Built with ${social.label} — ${social.handle}`,
-        icon: getSocialIcon(social.id),
+        socialId: social.id,
       });
     }
   }
@@ -64,7 +71,6 @@ export function PlatformBadge({
   if (!project.platform) return null;
   const social = socialLinks.find((s) => s.id === project.platform);
   if (!social) return null;
-  const Icon = getSocialIcon(social.id);
 
   return (
     <a
@@ -78,7 +84,7 @@ export function PlatformBadge({
         className,
       )}
     >
-      <Icon className="h-3 w-3" />
+      <SocialMark id={social.id} size="xs" />
       Built with {social.label}
     </a>
   );
@@ -89,14 +95,22 @@ export const platformFilters = ["All", "GitHub", "Lovable", "Base44"];
 
 /** Platforms a project is actually attributed to, matching the BuiltBy links. */
 export function getProjectPlatforms(project: Project): string[] {
-  const labels: Record<string, string> = { github: "GitHub", lovable: "Lovable", base44: "Base44" };
+  const labels: Record<string, string> = {
+    github: "GitHub",
+    lovable: "Lovable",
+    base44: "Base44",
+  };
   return getEntries(project)
     .map((entry) => labels[entry.key])
     .filter((label): label is string => Boolean(label));
 }
 
 /** Small "Built by Andrew" attribution row with only the links relevant to a project. */
-export function BuiltBy({ project, className, showLabel = false }: BuiltByProps) {
+export function BuiltBy({
+  project,
+  className,
+  showLabel = false,
+}: BuiltByProps) {
   const entries = getEntries(project);
   if (entries.length === 0) return null;
 
@@ -121,7 +135,11 @@ export function BuiltBy({ project, className, showLabel = false }: BuiltByProps)
                   onClick={(e) => e.stopPropagation()}
                   className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/60 text-muted-foreground transition-colors hover:border-gold/40 hover:text-gold focus-ring"
                 >
-                  <Icon className="h-3.5 w-3.5" />
+                  {entry.socialId ? (
+                    <SocialMark id={entry.socialId} size="sm" />
+                  ) : Icon ? (
+                    <Icon className="h-3.5 w-3.5" />
+                  ) : null}
                 </a>
               </TooltipTrigger>
               <TooltipContent>{entry.label}</TooltipContent>

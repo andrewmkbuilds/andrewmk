@@ -20,6 +20,11 @@ export interface Brand {
    * domain, so Logo.dev can supply the mark when it is configured.
    */
   slug?: string;
+  /**
+   * Official raster mark published by the brand itself, used only when no
+   * monochrome vector exists (Base44). Served from `/public/brands`.
+   */
+  image?: string;
   /** Official domain, used for Logo.dev. */
   domain: string;
   /** Human-readable brand name, used for accessible labels and tooltips. */
@@ -110,28 +115,45 @@ const BRANDS: Record<string, Brand> = {
     domain: "openexchangerates.org",
     label: "Open Exchange Rates",
   },
-  // Languages and runtimes beyond the vendored set: Logo.dev supplies the
-  // mark when a token is configured, otherwise the Lucide glyph renders.
-  swift: { domain: "swift.org", label: "Swift" },
+  // Languages and runtimes beyond the original vendored set.
+  swift: { slug: "swift", domain: "swift.org", label: "Swift" },
+  // Apple publishes no Objective-C mark of its own.
   objectivec: { domain: "developer.apple.com", label: "Objective-C" },
-  kotlin: { domain: "kotlinlang.org", label: "Kotlin" },
-  java: { domain: "java.com", label: "Java" },
-  cplusplus: { domain: "isocpp.org", label: "C++" },
+  kotlin: { slug: "kotlin", domain: "kotlinlang.org", label: "Kotlin" },
+  java: { slug: "java", domain: "java.com", label: "Java" },
+  cplusplus: { slug: "cplusplus", domain: "isocpp.org", label: "C++" },
+  // Microsoft ships no standalone C# mark.
   csharp: { domain: "dotnet.microsoft.com", label: "C#" },
-  rust: { domain: "rust-lang.org", label: "Rust" },
-  go: { domain: "go.dev", label: "Go" },
+  rust: { slug: "rust", domain: "rust-lang.org", label: "Rust" },
+  go: { slug: "go", domain: "go.dev", label: "Go" },
   ruby: { domain: "ruby-lang.org", label: "Ruby" },
   php: { domain: "php.net", label: "PHP" },
   // Frameworks, tools and platforms.
-  vue: { domain: "vuejs.org", label: "Vue" },
+  vue: { slug: "vue", domain: "vuejs.org", label: "Vue" },
   nuxt: { domain: "nuxt.com", label: "Nuxt" },
   express: { domain: "expressjs.com", label: "Express" },
   reactnative: { domain: "reactnative.dev", label: "React Native" },
-  xcode: { domain: "developer.apple.com", label: "Xcode" },
-  postman: { domain: "postman.com", label: "Postman" },
+  xcode: { slug: "xcode", domain: "developer.apple.com", label: "Xcode" },
+  postman: { slug: "postman", domain: "postman.com", label: "Postman" },
   openai: { slug: "openai", domain: "openai.com", label: "OpenAI" },
-  base44: { domain: "base44.com", label: "Base44" },
+  // Base44 publishes an official app icon but no monochrome vector, so the
+  // official PNG from its own marketing assets is the offline fallback.
+  base44: {
+    image: "/brands/base44.png",
+    domain: "base44.com",
+    label: "Base44",
+  },
   lovable: { slug: "lovable", domain: "lovable.dev", label: "Lovable" },
+  // Social profiles linked from the footer, header and About page.
+  x: { slug: "x", domain: "x.com", label: "X" },
+  instagram: {
+    slug: "instagram",
+    domain: "instagram.com",
+    label: "Instagram",
+  },
+  youtube: { slug: "youtube", domain: "youtube.com", label: "YouTube" },
+  // LinkedIn withdrew its mark from Simple Icons; Logo.dev supplies it.
+  linkedin: { domain: "linkedin.com", label: "LinkedIn" },
 };
 
 /** Names as written in the portfolio content → brand key. */
@@ -202,6 +224,10 @@ const NAMES: Record<string, keyof typeof BRANDS> = {
   ChatGPT: "openai",
   Base44: "base44",
   Lovable: "lovable",
+  X: "x",
+  Instagram: "instagram",
+  YouTube: "youtube",
+  LinkedIn: "linkedin",
 };
 
 /** Brand for a name exactly as the content writes it, if one exists. */

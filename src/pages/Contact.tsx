@@ -1,14 +1,14 @@
 import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { ContactForm } from "@/components/ui/ContactForm";
-import { Github, Mail, Share2 } from "lucide-react";
+import { Mail, Share2 } from "lucide-react";
 import {
   CONTACT_EMAIL,
   GITHUB_URL,
   LINKTREE_URL,
   socialLinks,
 } from "@/data/portfolio";
-import { getSocialIcon } from "@/components/ui/SocialIcons";
+import { SocialMark } from "@/components/ui/SocialMark";
 
 export default function Contact() {
   return (
@@ -45,7 +45,7 @@ export default function Contact() {
                   aria-label="GitHub profile (@andrewmkbuilds)"
                   className="flex items-center gap-4 rounded-xl border border-primary/40 bg-card p-5 shadow-card transition-colors hover:border-gold focus-ring"
                 >
-                  <Github className="h-5 w-5 text-primary" />
+                  <SocialMark id="github" size="lg" className="text-primary" />
                   <span>
                     <span className="block text-sm font-medium text-foreground">
                       GitHub{" "}
@@ -90,7 +90,6 @@ export default function Contact() {
                   {socialLinks
                     .filter((s) => s.id !== "github" && s.id !== "linktree")
                     .map((link) => {
-                      const Icon = getSocialIcon(link.id);
                       return (
                         <a
                           key={link.id}
@@ -100,7 +99,11 @@ export default function Contact() {
                           aria-label={`${link.label} profile (${link.handle})`}
                           className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-gold/40 focus-ring"
                         >
-                          <Icon className="h-4 w-4 text-primary" />
+                          <SocialMark
+                            id={link.id}
+                            size="md"
+                            className="text-primary"
+                          />
                           <span>
                             <span className="block text-sm font-medium text-foreground">
                               {link.label}

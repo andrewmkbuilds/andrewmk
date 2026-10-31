@@ -1,7 +1,13 @@
 import { useId, useRef, useState } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+} from "motion/react";
 import { Link } from "@/lib/router-compat";
 import { cn } from "@/lib/utils";
 import { TechTag } from "./TechTag";
@@ -17,7 +23,12 @@ interface ProjectCardProps {
   className?: string;
 }
 
-export function ProjectCard({ project, onOpen, variant = "compact", className }: ProjectCardProps) {
+export function ProjectCard({
+  project,
+  onOpen,
+  variant = "compact",
+  className,
+}: ProjectCardProps) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const uid = useId().replace(/[:]/g, "");
@@ -25,8 +36,9 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
   const panelId = `project-details-panel-${uid}`;
   const [detailsOpen, setDetailsOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const hasCaseStudy = Boolean(project.stack?.length || project.challenges?.length);
-
+  const hasCaseStudy = Boolean(
+    project.stack?.length || project.challenges?.length,
+  );
 
   // pointer-driven tilt (very restrained) + spotlight tracking
   const px = useMotionValue(0.5);
@@ -35,7 +47,10 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
     stiffness: 200,
     damping: 24,
   });
-  const rotY = useSpring(useTransform(px, [0, 1], [-3, 3]), { stiffness: 200, damping: 24 });
+  const rotY = useSpring(useTransform(px, [0, 1], [-3, 3]), {
+    stiffness: 200,
+    damping: 24,
+  });
 
   const handleMove = (e: React.PointerEvent<HTMLElement>) => {
     const el = ref.current;
@@ -72,7 +87,12 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
       style={
         reduce
           ? {}
-          : { rotateX: rotX, rotateY: rotY, transformPerspective: 1000, transformStyle: "preserve-3d" }
+          : {
+              rotateX: rotX,
+              rotateY: rotY,
+              transformPerspective: 1000,
+              transformStyle: "preserve-3d",
+            }
       }
       whileHover={reduce ? {} : { y: -6 }}
       transition={{ type: "spring", stiffness: 260, damping: 26 }}
@@ -105,7 +125,9 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
           <h3
             className={cn(
               "text-display mt-2.5 text-foreground transition-colors duration-300 group-hover:text-gold",
-              variant === "featured" ? "text-2xl md:text-[2rem]" : "text-lg md:text-xl",
+              variant === "featured"
+                ? "text-2xl md:text-[2rem]"
+                : "text-lg md:text-xl",
             )}
           >
             {project.name}
@@ -126,7 +148,10 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
       </p>
 
       {variant === "featured" && project.built.length > 0 && (
-        <div className="card-depth-sm relative z-20 mt-5" data-pop-target="project-details">
+        <div
+          className="card-depth-sm relative z-20 mt-5"
+          data-pop-target="project-details"
+        >
           <button
             ref={triggerRef}
             id={triggerId}
@@ -139,7 +164,10 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
             {`What's inside ${project.name}`}
             <ChevronDown
               aria-hidden="true"
-              className={cn("pop-chevron h-4 w-4", detailsOpen && "rotate-180 text-primary")}
+              className={cn(
+                "pop-chevron h-4 w-4",
+                detailsOpen && "rotate-180 text-primary",
+              )}
             />
           </button>
           <div
@@ -152,7 +180,10 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
             <div className="pop-panel-inner">
               <ul className="grid gap-2 pt-4 sm:grid-cols-2">
                 {project.built.slice(0, 6).map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
+                  <li
+                    key={item}
+                    className="flex items-start gap-2 text-sm text-muted-foreground"
+                  >
                     <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
                     {item}
                   </li>
@@ -162,7 +193,6 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
           </div>
         </div>
       )}
-
 
       <div className="card-depth-md relative mt-5 flex flex-wrap items-center gap-2">
         <PlatformBadge project={project} className="relative z-20" />
@@ -180,7 +210,7 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
         <Link
           to={`/projects/${project.slug}`}
           onClick={(event) => event.stopPropagation()}
-          className="focus-ring inline-flex items-center gap-1.5 rounded-md font-mono text-[11px] uppercase tracking-[0.16em] text-primary transition-colors hover:text-gold"
+          className="focus-ring -my-1 inline-flex items-center gap-1.5 rounded-md py-1 font-mono text-[11px] uppercase tracking-[0.16em] text-primary transition-colors hover:text-gold"
         >
           {hasCaseStudy ? "Read case study" : "Open project page"}
           <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
@@ -191,7 +221,6 @@ export function ProjectCard({ project, onOpen, variant = "compact", className }:
           </Badge>
         )}
       </div>
-
     </motion.article>
   );
 }

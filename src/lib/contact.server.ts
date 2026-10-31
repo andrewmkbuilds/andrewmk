@@ -4,7 +4,11 @@ import { z } from "zod";
 
 export const contactSchema = z.object({
   name: z.string().trim().min(2, "Please enter your name.").max(100),
-  email: z.string().trim().email("Please enter a valid email address.").max(200),
+  email: z
+    .string()
+    .trim()
+    .email("Please enter a valid email address.")
+    .max(200),
   message: z
     .string()
     .trim()
@@ -26,7 +30,8 @@ export interface ContactResult {
 }
 
 const LINK_PATTERN = /\bhttps?:\/\/\S+/gi;
-const SPAM_WORDS = /\b(seo services|crypto|casino|viagra|backlinks|loan offer|bitcoin)\b/i;
+const SPAM_WORDS =
+  /\b(seo services|crypto|casino|viagra|backlinks|loan offer|bitcoin)\b/i;
 
 export function scoreSpam(input: ContactInput): number {
   let score = 0;
@@ -45,7 +50,10 @@ export function scoreSpam(input: ContactInput): number {
 }
 
 /** Stable, non-reversible visitor fingerprint used only for rate limiting. */
-export async function fingerprint(ip: string, userAgent: string): Promise<string> {
+export async function fingerprint(
+  ip: string,
+  userAgent: string,
+): Promise<string> {
   const data = new TextEncoder().encode(`${ip}|${userAgent}`);
   const digest = await crypto.subtle.digest("SHA-256", data);
   return [...new Uint8Array(digest)]
@@ -66,7 +74,10 @@ export function clientIp(headers: Headers): string {
 const escapeHtml = (value: string) =>
   value.replace(
     /[&<>"']/g,
-    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!,
+    (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        c
+      ]!,
   );
 
 /**
@@ -83,7 +94,8 @@ export async function deliverEmail(
   // An empty secret (stored blank in the dashboard) must also fall back, so compare
   // the trimmed value instead of relying on `??`.
   const from =
-    process.env["CONTACT_FROM_EMAIL"]?.trim() || "Portfolio <onboarding@resend.dev>";
+    process.env["CONTACT_FROM_EMAIL"]?.trim() ||
+    "Portfolio <onboarding@resend.dev>";
   /**
    * Until a sending domain is verified, the default sender may only deliver to
    * the mailbox that owns the email account. When that happens we retry to this
@@ -114,7 +126,10 @@ export async function deliverEmail(
       }),
     });
     if (!response.ok) {
-      return { ok: false, error: `${response.status} ${await response.text()}`.slice(0, 500) };
+      return {
+        ok: false,
+        error: `${response.status} ${await response.text()}`.slice(0, 500),
+      };
     }
     return { ok: true };
   };
@@ -124,11 +139,15 @@ export async function deliverEmail(
     if (first.ok) return first;
 
     const sandboxBlocked =
-      typeof first.error === "string" && first.error.includes("only send testing emails");
+      typeof first.error === "string" &&
+      first.error.includes("only send testing emails");
     if (sandboxBlocked && fallbackTo && fallbackTo !== to) {
       const second = await send(fallbackTo);
       if (second.ok) return second;
-      return { ok: false, error: `${first.error} | fallback: ${second.error}`.slice(0, 500) };
+      return {
+        ok: false,
+        error: `${first.error} | fallback: ${second.error}`.slice(0, 500),
+      };
     }
 
     return first;

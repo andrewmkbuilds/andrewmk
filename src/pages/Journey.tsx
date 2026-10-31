@@ -3,7 +3,13 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Timeline } from "@/components/ui/Timeline";
 import { SkillBadge } from "@/components/ui/Badges";
-import { Bot, BrainCircuit, CodeXml, Layers, type LucideIcon } from "lucide-react";
+import {
+  Bot,
+  BrainCircuit,
+  CodeXml,
+  Layers,
+  type LucideIcon,
+} from "lucide-react";
 
 const flow: { label: string; icon: LucideIcon }[] = [
   { label: "Robotics", icon: Bot },

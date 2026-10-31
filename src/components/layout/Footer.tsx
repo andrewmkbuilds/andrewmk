@@ -86,7 +86,7 @@ export function Footer() {
               <Link
                 key={link.href}
                 to={link.href}
-                className="link-underline w-fit font-mono text-sm text-muted-foreground transition-colors hover:text-gold"
+                className="link-underline -my-1 w-fit py-1 font-mono text-sm text-muted-foreground transition-colors hover:text-gold"
               >
                 {link.label}
               </Link>

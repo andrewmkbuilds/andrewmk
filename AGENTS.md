@@ -172,10 +172,11 @@ into the blue-and-gold palette. Colours are never taken from the reference.
   half the pixel ratio and no pointer interaction on touch. `AmbientLayers` renders it
   between the atmospheric wash and the aurora, dimmed by `.depth-field` opacity so paper
   surfaces keep their contrast. It is decoration: `pointer-events: none`, `aria-hidden`.
-- The marquee brand marks stay monochrome masks tinted with `currentColor` (the site's
-  established system). OpenAI and Lovable marks are vendored in `public/brands` so the
-  two platforms the ribbon leads with have real logos; Base44 has no official mark
-  available, so its chip carries the name and the Lucide fallback glyph.
+- The marquee brand marks come from Logo.dev when a token is configured (`theme=dark`, so
+  GitHub/X/Next/Vercel arrive light-on-dark instead of near-black), and fall back to the
+  vendored `currentColor` masks. Every brand the ribbon names has an official mark now:
+  Base44 publishes an app icon but no vector, so `public/brands/base44.png` (its own
+  marketing asset) is the offline fallback rather than a Lucide glyph.
 
 ## Brand marks and verified credentials
 
@@ -186,8 +187,11 @@ into the blue-and-gold palette. Colours are never taken from the reference.
   light and dark surfaces. Do not add a name to the registry that the portfolio content does not
   mention.
 - `BrandLogo` (`src/components/ui/BrandLogo.tsx`) sizes every mark explicitly, so a missing or
-  failed logo can never shift layout. Names with no official mark (Base44, Lovable, Tkinter,
-  Java, LEGO, …) deliberately fall back to the Lucide glyph in `tech-icons.tsx`.
+  failed logo can never shift layout. Social profiles render through `SocialMark`
+  (`src/components/ui/SocialMark.tsx`), which resolves a social id to the same registry, so the
+  footer, header, About/Contact lists, "Find Me Online" and the "Built with …" attribution all
+  show official platform marks instead of Lucide icons. Only brands with no official mark at all
+  (Tkinter, Objective-C, C#, LEGO) still use the Lucide glyph from `tech-icons.tsx`.
 - Logo.dev: when `VITE_LOGO_DEV_TOKEN` (a Logo.dev publishable key) is present at dev-server start,
   `BrandLogo` requests `https://img.logo.dev/<domain>?token=…&size=…&format=png&retina=true&fallback=404`
   and falls back to the vendored mark on error. Without a token nothing is fetched remotely. Set it

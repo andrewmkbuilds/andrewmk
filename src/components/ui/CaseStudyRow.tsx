@@ -1,5 +1,6 @@
 import { Link } from "@/lib/router-compat";
-import { ArrowRight, ArrowUpRight, Check, Github } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
+import { SocialMark } from "@/components/ui/SocialMark";
 import { cn } from "@/lib/utils";
 import { Reveal } from "./Reveal";
 import { Badge } from "./badge";
@@ -178,7 +179,7 @@ export function CaseStudyRow({ project, index }: CaseStudyRowProps) {
                 rel="noopener noreferrer"
                 className="focus-ring group/source inline-flex min-h-10 items-center gap-1.5 rounded-full font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground"
               >
-                <Github className="h-3.5 w-3.5" aria-hidden="true" />
+                <SocialMark id="github" size="sm" />
                 Source
               </a>
             )}

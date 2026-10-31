@@ -34,6 +34,10 @@ function logoDevUrl(domain: string, size = 64) {
     format: "png",
     retina: "true",
     fallback: "404",
+    // The site paints on dark surfaces, so ask Logo.dev for the light-on-dark
+    // variant: without it the monochrome marks (GitHub, X, Next.js, Vercel …)
+    // arrive near-black and disappear into the card.
+    theme: "dark",
   });
   return `https://img.logo.dev/${domain}?${params.toString()}`;
 }
@@ -44,12 +48,12 @@ interface BrandLogoProps {
   /** Name exactly as written in the content, e.g. "Python". */
   name: string;
   size?: keyof typeof SIZES;
-  className?: string;
+  className?: string | undefined;
   /**
    * Accessible name when the mark stands alone. Leave unset for decorative
    * marks that sit beside their own text label.
    */
-  label?: string;
+  label?: string | undefined;
   /** Resolve the name as a certificate issuer ("FIRST LEGO League UAE …"). */
   issuer?: boolean;
   /** Rendered when no logo source can serve this brand. */
@@ -91,9 +95,25 @@ export function BrandLogo({
     );
   }
 
-  // No vendored mark and no (working) Logo.dev: let the caller keep its icon,
-  // so a brand never renders as an empty gap.
-  if (!brand.slug) return fallback;
+  // No vendored vector: fall back to the brand's own published icon (Base44)
+  // before giving up on a real mark.
+  if (!brand.slug) {
+    if (!brand.image) return fallback;
+    return (
+      <img
+        src={brand.image}
+        width={px}
+        height={px}
+        alt={label ?? ""}
+        title={brand.label}
+        loading="lazy"
+        decoding="async"
+        className={cn("brand-mark-img", className)}
+        style={{ width: px, height: px }}
+        aria-hidden={label ? undefined : true}
+      />
+    );
+  }
 
   return (
     <span
