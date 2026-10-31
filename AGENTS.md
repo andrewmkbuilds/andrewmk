@@ -165,15 +165,27 @@ Bits Silk shader to be removed; the same pass removed the Particles canvas as we
 mounts **zero canvases** behind the content.
 
 - `src/components/ui/AmbientLayers.tsx` composes, back to front: `.ambient-base` (navy gradient
-  with a cold top light) → `.ambient-key` (one wide blue key light, 56 s drift) → `.ambient-rim`
-  (restrained gold rim light, 74 s drift) → `.depth-floor` (perspective horizon) →
-  `.ambient-vignette` (seats the content) → `PointerLight` → `.ambient-grain` (SVG turbulence,
+  with a cold top light) → `.ambient-silk` / `.ambient-silk-b` (two drifting bands of light,
+  38 s / 52 s) → `.ambient-key` (wide blue key light, 56 s drift) → `.ambient-rim` (gold rim
+  light, 74 s drift) → `.depth-floor` + `.ambient-horizon` (perspective horizon and its glow) →
+  `.ambient-vignette` (seats the content) → `PointerLight` → `.dust-field` (24 motes drifting up,
+  0.5 opacity, `nth-child(n + 17)` dropped below 768 px) → `.ambient-grain` (SVG turbulence,
   0.03 opacity).
+- **The room must measure as visible, not just mounted.** The 2026-10-31 rebuild replaced a set of
+  gradients that sat within a few points of `--background`: every layer was mounted and animating,
+  yet the page measured 9–45 luminance with 0.25 luminance of motion over 3 s — indistinguishable
+  from a flat page. The light-carrying layers now blend with `mix-blend-mode: screen`, so they add
+  light instead of painting over it. Verified with a real headless Chromium: top of page ~74–80
+  luminance (was 27–45), 34 std-dev of structure in a background-only strip (was 14), 1.2 luminance
+  of drift over 3 s (was 0.25), and the motes visibly moving 47–75 px per 1.6 s. Re-measure with
+  pixels, never with "the element exists and its animation-name is set".
 - Every layer is a radial or linear gradient painted on its own compositor layer: no canvas, no
   `backdrop-filter`, no `filter: blur()`. The drift animates `transform`/`opacity` only, so it
   costs one compositor frame per layer and nothing on the main thread.
-- Mobile (`max-width: 767px`) keeps the base, key and rim at lower opacity, stops the key drift
-  and drops the rim's animation; `prefers-reduced-motion` stops both drifts entirely.
+- Mobile (`max-width: 767px`) keeps the same room — the blue top light, silk bands and gold rim
+  stay visible (measured top ~79–94 luminance at 390 × 844) — stops the key drift and shows 16 of
+  the 24 motes. `prefers-reduced-motion` stops every drift and hides the motes; the static lights
+  stay, so the room still reads as lit rather than flat.
 - **Do not reintroduce a WebGL background without testing the sandbox preview.** Both vendored
   React Bits shaders (Silk, Particles) create a WebGL2 context whose cleanup calls
   `WEBGL_lose_context.loseContext()`; when the context is lost, headless Chrome composites the

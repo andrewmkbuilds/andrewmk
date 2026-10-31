@@ -985,6 +985,43 @@
   }
 }
 
+@keyframes silk-drift {
+  0%,
+  100% {
+    transform: translate3d(-2%, -1%, 0) rotate(-1.5deg) scale(1.04);
+  }
+  50% {
+    transform: translate3d(3%, 2%, 0) rotate(1.5deg) scale(1.12);
+  }
+}
+
+@keyframes silk-drift-b {
+  0%,
+  100% {
+    transform: translate3d(2%, 1%, 0) rotate(1deg) scale(1.08);
+  }
+  50% {
+    transform: translate3d(-3%, -2%, 0) rotate(-1deg) scale(1.02);
+  }
+}
+
+@keyframes dust-rise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.6);
+    opacity: 0;
+  }
+  14% {
+    opacity: var(--dust-op);
+  }
+  82% {
+    opacity: var(--dust-op);
+  }
+  100% {
+    transform: translate3d(var(--dust-drift), -104vh, 0) scale(1.05);
+    opacity: 0;
+  }
+}
+
 @keyframes float-soft {
   0%,
   100% {
@@ -1056,13 +1093,81 @@
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(150% 95% at 50% -26%, hsl(206 58% 21% / 0.85), transparent 62%),
+      radial-gradient(108% 64% at 50% -16%, hsl(206 76% 34% / 0.8), transparent 66%),
+      radial-gradient(74% 48% at 10% 0%, hsl(210 78% 40% / 0.34), transparent 72%),
+      radial-gradient(64% 44% at 92% 4%, hsl(198 80% 44% / 0.22), transparent 74%),
       linear-gradient(
         180deg,
-        hsl(216 46% 9%) 0%,
-        hsl(219 44% 6%) 58%,
-        hsl(222 46% 4%) 100%
+        hsl(214 50% 12%) 0%,
+        hsl(218 46% 8%) 48%,
+        hsl(222 48% 5%) 100%
       );
+  }
+
+  /* Silk: long bands of light laid across the room, the visible "curtain".
+     `screen` blending adds light to whatever is behind instead of painting
+     over it, so the bands stay luminous even above the vignette. */
+  .ambient-silk {
+    position: absolute;
+    inset: -22% -14%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    background:
+      linear-gradient(
+        104deg,
+        transparent 8%,
+        hsl(198 92% 62% / 0.3) 26%,
+        hsl(199 90% 66% / 0.12) 33%,
+        transparent 44%
+      ),
+      linear-gradient(
+        112deg,
+        transparent 42%,
+        hsl(212 94% 66% / 0.22) 55%,
+        transparent 68%
+      ),
+      linear-gradient(
+        96deg,
+        transparent 58%,
+        hsl(188 90% 60% / 0.18) 71%,
+        transparent 84%
+      );
+    animation: silk-drift 38s var(--ease-out-expo) infinite;
+  }
+
+  .ambient-silk-b {
+    position: absolute;
+    inset: -26% -18%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0.85;
+    background:
+      linear-gradient(
+        74deg,
+        transparent 22%,
+        hsl(41 74% 66% / 0.16) 38%,
+        transparent 52%
+      ),
+      linear-gradient(
+        88deg,
+        transparent 60%,
+        hsl(206 90% 62% / 0.16) 74%,
+        transparent 90%
+      );
+    animation: silk-drift-b 52s var(--ease-out-expo) infinite;
+  }
+
+  /* Horizon: the light that seats the room's floor. */
+  .ambient-horizon {
+    position: absolute;
+    inset: auto -10% -20% -10%;
+    height: 62vh;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    background:
+      radial-gradient(58% 100% at 50% 100%, hsl(199 94% 58% / 0.3), transparent 72%),
+      radial-gradient(40% 84% at 84% 100%, hsl(41 76% 64% / 0.2), transparent 74%),
+      radial-gradient(34% 76% at 14% 100%, hsl(206 88% 56% / 0.16), transparent 76%);
   }
 
   /* Key light: the room's single light source. Wide, slow and low-alpha, so
@@ -1074,10 +1179,11 @@
     width: 118vw;
     height: 104vh;
     pointer-events: none;
+    mix-blend-mode: screen;
     background: radial-gradient(
       closest-side,
-      hsl(204 78% 46% / 0.2),
-      hsl(206 68% 40% / 0.08) 56%,
+      hsl(204 84% 52% / 0.4),
+      hsl(206 74% 40% / 0.14) 56%,
       transparent 100%
     );
     animation: ambient-drift 56s var(--ease-out-expo) infinite;
@@ -1091,10 +1197,11 @@
     width: 64vw;
     height: 66vh;
     pointer-events: none;
+    mix-blend-mode: screen;
     background: radial-gradient(
       closest-side,
-      hsl(42 62% 72% / 0.15),
-      hsl(40 58% 60% / 0.055) 54%,
+      hsl(42 78% 74% / 0.36),
+      hsl(40 68% 62% / 0.14) 54%,
       transparent 100%
     );
     animation: ambient-drift-rim 74s var(--ease-out-expo) infinite;
@@ -1106,9 +1213,9 @@
     inset: 0;
     pointer-events: none;
     background: radial-gradient(
-      ellipse 96% 76% at 50% 30%,
-      transparent 46%,
-      hsl(220 50% 3% / 0.88) 100%
+      ellipse 104% 84% at 50% 26%,
+      transparent 52%,
+      hsl(220 52% 4% / 0.76) 100%
     );
   }
 
@@ -1127,7 +1234,7 @@
     background-size: 76px 76px;
     transform: perspective(520px) rotateX(72deg);
     transform-origin: bottom center;
-    opacity: 0.16;
+    opacity: 0.3;
     -webkit-mask-image: linear-gradient(to top, black, transparent 78%);
     mask-image: linear-gradient(to top, black, transparent 78%);
   }
@@ -1172,22 +1279,37 @@
   @media (max-width: 767px) {
     .ambient-key {
       animation: none;
-      opacity: 0.6;
+      opacity: 0.75;
     }
     .ambient-rim {
-      opacity: 0.5;
+      opacity: 0.7;
+    }
+    .ambient-silk {
+      opacity: 0.8;
+    }
+    .ambient-silk-b {
+      opacity: 0.6;
     }
     .depth-floor {
-      opacity: 0.1;
+      opacity: 0.22;
+    }
+    /* fewer drifting motes on phones, so the layer stays cheap */
+    .dust:nth-child(n + 17) {
+      display: none;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .ambient-key,
     .ambient-rim,
+    .ambient-silk,
+    .ambient-silk-b,
     .scroll-cue,
     .float-soft {
       animation: none !important;
+    }
+    .dust {
+      display: none;
     }
   }
 }
@@ -1640,6 +1762,36 @@ html[data-cursor-out] .cursor-layer {
   html.cursor-custom * {
     cursor: auto;
   }
+}
+
+/* ── Foreground motes ──────────────────────────────────────────────────── */
+
+.dust-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  overflow: hidden;
+}
+
+/* One mote: a dot of warm light drifting up through the room. Position, size
+   and timing come from inline custom properties, so the whole field is still
+   one CSS animation per mote and nothing runs in JavaScript. */
+.dust {
+  position: absolute;
+  bottom: -4vh;
+  left: var(--dust-x);
+  width: var(--dust-size);
+  height: var(--dust-size);
+  border-radius: 999px;
+  opacity: 0;
+  background: radial-gradient(
+    circle,
+    hsl(41 90% 88% / 0.95),
+    hsl(198 92% 76% / 0.45) 55%,
+    transparent 100%
+  );
+  animation: dust-rise var(--dust-dur) linear var(--dust-delay) infinite;
 }
 
 /* ── Pointer light ─────────────────────────────────────────────────────── */
