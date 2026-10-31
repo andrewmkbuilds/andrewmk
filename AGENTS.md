@@ -147,6 +147,23 @@ into the blue-and-gold palette. Colours are never taken from the reference.
 - Paper/ink utilities live at the end of `src/styles.css`: `.paper`, `.tape`,
   `.sticker`, `.note-hand`, `.mark-underline`, `.case-media`, `.marquee*`.
 
+## Résumé, print and positioning copy
+
+- `/resume` renders only data the rest of the site already publishes: `timeline`, `allProjects`,
+  `competitionResults`, `munResults`, `skillGroups` (the `/skills` taxonomy) and the
+  course/programme subset of `certificates` (category `Certifications` or `Academic`). Competition
+  awards appear once, under "Competitions" — their certificates are deliberately not repeated in
+  the credentials list, so the two blocks never disagree.
+- `src/styles.css` ends with a `@media print` block (light tokens, no header/footer/decorative
+  layers, no shadows, no break inside a section) that backs the masthead's "Print / Save as PDF"
+  button. Page-specific print rules belong there, not in components.
+- The one-line positioning copy is `PROFILE_TITLE` in `src/data/portfolio.ts`. The résumé,
+  `/profile`, the footer, the home `<h1>` and the Person JSON-LD all read it. Page `<title>`s in
+  `src/data/seo.ts` are separate SEO strings and are intentionally not derived from it.
+- `body { overflow-x: hidden }` makes `documentElement` the scroll container. Automation that
+  uses `window.scrollTo` can appear not to move the page; set
+  `document.documentElement.scrollTop` instead.
+
 ## What to check after a change
 
 ```sh

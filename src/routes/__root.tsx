@@ -28,7 +28,8 @@ const personJsonLd = JSON.stringify({
   "@type": "Person",
   name: AUTHOR,
   url: `${SITE_URL}/`,
-  jobTitle: "Student · Developer · AI Builder · Systems Thinker",
+  jobTitle:
+    "Student Developer · Full-Stack Builder · AI & Automation Enthusiast · STEM Innovator",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Dubai",

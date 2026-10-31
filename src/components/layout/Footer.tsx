@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { SocialIcons } from "@/components/ui/SocialIcons";
 import { Parallax } from "@/components/ui/Parallax";
 import logoUrl from "@/assets/andrewbuilds-logo.png";
+import { PROFILE_TITLE } from "@/data/portfolio";
 
 const links = [
   { href: "/", label: "Home" },
@@ -53,8 +54,8 @@ export function Footer() {
                 Andrew Mathews
               </p>
             </div>
-            <p className="mt-3 font-mono text-sm text-muted-foreground">
-              Student · Developer · AI Builder
+            <p className="mt-3 max-w-xs font-mono text-sm text-muted-foreground">
+              {PROFILE_TITLE}
             </p>
 
             <div className="mt-7 inline-flex">

@@ -113,8 +113,8 @@ export default function Home() {
               {/* Real page heading for search engines and screen readers; the
                   animated display line below stays exactly as designed. */}
               <span className="sr-only">
-                Andrew Mathews — Student Developer, AI Builder &amp; Robotics
-                Engineer
+                Andrew Mathews — Student Developer, Full-Stack Builder, AI &amp;
+                Automation Enthusiast, STEM Innovator
               </span>
               <span aria-hidden="true">
                 <span className="block">

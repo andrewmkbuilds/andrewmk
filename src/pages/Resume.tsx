@@ -3,12 +3,14 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Link } from "@/lib/router-compat";
 import { Download, Printer, ExternalLink } from "lucide-react";
 import {
+  PROFILE_TITLE,
+  SCHOOL,
   allProjects,
-  buildingCategories,
   competitionResults,
   currentlyBuilding,
   munResults,
   principles,
+  skillGroups,
   socialLinks,
   timeline,
 } from "@/data/portfolio";
@@ -45,6 +47,12 @@ function Block({
 export default function Resume() {
   const education = timeline.slice(0, 6);
   const highlighted = allProjects.slice(0, 6);
+  // Course and programme completions only — competition awards are already
+  // listed under "Competitions and Recognition" above, so listing their
+  // certificates again here would duplicate the same achievement.
+  const credentials = certificatesByRecency.filter(
+    (cert) => cert.category === "Certifications" || cert.category === "Academic",
+  );
 
   return (
     <Layout>
@@ -52,7 +60,7 @@ export default function Resume() {
         <div className="container max-w-4xl">
           {/* Masthead */}
           <Reveal>
-            <div className="surface relative overflow-hidden rounded-2xl border border-gold/25 p-6 md:p-10">
+            <div className="surface relative overflow-hidden rounded-2xl border border-gold/25 p-5 sm:p-6 md:p-10">
               <span
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-x-0 top-0 h-px divider-gold"
@@ -61,8 +69,11 @@ export default function Resume() {
               <h1 className="headline-3d mt-3 text-4xl font-bold leading-[1.05] text-foreground md:text-5xl">
                 Andrew Mathews
               </h1>
-              <p className="mt-3 text-lg text-primary">
-                Student Developer · AI Builder · Systems Thinker
+              <p className="mt-3 text-balance text-base leading-relaxed text-primary sm:text-lg">
+                {PROFILE_TITLE}
+              </p>
+              <p className="mt-2 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                {SCHOOL} · Dubai, UAE
               </p>
               <p className="mt-4 max-w-2xl text-muted-foreground">
                 Dubai-based student developer building AI systems, software products, robotics
@@ -194,11 +205,19 @@ export default function Resume() {
           </Block>
 
           <Block eyebrow="Credentials" title="Certificates">
-            <ul className="surface divide-y divide-border rounded-xl">
-              {certificatesByRecency.map((cert) => (
+            <ul className="surface divide-y divide-border rounded-xl md:grid md:grid-cols-2 md:divide-y-0">
+              {credentials.map((cert, index) => (
                 <li
                   key={cert.id}
-                  className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 p-4"
+                  className={[
+                    "flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 p-4",
+                    // Two-column list on wider screens: a hairline between rows,
+                    // a hairline down the middle between the columns.
+                    index % 2 === 0 ? "md:border-r md:border-border" : "",
+                    index < credentials.length - 2
+                      ? "md:border-b md:border-border"
+                      : "",
+                  ].join(" ")}
                 >
                   <div className="min-w-0">
                     <p className="text-sm font-medium text-foreground">{cert.title}</p>
@@ -212,6 +231,9 @@ export default function Resume() {
                 </li>
               ))}
             </ul>
+            <p className="mt-3 font-mono text-xs text-muted-foreground">
+              Competition awards and MUN results are listed above.
+            </p>
             <Link
               to="/achievements#certificates"
               className="focus-ring mt-4 inline-flex items-center gap-2 font-mono text-xs text-primary hover:text-gold"
@@ -223,10 +245,13 @@ export default function Resume() {
 
           <Block eyebrow="Skills" title="Tools and Capabilities">
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {buildingCategories.map((group) => (
+              {skillGroups.map((group) => (
                 <div key={group.title} className="surface rounded-xl p-5">
                   <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
                     {group.title}
+                  </p>
+                  <p className="mt-1.5 text-xs text-muted-foreground">
+                    {group.note}
                   </p>
                   <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
                     {group.items.map((item) => (
@@ -236,6 +261,12 @@ export default function Resume() {
                 </div>
               ))}
             </div>
+            <Link
+              to="/skills"
+              className="focus-ring mt-4 inline-flex items-center gap-2 font-mono text-xs text-primary hover:text-gold"
+            >
+              See the skills page for what each capability has shipped in
+            </Link>
           </Block>
 
           <Block eyebrow="Approach" title="How I Work">

@@ -1475,3 +1475,49 @@
     }
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PRINT — the résumé page has a "Print / Save as PDF" action, so a printed
+   page has to be legible on paper: light tokens, no fixed chrome, no
+   shadows, and cards that never split across a page break.
+   ═══════════════════════════════════════════════════════════════════════ */
+@media print {
+  :root {
+    --background: #ffffff;
+    --foreground: #101c2b;
+    --card: #ffffff;
+    --muted-foreground: #41505f;
+    --border: #c9d2dc;
+    --primary: #1c5c9e;
+    --gold: #7a5c16;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+  }
+
+  /* Site chrome and purely decorative layers never belong on paper. */
+  header,
+  footer,
+  [aria-hidden="true"] {
+    display: none !important;
+  }
+
+  main {
+    padding-top: 0 !important;
+  }
+
+  .surface {
+    background: #ffffff !important;
+    box-shadow: none !important;
+  }
+
+  section {
+    break-inside: avoid;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
