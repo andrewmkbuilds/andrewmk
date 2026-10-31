@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { SearchX } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Reveal } from "./Reveal";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectModal } from "./ProjectModal";
 import { FilterBar } from "./FilterBar";
@@ -37,6 +37,13 @@ export function ProjectGrid({ projects = ecosystemProjects, loading = false }: P
   const [platform, setPlatform] = useState("All");
   const [selected, setSelected] = useState<Project | null>(null);
   const [open, setOpen] = useState(false);
+  const reduce = useReducedMotion();
+
+  // One spring drives every card's layout change, so filtering reflows the
+  // grid as one physical object instead of snapping it.
+  const layoutTransition = reduce
+    ? { duration: 0 }
+    : { type: "spring" as const, stiffness: 380, damping: 32, mass: 0.6 };
 
   const visible = useMemo(
     () =>
@@ -107,13 +114,34 @@ export function ProjectGrid({ projects = ecosystemProjects, loading = false }: P
           </Button>
         </div>
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {visible.map((project, index) => (
-            <Reveal key={project.slug} delay={Math.min(index, 6) * 50} className="h-full">
-              <ProjectCard project={project} onOpen={openProject} className="h-full" />
-            </Reveal>
-          ))}
-        </div>
+        <motion.div
+          layout
+          transition={layoutTransition}
+          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          <AnimatePresence mode="popLayout" initial={false}>
+            {visible.map((project, index) => (
+              <motion.div
+                key={project.slug}
+                layout
+                initial={reduce ? false : { opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduce ? {} : { opacity: 0, scale: 0.97 }}
+                transition={{
+                  ...layoutTransition,
+                  delay: reduce ? 0 : Math.min(index, 6) * 0.045,
+                }}
+                className="h-full"
+              >
+                <ProjectCard
+                  project={project}
+                  onOpen={openProject}
+                  className="h-full"
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       )}
 
       <ProjectModal project={selected} open={open} onOpenChange={setOpen} />

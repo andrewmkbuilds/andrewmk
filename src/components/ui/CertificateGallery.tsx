@@ -55,7 +55,7 @@ export function CertificateGallery() {
         </p>
 
         {/* Mobile: horizontal swipe rail with snap points and smaller cards. */}
-        <div className="sm:hidden">
+        <div key={`rail-${category}`} className="sm:hidden">
           <ul
             className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4"
             style={{ scrollbarWidth: "none" }}
@@ -76,10 +76,14 @@ export function CertificateGallery() {
           </p>
         </div>
 
-        {/* Tablet and up: standard grid. */}
-        <div className="hidden gap-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+        {/* Tablet and up: standard grid. Keyed on the filter so every new set
+            enters with its own staggered reveal instead of appearing mid-list. */}
+        <div
+          key={`grid-${category}`}
+          className="hidden gap-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
+        >
           {visible.map((certificate, i) => (
-            <Reveal key={certificate.id} delay={Math.min(i, 6) * 60} className="h-full">
+            <Reveal key={certificate.id} delay={Math.min(i, 8) * 55} className="h-full">
               <CertificateCard certificate={certificate} onOpen={setActive} className="h-full" />
             </Reveal>
           ))}

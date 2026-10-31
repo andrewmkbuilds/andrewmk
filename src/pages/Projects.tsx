@@ -33,20 +33,27 @@ export default function Projects({
     <Layout>
       <section className="py-20 md:py-28">
         <div className="container">
-          <Reveal className="max-w-3xl">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
-              Projects
-            </p>
-            <h1 className="headline-3d text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
-              Things I&rsquo;ve{" "}
-              <em className="serif-display mark-underline italic text-gold">
-                Built
-              </em>
-            </h1>
-            <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-              Different problems. Different systems. One constant: build it.
-            </p>
-          </Reveal>
+          {/* Staggered masthead: eyebrow, then title, then standfirst. */}
+          <div className="max-w-3xl">
+            <Reveal>
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
+                Projects
+              </p>
+            </Reveal>
+            <Reveal delay={70}>
+              <h1 className="headline-3d text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
+                Things I&rsquo;ve{" "}
+                <em className="serif-display mark-underline italic text-gold">
+                  Built
+                </em>
+              </h1>
+            </Reveal>
+            <Reveal delay={140}>
+              <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+                Different problems. Different systems. One constant: build it.
+              </p>
+            </Reveal>
+          </div>
 
           <h2 className="sr-only">Featured projects</h2>
 

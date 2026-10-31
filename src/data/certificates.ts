@@ -35,6 +35,13 @@ export interface Certificate {
   type: "image" | "pdf";
   /** Links this certificate to an achievement already listed on the site. */
   achievementKey?: string;
+  /**
+   * Official public credential page. Present only where a real one exists —
+   * never inferred, and never a page hosted by this portfolio.
+   */
+  verifyUrl?: string;
+  /** Named verification platform shown on the credential action. */
+  verifyPlatform?: string;
 }
 
 const DIR = "/certificates";
@@ -106,6 +113,9 @@ export const certificates: Certificate[] = [
     file: `${DIR}/mongodb-indexing-design-fundamentals-certificate.jpg`,
     thumb: `${DIR}/thumbs/mongodb-indexing-design-fundamentals-certificate.webp`,
     type: "image",
+    verifyUrl:
+      "https://www.credly.com/badges/0bf7e882-82bd-4937-85fe-a1e20f178359",
+    verifyPlatform: "Credly",
   },
   {
     id: "mongodb-crud-operations",
@@ -116,6 +126,9 @@ export const certificates: Certificate[] = [
     file: `${DIR}/mongodb-crud-operations-certificate.jpg`,
     thumb: `${DIR}/thumbs/mongodb-crud-operations-certificate.webp`,
     type: "image",
+    verifyUrl:
+      "https://www.credly.com/badges/979430cc-755a-47e1-b7a0-e2742a1419b8",
+    verifyPlatform: "Credly",
   },
   {
     id: "datacamp-trust-security",

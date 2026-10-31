@@ -145,8 +145,8 @@ export function Header() {
                   to={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "relative rounded-full px-3 py-1.5 font-mono text-[12.5px] transition-[color,background-color] duration-300",
-                    "hover:bg-foreground/[0.05] hover:text-gold focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:outline-none",
+                    "relative rounded-full px-3 py-1.5 font-mono text-[12.5px] transition-[color,background-color,transform] duration-300",
+                    "hover:bg-foreground/[0.05] hover:text-gold hover:scale-[1.06] motion-reduce:hover:scale-100 focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:outline-none",
                     active ? "text-foreground" : "text-muted-foreground",
                   )}
                 >
@@ -220,7 +220,7 @@ export function Header() {
                         style={{ animationDelay: `${index * 45}ms` }}
                         aria-current={active ? "page" : undefined}
                         className={cn(
-                          "group animate-fade-in-up flex items-center gap-3 rounded-lg px-3 py-3 font-mono text-lg opacity-0 transition-colors hover:bg-secondary hover:text-gold focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:outline-none",
+                          "group animate-fade-in-up flex items-center gap-3 rounded-lg px-3 py-3 font-mono text-lg opacity-0 transition-[color,background-color,transform] duration-300 hover:scale-[1.02] hover:bg-secondary hover:text-gold motion-reduce:hover:scale-100 focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:outline-none",
                           active
                             ? "bg-secondary/60 text-primary"
                             : "text-muted-foreground",

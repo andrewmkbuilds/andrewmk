@@ -147,6 +147,27 @@ into the blue-and-gold palette. Colours are never taken from the reference.
 - Paper/ink utilities live at the end of `src/styles.css`: `.paper`, `.tape`,
   `.sticker`, `.note-hand`, `.mark-underline`, `.case-media`, `.marquee*`.
 
+## Brand marks and verified credentials
+
+- `src/data/brands.ts` is the only brand registry: a name as the content writes it (`"Python"`,
+  `"Framer Motion"`, `"FIRST LEGO League UAE …"`) maps to an official mark. Marks are the official
+  monochrome SVGs vendored in `public/brands/` (Simple Icons, CC0) and painted with `currentColor`
+  through a CSS mask, so they are same-origin, cached, tint-less until hovered and correct on both
+  light and dark surfaces. Do not add a name to the registry that the portfolio content does not
+  mention.
+- `BrandLogo` (`src/components/ui/BrandLogo.tsx`) sizes every mark explicitly, so a missing or
+  failed logo can never shift layout. Names with no official mark (Base44, Lovable, Tkinter,
+  Java, LEGO, …) deliberately fall back to the Lucide glyph in `tech-icons.tsx`.
+- Logo.dev: when `VITE_LOGO_DEV_TOKEN` (a Logo.dev publishable key) is present at dev-server start,
+  `BrandLogo` requests `https://img.logo.dev/<domain>?token=…&size=…&format=png&retina=true&fallback=404`
+  and falls back to the vendored mark on error. Without a token nothing is fetched remotely. Set it
+  in an untracked `.env.local` or pass it through the `web` service environment; never commit it.
+- Verified credentials: `Certificate.verifyUrl` is set **only** where a real official credential
+  page exists (currently the two MongoDB Credly badges). The card renders a `Verified` pill that
+  swaps to `Verified on Credly` on hover, and a `View credential` action; both are plain links to
+  the external page with `target="_blank"`, `rel="noopener noreferrer"` and an accessible label.
+  Never add a verification state without such a URL — there is no internal verification page.
+
 ## Content source of truth
 
 `https://andrewmk.is-a.dev` is the only authoritative source for anything about Andrew — identity,

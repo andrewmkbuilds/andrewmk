@@ -2064,6 +2064,178 @@ html[data-cursor-out] .cursor-layer {
   }
 }
 
+/* ── Brand marks ───────────────────────────────────────────────────────── */
+
+/*
+ * Official marks are painted with `currentColor` through a CSS mask, so one
+ * same-origin SVG reads correctly on light and dark surfaces, inherits the
+ * surrounding ink colour and costs no extra request. Sizes are fixed by the
+ * component, so a mark can never shift the layout it sits in.
+ */
+.brand-mark {
+  display: inline-block;
+  flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask-image: var(--brand-mark);
+  mask-image: var(--brand-mark);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  transition:
+    transform 0.35s var(--ease-out-expo),
+    background-color 0.3s ease;
+}
+
+.brand-mark-img {
+  display: inline-block;
+  flex-shrink: 0;
+  object-fit: contain;
+  transition:
+    transform 0.35s var(--ease-out-expo),
+    filter 0.3s ease;
+}
+
+.badge .brand-mark {
+  color: color-mix(in oklab, var(--primary-glow) 75%, transparent);
+}
+
+/* ── Verified credentials ──────────────────────────────────────────────── */
+
+/* The sliding surface of the active filter chip. */
+.filter-pill {
+  pointer-events: none;
+  border: 1px solid color-mix(in oklab, var(--gold) 60%, transparent);
+  background: color-mix(in oklab, var(--gold) 10%, transparent);
+  box-shadow: 0 10px 24px -18px color-mix(in oklab, var(--gold) 70%, transparent);
+}
+
+.credential-verified {
+  transition:
+    transform 0.3s var(--ease-out-expo),
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Idle and hover labels share one grid cell, so the swap never reflows. */
+.credential-verified-text {
+  display: grid;
+}
+
+.credential-verified-text > span {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  white-space: nowrap;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s var(--ease-out-expo);
+}
+
+.credential-verified-hover {
+  opacity: 0;
+  transform: translateY(2px);
+}
+
+.credential-check,
+.credential-arrow {
+  transition:
+    transform 0.35s var(--ease-out-expo),
+    filter 0.3s ease;
+}
+
+.credential-issuer-mark .brand-mark,
+.credential-issuer-mark .brand-mark-img {
+  color: color-mix(in oklab, var(--foreground) 70%, transparent);
+}
+
+.credential-cta {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .badge:hover .brand-mark {
+    background-color: var(--gold);
+    transform: scale(1.08);
+  }
+
+  .badge:hover .brand-mark-img {
+    transform: scale(1.08);
+  }
+
+  .credential-verified:hover,
+  .credential-verified:focus-visible {
+    border-color: color-mix(in oklab, var(--gold) 65%, transparent);
+    background-color: color-mix(in oklab, var(--gold) 14%, transparent);
+    box-shadow:
+      0 0 0 3px color-mix(in oklab, var(--gold) 12%, transparent),
+      0 10px 22px -16px color-mix(in oklab, var(--gold) 70%, transparent);
+    transform: translateY(-1px);
+  }
+
+  .credential-verified:hover .credential-verified-idle,
+  .credential-verified:focus-visible .credential-verified-idle {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+
+  .credential-verified:hover .credential-verified-hover,
+  .credential-verified:focus-visible .credential-verified-hover {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .credential-verified:hover .credential-check,
+  .credential-verified:focus-visible .credential-check {
+    filter: drop-shadow(0 0 6px color-mix(in oklab, var(--gold) 65%, transparent));
+    transform: scale(1.14);
+  }
+
+  .group:hover .credential-issuer-mark .brand-mark,
+  .group:hover .credential-issuer-mark .brand-mark-img {
+    transform: scale(1.12);
+  }
+
+  .group:hover .credential-cta,
+  .credential-cta:hover {
+    border-color: color-mix(in oklab, var(--gold) 70%, transparent);
+    background-color: color-mix(in oklab, var(--gold) 18%, transparent);
+  }
+
+  .group:hover .credential-arrow,
+  .credential-cta:hover .credential-arrow {
+    transform: translate(2px, -2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-mark,
+  .brand-mark-img,
+  .credential-verified,
+  .credential-verified-text > span,
+  .credential-check,
+  .credential-arrow,
+  .credential-cta {
+    transition: none !important;
+  }
+
+  .credential-verified-hover {
+    display: none;
+  }
+
+  .credential-verified:hover,
+  .credential-verified:focus-visible {
+    transform: none;
+  }
+}
+
 /* ── Buttons ───────────────────────────────────────────────────────────── */
 
 .btn-shine {
