@@ -40,7 +40,7 @@ function body(text: string, options: { bold?: boolean; color?: string; size?: nu
     children: [
       new TextRun({
         text,
-        bold: options.bold,
+        bold: options.bold ?? false,
         color: options.color ?? "0F172A",
         size: options.size ?? 19,
       }),
