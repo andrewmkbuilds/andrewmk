@@ -192,6 +192,13 @@ into the blue-and-gold palette. Colours are never taken from the reference.
   footer, header, About/Contact lists, "Find Me Online" and the "Built with …" attribution all
   show official platform marks instead of Lucide icons. Only brands with no official mark at all
   (Tkinter, Objective-C, C#, LEGO) still use the Lucide glyph from `tech-icons.tsx`.
+- Every mark renders in one fixed slot, and `src/data/brandOptics.ts` holds the measured optical
+  scale that balances the artwork inside it — equal boxes alone let a square glyph (Base44, OpenAI,
+  Lovable, Claude) read larger than a flat wordmark. Two tables: vendored SVGs keyed by slug,
+  Logo.dev marks keyed by domain (it crops to the mark, so most share one inset). Re-measure and add
+  a brand there when new artwork fills its canvas differently; nothing is ever scaled past 1.15, so
+  no mark can overflow its slot. Chip *sizes* stay uniform inside a group too (the ribbon's headline
+  chips keep their gold edge but no longer get a larger icon).
 - Logo.dev: when `VITE_LOGO_DEV_TOKEN` (a Logo.dev publishable key) is present at dev-server start,
   `BrandLogo` requests `https://img.logo.dev/<domain>?token=…&size=…&format=png&retina=true&fallback=404`
   and falls back to the vendored mark on error. Without a token nothing is fetched remotely. Set it

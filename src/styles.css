@@ -1427,11 +1427,6 @@
     justify-content: center;
   }
 
-  .marquee-chip-primary .marquee-chip-mark {
-    width: 20px;
-    height: 20px;
-  }
-
   .marquee-chip-dot {
     display: block;
     width: 5px;
@@ -2208,6 +2203,19 @@ html[data-cursor-out] .cursor-layer {
  * surrounding ink colour and costs no extra request. Sizes are fixed by the
  * component, so a mark can never shift the layout it sits in.
  */
+/*
+ * One slot, one optical weight. The box is always the same size; the artwork
+ * inside it is scaled by `--brand-scale` (see `src/data/brandOptics.ts`) so a
+ * square glyph and a flat wordmark read at the same size. `scale` is an
+ * individual transform property, so the hover transforms below still multiply
+ * on top of it instead of replacing it.
+ */
+.brand-mark,
+.brand-mark-img {
+  scale: var(--brand-scale, 1);
+  transform-origin: 50% 50%;
+}
+
 .brand-mark {
   display: inline-block;
   flex-shrink: 0;

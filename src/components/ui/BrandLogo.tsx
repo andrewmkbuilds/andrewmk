@@ -1,6 +1,7 @@
-import { useState, type ReactNode } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { brandFor, brandForIssuer, type Brand } from "@/data/brands";
+import { logoDevOpticalScale, vendoredOpticalScale } from "@/data/brandOptics";
 
 /**
  * A brand mark, rendered at a fixed size so a failed request can never move
@@ -17,6 +18,12 @@ import { brandFor, brandForIssuer, type Brand } from "@/data/brands";
  * falls straight back to the local mark, then to the caller's `fallback` (its
  * Lucide glyph) when the brand has no vendored mark either. Nothing shifts,
  * because the caller always reserves the same box.
+ *
+ * Equal boxes are not equal size: a square glyph fills its 24×24 box while a
+ * flat wordmark only fills a strip of it, so both look different at the same
+ * width. Every vendored mark therefore also carries an optical scale
+ * (`@/data/brandOptics`) inside the same slot, which is what keeps Base44,
+ * OpenAI/ChatGPT, Lovable and Claude from reading larger than their neighbours.
  */
 
 const LOGO_DEV_TOKEN = (
@@ -75,6 +82,17 @@ export function BrandLogo({
   const px = SIZES[size];
   if (!brand) return fallback;
 
+  /** One slot for every brand: identical box, artwork balanced inside it. */
+  const slot: CSSProperties = {
+    width: px,
+    height: px,
+    ["--brand-scale" as string]: vendoredOpticalScale(brand),
+    // Keeps `object-fit: contain` artwork centred in the slot, whatever its
+    // aspect ratio and internal margins are.
+    objectFit: "contain",
+    objectPosition: "center",
+  };
+
   if (logoDevEnabled && !remoteFailed) {
     return (
       <img
@@ -89,7 +107,11 @@ export function BrandLogo({
         // `brand-mark` paints a plate behind a mask; a real image must not
         // receive it, or the pill shows a solid block around the logo.
         className={cn("brand-mark-img", className)}
-        style={{ width: px, height: px }}
+        style={{
+          width: px,
+          height: px,
+          ["--brand-scale" as string]: logoDevOpticalScale(brand),
+        }}
         aria-hidden={label ? undefined : true}
       />
     );
@@ -109,7 +131,7 @@ export function BrandLogo({
         loading="lazy"
         decoding="async"
         className={cn("brand-mark-img", className)}
-        style={{ width: px, height: px }}
+        style={slot}
         aria-hidden={label ? undefined : true}
       />
     );
@@ -123,8 +145,7 @@ export function BrandLogo({
       title={brand.label}
       className={cn("brand-mark", className)}
       style={{
-        width: px,
-        height: px,
+        ...slot,
         ["--brand-mark" as string]: `url(/brands/${brand.slug}.svg)`,
       }}
     />
