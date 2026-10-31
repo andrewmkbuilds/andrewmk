@@ -19,6 +19,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import NotFound from "@/pages/NotFound";
 import { reportLovableError } from "@/lib/lovable-error-reporting";
 import { AUTHOR, SITE_NAME, SITE_URL } from "@/data/seo";
+import { PROFILE_IDENTITY } from "@/data/portfolio";
 
 import appCss from "../styles.css?url";
 
@@ -28,8 +29,7 @@ const personJsonLd = JSON.stringify({
   "@type": "Person",
   name: AUTHOR,
   url: `${SITE_URL}/`,
-  jobTitle:
-    "Student Developer · Full-Stack Builder · AI & Automation Enthusiast · STEM Innovator",
+  jobTitle: PROFILE_IDENTITY,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Dubai",

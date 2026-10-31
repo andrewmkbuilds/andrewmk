@@ -66,16 +66,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://andrewmk.is-a.dev/projects/symbiosense</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://andrewmk.is-a.dev/projects/aquaguard-ai</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://andrewmk.is-a.dev/projects/horizon-motorsports</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

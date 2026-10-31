@@ -47,12 +47,9 @@ function Block({
 export default function Resume() {
   const education = timeline.slice(0, 6);
   const highlighted = allProjects.slice(0, 6);
-  // Course and programme completions only — competition awards are already
-  // listed under "Competitions and Recognition" above, so listing their
-  // certificates again here would duplicate the same achievement.
-  const credentials = certificatesByRecency.filter(
-    (cert) => cert.category === "Certifications" || cert.category === "Academic",
-  );
+  // Every certificate, in recency order, matching the credentials list the
+  // source résumé publishes.
+  const credentials = certificatesByRecency;
 
   return (
     <Layout>
@@ -249,9 +246,6 @@ export default function Resume() {
                 <div key={group.title} className="surface rounded-xl p-5">
                   <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
                     {group.title}
-                  </p>
-                  <p className="mt-1.5 text-xs text-muted-foreground">
-                    {group.note}
                   </p>
                   <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
                     {group.items.map((item) => (

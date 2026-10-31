@@ -79,7 +79,7 @@ export const routes: RouteMeta[] = [
     label: "Skills",
     title: "Skills | Andrew Mathews",
     description:
-      "The development, AI, backend, hardware and tooling skills behind Andrew Mathews' projects, grouped by what they are actually used for.",
+      "The AI, software, computer vision, robotics, product and competition capabilities behind Andrew Mathews' projects.",
     ogHeadline: "What I build with.",
     changefreq: "monthly",
     priority: "0.7",

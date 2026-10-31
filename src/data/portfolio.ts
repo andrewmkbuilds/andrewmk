@@ -596,231 +596,19 @@ export const featuredProjects: Project[] = [
 
 export const ecosystemProjects: Project[] = [
   {
-    slug: "symbiosense",
-    name: "SYMBIOSENSE",
-    category: "STEM · AI · Environmental Monitoring",
-    description:
-      "Team SYMBIONIX's FIRST LEGO League BIOGLOW innovation project — Connected by Nature. Driven by Innovation. Lichen observations, environmental measurements and AI-assisted invasive-plant detection, built to help conservation teams decide where to investigate first.",
-    built: [
-      "Environmental sensing rig",
-      "Lichen observation workflow",
-      "AI-assisted detection concept",
-      "Monitoring dashboard",
-    ],
-    tech: ["LEGO SPIKE Prime", "ESP32", "Sensors", "AI"],
-    status: "In progress",
-    filters: ["AI", "IoT"],
-    problem:
-      "Detect the warning. Protect the ecosystem. Conservation teams cannot survey everything, and invasive plant spread is easiest to stop while it is still small — but finding those spots means walking large areas with limited people. SYMBIOSENSE explores a different starting point: lichen and local environmental readings change in ways that can point to stress, so a small sensor rig plus phone-camera observations could help a team decide which locations deserve a site visit first, instead of guessing.",
-    stack: [
-      {
-        group: "Hardware",
-        items: [
-          "LEGO SPIKE Prime",
-          "ESP32-WROOM-32",
-          "BME280 (temperature, humidity, pressure)",
-          "VEML7700 (ambient light)",
-          "Android phone camera",
-        ],
-      },
-      {
-        group: "Software",
-        items: [
-          "Environmental monitoring dashboard",
-          "Lichen observation workflow",
-          "AI-assisted invasive-plant detection",
-        ],
-      },
-      {
-        group: "Team",
-        items: ["Team SYMBIONIX", "Andrew: Material Manager / Project Manager"],
-      },
-    ],
-    gallery: [
-      {
-        title: "Detect the warning",
-        caption:
-          "The workflow starts with observation: lichen coverage and condition recorded alongside temperature, humidity, pressure and light at each location.",
-        lines: [
-          "Lichen survey",
-          "BME280 readings",
-          "Light levels",
-          "Geotagged notes",
-        ],
-      },
-      {
-        title: "Protect the ecosystem",
-        caption:
-          "Readings and observations are collected on a dashboard so a conservation team can see which locations stand out and prioritise them for a real investigation.",
-        lines: [
-          "Monitoring dashboard",
-          "Location list",
-          "Risk flags",
-          "Priority view",
-        ],
-      },
-      {
-        title: "AI-assisted detection",
-        caption:
-          "Phone-camera images feed an AI-assisted detection step that flags possible invasive plants for a human to confirm — a prompt for investigation, never an automatic verdict.",
-        lines: [
-          "Image capture",
-          "Candidate detection",
-          "Human review",
-          "Logged outcome",
-        ],
-      },
-    ],
-    challenges: [
-      {
-        title: "Keeping the claim proportional to the evidence",
-        detail:
-          "Environmental indicators are noisy, and a school project cannot prove a causal link. The project is framed as a prioritisation aid for conservation teams, with every output labelled as a candidate for investigation rather than a validated finding.",
-      },
-      {
-        title: "Working across two very different toolchains",
-        detail:
-          "LEGO SPIKE Prime handles the team's build and demonstration, while the ESP32 with BME280 and VEML7700 carries the actual environmental sensing. Coordinating both in one demonstration took more planning than either part alone.",
-      },
-      {
-        title: "Running a project as well as building it",
-        detail:
-          "As Material Manager and Project Manager I tracked parts, build order and deadlines so the team could spend its time on the prototype instead of on logistics.",
-      },
-    ],
-    results: [
-      {
-        label: "Team",
-        value: "SYMBIONIX",
-        note: "FIRST LEGO League, BIOGLOW season.",
-      },
-      { label: "My role", value: "Material Manager / Project Manager" },
-      {
-        label: "Stage",
-        value: "Prototype · in progress",
-        note: "Concept and prototype work. No scientific validation claimed.",
-      },
-    ],
-  },
-  {
-    slug: "aquaguard-ai",
-    name: "AquaGuard AI",
-    category: "AI · Computer Vision · IoT",
-    description:
-      "A STEM build exploring how satellite and drone water imagery can become a pixel-grid risk map, combined with environmental sensing to flag where water quality deserves a closer look.",
-    built: [
-      "Pixel-grid risk mapping",
-      "Environmental sensing",
-      "Risk visualisation",
-      "Prototype hardware",
-    ],
-    tech: ["AI", "Computer Vision", "ESP32", "IoT"],
-    status: "Prototype",
-    filters: ["AI", "IoT", "Python"],
-    problem:
-      "Water problems are usually noticed after they are visible. Satellite and drone imagery is cheap and frequent, but raw images are hard to act on — a whole lake looks like a whole lake. AquaGuard AI explores turning imagery into a grid of smaller cells, each carrying a risk value, so a monitoring team can see which parts of a water body changed and combine that with sensor readings from the site.",
-    stack: [
-      {
-        group: "Imagery",
-        items: [
-          "Satellite imagery",
-          "Drone imagery",
-          "Pixel-grid analysis",
-          "Change detection",
-        ],
-      },
-      {
-        group: "Sensing",
-        items: ["ESP32", "Water and environmental sensors", "Field readings"],
-      },
-      {
-        group: "Interface",
-        items: ["Risk map visualisation", "Grid cell detail", "Sensor overlay"],
-      },
-      {
-        group: "AI",
-        items: ["Computer vision", "Risk scoring concept"],
-      },
-    ],
-    gallery: [
-      {
-        title: "Pixel-grid risk map",
-        caption:
-          "Imagery is divided into a grid instead of being treated as one flat picture, so risk can be expressed per cell and change can be compared cell by cell over time.",
-        lines: ["Grid overlay", "Per-cell values", "Change view", "Legend"],
-      },
-      {
-        title: "Sensor layer",
-        caption:
-          "ESP32-based sensing adds on-the-ground context — the map shows where to look, the sensors say what the water is actually doing there.",
-        lines: [
-          "ESP32 node",
-          "Sensor readings",
-          "Timestamped logs",
-          "Location match",
-        ],
-      },
-      {
-        title: "Investigation list",
-        caption:
-          "The output is a shortlist of cells worth checking, not a verdict, so the next step stays a human inspection.",
-        lines: ["Ranked cells", "Notes", "Follow-up", "History"],
-      },
-    ],
-    challenges: [
-      {
-        title: "Imagery is not measurement",
-        detail:
-          "Pixel colour and index values suggest conditions; they do not confirm contamination. The project keeps the map as an indicator layer and pairs it with sensor data rather than presenting imagery alone as evidence.",
-      },
-      {
-        title: "Making a grid readable",
-        detail:
-          "A dense grid of numbers is unusable. Risk is expressed as a small number of bands with an explicit legend, so a viewer can read the map in seconds.",
-      },
-      {
-        title: "Honest scope for a student build",
-        detail:
-          "This is prototype work: the pipeline and visualisation are the deliverable. No field validation or accuracy figures are claimed.",
-      },
-    ],
-    results: [
-      {
-        label: "Status",
-        value: "Prototype",
-        note: "Concept, pipeline and visualisation work.",
-      },
-      {
-        label: "Approach",
-        value: "Imagery + sensors",
-        note: "Grid risk map plus ESP32 readings.",
-      },
-      {
-        label: "Validation",
-        value: "Not yet validated",
-        note: "No field results or accuracy claims.",
-      },
-    ],
-  },
-  {
     slug: "horizon-motorsports",
     name: "Horizon Motorsports",
-    category: "STEM Racing / Team",
+    category: "Racing / Community",
     description:
-      "Horizon Motorsports is the UAE-based STEM Racing team I work with as Sponsorship Manager — engineering, marketing and competition work around a real racing programme.",
-    built: [
-      "Sponsorship & partnerships",
-      "Team site",
-      "Competition presence",
-      "Motion-driven interface",
-    ],
+      "Digital home for Horizon Motorsports, a UAE-based racing team competing in FLL, Techfest, and engineering competitions.",
+    built: ["Team site", "Competition presence", "Motion-driven interface"],
     tech: ["React", "Framer Motion"],
     status: "Active",
     live: "https://horizonmotorsports.base44.app/",
     filters: ["React"],
     platform: "base44",
     problem:
-      "Horizon Motorsports needed a presence that matched how the team actually operates: a Dubai-based STEM Racing and engineering team competing in FLL, Techfest and other UAE competitions, with a following that lives mostly on social. As Sponsorship Manager I work on the partnership and marketing side of that programme, and the site had to work as the anchor visitors land on from Instagram — fast, motion-driven, and clear about who the team is and what it competes in.",
+      "Horizon Motorsports needed a presence that matched how the team actually operates: a Dubai-based racing and engineering team competing in FLL, Techfest and other UAE competitions, with a following that lives mostly on social. The site had to work as the anchor visitors land on from Instagram — fast, motion-driven, and clear about who the team is and what it competes in.",
     stack: [
       {
         group: "Interface",
@@ -850,22 +638,18 @@ export const ecosystemProjects: Project[] = [
       },
     ],
     results: [
-      {
-        label: "My role",
-        value: "Sponsorship Manager",
-        note: "Partnerships and team marketing.",
-      },
-      {
-        label: "Team",
-        value: "Horizon Motorsports",
-        note: "UAE-based STEM Racing team.",
-      },
+      { label: "Status", value: "Active", note: "Live team site." },
       {
         label: "Competitions",
         value: "FLL · Techfest",
         note: "UAE engineering and robotics circuit.",
       },
       { label: "Base", value: "Dubai, UAE", note: "Team operates locally." },
+      {
+        label: "Primary channel",
+        value: "Instagram",
+        note: "Site is the landing point for social traffic.",
+      },
     ],
     metrics: {
       title: "Digital reach",
@@ -1560,24 +1344,6 @@ export const timeline: TimelineEntry[] = [
     ],
   },
   {
-    year: "2026",
-    title: "Competing, Certifying, Shipping",
-    meta: "The Indian High School, Dubai · Grade 7-8",
-    body: [
-      "Alongside building, the year went into competition work: MUN conferences, FIRST LEGO League with team SYMBIONIX, and STEM Racing with Horizon Motorsports.",
-    ],
-    points: [
-      "IHSMUN 2025 — Honourable Mention, Best Position Paper",
-      "IHS UNSummit 2026 — Verbal Commendation, Best Resolution",
-      "Novara MUN 2026 — Verbal Commendation",
-      "FLL 2025–26 — qualified from regionals to nationals",
-      "FLL 2026–27 — BIOGLOW season, team SYMBIONIX, project SYMBIOSENSE",
-      "Sponsorship Manager, Horizon Motorsports (STEM Racing)",
-      "Accepted into TKS 2026–27",
-      "AquaGuard AI prototype · SYMBIOSENSE build",
-    ],
-  },
-  {
     year: "NOW",
     title: "Building What's Next",
     body: [
@@ -1659,14 +1425,14 @@ export const competitionResults: CompetitionResult[] = [
 export const munResults: MunResult[] = [
   {
     title: "IHSMUN 2025",
-    detail: "Honourable Mention · Best Position Paper",
+    detail: "FIA · Verbal Commendation",
     certKey: "mun-ihsmun-2025",
   },
+  { title: "Novara MUN 2026", detail: "UNSC · Verbal Commendation" },
   {
     title: "IHS UNSummit 2026",
-    detail: "Verbal Commendation · Best Resolution",
+    detail: "FIA · Verbal Commendation + Best Resolution",
   },
-  { title: "Novara MUN 2026", detail: "Verbal Commendation" },
 ];
 
 /** FIRST LEGO League seasons, listed only as far as they are confirmed. */
@@ -1674,22 +1440,10 @@ export const fllSeasons = [
   {
     season: "2025–26",
     title: "FIRST LEGO League · UNEARTHED",
-    detail:
-      "Competed at the Dubai Regional and qualified from regionals to nationals.",
+    detail: "Dubai Regional 2025–2026.",
     points: [
-      "Innovation Award at the Dubai Regional",
-      "Qualified from regionals through to nationals",
-    ],
-  },
-  {
-    season: "2026–27",
-    title: "BIOGLOW · Team SYMBIONIX",
-    detail:
-      "Current season: team SYMBIONIX, innovation project SYMBIOSENSE — lichen observations and environmental sensing to support conservation teams.",
-    points: [
-      "Team: SYMBIONIX",
-      "Innovation project: SYMBIOSENSE",
-      "Role: Material Manager / Project Manager",
+      "Innovation Award — Winner at the Dubai Regional",
+      "Certificate of Participation — Challenge: Dubai Regional",
     ],
   },
 ];
@@ -1874,97 +1628,59 @@ export const socialLinks: SocialLink[] = [
 
 /** One-line professional description, used wherever the site states who I am. */
 export const PROFILE_TITLE =
-  "Student Developer · Full-Stack Builder · AI & Automation Enthusiast · STEM Innovator";
+  "Student Developer · AI Builder · Systems Thinker";
+
+/** Verbatim identity line from the source About page and Person JSON-LD. */
+export const PROFILE_IDENTITY =
+  "Student · Developer · AI Builder · Systems Thinker";
 
 export const SCHOOL = "The Indian High School, Dubai";
 
-export const interests = [
-  "Artificial intelligence",
-  "Full-stack development",
-  "SaaS",
-  "Automation",
-  "Cybersecurity",
-  "Ethical hacking",
-  "Robotics",
-  "IoT",
-  "Data science",
-  "STEM",
-  "Developer tools",
-  "Product building",
-];
-
 export interface SkillGroup {
   title: string;
-  /** Where this capability actually comes from, so the list stays honest. */
-  note: string;
   items: string[];
 }
 
 export const skillGroups: SkillGroup[] = [
   {
-    title: "Development",
-    note: "Used across the shipped projects on this site.",
-    items: [
-      "Python",
-      "JavaScript",
-      "TypeScript",
-      "React",
-      "Full-stack development",
-      "Web development",
-    ],
-  },
-  {
     title: "AI",
-    note: "AI-first products, assistants and vision experiments.",
     items: [
-      "AI application development",
-      "AI-assisted workflows",
-      "AI automation",
-      "Computer vision",
-      "AI product experimentation",
+      "Generative AI",
+      "AI APIs",
+      "AI applications",
+      "AI assistants",
+      "AI integrations",
     ],
   },
   {
-    title: "Backend & Data",
-    note: "The data and auth layer behind the web products.",
-    items: [
-      "Supabase",
-      "SQL",
-      "APIs",
-      "Databases",
-      "Authentication",
-      "Data workflows",
-    ],
+    title: "Software",
+    items: ["Python", "TypeScript", "JavaScript", "React", "Flutter", "Tkinter"],
   },
   {
-    title: "Hardware & STEM",
-    note: "Robotics, IoT and environmental sensing builds.",
+    title: "Computer Vision",
+    items: ["OpenCV", "MediaPipe", "Motion detection", "Gesture recognition"],
+  },
+  {
+    title: "Robotics",
     items: [
-      "ESP32",
-      "LEGO SPIKE Prime",
       "Robotics",
-      "IoT",
       "Sensors",
-      "Embedded experimentation",
+      "Hardware integration",
+      "Engineering competitions",
     ],
   },
   {
-    title: "Cybersecurity",
-    note: "Learning and hands-on security experimentation.",
-    items: ["Ethical hacking", "Cybersecurity", "Security experimentation"],
-  },
-  {
-    title: "Developer Tools",
-    note: "What I actually build and ship with.",
+    title: "Product",
     items: [
-      "GitHub",
-      "Cursor",
-      "Base44",
-      "Lovable",
-      "Vercel",
-      "Figma",
-      "Supabase",
+      "Product design",
+      "Systems thinking",
+      "Rapid prototyping",
+      "Problem solving",
     ],
+  },
+  {
+    title: "Competition",
+    items: ["Techfest", "FLL", "F1 in Schools / STEM Racing", "MUN", "Exhibitions"],
   },
 ];
 

@@ -26,8 +26,8 @@ export default function Skills() {
               with.
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-              {PROFILE_TITLE}. Everything listed here appears in a project on
-              this site — the tooling I actually shipped with, not a checklist.
+              {PROFILE_TITLE}. The capabilities I work with, grouped by the area
+              they belong to.
             </p>
             <p className="mt-3 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
               {SCHOOL}
@@ -41,9 +41,6 @@ export default function Skills() {
                   <h2 className="text-lg font-semibold text-foreground">
                     {group.title}
                   </h2>
-                  <p className="mt-1.5 text-xs text-muted-foreground">
-                    {group.note}
-                  </p>
                   <ul className="mt-5 grid list-none gap-2 p-0">
                     {group.items.map((item) => (
                       <li

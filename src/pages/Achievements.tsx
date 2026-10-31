@@ -120,7 +120,7 @@ export default function Achievements() {
           <SectionHeading
             label="Robotics"
             title="FIRST LEGO League"
-            subtitle="Regional competition, then nationals — and the BIOGLOW season now in progress with team SYMBIONIX."
+            subtitle="The Dubai Regional of the 2025–26 UNEARTHED season, and what the team came away with."
           />
           <div className="grid gap-5 md:grid-cols-2">
             {fllSeasons.map((season, i) => (

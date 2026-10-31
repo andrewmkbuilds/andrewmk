@@ -113,8 +113,8 @@ export default function Home() {
               {/* Real page heading for search engines and screen readers; the
                   animated display line below stays exactly as designed. */}
               <span className="sr-only">
-                Andrew Mathews — Student Developer, Full-Stack Builder, AI &amp;
-                Automation Enthusiast, STEM Innovator
+                Andrew Mathews — Student Developer, AI Builder &amp; Robotics
+                Engineer
               </span>
               <span aria-hidden="true">
                 <span className="block">
@@ -157,8 +157,8 @@ export default function Home() {
               style={{ animationDelay: "120ms" }}
               className="enter mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
             >
-              I&rsquo;m Andrew, a student developer at The Indian High School,
-              Dubai. I build software, experiment with AI, compete in STEM and
+              I&rsquo;m Andrew, a student developer and AI builder from Dubai.
+              I build software, experiment with AI, compete in STEM and
               engineering challenges, and turn ideas into working products.
             </p>
 
@@ -203,9 +203,9 @@ export default function Home() {
               className="enter mt-8 flex flex-wrap items-center gap-2"
             >
               <span className="sticker">Student Developer</span>
-              <span className="sticker rotate-1">Full-Stack Builder</span>
-              <span className="sticker -rotate-1">AI &amp; Automation</span>
-              <span className="sticker sticker-gold">STEM Innovator</span>
+              <span className="sticker rotate-1">AI Builder</span>
+              <span className="sticker -rotate-1">Robotics &amp; Systems</span>
+              <span className="sticker sticker-gold">Systems Thinker</span>
             </div>
 
             <div className="enter" style={{ animationDelay: "400ms" }}>
@@ -345,9 +345,9 @@ export default function Home() {
       <section className="py-20 md:py-28" id="work">
         <div className="container">
           <SectionHeading
-            label="Selected work"
-            title="Stuff I made, and *why* I made it."
-            subtitle="Four flagship builds, each starting from a real problem. Everything below comes from the project itself — no invented numbers."
+            label="Featured"
+            title="Things I've *Built*"
+            subtitle="Different problems. Different systems. One constant: build it."
           />
           <div className="grid gap-20 md:gap-28">
             {featuredProjects.map((project, i) => (
@@ -624,11 +624,10 @@ export default function Home() {
             <Reveal className="lg:col-span-2">
               <div className="h-full rounded-xl border border-border bg-card p-8 shadow-card">
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  I work with Horizon Motorsports in F1 in Schools / STEM Racing
-                  as Sponsorship Manager, alongside the engineering and
-                  competition work. It's a different kind of building:
-                  constraints are physical, deadlines are real, and the whole
-                  team has to move together.
+                  I take part in F1 in Schools / STEM Racing, where the work runs
+                  through engineering, design, teamwork, racing, and competition.
+                  It's a different kind of building: constraints are physical,
+                  deadlines are real, and the whole team has to move together.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {[
@@ -653,8 +652,8 @@ export default function Home() {
                     Horizon Motorsports
                   </h3>
                   <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                    A UAE-based STEM Racing team competing in FLL, Techfest and
-                    engineering competitions. My role: Sponsorship Manager.
+                    A UAE-based racing team competing in FLL, Techfest, and
+                    engineering competitions.
                   </p>
                 </div>
                 <Button asChild variant="outline" className="mt-6 font-mono">

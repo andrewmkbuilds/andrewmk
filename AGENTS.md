@@ -53,9 +53,9 @@ Quirks worth knowing:
   `search_path=auth` (created in `00-roles.sql`).
 - **Keys are local-only.** `docker/base44/jwt.mjs` mints `anon`/`service_role` JWTs at `web`
   start from the dev JWT secret in the compose file. No real Supabase project is contacted.
-- **`supabase/apply_all.sql` runs once per DB volume.** It is idempotent for the schema, but its
-  `blog_posts` seed rows are plain `INSERT`s, so the job skips if `public.blog_posts` already
-  exists. Use `down -v` to re-seed.
+- **`supabase/apply_all.sql` runs once per DB volume.** It is idempotent for the schema and seeds
+  no blog posts: the authoritative source site publishes `/blog` as "No posts yet", so posts exist
+  only when an admin writes one in `/admin/blog`. Use `down -v` to re-apply the schema.
 - **No Storage API runs here.** `docker/base44/db/prelude.sql` creates a stub `storage` schema
   (`buckets`, `objects`) so the four `storage.objects` admin policies in `apply_all.sql` apply
   instead of erroring; nothing reads or writes those tables. Media uploads (`/admin/media`) still
@@ -147,18 +147,40 @@ into the blue-and-gold palette. Colours are never taken from the reference.
 - Paper/ink utilities live at the end of `src/styles.css`: `.paper`, `.tape`,
   `.sticker`, `.note-hand`, `.mark-underline`, `.case-media`, `.marquee*`.
 
+## Content source of truth
+
+`https://andrewmk.is-a.dev` is the only authoritative source for anything about Andrew — identity,
+bio, projects, achievements, certificates, skills, dates and links. `src/data/portfolio.ts`,
+`src/data/certificates.ts` and `src/data/seo.ts` mirror it; nothing is added from memory, other
+sites, GitHub, social media or inference.
+
+- When the source contradicts the repo, the source wins. Content the source does not publish
+  (a project, award, role, skill list or blog post) is removed rather than kept.
+- The 19 project slugs are exactly the source's `/projects/<slug>` routes; the four featured ones
+  are Gradr, Stack Up, TerraCart and ClientFlow OS, the other 15 form the ecosystem grid.
+- Certificates are the source's 34 gallery entries with the same titles, issuers, dates, categories
+  and file names.
+- `/blog` publishes nothing unless an admin writes a post — the source shows "No posts yet".
+- Different source pages word the identity line differently (home `<h1>`, About "Identity",
+  profile header, résumé subtitle, Person JSON-LD), so each place keeps its own exact wording from
+  the source rather than deriving all of them from `PROFILE_TITLE`.
+- To re-audit after a source change: pull the source `sitemap.xml`, fetch each route, strip the
+  tags, and check that every sentence of the source appears on the matching local route — and that
+  no project, award or role appears locally that the source does not publish.
+
 ## Résumé, print and positioning copy
 
 - `/resume` renders only data the rest of the site already publishes: `timeline`, `allProjects`,
-  `competitionResults`, `munResults`, `skillGroups` (the `/skills` taxonomy) and the
-  course/programme subset of `certificates` (category `Certifications` or `Academic`). Competition
-  awards appear once, under "Competitions" — their certificates are deliberately not repeated in
-  the credentials list, so the two blocks never disagree.
+  `competitionResults`, `munResults`, `skillGroups` (the `/skills` taxonomy) and every entry in
+  `certificatesByRecency` — the same full certificate list the source résumé prints. Competition
+  results and their certificates both appear, exactly as on the source.
 - `src/styles.css` ends with a `@media print` block (light tokens, no header/footer/decorative
   layers, no shadows, no break inside a section) that backs the masthead's "Print / Save as PDF"
   button. Page-specific print rules belong there, not in components.
-- The one-line positioning copy is `PROFILE_TITLE` in `src/data/portfolio.ts`. The résumé,
-  `/profile`, the footer, the home `<h1>` and the Person JSON-LD all read it. Page `<title>`s in
+- The one-line positioning copy is `PROFILE_TITLE` in `src/data/portfolio.ts`; the résumé, the
+  footer and `/skills` read it, and `PROFILE_IDENTITY` holds the verbatim About/JSON-LD identity
+  line. The home `<h1>`, `/profile` and the Person JSON-LD each use the exact wording the source
+  site uses in that same place, so they are written out where they differ. Page `<title>`s in
   `src/data/seo.ts` are separate SEO strings and are intentionally not derived from it.
 - `body { overflow-x: hidden }` makes `documentElement` the scroll container. Automation that
   uses `window.scrollTo` can appear not to move the page; set

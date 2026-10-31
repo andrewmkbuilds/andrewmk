@@ -4,7 +4,6 @@ import { Link } from "@/lib/router-compat";
 import { MapPin, ExternalLink, Award, GraduationCap, Wrench, Globe } from "lucide-react";
 import logoUrl from "@/assets/andrewbuilds-logo.png";
 import {
-  PROFILE_TITLE,
   allProjects,
   buildingCategories,
   competitionResults,
@@ -68,7 +67,9 @@ export default function Profile() {
                     <h1 className="headline-3d text-3xl font-bold text-foreground md:text-4xl">
                       Andrew Mathews
                     </h1>
-                    <p className="mt-1.5 text-primary">{PROFILE_TITLE}</p>
+                    <p className="mt-1.5 text-primary">
+                      Student Developer · AI Builder · Robotics &amp; Systems
+                    </p>
                     <p className="mt-2 flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
                       <MapPin className="size-3.5 text-gold" />
                       Dubai, United Arab Emirates
