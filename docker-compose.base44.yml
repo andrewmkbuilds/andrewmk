@@ -144,6 +144,11 @@ services:
       - .:/app
     ports:
       - "3000:3000"
+    # Platform-managed secrets (last entry, so a dashboard value always wins).
+    # `VITE_LOGO_DEV_TOKEN` arrives here and Vite exposes it at dev-server
+    # start; without it BrandLogo stays on the vendored marks.
+    env_file:
+      - /run/base44/app.env
     environment:
       # Browser-reachable API origin: the preview proxy forwards this public host.
       SUPABASE_URL: "https://8000-${BASE44_PUBLIC_HOST_SUFFIX}"

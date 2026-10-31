@@ -15,7 +15,6 @@ import {
   Wrench,
   type LucideIcon,
 } from "lucide-react";
-import { brandFor } from "@/data/brands";
 import { cn } from "@/lib/utils";
 import { Badge } from "./badge";
 import { BrandLogo } from "./BrandLogo";
@@ -43,11 +42,12 @@ export function TechBadge({ name, className, size }: BaseProps & { name: string 
   const Icon = techIcon(name);
   return (
     <Badge tone="tech" size={size} className={className}>
-      {brandFor(name) ? (
-        <BrandLogo name={name} size={size === "sm" ? "xs" : "sm"} className="badge-brand" />
-      ) : (
-        <Glyph icon={Icon} />
-      )}
+      <BrandLogo
+        name={name}
+        size={size === "sm" ? "xs" : "sm"}
+        className="badge-brand"
+        fallback={<Glyph icon={Icon} />}
+      />
       <span className="badge-label">{name}</span>
     </Badge>
   );
@@ -118,11 +118,12 @@ export function SkillBadge({
 }: BaseProps & { label: string; icon?: LucideIcon }) {
   return (
     <Badge tone="skill" size={size} className={className}>
-      {brandFor(label) ? (
-        <BrandLogo name={label} size={size === "sm" ? "xs" : "sm"} className="badge-brand" />
-      ) : (
-        <Glyph icon={Icon} />
-      )}
+      <BrandLogo
+        name={label}
+        size={size === "sm" ? "xs" : "sm"}
+        className="badge-brand"
+        fallback={<Glyph icon={Icon} />}
+      />
       <span className="badge-label">{label}</span>
     </Badge>
   );

@@ -1353,6 +1353,20 @@
     animation-play-state: paused;
   }
 
+  /* Every chip leads with the tool's own mark — or a gold dot when the brand
+     has no logo — in the same fixed box, so chips stay optically aligned. */
+  .marquee-chip-mark {
+    display: inline-flex;
+    width: 12px;
+    height: 12px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .marquee-brand {
+    color: color-mix(in oklab, var(--gold) 70%, var(--foreground));
+  }
+
   @keyframes marquee-scroll {
     from {
       transform: translate3d(0, 0, 0);
@@ -2157,6 +2171,28 @@ html[data-cursor-out] .cursor-layer {
     color 0.3s ease;
 }
 
+/* A certificate with a real external credential page reads as verified even
+   before hover: a gold hairline and a quiet halo on the badge. */
+.certificate-verified-card {
+  border-color: color-mix(in oklab, var(--gold) 26%, transparent);
+}
+
+/* The checkmark arrives with the card's own reveal — CSS only, no JS timer. */
+@keyframes credential-check-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.reveal.is-revealed .certificate-verified-card .credential-check {
+  animation: credential-check-in 0.5s var(--ease-out-expo) 0.15s both;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .badge:hover .brand-mark {
     background-color: var(--gold);
@@ -2165,6 +2201,15 @@ html[data-cursor-out] .cursor-layer {
 
   .badge:hover .brand-mark-img {
     transform: scale(1.08);
+  }
+
+  .marquee li:hover .marquee-brand {
+    background-color: var(--gold);
+    transform: scale(1.15);
+  }
+
+  .certificate-verified-card:hover .credential-verified:not(:hover) {
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--gold) 9%, transparent);
   }
 
   .credential-verified:hover,
@@ -2230,6 +2275,10 @@ html[data-cursor-out] .cursor-layer {
   .credential-verified:hover,
   .credential-verified:focus-visible {
     transform: none;
+  }
+
+  .reveal.is-revealed .certificate-verified-card .credential-check {
+    animation: none;
   }
 }
 

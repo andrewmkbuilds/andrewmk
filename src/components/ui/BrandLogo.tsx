@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { brandFor, brandForIssuer, type Brand } from "@/data/brands";
 
@@ -14,12 +14,17 @@ import { brandFor, brandForIssuer, type Brand } from "@/data/brands";
  *    light and dark surfaces and costs no extra request.
  *
  * If the Logo.dev request fails (offline, quota, unknown domain) the component
- * falls straight back to the local mark; if the name has no official mark it
- * renders nothing and the caller keeps its icon fallback.
+ * falls straight back to the local mark, then to the caller's `fallback` (its
+ * Lucide glyph) when the brand has no vendored mark either. Nothing shifts,
+ * because the caller always reserves the same box.
  */
 
-const LOGO_DEV_TOKEN = import.meta.env["VITE_LOGO_DEV_TOKEN"] as
-  string | undefined;
+const LOGO_DEV_TOKEN = (
+  import.meta.env["VITE_LOGO_DEV_TOKEN"] as string | undefined
+)?.trim();
+
+/** True when Logo.dev can supply marks for brands with no vendored SVG. */
+export const logoDevEnabled = Boolean(LOGO_DEV_TOKEN);
 
 /** Logo.dev image URL — the pattern Logo.dev publishes for brand logos. */
 function logoDevUrl(domain: string, size = 64) {
@@ -47,6 +52,8 @@ interface BrandLogoProps {
   label?: string;
   /** Resolve the name as a certificate issuer ("FIRST LEGO League UAE …"). */
   issuer?: boolean;
+  /** Rendered when no logo source can serve this brand. */
+  fallback?: ReactNode;
 }
 
 export function BrandLogo({
@@ -55,16 +62,16 @@ export function BrandLogo({
   className,
   label,
   issuer,
+  fallback = null,
 }: BrandLogoProps) {
   const brand: Brand | undefined = issuer
     ? brandForIssuer(name)
     : brandFor(name);
   const [remoteFailed, setRemoteFailed] = useState(false);
-  if (!brand) return null;
-
   const px = SIZES[size];
+  if (!brand) return fallback;
 
-  if (LOGO_DEV_TOKEN && !remoteFailed) {
+  if (logoDevEnabled && !remoteFailed) {
     return (
       <img
         src={logoDevUrl(brand.domain, px * 3)}
@@ -81,6 +88,10 @@ export function BrandLogo({
       />
     );
   }
+
+  // No vendored mark and no (working) Logo.dev: let the caller keep its icon,
+  // so a brand never renders as an empty gap.
+  if (!brand.slug) return fallback;
 
   return (
     <span

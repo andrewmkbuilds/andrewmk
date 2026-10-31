@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { BrandLogo } from "./BrandLogo";
 
 interface TechMarqueeProps {
   items: string[];
@@ -63,10 +64,16 @@ export function TechMarquee({
           key={item}
           className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-4 py-2 font-mono text-[12px] whitespace-nowrap text-foreground/85 shadow-[var(--elev-1)] transition-colors duration-300 hover:border-gold/40 hover:text-foreground"
         >
-          <span
-            aria-hidden="true"
-            className="h-1.5 w-1.5 rounded-full bg-gold/70"
-          />
+          <span className="marquee-chip-mark" aria-hidden="true">
+            <BrandLogo
+              name={item}
+              size="xs"
+              className="marquee-brand"
+              fallback={
+                <span className="h-1.5 w-1.5 rounded-full bg-gold/70" />
+              }
+            />
+          </span>
           {item}
         </li>
       ))}

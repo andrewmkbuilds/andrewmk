@@ -14,8 +14,12 @@
  * Only brands that actually appear in the portfolio content belong here.
  */
 export interface Brand {
-  /** Filename (without extension) in `/public/brands`. */
-  slug: string;
+  /**
+   * Filename (without extension) in `/public/brands`, when an official
+   * monochrome mark is vendored. Brands without one still resolve their
+   * domain, so Logo.dev can supply the mark when it is configured.
+   */
+  slug?: string;
   /** Official domain, used for Logo.dev. */
   domain: string;
   /** Human-readable brand name, used for accessible labels and tooltips. */
@@ -101,6 +105,33 @@ const BRANDS: Record<string, Brand> = {
   datacamp: { slug: "datacamp", domain: "datacamp.com", label: "DataCamp" },
   first: { slug: "first", domain: "firstinspires.org", label: "FIRST" },
   linktree: { slug: "linktree", domain: "linktr.ee", label: "Linktree" },
+  pillow: { domain: "python-pillow.org", label: "Pillow" },
+  openexchange: {
+    domain: "openexchangerates.org",
+    label: "Open Exchange Rates",
+  },
+  // Languages and runtimes beyond the vendored set: Logo.dev supplies the
+  // mark when a token is configured, otherwise the Lucide glyph renders.
+  swift: { domain: "swift.org", label: "Swift" },
+  objectivec: { domain: "developer.apple.com", label: "Objective-C" },
+  kotlin: { domain: "kotlinlang.org", label: "Kotlin" },
+  java: { domain: "java.com", label: "Java" },
+  cplusplus: { domain: "isocpp.org", label: "C++" },
+  csharp: { domain: "dotnet.microsoft.com", label: "C#" },
+  rust: { domain: "rust-lang.org", label: "Rust" },
+  go: { domain: "go.dev", label: "Go" },
+  ruby: { domain: "ruby-lang.org", label: "Ruby" },
+  php: { domain: "php.net", label: "PHP" },
+  // Frameworks, tools and platforms.
+  vue: { domain: "vuejs.org", label: "Vue" },
+  nuxt: { domain: "nuxt.com", label: "Nuxt" },
+  express: { domain: "expressjs.com", label: "Express" },
+  reactnative: { domain: "reactnative.dev", label: "React Native" },
+  xcode: { domain: "developer.apple.com", label: "Xcode" },
+  postman: { domain: "postman.com", label: "Postman" },
+  openai: { domain: "openai.com", label: "OpenAI" },
+  base44: { domain: "base44.com", label: "Base44" },
+  lovable: { domain: "lovable.dev", label: "Lovable" },
 };
 
 /** Names as written in the portfolio content → brand key. */
@@ -148,6 +179,28 @@ const NAMES: Record<string, keyof typeof BRANDS> = {
   DataCamp: "datacamp",
   FIRST: "first",
   Linktree: "linktree",
+  Pillow: "pillow",
+  "Open Exchange Rate API": "openexchange",
+  Swift: "swift",
+  "Objective-C": "objectivec",
+  Kotlin: "kotlin",
+  Java: "java",
+  "C++": "cplusplus",
+  "C#": "csharp",
+  Rust: "rust",
+  Go: "go",
+  Ruby: "ruby",
+  PHP: "php",
+  Vue: "vue",
+  Nuxt: "nuxt",
+  Express: "express",
+  "React Native": "reactnative",
+  Xcode: "xcode",
+  Postman: "postman",
+  OpenAI: "openai",
+  "OpenAI API": "openai",
+  Base44: "base44",
+  Lovable: "lovable",
 };
 
 /** Brand for a name exactly as the content writes it, if one exists. */
