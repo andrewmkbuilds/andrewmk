@@ -21,7 +21,13 @@ export function Layout({ children }: LayoutProps) {
         Skip to content
       </a>
       <Header />
-      <main id="main" className="relative flex-1 pt-16">
+      {/* tabIndex -1 makes the skip link actually move focus into the page:
+          without it the browser only moves the scroll position. */}
+      <main
+        id="main"
+        tabIndex={-1}
+        className="relative flex-1 pt-16 focus:outline-none"
+      >
         <PageTransition>{children}</PageTransition>
       </main>
       <Footer />

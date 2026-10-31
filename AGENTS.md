@@ -113,9 +113,10 @@ docker run --rm -v "$PWD:/w" -w /w python:3.12-slim \
 The visual language is built around one physical space rather than flat panels:
 
 - `src/components/ui/AmbientLayers.tsx` mounts once in `Layout` (fixed, `-z-10`,
-  `aria-hidden`) and supplies the shared environment: atmospheric wash → drifting
-  aurora light → perspective floor → vignette. Sections with their own background sit
-  on top of it.
+  `aria-hidden`) and supplies the shared CSS-only environment: navy base → cold key
+  light → gold rim light → perspective floor → vignette → pointer light → grain.
+  Sections with their own background sit on top of it. There is **no canvas and no WebGL
+  layer** in the background any more (see "The ambient background" below).
 - `src/components/ui/Parallax.tsx` is the only scroll-parallax primitive (transform
   only, spring-smoothed). It is disabled under `prefers-reduced-motion` and halved
   below 768px.
@@ -157,30 +158,34 @@ into the blue-and-gold palette. Colours are never taken from the reference.
 - Paper/ink utilities live at the end of `src/styles.css`: `.paper`, `.tape`,
   `.sticker`, `.note-hand`, `.mark-underline`, `.case-media`, `.marquee*`.
 
-## React Bits and the depth field
+## The ambient background
 
-- `components.json` declares the React Bits registry (`@react-bits` →
-  `https://reactbits.dev/r/{name}.json`). Components are pulled from that registry and
-  vendored under `src/components/reactbits/` — do not hand-roll a CSS imitation of a
-  component the registry already ships.
-- `src/components/reactbits/Silk.tsx` is **Silk** (`Silk-TS-TW`), the site's dimensional
-  background: a WebGL2 shader of satin folds that tilts toward the pointer. It is vendored
-  verbatim and carries `@ts-nocheck` because it targets a looser tsconfig than this repo's;
-  restyle it from `DepthField`/`styles.css`, never by editing its shader.
-- `src/components/ui/DepthField.tsx` owns it: lazy chunk, mounted 400 ms after first paint,
-  never mounted under `prefers-reduced-motion` (the CSS depth system paints that case),
-  half the pixel ratio and no pointer interaction on touch. `AmbientLayers` renders it
-  between the atmospheric wash and the aurora, dimmed by `.depth-field` opacity so paper
-  surfaces keep their contrast. It is decoration: `pointer-events: none`, `aria-hidden`.
-  The field is taller than the viewport (`inset: -12% 0`) and creeps up with the page
-  through the shared `subscribeScroll` subscription — transform only, clamped to 72 px,
-  so it never adds a scroll listener or triggers layout.
-- `src/components/reactbits/Particles.tsx` is **Particles** (`Particles-TS-TW`), vendored
-  the same way, and `src/components/ui/ParticleField.tsx` owns it: sparse drifting motes
-  with depth of field and a pointer parallax — the foreground dust of the environment.
-  It mounts 900 ms after first paint, never under `prefers-reduced-motion`, and on touch
-  gets 70 motes, half the pixel ratio and no rotation. `AmbientLayers` renders it *after*
-  the vignette so the motes read in front of the folds rather than being dimmed with them.
+The background is **CSS only**. It was rebuilt on 2026-10-31 after the owner asked for the React
+Bits Silk shader to be removed; the same pass removed the Particles canvas as well, so the page
+mounts **zero canvases** behind the content.
+
+- `src/components/ui/AmbientLayers.tsx` composes, back to front: `.ambient-base` (navy gradient
+  with a cold top light) → `.ambient-key` (one wide blue key light, 56 s drift) → `.ambient-rim`
+  (restrained gold rim light, 74 s drift) → `.depth-floor` (perspective horizon) →
+  `.ambient-vignette` (seats the content) → `PointerLight` → `.ambient-grain` (SVG turbulence,
+  0.03 opacity).
+- Every layer is a radial or linear gradient painted on its own compositor layer: no canvas, no
+  `backdrop-filter`, no `filter: blur()`. The drift animates `transform`/`opacity` only, so it
+  costs one compositor frame per layer and nothing on the main thread.
+- Mobile (`max-width: 767px`) keeps the base, key and rim at lower opacity, stops the key drift
+  and drops the rim's animation; `prefers-reduced-motion` stops both drifts entirely.
+- **Do not reintroduce a WebGL background without testing the sandbox preview.** Both vendored
+  React Bits shaders (Silk, Particles) create a WebGL2 context whose cleanup calls
+  `WEBGL_lose_context.loseContext()`; when the context is lost, headless Chrome composites the
+  canvas as an opaque light plate and the whole page washes out (measured: mean luminance 110
+  against 34 for the CSS background). A lost canvas is also what produced the "washed out"
+  screenshots that were reported as a design problem. If a canvas layer is ever wanted again,
+  check `canvas.getContext("webgl2").isContextLost()` in the preview before shipping it.
+- The React Bits registry stays declared in `components.json` (`@react-bits`, no API key), and
+  `src/components/reactbits/` is its vendoring location — it is empty until someone installs a
+  component there again. 21st.dev cannot be installed from here; see
+  `docs/21ST_DEV_INTEGRATION.md` for what was verified and the exact command that works once an
+  `API_KEY_21ST` exists.
 - The marquee brand marks come from Logo.dev when a token is configured (`theme=dark`, so
   GitHub/X/Next/Vercel arrive light-on-dark instead of near-black), and fall back to the
   vendored `currentColor` masks. Every brand the ribbon names has an official mark now:
@@ -307,6 +312,33 @@ docker compose -f docker-compose.base44.yml logs web --tail 30           # build
 
 Known non-blocking noise: TanStack warns that `inputValidator()` is deprecated.
 
+## Keyboard and reduced-motion checks
+
+`scripts/a11y-keyboard-motion.cjs` is the keyboard + reduced-motion regression run. It drives a
+real headless Chromium (the puppeteer image ships one; the sandbox host has no browser):
+
+```sh
+docker run --rm --user root --network host -v "$PWD:/repo" -w /repo \
+  -e NODE_PATH=/home/pptruser/node_modules \
+  -e PUPPETEER_CACHE_DIR=/home/pptruser/.cache/puppeteer \
+  ghcr.io/puppeteer/puppeteer:23.11.1 \
+  node scripts/a11y-keyboard-motion.cjs http://localhost:3000
+```
+
+- `--user root` is required only because the sandbox checkout is root-owned; the image's default
+  user cannot read the mount. `PUPPETEER_CACHE_DIR` points at the Chromium the image baked in.
+- The script is CommonJS on purpose: ESM ignores `NODE_PATH` and puppeteer lives in the image's
+  global `node_modules`.
+- Per route (`/`, `/work`, `/resume`, `/achievements`, `/contact`) it asserts: the skip link is the
+  first Tab stop **and Enter moves focus into `<main>`** (that needs `tabIndex={-1}` on `<main>`),
+  every Tab stop is visible with a focus ring, Shift+Tab walks back, `Space`/`Enter` toggle a
+  visible `aria-expanded` control, the mobile menu opens with `Space` and closes with `Escape`,
+  and under `prefers-reduced-motion: reduce` no canvas mounts, no animation runs, reveal wrappers
+  are visible, keyboard traversal still works and **every visible text line still renders**.
+- The text-parity check compares unique visible lines in `<main>` while ignoring `aria-hidden`
+  decoration. It is what caught the marquee's reduced-motion chip cap (`nth-child(n + 16)`
+  display:none) hiding tools; do not cap the static ribbon again.
+
 Hydration: motion's `useReducedMotion()` resolves to `null` on the server, so any component that
 branches on it while rendering (structure, inline styles, classNames) sent markup the client could
 not match. `src/hooks/use-hydrated-reduced-motion.ts` returns `false` until mount; use it instead of
@@ -337,13 +369,12 @@ follows and the reasons behind them:
   values (no React state per pointer move), `touch-action: pan-y` leaves vertical scrolling to the
   page, and the `.paper` surface has no CSS transform transition — that transition used to smooth
   (lag) every drag frame.
-- **The WebGL fields are optional.** Silk and Particles each ship as their own lazy chunks
-  (`.output/public/assets/Silk-*.js`, `Particles-*.js`), are mounted only after the first paint
-  (400 ms / 900 ms), stop their own loops when the tab is hidden or the canvas is off-screen, and
-  are never mounted under reduced motion or on a print. Both add their own passive pointer
-  listeners inside the vendored components — they are the only extra listeners in the app; every
-  app surface still shares `src/lib/pointer.ts`. Keep both layers sparse: they are decoration, and
-  the page must stay cheap to scroll.
+- **The background is gradients, not a canvas.** The ambient room is painted with radial gradients
+  on compositor layers (`.ambient-base`, `.ambient-key`, `.ambient-rim`, `.ambient-vignette`) plus
+  an SVG-turbulence grain overlay. Nothing in the background runs JavaScript, allocates a WebGL
+  context, or listens to the pointer (the single pointer light uses the shared
+  `src/lib/pointer.ts` subscription). Keep it that way — a shader background was measured at ~3×
+  the paint cost here and its lost-context fallback washed the page out.
 - **Parallax never runs on phones** (below 768px) and stops entirely under reduced motion.
 - **Below-the-fold bundles are split.** The home contact form is `React.lazy`; TanStack splits each
   route file into its own chunk automatically (verified in `vite build` output).

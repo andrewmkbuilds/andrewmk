@@ -965,23 +965,23 @@
   );
 }
 
-@keyframes aurora-drift {
+@keyframes ambient-drift {
   0%,
   100% {
     transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    transform: translate3d(3%, -4%, 0) scale(1.12);
+    transform: translate3d(-3%, 2%, 0) scale(1.07);
   }
 }
 
-@keyframes aurora-drift-alt {
+@keyframes ambient-drift-rim {
   0%,
   100% {
-    transform: translate3d(0, 0, 0) scale(1.06);
+    transform: translate3d(0, 0, 0) scale(1.04);
   }
   50% {
-    transform: translate3d(-5%, 3%, 0) scale(0.94);
+    transform: translate3d(4%, -3%, 0) scale(0.97);
   }
 }
 
@@ -1046,65 +1046,70 @@
       0 0 34px color-mix(in oklab, var(--gold) 16%, transparent);
   }
 
-  /* The WebGL silk field (React Bits). It sits a layer below the aurora and is
-     dimmed hard, so it supplies dimension without stealing contrast from the
-     paper surfaces. Never interactive: the canvas is decoration only. */
-  .depth-field {
-    position: absolute;
-    /* Taller than the viewport so the scroll drift (≤ 72 px) never exposes an edge. */
-    inset: -12% 0;
-    opacity: 0.7;
-    pointer-events: none;
-  }
-
-  /* React Bits particles — the foreground motes of the depth environment.
-     Decoration only: they never take a pointer event away from the page. */
-  .particle-field {
+  /* ── The ambient room ──────────────────────────────────────────────────
+     A CSS-only environment: a navy base, one cold key light from above, a
+     restrained gold rim, a horizon floor and a vignette. Every layer is a
+     radial gradient painted on its own compositor layer — no canvas and no
+     blur filter — so the drift costs a single transform per layer. */
+  .ambient-base {
     position: absolute;
     inset: 0;
-    opacity: 0.6;
     pointer-events: none;
+    background:
+      radial-gradient(150% 95% at 50% -26%, hsl(206 58% 21% / 0.85), transparent 62%),
+      linear-gradient(
+        180deg,
+        hsl(216 46% 9%) 0%,
+        hsl(219 44% 6%) 58%,
+        hsl(222 46% 4%) 100%
+      );
   }
 
-  /* Ambient aurora light — the midground of the depth environment. */
-  /* Soft light fields. The gradient itself is the soft edge — no blur filter,
-     so the drift animates a single composited layer instead of re-blurring a
-     full-screen element every frame. */
-  .aurora {
+  /* Key light: the room's single light source. Wide, slow and low-alpha, so
+     it lights the space without becoming a visible glow. */
+  .ambient-key {
     position: absolute;
-    border-radius: 999px;
-    opacity: 0.5;
+    top: -38%;
+    left: -18%;
+    width: 118vw;
+    height: 104vh;
     pointer-events: none;
-    animation: aurora-drift 30s var(--ease-out-expo) infinite;
     background: radial-gradient(
       closest-side,
-      color-mix(in oklab, var(--primary) 22%, transparent),
-      color-mix(in oklab, var(--primary) 9%, transparent) 55%,
+      hsl(204 78% 46% / 0.2),
+      hsl(206 68% 40% / 0.08) 56%,
       transparent 100%
     );
+    animation: ambient-drift 56s var(--ease-out-expo) infinite;
   }
 
-  .aurora-1 {
-    top: -24%;
-    left: -12%;
-    width: 62vw;
-    height: 56vh;
-  }
-
-  .aurora-2 {
-    top: 2%;
-    right: -18%;
-    width: 52vw;
-    height: 52vh;
-    opacity: 0.34;
+  /* Rim light: the gold bounce that keeps the blue from reading flat. */
+  .ambient-rim {
+    position: absolute;
+    top: -16%;
+    right: -22%;
+    width: 64vw;
+    height: 66vh;
+    pointer-events: none;
     background: radial-gradient(
       closest-side,
-      color-mix(in oklab, var(--gold) 18%, transparent),
-      color-mix(in oklab, var(--gold) 7%, transparent) 52%,
+      hsl(42 62% 72% / 0.15),
+      hsl(40 58% 60% / 0.055) 54%,
       transparent 100%
     );
-    animation-name: aurora-drift-alt;
-    animation-duration: 38s;
+    animation: ambient-drift-rim 74s var(--ease-out-expo) infinite;
+  }
+
+  /* Vignette: seats the content inside the room instead of on top of it. */
+  .ambient-vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 96% 76% at 50% 30%,
+      transparent 46%,
+      hsl(220 50% 3% / 0.88) 100%
+    );
   }
 
   /* Perspective floor — the deepest layer, giving the page a horizon. */
@@ -1165,12 +1170,12 @@
 
   /* Mobile: lighter environment — no drifting light at all, softer floor. */
   @media (max-width: 767px) {
-    .aurora {
+    .ambient-key {
       animation: none;
-      opacity: 0.4;
+      opacity: 0.6;
     }
-    .aurora-2 {
-      display: none;
+    .ambient-rim {
+      opacity: 0.5;
     }
     .depth-floor {
       opacity: 0.1;
@@ -1178,7 +1183,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .aurora,
+    .ambient-key,
+    .ambient-rim,
     .scroll-cue,
     .float-soft {
       animation: none !important;
@@ -1463,16 +1469,14 @@
       width: 100%;
       animation: none !important;
     }
-    /* No loop, so the row becomes a static, centred set — capped at the first
-       fifteen chips so it stays a strip rather than a wall of pills. */
+    /* No loop, so the row becomes a static, centred set that wraps. Every
+       chip stays visible: truncating the list would hide tools from anyone
+       who asked for reduced motion. */
     .marquee-group {
       width: 100%;
       flex-wrap: wrap;
       justify-content: center;
       padding: 0 1rem;
-    }
-    .marquee-group > li:nth-child(n + 16) {
-      display: none;
     }
     .marquee-track-copy {
       display: none;
