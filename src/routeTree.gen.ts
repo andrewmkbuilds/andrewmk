@@ -31,6 +31,8 @@ import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated/admin.messages'
 import { Route as AuthenticatedAdminProjectsRouteImport } from './routes/_authenticated/admin.projects'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
+import { Route as ApiCvDocxRouteImport } from './routes/api/cv.docx'
+import { Route as ApiCvPdfRouteImport } from './routes/api/cv.pdf'
 import { Route as AuthenticatedAdminSettingsSecurityRouteImport } from './routes/_authenticated/admin.settings.security'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
 
@@ -146,6 +148,16 @@ const AuthenticatedAdminSettingsRoute =
     path: '/admin/settings',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiCvDocxRoute = ApiCvDocxRouteImport.update({
+  id: '/api/cv/docx',
+  path: '/api/cv/docx',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCvPdfRoute = ApiCvPdfRouteImport.update({
+  id: '/api/cv/pdf',
+  path: '/api/cv/pdf',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminSettingsSecurityRoute =
   AuthenticatedAdminSettingsSecurityRouteImport.update({
     id: '/security',
@@ -179,6 +191,8 @@ export interface FileRoutesByFullPath {
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/projects': typeof AuthenticatedAdminProjectsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRouteWithChildren
+  '/api/cv/docx': typeof ApiCvDocxRoute
+  '/api/cv/pdf': typeof ApiCvPdfRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/settings/security': typeof AuthenticatedAdminSettingsSecurityRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -204,6 +218,8 @@ export interface FileRoutesByTo {
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/projects': typeof AuthenticatedAdminProjectsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRouteWithChildren
+  '/api/cv/docx': typeof ApiCvDocxRoute
+  '/api/cv/pdf': typeof ApiCvPdfRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/settings/security': typeof AuthenticatedAdminSettingsSecurityRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -231,6 +247,8 @@ export interface FileRoutesById {
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/_authenticated/admin/projects': typeof AuthenticatedAdminProjectsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRouteWithChildren
+  '/api/cv/docx': typeof ApiCvDocxRoute
+  '/api/cv/pdf': typeof ApiCvPdfRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/settings/security': typeof AuthenticatedAdminSettingsSecurityRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -258,6 +276,8 @@ export interface FileRouteTypes {
     | '/admin/messages'
     | '/admin/projects'
     | '/admin/settings'
+    | '/api/cv/docx'
+    | '/api/cv/pdf'
     | '/admin/'
     | '/admin/settings/security'
     | '/api/public/media/$'
@@ -283,6 +303,8 @@ export interface FileRouteTypes {
     | '/admin/messages'
     | '/admin/projects'
     | '/admin/settings'
+    | '/api/cv/docx'
+    | '/api/cv/pdf'
     | '/admin'
     | '/admin/settings/security'
     | '/api/public/media/$'
@@ -309,6 +331,8 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/messages'
     | '/_authenticated/admin/projects'
     | '/_authenticated/admin/settings'
+    | '/api/cv/docx'
+    | '/api/cv/pdf'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/settings/security'
     | '/api/public/media/$'
@@ -331,6 +355,8 @@ export interface RootRouteChildren {
   ProjectsSlugRoute: typeof ProjectsSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
+  ApiCvDocxRoute: typeof ApiCvDocxRoute
+  ApiCvPdfRoute: typeof ApiCvPdfRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
@@ -490,6 +516,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/cv/docx': {
+      id: '/api/cv/docx'
+      path: '/api/cv/docx'
+      fullPath: '/api/cv/docx'
+      preLoaderRoute: typeof ApiCvDocxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/cv/pdf': {
+      id: '/api/cv/pdf'
+      path: '/api/cv/pdf'
+      fullPath: '/api/cv/pdf'
+      preLoaderRoute: typeof ApiCvPdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin/settings/security': {
       id: '/_authenticated/admin/settings/security'
       path: '/security'
@@ -560,6 +600,8 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsSlugRoute: ProjectsSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
+  ApiCvDocxRoute: ApiCvDocxRoute,
+  ApiCvPdfRoute: ApiCvPdfRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
