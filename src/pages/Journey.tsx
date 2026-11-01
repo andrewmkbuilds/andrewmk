@@ -2,6 +2,7 @@ import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StackingCards } from "@/components/ui/StackingCards";
+import { PortfolioRail } from "@/components/ui/PortfolioRail";
 import { SkillBadge } from "@/components/ui/Badges";
 import { timeline } from "@/data/portfolio";
 import type { StackingCardItem } from "@/components/ui/StackingCards";
@@ -69,6 +70,19 @@ export default function Journey() {
               items={chapters}
               ariaLabel="Timeline of milestones"
             />
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="container">
+          <SectionHeading
+            label="Disciplines"
+            title="Four Ways I *Build*"
+            subtitle="The same instinct applied across four disciplines. Scroll the rail and each step lights up as the bead reaches it."
+          />
+          <div className="mt-10">
+            <PortfolioRail />
           </div>
         </div>
       </section>

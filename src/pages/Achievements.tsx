@@ -6,6 +6,12 @@ import { AchievementCard } from "@/components/ui/AchievementCard";
 import { AchievementBadge } from "@/components/ui/Badges";
 import { CertificateGallery } from "@/components/ui/CertificateGallery";
 import { CertificateViewer } from "@/components/ui/CertificateViewer";
+import { PackAccordion } from "@/components/ui/PackAccordion";
+import { CertificateScale } from "@/components/ui/CertificateScale";
+import SplitFlapBoard from "@/components/annnimate/split-flap-board";
+import ImageFlyIn from "@/components/annnimate/image-fly-in";
+import ElasticDivider from "@/components/annnimate/elastic-divider";
+import TextReveal from "@/components/annnimate/text-reveal";
 import { certificates, type Certificate } from "@/data/certificates";
 import {
   achievementGroups,
@@ -24,6 +30,23 @@ const certById = (id?: string): Certificate | undefined =>
 export default function Achievements() {
   const [proof, setProof] = useState<Certificate | null>(null);
 
+  /** The record, as a split-flap board: event / placing / discipline. */
+  const flapSets = competitionResults
+    .slice(0, 5)
+    .map((result) => [
+      result.event ?? "Techfest",
+      result.place,
+      result.detail ?? "Result",
+    ]);
+
+  /** Real certificate previews for the fly-in field. */
+  const flyInImages = certificates.slice(0, 10).map((cert, i) => ({
+    src: cert.thumb,
+    alt: cert.title,
+    aspect: ["portrait_md", "portrait_sm", "square_sm", "portrait_lg"][i % 4],
+    hideMobile: i > 5,
+  }));
+
   return (
     <Layout>
       <section className="py-20 md:py-28">
@@ -38,10 +61,17 @@ export default function Achievements() {
                 Results
               </em>
             </h1>
-            <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-              STEM, engineering, robotics, and MUN — the places where the work
-              gets tested against other people's work.
-            </p>
+            <TextReveal
+              className="anm-reveal mt-4 text-lg text-muted-foreground leading-relaxed"
+              type="words"
+              start="top 88%"
+              stagger={0.022}
+              duration={0.65}
+            >
+              STEM, engineering, robotics, and MUN —{" "}
+              <strong>the places where the work gets tested</strong> against
+              other people's work.
+            </TextReveal>
           </Reveal>
 
           {achievementGroups.map((group) => (
@@ -56,6 +86,45 @@ export default function Achievements() {
               </div>
             </Reveal>
           ))}
+        </div>
+      </section>
+
+      <div className="container" aria-hidden="true">
+        <ElasticDivider
+          className="anm-divider"
+          color="hsl(41 58% 60%)"
+          weight={1.2}
+        />
+      </div>
+
+      {/* The archive on a rail: real certificate previews, draggable. */}
+      <section className="py-16 md:py-20" aria-label="Certificate archive">
+        <div className="container">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">
+              The archive
+            </p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+              Drag or throw the rail · {certificates.length} originals
+            </p>
+          </div>
+          <div className="mt-6">
+            <CertificateScale />
+          </div>
+        </div>
+      </section>
+
+      {/* The record, as a mechanical split-flap board. */}
+      <section className="border-t border-border py-20 md:py-24">
+        <div className="container">
+          <SectionHeading
+            label="The record"
+            title="Results, *Flapped* Into Place"
+            subtitle="Tap the board, use the arrows, or press the left and right arrow keys."
+          />
+          <div className="mt-8 overflow-x-auto pb-2">
+            <SplitFlapBoard className="anm-flap" sets={flapSets} />
+          </div>
         </div>
       </section>
 
@@ -160,14 +229,15 @@ export default function Achievements() {
             title="Certifications & Learning"
             subtitle="Course and programme completions, listed as exactly that — learning milestones rather than professional accreditation."
           />
-          <div className="grid gap-5 md:grid-cols-3">
-            {certificationGroups.map((group, i) => (
-              <Reveal key={group.title} delay={i * 60} className="h-full">
-                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card">
-                  <h3 className="text-sm font-mono uppercase tracking-[0.16em] text-primary">
-                    {group.title}
-                  </h3>
-                  <ul className="mt-4 grid list-none gap-3 p-0">
+          <div className="mt-8 max-w-3xl">
+            <PackAccordion
+              allowMultiple
+              items={certificationGroups.map((group) => ({
+                id: group.title,
+                title: group.title,
+                stagger: true,
+                body: (
+                  <ul className="grid list-none gap-3 p-0">
                     {group.items.map((item) => (
                       <li key={item.name}>
                         <p className="text-sm font-medium text-foreground">
@@ -179,9 +249,9 @@ export default function Achievements() {
                       </li>
                     ))}
                   </ul>
-                </div>
-              </Reveal>
-            ))}
+                ),
+              }))}
+            />
           </div>
           <p className="mt-8 font-mono text-xs text-muted-foreground">
             <span className="text-primary">//</span> Original certificates are
@@ -223,6 +293,27 @@ export default function Achievements() {
                 </div>
               </Reveal>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Proof, as a depth field: real certificate previews fly in from deep
+          inside the section around a clear reading zone. */}
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="container">
+          <SectionHeading
+            label="Proof"
+            title="Proof, Not *Promises*"
+            subtitle="The originals behind the claims — every certificate below was issued by the organisation that awarded it."
+          />
+          <div className="mt-10">
+            <ImageFlyIn
+              className="anm-fly"
+              headline="Proof, not promises."
+              support="Every result on this page points back to a certificate issued by the organisation that awarded it."
+              images={flyInImages}
+              duration={14}
+            />
           </div>
         </div>
       </section>

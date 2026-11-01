@@ -8,7 +8,16 @@ import tseslint from "typescript-eslint";
 export default tseslint.config(
   // Vendored third-party components (React Bits registry) are kept byte-for-byte
   // as published, so they are not linted or reformatted by this repo.
-  { ignores: ["dist", ".output", ".vinxi", "src/components/reactbits/**"] },
+  {
+    ignores: [
+      "dist",
+      ".output",
+      ".vinxi",
+      "src/components/reactbits/**",
+      // Annnimate starter-pack sources, vendored byte-for-byte as JSX.
+      "src/components/annnimate/**",
+    ],
+  },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],

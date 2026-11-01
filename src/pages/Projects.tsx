@@ -5,6 +5,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { ProjectModal } from "@/components/ui/ProjectModal";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
+import { PortfolioCurtain } from "@/components/ui/PortfolioCurtain";
 import {
   ecosystemProjects,
   featuredProjects,
@@ -56,6 +57,16 @@ export default function Projects({
           </div>
 
           <h2 className="sr-only">Featured projects</h2>
+
+          {/* The flagships on a curtain rail: drag, use the arrows, or the
+              arrow keys. Each slide is a typographic plate built from the
+              project record — the portfolio publishes no screenshots. */}
+          <div className="mt-10">
+            <PortfolioCurtain />
+          </div>
+          <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+            Drag, swipe or use the arrows · the four flagship builds
+          </p>
 
           <div className="mt-12 grid gap-6 lg:grid-cols-2">
             {featured.map((project, i) => (

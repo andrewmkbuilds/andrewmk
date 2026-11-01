@@ -1,0 +1,582 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Annnimate starter pack — retuned to the AndrewBuilds palette.
+
+   The vendored components live in src/components/annnimate/ and keep their own
+   stylesheets. Everything here overrides their demo tokens (paper-white stages,
+   orange accents, Switzer type) with the site's navy/blue/gold system. Nothing
+   here invents markup: it only re-points the components at the tokens in
+   src/styles.css so they read as part of the room.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* ── Shared ───────────────────────────────────────────────────────────────── */
+
+.anm-reveal,
+.anm-scramble,
+.anm-words,
+.anm-divider,
+.anm-accordion {
+  font-family: var(--font-sans);
+}
+
+/* ── TextReveal ──────────────────────────────────────────────────────────── */
+
+.anm-reveal.text_reveal_wrap {
+  display: block;
+  gap: 0;
+}
+
+.anm-reveal .text_reveal_text {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  color: inherit;
+}
+
+.anm-reveal .text_reveal_text strong,
+.anm-reveal .text_reveal_text em {
+  font-weight: inherit;
+  color: var(--gold-glow);
+}
+
+/* ── DualScramble ────────────────────────────────────────────────────────── */
+
+.anm-scramble .dual-scramble-color-1 {
+  color: var(--gold-glow);
+}
+
+.anm-scramble .dual-scramble-color-2 {
+  color: inherit;
+}
+
+.anm-scramble [data-anm-dual-scramble] {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+}
+
+/* ── Accordion ───────────────────────────────────────────────────────────── */
+
+.anm-accordion .accordion_item {
+  border-bottom: 1px solid var(--border);
+}
+
+.anm-accordion .accordion_item:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.anm-accordion .accordion_trigger {
+  color: var(--muted-foreground);
+  padding: 1.1rem 0;
+}
+
+.anm-accordion .accordion_trigger:hover,
+.anm-accordion .accordion_trigger[aria-expanded="true"] {
+  color: var(--gold-glow);
+}
+
+.anm-accordion .accordion_trigger:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+.anm-accordion .accordion_title {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.anm-accordion .accordion_text {
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+  line-height: 1.65;
+  padding-bottom: 1.15rem;
+}
+
+/* ── RotatingWords ───────────────────────────────────────────────────────── */
+
+.anm-words.rw_wheel {
+  color: var(--gold-glow);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(2.4rem, 6.2vw, 5rem);
+  line-height: 1.05;
+}
+
+.anm-words .rw_item {
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.anm-words .rw_dot::before {
+  background: var(--gold);
+}
+
+.anm-words .rw_dot:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ── ElasticDivider ──────────────────────────────────────────────────────── */
+
+.anm-divider.eldv_divider {
+  height: 88px;
+}
+
+@media (max-width: 767px) {
+  .anm-divider.eldv_divider {
+    height: 64px;
+  }
+}
+
+/* ── CurtainSlider ───────────────────────────────────────────────────────── */
+
+.anm-curtain.cs_wrap {
+  --cs-bg: var(--card);
+  --cs-fg: var(--foreground);
+  --cs-fg-soft: hsl(210 26% 96% / 0.86);
+  --cs-fg-dim: hsl(212 20% 72% / 0.9);
+  --cs-line: hsl(214 30% 23% / 0.9);
+  --cs-line-on: var(--gold);
+  --cs-pill-bg: hsl(215 40% 8% / 0.55);
+  --cs-circle: hsl(210 26% 96% / 0.12);
+  --cs-circle-hover: hsl(210 26% 96% / 0.24);
+
+  height: clamp(360px, 56vh, 560px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+.anm-curtain .cs_title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  letter-spacing: -0.01em;
+}
+
+.anm-curtain .cs_label {
+  font-family: var(--font-mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-glow);
+}
+
+.anm-curtain .cs_index {
+  font-family: var(--font-mono);
+}
+
+.anm-curtain .cs_arrow:focus-visible {
+  outline: 2px solid var(--gold);
+}
+
+@media (max-width: 767px) {
+  .anm-curtain.cs_wrap {
+    height: 400px;
+    border-radius: 14px;
+  }
+}
+
+/* ── FeatureDialog ───────────────────────────────────────────────────────── */
+
+.anm-feature.fdg_stage {
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  display: block;
+}
+
+.anm-feature .fdg_tile {
+  width: 100%;
+  min-height: clamp(280px, 42vh, 420px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: var(--card);
+  color: var(--foreground);
+}
+
+/* The pack's aurora bands are court-orange. Re-light them in brand blue and
+   gold; the blur/position rules stay untouched. */
+.anm-feature .fdg_gradient {
+  background-image:
+    radial-gradient(22% 88% at 20% 100%, hsl(204 74% 52% / 0.5) 0%, transparent 100%),
+    radial-gradient(30% 52% at 36% 100%, hsl(41 58% 60% / 0.35) 0%, transparent 100%),
+    radial-gradient(24% 96% at 74% 100%, hsl(204 74% 52% / 0.45) 0%, transparent 100%),
+    radial-gradient(58% 44% at 10% 100%, hsl(204 74% 52% / 0.35) 0%, transparent 100%),
+    radial-gradient(40% 60% at 90% 100%, hsl(41 58% 60% / 0.4) 0%, transparent 100%),
+    radial-gradient(82% 78% at 50% 100%, hsl(217 58% 18% / 0.9) 0%, transparent 100%);
+}
+
+.anm-feature .fdg_tile_label {
+  color: var(--gold-glow);
+  font-family: var(--font-mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.anm-feature .fdg_tile_title {
+  color: var(--foreground);
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.anm-feature .fdg_toggle {
+  background-color: hsl(210 26% 96% / 0.08);
+  color: var(--foreground);
+}
+
+.anm-feature .fdg_toggle:hover {
+  background-color: hsl(210 26% 96% / 0.16);
+}
+
+.anm-feature .fdg_sheet {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-bottom: 0;
+}
+
+.anm-feature .fdg_sheet_title {
+  color: var(--foreground);
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.anm-feature .fdg_sheet_text,
+.anm-feature .fdg_list_item,
+.anm-feature .fdg_outro {
+  color: var(--muted-foreground);
+}
+
+.anm-feature .fdg_list_item::before {
+  background-color: var(--gold);
+}
+
+.anm-feature .fdg_stat_num {
+  color: var(--gold-glow);
+}
+
+.anm-feature .fdg_stat_label {
+  color: var(--muted-foreground);
+}
+
+.anm-feature .fdg_btn_primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.anm-feature .fdg_close {
+  background-color: hsl(210 26% 96% / 0.08);
+  color: var(--foreground);
+}
+
+.anm-feature .fdg_overlay {
+  background-color: hsl(221 62% 5% / 0);
+}
+
+.anm-feature .fdg_tile:focus-visible,
+.anm-feature .fdg_btn:focus-visible {
+  outline: 2px solid var(--gold);
+}
+
+/* ── MagneticTagCloud ────────────────────────────────────────────────────── */
+
+.anm-cloud.mtc_wrap {
+  min-height: 0;
+  background: transparent;
+  color: var(--foreground);
+  overflow: visible;
+}
+
+.anm-cloud .mtc_cloud {
+  min-height: 0;
+  padding: 1.5rem 0;
+}
+
+.anm-cloud .mtc_tag {
+  font-family: var(--font-sans);
+  font-size: calc(clamp(15px, 1.8vw, 24px) * var(--mtc-fit, 1));
+  background-color: var(--card);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  height: 2.1em;
+}
+
+.anm-cloud .mtc_tag--white,
+.anm-cloud .mtc_tag--stone {
+  background-color: var(--secondary);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+
+.anm-cloud .mtc_tag--ink,
+.anm-cloud .mtc_tag--dark {
+  background-color: var(--foreground);
+  color: var(--background);
+  border-color: transparent;
+}
+
+.anm-cloud .mtc_tag--signal {
+  background-color: var(--gold);
+  color: var(--gold-foreground);
+  border-color: transparent;
+}
+
+.anm-cloud .mtc_tag--cobalt {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-color: transparent;
+}
+
+.anm-cloud .mtc_tag:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ── ProcessRail ─────────────────────────────────────────────────────────── */
+
+.anm-rail.prl_wrap {
+  background: transparent;
+  color: var(--foreground);
+}
+
+.anm-rail .prl_path_ghost {
+  stroke: var(--border);
+}
+
+.anm-rail .prl_path {
+  stroke: var(--gold);
+}
+
+.anm-rail .prl_bead {
+  background: var(--gold);
+  box-shadow: 0 0 0 calc(var(--prl-bead, 10px) * 0.5) hsl(221 62% 5%);
+}
+
+.anm-rail .prl_step_btn {
+  color: inherit;
+}
+
+.anm-rail .prl_step_btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 6px;
+}
+
+.anm-rail .prl_step_title {
+  color: var(--foreground);
+}
+
+.anm-rail .prl_step_text {
+  color: var(--muted-foreground);
+}
+
+.anm-rail .prl_step_media {
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+/* ── ScaleSlider ─────────────────────────────────────────────────────────── */
+
+.anm-scale.scs_wrap {
+  height: clamp(300px, 46vh, 460px);
+  background-color: transparent;
+}
+
+.anm-scale .scs_card {
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+.anm-scale .scs_arrow:focus-visible {
+  outline: 2px solid var(--gold);
+}
+
+/* ── SplitFlapBoard ──────────────────────────────────────────────────────── */
+
+.anm-flap.sfb_wrap {
+  --sfb-bg: transparent;
+  --sfb-tile: var(--card);
+  --sfb-seam: var(--background);
+  --sfb-fg: var(--foreground);
+  --sfb-tile-edge: var(--border);
+  --sfb-pill-bg: var(--secondary);
+  --sfb-circle: hsl(210 26% 96% / 0.1);
+  --sfb-circle-on: hsl(210 26% 96% / 0.24);
+
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+.anm-flap .sfb_board:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 8px;
+}
+
+.anm-flap .sfb_pill {
+  border: 1px solid var(--border);
+}
+
+/* ── ImageFlyIn ──────────────────────────────────────────────────────────── */
+
+.anm-fly.ifi_section {
+  --ifi-bg: transparent;
+  --ifi-ink: var(--foreground);
+  --ifi-muted: var(--muted-foreground);
+
+  height: clamp(460px, 68vh, 680px);
+  min-height: 0;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.anm-fly .ifi_headline {
+  font-family: var(--font-serif);
+  font-style: italic;
+  letter-spacing: -0.01em;
+}
+
+/* ── MultiLevelDrawerMenu ────────────────────────────────────────────────── */
+
+.anm-drawer.mldm_wrap {
+  position: relative;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+  background: transparent;
+  color: var(--foreground);
+}
+
+.anm-drawer .mldm_page,
+.anm-drawer .mldm_logo {
+  display: none;
+}
+
+.anm-drawer .mldm_toggle {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.75rem 1.25rem;
+  min-height: 48px;
+  gap: 0.75rem;
+  background: var(--card);
+  color: var(--foreground);
+  z-index: 1;
+}
+
+.anm-drawer .mldm_toggle_label,
+.anm-drawer .mldm_toggle_line {
+  color: inherit;
+  background-color: currentColor;
+}
+
+.anm-drawer .mldm_overlay {
+  border-radius: 18px;
+}
+
+.anm-drawer .mldm_scrim {
+  border-radius: 18px;
+}
+
+/* The pack paints its panels paper-light and its ink near-black. Re-ink the
+   panels for the navy room; the toggle's colour is animated inline by GSAP,
+   so those two declarations must win with !important. */
+.anm-drawer .mldm_panel {
+  border: 1px solid var(--border);
+  color: var(--foreground);
+}
+
+.anm-drawer .mldm_primary_label,
+.anm-drawer .mldm_sublink_label,
+.anm-drawer .mldm_card_label,
+.anm-drawer .mldm_back,
+.anm-drawer .mldm_back_label {
+  color: var(--foreground) !important;
+}
+
+/* The pack renders sub-links as buttons; the site renders them as anchors so
+   the index is really navigable. Drop the browser's link underline and give
+   the hover state the site's gold instead of the pack's near-black. */
+.anm-drawer .mldm_sublink,
+.anm-drawer .mldm_card {
+  text-decoration: none;
+}
+
+.anm-drawer .mldm_primary:hover .mldm_primary_label,
+.anm-drawer .mldm_sublink:hover .mldm_sublink_label,
+.anm-drawer .mldm_card:hover .mldm_card_label {
+  color: var(--gold-glow) !important;
+}
+
+.anm-drawer .mldm_explore,
+.anm-drawer .mldm_footer_link,
+.anm-drawer .mldm_sub_explore {
+  color: var(--muted-foreground) !important;
+}
+
+.anm-drawer .mldm_explore:hover,
+.anm-drawer .mldm_footer_link:hover,
+.anm-drawer .mldm_sub_explore:hover {
+  color: var(--gold-glow) !important;
+}
+
+.anm-drawer .mldm_primary_dot,
+.anm-drawer .mldm_sublink_dot {
+  background-color: var(--gold);
+}
+
+.anm-drawer .mldm_card_media {
+  border: 1px solid var(--border);
+}
+
+.anm-drawer .mldm_toggle {
+  color: var(--foreground) !important;
+}
+
+.anm-drawer .mldm_toggle_label_close {
+  color: var(--gold-glow) !important;
+}
+
+/* ── ASCII overlay (custom, canvas-backed) ───────────────────────────────── */
+
+.ascii-plate {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: hsl(221 62% 4%);
+}
+
+.ascii-plate canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ascii-plate figcaption {
+  position: absolute;
+  inset: auto 1rem 0.85rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: hsl(210 26% 96% / 0.72);
+}
+
+/* ── Reduced motion: park the borrowed effects at rest ───────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .anm-curtain .cs_layer,
+  .anm-curtain .cs_title_char,
+  .anm-scramble .dual_scramble_layer {
+    animation: none !important;
+    transition: none !important;
+  }
+}

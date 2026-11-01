@@ -17,6 +17,11 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StatusDot } from "@/components/ui/StatusDot";
 import { ProjectShowcase } from "@/components/ui/project-showcase";
 import { EchoHeadline } from "@/components/ui/EchoHeadline";
+import DualScramble from "@/components/annnimate/dual-scramble";
+import ElasticDivider from "@/components/annnimate/elastic-divider";
+import TextReveal from "@/components/annnimate/text-reveal";
+import { FeatureSpotlight } from "@/components/ui/FeatureSpotlight";
+import { SkillCloud } from "@/components/ui/SkillCloud";
 import { TechTag } from "@/components/ui/TechTag";
 import { RoleBadge } from "@/components/ui/Badges";
 import {
@@ -83,7 +88,10 @@ export default function Home() {
       {/* Hero — three depth layers: atmosphere, structure, content */}
       <section className="relative overflow-hidden bg-hero-veil grain">
         <Parallax distance={36} ariaHidden className="absolute inset-0">
-          <div className="absolute inset-0 bg-grid opacity-45" aria-hidden="true" />
+          <div
+            className="absolute inset-0 bg-grid opacity-45"
+            aria-hidden="true"
+          />
         </Parallax>
         {/* A soft gradient instead of a blurred element: same light, no
             full-size filter repaint. */}
@@ -99,9 +107,16 @@ export default function Home() {
               <span aria-hidden="true" className="text-sm">
                 👋
               </span>
-              <span className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-gold-glow">
-                Andrew Mathews · Dubai, UAE
-              </span>
+              <DualScramble className="anm-scramble">
+                <span
+                  className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-gold-glow"
+                  data-anm-dual-scramble
+                  data-anm-trigger="load"
+                  data-anm-duration="0.9"
+                >
+                  Andrew Mathews · Dubai, UAE
+                </span>
+              </DualScramble>
               <StatusDot />
             </div>
 
@@ -263,6 +278,17 @@ export default function Home() {
         </div>
       </section>
 
+      {/* The string between the stats and the narrative: sweep the cursor
+          across it and the line rings. */}
+      <div className="container" aria-hidden="true">
+        <ElasticDivider
+          className="anm-divider"
+          color="hsl(41 58% 60%)"
+          weight={1.3}
+          frequency={2.4}
+        />
+      </div>
+
       {/* Idea → Prototype → Product — the builder narrative, stated once */}
       <section
         className="border-b border-border/70 py-14 md:py-16"
@@ -377,7 +403,15 @@ export default function Home() {
             title="Things I've *Built*"
             subtitle="Different problems. Different systems. One constant: build it."
           />
-          <div className="grid gap-20 md:gap-28">
+          {/* One flag build, opened in place. Not wrapped in Reveal: a
+              transformed ancestor would become the containing block for the
+              dialog's fixed overlay. */}
+          {featuredProjects[0] ? (
+            <div className="mt-10">
+              <FeatureSpotlight project={featuredProjects[0]} />
+            </div>
+          ) : null}
+          <div className="mt-16 grid gap-20 md:gap-28">
             {featuredProjects.map((project, i) => (
               <CaseStudyRow key={project.slug} project={project} index={i} />
             ))}
@@ -443,6 +477,11 @@ export default function Home() {
               </Tilt3D>
             </Reveal>
           </div>
+
+          {/* The full toolkit as a magnetic cloud: sweep the pointer through
+              it and the tags scatter, tilt and snap home. Each tag links to
+              the page where the capability is grouped. */}
+          <SkillCloud className="mt-10" />
         </div>
       </section>
 
@@ -575,13 +614,22 @@ export default function Home() {
               >
                 Based in Dubai, UAE
               </h2>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
+              <TextReveal
+                className="anm-reveal mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base"
+                type="words"
+                start="top 85%"
+                stagger={0.02}
+                duration={0.7}
+              >
                 I build from Dubai. The robotics work started here through a
                 school programme, and the software, AI and racing projects since
                 have all been built alongside UAE technology and STEM
-                competitions — FLL, Techfest and MUN among them. Most of what is
-                on this site was designed, built and tested in Dubai.
-              </p>
+                competitions — FLL, Techfest and MUN among them.{" "}
+                <strong className="text-foreground">
+                  Most of what is on this site was designed, built and tested in
+                  Dubai.
+                </strong>
+              </TextReveal>
             </div>
             <Reveal delay={80}>
               <ul className="grid list-none gap-3 p-0 sm:grid-cols-2">

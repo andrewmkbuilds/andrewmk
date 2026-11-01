@@ -5,6 +5,7 @@
 @import "./styles/scene-3d.css";
 @import "./styles/stacking-cards.css";
 @import "./styles/echo-headline.css";
+@import "./styles/annnimate-theme.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -2435,7 +2436,12 @@ html[data-cursor-out] .cursor-layer {
 .menu-stagger > *:nth-child(10) { animation-delay: 400ms; }
 
 .page-enter {
-  animation: page-in 0.5s var(--ease-out-expo) both;
+  /* `backwards`, not `both`: with a forwards fill the final keyframe's
+     identity `transform` stays on the element, and an element with any
+     transform becomes the containing block for `position: fixed`
+     descendants — which parked the in-page dialog ~11 000 px down the
+     document. The end state is opacity 1 / transform none anyway. */
+  animation: page-in 0.5s var(--ease-out-expo) backwards;
 }
 
 @keyframes page-in {

@@ -4,6 +4,7 @@ import { Link } from "@/lib/router-compat";
 import { Reveal } from "@/components/ui/Reveal";
 import { indexableRoutes } from "@/data/seo";
 import { allProjects } from "@/data/portfolio";
+import { SiteIndexDrawer } from "@/components/ui/SiteIndexDrawer";
 import { Search } from "lucide-react";
 
 /**
@@ -97,6 +98,12 @@ export default function Sitemap() {
               .
             </p>
           </Reveal>
+
+          {/* The directory as a two-panel drawer: the menu button opens a
+              full-screen index; hovering a category reveals its pages. */}
+          <div className="mt-10">
+            <SiteIndexDrawer />
+          </div>
 
           <Reveal delay={80} className="mt-10 max-w-md">
             <label htmlFor="sitemap-search" className="sr-only">

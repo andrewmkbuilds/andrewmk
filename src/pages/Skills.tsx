@@ -4,7 +4,17 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { SkillBadge } from "@/components/ui/Badges";
 import { PROFILE_TITLE, SCHOOL, skillGroups } from "@/data/portfolio";
+import RotatingWords from "@/components/annnimate/rotating-words";
 import { ArrowRight } from "lucide-react";
+
+/** The disciplines the capability groups belong to, on the turning wheel. */
+const disciplines = [
+  "AI",
+  "Software",
+  "Computer vision",
+  "Robotics",
+  "Product",
+];
 
 /**
  * Skills — grouped by what the skill is actually used for, with a short note on
@@ -33,6 +43,25 @@ export default function Skills() {
             <p className="mt-3 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
               {SCHOOL}
             </p>
+          </Reveal>
+
+          {/* The disciplines on a drum: it spins through them once and
+              settles on the last. Dots jump to any word; reduced motion
+              renders the static list. */}
+          <Reveal delay={60} className="mt-12 max-w-3xl">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">
+              Working across
+            </p>
+            <RotatingWords
+              className="anm-words mt-3"
+              words={disciplines}
+              scrub={false}
+              spin={1.8}
+              settle={0.2}
+              step={16}
+              blur={6}
+              nav
+            />
           </Reveal>
 
           <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">

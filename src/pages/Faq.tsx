@@ -1,12 +1,7 @@
 import { Layout } from "@/components/layout/Layout";
 import { Link } from "@/lib/router-compat";
 import { Reveal } from "@/components/ui/Reveal";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { PackAccordion } from "@/components/ui/PackAccordion";
 import { faqEntries } from "@/data/faq";
 
 /**
@@ -38,13 +33,13 @@ export default function Faq() {
             {/* The accordion renders its questions as h3, so the list needs an
                 h2 between the page h1 and them to keep the heading order. */}
             <h2 className="sr-only">Frequently asked questions</h2>
-            <Accordion type="single" collapsible className="w-full">
-              {faqEntries.map((entry) => (
-                <AccordionItem key={entry.id} value={entry.id}>
-                  <AccordionTrigger className="focus-ring rounded-sm text-left text-base font-medium text-foreground">
-                    {entry.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="pb-4 text-sm leading-relaxed text-muted-foreground">
+            <PackAccordion
+              items={faqEntries.map((entry) => ({
+                id: entry.id,
+                title: entry.question,
+                stagger: true,
+                body: (
+                  <>
                     <p>{entry.answer}</p>
                     <Link
                       to={entry.source.href}
@@ -52,10 +47,10 @@ export default function Faq() {
                     >
                       {entry.source.label}
                     </Link>
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+                  </>
+                ),
+              }))}
+            />
           </Reveal>
 
           <Reveal className="mt-12 text-sm text-muted-foreground">

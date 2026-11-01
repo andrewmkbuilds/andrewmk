@@ -1,0 +1,113 @@
+
+.mtc_wrap {
+  --mtc-bg:     #ebebe9;
+  --mtc-ink:    #101010;
+  --mtc-tag:    #ffffff;
+  --mtc-margin: 40px;
+  --mtc-sans:   var(--font-sans);
+}
+
+.mtc_wrap {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--mtc-bg);
+  color: var(--mtc-ink);
+  font-family: var(--mtc-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+.mtc_cloud {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--mtc-margin);
+}
+
+.mtc_list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  max-width: 900px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mtc_tag {
+  display: inline-flex;
+  align-items: center;
+  height: 2.3em;
+  padding: 0 0.95em;
+  border-radius: 999px;
+  background-color: var(--mtc-tag);
+  color: var(--mtc-ink);
+  font-size: calc(clamp(22px, 2.6vw, 40px) * var(--mtc-fit, 1));
+  font-weight: 380;
+  letter-spacing: -0.03em;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+.mtc_tag:focus-visible {
+  outline: 1px solid rgba(16, 16, 16, 0.3);
+  outline-offset: 2px;
+}
+
+.mtc_tag--white {
+  background-color: #ffffff;
+  color: #101010;
+}
+
+.mtc_tag--ink {
+  background-color: #101010;
+  color: #fffaf2;
+}
+
+.mtc_tag--signal {
+  background-color: #d8e800;
+  color: #101010;
+}
+
+.mtc_tag--cobalt {
+  background-color: #1f2ee3;
+  color: #fffaf2;
+}
+
+.mtc_tag--stone {
+  background-color: #c9c8c2;
+  color: #101010;
+}
+
+/* JS adds is-live once it has measured the tags: from then on every tag hangs
+   off the centre of the cloud and JS owns its position. Without it (no JS, or
+   disabled on this viewport) the tags wrap as a list. */
+.mtc_wrap.is-live .mtc_tag {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  will-change: transform;
+}
+
+@media (max-width: 767px) {
+  .mtc_wrap {
+    --mtc-margin: 20px;
+  }
+
+  .mtc_tag {
+    font-size: calc(18px * var(--mtc-fit, 1));
+  }
+}

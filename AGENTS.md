@@ -656,3 +656,61 @@ The component registries, and exactly what was taken from each (2026-11-01).
   tokens, keep the performance budget, and verify it in the running preview at tablet and mobile
   before calling it done — applying the whole protocol in the same turn, without asking where it
   goes.
+
+## Annnimate starter pack (2026-11-01)
+
+The 17-component Animate.com/Annnimate starter pack (source:
+`https://coastal-ivory-caejbxdk.edgeone.dev/`) is integrated into the portfolio. Read this before
+touching any of it.
+
+- **Where the code lives.** `src/components/annnimate/` holds the pack's own `.jsx` + `.css`,
+  vendored as shipped (they are excluded from `tsc` via `src/types/annnimate.d.ts` and from ESLint
+  by an ignore entry, the same treatment as `src/components/reactbits/`). Site-side adapters live
+  in `src/components/ui/` (`PackAccordion`, `PortfolioCurtain`, `PortfolioRail`,
+  `CertificateScale`, `SkillCloud`, `FeatureSpotlight`, `AsciiPlate`, `SiteIndexDrawer`); the
+  palette and geometry overrides live in `src/styles/annnimate-theme.css`, imported from
+  `src/styles.css`. Restyle there, never by hand-editing a component's demo CSS beyond the two
+  mechanical edits below.
+- **Two mechanical edits only:** every `@font-face` Switzer block is stripped and the font stacks
+  point at `var(--font-sans)`; `feature-dialog.jsx` takes an `actionHref` so the dialog's primary
+  action can open `/projects/<slug>`; `multi-level-drawer-menu.jsx` renders sub-links as anchors
+  when the entry is `{ label, href }`, and its demo page/logo are hidden by CSS. Any other change
+  to a vendored file will be lost on a re-download.
+- **GSAP is now a second animation library, deliberately scoped.** The pack runs on GSAP 3.15
+  (`gsap` + `@gsap/react`), which is the only sane way to use 15 of its components. It is NOT a
+  replacement for `motion/react`: existing entrance/scroll work stays where it is, and new
+  site-native components should still use motion. Keep GSAP usage inside the vendored components
+  and their adapters; do not start writing new GSAP site components. Build cost is ~114 KB gzip
+  of the shared client chunk — do not add a third library.
+- **`page-enter` must not fill forwards.** `.page-enter` animated with `both`, so the final
+  `transform: none` keyframe still computed as `matrix(1,0,0,1,0,0)`, which made it the containing
+  block for `position: fixed` descendants: the feature dialog opened at `top: -4377 px` (document
+  coordinates 11 208 px). It is `backwards` now. Any fixed overlay rendered inside a route depends
+  on that.
+- **Placements.** Home: dual-scramble identity pill, elastic divider, `FeatureSpotlight` for Gradr,
+  `SkillCloud` (28 real skills, links to `/skills`), `TextReveal` in the Dubai paragraph. Projects:
+  curtain slider (four flagship records). Achievements: certificate rail (`ScaleSlider`, real
+  thumbs), split-flap results board, pack accordion for certification groups, `ImageFlyIn` proof
+  field, elastic divider, `TextReveal`. About: `TextReveal`, elastic divider, ASCII plate of the
+  brand mark. Journey: process rail from the four build disciplines. Skills: rotating-words wheel.
+  FAQ: pack accordion. Sitemap: two-panel drawer index with real routes.
+- **`EchoHeadline` and `StackingCards` stay native.** Both pack components were already adapted to
+  motion/react in earlier sessions; replacing them with the GSAP originals would regress the
+  journey stack and the home headline. `Pricing` is intentionally not mounted: the portfolio
+  publishes no rates, and inventing tiers would break the content-source rule above.
+- **No screenshots, so plates are generated.** `src/lib/plate.ts` builds a navy/gold typographic
+  SVG data URI per record; the curtain slider, feature dialog, process rail and drawer cards use
+  it. Never point a pack image slot at a stock/CDN URL.
+- **ASCII overlay is a rewrite, not a port.** The pack version needs three.js and a running
+  shader; `src/components/ui/AsciiPlate.tsx` samples the image once into an offscreen grid and
+  paints the glyphs onto one static canvas on mount/resize. Keeps the site's no-WebGL rule.
+- **Reduced motion** is handled inside the pack components and by the theme's override block.
+  Do not disable a component's internal check.
+- Verified 2026-11-01 in the preview (1280 px): the home spotlight dialog opens in-viewport with
+  the navy sheet, the split-flap board flips (`Techfest, 1st Place, Data Science` →
+  `… 2nd Place, IoT`), the achievements accordion expands (`aria-expanded=true`, 256 px panel),
+  the certificate rail mounts 34 cards at 368 px, the fly-in field mounts 10 images at 544 px,
+  with zero console errors and no horizontal overflow. Not automatically verified in that session:
+  the curtain slider's transition, the sitemap drawer's panels, the journey rail and the skills
+  wheel (they render server-side and mount without errors; check them by hand before changing
+  their styles).

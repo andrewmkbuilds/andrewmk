@@ -10,6 +10,10 @@ import {
   socialLinks,
 } from "@/data/portfolio";
 import { SocialMark } from "@/components/ui/SocialMark";
+import TextReveal from "@/components/annnimate/text-reveal";
+import ElasticDivider from "@/components/annnimate/elastic-divider";
+import { AsciiPlate } from "@/components/ui/AsciiPlate";
+import logoUrl from "@/assets/andrewbuilds-logo.png";
 
 export default function About() {
   return (
@@ -33,11 +37,20 @@ export default function About() {
 
               <div className="mt-8 space-y-6">
                 <Reveal delay={60}>
-                  <p className="text-lg text-foreground leading-relaxed">
-                    I'm a student, builder, and systems thinker based in Dubai.
-                    I work across artificial intelligence, software development,
-                    robotics, product design, and engineering competitions.
-                  </p>
+                  <TextReveal
+                    className="anm-reveal text-lg text-foreground leading-relaxed"
+                    type="words"
+                    start="top 88%"
+                    stagger={0.028}
+                    duration={0.7}
+                  >
+                    I'm a student, builder, and systems thinker based in Dubai.{" "}
+                    <strong>
+                      I work across artificial intelligence, software
+                      development, robotics, product design, and engineering
+                      competitions.
+                    </strong>
+                  </TextReveal>
                 </Reveal>
                 <Reveal delay={120}>
                   <p className="text-muted-foreground leading-relaxed">
@@ -61,6 +74,15 @@ export default function About() {
             </div>
 
             <div className="space-y-8">
+              {/* The brand mark sampled into data — the pack's ASCII overlay,
+                  painted once on a canvas instead of a running shader. */}
+              <Reveal>
+                <AsciiPlate
+                  src={logoUrl}
+                  alt="The AndrewBuilds mark rendered as a field of data characters"
+                  caption="The mark, in data"
+                />
+              </Reveal>
               <Reveal delay={80}>
                 <div className="rounded-xl border border-border bg-card p-6 shadow-card">
                   <h2 className="font-mono text-xs uppercase tracking-[0.16em] text-primary">
@@ -142,6 +164,15 @@ export default function About() {
           </div>
         </div>
       </section>
+
+      {/* Sweep the cursor across the line and it rings like a string. */}
+      <div className="container" aria-hidden="true">
+        <ElasticDivider
+          className="anm-divider"
+          color="hsl(41 58% 60%)"
+          weight={1.2}
+        />
+      </div>
 
       <section className="border-t border-border py-20 md:py-28">
         <div className="container">
