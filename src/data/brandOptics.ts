@@ -21,18 +21,22 @@
  * One formula then balances every mark, so a new logo needs its measurements
  * added here (or gets the shared default) and nothing else:
  *
- *   density = clamp((0.34 / coverage) ^ 0.3, 0.78, 1)
- *                                              → airy art keeps its size, a
- *                                                solid/full-bleed mark (Claude,
- *                                                Base44, Lovable, TypeScript …)
- *                                                shrinks until it reads equal
- *   span    = 0.8 × density                    → the ink's long side, as a
+ *   density = clamp((0.34 / coverage) ^ 0.3, 0.94, 1)
+ *                                              → a solid/full-bleed mark
+ *                                                (Claude, Base44, Lovable,
+ *                                                TypeScript …) is trimmed just
+ *                                                enough, because a filled square
+ *                                                reads heavier than a glyph of
+ *                                                the same width
+ *   span    = 0.63 × density                   → the ink's long side, as a
  *                                                fraction of the fixed slot
  *   scale   = min(span / max(inkW, inkH), 1)   → applied inside that slot
  *
- * So every mark's visible artwork is 0.62–0.8 of its slot (never a solid square
- * and a hairline glyph at the same size), nothing is ever enlarged beyond its
- * own slot, and a uniform 10–19% inset keeps every logo off the slot edge.
+ * So every mark's visible artwork lands in 0.59–0.63 of its slot — one shared
+ * optical size, measured per mark rather than assumed from its CSS box. The
+ * band used to run 0.62–0.8, which let the airiest artwork (GitHub, OpenAI,
+ * Rust, React) render up to 20 % larger than its neighbours on the same pill.
+ * Nothing is ever enlarged beyond its own slot.
  */
 
 /** Ink bounding box and painted coverage, as fractions of the mark's canvas. */
@@ -45,13 +49,22 @@ export interface InkMetrics {
   coverage: number;
 }
 
-/** Ink span (long side) a light, airy mark is balanced to. */
-const TARGET_SPAN = 0.8;
+/**
+ * Ink span (long side) every mark is balanced to, as a fraction of its slot.
+ * Measured against the rendered ribbon: the marks that already read correctly
+ * sit at ~0.63, so that is the shared size.
+ */
+const TARGET_SPAN = 0.63;
 /** Painted coverage treated as "normal weight" artwork. */
 const TARGET_COVERAGE = 0.34;
-/** How strongly density pulls a mark down, and how far it may pull. */
+/**
+ * How strongly density trims a mark, and how far it may pull. A narrow range:
+ * coverage decides only the last few percent, because the rendered artwork is
+ * normalised to one span — a solid tile must not end up a different size from
+ * the glyph beside it.
+ */
 const DENSITY_EXPONENT = 0.3;
-const DENSITY_MIN = 0.78;
+const DENSITY_MIN = 0.94;
 /** Hard ceiling: a mark is never enlarged past its own slot. */
 const SCALE_MAX = 1;
 

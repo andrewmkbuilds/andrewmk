@@ -208,18 +208,26 @@ export function PortfolioGallery({
                 }}
                 onHoverStart={() => setHovered(index)}
                 onHoverEnd={() => setHovered(null)}
-                onFocusCapture={() => setHovered(index)}
-                onBlurCapture={() => setHovered(null)}
               >
-                <Link
-                  to={`/projects/${project.slug}`}
-                  className="focus-ring group block rounded-2xl"
-                  aria-label={`${project.name} — ${project.category}`}
+                {/* Focus lives on a plain div, not the motion wrapper or the
+                    Link: motion filters React's capture-phase handlers and
+                    TanStack's Link carries its own onFocus, so neither fired
+                    and a keyboard user got no lift at all. A plain ancestor
+                    sees the bubbling focus event from either. */}
+                <div
+                  onFocus={() => setHovered(index)}
+                  onBlur={() => setHovered(null)}
                 >
-                  <div className="aspect-[4/5] w-full">
-                    <GalleryPlate project={project} index={index} />
-                  </div>
-                </Link>
+                  <Link
+                    to={`/projects/${project.slug}`}
+                    className="focus-ring group block rounded-2xl"
+                    aria-label={`${project.name} — ${project.category}`}
+                  >
+                    <div className="aspect-[4/5] w-full">
+                      <GalleryPlate project={project} index={index} />
+                    </div>
+                  </Link>
+                </div>
               </motion.div>
             );
           })}

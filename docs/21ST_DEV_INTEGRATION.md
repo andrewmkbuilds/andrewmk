@@ -80,7 +80,9 @@ npx shadcn@latest add "https://21st.dev/r/<author>/<component>?api_key=$API_KEY_
 
 ## What was actually applied (2026-11-01)
 
-No 21st.dev component is installed yet, but the credential now exists: `API_KEY_21ST` is declared
+One component is integrated this way (`ui/portfolio-gallery.tsx`, the home "Ecosystem" archive;
+the integration rules live in `docs/21ST_DEV_PROTOCOL.md`). The credential now exists:
+`API_KEY_21ST` is declared
 in `.base44/environment.json` and delivered to the `web` service through
 `env_file: /run/base44/app.env`, so it needs no manual export in the container. Verified inside the
 container after it landed:

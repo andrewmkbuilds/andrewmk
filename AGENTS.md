@@ -233,8 +233,8 @@ them was removed on 2026-11-01 in favour of the 3D scene below.
   balances the artwork inside it — equal boxes alone let a full-canvas glyph (Base44, OpenAI,
   Claude, Lovable) read larger than a flat or outline mark. The table records each vendored file's
   ink bounding box and painted coverage (rasterise the file, take the alpha bounds); **one** formula
-  then turns those numbers into a scale: the ink's long side is fitted to `0.8 × density` of the
-  slot, where `density = clamp((0.34 / coverage) ** 0.3, 0.78, 1)`. Equal bounding boxes were not
+  then turns those numbers into a scale: the ink's long side is fitted to `0.63 × density` of the
+  slot, where `density = clamp((0.34 / coverage) ** 0.3, 0.94, 1)`. Equal bounding boxes were not
   enough on their own — a solid, full-bleed tile (Base44, ChatGPT/OpenAI, Lovable, Claude,
   TypeScript) still read larger than a thin glyph, which is what density corrects. It is the only
   sizing rule on the site — add a new brand by measuring its artwork, never by hand-tuning a scale
@@ -245,16 +245,16 @@ them was removed on 2026-11-01 in favour of the 3D scene below.
   domain, measured at `?size=128&retina=true&theme=dark`) and runs the same formula over both.
   Artwork missing from either table gets the shared `0.8` target span, which is why a new brand
   without measurements reads too large — measure it and add it.
-- **Audited 2026-11-01 with rendered pixels, not the tables.** A headless Chromium pass over `/`,
-  `/projects`, `/skills`, `/achievements`, `/journey`, `/about`, `/contact` and `/resume` at 1440
-  and 390 px rasterised every mark's actual asset, took its alpha bounds and divided by the slot
-  it renders in. Every mark on the site lands between 0.62 and 0.80 of its slot, which is the
-  design band; ink sits within ~1 px of the slot centre for the Logo.dev images and the vendored
-  masks alike. The named check: Base44 **0.653**, ChatGPT/OpenAI 0.742, Lovable 0.627, Claude
-  0.624 in the same 18 px slots — a 1.19× spread that is coverage doing its job (the solid Base44,
-  Lovable and Claude tiles pull in, the open OpenAI spiral pushes out), not a sizing error. There
-  is **no 0.88 Base44 scale anywhere in the code**: the coverage formula has always produced
-  0.653, and Base44 renders within 5 % of the other two solid tiles, so it stays.
+- **Re-measured 2026-11-01 against the rendered ribbon.** Measuring the tools ribbon in the live
+  preview showed the old `0.8 × density` rule left a 1.6× spread: the airiest artwork filled its
+  slot (GitHub 13.2 px, ChatGPT 13.4 px, Rust 18 px in an 18 px slot) while a solid tile was
+  trimmed to 11.2 px (Claude, TypeScript, Java). That is the "the headline logos look bigger"
+  report — the artwork of every Logo.dev mark fills its canvas edge to edge, so the slot *is* the
+  visible size. The rule now normalises the span to **0.63** with a shallow `0.94` coverage floor:
+  every mark in a pill renders 10.7–11.3 px in the same 18 px slot, and the solid tiles only give
+  up ~4 % so they do not read heavier than a glyph. Verify by measuring the rendered slot
+  (`getBoundingClientRect().width` on the mark, which already includes `--brand-scale`), never by
+  reading the table.
 - **Per-domain entries were current except one.** Re-measuring all 55 brand/source pairs flagged
   only `python-pillow.org`, whose real ink is 0.833 × 0.958 at coverage 0.522: the stale entry
   (`0.84 × 0.85`) made Pillow render at 0.80 of its badge slot instead of 0.70. Corrected. Do not
@@ -543,9 +543,21 @@ The component registries, and exactly what was taken from each (2026-11-01).
   fan's plate width is derived from the item count and the `overlap` prop
   (`--pg-card: min(240px, calc(100% / span))`), so adding a project re-fits the row instead
   of overflowing. The `/projects` page keeps the filterable `ProjectGrid`.
+- **A plate lifts for keyboard users too, and the wiring is fussy.** The lift is React state, so
+  focus must set it: `onFocusCapture` on the `motion.div` never fired (motion filters capture
+  handlers — verified: Tab onto a plate left it in the fan, `z-index` and transform empty) and
+  TanStack's `Link` carries its own `onFocus`. The handlers now sit on a plain `div` between them.
+  Verify with **real keyboard input** (`page.keyboard.press('Tab')` in the puppeteer image): a
+  programmatic `element.focus()` does move `document.activeElement` but React's delegated
+  `onFocus` does not fire for it in this harness, so an automated `.focus()` check reports a false
+  negative.
 - **21st.dev works through the CLI now; there is still no MCP bridge.** `API_KEY_21ST` is declared
   in `.base44/environment.json` and reaches the `web` service via `/run/base44/app.env`, so
   `docker compose … exec -T web bunx --bun @21st-dev/cli@latest search "<query>"` returns results
-  (verified 2026-11-01). No 21st.dev component is vendored yet; installed files are ordinary source
-  once added, so restyle them to the navy/gold tokens and review the diff.
-  `docs/21ST_DEV_INTEGRATION.md` records what was checked.
+  (verified 2026-11-01). Installed files are ordinary source once added, so restyle them to the
+  navy/gold tokens and review the diff. `docs/21ST_DEV_INTEGRATION.md` records what was checked.
+- **Every 21st.dev component follows `docs/21ST_DEV_PROTOCOL.md`.** Inspect the site first, place
+  the component in an existing section rather than a new one, use real records and the navy/gold
+  tokens, keep the performance budget, and verify it in the running preview at tablet and mobile
+  before calling it done — applying the whole protocol in the same turn, without asking where it
+  goes.
