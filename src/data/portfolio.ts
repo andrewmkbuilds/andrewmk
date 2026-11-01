@@ -596,6 +596,301 @@ export const featuredProjects: Project[] = [
 
 export const ecosystemProjects: Project[] = [
   {
+    slug: "scholara",
+    name: "Scholara",
+    category: "Education · School OS · AI",
+    description:
+      "An AI-powered school operating system that unites academics, operations, communication and analytics for students, teachers, parents and school leaders.",
+    built: [
+      "Role-based dashboards",
+      "Assignments & exams",
+      "Academic analytics",
+      "Finance & fees",
+      "Library system",
+      "Transport management",
+      "Incident management",
+      "Student wellbeing",
+      "AI Tutor & Teacher Copilot",
+    ],
+    tech: ["AI", "Base44"],
+    status: "Live",
+    live: "https://get-scholara.base44.app/",
+    filters: ["AI", "Base44"],
+    platform: "base44",
+    problem:
+      "A school runs academics, finance, transport, wellbeing and parent communication across spreadsheets, disconnected apps and paper forms. Scholara replaces that patchwork with one system where every role — student, teacher, parent, administrator, principal, counselor, finance staff, librarian and transport manager — works over the same data with its own dashboard, navigation and permissions.",
+    solution:
+      "One platform with nine role-specific surfaces over a shared dataset. The AI layer is grounded in the school's own records: the student tutor sees grades and upcoming exams, the teacher copilot drafts lessons, rubrics and feedback, and the principal view summarises the week from real numbers rather than a prompt.",
+    stack: [
+      {
+        group: "Roles",
+        items: [
+          "Student",
+          "Teacher",
+          "Parent",
+          "Administrator",
+          "Principal",
+          "Counselor",
+          "Finance",
+          "Librarian",
+          "Transport",
+        ],
+      },
+      {
+        group: "Academics",
+        items: ["Assignments", "Exams & grading", "Attendance", "Analytics"],
+      },
+      {
+        group: "Operations",
+        items: [
+          "Finance & fees",
+          "Library loans",
+          "Transport routes",
+          "Incident tracking",
+          "Wellbeing check-ins",
+        ],
+      },
+      {
+        group: "AI layer",
+        items: [
+          "AI Tutor",
+          "Teacher Copilot",
+          "Principal summaries",
+          "Command palette (⌘K)",
+        ],
+      },
+      { group: "Platform", items: ["Base44", "Hosted demo"] },
+    ],
+    gallery: [
+      {
+        title: "Role-aware entry",
+        caption:
+          "Picking a role opens a different product: the student sees tonight's study plan, the admin sees attendance across the school, the finance office sees outstanding balances.",
+        lines: ["9+ roles", "Own navigation", "Own permissions", "Shared data"],
+      },
+      {
+        title: "Academics in one place",
+        caption:
+          "Assignments, exams, submissions, grading and attendance are one connected flow instead of four tools the staff reconcile by hand.",
+        lines: ["Create", "Publish", "Submit", "Grade & track"],
+      },
+      {
+        title: "School operations",
+        caption:
+          "Finance and fees, library loans, transport routes, incidents and wellbeing sit on the same data model as academics, so a student record means the same thing everywhere.",
+        lines: ["Invoices", "Loans", "Routes", "Incidents"],
+      },
+      {
+        title: "Scholara Brain",
+        caption:
+          "The AI tutor keeps conversation history and subject context, and the command palette lets any role navigate, search and act from the keyboard.",
+        lines: [
+          "AI Tutor",
+          "Teacher Copilot",
+          "Principal summaries",
+          "⌘K palette",
+        ],
+      },
+    ],
+    results: [
+      {
+        label: "Roles",
+        value: "9+",
+        note: "Product scope as published on the site.",
+      },
+      {
+        label: "Modules",
+        value: "30+",
+        note: "Product scope as published on the site.",
+      },
+      {
+        label: "AI features",
+        value: "15+",
+        note: "Product scope as published on the site.",
+      },
+      {
+        label: "Try it",
+        value: "Open demo",
+        note: "Pick any role and use the full platform.",
+      },
+    ],
+  },
+  {
+    slug: "critiqueflow",
+    name: "CritiqueFlow",
+    category: "Design Tooling · Review",
+    description:
+      "A design review platform that turns visual feedback into structured discussion, tasks and a measurable design health score.",
+    built: [
+      "Design upload & canvas",
+      "Deterministic design scan",
+      "Pinned feedback threads",
+      "Feedback-to-task tracking",
+      "Design health scoring",
+      "Before/after comparison",
+    ],
+    tech: ["React", "Base44"],
+    status: "Live",
+    live: "https://critiqueflow.base44.app/",
+    filters: ["React", "Base44"],
+    platform: "base44",
+    problem:
+      "Design feedback usually arrives as loose comments in chat, scattered screenshots and calls nobody writes down. It is hard to act on, impossible to measure, and the same comment comes back in the next round. CritiqueFlow puts the design on a canvas and turns every note into something with an owner, a state and a score attached to it.",
+    solution:
+      "A comment is pinned to the design, discussed in a thread, promoted to a task and closed when the fix lands. A design health score is calculated from the actual feedback data — typography, colour, spacing, layout, accessibility and consistency — so improvement between two versions is verifiable instead of argued about.",
+    stack: [
+      {
+        group: "Canvas",
+        items: ["Image upload", "Pinned notes", "Version compare"],
+      },
+      {
+        group: "Analysis",
+        items: [
+          "Deterministic scan",
+          "Typography checks",
+          "Colour & contrast",
+          "Spacing & alignment",
+        ],
+      },
+      {
+        group: "Review flow",
+        items: ["Threaded comments", "Task assignment", "Resolution states"],
+      },
+      { group: "Platform", items: ["Base44", "Hosted demo"] },
+    ],
+    gallery: [
+      {
+        title: "Upload and pin",
+        caption:
+          "Any design image goes onto the canvas, and feedback is pinned to the exact element it is about rather than described from memory.",
+        lines: ["PNG · JPG · SVG", "Canvas pinning", "No plugins", "No setup"],
+      },
+      {
+        title: "Smart design scan",
+        caption:
+          "A deterministic pass checks spacing, contrast, hierarchy and alignment, then ranks what to fix first.",
+        lines: ["Spacing", "Contrast", "Hierarchy", "Alignment"],
+      },
+      {
+        title: "Feedback → task → fix",
+        caption:
+          "Every comment can be promoted to a task with an owner and a state, so a review round ends in closed items instead of a longer thread.",
+        lines: ["Open", "In progress", "Done", "Resolved by"],
+      },
+      {
+        title: "Design health and before/after",
+        caption:
+          "The health score is computed from the feedback data per category, and two versions can be compared with a drag handle to see exactly what changed.",
+        lines: ["Health score", "Per-category", "Version compare", "Slider"],
+      },
+    ],
+    results: [
+      {
+        label: "Scan",
+        value: "Deterministic",
+        note: "Checks are computed from the feedback data.",
+      },
+      {
+        label: "Core loop",
+        value: "Feedback → task → fix",
+        note: "Each note becomes a tracked item.",
+      },
+      {
+        label: "Compare",
+        value: "Two versions",
+        note: "Before/after slider on the same canvas.",
+      },
+    ],
+  },
+  {
+    slug: "the-neonrush",
+    name: "The Neon Rush",
+    category: "Game · Interactive",
+    description:
+      "A neon arcade game built around story chapters, daily missions, mini-games and a hangar of ships and skins.",
+    built: [
+      "Story mode",
+      "Daily & weekly missions",
+      "Side quests",
+      "Arcade mini-games",
+      "Ships & skins",
+      "Leaderboards",
+      "Daily challenge",
+    ],
+    tech: ["Game", "Base44"],
+    status: "Live",
+    live: "https://the-neonrush.base44.app/",
+    filters: ["Base44"],
+    platform: "base44",
+    problem:
+      "A game needs a reason to come back on a normal Tuesday, not just a good first level. The Neon Rush wraps its arcade play in a command center — chapters, objectives, records and unlocks — so a short session always has a next thing to chase.",
+    solution:
+      "Everything hangs off one command center: the story chapter, the daily and weekly missions, the side quests, the arcade cabinet and the hangar of ships and skins. A daily challenge puts every player on the same modifiers and the same leaderboard, so scores are comparable.",
+    stack: [
+      {
+        group: "Play",
+        items: [
+          "Story chapters",
+          "Arcade mini-games",
+          "Skill challenges",
+          "Daily challenge",
+        ],
+      },
+      {
+        group: "Progression",
+        items: ["Ships & skins", "Database sectors", "Mission logs", "Stats"],
+      },
+      {
+        group: "Social",
+        items: ["Leaderboards", "Daily rankings", "Profile & progress"],
+      },
+      { group: "Platform", items: ["Base44", "Hosted game"] },
+    ],
+    gallery: [
+      {
+        title: "Command center",
+        caption:
+          "The hub every run starts from: start the story, open an arcade cabinet, check the mission terminal or the leaderboard.",
+        lines: ["Story", "Survival", "Missions", "Leaderboard"],
+      },
+      {
+        title: "Story and objectives",
+        caption:
+          "Chapter 1: First Contact runs alongside daily and weekly missions, side quests and optional lore, so progress continues between story beats.",
+        lines: ["Chapters", "Daily missions", "Side quests", "Lore"],
+      },
+      {
+        title: "Arcade and challenges",
+        caption:
+          "Mini-games and no-dash skill trials test specific mechanics, and the daily challenge fixes the modifiers so everyone plays the same run.",
+        lines: ["Arcade", "Skill trials", "Daily challenge", "Same modifiers"],
+      },
+      {
+        title: "Hangar, records and advisors",
+        caption:
+          "Ships and skins are unlocked from play, stats and mission logs track performance, and AI advisors give in-game support and tips.",
+        lines: ["Hangar", "Stats", "Leaderboard", "AI advisors"],
+      },
+    ],
+    results: [
+      {
+        label: "Modes",
+        value: "Story · Arcade · Daily",
+        note: "Three ways into the same game.",
+      },
+      {
+        label: "Progression",
+        value: "Ships & skins",
+        note: "Unlocks earned through play.",
+      },
+      {
+        label: "Status",
+        value: "Live",
+        note: "Playable in the browser.",
+      },
+    ],
+  },
+  {
     slug: "horizon-motorsports",
     name: "Horizon Motorsports",
     category: "Racing / Community",
@@ -1168,6 +1463,20 @@ export const allProjects: Project[] = [
   ...featuredProjects,
   ...ecosystemProjects,
 ];
+
+/**
+ * The three draggable cards in the hero — a curated pick, not a chronology and
+ * not simply the flagships. One technically ambitious system (Scholara), one
+ * visually-driven game (The Neon Rush) and one AI product build (Gradr), so the
+ * first screen shows three different strengths. Swap or reorder the slugs here
+ * and the hero follows; every card still links to its own case study, and every
+ * project stays reachable from `/projects` and the ecosystem archive.
+ */
+const heroShowcaseSlugs = ["scholara", "the-neonrush", "gradr"];
+
+export const heroShowcase: Project[] = heroShowcaseSlugs
+  .map((slug) => allProjects.find((project) => project.slug === slug))
+  .filter((project): project is Project => Boolean(project));
 
 export function getProject(slug: string): Project | undefined {
   return allProjects.find((p) => p.slug === slug);

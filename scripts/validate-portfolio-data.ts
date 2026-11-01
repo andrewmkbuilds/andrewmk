@@ -5,7 +5,17 @@
 import { allProjects, socialLinks, type Project } from "../src/data/portfolio";
 
 const EXPECTED: Record<"base44" | "lovable", string[]> = {
-  base44: ["Stack Up", "DevOS", "COGNOS", "TabZen", "AI for Students", "Horizon Motorsports"],
+  base44: [
+    "Stack Up",
+    "DevOS",
+    "COGNOS",
+    "TabZen",
+    "AI for Students",
+    "Horizon Motorsports",
+    "Scholara",
+    "CritiqueFlow",
+    "The Neon Rush",
+  ],
   lovable: ["Gradr", "Home ServeAI"],
 };
 

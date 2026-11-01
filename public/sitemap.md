@@ -24,6 +24,9 @@
 - [Stack Up](https://andrewmk.is-a.dev/projects/stack-up): Personal Finance · Gamification
 - [TerraCart](https://andrewmk.is-a.dev/projects/terracart): AI · Sustainability · E-commerce
 - [ClientFlow OS](https://andrewmk.is-a.dev/projects/clientflow-os): Business Operating System · AI
+- [Scholara](https://andrewmk.is-a.dev/projects/scholara): Education · School OS · AI
+- [CritiqueFlow](https://andrewmk.is-a.dev/projects/critiqueflow): Design Tooling · Review
+- [The Neon Rush](https://andrewmk.is-a.dev/projects/the-neonrush): Game · Interactive
 - [Horizon Motorsports](https://andrewmk.is-a.dev/projects/horizon-motorsports): Racing / Community
 - [DevOS](https://andrewmk.is-a.dev/projects/devos): Productivity / AI
 - [COGNOS](https://andrewmk.is-a.dev/projects/cognos): Cognitive / AI

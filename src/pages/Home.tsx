@@ -65,6 +65,7 @@ import {
   currentlyBuilding,
   ecosystemProjects,
   featuredProjects,
+  heroShowcase,
   principles,
   quickStats,
   buildAreas,
@@ -244,7 +245,7 @@ export default function Home() {
             className="enter relative -mx-2 lg:mx-0"
             style={{ animationDelay: "180ms" }}
           >
-            <HeroCardStack projects={featuredProjects} />
+            <HeroCardStack projects={heroShowcase} />
           </div>
         </div>
         {/* scroll indicator — part of the hero's depth language */}

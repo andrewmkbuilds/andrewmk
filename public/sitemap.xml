@@ -96,6 +96,21 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://andrewmk.is-a.dev/projects/scholara</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://andrewmk.is-a.dev/projects/critiqueflow</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://andrewmk.is-a.dev/projects/the-neonrush</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://andrewmk.is-a.dev/projects/horizon-motorsports</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

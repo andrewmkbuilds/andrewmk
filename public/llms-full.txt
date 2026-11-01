@@ -118,10 +118,10 @@ More ambitious products. More competitions. More experiments. More systems.
 - ClientFlow OS (In Active Development): Business operating system.
 - Horizon Motorsports (Active): UAE racing team.
 
-## Projects (19)
+## Projects (22)
 
 Featured: Gradr, Stack Up, TerraCart, ClientFlow OS.
-Archive: Horizon Motorsports, DevOS, COGNOS, TabZen, AI for Students, Home ServeAI, JARVIS, GemLab, Security Camera System, Currency Converter, GesturePlay, Watch Walkie Talkie, ConversaCore AI, Arabica AI Chat, NeuroTac AI.
+Archive: Scholara, CritiqueFlow, The Neon Rush, Horizon Motorsports, DevOS, COGNOS, TabZen, AI for Students, Home ServeAI, JARVIS, GemLab, Security Camera System, Currency Converter, GesturePlay, Watch Walkie Talkie, ConversaCore AI, Arabica AI Chat, NeuroTac AI.
 
 ### Gradr
 
@@ -209,6 +209,73 @@ Results:
 - Modules: 8 — Clients, projects, comms, payments, docs, automation.
 - Payments: Stripe — Webhook-driven state.
 - Code: Public repo — github.com/andrewmkbuilds/ClientFlow-OS
+
+---
+
+### Scholara
+
+- Category: Education · School OS · AI
+- Status: Live
+- Tech: AI, Base44
+- Live: https://get-scholara.base44.app/
+- Case study: https://andrewmk.is-a.dev/projects/scholara
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/scholara.json
+
+An AI-powered school operating system that unites academics, operations, communication and analytics for students, teachers, parents and school leaders.
+
+Problem: A school runs academics, finance, transport, wellbeing and parent communication across spreadsheets, disconnected apps and paper forms. Scholara replaces that patchwork with one system where every role — student, teacher, parent, administrator, principal, counselor, finance staff, librarian and transport manager — works over the same data with its own dashboard, navigation and permissions.
+
+
+
+Results:
+- Roles: 9+ — Product scope as published on the site.
+- Modules: 30+ — Product scope as published on the site.
+- AI features: 15+ — Product scope as published on the site.
+- Try it: Open demo — Pick any role and use the full platform.
+
+---
+
+### CritiqueFlow
+
+- Category: Design Tooling · Review
+- Status: Live
+- Tech: React, Base44
+- Live: https://critiqueflow.base44.app/
+- Case study: https://andrewmk.is-a.dev/projects/critiqueflow
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/critiqueflow.json
+
+A design review platform that turns visual feedback into structured discussion, tasks and a measurable design health score.
+
+Problem: Design feedback usually arrives as loose comments in chat, scattered screenshots and calls nobody writes down. It is hard to act on, impossible to measure, and the same comment comes back in the next round. CritiqueFlow puts the design on a canvas and turns every note into something with an owner, a state and a score attached to it.
+
+
+
+Results:
+- Scan: Deterministic — Checks are computed from the feedback data.
+- Core loop: Feedback → task → fix — Each note becomes a tracked item.
+- Compare: Two versions — Before/after slider on the same canvas.
+
+---
+
+### The Neon Rush
+
+- Category: Game · Interactive
+- Status: Live
+- Tech: Game, Base44
+- Live: https://the-neonrush.base44.app/
+- Case study: https://andrewmk.is-a.dev/projects/the-neonrush
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/the-neonrush.json
+
+A neon arcade game built around story chapters, daily missions, mini-games and a hangar of ships and skins.
+
+Problem: A game needs a reason to come back on a normal Tuesday, not just a good first level. The Neon Rush wraps its arcade play in a command center — chapters, objectives, records and unlocks — so a short session always has a next thing to chase.
+
+
+
+Results:
+- Modes: Story · Arcade · Daily — Three ways into the same game.
+- Progression: Ships & skins — Unlocks earned through play.
+- Status: Live — Playable in the browser.
 
 ---
 
