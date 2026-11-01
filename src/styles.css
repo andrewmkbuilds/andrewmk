@@ -985,43 +985,6 @@
   }
 }
 
-@keyframes silk-drift {
-  0%,
-  100% {
-    transform: translate3d(-5%, -2%, 0) rotate(-2.5deg) scale(1.04);
-  }
-  50% {
-    transform: translate3d(5%, 3%, 0) rotate(2.5deg) scale(1.14);
-  }
-}
-
-@keyframes silk-drift-b {
-  0%,
-  100% {
-    transform: translate3d(2%, 1%, 0) rotate(1deg) scale(1.08);
-  }
-  50% {
-    transform: translate3d(-3%, -2%, 0) rotate(-1deg) scale(1.02);
-  }
-}
-
-@keyframes dust-rise {
-  0% {
-    transform: translate3d(0, 0, 0) scale(0.6);
-    opacity: 0;
-  }
-  14% {
-    opacity: var(--dust-op);
-  }
-  82% {
-    opacity: var(--dust-op);
-  }
-  100% {
-    transform: translate3d(var(--dust-drift), -104vh, 0) scale(1.05);
-    opacity: 0;
-  }
-}
-
 @keyframes float-soft {
   0%,
   100% {
@@ -1086,8 +1049,12 @@
   /* ── The ambient room ──────────────────────────────────────────────────
      A CSS-only environment: a navy base, one cold key light from above, a
      restrained gold rim, a horizon floor and a vignette. Every layer is a
-     radial gradient painted on its own compositor layer — no canvas and no
-     blur filter — so the drift costs a single transform per layer. */
+     radial gradient painted once on its own compositor layer — no canvas, no
+     WebGL and no blur filter. Exactly one layer moves (the key light, a 90 s
+     transform drift, stopped below 768 px and under reduced motion), so the
+     room costs one compositor frame per layer and nothing on the main
+     thread. This replaced the Silk shader, the dot lattice and the mote
+     canvas on 2026-11-01. */
   .ambient-base {
     position: absolute;
     inset: 0;
@@ -1102,59 +1069,6 @@
         hsl(218 46% 8%) 48%,
         hsl(222 48% 5%) 100%
       );
-  }
-
-  /* Silk: long bands of light laid across the room, the visible "curtain".
-     `screen` blending adds light to whatever is behind instead of painting
-     over it, so the bands stay luminous even above the vignette. */
-  .ambient-silk {
-    position: absolute;
-    inset: -22% -14%;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    background:
-      linear-gradient(
-        104deg,
-        transparent 8%,
-        hsl(198 92% 62% / 0.52) 26%,
-        hsl(199 90% 66% / 0.22) 33%,
-        transparent 44%
-      ),
-      linear-gradient(
-        112deg,
-        transparent 42%,
-        hsl(212 94% 66% / 0.4) 55%,
-        transparent 68%
-      ),
-      linear-gradient(
-        96deg,
-        transparent 58%,
-        hsl(188 90% 60% / 0.32) 71%,
-        transparent 84%
-      );
-    animation: silk-drift 38s var(--ease-out-expo) infinite;
-  }
-
-  .ambient-silk-b {
-    position: absolute;
-    inset: -26% -18%;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    opacity: 0.85;
-    background:
-      linear-gradient(
-        74deg,
-        transparent 22%,
-        hsl(41 74% 66% / 0.28) 38%,
-        transparent 52%
-      ),
-      linear-gradient(
-        88deg,
-        transparent 60%,
-        hsl(206 90% 62% / 0.26) 74%,
-        transparent 90%
-      );
-    animation: silk-drift-b 52s var(--ease-out-expo) infinite;
   }
 
   /* Horizon: the light that seats the room's floor. */
@@ -1182,11 +1096,11 @@
     mix-blend-mode: screen;
     background: radial-gradient(
       closest-side,
-      hsl(204 84% 52% / 0.4),
-      hsl(206 74% 40% / 0.14) 56%,
+      hsl(204 84% 52% / 0.26),
+      hsl(206 74% 40% / 0.1) 56%,
       transparent 100%
     );
-    animation: ambient-drift 56s var(--ease-out-expo) infinite;
+    animation: ambient-drift 90s var(--ease-out-expo) infinite;
   }
 
   /* Rim light: the gold bounce that keeps the blue from reading flat. */
@@ -1200,11 +1114,10 @@
     mix-blend-mode: screen;
     background: radial-gradient(
       closest-side,
-      hsl(42 78% 74% / 0.36),
-      hsl(40 68% 62% / 0.14) 54%,
+      hsl(42 78% 74% / 0.24),
+      hsl(40 68% 62% / 0.1) 54%,
       transparent 100%
     );
-    animation: ambient-drift-rim 74s var(--ease-out-expo) infinite;
   }
 
   /* Vignette: seats the content inside the room instead of on top of it. */
@@ -1275,41 +1188,25 @@
     animation: float-soft 9s var(--ease-out-expo) infinite;
   }
 
-  /* Mobile: lighter environment — no drifting light at all, softer floor. */
+  /* Mobile: the same room, fully static — one less compositor animation. */
   @media (max-width: 767px) {
     .ambient-key {
       animation: none;
-      opacity: 0.75;
+      opacity: 0.85;
     }
     .ambient-rim {
-      opacity: 0.7;
-    }
-    .ambient-silk {
-      opacity: 0.8;
-    }
-    .ambient-silk-b {
-      opacity: 0.6;
+      opacity: 0.75;
     }
     .depth-floor {
-      opacity: 0.22;
-    }
-    /* fewer drifting motes on phones, so the layer stays cheap */
-    .dust:nth-child(n + 17) {
-      display: none;
+      opacity: 0.2;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .ambient-key,
-    .ambient-rim,
-    .ambient-silk,
-    .ambient-silk-b,
     .scroll-cue,
     .float-soft {
       animation: none !important;
-    }
-    .dust {
-      display: none;
     }
   }
 }
@@ -1806,108 +1703,7 @@ html[data-cursor-out] .cursor-layer {
   }
 }
 
-/* ── Foreground motes ──────────────────────────────────────────────────── */
-
-.dust-field {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  overflow: hidden;
-}
-
-/* The particle foreground (`ParticleField`): slow motes on a 2D canvas,
-   added light. Sits above the vignette so the motes stay crisp across the
-   whole viewport, and never takes a pointer. */
-.particle-field {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
-
-@media (max-width: 767px) {
-  .particle-field {
-    opacity: 0.9;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .particle-field {
-    opacity: 0.6;
-  }
-}
-
-/* React Bits `DotField` — the dimensional lattice sitting inside the room.
-   Desktop only (mounted by `DepthBackground`); the CSS gradients above are the
-   fallback. It never takes a pointer, and `screen` blending makes the dots add
-   light to the room instead of painting over it. The mask keeps the lattice
-   from crowding the content at the very bottom of the page. */
-.depth-field {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  opacity: 0.62;
-  -webkit-mask-image: radial-gradient(
-    118% 96% at 50% 26%,
-    black 34%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    118% 96% at 50% 26%,
-    black 34%,
-    transparent 100%
-  );
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .depth-field {
-    display: none;
-  }
-}
-
-/* One mote: a dot of warm light drifting up through the room. Position, size
-   and timing come from inline custom properties, so the whole field is still
-   one CSS animation per mote and nothing runs in JavaScript. */
-.dust {
-  position: absolute;
-  bottom: -4vh;
-  left: var(--dust-x);
-  width: var(--dust-size);
-  height: var(--dust-size);
-  border-radius: 999px;
-  opacity: 0;
-  background: radial-gradient(
-    circle,
-    hsl(41 90% 88% / 0.95),
-    hsl(198 92% 76% / 0.45) 55%,
-    transparent 100%
-  );
-  animation: dust-rise var(--dust-dur) linear var(--dust-delay) infinite;
-}
-
-/* ── Pointer light ─────────────────────────────────────────────────────── */
-
-.pointer-light {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 40rem;
-  height: 40rem;
-  margin: -20rem 0 0 -20rem;
-  border-radius: 999px;
-  pointer-events: none;
-  opacity: 0.55;
-  background: radial-gradient(
-    closest-side,
-    color-mix(in oklab, var(--gold) 8%, transparent),
-    transparent 100%
-  );
-  will-change: transform;
-}
+/* ── Ambient grain ─────────────────────────────────────────────────────── */
 
 .ambient-grain {
   position: absolute;
@@ -1916,20 +1712,6 @@ html[data-cursor-out] .cursor-layer {
   opacity: 0.03;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='gn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23gn)'/%3E%3C/svg%3E");
-}
-
-/* Only a fine pointer can move it, so a touch device would otherwise keep a
-   static gold blob parked in the top-left corner. */
-@media not all and ((hover: hover) and (pointer: fine)) {
-  .pointer-light {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pointer-light {
-    display: none;
-  }
 }
 
 /* ── Hand-drawn ink ────────────────────────────────────────────────────── */
