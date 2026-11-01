@@ -21,13 +21,18 @@
  * One formula then balances every mark, so a new logo needs its measurements
  * added here (or gets the shared default) and nothing else:
  *
- *   span   = 0.86 / max(inkWidth, inkHeight)   → equal optical bounding box
- *   weight = clamp(sqrt(0.34 / coverage), 0.88, 1.06)
- *                                              → thin art lifted, dense art calmed
- *   scale  = clamp(span × weight, 0, 1.1)      → applied inside the fixed slot
+ *   density = clamp((0.34 / coverage) ^ 0.3, 0.78, 1)
+ *                                              → airy art keeps its size, a
+ *                                                solid/full-bleed mark (Claude,
+ *                                                Base44, Lovable, TypeScript …)
+ *                                                shrinks until it reads equal
+ *   span    = 0.8 × density                    → the ink's long side, as a
+ *                                                fraction of the fixed slot
+ *   scale   = min(span / max(inkW, inkH), 1)   → applied inside that slot
  *
- * Nothing is ever enlarged past 1.1 and the container never changes size, so
- * no mark can overflow its slot or shift the layout around it.
+ * So every mark's visible artwork is 0.62–0.8 of its slot (never a solid square
+ * and a hairline glyph at the same size), nothing is ever enlarged beyond its
+ * own slot, and a uniform 10–19% inset keeps every logo off the slot edge.
  */
 
 /** Ink bounding box and painted coverage, as fractions of the mark's canvas. */
@@ -40,15 +45,15 @@ export interface InkMetrics {
   coverage: number;
 }
 
-/** Optical bounding box every mark is balanced to (fraction of its slot). */
-const TARGET_SPAN = 0.86;
-/** Painted coverage the weight correction aims for. */
+/** Ink span (long side) a light, airy mark is balanced to. */
+const TARGET_SPAN = 0.8;
+/** Painted coverage treated as "normal weight" artwork. */
 const TARGET_COVERAGE = 0.34;
-/** How far the weight correction may move beyond the span fit. */
-const WEIGHT_MIN = 0.88;
-const WEIGHT_MAX = 1.06;
-/** Hard ceiling: no mark is ever enlarged past this. */
-const SCALE_MAX = 1.1;
+/** How strongly density pulls a mark down, and how far it may pull. */
+const DENSITY_EXPONENT = 0.3;
+const DENSITY_MIN = 0.78;
+/** Hard ceiling: a mark is never enlarged past its own slot. */
+const SCALE_MAX = 1;
 
 /**
  * Measured ink metrics for the vendored marks (`/public/brands/<slug>.svg`),
@@ -117,13 +122,14 @@ const clamp = (value: number, min: number, max: number) =>
 /** The one rule. Unknown artwork gets the shared target, never a guess. */
 function opticalScale(ink: InkMetrics | undefined): number {
   if (!ink) return TARGET_SPAN;
-  const span = TARGET_SPAN / Math.max(ink.w, ink.h, 0.001);
-  const weight = clamp(
-    Math.sqrt(TARGET_COVERAGE / Math.max(ink.coverage, 0.001)),
-    WEIGHT_MIN,
-    WEIGHT_MAX,
+  const density = clamp(
+    (TARGET_COVERAGE / Math.max(ink.coverage, 0.001)) ** DENSITY_EXPONENT,
+    DENSITY_MIN,
+    1,
   );
-  return Number(clamp(span * weight, 0, SCALE_MAX).toFixed(3));
+  const span = TARGET_SPAN * density;
+  const fit = span / Math.max(ink.w, ink.h, 0.001);
+  return Number(clamp(fit, 0, SCALE_MAX).toFixed(3));
 }
 
 /**
@@ -155,7 +161,7 @@ export function vendoredOpticalScale(brand: {
 const REMOTE_INK: Record<string, InkMetrics> = {
   "anthropic.com": { w: 1, h: 1, coverage: 1 },
   "arduino.cc": { w: 1, h: 1, coverage: 1 },
-  "base44.com": { w: 1, h: 1, coverage: 0.67 },
+  "base44.com": { w: 1, h: 1, coverage: 0.668 },
   "claude.com": { w: 1, h: 1, coverage: 1 },
   "cloud.google.com": { w: 0.98, h: 1, coverage: 0.52 },
   "credly.com": { w: 1, h: 1, coverage: 1 },
@@ -184,20 +190,20 @@ const REMOTE_INK: Record<string, InkMetrics> = {
   "kotlinlang.org": { w: 1, h: 1, coverage: 0.75 },
   "linkedin.com": { w: 1, h: 1, coverage: 0.99 },
   "linktr.ee": { w: 1, h: 1, coverage: 0.96 },
-  "lovable.dev": { w: 0.98, h: 1, coverage: 0.75 },
+  "lovable.dev": { w: 1, h: 1, coverage: 0.764 },
   "mediapipe.dev": { w: 0.93, h: 0.93, coverage: 0.67 },
   "mongodb.com": { w: 1, h: 1, coverage: 1 },
   "nextjs.org": { w: 0.99, h: 0.86, coverage: 0.44 },
   "nodejs.org": { w: 1, h: 1, coverage: 1 },
   "nuxt.com": { w: 1, h: 1, coverage: 1 },
-  "openai.com": { w: 0.98, h: 1, coverage: 0.43 },
+  "openai.com": { w: 0.99, h: 1, coverage: 0.437 },
   "openexchangerates.org": { w: 1, h: 1, coverage: 1 },
   "opencv.org": { w: 1, h: 1, coverage: 1 },
   "php.net": { w: 1, h: 1, coverage: 1 },
   "postgresql.org": { w: 0.98, h: 1, coverage: 0.72 },
   "postman.com": { w: 1, h: 1, coverage: 0.8 },
   "python-pillow.org": { w: 0.84, h: 0.85, coverage: 0.51 },
-  "python.org": { w: 0.96, h: 0.96, coverage: 0.62 },
+  "python.org": { w: 0.98, h: 0.98, coverage: 0.647 },
   "react.dev": { w: 1, h: 0.92, coverage: 0.36 },
   "reactnative.dev": { w: 1, h: 0.88, coverage: 0.32 },
   "ruby-lang.org": { w: 1, h: 1, coverage: 0.85 },

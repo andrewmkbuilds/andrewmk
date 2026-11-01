@@ -237,10 +237,13 @@ The background is **CSS gradients plus one 2D canvas**. The React Bits Silk shad
   balances the artwork inside it — equal boxes alone let a full-canvas glyph (Base44, OpenAI,
   Claude, Lovable) read larger than a flat or outline mark. The table records each vendored file's
   ink bounding box and painted coverage (rasterise the file, take the alpha bounds); **one** formula
-  then turns those numbers into a scale: equal optical bounding box (`0.86 / max(inkW, inkH)`) times
-  a bounded weight correction (`clamp(sqrt(0.34 / coverage), 0.88, 1.06)`). It is the only sizing
-  rule on the site — add a new brand by measuring its artwork, never by hand-tuning a scale to taste,
-  and nothing is ever scaled past 1.1, so no mark can overflow its slot. Logo.dev crops to the mark's
+  then turns those numbers into a scale: the ink's long side is fitted to `0.8 × density` of the
+  slot, where `density = clamp((0.34 / coverage) ** 0.3, 0.78, 1)`. Equal bounding boxes were not
+  enough on their own — a solid, full-bleed tile (Base44, ChatGPT/OpenAI, Lovable, Claude,
+  TypeScript) still read larger than a thin glyph, which is what density corrects. It is the only
+  sizing rule on the site — add a new brand by measuring its artwork, never by hand-tuning a scale
+  to taste — and the scale is capped at 1, so no mark is enlarged past its own slot (the previous
+  1.1 ceiling let an inset mark such as Rust render ~40% larger than everything else). Logo.dev crops to the mark's
   own bounds, so its marks all share the single target inset (no per-domain exceptions).
 - Mark *sizes* stay uniform inside a collection, too: the ribbon's headline chips keep their gold
   edge and larger padding but use the same mark size as every other chip, and the "Find Me Online"
