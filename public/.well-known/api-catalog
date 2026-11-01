@@ -1,0 +1,53 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://andrewmk.is-a.dev/data/v1/index.json",
+      "service-desc": [
+        {
+          "href": "https://andrewmk.is-a.dev/openapi.json",
+          "type": "application/openapi+json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://andrewmk.is-a.dev/developers",
+          "type": "text/html"
+        },
+        {
+          "href": "https://andrewmk.is-a.dev/llms.txt",
+          "type": "text/plain"
+        }
+      ],
+      "item": [
+        {
+          "href": "https://andrewmk.is-a.dev/data/v1/profile.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://andrewmk.is-a.dev/data/v1/projects.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://andrewmk.is-a.dev/data/v1/projects/{slug}.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://andrewmk.is-a.dev/data/v1/recognition.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://andrewmk.is-a.dev/data/v1/experience.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://andrewmk.is-a.dev/data/v1/resources.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://andrewmk.is-a.dev/data/v1/faq.json",
+          "type": "application/json"
+        }
+      ]
+    }
+  ]
+}

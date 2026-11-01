@@ -1,0 +1,26 @@
+{
+  "slug": "conversacore-ai",
+  "name": "ConversaCore AI",
+  "category": "AI / Conversational",
+  "description": "Multi-model conversational platform with dynamic model selection, persona-driven responses, and fallback systems.",
+  "status": "Built",
+  "github": "https://github.com/andrewmkbuilds/ConversaCore-AI",
+  "tech": [
+    "Python",
+    "Multi-Model AI",
+    "Tkinter"
+  ],
+  "built": [
+    "Dynamic model selection",
+    "Persona responses",
+    "Fallback systems"
+  ],
+  "filters": [
+    "Python",
+    "AI",
+    "Tkinter"
+  ],
+  "featured": false,
+  "caseStudy": "https://andrewmk.is-a.dev/projects/conversacore-ai",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/conversacore-ai.json"
+}

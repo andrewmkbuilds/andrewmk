@@ -1,0 +1,9 @@
+# Static-host headers (Cloudflare Pages / nitro deploy).
+# `/.well-known/api-catalog` has no extension, so a static server cannot infer
+# its type; RFC 9727 specifies application/linkset+json.
+/.well-known/api-catalog
+  Content-Type: application/linkset+json; charset=utf-8
+
+# The public data API is regenerated on every build/deploy.
+/data/v1/*
+  Cache-Control: public, max-age=300

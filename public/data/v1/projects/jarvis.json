@@ -1,0 +1,26 @@
+{
+  "slug": "jarvis",
+  "name": "JARVIS",
+  "category": "AI Voice Assistant",
+  "description": "Voice-powered AI assistant designed to understand spoken commands, maintain context, and execute actions.",
+  "status": "Experiment",
+  "tech": [
+    "Flutter",
+    "Python",
+    "Gemini API",
+    "Android Studio"
+  ],
+  "built": [
+    "Voice command handling",
+    "Context memory",
+    "Action execution"
+  ],
+  "filters": [
+    "Flutter",
+    "Python",
+    "AI"
+  ],
+  "featured": false,
+  "caseStudy": "https://andrewmk.is-a.dev/projects/jarvis",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/jarvis.json"
+}

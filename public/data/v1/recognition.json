@@ -1,0 +1,88 @@
+{
+  "competitionResults": [
+    {
+      "place": "1st Place",
+      "detail": "Data Science",
+      "event": "Techfest",
+      "certificate": "Certificate of Merit — 1st Position, Data Science pathway"
+    },
+    {
+      "place": "2nd Place",
+      "detail": "IoT",
+      "event": "Techfest",
+      "certificate": "Certificate of Merit — 2nd Position, IoT pathway"
+    },
+    {
+      "place": "2nd Place",
+      "detail": "Space Tech",
+      "event": "Group Techfest",
+      "certificate": "Certificate of Appreciation — 2nd Position, Space Tech pathway"
+    },
+    {
+      "place": "Innovation Award",
+      "detail": "FLL UAE",
+      "event": "Dubai Regional",
+      "certificate": "Innovation Award — Winner"
+    },
+    {
+      "place": "2nd Place",
+      "detail": "Math Expo",
+      "event": "\"Math & Me\"",
+      "certificate": "Certificate of Participation — Second prize, Math Expo “Math & Me”"
+    },
+    {
+      "place": "3rd Place",
+      "detail": "Shot Put",
+      "event": "Annual Athletic Meet",
+      "certificate": "Certificate of Merit — Third position, Shot Put (Grade 7)"
+    }
+  ],
+  "munResults": [
+    {
+      "conference": "IHSMUN 2025",
+      "result": "FIA · Verbal Commendation"
+    },
+    {
+      "conference": "Novara MUN 2026",
+      "result": "UNSC · Verbal Commendation"
+    },
+    {
+      "conference": "IHS UNSummit 2026",
+      "result": "FIA · Verbal Commendation"
+    }
+  ],
+  "achievementGroups": [
+    {
+      "title": "STEM & Technology",
+      "kind": "tags",
+      "items": [
+        "Techfest",
+        "Data Science",
+        "IoT",
+        "Space Tech",
+        "Coding",
+        "Robotics",
+        "FLL",
+        "STEM Racing / F1 in Schools"
+      ]
+    }
+  ],
+  "verifiedCredentials": [
+    {
+      "title": "MongoDB Indexing Design Fundamentals — Proof of Completion",
+      "issuer": "MongoDB",
+      "date": "7 Oct 2026",
+      "platform": "Credly",
+      "verifyUrl": "https://www.credly.com/badges/0bf7e882-82bd-4937-85fe-a1e20f178359"
+    },
+    {
+      "title": "CRUD Operations in MongoDB — Proof of Completion",
+      "issuer": "MongoDB",
+      "date": "7 Oct 2026",
+      "platform": "Credly",
+      "verifyUrl": "https://www.credly.com/badges/979430cc-755a-47e1-b7a0-e2742a1419b8"
+    }
+  ],
+  "munAwardPolicy": "Andrew has received a Verbal Commendation at Model United Nations conferences and no other MUN award. Honourable Mention, Best Position Paper, Best Resolution, Outstanding Delegate and Best Delegate are not claimed anywhere on this site.",
+  "achievementsPage": "https://andrewmk.is-a.dev/achievements"
+}

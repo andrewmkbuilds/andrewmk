@@ -142,7 +142,12 @@ into the blue-and-gold palette. Colours are never taken from the reference.
   and carries the hand-written **"Drag me"** cue (`SketchArrow` pointing at the top
   card). Cards drag with mouse and touch — `touch-action: pan-y` keeps vertical page
   scrolling working under a thumb — and are static under reduced motion. A drag lifts
-  the card (scaled, deeper shadow) and springs it back on release.
+  the card (scaled, deeper shadow) and the card **stays where it is dropped**. Position
+  lives on the outer wrapper's `x`/`y` motion values and nothing else ever writes them;
+  the inner `.hero-card` owns only the look (entry animation, drag bank/tilt, hover lift).
+  Do not switch this back to motion's `drag` prop: `drag` shares its motion values with
+  the `animate` prop, and the entrance animation (`y: 0`) replayed on the next re-render
+  (the lazy background mounts ~0.9 s in) and slid every dropped card home.
 - `src/components/ui/TechMarquee.tsx` is the infinite tools ribbon: **exactly two rows**,
   moving in opposite directions at different speeds (two CSS tracks each, duplicate
   hidden from assistive tech, paused on hover/off-screen, static and capped at 15 chips
@@ -331,6 +336,43 @@ sites, GitHub, social media or inference.
   configuration change needed once a sending domain is verified. Do not send
   repeated test messages.
 
+## Public data layer and the editorial pages
+
+The site is also a structured public source. Everything below is generated from the same
+`src/data` modules the pages render, so a content change reaches the pages, the résumé files and
+the API together.
+
+```sh
+docker compose -f docker-compose.base44.yml exec -T web \
+  bunx tsx scripts/generate-public-data.ts      # also `bun run data:generate`, and part of predev/prebuild
+```
+
+- Writes 32 files into `public/`: `data/v1/index.json`, `profile.json`, `projects.json`,
+  `projects/<slug>.json` (one per project), `recognition.json`, `experience.json`,
+  `resources.json`, `faq.json`, plus `llms.txt`, `llms-full.txt`, `agents.md`, `openapi.json`,
+  `.well-known/api-catalog` and `sitemap.md`. Commit the output — the sandbox serves `public/`
+  directly and skips `predev`.
+- `src/data/publicApi.ts` is the endpoint registry: the generator, `/openapi.json` and the
+  `/developers` page all read it, so the docs cannot list an endpoint that does not exist.
+  `src/data/faq.ts` feeds both `/faq` and `faq.json`; `src/data/pressKit.ts` feeds `/press-kit`
+  and `llms-full.txt`. Add a question or a bio there, never in the page.
+- Verified in the sandbox: every endpoint answers `200` with `application/json`, `/llms.txt` and
+  `/llms-full.txt` with `text/plain`, `/agents.md` and `/sitemap.md` with `text/markdown`, and an
+  unknown `/data/v1/*.json` path with `404` plus an HTML body — so check the content type, not
+  just the status, before parsing.
+- `/.well-known/api-catalog` has no file extension, so nothing infers its type. Two things set it:
+  a small Vite middleware in `vite.config.ts` (dev/preview) and `public/_headers` (Cloudflare
+  Pages / `nitro deploy`). Nitro merges `public/_headers` into `.output/public/_headers`; keep
+  both in sync if the path changes.
+- Editorial routes added with the data layer: `/now`, `/press-kit`, `/faq`, `/colophon`,
+  `/sitemap`, `/developers`. They are registered in `src/data/seo.ts` (so `sitemap.xml`, the OG
+  images and the head tags pick them up), linked from the footer and the mobile sheet, and
+  grouped on `/sitemap`. The desktop pill keeps its seven core links on purpose.
+- `/story`, `/recognition`, `/experience` and `/capabilities` are **not** separate routes: their
+  content already has a canonical home at `/journey`, `/achievements`, `/resume` + `/profile` and
+  `/skills`. Adding a second page for the same facts would split the same content across two
+  URLs. Extend the existing page instead.
+
 ## What to check after a change
 
 ```sh
@@ -396,10 +438,14 @@ follows and the reasons behind them:
   on screen opt in; permanent hints on every card cost GPU memory.
 - **Marquee is one CSS transform.** `TechMarquee` pauses via `data-paused` when the ribbon is
   off screen or the tab is hidden, and does no per-frame positioning in JS.
-- **Hero cards drag on every pointer, but only horizontally on touch.** `HeroCardStack` uses motion
-  values (no React state per pointer move), `touch-action: pan-y` leaves vertical scrolling to the
-  page, and the `.paper` surface has no CSS transform transition — that transition used to smooth
-  (lag) every drag frame.
+- **Hero cards drag with Pointer Events, and only one element paints the drag.** `HeroCardStack`
+  writes the wrapper's `x`/`y` motion values directly (no React state per pointer move, so a drag
+  costs one transform frame); `touch-action: pan-y` leaves a swipe to the page and a 170 ms hold
+  picks the card up, after which a non-passive `touchmove` keeps the page still. Drag constraints
+  are measured from the card's and the column's real rects at drag time and clamped there, so the
+  card cannot leave the hero and a breakpoint change only pulls it back inside. The inner
+  `.hero-card` carries the visual channels (rotate/tilt/scale) and has no CSS transform transition —
+  that transition used to smooth (lag) every drag frame.
 - **The background is the CSS room, one 2D canvas and one guarded shader.** The room is painted
   with radial gradients on compositor layers (`.ambient-base`, `.ambient-key`, `.ambient-rim`,
   `.ambient-vignette`) plus an SVG-turbulence grain overlay. `ParticleField` adds the only always-on

@@ -1984,6 +1984,18 @@ html[data-cursor-out] .cursor-layer {
   translate: 0 -6px;
 }
 
+/* Held in the hand: the card lifts off the page with a deeper, softer shadow,
+   and the grip label stays visible while the pointer is down. */
+.hero-card.is-dragging {
+  box-shadow: 0 34px 64px -22px hsl(220 70% 2% / 0.82);
+  cursor: grabbing;
+}
+
+.hero-card.is-dragging .card-grip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-card {
     transition: none;

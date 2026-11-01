@@ -1,0 +1,27 @@
+{
+  "slug": "gestureplay",
+  "name": "GesturePlay",
+  "category": "Computer Vision / Interactive",
+  "description": "Rock, Paper, Scissors, Pencil played entirely through webcam hand gestures.",
+  "status": "Built",
+  "tech": [
+    "Python",
+    "OpenCV",
+    "MediaPipe",
+    "Tkinter",
+    "Pillow"
+  ],
+  "built": [
+    "Hand tracking",
+    "Gesture recognition",
+    "Game loop"
+  ],
+  "filters": [
+    "Python",
+    "OpenCV",
+    "Tkinter"
+  ],
+  "featured": false,
+  "caseStudy": "https://andrewmk.is-a.dev/projects/gestureplay",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/gestureplay.json"
+}

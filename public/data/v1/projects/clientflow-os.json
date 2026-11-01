@@ -1,0 +1,108 @@
+{
+  "slug": "clientflow-os",
+  "name": "ClientFlow OS",
+  "category": "Business Operating System · AI",
+  "description": "A unified platform for managing clients, projects, conversations, payments, documents, and workflows in one connected system.",
+  "problem": "Small studios and freelancers run their business across six tools that do not talk: a CRM, a chat app, a spreadsheet of projects, an invoicing tool, a drive folder and a notes app. Every handoff between them is manual and every status question costs a search. ClientFlow OS collapses the client lifecycle — enquiry to delivery to payment — into one connected system.",
+  "status": "In Active Development",
+  "github": "https://github.com/andrewmkbuilds/ClientFlow-OS",
+  "tech": [
+    "AI",
+    "React"
+  ],
+  "built": [
+    "Client lifecycle management",
+    "Project management",
+    "Communication tracking",
+    "Stripe payments",
+    "Invoicing",
+    "File storage",
+    "AI automation",
+    "Approval dashboards"
+  ],
+  "filters": [
+    "AI",
+    "React"
+  ],
+  "featured": true,
+  "stack": [
+    {
+      "group": "Interface",
+      "items": [
+        "React",
+        "TypeScript",
+        "Dashboard layouts",
+        "Approval flows"
+      ]
+    },
+    {
+      "group": "Backend",
+      "items": [
+        "Postgres",
+        "Row-level security",
+        "Auth",
+        "File storage",
+        "Server functions"
+      ]
+    },
+    {
+      "group": "Payments",
+      "items": [
+        "Stripe",
+        "Invoicing",
+        "Payment status sync"
+      ]
+    },
+    {
+      "group": "AI layer",
+      "items": [
+        "Automations",
+        "Conversation summarisation",
+        "Draft generation"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "title": "Modelling one lifecycle across many objects",
+      "detail": "Clients, projects, invoices and messages each want to be the centre. Making the client the root and treating everything else as a scoped child removed most cross-entity edge cases."
+    },
+    {
+      "title": "Payment state is the hard part",
+      "detail": "Invoices can be partially paid, refunded or fail after the fact. Stripe webhooks are the single source of truth and local state is derived from them, never written optimistically."
+    },
+    {
+      "title": "Sharing with clients without leaking data",
+      "detail": "Client-facing views needed to expose exactly one project and nothing else. Row-level security policies are written per relationship instead of per role, which keeps access provable."
+    },
+    {
+      "title": "Automation that stays trustworthy",
+      "detail": "Anything AI-generated that touches a client goes into a draft state with an approval step, so automation speeds up the operator instead of speaking for them."
+    }
+  ],
+  "results": [
+    {
+      "label": "Status",
+      "value": "In active development",
+      "note": "Core lifecycle working."
+    },
+    {
+      "label": "Modules",
+      "value": "8",
+      "note": "Clients, projects, comms, payments, docs, automation."
+    },
+    {
+      "label": "Payments",
+      "value": "Stripe",
+      "note": "Webhook-driven state."
+    },
+    {
+      "label": "Code",
+      "value": "Public repo",
+      "note": "github.com/andrewmkbuilds/ClientFlow-OS"
+    }
+  ],
+  "startDate": "2025-10-01",
+  "caseStudy": "https://andrewmk.is-a.dev/projects/clientflow-os",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/clientflow-os.json"
+}

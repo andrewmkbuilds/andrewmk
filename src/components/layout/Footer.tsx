@@ -11,9 +11,14 @@ const links = [
   { href: "/projects", label: "Projects" },
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
+  { href: "/now", label: "Now" },
   { href: "/achievements", label: "Achievements" },
   { href: "/skills", label: "Skills" },
+  { href: "/press-kit", label: "Press kit" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/colophon", label: "Colophon" },
   { href: "/contact", label: "Contact" },
+  { href: "/sitemap", label: "Sitemap" },
 ];
 
 /**

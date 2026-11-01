@@ -1,0 +1,134 @@
+{
+  "version": "v1",
+  "generatedAt": "2026-11-01T09:57:10.123Z",
+  "site": {
+    "name": "Andrew Mathews · AndrewBuilds",
+    "url": "https://andrewmk.is-a.dev/"
+  },
+  "resources": [
+    {
+      "name": "index",
+      "path": "/data/v1/index.json",
+      "url": "https://andrewmk.is-a.dev/data/v1/index.json",
+      "description": "Catalog of every endpoint in this version, with the site URL and generation date.",
+      "fields": [
+        "version",
+        "generatedAt",
+        "site",
+        "resources",
+        "docs"
+      ]
+    },
+    {
+      "name": "profile",
+      "path": "/data/v1/profile.json",
+      "url": "https://andrewmk.is-a.dev/data/v1/profile.json",
+      "description": "Identity, positioning line, school, location, quick stats, working principles, focus areas and public profiles.",
+      "fields": [
+        "name",
+        "practice",
+        "identity",
+        "title",
+        "school",
+        "location",
+        "stats",
+        "principles",
+        "focus",
+        "links",
+        "contact"
+      ]
+    },
+    {
+      "name": "projects",
+      "path": "/data/v1/projects.json",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects.json",
+      "description": "Every documented project as a summary record, with links to its case study and its own JSON endpoint.",
+      "fields": [
+        "count",
+        "featured",
+        "projects"
+      ]
+    },
+    {
+      "name": "project",
+      "path": "/data/v1/projects/{slug}.json",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/{slug}.json",
+      "description": "One project in full: problem, stack, features, challenges, results, status, live and source links.",
+      "fields": [
+        "slug",
+        "name",
+        "category",
+        "description",
+        "problem",
+        "status",
+        "live",
+        "github",
+        "platform",
+        "tech",
+        "built",
+        "stack",
+        "features",
+        "challenges",
+        "results",
+        "metrics",
+        "caseStudy"
+      ]
+    },
+    {
+      "name": "recognition",
+      "path": "/data/v1/recognition.json",
+      "url": "https://andrewmk.is-a.dev/data/v1/recognition.json",
+      "description": "Competition results, Model United Nations results and verified credentials. MUN recognition is limited to Verbal Commendation.",
+      "fields": [
+        "competitionResults",
+        "munResults",
+        "achievementGroups",
+        "verifiedCredentials",
+        "munAwardPolicy"
+      ]
+    },
+    {
+      "name": "experience",
+      "path": "/data/v1/experience.json",
+      "url": "https://andrewmk.is-a.dev/data/v1/experience.json",
+      "description": "The published chronology: milestones, seasons and exhibitions, in the site's own wording.",
+      "fields": [
+        "timeline",
+        "fllSeasons",
+        "exhibitions"
+      ]
+    },
+    {
+      "name": "resources",
+      "path": "/data/v1/resources.json",
+      "url": "https://andrewmk.is-a.dev/data/v1/resources.json",
+      "description": "Skills taxonomy, certification groups, the certificate list and the areas Andrew builds in.",
+      "fields": [
+        "skills",
+        "certificationGroups",
+        "certificates",
+        "buildAreas"
+      ]
+    },
+    {
+      "name": "faq",
+      "path": "/data/v1/faq.json",
+      "url": "https://andrewmk.is-a.dev/data/v1/faq.json",
+      "description": "The FAQ, word for word as it appears on /faq, with the page each answer comes from.",
+      "fields": [
+        "count",
+        "faq"
+      ]
+    }
+  ],
+  "docs": {
+    "developers": "https://andrewmk.is-a.dev/developers",
+    "openapi": "https://andrewmk.is-a.dev/openapi.json",
+    "apiCatalog": "https://andrewmk.is-a.dev/.well-known/api-catalog",
+    "llms": "https://andrewmk.is-a.dev/llms.txt",
+    "llmsFull": "https://andrewmk.is-a.dev/llms-full.txt",
+    "agents": "https://andrewmk.is-a.dev/agents.md"
+  },
+  "readOnly": true,
+  "authentication": "none — public information only"
+}

@@ -2,13 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "@/lib/router-compat";
 import {
   ArrowUpRight,
+  BookOpen,
+  Clock,
+  Code,
   FileText,
   FolderKanban,
   House,
   Info,
   Mail,
+  Map,
   Menu,
   PenLine,
+  PenTool,
+  Quote,
   Route,
   Trophy,
   User,
@@ -58,7 +64,13 @@ const navItems: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/about", label: "About", icon: Info },
   { href: "/journey", label: "Journey", icon: Route },
   { href: "/achievements", label: "Achievements", icon: Trophy },
+  { href: "/now", label: "Now", icon: Clock },
   { href: "/skills", label: "Skills", icon: Wrench },
+  { href: "/press-kit", label: "Press kit", icon: Quote },
+  { href: "/faq", label: "FAQ", icon: BookOpen },
+  { href: "/colophon", label: "Colophon", icon: PenTool },
+  { href: "/developers", label: "Developers", icon: Code },
+  { href: "/sitemap", label: "Sitemap", icon: Map },
   { href: "/contact", label: "Contact", icon: Mail },
 ];
 

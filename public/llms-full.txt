@@ -1,0 +1,610 @@
+# Andrew Mathews · AndrewBuilds — full public reference
+
+Generated from the site's own content. Source of truth: https://andrewmk.is-a.dev/
+Data API: https://andrewmk.is-a.dev/data/v1/index.json
+
+## Profile
+
+- Name: Andrew Mathews
+- Practice: AndrewBuilds (a personal practice, not a company or agency)
+- Identity: Student · Developer · AI Builder · Systems Thinker
+- Positioning: Student Developer · AI Builder · Systems Thinker
+- School: The Indian High School, Dubai
+- Based in: Dubai, United Arab Emirates
+- Building since: 2022, age 9
+- Contact: https://andrewmk.is-a.dev/contact
+- GitHub: https://github.com/andrewmkbuilds
+- Linktree: https://linktr.ee/andrewmkbuilds
+
+## About
+
+Andrew Mathews is a student, builder and systems thinker based in Dubai. He works across artificial intelligence, software development, robotics, product design and engineering competitions. He started building with robotics at age 9 through the Mbot@IHS programme, and from there moved deeper into software, AI, computer vision and product development. Today he builds everything from small Python experiments to full product systems such as Gradr, TerraCart and ClientFlow OS, competes in STEM and engineering challenges, takes part in MUN conferences, works on F1 in Schools / STEM Racing, and shows projects at exhibitions.
+
+Working principles:
+
+- Systems Over Features: I like building connected systems that solve a complete problem instead of isolated features.
+- Ship First, Improve Always: A working product gives me something real to learn from. I build, test, iterate, and improve.
+- Real Problems First: The best projects start with a problem worth solving.
+
+## Biographies
+
+### Short · first person
+
+I'm Andrew Mathews, a student developer and AI builder from Dubai. I started building with robotics at age 9 and now build AI applications, web products and systems that solve real problems.
+
+### Short · third person
+
+Andrew Mathews is a student developer and AI builder from Dubai, UAE. He started building with robotics at age 9 and now builds AI applications, web products and systems that solve real problems.
+
+### Medium · first person
+
+I'm Andrew Mathews, a student developer and systems thinker based in Dubai. I work across artificial intelligence, software development, robotics and product design. I started with the Mbot@IHS robotics programme at age 9, and moved from there into software, AI and computer vision. Today I build everything from small Python experiments to full product systems such as Gradr, TerraCart and ClientFlow OS, and I compete in STEM and engineering challenges, take part in Model United Nations conferences, and show projects at exhibitions.
+
+### Medium · third person
+
+Andrew Mathews is a student developer and systems thinker based in Dubai, UAE. He works across artificial intelligence, software development, robotics and product design. He began with the Mbot@IHS robotics programme at age 9 and moved from there into software, AI and computer vision. He now builds everything from small Python experiments to full product systems such as Gradr, TerraCart and ClientFlow OS, competes in STEM and engineering challenges, takes part in Model United Nations conferences, and shows projects at exhibitions.
+
+### Long · first person
+
+I'm Andrew Mathews, a student developer and AI builder from Dubai, United Arab Emirates, and a student at The Indian High School, Dubai. I don't just learn technology — I apply it. I started building in 2022 at age 9 through the Mbot@IHS robotics programme, where I built and presented an original model at a school exhibition. That gave me the instinct to build physically; from there I moved deeper into software, AI, computer vision and product development.
+
+Today I work across AI applications and assistants, full-stack web products, robotics and engineering, and data work. My flagship products are Gradr, an AI career accelerator; Stack Up, a personal-finance app built around gamification; TerraCart, a sustainable shopping assistant; and ClientFlow OS, a business operating system. Alongside them sits a larger archive of tools and experiments.
+
+Outside of building, I compete in STEM and engineering challenges — Techfest, FIRST LEGO League and F1 in Schools / STEM Racing — take part in Model United Nations conferences, and demonstrate projects at exhibitions. I care about systems over features, shipping over theory, and starting from a problem worth solving.
+
+### Long · third person
+
+Andrew Mathews is a student developer and AI builder from Dubai, United Arab Emirates, and a student at The Indian High School, Dubai. He describes his approach simply: he does not just learn technology, he applies it. He started building in 2022 at age 9 through the Mbot@IHS robotics programme, where he built and presented an original model at a school exhibition — the beginning of a move from hardware into software, AI, computer vision and product development.
+
+He works across AI applications and assistants, full-stack web products, robotics and engineering, and data work. His flagship products are Gradr, an AI career accelerator; Stack Up, a personal-finance app built around gamification; TerraCart, a sustainable shopping assistant; and ClientFlow OS, a business operating system, alongside a larger archive of tools and experiments.
+
+Outside of building, he competes in STEM and engineering challenges — Techfest, FIRST LEGO League and F1 in Schools / STEM Racing — takes part in Model United Nations conferences, and demonstrates projects at exhibitions. His working principles are systems over features, shipping first and improving always, and starting from a real problem.
+
+
+## Story
+
+### 2022 — First Robotics Certification (Age 9 · Grade 4)
+Completed the Mbot@IHS robotics after-school programme and built and presented an original model at a school exhibition.
+This was the beginning of the building journey.
+
+### 2023 — Exploring Beyond Hardware (Age 10 · Grade 4-5)
+After robotics, the focus expanded toward software and discovering what could be built beyond physical hardware.
+
+### 2024 — Techfest Breakout (Age 11 · Grade 5-6)
+Participated across Coding, Data Science, and Space Tech pathways.
+- 2nd Place Space Tech at Group Techfest
+- Certificate of Merit
+- Certificate of Appreciation
+- 2nd Place at Math Expo "Math & Me"
+- Recognition through school exhibitions and events
+
+### 2025 — Stack Up Ships (Age 12-13 · Grade 6-7)
+Stack Up became the first live application shipped.
+- 1st Place Data Science at Techfest
+- 2nd Place IoT at Techfest
+- FLL UAE Dubai Regional Innovation Award
+- IHSMUN
+- 3rd Place Shot Put at Annual Athletic Meet
+- Additional robotics certification
+
+### 2025-2026 — From Projects to an Ecosystem (Age 13-14 · Grade 7)
+Started building a broader ecosystem of products and experiments.
+Also founded Horizon Motorsports and participated in STEM Racing / F1 in Schools.
+- Gradr
+- ClientFlow OS
+- DevOS
+- COGNOS
+- TabZen
+- TerraCart
+- Home ServeAI
+- AI for Students
+- JARVIS
+- GemLab
+- GesturePlay
+- Watch Walkie Talkie
+- Computer vision systems
+- Multiple AI experiments
+
+### NOW — Building What's Next
+More ambitious products. More competitions. More experiments. More systems.
+
+## Currently building
+
+- Gradr (Building): AI career accelerator.
+- TerraCart (Developing): Sustainable shopping assistant.
+- ClientFlow OS (In Active Development): Business operating system.
+- Horizon Motorsports (Active): UAE racing team.
+
+## Projects (19)
+
+Featured: Gradr, Stack Up, TerraCart, ClientFlow OS.
+Archive: Horizon Motorsports, DevOS, COGNOS, TabZen, AI for Students, Home ServeAI, JARVIS, GemLab, Security Camera System, Currency Converter, GesturePlay, Watch Walkie Talkie, ConversaCore AI, Arabica AI Chat, NeuroTac AI.
+
+### Gradr
+
+- Category: Career Technology · AI
+- Status: Building
+- Tech: AI, React
+- Case study: https://andrewmk.is-a.dev/projects/gradr
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/gradr.json
+
+An AI-powered career accelerator designed to help students, graduates, and early-career professionals build stronger resumes, prepare for interviews, and manage their career journey.
+
+Problem: Early-career candidates get almost no useful feedback. Resumes disappear into applicant tracking systems without explanation, interview practice is either expensive or unstructured, and applications end up scattered across spreadsheets, inboxes and browser tabs. The missing piece is not more advice — it is a system that reviews your material, tells you exactly what is weak, and keeps the whole search in one place.
+
+
+
+Results:
+- Status: In active development — Core flows working end to end.
+- Core modules: 6 — Resume, ATS, interviews, tracker, analytics, plan.
+- Feedback loop: Analyse → practise → apply — One connected system.
+- Integrations: MCP tools — Resumes, jobs and reminders exposed to assistants.
+
+---
+
+### Stack Up
+
+- Category: Personal Finance · Gamification
+- Status: Live
+- Tech: React
+- Live: https://stackup-app.base44.app/
+- Case study: https://andrewmk.is-a.dev/projects/stack-up
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/stack-up.json
+
+The first product I shipped. A personal finance system designed to make spending, budgeting, and saving easier to understand and more engaging.
+
+Problem: Most budgeting apps assume you already have the discipline they are supposed to build. They show you a pie chart after the money is gone. Stack Up started from the opposite question: what would make a student actually open a finance app on a normal Tuesday? The answer was progress — visible streaks, goals that move, and numbers small enough to act on.
+
+
+
+Results:
+- Status: Live — Publicly usable at stackup-app.base44.app.
+- First shipped product: 2024 — Idea to deployed app end to end.
+- Core modules: 5 — Expenses, budgets, goals, streaks, analytics.
+- Entry time: < 10s — Design target for logging a spend.
+
+---
+
+### TerraCart
+
+- Category: AI · Sustainability · E-commerce
+- Status: Developing
+- Tech: AI, Browser Extension
+- Case study: https://andrewmk.is-a.dev/projects/terracart
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/terracart.json
+
+An AI-powered shopping assistant designed to help people discover more sustainable alternatives while shopping online.
+
+Problem: Shopping sustainably online is mostly guesswork. Product pages optimise for conversion, claims are unverifiable, and comparing a greener alternative means opening five tabs mid-checkout. TerraCart puts the analysis where the decision happens — on the product page — and offers a concrete alternative instead of a lecture.
+
+
+
+Results:
+- Status: In development — Analysis and alternatives in progress.
+- Surface: Browser extension — Works inline on product pages.
+- Principle: Evidence over scores — Unverified claims labelled as such.
+
+---
+
+### ClientFlow OS
+
+- Category: Business Operating System · AI
+- Status: In Active Development
+- Tech: AI, React
+- Source: https://github.com/andrewmkbuilds/ClientFlow-OS
+- Case study: https://andrewmk.is-a.dev/projects/clientflow-os
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/clientflow-os.json
+
+A unified platform for managing clients, projects, conversations, payments, documents, and workflows in one connected system.
+
+Problem: Small studios and freelancers run their business across six tools that do not talk: a CRM, a chat app, a spreadsheet of projects, an invoicing tool, a drive folder and a notes app. Every handoff between them is manual and every status question costs a search. ClientFlow OS collapses the client lifecycle — enquiry to delivery to payment — into one connected system.
+
+
+
+Results:
+- Status: In active development — Core lifecycle working.
+- Modules: 8 — Clients, projects, comms, payments, docs, automation.
+- Payments: Stripe — Webhook-driven state.
+- Code: Public repo — github.com/andrewmkbuilds/ClientFlow-OS
+
+---
+
+### Horizon Motorsports
+
+- Category: Racing / Community
+- Status: Active
+- Tech: React, Framer Motion
+- Live: https://horizonmotorsports.base44.app/
+- Case study: https://andrewmk.is-a.dev/projects/horizon-motorsports
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/horizon-motorsports.json
+
+Digital home for Horizon Motorsports, a UAE-based racing team competing in FLL, Techfest, and engineering competitions.
+
+Problem: Horizon Motorsports needed a presence that matched how the team actually operates: a Dubai-based racing and engineering team competing in FLL, Techfest and other UAE competitions, with a following that lives mostly on social. The site had to work as the anchor visitors land on from Instagram — fast, motion-driven, and clear about who the team is and what it competes in.
+
+
+
+Results:
+- Status: Active — Live team site.
+- Competitions: FLL · Techfest — UAE engineering and robotics circuit.
+- Base: Dubai, UAE — Team operates locally.
+- Primary channel: Instagram — Site is the landing point for social traffic.
+
+---
+
+### DevOS
+
+- Category: Productivity / AI
+- Status: Live
+- Tech: Python, AI Integration
+- Live: https://dev-os-flow.base44.app/
+- Case study: https://andrewmk.is-a.dev/projects/devos
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/devos.json
+
+AI-powered developer command center designed to bring tasks, focus sessions, and project threads into one place.
+
+Problem: Building alone means context lives in five places at once — a task list, a terminal, a notes file, a chat with an AI assistant, and whatever was open when you stopped. DevOS came out of my own workflow: one command center where the task, the focus session and the project thread are the same object, so picking work back up does not require reconstructing it.
+
+
+
+Results:
+- Status: Live — Usable at dev-os-flow.base44.app.
+- Objects unified: 3 — Tasks, focus sessions, project threads.
+- Built for: Solo builders — Designed around my own workflow.
+- Interaction: Keyboard-first — Command-driven navigation.
+
+---
+
+### COGNOS
+
+- Category: Cognitive / AI
+- Status: Live
+- Tech: AI APIs, NLP, Graph Architecture
+- Live: https://cognos-app.base44.app/
+- Case study: https://andrewmk.is-a.dev/projects/cognos
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/cognos.json
+
+An AI cognitive operating system designed to capture raw thoughts, classify them, and map connections between ideas.
+
+Problem: Notes apps store text; they do not store thinking. Ideas arrive unformed, at bad times, and the connection between two of them is usually the valuable part. COGNOS was an attempt to build a capture surface that classifies a raw thought the moment it lands and then shows how it relates to everything captured before.
+
+
+
+Results:
+- Status: Live — Usable at cognos-app.base44.app.
+- Pipeline: Capture → classify → connect — Fully automatic.
+- Link quality: Embedding-based — Replaced keyword matching.
+
+---
+
+### TabZen
+
+- Category: Productivity / Browser
+- Status: Live
+- Tech: Browser Extension, AI Summarization
+- Live: https://tabzen.base44.app/
+- Case study: https://andrewmk.is-a.dev/projects/tabzen
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/tabzen.json
+
+Intelligent tab management that groups tabs by context, summarizes them, and archives them without losing information.
+
+Problem: Research sessions end with forty tabs and no memory of why half of them were opened. Closing them loses the thread; keeping them makes the browser unusable. TabZen treats tabs as a working set that should be grouped, summarised and archived without losing the reason each one existed.
+
+
+
+Results:
+- Status: Live — Usable at tabzen.base44.app.
+- Core loop: Group → summarise → archive — Three-step workflow.
+- Data loss: Zero by design — Archive precedes close.
+
+---
+
+### AI for Students
+
+- Category: Education / AI
+- Status: Live
+- Tech: AI Tutoring, APIs, Gamification
+- Live: https://ai-for-students.base44.app/
+- Case study: https://andrewmk.is-a.dev/projects/ai-for-students
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/ai-for-students.json
+
+A gamified AI learning platform built around making AI easier for students to understand and use.
+
+
+
+
+
+---
+
+### Home ServeAI
+
+- Category: Marketplace / AI
+- Status: Concept
+- Tech: Marketplace Architecture, AI Matching, Real-Time Tracking
+- Case study: https://andrewmk.is-a.dev/projects/home-serveai
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/home-serveai.json
+
+AI-powered home services marketplace concept featuring smart matching, real-time tracking, and recurring service management.
+
+
+
+
+
+---
+
+### JARVIS
+
+- Category: AI Voice Assistant
+- Status: Experiment
+- Tech: Flutter, Python, Gemini API, Android Studio
+- Case study: https://andrewmk.is-a.dev/projects/jarvis
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/jarvis.json
+
+Voice-powered AI assistant designed to understand spoken commands, maintain context, and execute actions.
+
+
+
+
+
+---
+
+### GemLab
+
+- Category: AI / Tooling
+- Status: Built
+- Tech: Python, Tkinter, Google Gemini API, Threading
+- Case study: https://andrewmk.is-a.dev/projects/gemlab
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/gemlab.json
+
+Multi-persona AI chatbot environment with Friendly, Professional, and Creative conversation modes.
+
+
+
+
+
+---
+
+### Security Camera System
+
+- Category: Computer Vision
+- Status: Built
+- Tech: Python, OpenCV, Haar Cascade Classifiers
+- Case study: https://andrewmk.is-a.dev/projects/security-camera-system
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/security-camera-system.json
+
+An intelligent motion-activated recording system that detects movement through a webcam and automatically manages recordings.
+
+
+
+
+
+---
+
+### Currency Converter
+
+- Category: Finance / Utility
+- Status: Built
+- Tech: Python, Tkinter, Open Exchange Rate API, Offline Caching
+- Case study: https://andrewmk.is-a.dev/projects/currency-converter
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/currency-converter.json
+
+Desktop currency converter supporting 170+ currencies with live exchange rates and offline fallback.
+
+
+
+
+
+---
+
+### GesturePlay
+
+- Category: Computer Vision / Interactive
+- Status: Built
+- Tech: Python, OpenCV, MediaPipe, Tkinter, Pillow
+- Case study: https://andrewmk.is-a.dev/projects/gestureplay
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/gestureplay.json
+
+Rock, Paper, Scissors, Pencil played entirely through webcam hand gestures.
+
+
+
+
+
+---
+
+### Watch Walkie Talkie
+
+- Category: Real-Time Communication
+- Status: Concept
+- Tech: Flutter, Python, Real-Time Audio Streaming, Cross-Device Communication
+- Case study: https://andrewmk.is-a.dev/projects/watch-walkie-talkie
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/watch-walkie-talkie.json
+
+Push-to-talk voice communication concept connecting smartwatches and phones for instant communication.
+
+
+
+
+
+---
+
+### ConversaCore AI
+
+- Category: AI / Conversational
+- Status: Built
+- Tech: Python, Multi-Model AI, Tkinter
+- Source: https://github.com/andrewmkbuilds/ConversaCore-AI
+- Case study: https://andrewmk.is-a.dev/projects/conversacore-ai
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/conversacore-ai.json
+
+Multi-model conversational platform with dynamic model selection, persona-driven responses, and fallback systems.
+
+
+
+
+
+---
+
+### Arabica AI Chat
+
+- Category: AI / Multilingual
+- Status: Built
+- Tech: Python, Tkinter, Translation API, AI
+- Source: https://github.com/andrewmkbuilds/Arabica-AI-Chat
+- Case study: https://andrewmk.is-a.dev/projects/arabica-ai-chat
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/arabica-ai-chat.json
+
+Bilingual AI chat focused on English-Arabic conversation, translation, and context-aware responses.
+
+
+
+
+
+---
+
+### NeuroTac AI
+
+- Category: AI / Game
+- Status: Built
+- Tech: Python, AI Decision Logic, Game Theory
+- Source: https://github.com/andrewmkbuilds/NeuroTac-AI
+- Case study: https://andrewmk.is-a.dev/projects/neurotac-ai
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/neurotac-ai.json
+
+An intelligent Tic Tac Toe engine that evaluates board states and selects optimal moves.
+
+
+
+
+
+## Competition results
+
+- 1st Place — Data Science
+  Event: Techfest
+- 2nd Place — IoT
+  Event: Techfest
+- 2nd Place — Space Tech
+  Event: Group Techfest
+- Innovation Award — FLL UAE
+  Event: Dubai Regional
+- 2nd Place — Math Expo
+  Event: "Math & Me"
+- 3rd Place — Shot Put
+  Event: Annual Athletic Meet
+
+## Model United Nations
+
+- IHSMUN 2025 — FIA · Verbal Commendation
+- Novara MUN 2026 — UNSC · Verbal Commendation
+- IHS UNSummit 2026 — FIA · Verbal Commendation
+
+Award policy: Verbal Commendation only. No other MUN award is claimed.
+
+## Skills
+
+### AI
+
+Generative AI, AI APIs, AI applications, AI assistants, AI integrations
+
+### Software
+
+Python, TypeScript, JavaScript, React, Flutter, Tkinter
+
+### Computer Vision
+
+OpenCV, MediaPipe, Motion detection, Gesture recognition
+
+### Robotics
+
+Robotics, Sensors, Hardware integration, Engineering competitions
+
+### Product
+
+Product design, Systems thinking, Rapid prototyping, Problem solving
+
+### Competition
+
+Techfest, FLL, F1 in Schools / STEM Racing, MUN, Exhibitions
+
+## Credentials
+
+- MongoDB Indexing Design Fundamentals — Proof of Completion (MongoDB): https://www.credly.com/badges/0bf7e882-82bd-4937-85fe-a1e20f178359
+- CRUD Operations in MongoDB — Proof of Completion (MongoDB): https://www.credly.com/badges/979430cc-755a-47e1-b7a0-e2742a1419b8
+
+34 certificates are catalogued at https://andrewmk.is-a.dev/achievements.
+
+## FAQ
+
+### Who is Andrew Mathews?
+
+Andrew Mathews is a student developer and technology builder based in Dubai, United Arab Emirates. He studies at The Indian High School, Dubai, and has been building since age 9, starting with robotics and moving into software, AI and product development.
+
+Source: https://andrewmk.is-a.dev/about
+
+### What does Andrew build?
+
+AI applications and assistants, full web applications and tools, robotics and engineering projects, computer-vision experiments, and product systems taken from a rough concept through to something that runs.
+
+Source: https://andrewmk.is-a.dev/skills
+
+### What technologies does he work with?
+
+Python, TypeScript, JavaScript, React and Flutter, generative-AI models and APIs, OpenCV and MediaPipe for computer vision, and hardware and sensor work from competition robotics. The skills page lists the full set.
+
+Source: https://andrewmk.is-a.dev/skills
+
+### Which projects are on this site?
+
+Nineteen projects are documented as case studies. The four featured ones are Gradr, an AI career accelerator; Stack Up, a personal-finance app with gamification; TerraCart, a sustainable shopping assistant; and ClientFlow OS, a business operating system. The rest form the project archive.
+
+Source: https://andrewmk.is-a.dev/projects
+
+### What is AndrewBuilds?
+
+AndrewBuilds is the name Andrew uses for his work and his online profiles — it is the wordmark on this site and the handle behind his GitHub, Linktree and build-platform accounts. It is a personal practice, not a company or an agency.
+
+Source: https://andrewmk.is-a.dev/profile
+
+### What has he won?
+
+Competition results published here are: 1st Place Data Science and 2nd Place IoT at Techfest, 2nd Place Space Tech at Group Techfest, an Innovation Award at the FLL UAE Dubai Regional, 2nd Place at the "Math & Me" Math Expo, and 3rd Place Shot Put at the Annual Athletic Meet. In Model United Nations his only award is a Verbal Commendation, at IHSMUN 2025, Novara MUN 2026 and the IHS UNSummit 2026. No other MUN award is claimed.
+
+Source: https://andrewmk.is-a.dev/achievements
+
+### How did he start building?
+
+With the Mbot@IHS robotics programme in 2022, at age 9, building and presenting an original model at a school exhibition. The journey page records the milestones from there.
+
+Source: https://andrewmk.is-a.dev/journey
+
+### How can someone get in touch?
+
+Through the contact page, which has a working form, or through any of the public profiles linked in the site footer and on the profile page.
+
+Source: https://andrewmk.is-a.dev/contact
+
+### How was this website built?
+
+It is a TanStack Start application with React, TypeScript, Tailwind CSS and Motion, rendering server-side. The colophon documents the stack, the design system and the ambient background in detail.
+
+Source: https://andrewmk.is-a.dev/colophon
+
+### Can this site's information be read by developers or AI agents?
+
+Yes. A read-only, versioned JSON API is published under /data/v1, alongside /llms.txt, /llms-full.txt, /agents.md and an OpenAPI description. Everything it exposes is public information already on the site.
+
+Source: https://andrewmk.is-a.dev/developers
+
+## Contact
+
+Contact page: https://andrewmk.is-a.dev/contact
+Email: buildwithandrewmk@gmail.com
+GitHub: https://github.com/andrewmkbuilds
+Linktree: https://linktr.ee/andrewmkbuilds
+
+## Site
+
+- Every page: https://andrewmk.is-a.dev/sitemap
+- Data API: https://andrewmk.is-a.dev/developers
+- Press kit: https://andrewmk.is-a.dev/press-kit
+- Colophon: https://andrewmk.is-a.dev/colophon

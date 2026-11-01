@@ -15,10 +15,16 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AchievementsRouteImport } from './routes/achievements'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ColophonRouteImport } from './routes/colophon'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DevelopersRouteImport } from './routes/developers'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as JourneyRouteImport } from './routes/journey'
+import { Route as NowRouteImport } from './routes/now'
+import { Route as PressKitRouteImport } from './routes/press-kit'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ResumeRouteImport } from './routes/resume'
+import { Route as SitemapRouteImport } from './routes/sitemap'
 import { Route as SkillsRouteImport } from './routes/skills'
 import { Route as WorkRouteImport } from './routes/work'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
@@ -65,14 +71,39 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ColophonRoute = ColophonRouteImport.update({
+  id: '/colophon',
+  path: '/colophon',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DevelopersRoute = DevelopersRouteImport.update({
+  id: '/developers',
+  path: '/developers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JourneyRoute = JourneyRouteImport.update({
   id: '/journey',
   path: '/journey',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NowRoute = NowRouteImport.update({
+  id: '/now',
+  path: '/now',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PressKitRoute = PressKitRouteImport.update({
+  id: '/press-kit',
+  path: '/press-kit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -83,6 +114,11 @@ const ProfileRoute = ProfileRouteImport.update({
 const ResumeRoute = ResumeRouteImport.update({
   id: '/resume',
   path: '/resume',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapRoute = SitemapRouteImport.update({
+  id: '/sitemap',
+  path: '/sitemap',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SkillsRoute = SkillsRouteImport.update({
@@ -176,10 +212,16 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/achievements': typeof AchievementsRoute
   '/auth': typeof AuthRoute
+  '/colophon': typeof ColophonRoute
   '/contact': typeof ContactRoute
+  '/developers': typeof DevelopersRoute
+  '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
+  '/now': typeof NowRoute
+  '/press-kit': typeof PressKitRoute
   '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
+  '/sitemap': typeof SitemapRoute
   '/skills': typeof SkillsRoute
   '/work': typeof WorkRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -203,10 +245,16 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/achievements': typeof AchievementsRoute
   '/auth': typeof AuthRoute
+  '/colophon': typeof ColophonRoute
   '/contact': typeof ContactRoute
+  '/developers': typeof DevelopersRoute
+  '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
+  '/now': typeof NowRoute
+  '/press-kit': typeof PressKitRoute
   '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
+  '/sitemap': typeof SitemapRoute
   '/skills': typeof SkillsRoute
   '/work': typeof WorkRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -232,10 +280,16 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/achievements': typeof AchievementsRoute
   '/auth': typeof AuthRoute
+  '/colophon': typeof ColophonRoute
   '/contact': typeof ContactRoute
+  '/developers': typeof DevelopersRoute
+  '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
+  '/now': typeof NowRoute
+  '/press-kit': typeof PressKitRoute
   '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
+  '/sitemap': typeof SitemapRoute
   '/skills': typeof SkillsRoute
   '/work': typeof WorkRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -261,10 +315,16 @@ export interface FileRouteTypes {
     | '/about'
     | '/achievements'
     | '/auth'
+    | '/colophon'
     | '/contact'
+    | '/developers'
+    | '/faq'
     | '/journey'
+    | '/now'
+    | '/press-kit'
     | '/profile'
     | '/resume'
+    | '/sitemap'
     | '/skills'
     | '/work'
     | '/blog/$slug'
@@ -288,10 +348,16 @@ export interface FileRouteTypes {
     | '/about'
     | '/achievements'
     | '/auth'
+    | '/colophon'
     | '/contact'
+    | '/developers'
+    | '/faq'
     | '/journey'
+    | '/now'
+    | '/press-kit'
     | '/profile'
     | '/resume'
+    | '/sitemap'
     | '/skills'
     | '/work'
     | '/blog/$slug'
@@ -316,10 +382,16 @@ export interface FileRouteTypes {
     | '/about'
     | '/achievements'
     | '/auth'
+    | '/colophon'
     | '/contact'
+    | '/developers'
+    | '/faq'
     | '/journey'
+    | '/now'
+    | '/press-kit'
     | '/profile'
     | '/resume'
+    | '/sitemap'
     | '/skills'
     | '/work'
     | '/blog/$slug'
@@ -345,10 +417,16 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AchievementsRoute: typeof AchievementsRoute
   AuthRoute: typeof AuthRoute
+  ColophonRoute: typeof ColophonRoute
   ContactRoute: typeof ContactRoute
+  DevelopersRoute: typeof DevelopersRoute
+  FaqRoute: typeof FaqRoute
   JourneyRoute: typeof JourneyRoute
+  NowRoute: typeof NowRoute
+  PressKitRoute: typeof PressKitRoute
   ProfileRoute: typeof ProfileRoute
   ResumeRoute: typeof ResumeRoute
+  SitemapRoute: typeof SitemapRoute
   SkillsRoute: typeof SkillsRoute
   WorkRoute: typeof WorkRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -404,6 +482,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/colophon': {
+      id: '/colophon'
+      path: '/colophon'
+      fullPath: '/colophon'
+      preLoaderRoute: typeof ColophonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -411,11 +496,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/developers': {
+      id: '/developers'
+      path: '/developers'
+      fullPath: '/developers'
+      preLoaderRoute: typeof DevelopersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/journey': {
       id: '/journey'
       path: '/journey'
       fullPath: '/journey'
       preLoaderRoute: typeof JourneyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/now': {
+      id: '/now'
+      path: '/now'
+      fullPath: '/now'
+      preLoaderRoute: typeof NowRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/press-kit': {
+      id: '/press-kit'
+      path: '/press-kit'
+      fullPath: '/press-kit'
+      preLoaderRoute: typeof PressKitRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -430,6 +543,13 @@ declare module '@tanstack/react-router' {
       path: '/resume'
       fullPath: '/resume'
       preLoaderRoute: typeof ResumeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap': {
+      id: '/sitemap'
+      path: '/sitemap'
+      fullPath: '/sitemap'
+      preLoaderRoute: typeof SitemapRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/skills': {
@@ -590,10 +710,16 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AchievementsRoute: AchievementsRoute,
   AuthRoute: AuthRoute,
+  ColophonRoute: ColophonRoute,
   ContactRoute: ContactRoute,
+  DevelopersRoute: DevelopersRoute,
+  FaqRoute: FaqRoute,
   JourneyRoute: JourneyRoute,
+  NowRoute: NowRoute,
+  PressKitRoute: PressKitRoute,
   ProfileRoute: ProfileRoute,
   ResumeRoute: ResumeRoute,
+  SitemapRoute: SitemapRoute,
   SkillsRoute: SkillsRoute,
   WorkRoute: WorkRoute,
   BlogSlugRoute: BlogSlugRoute,

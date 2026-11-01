@@ -1,0 +1,167 @@
+{
+  "name": "Andrew Mathews",
+  "practice": "AndrewBuilds",
+  "identity": "Student · Developer · AI Builder · Systems Thinker",
+  "title": "Student Developer · AI Builder · Systems Thinker",
+  "school": "The Indian High School, Dubai",
+  "location": "Dubai, United Arab Emirates",
+  "home": "https://andrewmk.is-a.dev/",
+  "stats": [
+    {
+      "value": "15+",
+      "label": "Projects & Systems"
+    },
+    {
+      "value": "Age 9",
+      "label": "Started Building"
+    },
+    {
+      "value": "3",
+      "label": "Flagship Products"
+    },
+    {
+      "value": "Multiple",
+      "label": "STEM & Engineering Competitions"
+    }
+  ],
+  "principles": [
+    {
+      "title": "Systems Over Features",
+      "body": "I like building connected systems that solve a complete problem instead of isolated features."
+    },
+    {
+      "title": "Ship First, Improve Always",
+      "body": "A working product gives me something real to learn from. I build, test, iterate, and improve."
+    },
+    {
+      "title": "Real Problems First",
+      "body": "The best projects start with a problem worth solving."
+    }
+  ],
+  "focus": [
+    {
+      "title": "AI",
+      "items": [
+        "Generative AI",
+        "AI APIs",
+        "AI applications",
+        "AI assistants",
+        "AI integrations"
+      ]
+    },
+    {
+      "title": "Software",
+      "items": [
+        "Python",
+        "TypeScript",
+        "JavaScript",
+        "React",
+        "Flutter",
+        "Tkinter"
+      ]
+    },
+    {
+      "title": "Computer Vision",
+      "items": [
+        "OpenCV",
+        "MediaPipe",
+        "Motion detection",
+        "Gesture recognition"
+      ]
+    },
+    {
+      "title": "Robotics",
+      "items": [
+        "Robotics",
+        "Sensors",
+        "Hardware integration",
+        "Engineering competitions"
+      ]
+    },
+    {
+      "title": "Product",
+      "items": [
+        "Product design",
+        "Systems thinking",
+        "Rapid prototyping",
+        "Problem solving"
+      ]
+    },
+    {
+      "title": "Competition",
+      "items": [
+        "Techfest",
+        "FLL",
+        "F1 in Schools / STEM Racing",
+        "MUN",
+        "Exhibitions"
+      ]
+    }
+  ],
+  "now": [
+    {
+      "name": "Gradr",
+      "status": "Building",
+      "note": "AI career accelerator."
+    },
+    {
+      "name": "TerraCart",
+      "status": "Developing",
+      "note": "Sustainable shopping assistant."
+    },
+    {
+      "name": "ClientFlow OS",
+      "status": "In Active Development",
+      "note": "Business operating system."
+    },
+    {
+      "name": "Horizon Motorsports",
+      "status": "Active",
+      "note": "UAE racing team."
+    }
+  ],
+  "links": [
+    {
+      "id": "github",
+      "label": "GitHub",
+      "handle": "@andrewmkbuilds",
+      "url": "https://github.com/andrewmkbuilds"
+    },
+    {
+      "id": "base44",
+      "label": "Base44",
+      "handle": "@andrewmkbuilds",
+      "url": "https://app.base44.com/@andrewmkbuilds"
+    },
+    {
+      "id": "lovable",
+      "label": "Lovable",
+      "handle": "@andrewbuilds",
+      "url": "https://lovable.dev/@andrewbuilds"
+    },
+    {
+      "id": "x",
+      "label": "X",
+      "handle": "@Andrew444884",
+      "url": "https://x.com/Andrew444884"
+    },
+    {
+      "id": "instagram",
+      "label": "Instagram",
+      "handle": "@andrewmkbuilds",
+      "url": "https://www.instagram.com/andrewmkbuilds/"
+    },
+    {
+      "id": "linktree",
+      "label": "All My Links",
+      "handle": "linktr.ee/andrewmkbuilds",
+      "url": "https://linktr.ee/andrewmkbuilds"
+    }
+  ],
+  "contact": {
+    "page": "https://andrewmk.is-a.dev/contact",
+    "email": "buildwithandrewmk@gmail.com",
+    "github": "https://github.com/andrewmkbuilds",
+    "linktree": "https://linktr.ee/andrewmkbuilds"
+  }
+}

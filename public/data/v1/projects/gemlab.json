@@ -1,0 +1,26 @@
+{
+  "slug": "gemlab",
+  "name": "GemLab",
+  "category": "AI / Tooling",
+  "description": "Multi-persona AI chatbot environment with Friendly, Professional, and Creative conversation modes.",
+  "status": "Built",
+  "tech": [
+    "Python",
+    "Tkinter",
+    "Google Gemini API",
+    "Threading"
+  ],
+  "built": [
+    "Persona switching",
+    "Threaded responses",
+    "Desktop interface"
+  ],
+  "filters": [
+    "Python",
+    "Tkinter",
+    "AI"
+  ],
+  "featured": false,
+  "caseStudy": "https://andrewmk.is-a.dev/projects/gemlab",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/gemlab.json"
+}

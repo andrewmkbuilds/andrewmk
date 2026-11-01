@@ -115,6 +115,66 @@ export const routes: RouteMeta[] = [
     priority: "0.8",
   },
   {
+    path: "/now",
+    label: "Now",
+    title: "Now | Andrew Mathews",
+    description:
+      "What Andrew Mathews is building right now — Gradr, TerraCart, ClientFlow OS and Horizon Motorsports — plus the focus areas and principles behind them.",
+    ogHeadline: "What I'm building right now.",
+    changefreq: "weekly",
+    priority: "0.7",
+  },
+  {
+    path: "/press-kit",
+    label: "Press kit",
+    title: "Press kit | Andrew Mathews",
+    description:
+      "Copy-ready short, medium and long biographies of Andrew Mathews in first and third person, with a published fact sheet and links to his work.",
+    ogHeadline: "Biographies and facts.",
+    changefreq: "monthly",
+    priority: "0.6",
+  },
+  {
+    path: "/faq",
+    label: "FAQ",
+    title: "FAQ | Andrew Mathews",
+    description:
+      "Answers about Andrew Mathews: what he builds, the technologies he works with, his projects, his competition and MUN results, and how to get in touch.",
+    ogHeadline: "Questions, answered.",
+    changefreq: "monthly",
+    priority: "0.6",
+  },
+  {
+    path: "/colophon",
+    label: "Colophon",
+    title: "Colophon | Andrew Mathews",
+    description:
+      "How this website is made: the application stack, design system, typefaces, motion budget, data sources and hosting.",
+    ogHeadline: "How this site is made.",
+    changefreq: "yearly",
+    priority: "0.5",
+  },
+  {
+    path: "/sitemap",
+    label: "Sitemap",
+    title: "Sitemap | Andrew Mathews",
+    description:
+      "Every page on the site, organised by section and searchable, with links to the XML, Markdown and machine-readable sitemaps.",
+    ogHeadline: "Every page, in one place.",
+    changefreq: "weekly",
+    priority: "0.5",
+  },
+  {
+    path: "/developers",
+    label: "Developers",
+    title: "Developers | Andrew Mathews",
+    description:
+      "The public read-only JSON API for this site, with the llms.txt, llms-full.txt, agents.md and OpenAPI files that make it readable by developers and AI agents.",
+    ogHeadline: "The public data layer.",
+    changefreq: "monthly",
+    priority: "0.6",
+  },
+  {
     path: "/contact",
     label: "Contact",
     title: "Contact | Andrew Mathews",

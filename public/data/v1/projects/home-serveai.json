@@ -1,0 +1,25 @@
+{
+  "slug": "home-serveai",
+  "name": "Home ServeAI",
+  "category": "Marketplace / AI",
+  "description": "AI-powered home services marketplace concept featuring smart matching, real-time tracking, and recurring service management.",
+  "status": "Concept",
+  "platform": "lovable",
+  "tech": [
+    "Marketplace Architecture",
+    "AI Matching",
+    "Real-Time Tracking"
+  ],
+  "built": [
+    "Smart matching",
+    "Real-time tracking",
+    "Recurring services"
+  ],
+  "filters": [
+    "AI",
+    "Lovable"
+  ],
+  "featured": false,
+  "caseStudy": "https://andrewmk.is-a.dev/projects/home-serveai",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/home-serveai.json"
+}

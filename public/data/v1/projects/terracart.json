@@ -1,0 +1,91 @@
+{
+  "slug": "terracart",
+  "name": "TerraCart",
+  "category": "AI · Sustainability · E-commerce",
+  "description": "An AI-powered shopping assistant designed to help people discover more sustainable alternatives while shopping online.",
+  "problem": "Shopping sustainably online is mostly guesswork. Product pages optimise for conversion, claims are unverifiable, and comparing a greener alternative means opening five tabs mid-checkout. TerraCart puts the analysis where the decision happens — on the product page — and offers a concrete alternative instead of a lecture.",
+  "status": "Developing",
+  "tech": [
+    "AI",
+    "Browser Extension"
+  ],
+  "built": [
+    "E-commerce product analysis",
+    "Sustainable alternatives",
+    "AI research",
+    "Shopping checklist",
+    "Browser extension experience"
+  ],
+  "filters": [
+    "AI"
+  ],
+  "featured": true,
+  "stack": [
+    {
+      "group": "Extension",
+      "items": [
+        "Browser extension",
+        "Product page parsing",
+        "Content scripts"
+      ]
+    },
+    {
+      "group": "AI layer",
+      "items": [
+        "Product understanding",
+        "Claim research",
+        "Alternative matching"
+      ]
+    },
+    {
+      "group": "Interface",
+      "items": [
+        "Inline panel",
+        "Comparison view",
+        "Shopping checklist"
+      ]
+    },
+    {
+      "group": "Data",
+      "items": [
+        "Product cache",
+        "Category heuristics",
+        "Saved items"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "title": "Reading messy product pages",
+      "detail": "Every retailer structures pages differently. Parsing combines structured data where it exists with content-based extraction as fallback, so the panel still works on pages without clean markup."
+    },
+    {
+      "title": "Not inventing sustainability claims",
+      "detail": "The easy failure mode is a confident number with nothing behind it. Analysis separates verifiable attributes from unverified marketing claims and says so explicitly when evidence is thin."
+    },
+    {
+      "title": "Alternatives that are actually comparable",
+      "detail": "A greener product at four times the price is not a real option. Matching filters on function and price band first, then ranks on sustainability signals."
+    }
+  ],
+  "results": [
+    {
+      "label": "Status",
+      "value": "In development",
+      "note": "Analysis and alternatives in progress."
+    },
+    {
+      "label": "Surface",
+      "value": "Browser extension",
+      "note": "Works inline on product pages."
+    },
+    {
+      "label": "Principle",
+      "value": "Evidence over scores",
+      "note": "Unverified claims labelled as such."
+    }
+  ],
+  "startDate": "2025-11-01",
+  "caseStudy": "https://andrewmk.is-a.dev/projects/terracart",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/terracart.json"
+}
