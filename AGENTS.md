@@ -243,8 +243,38 @@ The background is **CSS gradients plus one 2D canvas**. The React Bits Silk shad
   TypeScript) still read larger than a thin glyph, which is what density corrects. It is the only
   sizing rule on the site — add a new brand by measuring its artwork, never by hand-tuning a scale
   to taste — and the scale is capped at 1, so no mark is enlarged past its own slot (the previous
-  1.1 ceiling let an inset mark such as Rust render ~40% larger than everything else). Logo.dev crops to the mark's
-  own bounds, so its marks all share the single target inset (no per-domain exceptions).
+  1.1 ceiling let an inset mark such as Rust render ~40% larger than everything else).
+- **Two tables, one formula.** Logo.dev does not crop consistently, so `brandOptics.ts` keeps
+  `INK` (the vendored `/public/brands/*.svg`, measured from the file) and `REMOTE_INK` (per
+  domain, measured at `?size=128&retina=true&theme=dark`) and runs the same formula over both.
+  Artwork missing from either table gets the shared `0.8` target span, which is why a new brand
+  without measurements reads too large — measure it and add it.
+- **Audited 2026-11-01 with rendered pixels, not the tables.** A headless Chromium pass over `/`,
+  `/projects`, `/skills`, `/achievements`, `/journey`, `/about`, `/contact` and `/resume` at 1440
+  and 390 px rasterised every mark's actual asset, took its alpha bounds and divided by the slot
+  it renders in. Every mark on the site lands between 0.62 and 0.80 of its slot, which is the
+  design band; ink sits within ~1 px of the slot centre for the Logo.dev images and the vendored
+  masks alike. The named check: Base44 **0.653**, ChatGPT/OpenAI 0.742, Lovable 0.627, Claude
+  0.624 in the same 18 px slots — a 1.19× spread that is coverage doing its job (the solid Base44,
+  Lovable and Claude tiles pull in, the open OpenAI spiral pushes out), not a sizing error. There
+  is **no 0.88 Base44 scale anywhere in the code**: the coverage formula has always produced
+  0.653, and Base44 renders within 5 % of the other two solid tiles, so it stays.
+- **Per-domain entries were current except one.** Re-measuring all 55 brand/source pairs flagged
+  only `python-pillow.org`, whose real ink is 0.833 × 0.958 at coverage 0.522: the stale entry
+  (`0.84 × 0.85`) made Pillow render at 0.80 of its badge slot instead of 0.70. Corrected. Do not
+  hand-tune a scale to make one brand match its neighbours; fix the measurement.
+- **Same brand, two sources.** When Logo.dev serves a different artwork than the vendored file the
+  two renders differ by design — GitHub 0.735/0.742, Lovable 0.627/0.631, Base44 0.653/0.652,
+  TypeScript 0.624/0.624, OpenAI 0.742/0.773, Claude 0.624/0.757 (the vendored file is a thin
+  outline, Logo.dev serves the solid tile). Both stay inside the band; equalising them by hand
+  would break the one-rule contract.
+- **The fallback has to survive a blocked network.** With `img.logo.dev` blocked (a tracker
+  blocker, offline, exhausted quota) the request fails before React has attached `onError`, so
+  the error was lost and the mark stayed a blank image: measured 167 blank marks on `/`. The
+  `useEffect` in `BrandLogo` now checks the element on mount and attaches its own `error`
+  listener when it is still loading — same measurement now gives 0 blank marks and 194 vendored
+  masks. Keep that effect; removing it silently brings the blank logos back for anyone blocking
+  Logo.dev.
 - Mark *sizes* stay uniform inside a collection, too: the ribbon's headline chips keep their gold
   edge and larger padding but use the same mark size as every other chip, and the "Find Me Online"
   and Contact rows render GitHub at the same size as the platforms below it. Chip/icon sizes are

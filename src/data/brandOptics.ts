@@ -202,7 +202,7 @@ const REMOTE_INK: Record<string, InkMetrics> = {
   "php.net": { w: 1, h: 1, coverage: 1 },
   "postgresql.org": { w: 0.98, h: 1, coverage: 0.72 },
   "postman.com": { w: 1, h: 1, coverage: 0.8 },
-  "python-pillow.org": { w: 0.84, h: 0.85, coverage: 0.51 },
+  "python-pillow.org": { w: 0.833, h: 0.958, coverage: 0.522 },
   "python.org": { w: 0.98, h: 0.98, coverage: 0.647 },
   "react.dev": { w: 1, h: 0.92, coverage: 0.36 },
   "reactnative.dev": { w: 1, h: 0.88, coverage: 0.32 },

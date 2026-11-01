@@ -1,4 +1,4 @@
-import { useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { brandFor, brandForIssuer, type Brand } from "@/data/brands";
 import { logoDevOpticalScale, vendoredOpticalScale } from "@/data/brandOptics";
@@ -80,6 +80,22 @@ export function BrandLogo({
     ? brandForIssuer(name)
     : brandFor(name);
   const [remoteFailed, setRemoteFailed] = useState(false);
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  // A Logo.dev request can fail before React has attached `onError` (offline,
+  // a tracker blocker, an exhausted quota), and that `error` event is then
+  // lost: the mark stays a blank image instead of falling back. Check the
+  // element on mount and catch anything that fails after it.
+  useEffect(() => {
+    const el = imgRef.current;
+    if (!el) return;
+    const fail = () => setRemoteFailed(true);
+    if (el.complete) {
+      if (el.naturalWidth === 0) fail();
+      return;
+    }
+    el.addEventListener("error", fail);
+    return () => el.removeEventListener("error", fail);
+  }, []);
   const px = SIZES[size];
   if (!brand) return fallback;
 
@@ -97,6 +113,7 @@ export function BrandLogo({
   if (logoDevEnabled && !remoteFailed) {
     return (
       <img
+        ref={imgRef}
         src={logoDevUrl(brand.domain, px * 3)}
         width={px}
         height={px}
