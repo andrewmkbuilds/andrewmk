@@ -324,40 +324,44 @@ perceived depths, because three hand-tuned `translateZ` planes never agreed on o
   show official platform marks instead of Lucide icons. Only brands with no official mark at all
   (Tkinter, Objective-C, C#, LEGO) still use the Lucide glyph from `tech-icons.tsx`.
 - Every mark renders in one fixed slot and `src/data/brandOptics.ts` holds the measurement that
-  balances the artwork inside it — equal boxes alone let a full-canvas glyph (Base44, OpenAI,
-  Claude, Lovable) read larger than a flat or outline mark. The table records each vendored file's
-  ink bounding box and painted coverage (rasterise the file, take the alpha bounds); **one** formula
-  then turns those numbers into a scale: the ink's long side is fitted to `0.63 × density` of the
-  slot, where `density = clamp((0.34 / coverage) ** 0.3, 0.94, 1)`. Equal bounding boxes were not
-  enough on their own — a solid, full-bleed tile (Base44, ChatGPT/OpenAI, Lovable, Claude,
-  TypeScript) still read larger than a thin glyph, which is what density corrects. It is the only
-  sizing rule on the site — add a new brand by measuring its artwork, never by hand-tuning a scale
-  to taste — and the scale is capped at 1, so no mark is enlarged past its own slot (the previous
-  1.1 ceiling let an inset mark such as Rust render ~40% larger than everything else).
+  balances the artwork inside it — equal boxes alone let a full-bleed tile (Claude, Base44,
+  TypeScript, Tailwind) read much heavier than a glyph sharing the slot with transparent margin.
+  The tables record what each mark actually *shows*: the visible artwork's bounding box and the
+  fraction of the canvas it paints, both measured **against the pill surface** (rasterise the file,
+  composite it on the navy pill, take the bounds of what differs — not the alpha bounds, which call
+  a near-black tile "100 % ink"). **One** formula then turns those numbers into a scale:
+  `weight = clamp((0.55 / coverage) ** 0.34, 0.86, 1)` trims dense artwork, `air = clamp(0.95 /
+  √(w × h), 0.9, 1)` gives a full-bleed mark its margin back, and the visible long side becomes
+  `0.60 × weight × air` of the slot. In the ribbon's 18 px slot that is 8.8 px for a solid tile and
+  ~10.4 px for glyph art: one optical size, deliberately smaller in *extent* for the heavier
+  artwork. It is the only sizing rule on the site — add a new brand by measuring its artwork, never
+  by hand-tuning a scale to taste — and the scale is capped at 1, so no mark is enlarged past its
+  own slot. Measuring only the alpha bounds is what let the 2026-10 build set every mark to ~10.7 px
+  and still show Claude, Base44, Lovable, GitHub and ChatGPT as the biggest marks in every pill.
 - **Two tables, one formula.** Logo.dev does not crop consistently, so `brandOptics.ts` keeps
-  `INK` (the vendored `/public/brands/*.svg`, measured from the file) and `REMOTE_INK` (per
-  domain, measured at `?size=128&retina=true&theme=dark`) and runs the same formula over both.
-  Artwork missing from either table gets the shared `0.8` target span, which is why a new brand
-  without measurements reads too large — measure it and add it.
-- **Re-measured 2026-11-01 against the rendered ribbon.** Measuring the tools ribbon in the live
-  preview showed the old `0.8 × density` rule left a 1.6× spread: the airiest artwork filled its
-  slot (GitHub 13.2 px, ChatGPT 13.4 px, Rust 18 px in an 18 px slot) while a solid tile was
-  trimmed to 11.2 px (Claude, TypeScript, Java). That is the "the headline logos look bigger"
-  report — the artwork of every Logo.dev mark fills its canvas edge to edge, so the slot *is* the
-  visible size. The rule now normalises the span to **0.63** with a shallow `0.94` coverage floor:
-  every mark in a pill renders 10.7–11.3 px in the same 18 px slot, and the solid tiles only give
-  up ~4 % so they do not read heavier than a glyph. Verify by measuring the rendered slot
-  (`getBoundingClientRect().width` on the mark, which already includes `--brand-scale`), never by
-  reading the table.
-- **Per-domain entries were current except one.** Re-measuring all 55 brand/source pairs flagged
-  only `python-pillow.org`, whose real ink is 0.833 × 0.958 at coverage 0.522: the stale entry
-  (`0.84 × 0.85`) made Pillow render at 0.80 of its badge slot instead of 0.70. Corrected. Do not
-  hand-tune a scale to make one brand match its neighbours; fix the measurement.
+  `INK` (the vendored `/public/brands/*.svg`, whose alpha bounds *are* their visible bounds) and
+  `REMOTE_INK` (per domain, measured at `?size=128&retina=true&theme=dark`) and runs the same
+  formula over both. Artwork missing from either table gets the shared `0.6` target span, which is
+  why a new brand without measurements reads too large — measure it and add it.
+- **Re-measured 2026-11-01 against the rendered ribbon, this time on what the artwork shows.**
+  Every mark sat at 10.5–11.3 px in the 18 px slot, yet Claude, Base44, Lovable, GitHub and ChatGPT
+  still dominated their pills: Logo.dev serves all five edge to edge, and Claude/Lovable/Base44 as
+  an opaque tile that paints the whole slot, so equal extent is *not* equal weight. Re-measuring all
+  54 remote domains by compositing each file on the pill surface produced the current rule (visible
+  bbox + visible coverage, `0.60 × weight × air`). Rendered in the ribbon that is 8.8 px for a solid
+  tile (Claude 8.8, Base44 9.6, Lovable 9.1) and 10.3–10.8 px for glyph art (GitHub 10.4, ChatGPT
+  10.3, Python 10.4, React 10.8), with Supabase's glyph — previously trapped inside an invisible
+  near-black tile and rendering at 6.1 px — now at 10.8 px. Verify by measuring the rendered mark
+  (`getBoundingClientRect()` on it, which already includes `--brand-scale`), never by reading the
+  table.
+- **Do not hand-tune a scale to make one brand match its neighbours; fix the measurement.** A
+  near-black tile (Supabase, `8,8,8`) is invisible on the pill, so its ink is the glyph on it
+  (0.59 × 0.61, coverage 0.15), not the canvas. Alpha-based measurement called that tile full ink
+  and shrank the glyph to a third of its neighbours.
 - **Same brand, two sources.** When Logo.dev serves a different artwork than the vendored file the
-  two renders differ by design — GitHub 0.735/0.742, Lovable 0.627/0.631, Base44 0.653/0.652,
-  TypeScript 0.624/0.624, OpenAI 0.742/0.773, Claude 0.624/0.757 (the vendored file is a thin
-  outline, Logo.dev serves the solid tile). Both stay inside the band; equalising them by hand
-  would break the one-rule contract.
+  two renders differ by design — Claude especially (the vendored file is a thin outline, Logo.dev
+  serves a solid coral tile), so the two paths give it different scales. Both land in the same
+  optical band; equalising them by hand would break the one-rule contract.
 - **The fallback has to survive a blocked network.** With `img.logo.dev` blocked (a tracker
   blocker, offline, exhausted quota) the request fails before React has attached `onError`, so
   the error was lost and the mark stayed a blank image: measured 167 blank marks on `/`. The

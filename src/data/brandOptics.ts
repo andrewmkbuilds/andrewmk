@@ -3,75 +3,88 @@
  * follows.
  *
  * `BrandLogo` renders every mark in one fixed slot (see `SIZES`), with the
- * artwork `contain`-fitted and centred. That alone is not enough: equal boxes
- * are not equal size. The 24×24 Simple Icons canvases carry wildly different
- * amounts of ink — JavaScript fills 87% of its canvas while Java fills 16% —
- * so at one shared scale a solid mark reads much larger than an outline one.
- * A whole-canvas glyph (Base44, OpenAI/ChatGPT, Claude, Lovable) fills its slot
- * edge to edge while a flat mark such as Tailwind's wave leaves 40% of the
- * height empty.
+ * artwork `contain`-fitted and centred. Equal boxes are not equal size,
+ * though, and neither is "same ink bounding box":
  *
- * The table below is the *measurement* that fixes it: for every vendored file
- * in `/public/brands` it records the ink bounding box (`w`/`h`, as a fraction
- * of the canvas) and the painted coverage (`coverage`, a stroke-weight proxy).
- * Measured by rasterising each file at 240×240 and taking the alpha bounds;
- * the PNG is measured the same way. Re-measure a brand only when its artwork
- * actually changes.
+ * 1. **Full-bleed tiles.** Logo.dev serves several brands as an opaque square
+ *    tile (Claude, TypeScript, Java, Swift, Tailwind, Go, Node.js …). The tile
+ *    paints the whole slot, so at one shared span it reads far heavier than a
+ *    glyph of the same width — that is the "the headline logos look bigger"
+ *    report.
+ * 2. **Artwork padded inside its canvas.** Supabase ships a near-black tile
+ *    with a small green glyph on it; the tile vanishes into the navy pill, so
+ *    the mark that actually reads is the glyph, a fraction of the canvas.
+ *
+ * So the tables below record what a mark actually *shows*: the visible
+ * artwork's bounding box (`w` / `h`, as a fraction of the canvas) and the
+ * fraction of the canvas it paints (`coverage`). Both are measured against
+ * the pill surface — a near-black navy — by rasterising the file, compositing
+ * it on that surface and taking the bounds of the pixels that differ from it.
+ * Alpha alone is not enough: it calls a near-black tile "100 % ink".
  *
  * One formula then balances every mark, so a new logo needs its measurements
  * added here (or gets the shared default) and nothing else:
  *
- *   density = clamp((0.34 / coverage) ^ 0.3, 0.94, 1)
- *                                              → a solid/full-bleed mark
- *                                                (Claude, Base44, Lovable,
- *                                                TypeScript …) is trimmed just
- *                                                enough, because a filled square
- *                                                reads heavier than a glyph of
- *                                                the same width
- *   span    = 0.63 × density                   → the ink's long side, as a
- *                                                fraction of the fixed slot
- *   scale   = min(span / max(inkW, inkH), 1)   → applied inside that slot
+ *   weight = clamp((0.55 / coverage) ** 0.34, 0.86, 1)
+ *                                              → artwork that paints more of
+ *                                                its slot than an average mark
+ *                                                is trimmed, because a solid
+ *                                                block reads heavier than a
+ *                                                glyph of the same width
+ *   air    = clamp(0.95 / √(w × h), 0.9, 1)     → artwork with no transparent
+ *                                                margin gets a little of it
+ *                                                back, so a full-bleed mark
+ *                                                does not sit edge to edge
+ *   span   = 0.60 × weight × air                → the visible artwork's long
+ *                                                side, as a fraction of the slot
+ *   scale  = min(span / max(w, h), 1)           → applied inside that slot,
+ *                                                never enlarged past it
  *
- * So every mark's visible artwork lands in 0.59–0.63 of its slot — one shared
- * optical size, measured per mark rather than assumed from its CSS box. The
- * band used to run 0.62–0.8, which let the airiest artwork (GitHub, OpenAI,
- * Rust, React) render up to 20 % larger than its neighbours on the same pill.
- * Nothing is ever enlarged beyond its own slot.
+ * Rendered in the ribbon's 18 px slot that is 8.8 px for a solid tile and
+ * ~10.4 px for glyph art — one optical size, measured per mark rather than
+ * assumed from its CSS box. A solid tile is smaller in extent on purpose: at
+ * equal extent it reads ~15 % heavier than a glyph, which is the defect this
+ * corrects.
  */
 
-/** Ink bounding box and painted coverage, as fractions of the mark's canvas. */
+/** Visible ink bounding box and painted coverage, as fractions of the canvas. */
 export interface InkMetrics {
-  /** Ink width as a fraction of the canvas width. */
+  /** Visible ink width as a fraction of the canvas width. */
   w: number;
-  /** Ink height as a fraction of the canvas height. */
+  /** Visible ink height as a fraction of the canvas height. */
   h: number;
-  /** Painted fraction of the canvas; stands in for stroke weight. */
+  /** Visible painted fraction of the canvas; stands in for stroke weight. */
   coverage: number;
 }
 
 /**
- * Ink span (long side) every mark is balanced to, as a fraction of its slot.
- * Measured against the rendered ribbon: the marks that already read correctly
- * sit at ~0.63, so that is the shared size.
+ * Visible span (long side) of an average-weight mark, as a fraction of its
+ * slot. Measured against the rendered ribbon: the glyph marks that already
+ * read correctly sit at ~0.60.
  */
-const TARGET_SPAN = 0.63;
+const TARGET_SPAN = 0.6;
 /** Painted coverage treated as "normal weight" artwork. */
-const TARGET_COVERAGE = 0.34;
+const TARGET_COVERAGE = 0.55;
+/** Ink-box / canvas ratio treated as "normal" artwork; above it, art trims. */
+const TARGET_FILL = 0.95;
 /**
- * How strongly density trims a mark, and how far it may pull. A narrow range:
- * coverage decides only the last few percent, because the rendered artwork is
- * normalised to one span — a solid tile must not end up a different size from
- * the glyph beside it.
+ * How strongly weight trims a mark, and how far it may pull. A dense mark
+ * gives up at most ~14 % of its extent — enough to balance a solid tile
+ * against a glyph, never enough to make it look like a different size class.
  */
-const DENSITY_EXPONENT = 0.3;
-const DENSITY_MIN = 0.94;
+const DENSITY_EXPONENT = 0.34;
+const DENSITY_MIN = 0.86;
+/** How much of its margin a full-bleed mark has to earn back, at most. */
+const FILL_MIN = 0.9;
 /** Hard ceiling: a mark is never enlarged past its own slot. */
 const SCALE_MAX = 1;
 
 /**
  * Measured ink metrics for the vendored marks (`/public/brands/<slug>.svg`),
- * keyed by file name. Every file in that directory is listed, including the
- * Base44 PNG, so no mark on the site is left unmeasured.
+ * keyed by file name. These files are monochrome masks painted in
+ * `currentColor`, so their alpha bounds are their visible bounds. Every file
+ * in that directory is listed, including the Base44 PNG, so no mark on the
+ * site is left unmeasured.
  */
 const INK: Record<string, InkMetrics> = {
   androidstudio: { w: 0.825, h: 1, coverage: 0.574 },
@@ -135,12 +148,16 @@ const clamp = (value: number, min: number, max: number) =>
 /** The one rule. Unknown artwork gets the shared target, never a guess. */
 function opticalScale(ink: InkMetrics | undefined): number {
   if (!ink) return TARGET_SPAN;
-  const density = clamp(
+  // Dense artwork reads heavier, so it gives up extent.
+  const weight = clamp(
     (TARGET_COVERAGE / Math.max(ink.coverage, 0.001)) ** DENSITY_EXPONENT,
     DENSITY_MIN,
     1,
   );
-  const span = TARGET_SPAN * density;
+  // Artwork with no transparent margin at all gets a little of it back.
+  const fill = Math.sqrt(Math.max(ink.w, 0.001) * Math.max(ink.h, 0.001));
+  const air = clamp(TARGET_FILL / fill, FILL_MIN, 1);
+  const span = TARGET_SPAN * weight * air;
   const fit = span / Math.max(ink.w, ink.h, 0.001);
   return Number(clamp(fit, 0, SCALE_MAX).toFixed(3));
 }
@@ -164,74 +181,75 @@ export function vendoredOpticalScale(brand: {
 
 /**
  * Measured ink metrics for the marks Logo.dev serves, keyed by the brand's
- * domain. Logo.dev does not crop consistently: some marks arrive as a glyph on
- * transparency (GitHub, OpenAI, Next.js) and others as an opaque full-canvas
- * brand tile (Claude, Base44, TypeScript, Tailwind), while a few keep internal
- * padding (Rust fills 74% of its canvas). Measured the same way as the vendored
- * table, at `?size=128&retina=true&theme=dark`, for every domain the registry
- * can request.
+ * domain. Logo.dev crops inconsistently — some marks arrive as a glyph on
+ * transparency (GitHub, OpenAI, Next.js) and others as an opaque tile, which
+ * may be a saturated block (Claude, TypeScript), a light block (Java,
+ * Tailwind, Node.js) or a near-black one that disappears into the pill
+ * (Supabase). Measured at `?size=128&retina=true&theme=dark` by compositing
+ * each file on the pill surface and taking the bounds of what differs from
+ * it, for every domain the registry can request (2026-11-01).
  */
 const REMOTE_INK: Record<string, InkMetrics> = {
-  "anthropic.com": { w: 1, h: 1, coverage: 1 },
+  "anthropic.com": { w: 1, h: 1, coverage: 0.91 },
   "arduino.cc": { w: 1, h: 1, coverage: 1 },
-  "base44.com": { w: 1, h: 1, coverage: 0.668 },
+  "base44.com": { w: 1, h: 1, coverage: 0.66 },
   "claude.com": { w: 1, h: 1, coverage: 1 },
-  "cloud.google.com": { w: 0.98, h: 1, coverage: 0.52 },
+  "cloud.google.com": { w: 0.98, h: 1, coverage: 0.51 },
   "credly.com": { w: 1, h: 1, coverage: 1 },
-  "datacamp.com": { w: 1, h: 1, coverage: 1 },
+  "datacamp.com": { w: 1, h: 1, coverage: 0.9 },
   "developer.android.com": { w: 1, h: 0.56, coverage: 0.56 },
-  "developer.apple.com": { w: 0.81, h: 1, coverage: 0.53 },
-  "docker.com": { w: 1, h: 0.8, coverage: 0.41 },
+  "developer.apple.com": { w: 0.81, h: 1, coverage: 0.52 },
+  "docker.com": { w: 1, h: 0.79, coverage: 0.4 },
   "dotnet.microsoft.com": { w: 1, h: 1, coverage: 1 },
   "espressif.com": { w: 1, h: 1, coverage: 1 },
-  "expressjs.com": { w: 1, h: 1, coverage: 1 },
-  "figma.com": { w: 0.68, h: 1, coverage: 0.5 },
-  "firebase.google.com": { w: 0.98, h: 1, coverage: 0.52 },
-  "firstinspires.org": { w: 1, h: 1, coverage: 1 },
+  "expressjs.com": { w: 0.78, h: 0.57, coverage: 0.12 },
+  "figma.com": { w: 0.67, h: 1, coverage: 0.49 },
+  "firebase.google.com": { w: 0.98, h: 1, coverage: 0.51 },
+  "firstinspires.org": { w: 1, h: 1, coverage: 0.92 },
   "flutter.dev": { w: 1, h: 1, coverage: 1 },
   "framer.com": { w: 1, h: 1, coverage: 1 },
-  "gemini.google.com": { w: 0.98, h: 1, coverage: 0.52 },
-  "git-scm.com": { w: 1, h: 1, coverage: 0.52 },
-  "github.com": { w: 1, h: 0.98, coverage: 0.45 },
-  "go.dev": { w: 1, h: 1, coverage: 1 },
-  "google.com": { w: 0.98, h: 1, coverage: 0.52 },
-  "hackerrank.com": { w: 1, h: 1, coverage: 1 },
+  "gemini.google.com": { w: 0.98, h: 1, coverage: 0.51 },
+  "git-scm.com": { w: 1, h: 1, coverage: 0.51 },
+  "github.com": { w: 1, h: 0.98, coverage: 0.44 },
+  "go.dev": { w: 1, h: 1, coverage: 0.99 },
+  "google.com": { w: 0.98, h: 1, coverage: 0.51 },
+  "hackerrank.com": { w: 0.55, h: 0.34, coverage: 0.15 },
   "instagram.com": { w: 1, h: 1, coverage: 0.96 },
   "isocpp.org": { w: 1, h: 1, coverage: 1 },
   "java.com": { w: 1, h: 1, coverage: 1 },
   "javascript.com": { w: 1, h: 1, coverage: 1 },
   "kotlinlang.org": { w: 1, h: 1, coverage: 0.75 },
   "linkedin.com": { w: 1, h: 1, coverage: 0.99 },
-  "linktr.ee": { w: 1, h: 1, coverage: 0.96 },
-  "lovable.dev": { w: 1, h: 1, coverage: 0.764 },
+  "linktr.ee": { w: 1, h: 1, coverage: 0.95 },
+  "lovable.dev": { w: 0.98, h: 1, coverage: 0.75 },
   "mediapipe.dev": { w: 0.93, h: 0.93, coverage: 0.67 },
-  "mongodb.com": { w: 1, h: 1, coverage: 1 },
-  "nextjs.org": { w: 0.99, h: 0.86, coverage: 0.44 },
+  "mongodb.com": { w: 0.33, h: 0.69, coverage: 0.13 },
+  "nextjs.org": { w: 0.99, h: 0.86, coverage: 0.43 },
   "nodejs.org": { w: 1, h: 1, coverage: 1 },
   "nuxt.com": { w: 1, h: 1, coverage: 1 },
-  "openai.com": { w: 0.99, h: 1, coverage: 0.437 },
-  "openexchangerates.org": { w: 1, h: 1, coverage: 1 },
+  "openai.com": { w: 0.98, h: 0.99, coverage: 0.4 },
+  "openexchangerates.org": { w: 0.93, h: 0.92, coverage: 0.29 },
   "opencv.org": { w: 1, h: 1, coverage: 1 },
-  "php.net": { w: 1, h: 1, coverage: 1 },
-  "postgresql.org": { w: 0.98, h: 1, coverage: 0.72 },
-  "postman.com": { w: 1, h: 1, coverage: 0.8 },
-  "python-pillow.org": { w: 0.833, h: 0.958, coverage: 0.522 },
-  "python.org": { w: 0.98, h: 0.98, coverage: 0.647 },
-  "react.dev": { w: 1, h: 0.92, coverage: 0.36 },
-  "reactnative.dev": { w: 1, h: 0.88, coverage: 0.32 },
-  "ruby-lang.org": { w: 1, h: 1, coverage: 0.85 },
-  "rust-lang.org": { w: 0.74, h: 0.74, coverage: 0.31 },
+  "php.net": { w: 1, h: 1, coverage: 0.99 },
+  "postgresql.org": { w: 0.96, h: 1, coverage: 0.69 },
+  "postman.com": { w: 1, h: 1, coverage: 0.79 },
+  "python-pillow.org": { w: 0.84, h: 0.85, coverage: 0.49 },
+  "python.org": { w: 0.96, h: 0.96, coverage: 0.6 },
+  "react.dev": { w: 1, h: 0.91, coverage: 0.33 },
+  "reactnative.dev": { w: 1, h: 0.87, coverage: 0.29 },
+  "ruby-lang.org": { w: 1, h: 1, coverage: 0.84 },
+  "rust-lang.org": { w: 0.73, h: 0.73, coverage: 0.29 },
   "stripe.com": { w: 1, h: 1, coverage: 1 },
-  "supabase.com": { w: 1, h: 1, coverage: 1 },
+  "supabase.com": { w: 0.59, h: 0.61, coverage: 0.15 },
   "swift.org": { w: 1, h: 1, coverage: 1 },
   "tailwindcss.com": { w: 1, h: 1, coverage: 1 },
   "typescriptlang.org": { w: 1, h: 1, coverage: 1 },
-  "unity.com": { w: 0.86, h: 1, coverage: 0.5 },
-  "vercel.com": { w: 1, h: 0.86, coverage: 0.44 },
+  "unity.com": { w: 0.86, h: 1, coverage: 0.48 },
+  "vercel.com": { w: 1, h: 0.87, coverage: 0.44 },
   "vitejs.dev": { w: 0.96, h: 0.96, coverage: 0.45 },
-  "vuejs.org": { w: 1, h: 0.86, coverage: 0.42 },
-  "w3.org": { w: 1, h: 1, coverage: 0.8 },
-  "x.com": { w: 0.99, h: 0.92, coverage: 0.36 },
+  "vuejs.org": { w: 1, h: 0.86, coverage: 0.41 },
+  "w3.org": { w: 1, h: 1, coverage: 0.79 },
+  "x.com": { w: 1, h: 0.9, coverage: 0.34 },
   "youtube.com": { w: 1, h: 1, coverage: 1 },
 };
 
