@@ -1586,10 +1586,7 @@
     justify-content: center;
   }
 
-  .marquee-chip-primary .marquee-chip-mark {
-    width: 22px;
-    height: 22px;
-  }
+  /* No larger mark for headline chips: every brand reads at one size. */
 
   /* Phones: the ribbon keeps its two rows but tightens so a chip pair still
      reads without the row turning into a single giant pill. */

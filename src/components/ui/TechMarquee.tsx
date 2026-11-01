@@ -16,8 +16,9 @@ interface TechMarqueeProps {
  * the ribbon is off-screen or the tab is hidden, hovering pauses it, and under
  * prefers-reduced-motion it becomes a static wrapped list.
  *
- * Two sizes of chip carry the hierarchy: the five headline platforms are large
- * and gold-edged, everything else rides past compactly.
+ * Two sizes of chip carry the hierarchy: the five headline platforms are gold
+ * edged and larger as chips, but every chip's brand mark is the same size, so
+ * no brand reads bigger than another.
  */
 export function TechMarquee({
   items,
@@ -70,7 +71,7 @@ export function TechMarquee({
             <span className="marquee-chip-mark" aria-hidden="true">
               <BrandLogo
                 name={item.name}
-                size={primary ? "lg" : "md"}
+                size="md"
                 className="marquee-brand"
                 fallback={<span className="marquee-chip-dot" />}
               />

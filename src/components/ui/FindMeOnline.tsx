@@ -26,7 +26,7 @@ export function FindMeOnline() {
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="flex items-start gap-4">
                   <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-primary/25 bg-primary/10 text-primary">
-                    <SocialMark id={primary.id} size="lg" />
+                    <SocialMark id={primary.id} size="md" />
                   </span>
                   <div>
                     <div className="flex items-center gap-2">

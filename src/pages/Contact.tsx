@@ -45,7 +45,7 @@ export default function Contact() {
                   aria-label="GitHub profile (@andrewmkbuilds)"
                   className="flex items-center gap-4 rounded-xl border border-primary/40 bg-card p-5 shadow-card transition-colors hover:border-gold focus-ring"
                 >
-                  <SocialMark id="github" size="lg" className="text-primary" />
+                  <SocialMark id="github" size="md" className="text-primary" />
                   <span>
                     <span className="block text-sm font-medium text-foreground">
                       GitHub{" "}

@@ -19,11 +19,12 @@ import { logoDevOpticalScale, vendoredOpticalScale } from "@/data/brandOptics";
  * Lucide glyph) when the brand has no vendored mark either. Nothing shifts,
  * because the caller always reserves the same box.
  *
- * Equal boxes are not equal size: a square glyph fills its 24×24 box while a
- * flat wordmark only fills a strip of it, so both look different at the same
- * width. Every vendored mark therefore also carries an optical scale
- * (`@/data/brandOptics`) inside the same slot, which is what keeps Base44,
- * OpenAI/ChatGPT, Lovable and Claude from reading larger than their neighbours.
+ * Equal boxes are not equal size: a solid glyph fills its 24×24 canvas while a
+ * flat or outline mark fills a fraction of it, so both read differently at the
+ * same width. Every mark therefore also carries an optical scale
+ * (`@/data/brandOptics`, one measured rule for the whole site) applied inside
+ * the same slot, which is what keeps Base44, OpenAI/ChatGPT, Claude and Lovable
+ * from reading larger than their neighbours.
  */
 
 const LOGO_DEV_TOKEN = (

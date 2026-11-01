@@ -233,13 +233,19 @@ The background is **CSS gradients plus one 2D canvas**. The React Bits Silk shad
   footer, header, About/Contact lists, "Find Me Online" and the "Built with …" attribution all
   show official platform marks instead of Lucide icons. Only brands with no official mark at all
   (Tkinter, Objective-C, C#, LEGO) still use the Lucide glyph from `tech-icons.tsx`.
-- Every mark renders in one fixed slot, and `src/data/brandOptics.ts` holds the measured optical
-  scale that balances the artwork inside it — equal boxes alone let a square glyph (Base44, OpenAI,
-  Lovable, Claude) read larger than a flat wordmark. Two tables: vendored SVGs keyed by slug,
-  Logo.dev marks keyed by domain (it crops to the mark, so most share one inset). Re-measure and add
-  a brand there when new artwork fills its canvas differently; nothing is ever scaled past 1.15, so
-  no mark can overflow its slot. Chip *sizes* stay uniform inside a group too (the ribbon's headline
-  chips keep their gold edge but no longer get a larger icon).
+- Every mark renders in one fixed slot and `src/data/brandOptics.ts` holds the measurement that
+  balances the artwork inside it — equal boxes alone let a full-canvas glyph (Base44, OpenAI,
+  Claude, Lovable) read larger than a flat or outline mark. The table records each vendored file's
+  ink bounding box and painted coverage (rasterise the file, take the alpha bounds); **one** formula
+  then turns those numbers into a scale: equal optical bounding box (`0.86 / max(inkW, inkH)`) times
+  a bounded weight correction (`clamp(sqrt(0.34 / coverage), 0.88, 1.06)`). It is the only sizing
+  rule on the site — add a new brand by measuring its artwork, never by hand-tuning a scale to taste,
+  and nothing is ever scaled past 1.1, so no mark can overflow its slot. Logo.dev crops to the mark's
+  own bounds, so its marks all share the single target inset (no per-domain exceptions).
+- Mark *sizes* stay uniform inside a collection, too: the ribbon's headline chips keep their gold
+  edge and larger padding but use the same mark size as every other chip, and the "Find Me Online"
+  and Contact rows render GitHub at the same size as the platforms below it. Chip/icon sizes are
+  chosen per group in the component, never per brand.
 - Logo.dev: when `VITE_LOGO_DEV_TOKEN` (a Logo.dev publishable key) is present at dev-server start,
   `BrandLogo` requests `https://img.logo.dev/<domain>?token=…&size=…&format=png&retina=true&fallback=404`
   and falls back to the vendored mark on error. Without a token nothing is fetched remotely. Set it
