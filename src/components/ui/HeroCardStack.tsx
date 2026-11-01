@@ -125,10 +125,15 @@ function HeroCard({ project, pos, index, bounds, draggable }: HeroCardProps) {
         delay: reduce ? 0 : 0.35 + index * 0.12,
         ease: [0.22, 1, 0.36, 1],
       }}
-      whileHover={draggable && !reduce ? { y: -6, scale: 1.015 } : {}}
+      // The hover lift is CSS `translate` (see `.hero-card` in styles.css), not
+      // a motion `y`: the drag owns `y`, and animating the same channel on
+      // hover made a released card spring back vertically on the next hover
+      // change. `x` was unaffected, which is why it looked like it worked.
+      // `whileDrag` must not touch `y` either: the drag is writing that
+      // channel, and the exit animation would drag the card back up by the
+      // variant's offset when the finger lifts.
       whileDrag={{
         scale: 1.06,
-        y: -4,
         zIndex: 60,
         cursor: "grabbing",
         // The card lifts off the page while it is held: deeper, softer shadow.
@@ -144,7 +149,7 @@ function HeroCard({ project, pos, index, bounds, draggable }: HeroCardProps) {
       data-cursor={draggable && !reduce ? "grab" : undefined}
       className={cn(
         "paper tape absolute p-2.5 focus-within:ring-2 focus-within:ring-gold/50",
-        draggable && !reduce && "cursor-grab motion-reduce:cursor-auto",
+        draggable && !reduce && "hero-card cursor-grab",
         pos.className,
       )}
     >

@@ -113,10 +113,11 @@ docker run --rm -v "$PWD:/w" -w /w python:3.12-slim \
 The visual language is built around one physical space rather than flat panels:
 
 - `src/components/ui/AmbientLayers.tsx` mounts once in `Layout` (fixed, `-z-10`,
-  `aria-hidden`) and supplies the shared CSS-only environment: navy base → cold key
-  light → gold rim light → perspective floor → vignette → pointer light → grain.
-  Sections with their own background sit on top of it. There is **no canvas and no WebGL
-  layer** in the background any more (see "The ambient background" below).
+  `aria-hidden`) and supplies the shared environment: navy base → cold key
+  light → gold rim light → perspective floor → vignette → mote canvas → pointer light →
+  grain. Sections with their own background sit on top of it. Everything is CSS gradients
+  except one **2D** canvas (`ParticleField`) and the guarded `DotField` WebGL lattice,
+  which only mounts on a hardware renderer (see "The ambient background" below).
 - `src/components/ui/Parallax.tsx` is the only scroll-parallax primitive (transform
   only, spring-smoothed). It is disabled under `prefers-reduced-motion` and halved
   below 768px.
@@ -160,17 +161,23 @@ into the blue-and-gold palette. Colours are never taken from the reference.
 
 ## The ambient background
 
-The background is **CSS only**. It was rebuilt on 2026-10-31 after the owner asked for the React
-Bits Silk shader to be removed; the same pass removed the Particles canvas as well, so the page
-mounts **zero canvases** behind the content.
+The background is **CSS gradients plus one 2D canvas**. The React Bits Silk shader was removed on
+2026-10-31 after it washed the page out; the mote layer that replaced it is a plain 2D canvas
+(`ParticleField`), never WebGL — see "Do not reintroduce a WebGL background" below for why.
 
 - `src/components/ui/AmbientLayers.tsx` composes, back to front: `.ambient-base` (navy gradient
   with a cold top light) → `.ambient-silk` / `.ambient-silk-b` (two drifting bands of light,
   38 s / 52 s) → `.ambient-key` (wide blue key light, 56 s drift) → `.ambient-rim` (gold rim
   light, 74 s drift) → `.depth-floor` + `.ambient-horizon` (perspective horizon and its glow) →
-  `.ambient-vignette` (seats the content) → `PointerLight` → `.dust-field` (24 motes drifting up,
-  0.5 opacity, `nth-child(n + 17)` dropped below 768 px) → `.ambient-grain` (SVG turbulence,
-  0.03 opacity).
+  `.ambient-vignette` (seats the content) → `ParticleField` (2D canvas: far-field motes drifting
+  up, additive `lighter` blending, 46–130 of them, ~30 fps) → `PointerLight` → `.dust-field`
+  (24 near-field CSS motes, 0.5 opacity, `nth-child(n + 17)` dropped below 768 px) →
+  `.ambient-grain` (SVG turbulence, 0.03 opacity).
+- `ParticleField` draws soft sprites baked once per colour (blue, one in four gold) and never
+  takes a pointer. It pauses on `visibilitychange`, re-seeds on resize, and under
+  `prefers-reduced-motion` paints **one still frame** and never starts the rAF loop. Verified in
+  the preview: 487 → 508 lit pixels over 900 ms on desktop and 366 → 372 at 375 × 812, i.e. the
+  motes move without the page going flat.
 - **The room must measure as visible, not just mounted.** The 2026-10-31 rebuild replaced a set of
   gradients that sat within a few points of `--background`: every layer was mounted and animating,
   yet the page measured 9–45 luminance with 0.25 luminance of motion over 3 s — indistinguishable
@@ -179,13 +186,16 @@ mounts **zero canvases** behind the content.
   luminance (was 27–45), 34 std-dev of structure in a background-only strip (was 14), 1.2 luminance
   of drift over 3 s (was 0.25), and the motes visibly moving 47–75 px per 1.6 s. Re-measure with
   pixels, never with "the element exists and its animation-name is set".
-- Every layer is a radial or linear gradient painted on its own compositor layer: no canvas, no
-  `backdrop-filter`, no `filter: blur()`. The drift animates `transform`/`opacity` only, so it
-  costs one compositor frame per layer and nothing on the main thread.
+- Every gradient layer is painted on its own compositor layer: no `backdrop-filter`, no
+  `filter: blur()`. The drift animates `transform`/`opacity` only, so it costs one compositor
+  frame per layer and nothing on the main thread. The only canvas is `ParticleField`, a 2D
+  context drawing ~46–130 cached sprites at 30 fps — cheap in software, and it cannot lose a
+  context the way the WebGL shaders did.
 - Mobile (`max-width: 767px`) keeps the same room — the blue top light, silk bands and gold rim
-  stay visible (measured top ~79–94 luminance at 390 × 844) — stops the key drift and shows 16 of
-  the 24 motes. `prefers-reduced-motion` stops every drift and hides the motes; the static lights
-  stay, so the room still reads as lit rather than flat.
+  stay visible (measured top ~79–94 luminance at 390 × 844) — stops the key drift, thins the mote
+  canvas (24–60) to 0.9 opacity and shows 16 of the 24 CSS dust motes. `prefers-reduced-motion`
+  stops every drift and hides the CSS dust; the mote canvas keeps its single still frame and the
+  static lights stay, so the room still reads as lit rather than flat.
 - **Do not reintroduce a WebGL background without testing the sandbox preview.** Both vendored
   React Bits shaders (Silk, Particles) create a WebGL2 context whose cleanup calls
   `WEBGL_lose_context.loseContext()`; when the context is lost, headless Chrome composites the
@@ -194,8 +204,8 @@ mounts **zero canvases** behind the content.
   screenshots that were reported as a design problem. If a canvas layer is ever wanted again,
   check `canvas.getContext("webgl2").isContextLost()` in the preview before shipping it.
 - The React Bits registry stays declared in `components.json` (`@react-bits`, no API key), and
-  `src/components/reactbits/` is its vendoring location — it is empty until someone installs a
-  component there again. 21st.dev cannot be installed from here; see
+  `src/components/reactbits/` is its vendoring location — it holds `DotField.tsx` and
+  `GlareHover.tsx` (see "React Bits" below). 21st.dev cannot be installed from here; see
   `docs/21ST_DEV_INTEGRATION.md` for what was verified and the exact command that works once an
   `API_KEY_21ST` exists.
 - The marquee brand marks come from Logo.dev when a token is configured (`theme=dark`, so
@@ -345,8 +355,9 @@ docker run --rm --user root --network host -v "$PWD:/repo" -w /repo \
   first Tab stop **and Enter moves focus into `<main>`** (that needs `tabIndex={-1}` on `<main>`),
   every Tab stop is visible with a focus ring, Shift+Tab walks back, `Space`/`Enter` toggle a
   visible `aria-expanded` control, the mobile menu opens with `Space` and closes with `Escape`,
-  and under `prefers-reduced-motion: reduce` no canvas mounts, no animation runs, reveal wrappers
-  are visible, keyboard traversal still works and **every visible text line still renders**.
+  and under `prefers-reduced-motion: reduce` the decorative canvas holds a single still frame (two
+  pixel reads a moment apart must be identical), no animation runs, reveal wrappers are visible,
+  keyboard traversal still works and **every visible text line still renders**.
 - The text-parity check compares unique visible lines in `<main>` while ignoring `aria-hidden`
   decoration. It is what caught the marquee's reduced-motion chip cap (`nth-child(n + 16)`
   display:none) hiding tools; do not cap the static ribbon again.
@@ -381,10 +392,12 @@ follows and the reasons behind them:
   values (no React state per pointer move), `touch-action: pan-y` leaves vertical scrolling to the
   page, and the `.paper` surface has no CSS transform transition — that transition used to smooth
   (lag) every drag frame.
-- **The background is the CSS room plus one guarded shader.** The room is painted with radial
-  gradients on compositor layers (`.ambient-base`, `.ambient-key`, `.ambient-rim`,
-  `.ambient-vignette`) plus an SVG-turbulence grain overlay and never runs JavaScript. On top of it
-  sits the single WebGL surface on the site, the React Bits `DotField` (see "React Bits" below) —
+- **The background is the CSS room, one 2D canvas and one guarded shader.** The room is painted
+  with radial gradients on compositor layers (`.ambient-base`, `.ambient-key`, `.ambient-rim`,
+  `.ambient-vignette`) plus an SVG-turbulence grain overlay. `ParticleField` adds the only always-on
+  JavaScript surface: a 2D canvas of cached sprites at ~30 fps, paused when the tab is hidden. On
+  top of it sits the single WebGL surface on the site, the React Bits `DotField` (see "React Bits"
+  below) —
   desktop, hardware-rendered, no reduced-motion only, and it is unmounted on a lost context.
   Measure before changing it: in the software-rasterised sandbox the lattice costs 7 fps against
   27–29 fps without it, which is why `DepthBackground` refuses to mount on a software renderer.
@@ -435,8 +448,9 @@ The component registries, and exactly what was taken from each (2026-11-01).
   the earlier Silk/Particles attempts). The CSS room stays mounted underneath in every case: it is
   the fallback, not a substitute.
 - **Measure it with pixels and frame time, not by "the canvas exists".** `page.emulateMediaFeatures
-  ([{name:'prefers-reduced-motion', value:'reduce'}])` is the no-shader baseline (measured 60 fps,
-  zero canvases); the headless browser here is SwiftShader, so it always takes the fallback path.
+  ([{name:'prefers-reduced-motion', value:'reduce'}])` is the no-shader baseline (measured 60 fps;
+  the only canvas left is the still mote layer); the headless browser here is SwiftShader, so it
+  always takes the fallback path.
   Confirm the shader path in a hardware browser if you change its settings.
 - **21st.dev cannot be installed from here.** There is no registry key and no MCP bridge; the
   components were used as a design reference only. `docs/21ST_DEV_INTEGRATION.md` records what was

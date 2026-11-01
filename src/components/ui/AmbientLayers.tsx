@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { DepthBackground } from "./DepthBackground";
+import { ParticleField } from "./ParticleField";
 import { PointerLight } from "./PointerLight";
 
 /**
@@ -80,6 +81,9 @@ export function AmbientLayers() {
 
       {/* foreground — vignette that seats the content inside the space */}
       <div className="ambient-vignette" />
+
+      {/* foreground — the motes drifting up through the room */}
+      <ParticleField />
 
       {/* interactive light — one element, transform only */}
       <PointerLight />

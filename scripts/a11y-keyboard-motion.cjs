@@ -17,7 +17,8 @@
  *
  *   reduced motion
  *     - matchMedia("(prefers-reduced-motion: reduce)") is true
- *     - no canvas is mounted (the decorative particle field stays off)
+ *     - the decorative mote canvas holds a single still frame (identical pixels
+ *       a moment apart) and no WebGL canvas is mounted
  *     - no animation is still running and the ambient light does not drift
  *     - reveal wrappers are visible instead of waiting for a scroll trigger
  *     - every visible text node of <main> still renders (same unique lines as
@@ -360,9 +361,38 @@ async function reducedMotionPass(page, route, baseline) {
 
   if (!state.matches)
     fail(route, "reduce: media query not applied to the page");
-  if (state.canvases > 0)
-    fail(route, `reduce: ${state.canvases} canvas still mounted`);
-  else ok("reduce: decorative canvas stays unmounted");
+  // The decorative mote canvas may stay mounted under reduced motion, but only
+  // as one still frame: two pixel reads a moment apart must be identical. A
+  // WebGL canvas (the DotField lattice) must not mount here at all.
+  const readCanvas = () =>
+    page.evaluate(() => {
+      const c = document.querySelector("canvas");
+      if (!c) return { mounted: false, webgl: false, sum: null };
+      const ctx = c.getContext("2d");
+      if (!ctx) return { mounted: true, webgl: true, sum: null };
+      try {
+        const { data } = ctx.getImageData(0, 0, c.width, c.height);
+        let sum = 0;
+        for (let i = 3; i < data.length; i += 4) sum += data[i] * ((i % 89) + 1);
+        return { mounted: true, webgl: false, sum };
+      } catch {
+        return { mounted: true, webgl: false, sum: null };
+      }
+    });
+  const frameA = await readCanvas();
+  await sleep(600);
+  const frameB = await readCanvas();
+  if (!frameA.mounted) {
+    ok("reduce: no decorative canvas mounts");
+  } else if (frameA.webgl) {
+    fail(route, "reduce: a WebGL canvas still mounts");
+  } else if (frameA.sum === null || frameB.sum === null) {
+    fail(route, "reduce: the decorative canvas could not be read");
+  } else if (frameA.sum !== frameB.sum) {
+    fail(route, "reduce: the decorative canvas is still animating");
+  } else {
+    ok(`reduce: decorative canvas holds a still frame (${frameA.sum === 0 ? "blank" : "painted"})`);
+  }
   if (state.runningCount > 0) {
     fail(
       route,

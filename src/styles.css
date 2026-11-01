@@ -988,10 +988,10 @@
 @keyframes silk-drift {
   0%,
   100% {
-    transform: translate3d(-2%, -1%, 0) rotate(-1.5deg) scale(1.04);
+    transform: translate3d(-5%, -2%, 0) rotate(-2.5deg) scale(1.04);
   }
   50% {
-    transform: translate3d(3%, 2%, 0) rotate(1.5deg) scale(1.12);
+    transform: translate3d(5%, 3%, 0) rotate(2.5deg) scale(1.14);
   }
 }
 
@@ -1116,20 +1116,20 @@
       linear-gradient(
         104deg,
         transparent 8%,
-        hsl(198 92% 62% / 0.3) 26%,
-        hsl(199 90% 66% / 0.12) 33%,
+        hsl(198 92% 62% / 0.52) 26%,
+        hsl(199 90% 66% / 0.22) 33%,
         transparent 44%
       ),
       linear-gradient(
         112deg,
         transparent 42%,
-        hsl(212 94% 66% / 0.22) 55%,
+        hsl(212 94% 66% / 0.4) 55%,
         transparent 68%
       ),
       linear-gradient(
         96deg,
         transparent 58%,
-        hsl(188 90% 60% / 0.18) 71%,
+        hsl(188 90% 60% / 0.32) 71%,
         transparent 84%
       );
     animation: silk-drift 38s var(--ease-out-expo) infinite;
@@ -1145,13 +1145,13 @@
       linear-gradient(
         74deg,
         transparent 22%,
-        hsl(41 74% 66% / 0.16) 38%,
+        hsl(41 74% 66% / 0.28) 38%,
         transparent 52%
       ),
       linear-gradient(
         88deg,
         transparent 60%,
-        hsl(206 90% 62% / 0.16) 74%,
+        hsl(206 90% 62% / 0.26) 74%,
         transparent 90%
       );
     animation: silk-drift-b 52s var(--ease-out-expo) infinite;
@@ -1213,9 +1213,9 @@
     inset: 0;
     pointer-events: none;
     background: radial-gradient(
-      ellipse 104% 84% at 50% 26%,
-      transparent 52%,
-      hsl(220 52% 4% / 0.76) 100%
+      ellipse 106% 86% at 50% 26%,
+      transparent 58%,
+      hsl(220 52% 4% / 0.58) 100%
     );
   }
 
@@ -1819,6 +1819,30 @@ html[data-cursor-out] .cursor-layer {
   overflow: hidden;
 }
 
+/* The particle foreground (`ParticleField`): slow motes on a 2D canvas,
+   added light. Sits above the vignette so the motes stay crisp across the
+   whole viewport, and never takes a pointer. */
+.particle-field {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+@media (max-width: 767px) {
+  .particle-field {
+    opacity: 0.9;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .particle-field {
+    opacity: 0.6;
+  }
+}
+
 /* React Bits `DotField` — the dimensional lattice sitting inside the room.
    Desktop only (mounted by `DepthBackground`); the CSS gradients above are the
    fallback. It never takes a pointer, and `screen` blending makes the dots add
@@ -1946,6 +1970,27 @@ html[data-cursor-out] .cursor-layer {
 .paper:focus-within .card-grip {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Hover lift for the draggable hero cards.
+   It uses the independent `translate` property, not the `transform` the drag
+   writes: a released card keeps its dragged `x`/`y`, so a hover change can
+   never pull it back to its resting spot. */
+.hero-card {
+  transition: translate var(--dur-standard) var(--ease-out-expo);
+}
+
+.hero-card:hover {
+  translate: 0 -6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-card {
+    transition: none;
+  }
+  .hero-card:hover {
+    translate: none;
+  }
 }
 
 @keyframes hint-fade {
