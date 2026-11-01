@@ -12,7 +12,7 @@ confirmation from Andrew; nothing was guessed.
 
 | Source                                 | Committee   | Portfolio         | Awards                                             |
 | -------------------------------------- | ----------- | ----------------- | -------------------------------------------------- |
-| Supplied CVs (all 4 content variants)  | Lok Sabha B | Kodikunnil Suresh | Honourable Mention · Best Position Paper           |
+| Supplied CVs (all 4 content variants)  | Lok Sabha B | Kodikunnil Suresh | Two awards claimed — neither held (see §1)         |
 | Website `/achievements` (`munResults`) | FIA         | —                 | Verbal Commendation                                |
 | Website certificate `mun-ihsmun-2025`  | —           | —                 | "Certificate of Participation", 24–26 October 2025 |
 
@@ -85,6 +85,5 @@ attributing a type to a specific conference, since no document does.
 Each MUN conference carries exactly one award: a Verbal Commendation (Novara MUN
 2026, IHS UNSummit 2026, IHSMUN 2025). An earlier draft of this report repeated
 the supplied documents' claim of two awards at IHS UNSummit 2026 and IHSMUN
-2025; the second awards named there (Best Resolution, Honourable Mention, Best
-Position Paper) were never won. They have been removed from the Master CV, the
-website and the generated PDF/DOCX.
+2025; the second awards named there were never won. They have been removed from the
+Master CV, the website and the generated PDF/DOCX.

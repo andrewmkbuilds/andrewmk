@@ -48,18 +48,20 @@ the raw bytes and the normalised text were compared — not the file names.
   negotiation, public speaking, resolution writing.
 - **MUN conferences (3):**
   - Novara MUN 2026 — Delegate, UNSC, Russia, Verbal Commendation, July 2026.
-  - IHS UNSummit 2026 — Delegate, FIA, portfolio Liam Lawson, Verbal Commendation
-    and Best Resolution, June 2026.
-  - IHSMUN 2025 — Delegate, Lok Sabha B, portfolio Kodikunnil Suresh, Honourable
-    Mention and Best Position Paper, October 2025.
+  - IHS UNSummit 2026 — Delegate, FIA, portfolio Liam Lawson, Verbal Commendation,
+    June 2026.
+  - IHSMUN 2025 — Delegate, Lok Sabha B, portfolio Kodikunnil Suresh, Verbal
+    Commendation, October 2025.
+  - The documents also name a second MUN award at the 2026 and 2025 conferences.
+    Andrew has confirmed he did not receive it, so it is not recorded here, in
+    the Master CV, or anywhere on the site.
 - Highlights: awards at every conference; crisis, specialised and domestic
   committee experience; drafted resolutions, directives and position papers.
 
 > **Correction (2026-11-01).** Andrew has confirmed these award lines are wrong:
-> his only MUN award is a **Verbal Commendation** — no Honourable Mention, Best
-> Position Paper, Best Resolution or any other award. This list records what the
-> supplied PDFs said; the Master CV and the website now carry the corrected
-> award. See `MASTER_CV_CONFLICTS.md` §1 and §10.
+> his only MUN award is a **Verbal Commendation** — no other MUN award was
+> received. This list records what the supplied PDFs said; the Master CV and the
+> website now carry the corrected award. See `MASTER_CV_CONFLICTS.md` §1 and §10.
 - Leadership and activities (4): STEM Racing (F1 in Schools), Robotics & Coding
   Programme, ASDAN Environmental Short Course, Future UAE Exhibition.
 

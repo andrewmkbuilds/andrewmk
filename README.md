@@ -75,7 +75,9 @@ Built with TanStack Start (React, TypeScript, Vite), Tailwind CSS and Motion, wi
 
 - IHSMUN 2025 — FIA · Verbal Commendation
 - Novara MUN 2026 — UNSC · Verbal Commendation
-- IHS UNSummit 2026 — FIA · Verbal Commendation + Best Resolution
+- IHS UNSummit 2026 — FIA · Verbal Commendation
+
+Verbal Commendation is the only MUN award received. No other MUN award is claimed.
 
 **Areas:** Techfest, Data Science, IoT, Space Tech, Coding, Robotics, FLL, STEM Racing / F1 in Schools
 
