@@ -1,0 +1,106 @@
+{
+  "slug": "scholara",
+  "name": "Scholara",
+  "category": "Education · School OS · AI",
+  "description": "An AI-powered school operating system that unites academics, operations, communication and analytics for students, teachers, parents and school leaders.",
+  "problem": "A school runs academics, finance, transport, wellbeing and parent communication across spreadsheets, disconnected apps and paper forms. Scholara replaces that patchwork with one system where every role — student, teacher, parent, administrator, principal, counselor, finance staff, librarian and transport manager — works over the same data with its own dashboard, navigation and permissions.",
+  "status": "Live",
+  "live": "https://get-scholara.base44.app/",
+  "platform": "base44",
+  "tech": [
+    "AI",
+    "Base44"
+  ],
+  "built": [
+    "Role-based dashboards",
+    "Assignments & exams",
+    "Academic analytics",
+    "Finance & fees",
+    "Library system",
+    "Transport management",
+    "Incident management",
+    "Student wellbeing",
+    "AI Tutor & Teacher Copilot"
+  ],
+  "filters": [
+    "AI",
+    "Base44"
+  ],
+  "featured": false,
+  "stack": [
+    {
+      "group": "Roles",
+      "items": [
+        "Student",
+        "Teacher",
+        "Parent",
+        "Administrator",
+        "Principal",
+        "Counselor",
+        "Finance",
+        "Librarian",
+        "Transport"
+      ]
+    },
+    {
+      "group": "Academics",
+      "items": [
+        "Assignments",
+        "Exams & grading",
+        "Attendance",
+        "Analytics"
+      ]
+    },
+    {
+      "group": "Operations",
+      "items": [
+        "Finance & fees",
+        "Library loans",
+        "Transport routes",
+        "Incident tracking",
+        "Wellbeing check-ins"
+      ]
+    },
+    {
+      "group": "AI layer",
+      "items": [
+        "AI Tutor",
+        "Teacher Copilot",
+        "Principal summaries",
+        "Command palette (⌘K)"
+      ]
+    },
+    {
+      "group": "Platform",
+      "items": [
+        "Base44",
+        "Hosted demo"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "label": "Roles",
+      "value": "9+",
+      "note": "Product scope as published on the site."
+    },
+    {
+      "label": "Modules",
+      "value": "30+",
+      "note": "Product scope as published on the site."
+    },
+    {
+      "label": "AI features",
+      "value": "15+",
+      "note": "Product scope as published on the site."
+    },
+    {
+      "label": "Try it",
+      "value": "Open demo",
+      "note": "Pick any role and use the full platform."
+    }
+  ],
+  "solution": "One platform with nine role-specific surfaces over a shared dataset. The AI layer is grounded in the school's own records: the student tutor sees grades and upcoming exams, the teacher copilot drafts lessons, rubrics and feedback, and the principal view summarises the week from real numbers rather than a prompt.",
+  "caseStudy": "https://andrewmk.is-a.dev/projects/scholara",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/scholara.json"
+}

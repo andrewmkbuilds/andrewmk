@@ -384,7 +384,10 @@ export default function GridMotion({
             {
               width: layout.planeWidth,
               height: layout.planeHeight,
-              transform: `translate(-50%, -50%) rotateX(${leanDeg}deg) rotateZ(${angle}deg)`,
+              // `--gm-drift` is the page-scroll offset the scene writes on an
+              // ancestor; everything else is the fixed lean and turn. (Local
+              // addition, see grid-motion.css.)
+              transform: `translate(-50%, calc(-50% + var(--gm-drift, 0px))) rotateX(${leanDeg}deg) rotateZ(${angle}deg)`,
               "--gm-gap": `${spacing}px`,
               "--gm-tile-w": `${layout.tileWidth}px`,
               "--gm-tile-h": `${layout.tileHeight}px`,

@@ -1,0 +1,82 @@
+{
+  "slug": "the-neonrush",
+  "name": "The Neon Rush",
+  "category": "Game · Interactive",
+  "description": "A neon arcade game built around story chapters, daily missions, mini-games and a hangar of ships and skins.",
+  "problem": "A game needs a reason to come back on a normal Tuesday, not just a good first level. The Neon Rush wraps its arcade play in a command center — chapters, objectives, records and unlocks — so a short session always has a next thing to chase.",
+  "status": "Live",
+  "live": "https://the-neonrush.base44.app/",
+  "platform": "base44",
+  "tech": [
+    "Game",
+    "Base44"
+  ],
+  "built": [
+    "Story mode",
+    "Daily & weekly missions",
+    "Side quests",
+    "Arcade mini-games",
+    "Ships & skins",
+    "Leaderboards",
+    "Daily challenge"
+  ],
+  "filters": [
+    "Base44"
+  ],
+  "featured": false,
+  "stack": [
+    {
+      "group": "Play",
+      "items": [
+        "Story chapters",
+        "Arcade mini-games",
+        "Skill challenges",
+        "Daily challenge"
+      ]
+    },
+    {
+      "group": "Progression",
+      "items": [
+        "Ships & skins",
+        "Database sectors",
+        "Mission logs",
+        "Stats"
+      ]
+    },
+    {
+      "group": "Social",
+      "items": [
+        "Leaderboards",
+        "Daily rankings",
+        "Profile & progress"
+      ]
+    },
+    {
+      "group": "Platform",
+      "items": [
+        "Base44",
+        "Hosted game"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "label": "Modes",
+      "value": "Story · Arcade · Daily",
+      "note": "Three ways into the same game."
+    },
+    {
+      "label": "Progression",
+      "value": "Ships & skins",
+      "note": "Unlocks earned through play."
+    },
+    {
+      "label": "Status",
+      "value": "Live",
+      "note": "Playable in the browser."
+    }
+  ],
+  "solution": "Everything hangs off one command center: the story chapter, the daily and weekly missions, the side quests, the arcade cabinet and the hangar of ships and skins. A daily challenge puts every player on the same modifiers and the same leaderboard, so scores are comparable.",
+  "caseStudy": "https://andrewmk.is-a.dev/projects/the-neonrush",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/the-neonrush.json"
+}

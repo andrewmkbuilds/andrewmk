@@ -1,0 +1,81 @@
+{
+  "slug": "critiqueflow",
+  "name": "CritiqueFlow",
+  "category": "Design Tooling · Review",
+  "description": "A design review platform that turns visual feedback into structured discussion, tasks and a measurable design health score.",
+  "problem": "Design feedback usually arrives as loose comments in chat, scattered screenshots and calls nobody writes down. It is hard to act on, impossible to measure, and the same comment comes back in the next round. CritiqueFlow puts the design on a canvas and turns every note into something with an owner, a state and a score attached to it.",
+  "status": "Live",
+  "live": "https://critiqueflow.base44.app/",
+  "platform": "base44",
+  "tech": [
+    "React",
+    "Base44"
+  ],
+  "built": [
+    "Design upload & canvas",
+    "Deterministic design scan",
+    "Pinned feedback threads",
+    "Feedback-to-task tracking",
+    "Design health scoring",
+    "Before/after comparison"
+  ],
+  "filters": [
+    "React",
+    "Base44"
+  ],
+  "featured": false,
+  "stack": [
+    {
+      "group": "Canvas",
+      "items": [
+        "Image upload",
+        "Pinned notes",
+        "Version compare"
+      ]
+    },
+    {
+      "group": "Analysis",
+      "items": [
+        "Deterministic scan",
+        "Typography checks",
+        "Colour & contrast",
+        "Spacing & alignment"
+      ]
+    },
+    {
+      "group": "Review flow",
+      "items": [
+        "Threaded comments",
+        "Task assignment",
+        "Resolution states"
+      ]
+    },
+    {
+      "group": "Platform",
+      "items": [
+        "Base44",
+        "Hosted demo"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "label": "Scan",
+      "value": "Deterministic",
+      "note": "Checks are computed from the feedback data."
+    },
+    {
+      "label": "Core loop",
+      "value": "Feedback → task → fix",
+      "note": "Each note becomes a tracked item."
+    },
+    {
+      "label": "Compare",
+      "value": "Two versions",
+      "note": "Before/after slider on the same canvas."
+    }
+  ],
+  "solution": "A comment is pinned to the design, discussed in a thread, promoted to a task and closed when the fix lands. A design health score is calculated from the actual feedback data — typography, colour, spacing, layout, accessibility and consistency — so improvement between two versions is verifiable instead of argued about.",
+  "caseStudy": "https://andrewmk.is-a.dev/projects/critiqueflow",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/critiqueflow.json"
+}

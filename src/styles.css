@@ -3,6 +3,7 @@
 @source "../src";
 @import "tw-animate-css";
 @import "./styles/grid-motion.css";
+@import "./styles/scene-names.css";
 @import "./styles/scene-3d.css";
 @import "./styles/stacking-cards.css";
 @import "./styles/echo-headline.css";

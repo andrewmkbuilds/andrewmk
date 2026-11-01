@@ -1,0 +1,100 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   SCENE NAMES — the project names on the ambient wall
+
+   GridMotion (styles/grid-motion.css) owns the tile geometry, row drift and
+   the pointer spotlight. This file owns what is written inside a tile: real
+   project names from src/data/sceneTiles.ts, in four editorial registers so
+   the wall reads as a composed surface rather than a uniform grid.
+
+     .scene-name--plinth   labelled tile face, the resting texture
+     .scene-name--edge     the label pushed off-centre on a small angle
+     .scene-name--display  no tile face at all — large serif italic that
+                           spills over its neighbours
+     .scene-name--whisper  a small mono caption, almost a watermark
+
+   Tones are the site's navy / blue / gold language. Nothing here animates:
+   every offset is a static transform, so the tile stays a compositor layer.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.scene-name {
+  display: block;
+  max-width: 100%;
+  text-shadow: 0 1px 14px hsl(222 80% 3% / 0.55);
+  transform: translate(var(--name-x, 0%), var(--name-y, 0%))
+    rotate(var(--name-rot, 0deg)) scale(var(--name-scale, 1));
+  transform-origin: center;
+}
+
+/* Tone: the wall stays blue, gold is the occasional accent. */
+.scene-name--slate {
+  color: hsl(212 34% 70%);
+}
+
+.scene-name--azure {
+  color: hsl(199 68% 72%);
+}
+
+.scene-name--gold {
+  color: hsl(41 62% 66%);
+}
+
+/* ── Plinth: a project name as a labelled tile face ──────────────────── */
+
+.scene-name--plinth {
+  padding: 0 0.6em;
+  font-family: var(--font-heading);
+  font-size: 0.8em;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+/* ── Edge: the same label, off-centre and slightly turned ────────────── */
+
+.scene-name--edge {
+  width: 100%;
+  padding: 0 0.9em;
+  font-family: var(--font-heading);
+  font-size: 0.76em;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  line-height: 1.1;
+  text-align: left;
+  text-transform: uppercase;
+  opacity: 0.78;
+}
+
+/* ── Display: the editorial voice, larger than its own tile ──────────── */
+
+.scene-name--display {
+  font-family: var(--font-serif);
+  font-size: 2.3em;
+  font-style: italic;
+  letter-spacing: -0.005em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ── Whisper: a caption that barely raises its voice ─────────────────── */
+
+.scene-name--whisper {
+  font-family: var(--font-mono);
+  font-size: 0.62em;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+/* ── Two registers drop the tile face and spill into the wall ────────── */
+
+.gm-tile:has(.scene-name--display),
+.gm-tile:has(.scene-name--whisper) {
+  overflow: visible;
+  background: none;
+}
+
+.gm-tile:has(.scene-name--display)::after,
+.gm-tile:has(.scene-name--whisper)::after {
+  box-shadow: none;
+}
