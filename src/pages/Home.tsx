@@ -15,7 +15,7 @@ import { Parallax } from "@/components/ui/Parallax";
 import { TechConstellation } from "@/components/ui/TechConstellation";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StatusDot } from "@/components/ui/StatusDot";
-import { ProjectGrid } from "@/components/ui/ProjectGrid";
+import { PortfolioGallery } from "@/components/ui/portfolio-gallery";
 import { TechTag } from "@/components/ui/TechTag";
 import { RoleBadge } from "@/components/ui/Badges";
 import {
@@ -57,6 +57,7 @@ import {
 import {
   buildingCategories,
   currentlyBuilding,
+  ecosystemProjects,
   featuredProjects,
   principles,
   quickStats,
@@ -391,7 +392,7 @@ export default function Home() {
             title="Everything I Build Has a *Purpose*."
             subtitle="Systems, tools, experiments, and concepts built to solve specific problems."
           />
-          <ProjectGrid />
+          <PortfolioGallery projects={ecosystemProjects} />
           <Reveal className="mt-10 font-mono text-sm text-muted-foreground">
             <span className="text-primary">//</span> More systems in
             development.

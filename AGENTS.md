@@ -533,6 +533,16 @@ The component registries, and exactly what was taken from each (2026-11-01).
   removed on 2026-11-01. If one is ever wanted again it must be conditional (hardware renderer, no
   reduced motion), lazy, and unmounted on `webglcontextlost` — a lost context composites as an
   opaque plate over the page, which is the failure that washed the site out twice.
+- **`ui/portfolio-gallery.tsx` is the first 21st.dev component vendored.** It is the
+  homepage "Ecosystem" archive: 15 real `ecosystemProjects` fanned across one CSS
+  perspective above `md` (middle highest, hovered/focused plate straightens, lifts and takes
+  the top z-index), and a single snap-scrolling row below `md`. Two deliberate changes from
+  the supplied demo: the cards are **typographic plates**, not images — the portfolio has
+  never published a product screenshot, so nothing is faked — and the demo's
+  `animate-marquee` (undefined here, four repeated copies of the same images) is gone. The
+  fan's plate width is derived from the item count and the `overlap` prop
+  (`--pg-card: min(240px, calc(100% / span))`), so adding a project re-fits the row instead
+  of overflowing. The `/projects` page keeps the filterable `ProjectGrid`.
 - **21st.dev works through the CLI now; there is still no MCP bridge.** `API_KEY_21ST` is declared
   in `.base44/environment.json` and reaches the `web` service via `/run/base44/app.env`, so
   `docker compose … exec -T web bunx --bun @21st-dev/cli@latest search "<query>"` returns results
