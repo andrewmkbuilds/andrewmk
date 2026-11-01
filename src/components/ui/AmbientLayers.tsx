@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { DepthBackground } from "./DepthBackground";
 import { PointerLight } from "./PointerLight";
 
 /**
@@ -61,6 +62,11 @@ export function AmbientLayers() {
       {/* midground — the two silk light sheets that make the room visible */}
       <div className="ambient-silk" />
       <div className="ambient-silk-b" />
+
+      {/* midground — React Bits `DotField`: the dimensional lattice that bends
+          under the pointer. Desktop + fine pointer only; the gradient room
+          above is its fallback on every other device. */}
+      <DepthBackground />
 
       {/* midground — the room's single key light, drifting very slowly */}
       <div className="ambient-key" />

@@ -61,3 +61,13 @@ unset API_KEY_21ST
 
 Installed files land in `src/components/ui` and are ordinary source after that: review the diff,
 rename colliding files, and restyle tokens to the navy/gold system before committing.
+
+## What was actually applied (2026-11-01)
+
+No 21st.dev component was installed — the URL route still needs an `API_KEY_21ST` that this
+workspace does not have, and nothing here should pretend otherwise. The site was taken through
+the same design pass by hand, using the patterns those components demonstrate: a floating pill
+navigation, animated display type with an editorial serif voice, taped/tilted project cards with
+a glare sheen, hover-lifting case media, and two-row logo ribbons. The React Bits components that
+*did* install cleanly from their public registry are recorded in `AGENTS.md` ("React Bits and
+21st.dev").

@@ -1,12 +1,13 @@
 import { useRef } from "react";
 import { Link } from "@/lib/router-compat";
 import { animate, motion, useDragControls, useMotionValue } from "motion/react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Grip } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useHydratedReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 import { TechTag } from "./TechTag";
 import { Badge } from "./badge";
 import { SketchArrow } from "./Sketch";
+import GlareHover from "@/components/reactbits/GlareHover";
 import { isFinePointer, setCursorState } from "@/lib/pointer";
 import type { Project } from "@/data/portfolio";
 
@@ -56,6 +57,9 @@ interface HeroCardProps {
 function HeroCard({ project, pos, index, bounds, draggable }: HeroCardProps) {
   const reduce = useHydratedReducedMotion();
   const rotate = useMotionValue(pos.rotate);
+  // Banked "3D" tilt while the card is in the air: it leans into the direction
+  // it is thrown and settles flat on release.
+  const tiltY = useMotionValue(0);
   // Drag starts on a mouse press immediately, but on a touch only after a
   // short hold — so a thumb that just wants to scroll the page is never
   // hijacked into a drag.
@@ -89,18 +93,19 @@ function HeroCard({ project, pos, index, bounds, draggable }: HeroCardProps) {
       onPointerCancel={endHold}
       onPointerLeave={endHold}
       dragConstraints={bounds}
-      dragElastic={0.14}
+      dragElastic={0.1}
       dragMomentum={false}
       dragTransition={{ bounceStiffness: 320, bounceDamping: 30 }}
-      onDrag={(_, info) =>
+      onDrag={(_, info) => {
         rotate.set(
           clamp(
             pos.rotate + info.velocity.x * 0.012,
             pos.rotate - 12,
             pos.rotate + 12,
           ),
-        )
-      }
+        );
+        tiltY.set(clamp(info.velocity.x * 0.006, -7, 7));
+      }}
       onDragStart={() => {
         if (isFinePointer()) setCursorState("grabbing");
       }}
@@ -111,6 +116,7 @@ function HeroCard({ project, pos, index, bounds, draggable }: HeroCardProps) {
           stiffness: 260,
           damping: 22,
         });
+        animate(tiltY, 0, { type: "spring", stiffness: 190, damping: 18 });
       }}
       initial={reduce ? false : { opacity: 0, y: 26, rotate: pos.rotate * 2 }}
       animate={{ opacity: 1, y: 0 }}
@@ -129,7 +135,12 @@ function HeroCard({ project, pos, index, bounds, draggable }: HeroCardProps) {
         boxShadow: "0 34px 64px -22px hsl(220 70% 2% / 0.82)",
       }}
       // No transform transition on the surface: it would lag every drag frame.
-      style={{ rotate, touchAction: draggable ? "pan-y" : undefined }}
+      style={{
+        rotate,
+        rotateX: tiltY,
+        transformPerspective: 900,
+        touchAction: draggable ? "pan-y" : undefined,
+      }}
       data-cursor={draggable && !reduce ? "grab" : undefined}
       className={cn(
         "paper tape absolute p-2.5 focus-within:ring-2 focus-within:ring-gold/50",
@@ -142,11 +153,39 @@ function HeroCard({ project, pos, index, bounds, draggable }: HeroCardProps) {
           aria-hidden="true"
           className="absolute inset-0 bg-[radial-gradient(120%_90%_at_20%_0%,color-mix(in_oklab,var(--primary)_26%,transparent),transparent_65%),radial-gradient(90%_80%_at_100%_100%,color-mix(in_oklab,var(--gold)_18%,transparent),transparent_70%)]"
         />
-        <div className="bg-grid relative flex h-[92px] items-end p-3 sm:h-[104px]">
-          <p className="serif-display text-[1.55rem] text-foreground sm:text-[1.8rem]">
-            {project.name}
-          </p>
-        </div>
+        {/* React Bits `GlareHover`: a gold sheen that crosses the card face on
+            hover — the card reads as printed stock catching the light. */}
+        <GlareHover
+          width="100%"
+          height="100%"
+          borderRadius="0"
+          borderColor="transparent"
+          background="transparent"
+          glareColor="#e9c97c"
+          glareOpacity={0.24}
+          glareAngle={-28}
+          glareSize={52}
+          softness={0.7}
+          variant="sheen"
+          rimGlint={false}
+          mode="hover"
+          transitionDuration={900}
+          className="block w-full"
+          style={{ display: "block", width: "100%" }}
+        >
+          <div className="bg-grid relative flex h-[92px] items-end p-3 sm:h-[104px]">
+            <p className="serif-display text-[1.55rem] text-foreground sm:text-[1.8rem]">
+              {project.name}
+            </p>
+          </div>
+        </GlareHover>
+
+        {draggable && !reduce ? (
+          <span aria-hidden="true" className="card-grip">
+            <Grip className="h-3 w-3" />
+            drag
+          </span>
+        ) : null}
       </div>
 
       <div className="px-1 pt-2.5 pb-1">

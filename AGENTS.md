@@ -381,12 +381,13 @@ follows and the reasons behind them:
   values (no React state per pointer move), `touch-action: pan-y` leaves vertical scrolling to the
   page, and the `.paper` surface has no CSS transform transition — that transition used to smooth
   (lag) every drag frame.
-- **The background is gradients, not a canvas.** The ambient room is painted with radial gradients
-  on compositor layers (`.ambient-base`, `.ambient-key`, `.ambient-rim`, `.ambient-vignette`) plus
-  an SVG-turbulence grain overlay. Nothing in the background runs JavaScript, allocates a WebGL
-  context, or listens to the pointer (the single pointer light uses the shared
-  `src/lib/pointer.ts` subscription). Keep it that way — a shader background was measured at ~3×
-  the paint cost here and its lost-context fallback washed the page out.
+- **The background is the CSS room plus one guarded shader.** The room is painted with radial
+  gradients on compositor layers (`.ambient-base`, `.ambient-key`, `.ambient-rim`,
+  `.ambient-vignette`) plus an SVG-turbulence grain overlay and never runs JavaScript. On top of it
+  sits the single WebGL surface on the site, the React Bits `DotField` (see "React Bits" below) —
+  desktop, hardware-rendered, no reduced-motion only, and it is unmounted on a lost context.
+  Measure before changing it: in the software-rasterised sandbox the lattice costs 7 fps against
+  27–29 fps without it, which is why `DepthBackground` refuses to mount on a software renderer.
 - **Parallax never runs on phones** (below 768px) and stops entirely under reduced motion.
 - **Below-the-fold bundles are split.** The home contact form is `React.lazy`; TanStack splits each
   route file into its own chunk automatically (verified in `vite build` output).
@@ -404,3 +405,40 @@ removed from Header/Footer/PageTransition, and each route ships its own chunk (e
 `BASE44_PREVIEW_MODE === "1"` plus `BASE44_SANDBOX_HOST_DOMAIN`; with the flag unset the config is
 unchanged and Vite's default localhost behaviour applies. The compose file passes
 `BASE44_PREVIEW_MODE` through from the platform unchanged.
+
+## React Bits and 21st.dev
+
+The component registries, and exactly what was taken from each (2026-11-01).
+
+- **Registry.** `components.json` declares `@react-bits` → `https://reactbits.dev/r/{name}.json`.
+  The shadcn MCP server is not available in this environment, so components are installed by
+  fetching that registry item and vendoring its `files[].content` into
+  `src/components/reactbits/` — the same bytes the `shadcn add` path would write. The index is
+  `https://reactbits.dev/r/registry.json`; item names carry the flavour suffix (`-TS-TW` = TypeScript +
+  Tailwind, what this repo uses). Two are installed:
+
+  | file | used by | notes |
+  | ---- | ------- | ----- |
+  | `reactbits/DotField.tsx` | `ui/DepthBackground.tsx` → `ui/AmbientLayers.tsx` | full-screen WebGL2 dot lattice that bends under the pointer; blue → gold gradient |
+  | `reactbits/GlareHover.tsx` | `ui/HeroCardStack.tsx` (card media block) | gold sheen across the card face; hover sweeps a streak through it |
+
+- **Vendored files carry `// @ts-nocheck` plus a header comment.** Registry sources are written for
+  a looser tsconfig than this repo's (`noUncheckedIndexedAccess`, index-signature access), so they
+  fail `tsc --noEmit` as-is; the only other edit is stripping the permanent `will-change-transform`
+  hint from `GlareHover`'s band. Re-fetching a component overwrites both — re-apply them.
+- **`DepthBackground` is deliberately conditional.** It mounts only when: viewport ≥ 768 px, no
+  `prefers-reduced-motion`, and the GL renderer is not a software rasteriser
+  (SwiftShader, llvmpipe, or the Windows basic display driver), probed once through
+  `WEBGL_debug_renderer_info`. It waits ~900 ms after mount, then loads the shader chunk with
+  `React.lazy`. A `webglcontextlost` captured on the wrapper unmounts the layer, so a dead context
+  can never composite as an opaque plate over the page (that failure is what washed the site out in
+  the earlier Silk/Particles attempts). The CSS room stays mounted underneath in every case: it is
+  the fallback, not a substitute.
+- **Measure it with pixels and frame time, not by "the canvas exists".** `page.emulateMediaFeatures
+  ([{name:'prefers-reduced-motion', value:'reduce'}])` is the no-shader baseline (measured 60 fps,
+  zero canvases); the headless browser here is SwiftShader, so it always takes the fallback path.
+  Confirm the shader path in a hardware browser if you change its settings.
+- **21st.dev cannot be installed from here.** There is no registry key and no MCP bridge; the
+  components were used as a design reference only. `docs/21ST_DEV_INTEGRATION.md` records what was
+  checked and the command that works once an `API_KEY_21ST` exists — update that file rather than
+  claiming the integration landed.

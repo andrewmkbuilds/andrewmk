@@ -322,11 +322,11 @@ export default function Home() {
 
       {/* Tools ribbon — the reference's logo band, in AndrewBuilds ink */}
       <section
-        className="border-y border-border/70 bg-card/20 py-14 md:py-16"
+        className="marquee-band border-y border-border/70 bg-card/20 py-16 md:py-20"
         aria-labelledby="tools-heading"
       >
         <div className="container">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
+          <div className="mb-10 flex flex-wrap items-end justify-between gap-3">
             <h2
               id="tools-heading"
               className="serif-display text-2xl text-foreground md:text-[2rem]"
@@ -343,7 +343,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <div className="space-y-3.5">
+        <div className="space-y-5 md:space-y-6">
           {marqueeRows.map((row) => (
             <TechMarquee
               key={row.label}

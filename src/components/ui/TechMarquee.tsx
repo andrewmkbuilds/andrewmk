@@ -70,7 +70,7 @@ export function TechMarquee({
             <span className="marquee-chip-mark" aria-hidden="true">
               <BrandLogo
                 name={item.name}
-                size="sm"
+                size={primary ? "lg" : "md"}
                 className="marquee-brand"
                 fallback={<span className="marquee-chip-dot" />}
               />
