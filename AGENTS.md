@@ -15,6 +15,12 @@ docker compose -f docker-compose.base44.yml down -v         # stop + wipe DB (re
   bind-mounted repo, so edits hot-reload. Verified: HMR logs `hmr update /src/styles.css`.
 - **Host port 8000** is the Supabase-compatible API gateway (`docker/base44/nginx.conf`):
   `/rest/v1` → PostgREST, `/auth/v1` → GoTrue, with CORS for the preview origin.
+- **Stage new files before finishing a turn.** The platform's end-of-turn commit takes the git
+  index, so a file it never sees staged stays untracked for every later commit while the imports
+  that reference it get committed — which is how `ui/Sketch.tsx`, `ui/CursorLayer.tsx`,
+  `lib/pointer.ts` and the scene components went missing from the branch and left CI red on
+  unresolved imports. Run `git add -A` after creating or restoring files; an empty
+  `git status --short` is the proof.
 
 ## Package manager
 
