@@ -1344,6 +1344,14 @@ export const timeline: TimelineEntry[] = [
     ],
   },
   {
+    year: "2026",
+    title: "Novara MUN Secretariat",
+    meta: "Head of Admins · July 2026",
+    body: [
+      "Joined the Novara MUN 2026 secretariat as Head of Admins, running the conference's administration.",
+    ],
+  },
+  {
     year: "NOW",
     title: "Building What's Next",
     body: [

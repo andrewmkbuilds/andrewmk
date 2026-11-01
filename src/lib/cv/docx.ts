@@ -12,6 +12,7 @@ import {
   cv,
   gavellingLabel,
   githubLabel,
+  munRoleLine,
   portfolioLabel,
 } from "@/data/cv";
 
@@ -157,19 +158,22 @@ export async function buildCvDocx(): Promise<Uint8Array> {
       new Paragraph({
         spacing: { after: 30 },
         children: [
-          new TextRun({ text: `${entry.role} · `, size: 19, color: "0F172A" }),
-          new TextRun({ text: entry.committee, size: 19, color: "0F172A" }),
+          new TextRun({ text: munRoleLine(entry), size: 19, color: "0F172A" }),
           new TextRun({ text: ` · ${entry.date}`, size: 19, color: muted }),
         ],
       }),
       ...(entry.portfolio
         ? [body(`Represented ${entry.portfolio}`, { color: muted, size: 19 })]
         : []),
-      body(`Awards: ${entry.awards.join(" · ")}`, {
-        bold: true,
-        color: accent,
-        size: 19,
-      }),
+      ...(entry.awards.length > 0
+        ? [
+            body(`Awards: ${entry.awards.join(" · ")}`, {
+              bold: true,
+              color: accent,
+              size: 19,
+            }),
+          ]
+        : []),
     ]),
     ...cv.munHighlights.map((highlight) => bulletRun(highlight)),
 

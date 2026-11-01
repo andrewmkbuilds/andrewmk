@@ -50,17 +50,27 @@ export interface CvProjectEntry {
   tech: string;
 }
 
-/** One Model United Nations conference, as the owner confirms it. */
+/** One Model United Nations role at a conference, as the owner confirms it. */
 export interface CvMunEntry {
   event: string;
   date: string;
+  /** Delegate, Secretariat, … */
   role: string;
-  /** Committee the delegate sat in. */
-  committee: string;
+  /** Office held within the role, e.g. a secretariat position. */
+  position?: string;
+  /** Committee the delegate sat in, where the role sat in one. */
+  committee?: string;
   /** Country or person represented, only where a source states it. */
   portfolio?: string;
-  /** Awards the owner confirms for this conference — Verbal Commendation only. */
+  /** Awards the owner confirms for this role — Verbal Commendation only. */
   awards: string[];
+}
+
+/** `Secretariat · Head of Admins` — the role line, without conference or date. */
+export function munRoleLine(entry: CvMunEntry): string {
+  return [entry.role, entry.position, entry.committee]
+    .filter(Boolean)
+    .join(" · ");
 }
 
 export interface CvResultEntry {
@@ -124,6 +134,13 @@ export const cv = {
       committee: "United Nations Security Council (UNSC)",
       portfolio: "Russia",
       awards: ["Verbal Commendation"],
+    },
+    {
+      event: "Novara MUN 2026",
+      date: "July 2026",
+      role: "Secretariat",
+      position: "Head of Admins",
+      awards: [],
     },
     {
       event: "IHS UNSummit 2026",

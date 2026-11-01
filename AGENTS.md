@@ -277,7 +277,10 @@ sites, GitHub, social media or inference.
   MUN award other than **Verbal Commendation** — never Honourable Mention, Best Position Paper,
   Best Resolution, Outstanding Delegate or Best Delegate. `munResults` (portfolio), `cv.mun` and
   `cv.munHighlights` (CV, and therefore the PDF/DOCX and `/api/cv/*`) carry exactly that award
-  for all three conferences (Novara MUN 2026, IHS UNSummit 2026, IHSMUN 2025). The supplied CV
+  for all three conferences (Novara MUN 2026, IHS UNSummit 2026, IHSMUN 2025). `cv.mun` holds one
+  entry per role and not every entry carries an award: Novara MUN 2026 appears twice, as Delegate
+  (UNSC, Russia, Verbal Commendation) and as Secretariat (Head of Admins), both July 2026 — never
+  merge the two or attach the award to the secretariat entry. The supplied CV
   PDFs and an older website pass claimed more; `docs/cv/MASTER_CV_CONFLICTS.md` §1 and §10 record
   the correction. Do not reintroduce a second award, and never count a committee, portfolio,
   resolution or participation as an award.

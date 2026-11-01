@@ -10,6 +10,7 @@ import {
   cv,
   gavellingLabel,
   githubLabel,
+  munRoleLine,
   portfolioLabel,
 } from "@/data/cv";
 
@@ -253,18 +254,22 @@ export async function buildCvPdf(): Promise<Uint8Array> {
   for (const entry of cv.mun) {
     ensureSpace(58);
     paragraph(entry.event, { font: bold, size: 9.9 });
-    paragraph(`${entry.role} · ${entry.committee} · ${entry.date}`, {
+    paragraph(`${munRoleLine(entry)} · ${entry.date}`, {
       size: 9.2,
     });
     if (entry.portfolio) {
       paragraph(`Represented ${entry.portfolio}`, { size: 9.2, color: muted });
     }
-    paragraph(`Awards: ${entry.awards.join(" · ")}`, {
-      size: 9.2,
-      font: bold,
-      color: accent,
-      gapAfter: 6,
-    });
+    if (entry.awards.length > 0) {
+      paragraph(`Awards: ${entry.awards.join(" · ")}`, {
+        size: 9.2,
+        font: bold,
+        color: accent,
+        gapAfter: 6,
+      });
+    } else {
+      y -= 6;
+    }
   }
   for (const highlight of cv.munHighlights) {
     ensureSpace(12);

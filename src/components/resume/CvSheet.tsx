@@ -1,5 +1,5 @@
 import { ExternalLink } from "lucide-react";
-import { cv, githubLabel, portfolioLabel } from "@/data/cv";
+import { cv, githubLabel, munRoleLine, portfolioLabel } from "@/data/cv";
 
 const INK = "text-[#0f172a]";
 const MUTED = "text-[#5b6472]";
@@ -151,7 +151,7 @@ export function CvSheet() {
           <SectionTitle>Model United Nations Experience</SectionTitle>
           <ul className="space-y-2">
             {cv.mun.map((entry) => (
-              <li key={entry.event}>
+              <li key={`${entry.event}-${entry.role}`}>
                 <p className={`text-[13px] font-semibold ${INK}`}>
                   {entry.event}
                   <span className={`font-normal ${MUTED}`}>
@@ -160,12 +160,14 @@ export function CvSheet() {
                   </span>
                 </p>
                 <p className={`text-[12.5px] leading-snug ${INK}`}>
-                  {entry.role} · {entry.committee}
+                  {munRoleLine(entry)}
                   {entry.portfolio ? ` · ${entry.portfolio}` : ""}
                 </p>
-                <p className={`text-[12px] font-semibold ${ACCENT}`}>
-                  Awards: {entry.awards.join(" · ")}
-                </p>
+                {entry.awards.length > 0 && (
+                  <p className={`text-[12px] font-semibold ${ACCENT}`}>
+                    Awards: {entry.awards.join(" · ")}
+                  </p>
+                )}
               </li>
             ))}
           </ul>
