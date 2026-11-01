@@ -20,10 +20,12 @@ import type { Project } from "@/data/portfolio";
  * 1. **Real records, not demo rows.** Rows come from `src/data/portfolio.ts`
  *    (`Project[]`), each linking to its own `/projects/<slug>` page. No demo
  *    name, description, date or stock image survives.
- * 2. **No stock imagery.** The portfolio publishes no product screenshots, so
- *    the floating preview is a designed *plate* built from the project's own
- *    record — the same treatment the case studies and the gallery use. A
- *    project that ever publishes a `featuredImage` renders it instead.
+ * 2. **Real screenshots, no stock imagery.** A project that publishes a
+ *    `featuredImage` — a screenshot captured from its own live site, vendored
+ *    in `/public/projects/` — renders that inside the preview, cropped to the
+ *    frame with `object-cover`. Projects with no published site (or one behind
+ *    a login) keep the designed *plate* built from the record — the same
+ *    treatment the case studies and the gallery use.
  * 3. **One animation frame loop, driven by refs.** The demo kept the cursor in
  *    React state and used it as an effect dependency, so every pointer move
  *    tore down and restarted the loop (and re-rendered the whole list). Here

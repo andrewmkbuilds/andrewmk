@@ -225,10 +225,20 @@ row per `ecosystemProjects` record (name, real description, real status, link to
 `/projects/<slug>` page) with a floating preview that follows the cursor on desktop.
 Adapted from the 21st.dev "ProjectShowcase" demo.
 
-- **No stock imagery.** The portfolio publishes no product screenshots, so the preview
-  is a typographic plate built from the record itself — status, name and stack, on the
-  same primary/gold gradient and `bg-grid` as `CaseStudyRow` and the gallery plates. A
-  project that ever publishes `featuredImage` renders it instead (with `imageAlt`).
+- **Real screenshots, no stock imagery.** A record with `featuredImage` renders that image
+  inside the preview (`object-cover`, cropped to the 300×200 frame); the rest keep the
+  typographic plate built from the record itself — status, name and stack, on the same
+  primary/gold gradient and `bg-grid` as `CaseStudyRow` and the gallery plates.
+- **The screenshots are captures of the live sites, vendored in `public/projects/`.**
+  Six projects publish one (Scholara, CritiqueFlow, The Neon Rush, Horizon Motorsports,
+  DevOS, TabZen), each 1200×630 WebP (~20–40 KB) so the preview never depends on the live
+  site. Capture at 1440×756 CSS at `deviceScaleFactor: 2` with the puppeteer image, then
+  resize to 1200×630 (`fit: cover`, Lanczos) — the same aspect the project page already
+  declares for `og:image`, which reuses `featuredImage`. Pick the frame that shows the
+  product itself (CritiqueFlow's `/dashboard`, DevOS/TabZen's workspace, Neon Rush's mode
+  grid), not a blind top-left crop. Stack Up and COGNOS are login-gated, AI for Students is
+  unpublished, and Gradr/TerraCart/ClientFlow OS publish no live URL — those stay on plates
+  rather than getting a fake or login-screen asset.
 - **The right-hand column is `projectMeta()`**: the completion year when the record
   publishes one (`endDate`/`startDate`; the four featured projects do), otherwise the
   project's real `status`. Ecosystem records publish no dates, so they show status —

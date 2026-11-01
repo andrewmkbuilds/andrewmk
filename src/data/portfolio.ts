@@ -615,6 +615,9 @@ export const ecosystemProjects: Project[] = [
     tech: ["AI", "Base44"],
     status: "Live",
     live: "https://get-scholara.base44.app/",
+    featuredImage: "/projects/scholara.webp",
+    imageAlt:
+      "Scholara landing page — “The intelligent OS for modern schools” above its platform metrics.",
     filters: ["AI", "Base44"],
     platform: "base44",
     problem:
@@ -732,6 +735,9 @@ export const ecosystemProjects: Project[] = [
     tech: ["React", "Base44"],
     status: "Live",
     live: "https://critiqueflow.base44.app/",
+    featuredImage: "/projects/critiqueflow.webp",
+    imageAlt:
+      "CritiqueFlow dashboard — design health trends, feedback volume chart and review counters.",
     filters: ["React", "Base44"],
     platform: "base44",
     problem:
@@ -820,6 +826,9 @@ export const ecosystemProjects: Project[] = [
     tech: ["Game", "Base44"],
     status: "Live",
     live: "https://the-neonrush.base44.app/",
+    featuredImage: "/projects/the-neonrush.webp",
+    imageAlt:
+      "The Neon Rush command center — story, survival and the arcade mode grid.",
     filters: ["Base44"],
     platform: "base44",
     problem:
@@ -900,6 +909,9 @@ export const ecosystemProjects: Project[] = [
     tech: ["React", "Framer Motion"],
     status: "Active",
     live: "https://horizonmotorsports.base44.app/",
+    featuredImage: "/projects/horizon-motorsports.webp",
+    imageAlt:
+      "Horizon Motorsports home page — the team hero with its car metrics and call to action.",
     filters: ["React"],
     platform: "base44",
     problem:
@@ -1018,6 +1030,9 @@ export const ecosystemProjects: Project[] = [
     tech: ["Python", "AI Integration"],
     status: "Live",
     live: "https://dev-os-flow.base44.app/",
+    featuredImage: "/projects/devos.webp",
+    imageAlt:
+      "DevOS workspace — task metrics, the focus timer, contribution activity and the AI assistant.",
     filters: ["Python", "AI", "Base44"],
     platform: "base44",
     problem:
@@ -1232,6 +1247,9 @@ export const ecosystemProjects: Project[] = [
     tech: ["Browser Extension", "AI Summarization"],
     status: "Live",
     live: "https://tabzen.base44.app/",
+    featuredImage: "/projects/tabzen.webp",
+    imageAlt:
+      "TabZen workspace — focus score, tab groups and daily goals.",
     filters: ["AI", "Base44"],
     platform: "base44",
     problem:
