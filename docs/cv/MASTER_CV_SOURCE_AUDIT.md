@@ -54,6 +54,12 @@ the raw bytes and the normalised text were compared — not the file names.
     Mention and Best Position Paper, October 2025.
 - Highlights: awards at every conference; crisis, specialised and domestic
   committee experience; drafted resolutions, directives and position papers.
+
+> **Correction (2026-11-01).** Andrew has confirmed these award lines are wrong:
+> his only MUN award is a **Verbal Commendation** — no Honourable Mention, Best
+> Position Paper, Best Resolution or any other award. This list records what the
+> supplied PDFs said; the Master CV and the website now carry the corrected
+> award. See `MASTER_CV_CONFLICTS.md` §1 and §10.
 - Leadership and activities (4): STEM Racing (F1 in Schools), Robotics & Coding
   Programme, ASDAN Environmental Short Course, Future UAE Exhibition.
 

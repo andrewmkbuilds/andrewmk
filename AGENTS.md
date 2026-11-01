@@ -259,6 +259,14 @@ sites, GitHub, social media or inference.
 - Certificates are the source's 34 gallery entries with the same titles, issuers, dates, categories
   and file names.
 - `/blog` publishes nothing unless an admin writes a post — the source shows "No posts yet".
+- **MUN awards are owner-confirmed, and narrower than the inputs claimed.** Andrew has won no
+  MUN award other than **Verbal Commendation** — never Honourable Mention, Best Position Paper,
+  Best Resolution, Outstanding Delegate or Best Delegate. `munResults` (portfolio), `cv.mun` and
+  `cv.munHighlights` (CV, and therefore the PDF/DOCX and `/api/cv/*`) carry exactly that award
+  for all three conferences (Novara MUN 2026, IHS UNSummit 2026, IHSMUN 2025). The supplied CV
+  PDFs and an older website pass claimed more; `docs/cv/MASTER_CV_CONFLICTS.md` §1 and §10 record
+  the correction. Do not reintroduce a second award, and never count a committee, portfolio,
+  resolution or participation as an award.
 - Different source pages word the identity line differently (home `<h1>`, About "Identity",
   profile header, résumé subtitle, Person JSON-LD), so each place keeps its own exact wording from
   the source rather than deriving all of them from `PROFILE_TITLE`.

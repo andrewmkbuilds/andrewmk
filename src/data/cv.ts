@@ -50,7 +50,7 @@ export interface CvProjectEntry {
   tech: string;
 }
 
-/** One Model United Nations conference, as the supplied CV documents record it. */
+/** One Model United Nations conference, as the owner confirms it. */
 export interface CvMunEntry {
   event: string;
   date: string;
@@ -59,7 +59,7 @@ export interface CvMunEntry {
   committee: string;
   /** Country or person represented, only where a source states it. */
   portfolio?: string;
-  /** Every award named by a source, in the source's order. */
+  /** Awards the owner confirms for this conference — Verbal Commendation only. */
   awards: string[];
 }
 
@@ -84,7 +84,7 @@ export const cv = {
   github: GITHUB_URL,
   gavelling: GAVELLING_URL,
   profile:
-    "Student developer and Model United Nations delegate based in Dubai. Builds AI tools, web products and computer-vision projects end to end, from first prototype to working product, and has been awarded at every MUN conference attended — representing Russia, Liam Lawson and Kodikunnil Suresh across the UNSC, FIA and Lok Sabha committees.",
+    "Student developer and Model United Nations delegate based in Dubai. Builds AI tools, web products and computer-vision projects end to end, from first prototype to working product, and has received a Verbal Commendation at every MUN conference attended — representing Russia, Liam Lawson and Kodikunnil Suresh across the UNSC, FIA and Lok Sabha committees.",
 
   education: [
     {
@@ -131,7 +131,7 @@ export const cv = {
       role: "Delegate",
       committee: "Fédération Internationale de l'Automobile (FIA)",
       portfolio: "Liam Lawson",
-      awards: ["Verbal Commendation", "Best Resolution"],
+      awards: ["Verbal Commendation"],
     },
     {
       event: "IHSMUN 2025",
@@ -139,12 +139,12 @@ export const cv = {
       role: "Delegate",
       committee: "Lok Sabha B",
       portfolio: "Kodikunnil Suresh",
-      awards: ["Honourable Mention", "Best Position Paper"],
+      awards: ["Verbal Commendation"],
     },
   ] satisfies CvMunEntry[],
 
   munHighlights: [
-    "Awarded at every MUN conference attended: two individual awards each at IHS UNSummit 2026 and IHSMUN 2025, one at Novara MUN 2026.",
+    "Verbal Commendation at every MUN conference attended — Novara MUN 2026, IHS UNSummit 2026 and IHSMUN 2025.",
     "Experience across crisis, specialised and domestic committees, including a UN Security Council simulation.",
     "Drafted resolutions, directives and position papers from research to floor debate.",
     "Strengths in diplomacy, negotiation, research, public speaking and teamwork.",

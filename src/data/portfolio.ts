@@ -1431,7 +1431,7 @@ export const munResults: MunResult[] = [
   { title: "Novara MUN 2026", detail: "UNSC · Verbal Commendation" },
   {
     title: "IHS UNSummit 2026",
-    detail: "FIA · Verbal Commendation + Best Resolution",
+    detail: "FIA · Verbal Commendation",
   },
 ];
 
