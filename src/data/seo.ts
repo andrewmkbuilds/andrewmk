@@ -39,7 +39,7 @@ export const routes: RouteMeta[] = [
     label: "Home",
     title: "Andrew Mathews | Student Developer, AI Builder & Robotics Engineer",
     description:
-      "Andrew Mathews is a student developer and technology builder from Dubai, UAE, creating AI applications, robotics projects, web apps, and innovative technology solutions.",
+      "Andrew Mathews is a student developer in Dubai building AI applications, robotics projects and web apps, and studying at The Indian High School.",
     ogHeadline: "I build systems that solve real problems.",
     changefreq: "weekly",
     priority: "1.0",

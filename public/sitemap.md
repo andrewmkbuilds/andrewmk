@@ -2,7 +2,7 @@
 
 ## Pages
 
-- [Home](https://andrewmk.is-a.dev/): Andrew Mathews is a student developer and technology builder from Dubai, UAE, creating AI applications, robotics projects, web apps, and innovative technology solutions.
+- [Home](https://andrewmk.is-a.dev/): Andrew Mathews is a student developer in Dubai building AI applications, robotics projects and web apps, and studying at The Indian High School.
 - [Projects](https://andrewmk.is-a.dev/projects): Explore the software, AI systems, tools, and experiments Andrew Mathews has built, filterable by technology and build platform.
 - [About](https://andrewmk.is-a.dev/about): How Andrew Mathews thinks about building: systems over features, shipping over theory, and turning ideas into working products.
 - [Journey](https://andrewmk.is-a.dev/journey): From a robotics programme at age 9 to shipping AI products: the timeline behind Andrew Mathews' work.

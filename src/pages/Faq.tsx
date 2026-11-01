@@ -35,6 +35,9 @@ export default function Faq() {
           </Reveal>
 
           <Reveal delay={80} className="mt-12 max-w-3xl">
+            {/* The accordion renders its questions as h3, so the list needs an
+                h2 between the page h1 and them to keep the heading order. */}
+            <h2 className="sr-only">Frequently asked questions</h2>
             <Accordion type="single" collapsible className="w-full">
               {faqEntries.map((entry) => (
                 <AccordionItem key={entry.id} value={entry.id}>
