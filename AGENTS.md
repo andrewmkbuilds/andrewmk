@@ -197,6 +197,27 @@ list of the same cards renders instead of the stack under reduced motion.
   (`needs ≤ has` measured per card, including the 14-chip 2025–2026 entry), and
   `documentElement` has no sideways overflow.
 
+## Echo headline
+
+`src/components/ui/EchoHeadline.tsx` is the home page's one-word statement
+between the tools ribbon and the case studies: "Systems" grows a 3D slab of its
+own copies as you scroll, a trail of echoes fading into the navy room. CSS in
+`src/styles/echo-headline.css`; the component only writes `--eh-*` on the track.
+
+- **Adapted from the supplied demo, not copied.** It ran on GSAP + ScrollTrigger
+  with a `#ebebe9` page and Switzer; here the scroll progress and its smoothing
+  spring are motion's (`useScroll` + `useSpring`, no second animation library),
+  the slab speaks in `--font-serif`, and the echoes mix toward `--background`
+  instead of probing the DOM for a painted ground (the site has one dark room).
+- **The tall track is a class, not markup.** `eh-is-scrub` (300vh) is added
+  after mount, so the SSR pass and reduced motion both render one plain headline
+  in a single screen. Keep the root on `overflow: clip` — `hidden` computes
+  `overflow-y: auto`, makes a scroll container and kills the sticky stage.
+- **Verified in the preview**: the track is 3× the viewport, the stage pins at
+  `top: 0` for the whole pass, `--eh-reach` runs 0 → 1 with the echoes hidden at
+  rest, the farthest echo projects to ~0.55 of the word, and there is no
+  sideways overflow at 1167 / 982 / 375 px.
+
 ## The ambient background
 
 The background is a **CSS 3D scene**: three parallax planes of geometric objects hanging in one

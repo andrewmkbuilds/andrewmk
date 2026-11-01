@@ -16,6 +16,7 @@ import { TechConstellation } from "@/components/ui/TechConstellation";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StatusDot } from "@/components/ui/StatusDot";
 import { PortfolioGallery } from "@/components/ui/portfolio-gallery";
+import { EchoHeadline } from "@/components/ui/EchoHeadline";
 import { TechTag } from "@/components/ui/TechTag";
 import { RoleBadge } from "@/components/ui/Badges";
 import {
@@ -355,6 +356,18 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* One word, extruded — the through-line the whole site is built on,
+          said in the serif voice and scaled to the screen. */}
+      <EchoHeadline
+        text="Systems"
+        eyebrow="AI · Software · Robotics · Product"
+        copies={8}
+        depth={1}
+        rotateX={20}
+        rotateY={20}
+        hold={0.2}
+      />
 
       {/* Case studies */}
       <section className="py-20 md:py-28" id="work">

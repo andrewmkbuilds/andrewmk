@@ -4,6 +4,7 @@
 @import "tw-animate-css";
 @import "./styles/scene-3d.css";
 @import "./styles/stacking-cards.css";
+@import "./styles/echo-headline.css";
 
 @custom-variant dark (&:is(.dark *));
 
