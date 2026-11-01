@@ -10,6 +10,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Link } from "@/lib/router-compat";
 import { cn } from "@/lib/utils";
 import { useHydratedReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
+import { ProjectShot } from "./ProjectShot";
 import type { Project } from "@/data/portfolio";
 
 /**
@@ -21,11 +22,11 @@ import type { Project } from "@/data/portfolio";
  *    (`Project[]`), each linking to its own `/projects/<slug>` page. No demo
  *    name, description, date or stock image survives.
  * 2. **Real screenshots, no stock imagery.** A project that publishes a
- *    `featuredImage` — a screenshot captured from its own live site, vendored
- *    in `/public/projects/` — renders that inside the preview, cropped to the
- *    frame with `object-cover`. Projects with no published site (or one behind
- *    a login) keep the designed *plate* built from the record — the same
- *    treatment the case studies and the gallery use.
+ *    `screenshot` — a capture of its own live site, vendored in
+ *    `/public/projects/` — renders it through `ProjectShot`, so this preview
+ *    shows the same asset as the card, case study, modal and project page.
+ *    Projects with no published site (or one behind a login) keep the designed
+ *    *plate* built from the record — the same fallback the other surfaces use.
  * 3. **One animation frame loop, driven by refs.** The demo kept the cursor in
  *    React state and used it as an effect dependency, so every pointer move
  *    tore down and restarted the loop (and re-rendered the whole list). Here
@@ -171,14 +172,8 @@ export function ProjectShowcase({ projects, className }: ProjectShowcaseProps) {
             active === index ? "scale-100 opacity-100" : "scale-105 opacity-0",
           )}
         >
-          {project.featuredImage ? (
-            <img
-              src={project.featuredImage}
-              alt={project.imageAlt ?? `${project.name} preview`}
-              loading="lazy"
-              decoding="async"
-              className="h-full w-full object-cover"
-            />
+          {project.screenshot ? (
+            <ProjectShot project={project} />
           ) : (
             <>
               <span

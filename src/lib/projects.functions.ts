@@ -89,7 +89,7 @@ export function toProject(row: CmsProject): Project {
     features: row.features?.length ? row.features : undefined,
     process: row.process ?? undefined,
     learned: row.learned ?? undefined,
-    featuredImage: row.featured_image ?? undefined,
+    screenshot: row.featured_image ?? undefined,
     imageAlt: row.image_alt ?? undefined,
     images: row.images?.length ? row.images : undefined,
     startDate: row.start_date ?? undefined,

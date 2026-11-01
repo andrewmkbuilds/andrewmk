@@ -6,11 +6,32 @@ import { Reveal } from "./Reveal";
 import { Badge } from "./badge";
 import { StatusBadge } from "./Badges";
 import { TechTag } from "./TechTag";
+import { ProjectShot } from "./ProjectShot";
 import type { Project } from "@/data/portfolio";
 
 interface CaseStudyRowProps {
   project: Project;
   index: number;
+}
+
+/** The "Live" pill, shared by the screenshot caption and the plate panel. */
+function LiveBadge({ project }: { project: Project }) {
+  if (!project.live) return null;
+  return (
+    <a
+      href={project.live}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${project.name} live app (opens in a new tab)`}
+      className="focus-ring rounded-full"
+    >
+      <Badge tone="live" size="sm" className="badge-link">
+        <span className="badge-pulse" aria-hidden="true" />
+        <span className="badge-label">Live</span>
+        <ArrowUpRight className="badge-icon badge-arrow" aria-hidden="true" />
+      </Badge>
+    </a>
+  );
 }
 
 /**
@@ -19,9 +40,11 @@ interface CaseStudyRowProps {
  * highlights, a trio of real figures and a taped media panel that settles on
  * hover. Rows alternate sides on large screens.
  *
- * The media panel is typographic by design — no product screenshot is invented
- * for a project that has none. Projects with a live URL still surface it
- * honestly, as a link, never as an implied interface.
+ * The media panel is the project's own screenshot — the same asset every other
+ * surface uses (`ui/ProjectShot.tsx`) — under a caption strip carrying the name,
+ * status and live link. A project with no published screenshot keeps the
+ * typographic plate built from its record; nothing is invented or borrowed from
+ * another project.
  */
 export function CaseStudyRow({ project, index }: CaseStudyRowProps) {
   const flip = index % 2 === 1;
@@ -34,56 +57,66 @@ export function CaseStudyRow({ project, index }: CaseStudyRowProps) {
       {/* media panel */}
       <Reveal className={cn("relative", flip && "lg:order-2")} y={22}>
         <div className="case-media surface relative overflow-hidden rounded-2xl">
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-[radial-gradient(130%_100%_at_15%_0%,color-mix(in_oklab,var(--primary)_28%,transparent),transparent_60%),radial-gradient(90%_80%_at_100%_100%,color-mix(in_oklab,var(--gold)_20%,transparent),transparent_72%)]"
-          />
-          <div className="case-media-inner bg-grid flex aspect-[4/3] max-h-[420px] flex-col justify-between p-5 sm:p-7">
-            <div className="flex items-start justify-between gap-3">
-              <StatusBadge status={project.status} size="sm" />
-              <span
+          {project.screenshot ? (
+            <>
+              <div className="aspect-[16/10] overflow-hidden">
+                <ProjectShot
+                  project={project}
+                  className="transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                />
+              </div>
+              <div className="relative flex flex-wrap items-end justify-between gap-3 border-t border-border/70 bg-background/70 px-4 py-3.5 sm:px-5">
+                <div className="min-w-0">
+                  <p className="serif-display text-lg leading-none text-foreground">
+                    {project.name}
+                  </p>
+                  <p className="mt-1.5 truncate font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                    {project.category}
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <StatusBadge status={project.status} size="sm" />
+                  <LiveBadge project={project} />
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div
                 aria-hidden="true"
-                className="serif-display text-4xl text-foreground/12 tabular-nums sm:text-5xl"
-              >
-                {number}
-              </span>
-            </div>
+                className="absolute inset-0 bg-[radial-gradient(130%_100%_at_15%_0%,color-mix(in_oklab,var(--primary)_28%,transparent),transparent_60%),radial-gradient(90%_80%_at_100%_100%,color-mix(in_oklab,var(--gold)_20%,transparent),transparent_72%)]"
+              />
+              <div className="case-media-inner bg-grid flex aspect-[4/3] max-h-[420px] flex-col justify-between p-5 sm:p-7">
+                <div className="flex items-start justify-between gap-3">
+                  <StatusBadge status={project.status} size="sm" />
+                  <span
+                    aria-hidden="true"
+                    className="serif-display text-4xl text-foreground/12 tabular-nums sm:text-5xl"
+                  >
+                    {number}
+                  </span>
+                </div>
 
-            <div className="mt-6">
-              <p className="serif-display headline-3d text-3xl leading-none text-foreground sm:text-[2.9rem]">
-                {project.name}
-              </p>
-              <p className="mt-3 max-w-sm font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
-                {project.category}
-              </p>
-            </div>
+                <div className="mt-6">
+                  <p className="serif-display headline-3d text-3xl leading-none text-foreground sm:text-[2.9rem]">
+                    {project.name}
+                  </p>
+                  <p className="mt-3 max-w-sm font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
+                    {project.category}
+                  </p>
+                </div>
 
-            <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-              <span className="flex flex-wrap gap-1.5">
-                {project.tech.slice(0, 4).map((t) => (
-                  <TechTag key={t}>{t}</TechTag>
-                ))}
-              </span>
-              {project.live && (
-                <a
-                  href={project.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${project.name} live app (opens in a new tab)`}
-                  className="focus-ring rounded-full"
-                >
-                  <Badge tone="live" size="sm" className="badge-link">
-                    <span className="badge-pulse" aria-hidden="true" />
-                    <span className="badge-label">Live</span>
-                    <ArrowUpRight
-                      className="badge-icon badge-arrow"
-                      aria-hidden="true"
-                    />
-                  </Badge>
-                </a>
-              )}
-            </div>
-          </div>
+                <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+                  <span className="flex flex-wrap gap-1.5">
+                    {project.tech.slice(0, 4).map((t) => (
+                      <TechTag key={t}>{t}</TechTag>
+                    ))}
+                  </span>
+                  <LiveBadge project={project} />
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </Reveal>
 

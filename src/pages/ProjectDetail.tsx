@@ -10,6 +10,7 @@ import { BuiltBy, PlatformBadge } from "@/components/ui/BuiltBy";
 import { StatusDot } from "@/components/ui/StatusDot";
 import { StatusBadge } from "@/components/ui/Badges";
 import { ProjectTimeline } from "@/components/ui/ProjectTimeline";
+import { ProjectShot } from "@/components/ui/ProjectShot";
 import { allProjects, type Project } from "@/data/portfolio";
 
 interface ProjectDetailProps {
@@ -112,6 +113,14 @@ export default function ProjectDetail({
                     </Button>
                   )}
                 </div>
+              )}
+
+              {project.screenshot && (
+                <figure className="mt-10 overflow-hidden rounded-2xl border border-border/80 shadow-card md:mt-12">
+                  <div className="aspect-[16/9]">
+                    <ProjectShot project={project} priority />
+                  </div>
+                </figure>
               )}
             </motion.div>
           </div>

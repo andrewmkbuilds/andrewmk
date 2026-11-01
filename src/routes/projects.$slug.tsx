@@ -53,7 +53,7 @@ export const Route = createFileRoute("/projects/$slug")({
     const canonical = project.seo?.canonical || url;
     const image =
       absolute(project.seo?.ogImage) ??
-      absolute(project.featuredImage) ??
+      absolute(project.screenshot) ??
       `${SITE_URL}${ogImagePath("/projects")}`;
     const title =
       project.seo?.title ||

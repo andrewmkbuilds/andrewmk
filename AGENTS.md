@@ -225,20 +225,27 @@ row per `ecosystemProjects` record (name, real description, real status, link to
 `/projects/<slug>` page) with a floating preview that follows the cursor on desktop.
 Adapted from the 21st.dev "ProjectShowcase" demo.
 
-- **Real screenshots, no stock imagery.** A record with `featuredImage` renders that image
-  inside the preview (`object-cover`, cropped to the 300×200 frame); the rest keep the
-  typographic plate built from the record itself — status, name and stack, on the same
-  primary/gold gradient and `bg-grid` as `CaseStudyRow` and the gallery plates.
-- **The screenshots are captures of the live sites, vendored in `public/projects/`.**
-  Six projects publish one (Scholara, CritiqueFlow, The Neon Rush, Horizon Motorsports,
-  DevOS, TabZen), each 1200×630 WebP (~20–40 KB) so the preview never depends on the live
-  site. Capture at 1440×756 CSS at `deviceScaleFactor: 2` with the puppeteer image, then
-  resize to 1200×630 (`fit: cover`, Lanczos) — the same aspect the project page already
-  declares for `og:image`, which reuses `featuredImage`. Pick the frame that shows the
-  product itself (CritiqueFlow's `/dashboard`, DevOS/TabZen's workspace, Neon Rush's mode
-  grid), not a blind top-left crop. Stack Up and COGNOS are login-gated, AI for Students is
-  unpublished, and Gradr/TerraCart/ClientFlow OS publish no live URL — those stay on plates
-  rather than getting a fake or login-screen asset.
+- **One screenshot asset per project.** `Project.screenshot` (plus `imageAlt`) is the only
+  visual asset a project has, and `ui/ProjectShot.tsx` is the only component that paints
+  it. Every surface reads that one field: the `ProjectCard` thumbnail (16:10), the showcase
+  preview (3:2), the `CaseStudyRow` media panel (16:10 + caption strip), the `ProjectModal`
+  hero (16:9), the project page hero (16:9), the curtain slider and the feature spotlight.
+  Adding a project means adding its record and its file — never a second, hand-assigned
+  image per placement. `ProjectShot` renders nothing when the record has no screenshot, and
+  each caller keeps its typographic plate (status, name and stack on the primary/gold
+  gradient) as the fallback.
+- **The screenshots are captures of the projects' own live sites, vendored in
+  `public/projects/`.** Six projects publish one (Scholara, CritiqueFlow, The Neon Rush,
+  Horizon Motorsports, DevOS, TabZen), each 1200×630 WebP (~20–40 KB) so no surface depends
+  on the live site at runtime. Capture at 1440×756 CSS at `deviceScaleFactor: 2` with the
+  puppeteer image, then resize to 1200×630 (`fit: cover`, Lanczos) — the same aspect the
+  project page declares for `og:image`, which reuses `screenshot`. Pick the frame that shows
+  the product itself (CritiqueFlow's dashboard, DevOS/TabZen's workspace, Neon Rush's mode
+  grid), not a blind top-left crop. Rendered crops anchor to the top (`object-cover
+object-top`) so the product header stays in frame; the image is never stretched. Stack Up,
+  COGNOS and AI for Students are login-gated with no public product surface (their `/`
+  redirects to a Base44 login form), and Gradr/TerraCart/ClientFlow OS publish no live URL —
+  those stay on plates rather than getting a fake, borrowed or login-screen asset.
 - **The right-hand column is `projectMeta()`**: the completion year when the record
   publishes one (`endDate`/`startDate`; the four featured projects do), otherwise the
   project's real `status`. Ecosystem records publish no dates, so they show status —
@@ -739,9 +746,10 @@ touching any of it.
   motion/react in earlier sessions; replacing them with the GSAP originals would regress the
   journey stack and the home headline. `Pricing` is intentionally not mounted: the portfolio
   publishes no rates, and inventing tiers would break the content-source rule above.
-- **No screenshots, so plates are generated.** `src/lib/plate.ts` builds a navy/gold typographic
-  SVG data URI per record; the curtain slider, feature dialog, process rail and drawer cards use
-  it. Never point a pack image slot at a stock/CDN URL.
+- **Screenshots first, plates as the fallback.** The curtain slider and the feature dialog show
+  `Project.screenshot` when the record publishes one; otherwise `src/lib/plate.ts` builds a
+  navy/gold typographic SVG data URI per record (the process rail and drawer cards are always
+  plates). Never point a pack image slot at a stock/CDN URL.
 - **ASCII overlay is a rewrite, not a port.** The pack version needs three.js and a running
   shader; `src/components/ui/AsciiPlate.tsx` samples the image once into an offscreen grid and
   paints the glyphs onto one static canvas on mount/resize. Keeps the site's no-WebGL rule.

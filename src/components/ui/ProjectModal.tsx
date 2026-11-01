@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { TechTag } from "./TechTag";
 import { BuiltBy, PlatformBadge } from "./BuiltBy";
+import { ProjectShot } from "./ProjectShot";
 import type { Project } from "@/data/portfolio";
 
 interface ProjectModalProps {
@@ -73,6 +74,16 @@ export function ProjectModal({
                     }}
                   />
                 </div>
+
+                {project.screenshot && (
+                  <div className="relative aspect-[16/9] overflow-hidden border-b border-border/70">
+                    <ProjectShot project={project} priority />
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 bg-linear-to-t from-background/55 via-transparent to-background/25"
+                    />
+                  </div>
+                )}
 
                 <DialogPrimitive.Close
                   className="focus-ring absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background/70 text-muted-foreground backdrop-blur transition-colors hover:border-gold/40 hover:text-gold"

@@ -59,8 +59,8 @@ export default function Projects({
           <h2 className="sr-only">Featured projects</h2>
 
           {/* The flagships on a curtain rail: drag, use the arrows, or the
-              arrow keys. Each slide is a typographic plate built from the
-              project record — the portfolio publishes no screenshots. */}
+              arrow keys. Each slide is the project's own screenshot when the
+              record publishes one, and its typographic plate when it does not. */}
           <div className="mt-10">
             <PortfolioCurtain />
           </div>

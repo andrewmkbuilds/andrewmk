@@ -16,7 +16,10 @@ export function FeatureSpotlight({
   project: Project;
   className?: string;
 }) {
-  const plate = projectPlate(project.name, project.category, 1);
+  // The tile is the project's own screenshot when it publishes one — the same
+  // asset every other surface uses — and its typographic plate when it does not.
+  const plate =
+    project.screenshot ?? projectPlate(project.name, project.category, 1);
   const detailPlate = projectPlate(project.status, project.category, 2);
 
   return (
@@ -24,14 +27,17 @@ export function FeatureSpotlight({
       className={`anm-feature ${className}`.trim()}
       label={project.category}
       title={project.name}
-      tileImage={{ src: plate, alt: `${project.name} plate` }}
+      tileImage={{
+        src: plate,
+        alt: project.imageAlt ?? `${project.name} plate`,
+      }}
       sheetTitle={project.name}
       sheetText={project.fullDescription ?? project.description}
       actionLabel="Open the full case study"
       actionHref={`/projects/${project.slug}`}
       listItems={project.built.slice(0, 4)}
       mediaImages={[
-        { src: plate, alt: `${project.name} plate` },
+        { src: plate, alt: project.imageAlt ?? `${project.name} plate` },
         { src: detailPlate, alt: `${project.name} status plate` },
       ]}
       stats={(project.results ?? []).slice(0, 3).map((result) => ({
