@@ -156,7 +156,7 @@ export function InlinePopDisclosure({
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((value) => !value)}
-        className="focus-ring inline-flex touch-manipulation items-center gap-2 rounded-md font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-gold"
+        className="focus-ring -my-1.5 inline-flex touch-manipulation items-center gap-2 rounded-md py-1.5 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-gold"
       >
         {label}
         <ChevronDown

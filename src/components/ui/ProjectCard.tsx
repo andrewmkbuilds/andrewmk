@@ -159,7 +159,7 @@ export function ProjectCard({
             aria-expanded={detailsOpen}
             aria-controls={panelId}
             onClick={() => setDetailsOpen((value) => !value)}
-            className="focus-ring inline-flex touch-manipulation items-center gap-2 rounded-md font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-gold"
+            className="focus-ring -my-1.5 inline-flex touch-manipulation items-center gap-2 rounded-md py-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-gold"
           >
             {`What's inside ${project.name}`}
             <ChevronDown
