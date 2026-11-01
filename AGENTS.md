@@ -218,6 +218,44 @@ own copies as you scroll, a trail of echoes fading into the navy room. CSS in
   rest, the farthest echo projects to ~0.55 of the word, and there is no
   sideways overflow at 1167 / 982 / 375 px.
 
+## Project showcase (home Ecosystem archive)
+
+`src/components/ui/project-showcase.tsx` is the homepage "Ecosystem" section: one
+row per `ecosystemProjects` record (name, real description, real status, link to its
+`/projects/<slug>` page) with a floating preview that follows the cursor on desktop.
+Adapted from the 21st.dev "ProjectShowcase" demo.
+
+- **No stock imagery.** The portfolio publishes no product screenshots, so the preview
+  is a typographic plate built from the record itself — status, name and stack, on the
+  same primary/gold gradient and `bg-grid` as `CaseStudyRow` and the gallery plates. A
+  project that ever publishes `featuredImage` renders it instead (with `imageAlt`).
+- **The right-hand column is `projectMeta()`**: the completion year when the record
+  publishes one (`endDate`/`startDate`; the four featured projects do), otherwise the
+  project's real `status`. Ecosystem records publish no dates, so they show status —
+  do not invent years to fill the column.
+- **One rAF loop, refs only.** The demo kept the cursor in React state and used it as
+  the effect dependency, which restarted the loop on every pointer move and re-rendered
+  the whole list. Here `pointermove` writes a ref, and a single loop — started when a
+  row becomes active, cancelled on leave — lerps toward it and writes `transform`
+  directly. Row hover/focus is React state; the pointer never is.
+- **The preview is portalled to `<body>`.** `.page-enter` on an ancestor carries a
+  transform, and a transformed ancestor becomes the containing block for
+  `position: fixed`; inside the section the preview resolved against that box and sat
+  ~6 700 px off-screen while scrolled. Verified: with the portal the preview tracks the
+  cursor, clamps inside the viewport at the bottom-right corner, and hides on leave.
+- **Touch and reduced motion.** The preview is `hidden md:block` and only opens for
+  `pointerType === "mouse"`, so phones get large tappable rows and no hover dependency.
+  Plates cross-fade with `opacity`/`scale` only (no `filter: blur()`, no per-frame
+  layout reads); under `prefers-reduced-motion` the transitions are off and the preview
+  jumps straight to the target via `useHydratedReducedMotion()`.
+- **Keyboard.** A focused row docks the preview at the right edge of the viewport,
+  vertically aligned with that row. Verify with a real `focusin` — a programmatic
+  `element.focus()` alone does not fire React's delegated handler in the headless
+  harness and reads as a false negative.
+- Verified in the preview at 1280 / 375 px: 15 rows with correct `/projects/<slug>`
+  hrefs, hover and keyboard previews, plate switching, viewport clamping, hiding on
+  leave, no console errors, no failed requests, no sideways overflow.
+
 ## The ambient background
 
 The background is a **CSS 3D scene**: three parallax planes of geometric objects hanging in one
@@ -588,8 +626,10 @@ The component registries, and exactly what was taken from each (2026-11-01).
   removed on 2026-11-01. If one is ever wanted again it must be conditional (hardware renderer, no
   reduced motion), lazy, and unmounted on `webglcontextlost` — a lost context composites as an
   opaque plate over the page, which is the failure that washed the site out twice.
-- **`ui/portfolio-gallery.tsx` is the first 21st.dev component vendored.** It is the
-  homepage "Ecosystem" archive: 15 real `ecosystemProjects` fanned across one CSS
+- **`ui/portfolio-gallery.tsx` is the first 21st.dev component vendored.** It was the
+  homepage "Ecosystem" archive until 2026-11-01, when that section moved to
+  `ui/project-showcase.tsx` (see "Project showcase (home Ecosystem archive)" below); the
+  gallery stays in the library, unmounted, for a surface that wants the fan. It renders: 15 real `ecosystemProjects` fanned across one CSS
   perspective above `md` (middle highest, hovered/focused plate straightens, lifts and takes
   the top z-index), and a single snap-scrolling row below `md`. Two deliberate changes from
   the supplied demo: the cards are **typographic plates**, not images — the portfolio has

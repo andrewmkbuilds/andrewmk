@@ -15,7 +15,7 @@ import { Parallax } from "@/components/ui/Parallax";
 import { TechConstellation } from "@/components/ui/TechConstellation";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StatusDot } from "@/components/ui/StatusDot";
-import { PortfolioGallery } from "@/components/ui/portfolio-gallery";
+import { ProjectShowcase } from "@/components/ui/project-showcase";
 import { EchoHeadline } from "@/components/ui/EchoHeadline";
 import { TechTag } from "@/components/ui/TechTag";
 import { RoleBadge } from "@/components/ui/Badges";
@@ -405,7 +405,7 @@ export default function Home() {
             title="Everything I Build Has a *Purpose*."
             subtitle="Systems, tools, experiments, and concepts built to solve specific problems."
           />
-          <PortfolioGallery projects={ecosystemProjects} />
+          <ProjectShowcase projects={ecosystemProjects} className="mt-10" />
           <Reveal className="mt-10 font-mono text-sm text-muted-foreground">
             <span className="text-primary">//</span> More systems in
             development.
