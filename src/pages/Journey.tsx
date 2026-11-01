@@ -1,8 +1,16 @@
 import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Timeline } from "@/components/ui/Timeline";
+import { StackingCards } from "@/components/ui/StackingCards";
 import { SkillBadge } from "@/components/ui/Badges";
+import { timeline } from "@/data/portfolio";
+import type { StackingCardItem } from "@/components/ui/StackingCards";
+
+/** Each milestone is one chapter of the stack: the year is its label line. */
+const chapters: StackingCardItem[] = timeline.map(({ year, ...rest }) => ({
+  eyebrow: year,
+  ...rest,
+}));
 import {
   Bot,
   BrainCircuit,
@@ -57,7 +65,10 @@ export default function Journey() {
 
           <div className="mt-16">
             <h2 className="sr-only">Timeline of milestones</h2>
-            <Timeline />
+            <StackingCards
+              items={chapters}
+              ariaLabel="Timeline of milestones"
+            />
           </div>
         </div>
       </section>

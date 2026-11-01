@@ -10,8 +10,12 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
+  // overflow-x-clip, not overflow-x-hidden: hidden turns this wrapper into a
+  // scroll container, which silently disables `position: sticky` for every
+  // descendant (the journey chapter stack pins on it). clip still stops
+  // sideways overflow without creating a scrollport.
   return (
-    <div className="relative flex min-h-dvh flex-col overflow-x-hidden">
+    <div className="relative flex min-h-dvh flex-col overflow-x-clip">
       <AmbientLayers />
       <CursorLayer />
       <a

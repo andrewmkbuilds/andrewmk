@@ -163,6 +163,40 @@ into the blue-and-gold palette. Colours are never taken from the reference.
 - Paper/ink utilities live at the end of `src/styles.css`: `.paper`, `.tape`,
   `.sticker`, `.note-hand`, `.mark-underline`, `.case-media`, `.marquee*`.
 
+## Journey chapter stack
+
+`src/components/ui/StackingCards.tsx` is the `/journey` narrative: one
+typographic plate per `timeline` entry (7 today) that hold the screen while you
+scroll — each new card slides up over the last, which sinks, shrinks, tilts and
+darkens underneath it. The counter under the plate shows the chapter and its
+ticks jump to any of them (pointer, Enter/Space) via `aria-current`; the plain
+list of the same cards renders instead of the stack under reduced motion.
+
+- **Adapted from the supplied "StackingCards" demo, not copied.** It ran on GSAP
+  + ScrollTrigger with stock photography and an `#ebebe9` stage; here it runs on
+  the site's existing `motion/react` scroll progress (no second animation
+  library), each card is built from `timeline` records (the portfolio publishes
+  no product screenshots), and the stage is transparent so the ambient scene
+  shows through. Geometry and plate styling live in
+  `src/styles/stacking-cards.css`; the plate is sized from the pinned stage so
+  it can never grow taller than the screen.
+- **Transform only.** The demo's per-frame `clip-path` inset repainted the card
+  every frame; the covered card now uses `y` / `scale` / `rotate` plus an
+  opacity shade, so the whole stack is compositor work. Reduced motion comes
+  from `useHydratedReducedMotion()`, never motion's `useReducedMotion()`.
+- **`position: sticky` needs a non-scrolling wrapper.** `Layout` used
+  `overflow-x-hidden`, whose computed `overflow-y: auto` made it a scroll
+  container and silently killed the pin (measured: stage top −1382 px halfway
+  through the track). It is `overflow-x-clip` now — the same clipping, no
+  scrollport. Keep it that way before adding another sticky section, and
+  remember `body { overflow-x: hidden }` still owns sideways overflow of the
+  page as a whole.
+- Verified in the preview at 1280 / 768 / 375 px: the stage pins at `top: 0`
+  for the whole track, the counter's tick jump lands on `sectionTop +
+  travel × i / (n − 1)` exactly, every plate's copy fits its own height
+  (`needs ≤ has` measured per card, including the 14-chip 2025–2026 entry), and
+  `documentElement` has no sideways overflow.
+
 ## The ambient background
 
 The background is a **CSS 3D scene**: three parallax planes of geometric objects hanging in one

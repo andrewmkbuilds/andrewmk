@@ -3,6 +3,7 @@
 @source "../src";
 @import "tw-animate-css";
 @import "./styles/scene-3d.css";
+@import "./styles/stacking-cards.css";
 
 @custom-variant dark (&:is(.dark *));
 
