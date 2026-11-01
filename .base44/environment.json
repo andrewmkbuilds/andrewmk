@@ -4,6 +4,12 @@
   "startCommand": "docker compose -f docker-compose.base44.yml up -d",
   "secrets": [
     {
+      "name": "API_KEY_21ST",
+      "description": "Optional. 21st.dev API key (21st.dev → Settings → API keys). Needed only for fetching 21st.dev components: the 21st CLI (`bunx @21st-dev/cli`) and `https://21st.dev/r/...` shadcn registry URLs both answer 403 authentication_required without it. The site itself never reads it.",
+      "requiredAtBoot": false,
+      "generatedForDevelopment": false
+    },
+    {
       "name": "VITE_LOGO_DEV_TOKEN",
       "description": "Optional. Logo.dev publishable token (dashboard at logo.dev) so technology and company marks load from img.logo.dev. Read at dev-server start; without it the vendored SVGs in public/brands are used.",
       "requiredAtBoot": false,

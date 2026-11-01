@@ -210,9 +210,9 @@ The background is **CSS gradients plus one 2D canvas**. The React Bits Silk shad
   check `canvas.getContext("webgl2").isContextLost()` in the preview before shipping it.
 - The React Bits registry stays declared in `components.json` (`@react-bits`, no API key), and
   `src/components/reactbits/` is its vendoring location — it holds `DotField.tsx` and
-  `GlareHover.tsx` (see "React Bits" below). 21st.dev cannot be installed from here; see
-  `docs/21ST_DEV_INTEGRATION.md` for what was verified and the exact command that works once an
-  `API_KEY_21ST` exists.
+  `GlareHover.tsx` (see "React Bits" below). 21st.dev fetches go through the CLI, which
+  authenticates with `API_KEY_21ST` delivered to the `web` service — see
+  `docs/21ST_DEV_INTEGRATION.md` for the command.
 - The marquee brand marks come from Logo.dev when a token is configured (`theme=dark`, so
   GitHub/X/Next/Vercel arrive light-on-dark instead of near-black), and fall back to the
   vendored `currentColor` masks. Every brand the ribbon names has an official mark now:
@@ -518,7 +518,9 @@ The component registries, and exactly what was taken from each (2026-11-01).
   the only canvas left is the still mote layer); the headless browser here is SwiftShader, so it
   always takes the fallback path.
   Confirm the shader path in a hardware browser if you change its settings.
-- **21st.dev cannot be installed from here.** There is no registry key and no MCP bridge; the
-  components were used as a design reference only. `docs/21ST_DEV_INTEGRATION.md` records what was
-  checked and the command that works once an `API_KEY_21ST` exists — update that file rather than
-  claiming the integration landed.
+- **21st.dev works through the CLI now; there is still no MCP bridge.** `API_KEY_21ST` is declared
+  in `.base44/environment.json` and reaches the `web` service via `/run/base44/app.env`, so
+  `docker compose … exec -T web bunx --bun @21st-dev/cli@latest search "<query>"` returns results
+  (verified 2026-11-01). No 21st.dev component is vendored yet; installed files are ordinary source
+  once added, so restyle them to the navy/gold tokens and review the diff.
+  `docs/21ST_DEV_INTEGRATION.md` records what was checked.

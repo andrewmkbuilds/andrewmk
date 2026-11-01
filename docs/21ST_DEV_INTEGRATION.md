@@ -80,6 +80,18 @@ npx shadcn@latest add "https://21st.dev/r/<author>/<component>?api_key=$API_KEY_
 
 ## What was actually applied (2026-11-01)
 
-No 21st.dev component is installed — the credential is the only missing piece, and this workspace
-does not have one. The CLI path above is verified up to the auth wall; everything past it stays
-unverified until an `API_KEY_21ST` is supplied.
+No 21st.dev component is installed yet, but the credential now exists: `API_KEY_21ST` is declared
+in `.base44/environment.json` and delivered to the `web` service through
+`env_file: /run/base44/app.env`, so it needs no manual export in the container. Verified inside the
+container after it landed:
+
+```sh
+docker compose -f docker-compose.base44.yml exec -T web \
+  bunx --bun @21st-dev/cli@latest search "pricing table"
+# → 1. [component] Pricing table — dgearsonu1 [id: 8374] … 4 result(s).
+```
+
+Search returns real results instead of the "Not signed in" message, and `search` takes no flag
+change: `bunx --bun @21st-dev/cli@latest add <author>/<component>` installs into the bind-mounted
+repo. The key is a user credential — it stays in the platform secret store, never in a file that
+git tracks, and never in a command echoed into a transcript.
