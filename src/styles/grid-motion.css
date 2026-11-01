@@ -1,0 +1,82 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   GRID MOTION — the ambient depth field
+
+   Adapted from the React Bits "GridMotion" component
+   (https://reactbits.dev/r/GridMotion-TS-TW, vendored in
+   src/components/reactbits/GridMotion.tsx). The demo's Tailwind utility
+   strings are replaced by the classes below so the palette lives here, next
+   to the rest of the scene, instead of inside the component.
+
+   One perspective plane holds a wall of tile rows; each row slides on the x
+   axis and the whole plane is leaned back in Z, so the wall recedes instead
+   of sitting flat. Only `transform` and `--spot` are written per frame —
+   no layout, no filter, no canvas, and no permanent `will-change`.
+
+   Variables written by the component:
+     --gm-gap, --gm-tile-w, --gm-tile-h, --gm-font   geometry
+     --gm-dim                                        how dark a resting tile is
+     --spot                                          pointer light, 0…1 per tile
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.gm {
+  position: absolute;
+  inset: 0;
+  isolation: isolate;
+  overflow: hidden;
+  pointer-events: none;
+  /* The wall fades into the room at every edge, so it never reads as a
+     rectangle pasted behind the page. */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 24%, #000 76%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 22%, #000 62%, transparent 100%);
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 24%, #000 76%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 22%, #000 62%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.gm-plane {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  transform-style: preserve-3d;
+}
+
+.gm-row {
+  position: absolute;
+  left: 0;
+  display: flex;
+  gap: var(--gm-gap, 16px);
+}
+
+.gm-tile {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--gm-tile-w);
+  height: var(--gm-tile-h);
+  overflow: hidden;
+  border-radius: 12px;
+  background: linear-gradient(160deg, hsl(214 62% 22% / 0.85), hsl(220 64% 12% / 0.9));
+  color: hsl(212 30% 56%);
+  font-size: var(--gm-font, 14px);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+  opacity: calc(1 - var(--gm-dim, 0.4) * (1 - var(--spot, 0)));
+}
+
+.gm-tile::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px hsl(208 90% 70% / 0.16);
+  content: "";
+  pointer-events: none;
+}

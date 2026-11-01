@@ -113,10 +113,10 @@ docker run --rm -v "$PWD:/w" -w /w python:3.12-slim \
 The visual language is built around one physical space rather than flat panels:
 
 - `src/components/ui/AmbientLayers.tsx` mounts once in `Layout` (fixed, `-z-10`,
-  `aria-hidden`) and supplies the shared environment: a near-black navy room with three
-  CSS 3D planes (distant field, glass architecture, foreground rim light), a perspective
-  floor, a vignette and grain. Sections with their own background sit on top of it.
-  All of it is CSS — no canvas, no WebGL (see "The ambient background" below).
+  `aria-hidden`) and supplies the shared environment: a near-black navy room, two soft
+  light blooms, the React Bits GridMotion tile wall, a vignette and grain. Sections with
+  their own background sit on top of it. No canvas, no WebGL (see "The ambient background"
+  below).
 - `src/components/ui/Parallax.tsx` is the only scroll-parallax primitive (transform
   only, spring-smoothed). It is disabled under `prefers-reduced-motion` and halved
   below 768px.
@@ -258,38 +258,39 @@ Adapted from the 21st.dev "ProjectShowcase" demo.
 
 ## The ambient background
 
-The background is a **CSS 3D scene**: three parallax planes of geometric objects hanging in one
-perspective space over a near-black navy room. There is no canvas and no WebGL anywhere on the
-site. The React Bits Silk and Particles shaders were removed on 2026-10-31 (a lost WebGL context
-composited as an opaque light plate and washed the page out); the 2D mote canvas that replaced
-them was removed on 2026-11-01 in favour of the 3D scene below.
+The background is **one leaned wall of drifting tiles**: the React Bits GridMotion component hanging
+in a single perspective over a near-black navy room. There is no canvas and no WebGL anywhere on
+the site. The React Bits Silk and Particles shaders were removed on 2026-10-31 (a lost WebGL
+context composited as an opaque light plate and washed the page out); the 2D mote canvas that
+replaced them was removed on 2026-11-01, and the hand-built three-plane CSS 3D scene that replaced
+*that* gave way to the tile wall on 2026-11-01 — its slabs, cube and rings resolved at inconsistent
+perceived depths, because three hand-tuned `translateZ` planes never agreed on one horizon.
 
 - `src/components/ui/AmbientLayers.tsx` is the mount point only; the scene lives in
   `src/components/ui/background/SceneBackground.tsx` and its stylesheet in `src/styles/scene-3d.css`
   (imported from `src/styles.css`). Back to front: `.scene-base` (a `#080d19 → #050914` room lit
-  from above) → `.scene-space` (one 1200 px perspective) → `.scene-far` / `.scene-mid` /
-  `.scene-near` planes → `.scene-floor` + `.scene-horizon` → `.scene-vignette` → `.ambient-grain`.
-- **The depth is real perspective, not opacity.** Each plane is a `translateZ` at a different
-  depth (−760 / −260 / +60 px), so the renderer scales it for real: objects in the distant plane
-  measure ~0.61 of their CSS size, the midground ~0.82, the foreground ~1.05. Objects are solid-
-  looking because they are shaded, not because they are faint: spheres carry a radial body plus
-  inset terminator shadows, the cube is five actual faces, slabs and platforms are lit glass with
-  a 1 px top edge, and the gold rim is a lit border arc. Keep that shading when adding an object.
-- **Parallax is two custom properties.** `background/useSceneDepth.ts` writes `--px` / `--py`
-  (pointer, −1…1, eased with a self-stopping rAF) and `--sy` (scroll, clamped) on the scene root;
-  each plane composes them with its own `--pdx` / `--pdy` / `--sds` factors, so the near plane
-  travels ~4× further than the distant one. Only `pointerType === "mouse"` moves it — do not gate
-  the listener on `(pointer: fine)`, which is false in embedded and automated browsers, and verify
-  by reading the planes' computed transforms before and after a `PointerEvent("pointermove")`.
-- **Budget:** no `backdrop-filter`, no `filter: blur()`, no canvas. Every animation is
-  `transform` / `translate` / `rotate` / `opacity` on its own element, so the whole scene is
-  compositor work. The floating objects animate the individual `translate` property rather than
-  `transform`, which keeps each object's placement rotation intact.
-- Mobile (`max-width: 767px`) keeps the same room static and lighter: floats stop, the right-hand
-  slab, the small slab, the second beam, the second platform and the left shard are dropped, and
-  the floor and dust drop in opacity. `prefers-reduced-motion` stops every scene animation and the
-  driver writes no parallax at all; `scripts/a11y-keyboard-motion.cjs` asserts this on every route
-  ("no animation is running", "ambient light drift is off") — run it after touching the scene.
+  from above) → `.scene-bloom-blue` / `.scene-bloom-gold` → `.scene-grid` (the GridMotion wall,
+  styles in `src/styles/grid-motion.css`) → `.scene-vignette` → `.ambient-grain`.
+- **The depth is one perspective and one lean.** The tile plane is turned (`angle`) and leaned back
+  (`tilt`), and the wall is sized from the rotated bounds of its own box, so it recedes the same way
+  at every viewport height — which is what the old three-plane scene could not do. Rows drift in
+  alternating directions (`direction="alternate"`), and the tiles nearest the cursor lift out of
+  `dim` through each tile's `--spot` custom property. Tile words come from
+  `src/data/sceneTiles.ts`: real project and skill names only, never invented brands.
+- **One rAF loop, no React state.** `reactbits/GridMotion.tsx` writes each row's `transform` and
+  each lit tile's `--spot` per frame, reads the root rect once per frame, and stops entirely when
+  the wall scrolls out of view. Only `pointerType === "mouse"` drives parallax — do not gate the
+  listener on `(pointer: fine)`, which is false in embedded and automated browsers. Verify by
+  dispatching a `PointerEvent("pointermove")` and reading a tile's `--spot` (measured: 10 tiles
+  lit at the viewport centre).
+- **Budget:** no `backdrop-filter`, no `filter: blur()`, no canvas, and no permanent `will-change`.
+  Every animation is `transform` / `opacity` on the compositor: the two blooms drift on CSS
+  keyframes and the wall is the only JavaScript on the layer.
+- Mobile (`max-width: 767px`) keeps the same room with the wall dropped to `opacity: 0.6` (from
+  `0.72`). `prefers-reduced-motion` stops the blooms, and GridMotion paints exactly one static
+  frame — no rAF loop, no pointer listeners; `scripts/a11y-keyboard-motion.cjs` asserts "no
+  animation is running" and "ambient light drift is off" on every route, so run it after touching
+  the scene.
 - **Do not reintroduce a WebGL background without testing the sandbox preview.** Both vendored
   React Bits shaders (Silk, Particles) create a WebGL2 context whose cleanup calls
   `WEBGL_lose_context.loseContext()`; when the context is lost, headless Chrome composites the
@@ -297,9 +298,9 @@ them was removed on 2026-11-01 in favour of the 3D scene below.
   against the near-black scene base). If a canvas layer is ever wanted again, check
   `canvas.getContext("webgl2").isContextLost()` in the preview before shipping it.
 - The React Bits registry stays declared in `components.json` (`@react-bits`, no API key), and
-  `src/components/reactbits/` is its vendoring location — it now holds only `GlareHover.tsx`
-  (`DotField.tsx` was removed with the WebGL background; see "React Bits" below). 21st.dev
-  fetches go through the CLI, which
+  `src/components/reactbits/` is its vendoring location — it holds `GlareHover.tsx` and
+  `GridMotion.tsx` (`DotField.tsx` was removed with the WebGL background; see "React Bits" below).
+  21st.dev fetches go through the CLI, which
   authenticates with `API_KEY_21ST` delivered to the `web` service — see
   `docs/21ST_DEV_INTEGRATION.md` for the command.
 - The marquee brand marks come from Logo.dev when a token is configured (`theme=dark`, so
@@ -577,12 +578,12 @@ follows and the reasons behind them:
   card cannot leave the hero and a breakpoint change only pulls it back inside. The inner
   `.hero-card` carries the visual channels (rotate/tilt/scale) and has no CSS transform transition —
   that transition used to smooth (lag) every drag frame.
-- **The background is a pure-CSS 3D scene with no canvas.** Three perspective planes of shaded
-  geometry plus an SVG-turbulence grain overlay; the only JavaScript is one pointer listener and
-  the shared scroll subscription, which write two custom properties. Nothing repaints: every
-  moving part animates a transform on the compositor.
-- **The background parallax never runs under reduced motion**, and its pointer channel ignores
-  every event that is not `pointerType === "mouse"`, so phones and tablets only get the scroll drift.
+- **The background is DOM plus one rAF loop and no canvas.** The GridMotion wall writes a row
+  `transform` and a tile `--spot` per frame and stops when it scrolls out of view; the blooms are
+  CSS keyframes and the grain is an SVG-turbulence overlay. Nothing repaints: every moving part is
+  a compositor transform.
+- **The background never animates under reduced motion** — one static frame, no loop, no pointer
+  listeners — and its pointer channel ignores every event that is not `pointerType === "mouse"`.
 - **Below-the-fold bundles are split.** The home contact form is `React.lazy`; TanStack splits each
   route file into its own chunk automatically (verified in `vite build` output).
 - **Fonts** are limited to the weights the design uses (Sora 400/600/700, Inter 400/500/600,
@@ -609,11 +610,12 @@ The component registries, and exactly what was taken from each (2026-11-01).
   fetching that registry item and vendoring its `files[].content` into
   `src/components/reactbits/` — the same bytes the `shadcn add` path would write. The index is
   `https://reactbits.dev/r/registry.json`; item names carry the flavour suffix (`-TS-TW` = TypeScript +
-  Tailwind, what this repo uses). One is installed:
+  Tailwind, what this repo uses). Two are installed:
 
   | file | used by | notes |
   | ---- | ------- | ----- |
   | `reactbits/GlareHover.tsx` | `ui/HeroCardStack.tsx` (card media block) | gold sheen across the card face; hover sweeps a streak through it |
+  | `reactbits/GridMotion.tsx` | `ui/background/SceneBackground.tsx` | the ambient depth field; Tailwind strings replaced by `styles/grid-motion.css`, and it stops under reduced motion instead of looping to hold a still frame |
 
   `DotField.tsx` (the WebGL dot lattice) was removed with the CSS 3D background rebuild on
   2026-11-01; it is not referenced anywhere in `src/`.
