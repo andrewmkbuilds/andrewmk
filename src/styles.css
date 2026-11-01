@@ -2,6 +2,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "./styles/scene-3d.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -103,7 +104,7 @@
   --radius: 0.625rem;
 
   /* 60% — Base: deep logo blue (the environment) */
-  --background: hsl(216 46% 8%);
+  --background: hsl(221 62% 5%);
   --foreground: hsl(210 26% 96%);
 
   /* 30% — Structure: lifted blue card surfaces, tonally separated from the base */
@@ -159,7 +160,7 @@
 
 
 .dark {
-  --background: hsl(216 46% 8%);
+  --background: hsl(221 62% 5%);
   --foreground: hsl(210 26% 96%);
   --card: hsl(215 40% 12%);
   --card-foreground: hsl(210 26% 96%);
@@ -445,7 +446,7 @@
   }
 
   .bg-hero-veil {
-    background-image: radial-gradient(ellipse 70% 55% at 50% 0%, color-mix(in hsl, var(--primary) 9%, transparent), transparent 70%);
+    background-image: radial-gradient(ellipse 70% 55% at 50% 0%, color-mix(in hsl, var(--primary) 5%, transparent), transparent 70%);
   }
 
   .link-underline {
@@ -965,26 +966,6 @@
   );
 }
 
-@keyframes ambient-drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(-3%, 2%, 0) scale(1.07);
-  }
-}
-
-@keyframes ambient-drift-rim {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1.04);
-  }
-  50% {
-    transform: translate3d(4%, -3%, 0) scale(0.97);
-  }
-}
-
 @keyframes float-soft {
   0%,
   100% {
@@ -1046,164 +1027,7 @@
       0 0 34px color-mix(in oklab, var(--gold) 16%, transparent);
   }
 
-  /* ── The ambient room ──────────────────────────────────────────────────
-     A CSS-only environment: a navy base, one cold key light from above, a
-     restrained gold rim, a horizon floor and a vignette. Every layer is a
-     radial gradient painted once on its own compositor layer — no canvas, no
-     WebGL and no blur filter. Exactly one layer moves (the key light, a 90 s
-     transform drift, stopped below 768 px and under reduced motion), so the
-     room costs one compositor frame per layer and nothing on the main
-     thread. This replaced the Silk shader, the dot lattice and the mote
-     canvas on 2026-11-01. */
-  .ambient-base {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(108% 64% at 50% -16%, hsl(206 76% 34% / 0.8), transparent 66%),
-      radial-gradient(74% 48% at 10% 0%, hsl(210 78% 40% / 0.34), transparent 72%),
-      radial-gradient(64% 44% at 92% 4%, hsl(198 80% 44% / 0.22), transparent 74%),
-      linear-gradient(
-        180deg,
-        hsl(214 50% 12%) 0%,
-        hsl(218 46% 8%) 48%,
-        hsl(222 48% 5%) 100%
-      );
-  }
-
-  /* Horizon: the light that seats the room's floor. */
-  .ambient-horizon {
-    position: absolute;
-    inset: auto -10% -20% -10%;
-    height: 62vh;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    background:
-      radial-gradient(58% 100% at 50% 100%, hsl(199 94% 58% / 0.3), transparent 72%),
-      radial-gradient(40% 84% at 84% 100%, hsl(41 76% 64% / 0.2), transparent 74%),
-      radial-gradient(34% 76% at 14% 100%, hsl(206 88% 56% / 0.16), transparent 76%);
-  }
-
-  /* Key light: the room's single light source. Wide, slow and low-alpha, so
-     it lights the space without becoming a visible glow. */
-  .ambient-key {
-    position: absolute;
-    top: -38%;
-    left: -18%;
-    width: 118vw;
-    height: 104vh;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    background: radial-gradient(
-      closest-side,
-      hsl(204 84% 52% / 0.26),
-      hsl(206 74% 40% / 0.1) 56%,
-      transparent 100%
-    );
-    animation: ambient-drift 90s var(--ease-out-expo) infinite;
-  }
-
-  /* Rim light: the gold bounce that keeps the blue from reading flat. */
-  .ambient-rim {
-    position: absolute;
-    top: -16%;
-    right: -22%;
-    width: 64vw;
-    height: 66vh;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    background: radial-gradient(
-      closest-side,
-      hsl(42 78% 74% / 0.24),
-      hsl(40 68% 62% / 0.1) 54%,
-      transparent 100%
-    );
-  }
-
-  /* Vignette: seats the content inside the room instead of on top of it. */
-  .ambient-vignette {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: radial-gradient(
-      ellipse 106% 86% at 50% 26%,
-      transparent 58%,
-      hsl(220 52% 4% / 0.58) 100%
-    );
-  }
-
-  /* Perspective floor — the deepest layer, giving the page a horizon. */
-  .depth-floor {
-    background-image:
-      linear-gradient(
-        color-mix(in oklab, var(--primary) 40%, transparent) 1px,
-        transparent 1px
-      ),
-      linear-gradient(
-        90deg,
-        color-mix(in oklab, var(--primary) 40%, transparent) 1px,
-        transparent 1px
-      );
-    background-size: 76px 76px;
-    transform: perspective(520px) rotateX(72deg);
-    transform-origin: bottom center;
-    opacity: 0.3;
-    -webkit-mask-image: linear-gradient(to top, black, transparent 78%);
-    mask-image: linear-gradient(to top, black, transparent 78%);
-  }
-
-  /* Cursor-tracked sheen: the key light gliding across a surface.
-     Requires --mx / --my (set by Tilt3D) and a hovered .group ancestor. */
-  .sheen {
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity var(--dur-standard) var(--ease-out-expo);
-    background:
-      radial-gradient(
-        240px circle at var(--mx, 50%) var(--my, 0%),
-        color-mix(in oklab, var(--foreground) 14%, transparent),
-        transparent 62%
-      ),
-      radial-gradient(
-        420px circle at var(--mx, 50%) var(--my, 0%),
-        color-mix(in oklab, var(--fx) 10%, transparent),
-        transparent 72%
-      );
-    mix-blend-mode: soft-light;
-  }
-
-  .group:hover .sheen,
-  .group:focus-within .sheen {
-    opacity: 1;
-  }
-
-  .scroll-cue {
-    animation: cue-nudge 2.6s var(--ease-out-expo) infinite;
-  }
-
-  .float-soft {
-    animation: float-soft 9s var(--ease-out-expo) infinite;
-  }
-
-  /* Mobile: the same room, fully static — one less compositor animation. */
-  @media (max-width: 767px) {
-    .ambient-key {
-      animation: none;
-      opacity: 0.85;
-    }
-    .ambient-rim {
-      opacity: 0.75;
-    }
-    .depth-floor {
-      opacity: 0.2;
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .ambient-key,
     .scroll-cue,
     .float-soft {
       animation: none !important;

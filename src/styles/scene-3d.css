@@ -1,0 +1,706 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   THE 3D BACKGROUND SCENE
+
+   A near-black navy room with real spatial depth, painted with CSS 3D
+   transforms and volume-shading gradients. Mounted once by
+   components/ui/background/SceneBackground.tsx.
+
+   Structure:
+     .scene-base     the room: a #080d19 → #050914 foundation lit from above
+     .scene-space    one perspective container (1200px, origin 50% 44%)
+     .scene-layer    three planes at different Z depths (far / mid / near)
+     .scene-floor    a perspective grid receding to the horizon
+     .scene-vignette + grain   the atmosphere that seats the content
+
+   Depth comes from perspective, not from opacity tricks: a plane at
+   translateZ(-760px) is scaled to ~0.61 by the renderer, so its spheres and
+   rings really are smaller than the ones in the midground.
+
+   Budget rules (see AGENTS.md › The ambient background):
+     • no canvas, no WebGL, no filter: blur()
+     • only transform / translate / rotate / opacity animate
+     • parallax is two custom properties (--px, --py) plus --sy from scroll
+     • phones get a static, lighter composition; reduced motion stops it all
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.scene {
+  isolation: isolate;
+  background: #050914;
+}
+
+/* ── The room ────────────────────────────────────────────────────────── */
+
+.scene-base {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(105% 68% at 50% -10%, hsl(216 96% 30% / 0.32), transparent 62%),
+    radial-gradient(62% 46% at 92% 4%, hsl(212 88% 34% / 0.16), transparent 72%),
+    radial-gradient(54% 40% at 2% 26%, hsl(204 96% 36% / 0.12), transparent 76%),
+    linear-gradient(#080d19 0%, #060b14 42%, #050914 66%, #03060d 100%);
+}
+
+/* ── The perspective space and its three planes ──────────────────────── */
+
+.scene-space {
+  position: absolute;
+  inset: 0;
+  perspective: 1200px;
+  perspective-origin: 50% 44%;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+/* One transform per plane: pointer parallax (--px/--py) and scroll drift
+   (--sy) scaled by the plane's own distance factors, then pushed back in Z. */
+.scene-layer {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform:
+    translate3d(
+      calc(var(--px, 0) * var(--pdx, 0px)),
+      calc(var(--py, 0) * var(--pdy, 0px) + var(--sy, 0px) * var(--sds, 1)),
+      0
+    )
+    translateZ(var(--z, 0px));
+}
+
+/* Distant plane: small movement, strongest scroll drift. */
+.scene-far {
+  --z: -760px;
+  --pdx: -24px;
+  --pdy: -15px;
+  --sds: 0.32;
+}
+
+/* Midground: the architecture the reader moves through. */
+.scene-mid {
+  --z: -260px;
+  --pdx: -54px;
+  --pdy: -34px;
+  --sds: 0.66;
+}
+
+/* Foreground: the largest pointer response; slightly in front of the plane. */
+.scene-near {
+  --z: 60px;
+  --pdx: -108px;
+  --pdy: -64px;
+  --sds: 1;
+}
+
+/* ── Distant light ───────────────────────────────────────────────────── */
+
+.scene-bloom {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.scene-bloom-blue {
+  left: 20%;
+  top: -16%;
+  width: 78vw;
+  height: 64vh;
+  background: radial-gradient(
+    closest-side,
+    hsl(210 100% 62% / 0.32),
+    hsl(216 96% 44% / 0.13) 56%,
+    transparent 100%
+  );
+  animation: scene-drift-a 56s ease-in-out infinite;
+}
+
+.scene-bloom-gold {
+  right: 2%;
+  top: 6%;
+  width: 42vw;
+  height: 46vh;
+  background: radial-gradient(
+    closest-side,
+    hsl(42 96% 72% / 0.16),
+    transparent 100%
+  );
+  animation: scene-drift-b 74s ease-in-out infinite;
+}
+
+/* ── Spheres: the nearest thing to a solid object the distance holds ──── */
+
+.scene-orb {
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 32% 26%,
+      hsl(205 100% 88% / 0.4),
+      hsl(212 96% 58% / 0.2) 32%,
+      hsl(218 84% 24% / 0.3) 66%,
+      hsl(222 76% 8% / 0.1) 100%
+    );
+  box-shadow:
+    inset -16px -24px 46px hsl(224 84% 3% / 0.8),
+    inset 8px 10px 28px hsl(204 100% 88% / 0.14),
+    0 30px 80px -30px hsl(206 96% 60% / 0.3);
+  animation: scene-float 28s ease-in-out infinite;
+}
+
+.scene-orb-a {
+  left: 5%;
+  top: 24%;
+  width: clamp(180px, 21vw, 340px);
+}
+
+.scene-orb-b {
+  left: 66%;
+  top: 44%;
+  width: clamp(220px, 29vw, 470px);
+  opacity: 0.55;
+  animation-delay: -9s;
+}
+
+/* A small warm sphere: the gold counterweight to all the blue. */
+.scene-orb-c {
+  left: 62%;
+  top: 11%;
+  width: clamp(38px, 5vw, 78px);
+  background:
+    radial-gradient(
+      circle at 34% 28%,
+      hsl(44 100% 90% / 0.5),
+      hsl(42 92% 62% / 0.24) 34%,
+      hsl(38 60% 24% / 0.26) 70%,
+      transparent 100%
+    );
+  box-shadow:
+    inset -8px -12px 26px hsl(30 70% 4% / 0.7),
+    0 18px 50px -20px hsl(42 96% 66% / 0.35);
+  animation-delay: -4s;
+}
+
+/* ── Far-field dust ──────────────────────────────────────────────────── */
+
+.scene-stars {
+  position: absolute;
+  inset: 0;
+  opacity: 0.7;
+  background-image:
+    radial-gradient(1.4px 1.4px at 12% 20%, hsl(205 100% 94% / 0.9), transparent),
+    radial-gradient(1.2px 1.2px at 22% 44%, hsl(205 100% 92% / 0.7), transparent),
+    radial-gradient(1.6px 1.6px at 31% 12%, hsl(42 100% 88% / 0.8), transparent),
+    radial-gradient(1.1px 1.1px at 38% 62%, hsl(205 100% 92% / 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 47% 28%, hsl(205 100% 94% / 0.75), transparent),
+    radial-gradient(1.2px 1.2px at 54% 74%, hsl(42 100% 90% / 0.6), transparent),
+    radial-gradient(1.7px 1.7px at 63% 18%, hsl(205 100% 94% / 0.85), transparent),
+    radial-gradient(1.1px 1.1px at 69% 52%, hsl(205 100% 92% / 0.55), transparent),
+    radial-gradient(1.4px 1.4px at 76% 34%, hsl(42 100% 88% / 0.6), transparent),
+    radial-gradient(1.2px 1.2px at 83% 68%, hsl(205 100% 94% / 0.7), transparent),
+    radial-gradient(1.6px 1.6px at 89% 22%, hsl(205 100% 94% / 0.8), transparent),
+    radial-gradient(1.1px 1.1px at 94% 48%, hsl(42 100% 88% / 0.5), transparent),
+    radial-gradient(1.3px 1.3px at 8% 66%, hsl(205 100% 92% / 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 58% 42%, hsl(205 100% 94% / 0.55), transparent),
+    radial-gradient(1.2px 1.2px at 42% 86%, hsl(42 100% 90% / 0.45), transparent),
+    radial-gradient(1.4px 1.4px at 18% 82%, hsl(205 100% 92% / 0.5), transparent);
+  animation: scene-twinkle 22s ease-in-out infinite;
+}
+
+/* ── Rings: architectural portals laid flat in space ─────────────────── */
+
+.scene-portal {
+  position: absolute;
+  transform-style: preserve-3d;
+}
+
+.scene-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid hsl(206 96% 74% / 0.22);
+  border-top-color: hsl(198 100% 82% / 0.66);
+  border-right-color: hsl(42 96% 74% / 0.36);
+  box-shadow:
+    0 0 28px hsl(206 100% 62% / 0.14),
+    inset 0 0 44px hsl(206 100% 62% / 0.06);
+  animation: scene-ring-turn 128s linear infinite;
+}
+
+.scene-ring-b {
+  inset: 9%;
+  border-top-color: hsl(42 96% 76% / 0.4);
+  border-right-color: hsl(206 96% 70% / 0.18);
+  animation-duration: 98s;
+  animation-direction: reverse;
+}
+
+.scene-ring-c {
+  inset: 20%;
+  border-top-color: hsl(206 96% 84% / 0.3);
+  animation-duration: 152s;
+}
+
+.scene-portal-far {
+  left: 50%;
+  top: 52%;
+  width: 82vw;
+  height: 82vw;
+  margin: -41vw 0 0 -41vw;
+  transform: rotateX(76deg) rotateZ(-12deg);
+  opacity: 0.5;
+}
+
+.scene-portal-mid {
+  left: 50%;
+  top: 60%;
+  width: 48vw;
+  height: 48vw;
+  margin: -24vw 0 0 -24vw;
+  transform: rotateX(70deg) rotateZ(8deg);
+  opacity: 0.9;
+}
+
+/* ── Glass slabs: the midground architecture ─────────────────────────── */
+
+.scene-slab {
+  position: absolute;
+  border-radius: 26px;
+  border: 1px solid hsl(204 96% 80% / 0.26);
+  background:
+    linear-gradient(
+      148deg,
+      hsl(204 100% 90% / 0.2),
+      hsl(212 80% 46% / 0.07) 34%,
+      hsl(218 82% 14% / 0.2) 70%,
+      hsl(204 96% 72% / 0.1)
+    );
+  box-shadow:
+    inset 0 1px 0 hsl(204 100% 92% / 0.24),
+    inset 0 -42px 74px hsl(222 92% 3% / 0.45),
+    0 54px 96px -52px hsl(222 92% 2% / 0.95);
+  animation: scene-float 36s ease-in-out infinite;
+}
+
+/* The lit top edge — what makes a flat rectangle read as a panel in space. */
+.scene-slab::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: -1px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(202 100% 94% / 0.55),
+    transparent
+  );
+}
+
+.scene-slab-a {
+  right: 2%;
+  top: -6%;
+  width: clamp(200px, 29vw, 460px);
+  height: clamp(300px, 52vh, 620px);
+  transform: rotateY(-26deg) rotateX(9deg) rotateZ(-4deg);
+}
+
+.scene-slab-b {
+  left: -4%;
+  bottom: 4%;
+  width: clamp(170px, 21vw, 340px);
+  height: clamp(220px, 34vh, 420px);
+  transform: rotateY(24deg) rotateX(-6deg) rotateZ(3deg);
+  border-color: hsl(42 92% 74% / 0.2);
+  animation-delay: -13s;
+}
+
+.scene-slab-b::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(42 100% 86% / 0.5),
+    transparent
+  );
+}
+
+.scene-slab-c {
+  left: 11%;
+  top: 17%;
+  width: clamp(78px, 9vw, 150px);
+  height: clamp(140px, 18vh, 240px);
+  transform: rotateY(18deg) rotateX(6deg) rotateZ(-6deg);
+  opacity: 0.7;
+  animation-delay: -21s;
+}
+
+/* ── The glass cube: a real 3D object made of five faces ─────────────── */
+
+.scene-cube-holder {
+  position: absolute;
+  right: 12%;
+  bottom: 12%;
+  width: clamp(72px, 9vw, 132px);
+  height: clamp(72px, 9vw, 132px);
+  perspective: 700px;
+  animation: scene-float 24s ease-in-out infinite;
+  animation-delay: -6s;
+}
+
+.scene-cube {
+  --cube: clamp(72px, 9vw, 132px);
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(-14deg) rotateY(-18deg);
+  animation: scene-cube-spin 84s linear infinite;
+}
+
+.scene-cube-face {
+  position: absolute;
+  inset: 0;
+  border: 1px solid hsl(204 96% 84% / 0.42);
+  background: linear-gradient(
+    158deg,
+    hsl(206 100% 92% / 0.24),
+    hsl(214 86% 30% / 0.12) 52%,
+    hsl(220 84% 10% / 0.26)
+  );
+  box-shadow:
+    inset 0 0 26px hsl(208 100% 70% / 0.12),
+    inset 0 1px 0 hsl(204 100% 96% / 0.28);
+}
+
+.scene-cube-face:nth-child(1) {
+  transform: translateZ(calc(var(--cube) / 2));
+}
+.scene-cube-face:nth-child(2) {
+  transform: rotateY(90deg) translateZ(calc(var(--cube) / 2));
+}
+.scene-cube-face:nth-child(3) {
+  transform: rotateY(180deg) translateZ(calc(var(--cube) / 2));
+}
+.scene-cube-face:nth-child(4) {
+  transform: rotateY(-90deg) translateZ(calc(var(--cube) / 2));
+}
+.scene-cube-face:nth-child(5) {
+  transform: rotateX(90deg) translateZ(calc(var(--cube) / 2));
+}
+
+/* ── Glass platforms: rectangles laid flat in the room. The single
+     strongest perspective cue — the eye reads a horizontal plane. ────── */
+
+.scene-plate {
+  position: absolute;
+  border-radius: 34px;
+  border: 1px solid hsl(204 96% 82% / 0.24);
+  background:
+    linear-gradient(
+      180deg,
+      hsl(204 100% 90% / 0.16),
+      hsl(212 88% 44% / 0.06) 40%,
+      hsl(218 84% 12% / 0.2)
+    );
+  box-shadow:
+    inset 0 1px 0 hsl(204 100% 96% / 0.4),
+    inset 0 -30px 60px hsl(222 92% 3% / 0.5);
+  animation: scene-float 44s ease-in-out infinite;
+}
+
+.scene-plate-a {
+  left: 6%;
+  bottom: 1%;
+  width: 64vw;
+  height: 32vh;
+  transform: rotateX(66deg) rotateZ(-4deg);
+}
+
+.scene-plate-b {
+  right: 3%;
+  bottom: 7%;
+  width: 26vw;
+  height: 20vh;
+  transform: rotateX(64deg) rotateZ(7deg);
+  border-color: hsl(42 94% 76% / 0.22);
+  opacity: 0.7;
+  animation-delay: -16s;
+}
+
+/* ── Light shafts: the key light made visible ────────────────────────── */
+
+.scene-beam {
+  position: absolute;
+  width: clamp(90px, 12vw, 200px);
+  height: clamp(300px, 52vh, 620px);
+  clip-path: polygon(38% 0, 64% 0, 100% 100%, 0 100%);
+  mix-blend-mode: screen;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    hsl(204 100% 78% / 0.13) 22%,
+    hsl(204 100% 78% / 0.05) 64%,
+    transparent
+  );
+  animation: scene-shaft 32s ease-in-out infinite;
+}
+
+.scene-beam-a {
+  left: 19%;
+  top: -14%;
+}
+
+.scene-beam-b {
+  left: 71%;
+  top: -20%;
+  opacity: 0.55;
+  animation-delay: -12s;
+}
+
+/* ── Foreground: glass edges and the gold rim ────────────────────────── */
+
+.scene-shard {
+  position: absolute;
+  border-radius: 44px;
+  border: 1px solid hsl(204 96% 84% / 0.2);
+  background: linear-gradient(
+    152deg,
+    hsl(204 100% 92% / 0.15),
+    transparent 42%,
+    hsl(210 96% 60% / 0.05) 74%,
+    transparent
+  );
+  box-shadow: inset 0 1px 0 hsl(204 100% 94% / 0.2);
+  animation: scene-float 40s ease-in-out infinite;
+}
+
+.scene-shard-a {
+  right: -13%;
+  bottom: -16%;
+  width: clamp(240px, 36vw, 620px);
+  height: clamp(220px, 40vh, 520px);
+  transform: rotateY(-24deg) rotateX(6deg) rotateZ(-8deg);
+}
+
+.scene-shard-b {
+  left: -14%;
+  top: 32%;
+  width: clamp(160px, 21vw, 380px);
+  height: clamp(160px, 26vh, 340px);
+  transform: rotateY(28deg) rotateX(-4deg) rotateZ(10deg);
+  opacity: 0.65;
+  animation-delay: -15s;
+}
+
+/* Gold rim: a lit arc at the edge of frame, orbiting very slowly. */
+.scene-arc {
+  position: absolute;
+  right: -18%;
+  top: 2%;
+  width: clamp(300px, 48vh, 640px);
+  height: clamp(300px, 48vh, 640px);
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+  border-top-color: hsl(42 98% 78% / 0.42);
+  border-right-color: hsl(42 92% 68% / 0.2);
+  box-shadow: inset 0 0 70px hsl(42 96% 70% / 0.08);
+  animation: scene-orbit 92s linear infinite;
+}
+
+/* Near-field motes: soft, close, and much larger than the far dust. */
+.scene-dust {
+  position: absolute;
+  inset: 0;
+  opacity: 0.65;
+  background-image:
+    radial-gradient(26px 26px at 14% 28%, hsl(206 100% 84% / 0.16), transparent 70%),
+    radial-gradient(18px 18px at 26% 72%, hsl(206 100% 84% / 0.12), transparent 70%),
+    radial-gradient(34px 34px at 41% 38%, hsl(42 100% 84% / 0.09), transparent 72%),
+    radial-gradient(20px 20px at 55% 82%, hsl(206 100% 86% / 0.12), transparent 70%),
+    radial-gradient(30px 30px at 68% 24%, hsl(206 100% 84% / 0.1), transparent 72%),
+    radial-gradient(22px 22px at 79% 60%, hsl(42 100% 84% / 0.1), transparent 70%),
+    radial-gradient(28px 28px at 88% 34%, hsl(206 100% 86% / 0.12), transparent 72%),
+    radial-gradient(16px 16px at 8% 54%, hsl(206 100% 86% / 0.14), transparent 70%),
+    radial-gradient(24px 24px at 33% 14%, hsl(206 100% 84% / 0.1), transparent 72%),
+    radial-gradient(18px 18px at 62% 48%, hsl(42 100% 86% / 0.08), transparent 70%);
+  animation: scene-float 52s ease-in-out infinite;
+}
+
+/* ── Floor, horizon, atmosphere ──────────────────────────────────────── */
+
+.scene-floor {
+  position: absolute;
+  inset: auto -22% -8% -22%;
+  height: 48vh;
+  pointer-events: none;
+  background-image:
+    linear-gradient(hsl(208 96% 66% / 0.4) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(208 96% 66% / 0.4) 1px, transparent 1px);
+  background-size: 84px 84px;
+  transform: perspective(620px) rotateX(74deg);
+  transform-origin: bottom center;
+  -webkit-mask-image: linear-gradient(to top, #000, transparent 74%);
+  mask-image: linear-gradient(to top, #000, transparent 74%);
+  opacity: 0.4;
+}
+
+.scene-horizon {
+  position: absolute;
+  inset: auto -10% -14% -10%;
+  height: 52vh;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(52% 100% at 50% 100%, hsl(204 96% 58% / 0.18), transparent 70%),
+    radial-gradient(34% 86% at 86% 100%, hsl(42 90% 66% / 0.12), transparent 74%);
+}
+
+.scene-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 118% 88% at 50% 42%,
+      transparent 44%,
+      hsl(222 72% 2% / 0.62) 100%
+    ),
+    linear-gradient(180deg, hsl(222 72% 2% / 0.35), transparent 20%);
+}
+
+/* ── Motion ──────────────────────────────────────────────────────────── */
+
+@keyframes scene-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -22px;
+  }
+}
+
+@keyframes scene-drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-3%, 2%, 0) scale(1.06);
+  }
+}
+
+@keyframes scene-drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.04);
+  }
+  50% {
+    transform: translate3d(4%, -3%, 0) scale(0.97);
+  }
+}
+
+@keyframes scene-twinkle {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes scene-ring-turn {
+  from {
+    rotate: z 0deg;
+  }
+  to {
+    rotate: z 360deg;
+  }
+}
+
+@keyframes scene-cube-spin {
+  from {
+    rotate: y 0deg;
+  }
+  to {
+    rotate: y 360deg;
+  }
+}
+
+@keyframes scene-orbit {
+  from {
+    rotate: 0deg;
+  }
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes scene-shaft {
+  0%,
+  100% {
+    opacity: 0.7;
+    translate: 0 0;
+  }
+  50% {
+    opacity: 0.95;
+    translate: 0 14px;
+  }
+}
+
+/* ── Phones: the same room, static and lighter ───────────────────────── */
+
+@media (max-width: 767px) {
+  .scene-far {
+    --z: -620px;
+  }
+  .scene-near {
+    --z: 20px;
+  }
+  .scene-slab,
+  .scene-orb,
+  .scene-shard,
+  .scene-dust,
+  .scene-beam,
+  .scene-plate,
+  .scene-cube-holder {
+    animation: none;
+  }
+  .scene-slab-a,
+  .scene-slab-c,
+  .scene-shard-b,
+  .scene-beam-b,
+  .scene-plate-b {
+    display: none;
+  }
+  .scene-floor {
+    opacity: 0.2;
+  }
+  .scene-dust {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-bloom,
+  .scene-orb,
+  .scene-slab,
+  .scene-stars,
+  .scene-ring,
+  .scene-cube,
+  .scene-cube-holder,
+  .scene-beam,
+  .scene-shard,
+  .scene-arc,
+  .scene-dust,
+  .scene-plate {
+    animation: none !important;
+  }
+}
+
+@media print {
+  .scene {
+    display: none !important;
+  }
+}

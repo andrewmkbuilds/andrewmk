@@ -113,11 +113,10 @@ docker run --rm -v "$PWD:/w" -w /w python:3.12-slim \
 The visual language is built around one physical space rather than flat panels:
 
 - `src/components/ui/AmbientLayers.tsx` mounts once in `Layout` (fixed, `-z-10`,
-  `aria-hidden`) and supplies the shared environment: navy base → cold key
-  light → gold rim light → perspective floor → vignette → mote canvas → pointer light →
-  grain. Sections with their own background sit on top of it. Everything is CSS gradients
-  except one **2D** canvas (`ParticleField`) and the guarded `DotField` WebGL lattice,
-  which only mounts on a hardware renderer (see "The ambient background" below).
+  `aria-hidden`) and supplies the shared environment: a near-black navy room with three
+  CSS 3D planes (distant field, glass architecture, foreground rim light), a perspective
+  floor, a vignette and grain. Sections with their own background sit on top of it.
+  All of it is CSS — no canvas, no WebGL (see "The ambient background" below).
 - `src/components/ui/Parallax.tsx` is the only scroll-parallax primitive (transform
   only, spring-smoothed). It is disabled under `prefers-reduced-motion` and halved
   below 768px.
@@ -166,51 +165,48 @@ into the blue-and-gold palette. Colours are never taken from the reference.
 
 ## The ambient background
 
-The background is **CSS gradients plus one 2D canvas**. The React Bits Silk shader was removed on
-2026-10-31 after it washed the page out; the mote layer that replaced it is a plain 2D canvas
-(`ParticleField`), never WebGL — see "Do not reintroduce a WebGL background" below for why.
+The background is a **CSS 3D scene**: three parallax planes of geometric objects hanging in one
+perspective space over a near-black navy room. There is no canvas and no WebGL anywhere on the
+site. The React Bits Silk and Particles shaders were removed on 2026-10-31 (a lost WebGL context
+composited as an opaque light plate and washed the page out); the 2D mote canvas that replaced
+them was removed on 2026-11-01 in favour of the 3D scene below.
 
-- `src/components/ui/AmbientLayers.tsx` composes, back to front: `.ambient-base` (navy gradient
-  with a cold top light) → `.ambient-silk` / `.ambient-silk-b` (two drifting bands of light,
-  38 s / 52 s) → `.ambient-key` (wide blue key light, 56 s drift) → `.ambient-rim` (gold rim
-  light, 74 s drift) → `.depth-floor` + `.ambient-horizon` (perspective horizon and its glow) →
-  `.ambient-vignette` (seats the content) → `ParticleField` (2D canvas: far-field motes drifting
-  up, additive `lighter` blending, 46–130 of them, ~30 fps) → `PointerLight` → `.dust-field`
-  (24 near-field CSS motes, 0.5 opacity, `nth-child(n + 17)` dropped below 768 px) →
-  `.ambient-grain` (SVG turbulence, 0.03 opacity).
-- `ParticleField` draws soft sprites baked once per colour (blue, one in four gold) and never
-  takes a pointer. It pauses on `visibilitychange`, re-seeds on resize, and under
-  `prefers-reduced-motion` paints **one still frame** and never starts the rAF loop. Verified in
-  the preview: 487 → 508 lit pixels over 900 ms on desktop and 366 → 372 at 375 × 812, i.e. the
-  motes move without the page going flat.
-- **The room must measure as visible, not just mounted.** The 2026-10-31 rebuild replaced a set of
-  gradients that sat within a few points of `--background`: every layer was mounted and animating,
-  yet the page measured 9–45 luminance with 0.25 luminance of motion over 3 s — indistinguishable
-  from a flat page. The light-carrying layers now blend with `mix-blend-mode: screen`, so they add
-  light instead of painting over it. Verified with a real headless Chromium: top of page ~74–80
-  luminance (was 27–45), 34 std-dev of structure in a background-only strip (was 14), 1.2 luminance
-  of drift over 3 s (was 0.25), and the motes visibly moving 47–75 px per 1.6 s. Re-measure with
-  pixels, never with "the element exists and its animation-name is set".
-- Every gradient layer is painted on its own compositor layer: no `backdrop-filter`, no
-  `filter: blur()`. The drift animates `transform`/`opacity` only, so it costs one compositor
-  frame per layer and nothing on the main thread. The only canvas is `ParticleField`, a 2D
-  context drawing ~46–130 cached sprites at 30 fps — cheap in software, and it cannot lose a
-  context the way the WebGL shaders did.
-- Mobile (`max-width: 767px`) keeps the same room — the blue top light, silk bands and gold rim
-  stay visible (measured top ~79–94 luminance at 390 × 844) — stops the key drift, thins the mote
-  canvas (24–60) to 0.9 opacity and shows 16 of the 24 CSS dust motes. `prefers-reduced-motion`
-  stops every drift and hides the CSS dust; the mote canvas keeps its single still frame and the
-  static lights stay, so the room still reads as lit rather than flat.
+- `src/components/ui/AmbientLayers.tsx` is the mount point only; the scene lives in
+  `src/components/ui/background/SceneBackground.tsx` and its stylesheet in `src/styles/scene-3d.css`
+  (imported from `src/styles.css`). Back to front: `.scene-base` (a `#080d19 → #050914` room lit
+  from above) → `.scene-space` (one 1200 px perspective) → `.scene-far` / `.scene-mid` /
+  `.scene-near` planes → `.scene-floor` + `.scene-horizon` → `.scene-vignette` → `.ambient-grain`.
+- **The depth is real perspective, not opacity.** Each plane is a `translateZ` at a different
+  depth (−760 / −260 / +60 px), so the renderer scales it for real: objects in the distant plane
+  measure ~0.61 of their CSS size, the midground ~0.82, the foreground ~1.05. Objects are solid-
+  looking because they are shaded, not because they are faint: spheres carry a radial body plus
+  inset terminator shadows, the cube is five actual faces, slabs and platforms are lit glass with
+  a 1 px top edge, and the gold rim is a lit border arc. Keep that shading when adding an object.
+- **Parallax is two custom properties.** `background/useSceneDepth.ts` writes `--px` / `--py`
+  (pointer, −1…1, eased with a self-stopping rAF) and `--sy` (scroll, clamped) on the scene root;
+  each plane composes them with its own `--pdx` / `--pdy` / `--sds` factors, so the near plane
+  travels ~4× further than the distant one. Only `pointerType === "mouse"` moves it — do not gate
+  the listener on `(pointer: fine)`, which is false in embedded and automated browsers, and verify
+  by reading the planes' computed transforms before and after a `PointerEvent("pointermove")`.
+- **Budget:** no `backdrop-filter`, no `filter: blur()`, no canvas. Every animation is
+  `transform` / `translate` / `rotate` / `opacity` on its own element, so the whole scene is
+  compositor work. The floating objects animate the individual `translate` property rather than
+  `transform`, which keeps each object's placement rotation intact.
+- Mobile (`max-width: 767px`) keeps the same room static and lighter: floats stop, the right-hand
+  slab, the small slab, the second beam, the second platform and the left shard are dropped, and
+  the floor and dust drop in opacity. `prefers-reduced-motion` stops every scene animation and the
+  driver writes no parallax at all; `scripts/a11y-keyboard-motion.cjs` asserts this on every route
+  ("no animation is running", "ambient light drift is off") — run it after touching the scene.
 - **Do not reintroduce a WebGL background without testing the sandbox preview.** Both vendored
   React Bits shaders (Silk, Particles) create a WebGL2 context whose cleanup calls
   `WEBGL_lose_context.loseContext()`; when the context is lost, headless Chrome composites the
   canvas as an opaque light plate and the whole page washes out (measured: mean luminance 110
-  against 34 for the CSS background). A lost canvas is also what produced the "washed out"
-  screenshots that were reported as a design problem. If a canvas layer is ever wanted again,
-  check `canvas.getContext("webgl2").isContextLost()` in the preview before shipping it.
+  against the near-black scene base). If a canvas layer is ever wanted again, check
+  `canvas.getContext("webgl2").isContextLost()` in the preview before shipping it.
 - The React Bits registry stays declared in `components.json` (`@react-bits`, no API key), and
-  `src/components/reactbits/` is its vendoring location — it holds `DotField.tsx` and
-  `GlareHover.tsx` (see "React Bits" below). 21st.dev fetches go through the CLI, which
+  `src/components/reactbits/` is its vendoring location — it now holds only `GlareHover.tsx`
+  (`DotField.tsx` was removed with the WebGL background; see "React Bits" below). 21st.dev
+  fetches go through the CLI, which
   authenticates with `API_KEY_21ST` delivered to the `web` service — see
   `docs/21ST_DEV_INTEGRATION.md` for the command.
 - The marquee brand marks come from Logo.dev when a token is configured (`theme=dark`, so
@@ -488,16 +484,12 @@ follows and the reasons behind them:
   card cannot leave the hero and a breakpoint change only pulls it back inside. The inner
   `.hero-card` carries the visual channels (rotate/tilt/scale) and has no CSS transform transition —
   that transition used to smooth (lag) every drag frame.
-- **The background is the CSS room, one 2D canvas and one guarded shader.** The room is painted
-  with radial gradients on compositor layers (`.ambient-base`, `.ambient-key`, `.ambient-rim`,
-  `.ambient-vignette`) plus an SVG-turbulence grain overlay. `ParticleField` adds the only always-on
-  JavaScript surface: a 2D canvas of cached sprites at ~30 fps, paused when the tab is hidden. On
-  top of it sits the single WebGL surface on the site, the React Bits `DotField` (see "React Bits"
-  below) —
-  desktop, hardware-rendered, no reduced-motion only, and it is unmounted on a lost context.
-  Measure before changing it: in the software-rasterised sandbox the lattice costs 7 fps against
-  27–29 fps without it, which is why `DepthBackground` refuses to mount on a software renderer.
-- **Parallax never runs on phones** (below 768px) and stops entirely under reduced motion.
+- **The background is a pure-CSS 3D scene with no canvas.** Three perspective planes of shaded
+  geometry plus an SVG-turbulence grain overlay; the only JavaScript is one pointer listener and
+  the shared scroll subscription, which write two custom properties. Nothing repaints: every
+  moving part animates a transform on the compositor.
+- **The background parallax never runs under reduced motion**, and its pointer channel ignores
+  every event that is not `pointerType === "mouse"`, so phones and tablets only get the scroll drift.
 - **Below-the-fold bundles are split.** The home contact form is `React.lazy`; TanStack splits each
   route file into its own chunk automatically (verified in `vite build` output).
 - **Fonts** are limited to the weights the design uses (Sora 400/600/700, Inter 400/500/600,
@@ -524,30 +516,23 @@ The component registries, and exactly what was taken from each (2026-11-01).
   fetching that registry item and vendoring its `files[].content` into
   `src/components/reactbits/` — the same bytes the `shadcn add` path would write. The index is
   `https://reactbits.dev/r/registry.json`; item names carry the flavour suffix (`-TS-TW` = TypeScript +
-  Tailwind, what this repo uses). Two are installed:
+  Tailwind, what this repo uses). One is installed:
 
   | file | used by | notes |
   | ---- | ------- | ----- |
-  | `reactbits/DotField.tsx` | `ui/DepthBackground.tsx` → `ui/AmbientLayers.tsx` | full-screen WebGL2 dot lattice that bends under the pointer; blue → gold gradient |
   | `reactbits/GlareHover.tsx` | `ui/HeroCardStack.tsx` (card media block) | gold sheen across the card face; hover sweeps a streak through it |
+
+  `DotField.tsx` (the WebGL dot lattice) was removed with the CSS 3D background rebuild on
+  2026-11-01; it is not referenced anywhere in `src/`.
 
 - **Vendored files carry `// @ts-nocheck` plus a header comment.** Registry sources are written for
   a looser tsconfig than this repo's (`noUncheckedIndexedAccess`, index-signature access), so they
   fail `tsc --noEmit` as-is; the only other edit is stripping the permanent `will-change-transform`
   hint from `GlareHover`'s band. Re-fetching a component overwrites both — re-apply them.
-- **`DepthBackground` is deliberately conditional.** It mounts only when: viewport ≥ 768 px, no
-  `prefers-reduced-motion`, and the GL renderer is not a software rasteriser
-  (SwiftShader, llvmpipe, or the Windows basic display driver), probed once through
-  `WEBGL_debug_renderer_info`. It waits ~900 ms after mount, then loads the shader chunk with
-  `React.lazy`. A `webglcontextlost` captured on the wrapper unmounts the layer, so a dead context
-  can never composite as an opaque plate over the page (that failure is what washed the site out in
-  the earlier Silk/Particles attempts). The CSS room stays mounted underneath in every case: it is
-  the fallback, not a substitute.
-- **Measure it with pixels and frame time, not by "the canvas exists".** `page.emulateMediaFeatures
-  ([{name:'prefers-reduced-motion', value:'reduce'}])` is the no-shader baseline (measured 60 fps;
-  the only canvas left is the still mote layer); the headless browser here is SwiftShader, so it
-  always takes the fallback path.
-  Confirm the shader path in a hardware browser if you change its settings.
+- **No WebGL layer is mounted.** The old `DepthBackground` wrapper and its `DotField` lattice were
+  removed on 2026-11-01. If one is ever wanted again it must be conditional (hardware renderer, no
+  reduced motion), lazy, and unmounted on `webglcontextlost` — a lost context composites as an
+  opaque plate over the page, which is the failure that washed the site out twice.
 - **21st.dev works through the CLI now; there is still no MCP bridge.** `API_KEY_21ST` is declared
   in `.base44/environment.json` and reaches the `web` service via `/run/base44/app.env`, so
   `docker compose … exec -T web bunx --bun @21st-dev/cli@latest search "<query>"` returns results

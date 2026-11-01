@@ -81,13 +81,13 @@ export default function Home() {
       {/* Hero — three depth layers: atmosphere, structure, content */}
       <section className="relative overflow-hidden bg-hero-veil grain">
         <Parallax distance={36} ariaHidden className="absolute inset-0">
-          <div className="absolute inset-0 bg-grid" aria-hidden="true" />
+          <div className="absolute inset-0 bg-grid opacity-45" aria-hidden="true" />
         </Parallax>
         {/* A soft gradient instead of a blurred element: same light, no
             full-size filter repaint. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -top-32 left-1/2 h-[420px] w-[760px] -translate-x-1/2 bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--primary)_16%,transparent),transparent_100%)]"
+          className="pointer-events-none absolute -top-32 left-1/2 h-[420px] w-[760px] -translate-x-1/2 bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--primary)_9%,transparent),transparent_100%)]"
         />
 
         <div className="container relative grid items-center gap-12 pt-32 pb-16 md:pt-40 md:pb-20 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] lg:gap-8 lg:pt-40 lg:pb-24">
