@@ -27,11 +27,35 @@
   /* The wall fades into the room at every edge, so it never reads as a
      rectangle pasted behind the page. */
   -webkit-mask-image:
-    linear-gradient(to right, transparent 0%, #000 24%, #000 76%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, #000 22%, #000 62%, transparent 100%);
+    linear-gradient(
+      to right,
+      transparent 0%,
+      #000 24%,
+      #000 76%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 22%,
+      #000 62%,
+      transparent 100%
+    );
   mask-image:
-    linear-gradient(to right, transparent 0%, #000 24%, #000 76%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, #000 22%, #000 62%, transparent 100%);
+    linear-gradient(
+      to right,
+      transparent 0%,
+      #000 24%,
+      #000 76%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 22%,
+      #000 62%,
+      transparent 100%
+    );
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
@@ -61,7 +85,11 @@
   height: var(--gm-tile-h);
   overflow: hidden;
   border-radius: 12px;
-  background: linear-gradient(160deg, hsl(214 62% 22% / 0.85), hsl(220 64% 12% / 0.9));
+  background: linear-gradient(
+    160deg,
+    hsl(214 62% 22% / 0.85),
+    hsl(220 64% 12% / 0.9)
+  );
   color: hsl(212 30% 56%);
   font-size: var(--gm-font, 14px);
   font-weight: 500;

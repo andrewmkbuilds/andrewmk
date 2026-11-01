@@ -373,7 +373,8 @@ async function reducedMotionPass(page, route, baseline) {
       try {
         const { data } = ctx.getImageData(0, 0, c.width, c.height);
         let sum = 0;
-        for (let i = 3; i < data.length; i += 4) sum += data[i] * ((i % 89) + 1);
+        for (let i = 3; i < data.length; i += 4)
+          sum += data[i] * ((i % 89) + 1);
         return { mounted: true, webgl: false, sum };
       } catch {
         return { mounted: true, webgl: false, sum: null };
@@ -391,7 +392,9 @@ async function reducedMotionPass(page, route, baseline) {
   } else if (frameA.sum !== frameB.sum) {
     fail(route, "reduce: the decorative canvas is still animating");
   } else {
-    ok(`reduce: decorative canvas holds a still frame (${frameA.sum === 0 ? "blank" : "painted"})`);
+    ok(
+      `reduce: decorative canvas holds a still frame (${frameA.sum === 0 ? "blank" : "painted"})`,
+    );
   }
   if (state.runningCount > 0) {
     fail(

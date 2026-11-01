@@ -26,16 +26,16 @@ The component enhances the product. The product never adapts around a generic de
 
 ## 2. Choose the placement, do not invent one
 
-| component kind        | existing home in this repo                                          |
-| --------------------- | ------------------------------------------------------------------- |
-| project gallery       | home "Ecosystem" section (`PortfolioGallery`) / `/projects` grid     |
-| hero                  | `src/pages/Home.tsx` hero with `HeroCardStack`                      |
-| proof / statistics    | `/achievements`, `/journey`, `src/data/portfolio.ts` aggregates      |
-| navigation            | `src/components/layout/Header.tsx`, mobile sheet                     |
-| feature / tool grids  | `/skills`, `TechMarquee`, `src/data/toolMarquee.ts`                  |
-| contact               | `/contact` + `ContactForm`                                           |
-| background effect     | `AmbientLayers` / `src/components/ui/background/SceneBackground.tsx` |
-| cards / showcases     | the section whose own records the cards would show                   |
+| component kind       | existing home in this repo                                           |
+| -------------------- | -------------------------------------------------------------------- |
+| project gallery      | home "Ecosystem" section (`PortfolioGallery`) / `/projects` grid     |
+| hero                 | `src/pages/Home.tsx` hero with `HeroCardStack`                       |
+| proof / statistics   | `/achievements`, `/journey`, `src/data/portfolio.ts` aggregates      |
+| navigation           | `src/components/layout/Header.tsx`, mobile sheet                     |
+| feature / tool grids | `/skills`, `TechMarquee`, `src/data/toolMarquee.ts`                  |
+| contact              | `/contact` + `ContactForm`                                           |
+| background effect    | `AmbientLayers` / `src/components/ui/background/SceneBackground.tsx` |
+| cards / showcases    | the section whose own records the cards would show                   |
 
 Upgrade an existing section instead of adding a parallel one. Never duplicate a section, a
 project listing, or a CTA, and never add a standalone demo page (the repo already documents why

@@ -5,7 +5,10 @@ export const Route = createFileRoute("/_authenticated/admin/media")({
   head: () => ({
     meta: [
       { title: "Media library | Admin" },
-      { name: "description", content: "Private admin media library for portfolio images." },
+      {
+        name: "description",
+        content: "Private admin media library for portfolio images.",
+      },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

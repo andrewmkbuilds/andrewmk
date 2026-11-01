@@ -7,7 +7,15 @@ import { listAllProjects, type CmsProject } from "@/lib/projects.functions";
 import { listAllPosts, type BlogPost } from "@/lib/blog.functions";
 import { listMedia, type MediaAsset } from "@/lib/media.functions";
 
-function Stat({ label, value, to }: { label: string; value: string; to: string }) {
+function Stat({
+  label,
+  value,
+  to,
+}: {
+  label: string;
+  value: string;
+  to: string;
+}) {
   return (
     <Link
       to={to}
@@ -34,7 +42,10 @@ export default function AdminOverview() {
     queryKey: ["admin-blog-posts"],
     queryFn: () => fetchPosts(),
   });
-  const media = useQuery<MediaAsset[]>({ queryKey: ["admin-media"], queryFn: () => fetchMedia() });
+  const media = useQuery<MediaAsset[]>({
+    queryKey: ["admin-media"],
+    queryFn: () => fetchMedia(),
+  });
 
   const p = projects.data ?? [];
   const b = posts.data ?? [];
@@ -55,8 +66,16 @@ export default function AdminOverview() {
           value={`${p.filter((x) => !x.published && !x.archived).length}`}
           to="/admin/projects"
         />
-        <Stat label="Published posts" value={`${b.filter((x) => x.published).length}`} to="/admin/blog" />
-        <Stat label="Images" value={`${(media.data ?? []).length}`} to="/admin/media" />
+        <Stat
+          label="Published posts"
+          value={`${b.filter((x) => x.published).length}`}
+          to="/admin/blog"
+        />
+        <Stat
+          label="Images"
+          value={`${(media.data ?? []).length}`}
+          to="/admin/media"
+        />
       </div>
 
       <section className="mt-10 grid gap-6 lg:grid-cols-2">
@@ -69,14 +88,23 @@ export default function AdminOverview() {
               .sort((a, z) => z.updated_at.localeCompare(a.updated_at))
               .slice(0, 5)
               .map((item) => (
-                <li key={item.id} className="flex items-center justify-between gap-3">
+                <li
+                  key={item.id}
+                  className="flex items-center justify-between gap-3"
+                >
                   <span className="text-foreground">{item.name}</span>
                   <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-                    {item.archived ? "Archived" : item.published ? "Live" : "Draft"}
+                    {item.archived
+                      ? "Archived"
+                      : item.published
+                        ? "Live"
+                        : "Draft"}
                   </span>
                 </li>
               ))}
-            {p.length === 0 ? <li className="text-muted-foreground">Nothing yet.</li> : null}
+            {p.length === 0 ? (
+              <li className="text-muted-foreground">Nothing yet.</li>
+            ) : null}
           </ul>
         </div>
 
@@ -89,14 +117,23 @@ export default function AdminOverview() {
               .sort((a, z) => z.updated_at.localeCompare(a.updated_at))
               .slice(0, 5)
               .map((item) => (
-                <li key={item.id} className="flex items-center justify-between gap-3">
+                <li
+                  key={item.id}
+                  className="flex items-center justify-between gap-3"
+                >
                   <span className="text-foreground">{item.title}</span>
                   <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-                    {item.archived ? "Archived" : item.published ? "Live" : "Draft"}
+                    {item.archived
+                      ? "Archived"
+                      : item.published
+                        ? "Live"
+                        : "Draft"}
                   </span>
                 </li>
               ))}
-            {b.length === 0 ? <li className="text-muted-foreground">Nothing yet.</li> : null}
+            {b.length === 0 ? (
+              <li className="text-muted-foreground">Nothing yet.</li>
+            ) : null}
           </ul>
         </div>
       </section>

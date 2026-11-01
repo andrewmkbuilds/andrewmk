@@ -5,13 +5,13 @@ the same dead ends.
 
 ## Short version
 
-| Route                                              | Status here                                                                                                 |
-| -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| **21st CLI** (`@21st-dev/cli`, `bunx @21st-dev/cli`) | **Installs and runs.** Search/install requires a sign-in or `API_KEY_21ST` — that key is the only blocker.  |
-| **shadcn registry URL** (`https://21st.dev/r/…`)   | Works with the same key; `403 authentication_required` without it (verified).                               |
-| **21st MCP**                                        | Not available: this agent has no MCP bridge. The CLI is the supported non-MCP equivalent — same endpoint.    |
-| **React Bits registry** (`@react-bits`)            | Free, no key, already wired in `components.json`. This is what the site actually vendors from.              |
-| **Copy a component by hand**                        | Always possible; restyle to the navy/gold tokens instead of installing.                                      |
+| Route                                                | Status here                                                                                                |
+| ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **21st CLI** (`@21st-dev/cli`, `bunx @21st-dev/cli`) | **Installs and runs.** Search/install requires a sign-in or `API_KEY_21ST` — that key is the only blocker. |
+| **shadcn registry URL** (`https://21st.dev/r/…`)     | Works with the same key; `403 authentication_required` without it (verified).                              |
+| **21st MCP**                                         | Not available: this agent has no MCP bridge. The CLI is the supported non-MCP equivalent — same endpoint.  |
+| **React Bits registry** (`@react-bits`)              | Free, no key, already wired in `components.json`. This is what the site actually vendors from.             |
+| **Copy a component by hand**                         | Always possible; restyle to the navy/gold tokens instead of installing.                                    |
 
 ## The MCP route
 
@@ -66,7 +66,7 @@ npx shadcn@latest add "https://21st.dev/r/<author>/<component>?api_key=$API_KEY_
 - Documented by 21st.dev: <https://21st.dev/blog/install-component-from-registry-url>.
 - The URL must be **quoted** (an unquoted `&` splits the shell command).
 - Verified 2026-10-31: `curl https://21st.dev/r/kokonutd/bento-grid` → `403
-  {"error":"Authentication required"}`; the same 403 with an invalid key. The key comes from a
+{"error":"Authentication required"}`; the same 403 with an invalid key. The key comes from a
   21st account with a membership, and it is a user credential — it must never be committed.
 
 ## What this repository does instead

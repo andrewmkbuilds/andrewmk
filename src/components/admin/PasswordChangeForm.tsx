@@ -14,7 +14,13 @@ const RULES = [
 ];
 
 function meetsPolicy(pw: string) {
-  return pw.length >= 12 && /[a-z]/.test(pw) && /[A-Z]/.test(pw) && /\d/.test(pw) && /[^A-Za-z0-9]/.test(pw);
+  return (
+    pw.length >= 12 &&
+    /[a-z]/.test(pw) &&
+    /[A-Z]/.test(pw) &&
+    /\d/.test(pw) &&
+    /[^A-Za-z0-9]/.test(pw)
+  );
 }
 
 /**
@@ -70,7 +76,9 @@ export function PasswordChangeForm() {
       return;
     }
 
-    const { error: updateError } = await supabase.auth.updateUser({ password: next });
+    const { error: updateError } = await supabase.auth.updateUser({
+      password: next,
+    });
     setBusy(false);
     if (updateError) {
       setError(updateError.message);
@@ -107,7 +115,9 @@ export function PasswordChangeForm() {
           onChange={(e) => setNext(e.target.value)}
         />
         {weak ? (
-          <p className="text-xs text-foreground">Use a stronger password (see the rules below).</p>
+          <p className="text-xs text-foreground">
+            Use a stronger password (see the rules below).
+          </p>
         ) : null}
       </div>
       <div className="space-y-2">
@@ -120,7 +130,9 @@ export function PasswordChangeForm() {
           value={confirm}
           onChange={(e) => setConfirm(e.target.value)}
         />
-        {mismatch ? <p className="text-xs text-foreground">Passwords do not match.</p> : null}
+        {mismatch ? (
+          <p className="text-xs text-foreground">Passwords do not match.</p>
+        ) : null}
       </div>
 
       <ul className="list-none space-y-1 p-0 text-xs text-muted-foreground">
@@ -132,8 +144,14 @@ export function PasswordChangeForm() {
         ))}
       </ul>
 
-      <Button type="submit" disabled={disabled} className="font-mono focus-ring">
-        {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
+      <Button
+        type="submit"
+        disabled={disabled}
+        className="font-mono focus-ring"
+      >
+        {busy ? (
+          <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+        ) : null}
         {busy ? "Updating…" : "Change password"}
       </Button>
 

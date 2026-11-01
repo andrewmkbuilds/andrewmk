@@ -18,7 +18,10 @@ export const Route = createFileRoute("/blog/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: `Post not found | ${SITE_NAME}` }, { name: "robots", content: "noindex" }],
+        meta: [
+          { title: `Post not found | ${SITE_NAME}` },
+          { name: "robots", content: "noindex" },
+        ],
       };
     }
     const { post } = loaderData;
@@ -36,7 +39,10 @@ export const Route = createFileRoute("/blog/$slug")({
         { property: "og:description", content: description },
         { property: "og:url", content: url },
         { property: "og:type", content: "article" },
-        { property: "article:published_time", content: post.published_at ?? "" },
+        {
+          property: "article:published_time",
+          content: post.published_at ?? "",
+        },
         { property: "og:image", content: image },
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: title },

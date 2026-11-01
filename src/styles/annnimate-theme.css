@@ -202,12 +202,36 @@
    gold; the blur/position rules stay untouched. */
 .anm-feature .fdg_gradient {
   background-image:
-    radial-gradient(22% 88% at 20% 100%, hsl(204 74% 52% / 0.5) 0%, transparent 100%),
-    radial-gradient(30% 52% at 36% 100%, hsl(41 58% 60% / 0.35) 0%, transparent 100%),
-    radial-gradient(24% 96% at 74% 100%, hsl(204 74% 52% / 0.45) 0%, transparent 100%),
-    radial-gradient(58% 44% at 10% 100%, hsl(204 74% 52% / 0.35) 0%, transparent 100%),
-    radial-gradient(40% 60% at 90% 100%, hsl(41 58% 60% / 0.4) 0%, transparent 100%),
-    radial-gradient(82% 78% at 50% 100%, hsl(217 58% 18% / 0.9) 0%, transparent 100%);
+    radial-gradient(
+      22% 88% at 20% 100%,
+      hsl(204 74% 52% / 0.5) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      30% 52% at 36% 100%,
+      hsl(41 58% 60% / 0.35) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      24% 96% at 74% 100%,
+      hsl(204 74% 52% / 0.45) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      58% 44% at 10% 100%,
+      hsl(204 74% 52% / 0.35) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      40% 60% at 90% 100%,
+      hsl(41 58% 60% / 0.4) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      82% 78% at 50% 100%,
+      hsl(217 58% 18% / 0.9) 0%,
+      transparent 100%
+    );
 }
 
 .anm-feature .fdg_tile_label {

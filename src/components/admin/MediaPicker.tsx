@@ -25,7 +25,12 @@ interface MediaPickerProps {
   onChange: (url: string) => void;
 }
 
-export default function MediaPicker({ id, label, value, onChange }: MediaPickerProps) {
+export default function MediaPicker({
+  id,
+  label,
+  value,
+  onChange,
+}: MediaPickerProps) {
   const fetchMedia = useServerFn(listMedia);
   const upload = useServerFn(uploadMedia);
   const queryClient = useQueryClient();
@@ -68,7 +73,12 @@ export default function MediaPicker({ id, label, value, onChange }: MediaPickerP
           onChange={(e) => onChange(e.target.value)}
         />
         <div className="flex gap-2">
-          <Button type="button" variant="outline" size="sm" onClick={() => setOpen((v) => !v)}>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setOpen((v) => !v)}
+          >
             {open ? "Close" : "Library"}
           </Button>
           <Button
@@ -119,7 +129,9 @@ export default function MediaPicker({ id, label, value, onChange }: MediaPickerP
           {media.isLoading ? (
             <p className="text-sm text-muted-foreground">Loading images…</p>
           ) : (media.data ?? []).length === 0 ? (
-            <p className="text-sm text-muted-foreground">No images uploaded yet.</p>
+            <p className="text-sm text-muted-foreground">
+              No images uploaded yet.
+            </p>
           ) : (
             <ul className="grid list-none grid-cols-2 gap-3 p-0 sm:grid-cols-4">
               {(media.data ?? []).map((asset) => (
@@ -132,7 +144,11 @@ export default function MediaPicker({ id, label, value, onChange }: MediaPickerP
                       setOpen(false);
                     }}
                   >
-                    <img src={asset.url} alt={asset.alt} className="h-20 w-full object-cover" />
+                    <img
+                      src={asset.url}
+                      alt={asset.alt}
+                      className="h-20 w-full object-cover"
+                    />
                   </button>
                 </li>
               ))}

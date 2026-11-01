@@ -1,4 +1,11 @@
-import { useCallback, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import {
+  useCallback,
+  useId,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -93,14 +100,29 @@ export function PopDisclosure({
             />
           </span>
           {summary ? (
-            <span className="text-sm leading-relaxed text-muted-foreground">{summary}</span>
+            <span className="text-sm leading-relaxed text-muted-foreground">
+              {summary}
+            </span>
           ) : null}
         </button>
       </Heading>
 
-      <div id={panelId} role="region" aria-labelledby={triggerId} className="pop-panel" data-open={open ? "true" : "false"}>
+      <div
+        id={panelId}
+        role="region"
+        aria-labelledby={triggerId}
+        className="pop-panel"
+        data-open={open ? "true" : "false"}
+      >
         <div className="pop-panel-inner">
-          <div className={cn("border-t border-border px-6 pb-6 pt-4", panelClassName)}>{children}</div>
+          <div
+            className={cn(
+              "border-t border-border px-6 pb-6 pt-4",
+              panelClassName,
+            )}
+          >
+            {children}
+          </div>
         </div>
       </div>
     </div>
@@ -161,10 +183,19 @@ export function InlinePopDisclosure({
         {label}
         <ChevronDown
           aria-hidden="true"
-          className={cn("pop-chevron h-4 w-4", open && "rotate-180 text-primary")}
+          className={cn(
+            "pop-chevron h-4 w-4",
+            open && "rotate-180 text-primary",
+          )}
         />
       </button>
-      <div id={panelId} role="region" aria-labelledby={triggerId} className="pop-panel" data-open={open ? "true" : "false"}>
+      <div
+        id={panelId}
+        role="region"
+        aria-labelledby={triggerId}
+        className="pop-panel"
+        data-open={open ? "true" : "false"}
+      >
         <div className="pop-panel-inner">
           <div className="pt-4">{children}</div>
         </div>

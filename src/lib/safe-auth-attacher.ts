@@ -9,16 +9,16 @@ import { createMiddleware } from "@tanstack/react-start";
  * failure simply means "no bearer token" — public calls keep working and
  * protected calls get a normal Unauthorized from requireSupabaseAuth.
  */
-export const safeAttachSupabaseAuth = createMiddleware({ type: "function" }).client(
-  async ({ next }) => {
-    let token: string | undefined;
-    try {
-      const { supabase } = await import("@/integrations/supabase/client");
-      const { data } = await supabase.auth.getSession();
-      token = data.session?.access_token;
-    } catch {
-      token = undefined;
-    }
-    return next({ headers: token ? { Authorization: `Bearer ${token}` } : {} });
-  },
-);
+export const safeAttachSupabaseAuth = createMiddleware({
+  type: "function",
+}).client(async ({ next }) => {
+  let token: string | undefined;
+  try {
+    const { supabase } = await import("@/integrations/supabase/client");
+    const { data } = await supabase.auth.getSession();
+    token = data.session?.access_token;
+  } catch {
+    token = undefined;
+  }
+  return next({ headers: token ? { Authorization: `Bearer ${token}` } : {} });
+});

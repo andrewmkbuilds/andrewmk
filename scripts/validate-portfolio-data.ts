@@ -23,11 +23,16 @@ const errors: string[] = [];
 const byName = new Map<string, Project>(allProjects.map((p) => [p.name, p]));
 
 // 1. Every expected project exists and has the right platform.
-for (const [platform, names] of Object.entries(EXPECTED) as [keyof typeof EXPECTED, string[]][]) {
+for (const [platform, names] of Object.entries(EXPECTED) as [
+  keyof typeof EXPECTED,
+  string[],
+][]) {
   for (const name of names) {
     const project = byName.get(name);
     if (!project) {
-      errors.push(`Missing project "${name}" (expected platform: ${platform}).`);
+      errors.push(
+        `Missing project "${name}" (expected platform: ${platform}).`,
+      );
       continue;
     }
     if (project.platform !== platform) {
@@ -47,7 +52,9 @@ for (const project of allProjects) {
     );
   }
   if (project.platform && !["base44", "lovable"].includes(project.platform)) {
-    errors.push(`"${project.name}" has unknown platform "${project.platform}".`);
+    errors.push(
+      `"${project.name}" has unknown platform "${project.platform}".`,
+    );
   }
   // 3. The badge links to a real social profile, otherwise it renders nothing.
   if (project.platform && !socialLinks.some((s) => s.id === project.platform)) {
@@ -60,16 +67,22 @@ for (const project of allProjects) {
 // 4. Duplicate names would make the checks above ambiguous.
 const seen = new Set<string>();
 for (const project of allProjects) {
-  if (seen.has(project.name)) errors.push(`Duplicate project name "${project.name}".`);
+  if (seen.has(project.name))
+    errors.push(`Duplicate project name "${project.name}".`);
   seen.add(project.name);
 }
 
 if (errors.length > 0) {
-  console.error("Portfolio data validation failed:\n" + errors.map((e) => `  - ${e}`).join("\n"));
+  console.error(
+    "Portfolio data validation failed:\n" +
+      errors.map((e) => `  - ${e}`).join("\n"),
+  );
   process.exit(1);
 }
 
 const counts = Object.entries(EXPECTED)
   .map(([p, names]) => `${p}: ${names.length}`)
   .join(", ");
-console.log(`Portfolio data OK — ${allProjects.length} projects, platform badges (${counts}).`);
+console.log(
+  `Portfolio data OK — ${allProjects.length} projects, platform badges (${counts}).`,
+);

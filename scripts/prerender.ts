@@ -22,7 +22,11 @@ const DIST = resolve("dist");
 const template = readFileSync(resolve(DIST, "index.html"), "utf8");
 
 const escapeAttr = (value: string) =>
-  value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 
 function headFor(route: RouteMeta) {
   const url = `${SITE_URL}${route.path}`;
@@ -54,11 +58,20 @@ function render(route: RouteMeta) {
 
   // Drop the sitewide placeholders that the per-route tags replace.
   html = html
-    .replace(/\s*<meta property="og:(title|description|type|url|site_name|image|image:width|image:height)"[\s\S]*?\/>/g, "")
-    .replace(/\s*<meta name="twitter:(card|title|description|image)"[\s\S]*?\/>/g, "")
+    .replace(
+      /\s*<meta property="og:(title|description|type|url|site_name|image|image:width|image:height)"[\s\S]*?\/>/g,
+      "",
+    )
+    .replace(
+      /\s*<meta name="twitter:(card|title|description|image)"[\s\S]*?\/>/g,
+      "",
+    )
     .replace(/\s*<link rel="canonical"[^>]*\/>/g, "");
 
-  html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeAttr(route.title)}</title>`);
+  html = html.replace(
+    /<title>[\s\S]*?<\/title>/,
+    `<title>${escapeAttr(route.title)}</title>`,
+  );
   html = html.replace(
     /<meta\s+name="description"[\s\S]*?\/>/,
     `<meta name="description" content="${escapeAttr(route.description)}" />`,
@@ -69,7 +82,9 @@ function render(route: RouteMeta) {
 
 for (const route of routes) {
   const target =
-    route.path === "/" ? resolve(DIST, "index.html") : resolve(DIST, `.${route.path}/index.html`);
+    route.path === "/"
+      ? resolve(DIST, "index.html")
+      : resolve(DIST, `.${route.path}/index.html`);
   mkdirSync(dirname(target), { recursive: true });
   writeFileSync(target, render(route));
 }

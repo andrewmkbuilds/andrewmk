@@ -6,16 +6,22 @@
 
 const IMMUTABLE = "public, max-age=31536000, immutable";
 const ASSET = "public, max-age=86400, stale-while-revalidate=604800";
-const HTML = "public, max-age=0, s-maxage=300, stale-while-revalidate=86400, must-revalidate";
+const HTML =
+  "public, max-age=0, s-maxage=300, stale-while-revalidate=86400, must-revalidate";
 const NO_STORE = "no-store";
 
 const IMMUTABLE_PREFIXES = ["/assets/", "/_build/", "/_serverFn/assets/"];
 const ASSET_EXTENSIONS =
   /\.(?:png|jpe?g|webp|avif|gif|svg|ico|woff2?|ttf|otf|mp4|webm|txt|xml|json|css|js|map)$/i;
 
-export function cacheControlFor(pathname: string, contentType: string): string | null {
-  if (pathname.startsWith("/api/") || pathname.startsWith("/_serverFn/")) return NO_STORE;
-  if (IMMUTABLE_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return IMMUTABLE;
+export function cacheControlFor(
+  pathname: string,
+  contentType: string,
+): string | null {
+  if (pathname.startsWith("/api/") || pathname.startsWith("/_serverFn/"))
+    return NO_STORE;
+  if (IMMUTABLE_PREFIXES.some((prefix) => pathname.startsWith(prefix)))
+    return IMMUTABLE;
   if (contentType.includes("text/html")) return HTML;
   if (ASSET_EXTENSIONS.test(pathname)) return ASSET;
   return null;
@@ -38,14 +44,21 @@ function etagMatches(header: string | null, etag: string): boolean {
   return header
     .split(",")
     .map((value) => value.trim())
-    .some((value) => value === etag || value.replace(/^W\//, "") === etag.replace(/^W\//, ""));
+    .some(
+      (value) =>
+        value === etag ||
+        value.replace(/^W\//, "") === etag.replace(/^W\//, ""),
+    );
 }
 
 /**
  * Applies Cache-Control to any response and adds ETag/304 handling to
  * cacheable SSR HTML responses.
  */
-export async function withHttpCaching(request: Request, response: Response): Promise<Response> {
+export async function withHttpCaching(
+  request: Request,
+  response: Response,
+): Promise<Response> {
   if (request.method !== "GET" && request.method !== "HEAD") return response;
   if (response.status !== 200) return response;
   if (response.headers.has("cache-control")) return response;
@@ -58,7 +71,11 @@ export async function withHttpCaching(request: Request, response: Response): Pro
   if (cacheControl === NO_STORE) {
     const headers = new Headers(response.headers);
     headers.set("cache-control", NO_STORE);
-    return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers,
+    });
   }
 
   // Only buffer HTML — assets are streamed straight through with headers.
@@ -66,7 +83,11 @@ export async function withHttpCaching(request: Request, response: Response): Pro
     const headers = new Headers(response.headers);
     headers.set("cache-control", cacheControl);
     headers.set("vary", mergeVary(headers.get("vary")));
-    return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers,
+    });
   }
 
   const body = await response.arrayBuffer();
@@ -81,12 +102,19 @@ export async function withHttpCaching(request: Request, response: Response): Pro
     return new Response(null, { status: 304, headers });
   }
 
-  return new Response(body, { status: 200, statusText: response.statusText, headers });
+  return new Response(body, {
+    status: 200,
+    statusText: response.statusText,
+    headers,
+  });
 }
 
 function mergeVary(existing: string | null): string {
   const values = new Set(
-    (existing ?? "").split(",").map((v) => v.trim().toLowerCase()).filter(Boolean),
+    (existing ?? "")
+      .split(",")
+      .map((v) => v.trim().toLowerCase())
+      .filter(Boolean),
   );
   values.add("accept-encoding");
   return [...values].join(", ");

@@ -1248,8 +1248,7 @@ export const ecosystemProjects: Project[] = [
     status: "Live",
     live: "https://tabzen.base44.app/",
     featuredImage: "/projects/tabzen.webp",
-    imageAlt:
-      "TabZen workspace — focus score, tab groups and daily goals.",
+    imageAlt: "TabZen workspace — focus score, tab groups and daily goals.",
     filters: ["AI", "Base44"],
     platform: "base44",
     problem:

@@ -4,7 +4,13 @@ import { useServerFn } from "@tanstack/react-start";
 import { Copy, ImagePlus, Loader2, Trash2 } from "lucide-react";
 
 import AdminShell from "@/components/admin/AdminShell";
-import { deleteMedia, listMedia, updateMedia, uploadMedia, type MediaAsset } from "@/lib/media.functions";
+import {
+  deleteMedia,
+  listMedia,
+  updateMedia,
+  uploadMedia,
+  type MediaAsset,
+} from "@/lib/media.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -26,8 +32,12 @@ export default function AdminMedia() {
   const fileInput = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const media = useQuery<MediaAsset[]>({ queryKey: ["admin-media"], queryFn: () => fetchMedia() });
-  const invalidate = () => queryClient.invalidateQueries({ queryKey: ["admin-media"] });
+  const media = useQuery<MediaAsset[]>({
+    queryKey: ["admin-media"],
+    queryFn: () => fetchMedia(),
+  });
+  const invalidate = () =>
+    queryClient.invalidateQueries({ queryKey: ["admin-media"] });
 
   const uploading = useMutation({
     mutationFn: async (file: File) =>
@@ -99,10 +109,13 @@ export default function AdminMedia() {
 
       {media.isLoading ? (
         <p className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> Loading images…
+          <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />{" "}
+          Loading images…
         </p>
       ) : (media.data ?? []).length === 0 ? (
-        <p className="text-sm text-muted-foreground">No images yet. Upload your first one.</p>
+        <p className="text-sm text-muted-foreground">
+          No images yet. Upload your first one.
+        </p>
       ) : (
         <ul className="grid list-none gap-5 p-0 sm:grid-cols-2 lg:grid-cols-3">
           {(media.data ?? []).map((asset) => (
@@ -110,7 +123,11 @@ export default function AdminMedia() {
               key={asset.id}
               className="overflow-hidden rounded-xl border border-border bg-card shadow-card"
             >
-              <img src={asset.url} alt={asset.alt} className="h-40 w-full object-cover" />
+              <img
+                src={asset.url}
+                alt={asset.alt}
+                className="h-40 w-full object-cover"
+              />
               <div className="space-y-3 p-4">
                 <p className="truncate font-mono text-[11px] text-muted-foreground">
                   {asset.filename}
@@ -130,7 +147,9 @@ export default function AdminMedia() {
                     type="button"
                     variant="outline"
                     size="sm"
-                    onClick={() => void navigator.clipboard.writeText(asset.url)}
+                    onClick={() =>
+                      void navigator.clipboard.writeText(asset.url)
+                    }
                   >
                     <Copy className="h-4 w-4" aria-hidden="true" /> Copy link
                   </Button>
@@ -140,7 +159,8 @@ export default function AdminMedia() {
                     size="sm"
                     className="text-destructive"
                     onClick={() => {
-                      if (confirm("Delete this image?")) deleting.mutate(asset.id);
+                      if (confirm("Delete this image?"))
+                        deleting.mutate(asset.id);
                     }}
                   >
                     <Trash2 className="h-4 w-4" aria-hidden="true" /> Delete

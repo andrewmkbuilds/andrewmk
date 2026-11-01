@@ -16,16 +16,20 @@
 import { routes } from "../src/data/seo";
 
 const args = process.argv.slice(2);
-const argValue = (name: string) => args.find((a) => a.startsWith(`--${name}=`))?.split("=")[1];
+const argValue = (name: string) =>
+  args.find((a) => a.startsWith(`--${name}=`))?.split("=")[1];
 const BASE = (argValue("base") ?? "http://localhost:8080").replace(/\/$/, "");
 
 const failures: string[] = [];
 const fail = (route: string, msg: string) => failures.push(`${route}: ${msg}`);
 
-const stripHidden = (html: string) => html.replace(/<template[\s\S]*?<\/template>/gi, "");
+const stripHidden = (html: string) =>
+  html.replace(/<template[\s\S]*?<\/template>/gi, "");
 
 function checkHeadings(route: string, html: string) {
-  const levels = [...html.matchAll(/<h([1-6])[\s>]/gi)].map((m) => Number(m[1]));
+  const levels = [...html.matchAll(/<h([1-6])[\s>]/gi)].map((m) =>
+    Number(m[1]),
+  );
   const h1s = levels.filter((l) => l === 1).length;
   if (h1s !== 1) fail(route, `expected exactly one <h1>, found ${h1s}`);
   let previous = 0;
@@ -40,7 +44,8 @@ function checkHeadings(route: string, html: string) {
 
 function checkImages(route: string, html: string) {
   for (const [tag] of html.matchAll(/<img\b[^>]*>/gi)) {
-    if (!/\salt\s*=/.test(tag)) fail(route, `<img> without alt: ${tag.slice(0, 90)}`);
+    if (!/\salt\s*=/.test(tag))
+      fail(route, `<img> without alt: ${tag.slice(0, 90)}`);
   }
 }
 
@@ -52,8 +57,10 @@ function checkControls(route: string, html: string) {
     if (/type="(hidden|submit|button)"/i.test(tag)) continue;
     const id = /\sid="([^"]+)"/i.exec(tag)?.[1];
     const named =
-      /aria-label(?:ledby)?\s*=/.test(tag) || (id ? labelledIds.has(id) : false);
-    if (!named) fail(route, `form control without accessible name: ${tag.slice(0, 90)}`);
+      /aria-label(?:ledby)?\s*=/.test(tag) ||
+      (id ? labelledIds.has(id) : false);
+    if (!named)
+      fail(route, `form control without accessible name: ${tag.slice(0, 90)}`);
   }
 }
 
@@ -63,12 +70,19 @@ function checkIconOnlyControls(route: string, html: string) {
     const attrs = match[2] ?? "";
     const inner = match[3] ?? "";
     if (/aria-hidden="true"/.test(attrs)) continue;
-    const text = inner.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim();
+    const text = inner
+      .replace(/<[^>]*>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .trim();
     if (text.length > 0) continue;
     const hasSrOnly = /sr-only/.test(inner);
-    if (/aria-label(?:ledby)?\s*=|\stitle\s*=/.test(attrs) || hasSrOnly) continue;
+    if (/aria-label(?:ledby)?\s*=|\stitle\s*=/.test(attrs) || hasSrOnly)
+      continue;
     if (!/<svg|<img/i.test(inner)) continue;
-    fail(route, `icon-only <${match[1]}> without accessible name: ${match[0].slice(0, 110)}`);
+    fail(
+      route,
+      `icon-only <${match[1]}> without accessible name: ${match[0].slice(0, 110)}`,
+    );
   }
 }
 
@@ -88,7 +102,8 @@ async function run() {
       continue;
     }
 
-    if (!/<html[^>]+lang="/i.test(html)) fail(route.path, "<html> is missing a lang attribute");
+    if (!/<html[^>]+lang="/i.test(html))
+      fail(route.path, "<html> is missing a lang attribute");
     if (!/<main[\s>]/i.test(html)) fail(route.path, "no <main> landmark");
     checkHeadings(route.path, html);
     checkImages(route.path, html);
@@ -97,7 +112,9 @@ async function run() {
   }
 
   if (failures.length) {
-    console.error(`\n✗ Accessibility check failed (${failures.length} issue(s)):`);
+    console.error(
+      `\n✗ Accessibility check failed (${failures.length} issue(s)):`,
+    );
     for (const f of failures) console.error(`  - ${f}`);
     process.exit(1);
   }

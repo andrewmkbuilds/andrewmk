@@ -4,7 +4,10 @@ import { useServerFn } from "@tanstack/react-start";
 import AdminShell from "@/components/admin/AdminShell";
 import { MfaPanel } from "@/components/admin/MfaPanel";
 import { PasswordChangeForm } from "@/components/admin/PasswordChangeForm";
-import { listAdminAuditLog, type AuditLogRow } from "@/lib/admin-contact.functions";
+import {
+  listAdminAuditLog,
+  type AuditLogRow,
+} from "@/lib/admin-contact.functions";
 import { getAdminStatus } from "@/lib/admin-contact.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -40,7 +43,10 @@ function actionLabel(action: string) {
 export default function AdminSecurity() {
   const fetchStatus = useServerFn(getAdminStatus);
   const fetchAudit = useServerFn(listAdminAuditLog);
-  const admin = useQuery({ queryKey: ["admin-status"], queryFn: () => fetchStatus() });
+  const admin = useQuery({
+    queryKey: ["admin-status"],
+    queryFn: () => fetchStatus(),
+  });
   const audit = useQuery<AuditLogRow[]>({
     queryKey: ["admin-audit"],
     queryFn: () => fetchAudit({ data: { limit: 30 } }),
@@ -63,8 +69,8 @@ export default function AdminSecurity() {
             Password
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Enter your current password to confirm the change. Other active sessions are signed out
-            after a successful update.
+            Enter your current password to confirm the change. Other active
+            sessions are signed out after a successful update.
           </p>
           <div className="mt-5">
             <PasswordChangeForm />
@@ -76,7 +82,9 @@ export default function AdminSecurity() {
           <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
             Account
           </h2>
-          <p className="mt-3 text-sm text-foreground">{admin.data?.email ?? "—"}</p>
+          <p className="mt-3 text-sm text-foreground">
+            {admin.data?.email ?? "—"}
+          </p>
           <p className="mt-1 text-sm text-muted-foreground">
             {admin.data?.isAdmin ? "Site owner access" : "Standard account"}
           </p>
@@ -107,15 +115,22 @@ export default function AdminSecurity() {
           ) : audit.data && audit.data.length > 0 ? (
             <ul className="mt-4 list-none divide-y divide-border p-0">
               {audit.data.map((row) => (
-                <li key={row.id} className="flex flex-wrap items-center justify-between gap-2 py-3">
+                <li
+                  key={row.id}
+                  className="flex flex-wrap items-center justify-between gap-2 py-3"
+                >
                   <div>
-                    <p className="text-sm text-foreground">{actionLabel(row.action)}</p>
+                    <p className="text-sm text-foreground">
+                      {actionLabel(row.action)}
+                    </p>
                     <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
                       {row.entity}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm text-muted-foreground">{row.actor_email ?? "system"}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {row.actor_email ?? "system"}
+                    </p>
                     <time className="font-mono text-[11px] text-muted-foreground">
                       {formatTime(row.created_at)}
                     </time>
@@ -124,7 +139,9 @@ export default function AdminSecurity() {
               ))}
             </ul>
           ) : (
-            <p className="mt-4 text-sm text-muted-foreground">No security events recorded yet.</p>
+            <p className="mt-4 text-sm text-muted-foreground">
+              No security events recorded yet.
+            </p>
           )}
         </section>
       </div>

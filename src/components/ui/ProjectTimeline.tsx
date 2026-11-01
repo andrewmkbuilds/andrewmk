@@ -31,7 +31,10 @@ export function ProjectTimeline({ project }: ProjectTimelineProps) {
   const inProgress = !hasEnd;
 
   return (
-    <section aria-label="Project timeline" className="divider-gold py-12 md:py-16">
+    <section
+      aria-label="Project timeline"
+      className="divider-gold py-12 md:py-16"
+    >
       <div className="container">
         <Reveal>
           <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">

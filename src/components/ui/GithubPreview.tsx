@@ -24,17 +24,24 @@ const BODY_MIN_HEIGHT = "min-h-[356px] sm:min-h-[190px]";
  */
 export function GithubPreview() {
   const [repos, setRepos] = useState<Repo[] | null>(null);
-  const [state, setState] = useState<"loading" | "ready" | "unavailable">("loading");
+  const [state, setState] = useState<"loading" | "ready" | "unavailable">(
+    "loading",
+  );
   const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
     setState("loading");
-    fetch(`https://api.github.com/users/${GITHUB_USER}/repos?sort=updated&per_page=4`, {
-      signal: controller.signal,
-      headers: { Accept: "application/vnd.github+json" },
-    })
-      .then((res) => (res.ok ? res.json() : Promise.reject(new Error(String(res.status)))))
+    fetch(
+      `https://api.github.com/users/${GITHUB_USER}/repos?sort=updated&per_page=4`,
+      {
+        signal: controller.signal,
+        headers: { Accept: "application/vnd.github+json" },
+      },
+    )
+      .then((res) =>
+        res.ok ? res.json() : Promise.reject(new Error(String(res.status))),
+      )
       .then((data: Repo[]) => {
         if (!Array.isArray(data) || data.length === 0) {
           setState("unavailable");
@@ -68,7 +75,11 @@ export function GithubPreview() {
         </a>
       </div>
 
-      <div className={BODY_MIN_HEIGHT} aria-live="polite" aria-busy={state === "loading"}>
+      <div
+        className={BODY_MIN_HEIGHT}
+        aria-live="polite"
+        aria-busy={state === "loading"}
+      >
         {state === "loading" && (
           <>
             <span className="sr-only">Loading recent repositories…</span>
@@ -85,7 +96,10 @@ export function GithubPreview() {
 
         {state === "unavailable" && (
           <div className="mt-4 flex h-[330px] flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-border/70 bg-background/30 px-4 text-center sm:h-[164px]">
-            <CloudOff className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
+            <CloudOff
+              className="h-5 w-5 text-muted-foreground"
+              aria-hidden="true"
+            />
             <p className="text-xs text-muted-foreground">
               Live repository data isn't available right now.
             </p>
@@ -103,7 +117,8 @@ export function GithubPreview() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 font-mono text-[11px] text-primary transition-colors hover:brightness-110 focus-ring"
               >
-                Browse on GitHub <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                Browse on GitHub{" "}
+                <ExternalLink className="h-3 w-3" aria-hidden="true" />
               </a>
             </div>
           </div>
@@ -131,16 +146,21 @@ export function GithubPreview() {
                   <div className="mt-2 flex items-center gap-3 font-mono text-[11px] text-muted-foreground">
                     {repo.language && (
                       <span className="flex items-center gap-1">
-                        <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
+                        <span
+                          className="h-1.5 w-1.5 rounded-full bg-primary"
+                          aria-hidden="true"
+                        />
                         {repo.language}
                       </span>
                     )}
                     <span className="flex items-center gap-1">
-                      <Star className="h-3 w-3" aria-hidden="true" /> {repo.stargazers_count}
+                      <Star className="h-3 w-3" aria-hidden="true" />{" "}
+                      {repo.stargazers_count}
                       <span className="sr-only">stars</span>
                     </span>
                     <span className="flex items-center gap-1">
-                      <GitFork className="h-3 w-3" aria-hidden="true" /> {repo.forks_count}
+                      <GitFork className="h-3 w-3" aria-hidden="true" />{" "}
+                      {repo.forks_count}
                       <span className="sr-only">forks</span>
                     </span>
                   </div>

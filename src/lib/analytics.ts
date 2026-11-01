@@ -7,7 +7,10 @@
  * Safe to call during SSR: it no-ops when `window` is unavailable.
  */
 
-export type AnalyticsPayload = Record<string, string | number | boolean | undefined>;
+export type AnalyticsPayload = Record<
+  string,
+  string | number | boolean | undefined
+>;
 
 /** Canonical event names so call sites can't drift. */
 export const AnalyticsEvents = {
@@ -18,13 +21,23 @@ export type AnalyticsEventName =
   (typeof AnalyticsEvents)[keyof typeof AnalyticsEvents];
 
 interface AnalyticsWindow extends Window {
-  gtag?: (command: string, eventName: string, params?: AnalyticsPayload) => void;
+  gtag?: (
+    command: string,
+    eventName: string,
+    params?: AnalyticsPayload,
+  ) => void;
   dataLayer?: Array<Record<string, unknown>>;
-  plausible?: (eventName: string, options?: { props?: AnalyticsPayload }) => void;
+  plausible?: (
+    eventName: string,
+    options?: { props?: AnalyticsPayload },
+  ) => void;
   umami?: { track?: (eventName: string, data?: AnalyticsPayload) => void };
 }
 
-export function trackEvent(name: AnalyticsEventName | string, payload: AnalyticsPayload = {}) {
+export function trackEvent(
+  name: AnalyticsEventName | string,
+  payload: AnalyticsPayload = {},
+) {
   if (typeof window === "undefined") return;
 
   const w = window as AnalyticsWindow;
@@ -38,10 +51,11 @@ export function trackEvent(name: AnalyticsEventName | string, payload: Analytics
     if (Array.isArray(w.dataLayer)) w.dataLayer.push({ event: name, ...props });
     w.plausible?.(name, { props });
     w.umami?.track?.(name, props);
-    window.dispatchEvent(new CustomEvent("analytics", { detail: { name, props } }));
+    window.dispatchEvent(
+      new CustomEvent("analytics", { detail: { name, props } }),
+    );
 
     if (import.meta.env.DEV) {
-      // eslint-disable-next-line no-console
       console.info("[analytics]", name, props);
     }
   } catch {

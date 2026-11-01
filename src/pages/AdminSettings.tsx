@@ -11,7 +11,10 @@ import { Button } from "@/components/ui/button";
 export default function AdminSettings() {
   const fetchStatus = useServerFn(getAdminStatus);
   const navigate = useNavigate();
-  const admin = useQuery({ queryKey: ["admin-status"], queryFn: () => fetchStatus() });
+  const admin = useQuery({
+    queryKey: ["admin-status"],
+    queryFn: () => fetchStatus(),
+  });
 
   async function signOut() {
     await supabase.auth.signOut();
@@ -28,11 +31,17 @@ export default function AdminSettings() {
           <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
             Account
           </h2>
-          <p className="mt-3 text-sm text-foreground">{admin.data?.email ?? "—"}</p>
+          <p className="mt-3 text-sm text-foreground">
+            {admin.data?.email ?? "—"}
+          </p>
           <p className="mt-1 text-sm text-muted-foreground">
             {admin.data?.isAdmin ? "Site owner access" : "Standard account"}
           </p>
-          <Button variant="outline" className="mt-5 font-mono" onClick={signOut}>
+          <Button
+            variant="outline"
+            className="mt-5 font-mono"
+            onClick={signOut}
+          >
             Sign out
           </Button>
           <Link
@@ -57,10 +66,22 @@ export default function AdminSettings() {
             How publishing works
           </h2>
           <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-            <li>Drafts stay private — they never appear on the site, in menus or in search.</li>
-            <li>Set a future publish date to schedule a post; it appears automatically.</li>
-            <li>Archived items are hidden from the site but kept here for reference.</li>
-            <li>Published pages are added to the site map the next time the site is built.</li>
+            <li>
+              Drafts stay private — they never appear on the site, in menus or
+              in search.
+            </li>
+            <li>
+              Set a future publish date to schedule a post; it appears
+              automatically.
+            </li>
+            <li>
+              Archived items are hidden from the site but kept here for
+              reference.
+            </li>
+            <li>
+              Published pages are added to the site map the next time the site
+              is built.
+            </li>
           </ul>
         </section>
       </div>

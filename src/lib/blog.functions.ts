@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { asDbClient, type DbClient } from "@/lib/db-client";
 
 export interface BlogPost {
   id: string;
@@ -72,7 +73,9 @@ export const listPublishedPosts = createServerFn({ method: "GET" }).handler(
 );
 
 export const getPublishedPost = createServerFn({ method: "GET" })
-  .inputValidator((data: unknown) => z.object({ slug: z.string().min(1).max(160) }).parse(data))
+  .inputValidator((data: unknown) =>
+    z.object({ slug: z.string().min(1).max(160) }).parse(data),
+  )
   .handler(async ({ data }): Promise<BlogPost | null> => {
     const db = publicClient();
     if (!db) return null;
@@ -90,10 +93,7 @@ export const getPublishedPost = createServerFn({ method: "GET" })
 
 /* ---------------------------------- admin --------------------------------- */
 
-async function assertAdmin(
-  supabase: { from: (t: string) => any },
-  userId: string,
-) {
+async function assertAdmin(supabase: DbClient, userId: string) {
   const { data, error } = await supabase
     .from("user_roles")
     .select("role")
@@ -103,7 +103,6 @@ async function assertAdmin(
   if (error || !data) throw new Error("Forbidden");
 }
 
-
 const postSchema = z.object({
   id: z.string().uuid().optional(),
   slug: z
@@ -111,7 +110,10 @@ const postSchema = z.object({
     .trim()
     .min(3)
     .max(120)
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use lowercase words separated by hyphens."),
+    .regex(
+      /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+      "Use lowercase words separated by hyphens.",
+    ),
   title: z.string().trim().min(3).max(160),
   excerpt: z.string().trim().max(400).default(""),
   content: z.string().max(60000).default(""),
@@ -135,7 +137,7 @@ const postSchema = z.object({
 export const listAllPosts = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<BlogPost[]> => {
-    const supabase = context.supabase as never as any;
+    const supabase = asDbClient(context.supabase);
     await assertAdmin(supabase, context.userId);
     const { data, error } = await supabase
       .from("blog_posts")
@@ -150,13 +152,17 @@ export const savePost = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => postSchema.parse(data))
   .handler(async ({ data, context }): Promise<BlogPost> => {
-    const supabase = context.supabase as never as any;
+    const supabase = asDbClient(context.supabase);
     await assertAdmin(supabase, context.userId);
 
     let publishedAt: string | null = null;
     if (data.published) {
       const existing = data.id
-        ? await supabase.from("blog_posts").select("published_at").eq("id", data.id).maybeSingle()
+        ? await supabase
+            .from("blog_posts")
+            .select("published_at")
+            .eq("id", data.id)
+            .maybeSingle()
         : null;
       publishedAt =
         (data.publish_at ? new Date(data.publish_at).toISOString() : null) ??
@@ -180,7 +186,9 @@ export const savePost = createServerFn({ method: "POST" })
       featured: data.featured,
       archived: data.archived,
       scheduled_at:
-        data.published && data.publish_at && new Date(data.publish_at).getTime() > Date.now()
+        data.published &&
+        data.publish_at &&
+        new Date(data.publish_at).getTime() > Date.now()
           ? new Date(data.publish_at).toISOString()
           : null,
       seo_title: data.seo_title || null,
@@ -213,11 +221,16 @@ export const savePost = createServerFn({ method: "POST" })
 
 export const deletePost = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) => z.object({ id: z.string().uuid() }).parse(data))
+  .inputValidator((data: unknown) =>
+    z.object({ id: z.string().uuid() }).parse(data),
+  )
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
-    const supabase = context.supabase as never as any;
+    const supabase = asDbClient(context.supabase);
     await assertAdmin(supabase, context.userId);
-    const { error } = await supabase.from("blog_posts").delete().eq("id", data.id);
+    const { error } = await supabase
+      .from("blog_posts")
+      .delete()
+      .eq("id", data.id);
     if (error) throw new Error("Could not delete post.");
 
     const { recordAudit } = await import("./admin-audit.server");

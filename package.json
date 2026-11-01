@@ -19,6 +19,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "cta:check": "python3 scripts/cta-visual-check.py",
     "pop:check": "python3 scripts/home-pop-check.py",
     "disclosure:check": "python3 scripts/pop-disclosure-check.py"

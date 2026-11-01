@@ -14,12 +14,66 @@ interface Node {
 }
 
 const NODES: Node[] = [
-  { id: "Builder", x: 0.5, y: 0.5, r: 5.5, ring: 0, label: "Builder", phase: 0, amp: 2 },
-  { id: "AI", x: 0.28, y: 0.26, r: 3.6, ring: 1, label: "AI", phase: 0.8, amp: 6 },
-  { id: "Software", x: 0.74, y: 0.22, r: 3.6, ring: 1, label: "Software", phase: 1.9, amp: 7 },
-  { id: "Robotics", x: 0.82, y: 0.58, r: 3.4, ring: 1, label: "Robotics", phase: 3.1, amp: 6 },
-  { id: "Systems", x: 0.62, y: 0.82, r: 3.4, ring: 1, label: "Systems", phase: 4.2, amp: 7 },
-  { id: "Product", x: 0.22, y: 0.7, r: 3.4, ring: 1, label: "Product", phase: 5.3, amp: 6 },
+  {
+    id: "Builder",
+    x: 0.5,
+    y: 0.5,
+    r: 5.5,
+    ring: 0,
+    label: "Builder",
+    phase: 0,
+    amp: 2,
+  },
+  {
+    id: "AI",
+    x: 0.28,
+    y: 0.26,
+    r: 3.6,
+    ring: 1,
+    label: "AI",
+    phase: 0.8,
+    amp: 6,
+  },
+  {
+    id: "Software",
+    x: 0.74,
+    y: 0.22,
+    r: 3.6,
+    ring: 1,
+    label: "Software",
+    phase: 1.9,
+    amp: 7,
+  },
+  {
+    id: "Robotics",
+    x: 0.82,
+    y: 0.58,
+    r: 3.4,
+    ring: 1,
+    label: "Robotics",
+    phase: 3.1,
+    amp: 6,
+  },
+  {
+    id: "Systems",
+    x: 0.62,
+    y: 0.82,
+    r: 3.4,
+    ring: 1,
+    label: "Systems",
+    phase: 4.2,
+    amp: 7,
+  },
+  {
+    id: "Product",
+    x: 0.22,
+    y: 0.7,
+    r: 3.4,
+    ring: 1,
+    label: "Product",
+    phase: 5.3,
+    amp: 6,
+  },
   { id: "Vision", x: 0.12, y: 0.44, r: 2.4, ring: 2, phase: 2.2, amp: 8 },
   { id: "Data", x: 0.44, y: 0.12, r: 2.2, ring: 2, phase: 0.4, amp: 8 },
   { id: "Automation", x: 0.9, y: 0.36, r: 2.2, ring: 2, phase: 3.7, amp: 9 },
@@ -66,11 +120,16 @@ export function SystemGraph({ className }: { className?: string }) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     const styles = getComputedStyle(document.documentElement);
-    const primary = styles.getPropertyValue("--primary").trim() || "hsl(205 82% 54%)";
+    const primary =
+      styles.getPropertyValue("--primary").trim() || "hsl(205 82% 54%)";
     const glow = styles.getPropertyValue("--gold").trim() || "hsl(41 72% 58%)";
-    const fg = styles.getPropertyValue("--muted-foreground").trim() || "hsl(213 15% 70%)";
+    const fg =
+      styles.getPropertyValue("--muted-foreground").trim() ||
+      "hsl(213 15% 70%)";
 
     let width = 0;
     let height = 0;
@@ -103,7 +162,9 @@ export function SystemGraph({ className }: { className?: string }) {
       const depthY = (pointer.y - 0.5) * 20;
       return NODES.map((n) => {
         const drift = reduce ? 0 : Math.sin(time * 0.00035 + n.phase) * n.amp;
-        const drift2 = reduce ? 0 : Math.cos(time * 0.00028 + n.phase * 1.3) * n.amp * 0.6;
+        const drift2 = reduce
+          ? 0
+          : Math.cos(time * 0.00028 + n.phase * 1.3) * n.amp * 0.6;
         const depth = n.ring === 0 ? 0.35 : n.ring === 1 ? 0.75 : 1.15;
         return {
           ...n,
@@ -167,7 +228,10 @@ export function SystemGraph({ className }: { className?: string }) {
           ctx.fill();
         }
 
-        ctx.fillStyle = withAlpha(n.ring === 2 ? fg : primary, n.ring === 2 ? 0.45 : 0.95);
+        ctx.fillStyle = withAlpha(
+          n.ring === 2 ? fg : primary,
+          n.ring === 2 ? 0.45 : 0.95,
+        );
         ctx.beginPath();
         ctx.arc(n.px, n.py, radius, 0, Math.PI * 2);
         ctx.fill();
@@ -176,13 +240,22 @@ export function SystemGraph({ className }: { className?: string }) {
           ctx.strokeStyle = withAlpha(primary, 0.25 + pulse * 0.2);
           ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.arc(n.px, n.py, radius + 6 + (n.ring === 0 ? pulse * 5 : 0), 0, Math.PI * 2);
+          ctx.arc(
+            n.px,
+            n.py,
+            radius + 6 + (n.ring === 0 ? pulse * 5 : 0),
+            0,
+            Math.PI * 2,
+          );
           ctx.stroke();
         }
 
         if (n.label && width > 380) {
           ctx.font = "500 10px 'JetBrains Mono', monospace";
-          ctx.fillStyle = withAlpha(n.ring === 0 ? primary : fg, n.ring === 0 ? 0.95 : 0.7);
+          ctx.fillStyle = withAlpha(
+            n.ring === 0 ? primary : fg,
+            n.ring === 0 ? 0.95 : 0.7,
+          );
           ctx.textAlign = "center";
           ctx.fillText(n.label.toUpperCase(), n.px, n.py - radius - 12);
         }
@@ -194,8 +267,14 @@ export function SystemGraph({ className }: { className?: string }) {
     const onPointerMove = (e: PointerEvent) => {
       if (e.pointerType !== "mouse") return;
       const rect = canvas.getBoundingClientRect();
-      pointer.tx = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
-      pointer.ty = Math.min(1, Math.max(0, (e.clientY - rect.top) / rect.height));
+      pointer.tx = Math.min(
+        1,
+        Math.max(0, (e.clientX - rect.left) / rect.width),
+      );
+      pointer.ty = Math.min(
+        1,
+        Math.max(0, (e.clientY - rect.top) / rect.height),
+      );
     };
     const onPointerLeave = () => {
       pointer.tx = 0.5;

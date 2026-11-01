@@ -15,7 +15,8 @@
 import { routes, SITE_URL } from "../src/data/seo";
 
 const args = process.argv.slice(2);
-const arg = (name: string) => args.find((a) => a.startsWith(`--${name}=`))?.split("=")[1];
+const arg = (name: string) =>
+  args.find((a) => a.startsWith(`--${name}=`))?.split("=")[1];
 const has = (name: string) => args.includes(`--${name}`);
 
 const BASE = (arg("base") ?? "http://localhost:8080").replace(/\/$/, "");
@@ -42,15 +43,31 @@ interface RouteReport {
 }
 
 const metaByName = (html: string, name: string) =>
-  html.match(new RegExp(`<meta[^>]+name=["']${name}["'][^>]+content=["']([^"']*)["']`, "i"))?.[1] ??
-  html.match(new RegExp(`<meta[^>]+content=["']([^"']*)["'][^>]+name=["']${name}["']`, "i"))?.[1];
+  html.match(
+    new RegExp(
+      `<meta[^>]+name=["']${name}["'][^>]+content=["']([^"']*)["']`,
+      "i",
+    ),
+  )?.[1] ??
+  html.match(
+    new RegExp(
+      `<meta[^>]+content=["']([^"']*)["'][^>]+name=["']${name}["']`,
+      "i",
+    ),
+  )?.[1];
 
 const metaByProperty = (html: string, property: string) =>
   html.match(
-    new RegExp(`<meta[^>]+property=["']${property}["'][^>]+content=["']([^"']*)["']`, "i"),
+    new RegExp(
+      `<meta[^>]+property=["']${property}["'][^>]+content=["']([^"']*)["']`,
+      "i",
+    ),
   )?.[1] ??
   html.match(
-    new RegExp(`<meta[^>]+content=["']([^"']*)["'][^>]+property=["']${property}["']`, "i"),
+    new RegExp(
+      `<meta[^>]+content=["']([^"']*)["'][^>]+property=["']${property}["']`,
+      "i",
+    ),
   )?.[1];
 
 async function checkRoute(path: string, noindex = false): Promise<RouteReport> {
@@ -58,7 +75,9 @@ async function checkRoute(path: string, noindex = false): Promise<RouteReport> {
 
   let html = "";
   try {
-    const res = await fetch(`${BASE}${path}`, { headers: { accept: "text/html" } });
+    const res = await fetch(`${BASE}${path}`, {
+      headers: { accept: "text/html" },
+    });
     report.status = res.status;
     html = await res.text();
   } catch (error) {
@@ -116,11 +135,15 @@ async function checkRoute(path: string, noindex = false): Promise<RouteReport> {
       report.ogImageStatus = res.status;
       const bytes = (await res.arrayBuffer()).byteLength;
       report.ogImageBytes = bytes;
-      if (res.status !== 200) report.problems.push(`og:image HTTP ${res.status} (${imageUrl})`);
-      else if (bytes < 1024) report.problems.push(`og:image suspiciously small (${bytes} bytes)`);
+      if (res.status !== 200)
+        report.problems.push(`og:image HTTP ${res.status} (${imageUrl})`);
+      else if (bytes < 1024)
+        report.problems.push(`og:image suspiciously small (${bytes} bytes)`);
     } catch (error) {
       report.ogImageStatus = null;
-      report.problems.push(`og:image fetch failed: ${(error as Error).message}`);
+      report.problems.push(
+        `og:image fetch failed: ${(error as Error).message}`,
+      );
     }
   }
 
@@ -141,7 +164,10 @@ for (const report of reports) {
     if (clash) report.problems.push(`duplicate title with ${clash}`);
     else seenTitles.set(report.title, report.path);
   }
-  if (report.description && !routes.find((r) => r.path === report.path)?.noindex) {
+  if (
+    report.description &&
+    !routes.find((r) => r.path === report.path)?.noindex
+  ) {
     const clash = seenDescriptions.get(report.description);
     if (clash) report.problems.push(`duplicate description with ${clash}`);
     else seenDescriptions.set(report.description, report.path);
@@ -164,9 +190,13 @@ if (JSON_OUT) {
     console.log(`       og:type/url : ${r.ogType ?? "—"} · ${r.ogUrl ?? "—"}`);
     console.log(
       `       og:image    : ${r.ogImage ?? "—"}` +
-        (r.ogImageStatus != null ? `  [HTTP ${r.ogImageStatus}, ${r.ogImageBytes ?? 0} bytes]` : ""),
+        (r.ogImageStatus != null
+          ? `  [HTTP ${r.ogImageStatus}, ${r.ogImageBytes ?? 0} bytes]`
+          : ""),
     );
-    console.log(`       twitter     : ${r.twitterCard ?? "—"} · ${r.twitterImage ?? "—"}`);
+    console.log(
+      `       twitter     : ${r.twitterCard ?? "—"} · ${r.twitterImage ?? "—"}`,
+    );
     for (const problem of r.problems) console.log(`       ! ${problem}`);
     console.log("");
   }

@@ -1,7 +1,14 @@
 import { useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { CheckCircle2, Download, History, Loader2, RotateCcw, Search } from "lucide-react";
+import {
+  CheckCircle2,
+  Download,
+  History,
+  Loader2,
+  RotateCcw,
+  Search,
+} from "lucide-react";
 
 import {
   exportContactMessagesCsv,
@@ -38,11 +45,13 @@ export default function AdminMessages() {
 
   const messages = useQuery({
     queryKey: ["contact-messages", submittedSearch, status],
-    queryFn: () => fetchMessages({ data: { search: submittedSearch, status, limit: 100 } }),
+    queryFn: () =>
+      fetchMessages({ data: { search: submittedSearch, status, limit: 100 } }),
   });
 
   const mutation = useMutation({
-    mutationFn: (vars: { id: string; handled: boolean }) => markHandled({ data: vars }),
+    mutationFn: (vars: { id: string; handled: boolean }) =>
+      markHandled({ data: vars }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["contact-messages"] });
       queryClient.invalidateQueries({ queryKey: ["admin-audit-log"] });
@@ -61,8 +70,12 @@ export default function AdminMessages() {
     setExporting(true);
     setExportError(null);
     try {
-      const result = await exportCsv({ data: { search: submittedSearch, status, limit: 200 } });
-      const blob = new Blob([`\uFEFF${result.csv}`], { type: "text/csv;charset=utf-8" });
+      const result = await exportCsv({
+        data: { search: submittedSearch, status, limit: 200 },
+      });
+      const blob = new Blob([`\uFEFF${result.csv}`], {
+        type: "text/csv;charset=utf-8",
+      });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
@@ -79,7 +92,10 @@ export default function AdminMessages() {
     }
   }
 
-  const rows = useMemo<ContactMessageRow[]>(() => messages.data ?? [], [messages.data]);
+  const rows = useMemo<ContactMessageRow[]>(
+    () => messages.data ?? [],
+    [messages.data],
+  );
 
   return (
     <AdminShell
@@ -108,7 +124,11 @@ export default function AdminMessages() {
         </Button>
       </form>
 
-      <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Filter by status">
+      <div
+        className="mt-6 flex flex-wrap gap-2"
+        role="group"
+        aria-label="Filter by status"
+      >
         {FILTERS.map((f) => (
           <Button
             key={f.value}
@@ -141,16 +161,21 @@ export default function AdminMessages() {
       </div>
 
       <p aria-live="polite" className="mt-2 text-xs text-muted-foreground">
-        {exportError ?? "CSV exports respect the current search and status filter."}
+        {exportError ??
+          "CSV exports respect the current search and status filter."}
       </p>
 
       <section aria-live="polite" className="mt-8 space-y-4">
         {messages.isLoading ? (
           <p className="text-sm text-muted-foreground">Loading messages…</p>
         ) : messages.isError ? (
-          <p className="text-sm text-foreground">Could not load messages. Try again.</p>
+          <p className="text-sm text-foreground">
+            Could not load messages. Try again.
+          </p>
         ) : rows.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No messages match this view.</p>
+          <p className="text-sm text-muted-foreground">
+            No messages match this view.
+          </p>
         ) : (
           rows.map((row) => (
             <article
@@ -169,7 +194,9 @@ export default function AdminMessages() {
                 </p>
               </div>
 
-              <p className="mt-3 whitespace-pre-wrap text-sm text-muted-foreground">{row.message}</p>
+              <p className="mt-3 whitespace-pre-wrap text-sm text-muted-foreground">
+                {row.message}
+              </p>
 
               <div className="mt-4 flex flex-wrap items-center gap-3">
                 <span className="rounded-full border border-border px-3 py-1 font-mono text-xs text-muted-foreground">
@@ -180,7 +207,10 @@ export default function AdminMessages() {
                 </span>
                 {row.handled_at ? (
                   <span className="flex items-center gap-1 rounded-full border border-primary/40 bg-primary/5 px-3 py-1 font-mono text-xs text-foreground">
-                    <CheckCircle2 className="h-3 w-3 text-primary" aria-hidden="true" />
+                    <CheckCircle2
+                      className="h-3 w-3 text-primary"
+                      aria-hidden="true"
+                    />
                     Handled
                   </span>
                 ) : null}
@@ -191,10 +221,15 @@ export default function AdminMessages() {
                   variant={row.handled_at ? "outline" : "default"}
                   className="ml-auto font-mono"
                   disabled={mutation.isPending}
-                  onClick={() => mutation.mutate({ id: row.id, handled: !row.handled_at })}
+                  onClick={() =>
+                    mutation.mutate({ id: row.id, handled: !row.handled_at })
+                  }
                 >
                   {mutation.isPending ? (
-                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                    <Loader2
+                      className="h-4 w-4 animate-spin"
+                      aria-hidden="true"
+                    />
                   ) : row.handled_at ? (
                     <RotateCcw className="h-4 w-4" aria-hidden="true" />
                   ) : (
@@ -211,27 +246,37 @@ export default function AdminMessages() {
       <section aria-labelledby="audit-heading" className="mt-14">
         <div className="flex items-center gap-2">
           <History className="h-5 w-5 text-primary" aria-hidden="true" />
-          <h2 id="audit-heading" className="font-display text-lg font-semibold text-foreground">
+          <h2
+            id="audit-heading"
+            className="font-display text-lg font-semibold text-foreground"
+          >
             Admin activity log
           </h2>
         </div>
         <p className="mt-2 text-sm text-muted-foreground">
-          Every admin change is recorded with a timestamp and the admin identity.
+          Every admin change is recorded with a timestamp and the admin
+          identity.
         </p>
 
         <ul className="mt-4 space-y-2">
           {audit.isLoading ? (
             <li className="text-sm text-muted-foreground">Loading activity…</li>
           ) : (audit.data ?? []).length === 0 ? (
-            <li className="text-sm text-muted-foreground">No admin activity recorded yet.</li>
+            <li className="text-sm text-muted-foreground">
+              No admin activity recorded yet.
+            </li>
           ) : (
             (audit.data ?? []).map((entry) => (
               <li
                 key={entry.id}
                 className="flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-xl border border-border bg-card px-4 py-3 text-sm"
               >
-                <span className="font-mono text-xs text-primary">{entry.action}</span>
-                <span className="text-foreground">{entry.actor_email ?? "unknown admin"}</span>
+                <span className="font-mono text-xs text-primary">
+                  {entry.action}
+                </span>
+                <span className="text-foreground">
+                  {entry.actor_email ?? "unknown admin"}
+                </span>
                 <span className="text-muted-foreground">{entry.entity}</span>
                 <time
                   dateTime={entry.created_at}

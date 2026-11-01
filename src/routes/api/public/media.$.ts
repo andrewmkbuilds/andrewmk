@@ -10,10 +10,14 @@ export const Route = createFileRoute("/api/public/media/$")({
     handlers: {
       GET: async ({ params }) => {
         const path = (params as { _splat?: string })._splat ?? "";
-        if (!path || path.includes("..")) return new Response("Not found", { status: 404 });
+        if (!path || path.includes(".."))
+          return new Response("Not found", { status: 404 });
 
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-        const { data, error } = await supabaseAdmin.storage.from("media").download(path);
+        const { supabaseAdmin } =
+          await import("@/integrations/supabase/client.server");
+        const { data, error } = await supabaseAdmin.storage
+          .from("media")
+          .download(path);
         if (error || !data) return new Response("Not found", { status: 404 });
 
         return new Response(await data.arrayBuffer(), {

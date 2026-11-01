@@ -36,14 +36,14 @@ docker compose -f docker-compose.base44.yml exec -T web bunx tsx scripts/generat
 The app talks to `@supabase/supabase-js`, so the sandbox runs Postgres + PostgREST + GoTrue
 instead of a hosted project:
 
-| service        | role                                                                    |
-| -------------- | ----------------------------------------------------------------------- |
-| `db`           | `postgres:16`; `docker/base44/db/init/00-roles.sql` creates the Supabase roles and the `auth` schema |
-| `auth-migrate` | one-shot `gotrue migrate` (creates `auth.users` and friends)             |
+| service        | role                                                                                                                      |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `db`           | `postgres:16`; `docker/base44/db/init/00-roles.sql` creates the Supabase roles and the `auth` schema                      |
+| `auth-migrate` | one-shot `gotrue migrate` (creates `auth.users` and friends)                                                              |
 | `schema`       | one-shot: `docker/base44/db/prelude.sql` (auth.uid/role/jwt helpers, stub `storage` schema) then `supabase/apply_all.sql` |
-| `auth`         | GoTrue on 9999 (email + password, auto-confirmed, no SMTP)               |
-| `rest`         | PostgREST on 3000 with the `anon` role for publishable reads             |
-| `gateway`      | nginx on 8000, resolves the API containers per request via Docker DNS    |
+| `auth`         | GoTrue on 9999 (email + password, auto-confirmed, no SMTP)                                                                |
+| `rest`         | PostgREST on 3000 with the `anon` role for publishable reads                                                              |
+| `gateway`      | nginx on 8000, resolves the API containers per request via Docker DNS                                                     |
 
 Quirks worth knowing:
 
@@ -173,13 +173,13 @@ ticks jump to any of them (pointer, Enter/Space) via `aria-current`; the plain
 list of the same cards renders instead of the stack under reduced motion.
 
 - **Adapted from the supplied "StackingCards" demo, not copied.** It ran on GSAP
-  + ScrollTrigger with stock photography and an `#ebebe9` stage; here it runs on
-  the site's existing `motion/react` scroll progress (no second animation
-  library), each card is built from `timeline` records (the portfolio publishes
-  no product screenshots), and the stage is transparent so the ambient scene
-  shows through. Geometry and plate styling live in
-  `src/styles/stacking-cards.css`; the plate is sized from the pinned stage so
-  it can never grow taller than the screen.
+  - ScrollTrigger with stock photography and an `#ebebe9` stage; here it runs on
+    the site's existing `motion/react` scroll progress (no second animation
+    library), each card is built from `timeline` records (the portfolio publishes
+    no product screenshots), and the stage is transparent so the ambient scene
+    shows through. Geometry and plate styling live in
+    `src/styles/stacking-cards.css`; the plate is sized from the pinned stage so
+    it can never grow taller than the screen.
 - **Transform only.** The demo's per-frame `clip-path` inset repainted the card
   every frame; the covered card now uses `y` / `scale` / `rotate` plus an
   opacity shade, so the whole stack is compositor work. Reduced motion comes
@@ -193,7 +193,7 @@ list of the same cards renders instead of the stack under reduced motion.
   page as a whole.
 - Verified in the preview at 1280 / 768 / 375 px: the stage pins at `top: 0`
   for the whole track, the counter's tick jump lands on `sectionTop +
-  travel × i / (n − 1)` exactly, every plate's copy fits its own height
+travel × i / (n − 1)` exactly, every plate's copy fits its own height
   (`needs ≤ has` measured per card, including the 14-chip 2025–2026 entry), and
   `documentElement` has no sideways overflow.
 
@@ -273,7 +273,7 @@ in a single perspective over a near-black navy room. There is no canvas and no W
 the site. The React Bits Silk and Particles shaders were removed on 2026-10-31 (a lost WebGL
 context composited as an opaque light plate and washed the page out); the 2D mote canvas that
 replaced them was removed on 2026-11-01, and the hand-built three-plane CSS 3D scene that replaced
-*that* gave way to the tile wall on 2026-11-01 — its slabs, cube and rings resolved at inconsistent
+_that_ gave way to the tile wall on 2026-11-01 — its slabs, cube and rings resolved at inconsistent
 perceived depths, because three hand-tuned `translateZ` planes never agreed on one horizon.
 
 - `src/components/ui/AmbientLayers.tsx` is the mount point only; the scene lives in
@@ -336,27 +336,27 @@ perceived depths, because three hand-tuned `translateZ` planes never agreed on o
 - Every mark renders in one fixed slot and `src/data/brandOptics.ts` holds the measurement that
   balances the artwork inside it — equal boxes alone let a full-bleed tile (Claude, Base44,
   TypeScript, Tailwind) read much heavier than a glyph sharing the slot with transparent margin.
-  The tables record what each mark actually *shows*: the visible artwork's bounding box and the
+  The tables record what each mark actually _shows_: the visible artwork's bounding box and the
   fraction of the canvas it paints, both measured **against the pill surface** (rasterise the file,
   composite it on the navy pill, take the bounds of what differs — not the alpha bounds, which call
   a near-black tile "100 % ink"). **One** formula then turns those numbers into a scale:
   `weight = clamp((0.55 / coverage) ** 0.34, 0.86, 1)` trims dense artwork, `air = clamp(0.95 /
-  √(w × h), 0.9, 1)` gives a full-bleed mark its margin back, and the visible long side becomes
+√(w × h), 0.9, 1)` gives a full-bleed mark its margin back, and the visible long side becomes
   `0.60 × weight × air` of the slot. In the ribbon's 18 px slot that is 8.8 px for a solid tile and
-  ~10.4 px for glyph art: one optical size, deliberately smaller in *extent* for the heavier
+  ~10.4 px for glyph art: one optical size, deliberately smaller in _extent_ for the heavier
   artwork. It is the only sizing rule on the site — add a new brand by measuring its artwork, never
   by hand-tuning a scale to taste — and the scale is capped at 1, so no mark is enlarged past its
   own slot. Measuring only the alpha bounds is what let the 2026-10 build set every mark to ~10.7 px
   and still show Claude, Base44, Lovable, GitHub and ChatGPT as the biggest marks in every pill.
 - **Two tables, one formula.** Logo.dev does not crop consistently, so `brandOptics.ts` keeps
-  `INK` (the vendored `/public/brands/*.svg`, whose alpha bounds *are* their visible bounds) and
+  `INK` (the vendored `/public/brands/*.svg`, whose alpha bounds _are_ their visible bounds) and
   `REMOTE_INK` (per domain, measured at `?size=128&retina=true&theme=dark`) and runs the same
   formula over both. Artwork missing from either table gets the shared `0.6` target span, which is
   why a new brand without measurements reads too large — measure it and add it.
 - **Re-measured 2026-11-01 against the rendered ribbon, this time on what the artwork shows.**
   Every mark sat at 10.5–11.3 px in the 18 px slot, yet Claude, Base44, Lovable, GitHub and ChatGPT
   still dominated their pills: Logo.dev serves all five edge to edge, and Claude/Lovable/Base44 as
-  an opaque tile that paints the whole slot, so equal extent is *not* equal weight. Re-measuring all
+  an opaque tile that paints the whole slot, so equal extent is _not_ equal weight. Re-measuring all
   54 remote domains by compositing each file on the pill surface produced the current rule (visible
   bbox + visible coverage, `0.60 × weight × air`). Rendered in the ribbon that is 8.8 px for a solid
   tile (Claude 8.8, Base44 9.6, Lovable 9.1) and 10.3–10.8 px for glyph art (GitHub 10.4, ChatGPT
@@ -379,7 +379,7 @@ perceived depths, because three hand-tuned `translateZ` planes never agreed on o
   listener when it is still loading — same measurement now gives 0 blank marks and 194 vendored
   masks. Keep that effect; removing it silently brings the blank logos back for anyone blocking
   Logo.dev.
-- Mark *sizes* stay uniform inside a collection, too: the ribbon's headline chips keep their gold
+- Mark _sizes_ stay uniform inside a collection, too: the ribbon's headline chips keep their gold
   edge and larger padding but use the same mark size as every other chip, and the "Find Me Online"
   and Contact rows render GitHub at the same size as the platforms below it. Chip/icon sizes are
   chosen per group in the component, never per brand.
@@ -530,6 +530,31 @@ docker compose -f docker-compose.base44.yml logs web --tail 30           # build
 
 Known non-blocking noise: TanStack warns that `inputValidator()` is deprecated.
 
+### Static analysis gates
+
+```sh
+docker compose -f docker-compose.base44.yml exec -T web bunx eslint .          # 0 errors
+docker compose -f docker-compose.base44.yml exec -T web bunx prettier --check . # clean
+docker compose -f docker-compose.base44.yml exec -T web bunx tsc --noEmit -p tsconfig.json
+```
+
+`bun run lint` (eslint + `eslint-plugin-prettier`) and `bun run format:check` both
+run in CI, so neither may be left dirty. `.prettierignore` keeps the gate honest:
+the vendored `reactbits/` and `annnimate/` sources (kept byte-for-byte), the
+`.claude/skills/` database and every file the `scripts/` generators rewrite
+(`src/routeTree.gen.ts`, `public/data/`, `public/agents.md`, `public/llms*.txt`,
+`public/openapi.json`, `public/sitemap.*`, `public/og/`) are excluded — formatting
+those would be undone on the next regeneration and would dirty a re-download.
+
+The `react-refresh/only-export-components` warnings (16, all in
+`src/components/ui/`) are deliberate: those files export a small helper next to
+their component, and splitting them for fast refresh is not worth the churn.
+
+Type casts to the Supabase client live in one place, `src/lib/db-client.ts`
+(`asDbClient` / `DbClient`), because the generated `requireSupabaseAuth` context
+type does not match `SupabaseClient` in every query position. Use it instead of
+`as any` in the admin server functions.
+
 ## Keyboard and reduced-motion checks
 
 `scripts/a11y-keyboard-motion.cjs` is the keyboard + reduced-motion regression run. It drives a
@@ -626,10 +651,10 @@ The component registries, and exactly what was taken from each (2026-11-01).
   `https://reactbits.dev/r/registry.json`; item names carry the flavour suffix (`-TS-TW` = TypeScript +
   Tailwind, what this repo uses). Two are installed:
 
-  | file | used by | notes |
-  | ---- | ------- | ----- |
-  | `reactbits/GlareHover.tsx` | `ui/HeroCardStack.tsx` (card media block) | gold sheen across the card face; hover sweeps a streak through it |
-  | `reactbits/GridMotion.tsx` | `ui/background/SceneBackground.tsx` | the ambient depth field; Tailwind strings replaced by `styles/grid-motion.css`, and it stops under reduced motion instead of looping to hold a still frame |
+  | file                       | used by                                   | notes                                                                                                                                                      |
+  | -------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | `reactbits/GlareHover.tsx` | `ui/HeroCardStack.tsx` (card media block) | gold sheen across the card face; hover sweeps a streak through it                                                                                          |
+  | `reactbits/GridMotion.tsx` | `ui/background/SceneBackground.tsx`       | the ambient depth field; Tailwind strings replaced by `styles/grid-motion.css`, and it stops under reduced motion instead of looping to hold a still frame |
 
   `DotField.tsx` (the WebGL dot lattice) was removed with the CSS 3D background rebuild on
   2026-11-01; it is not referenced anywhere in `src/`.

@@ -62,6 +62,7 @@ the raw bytes and the normalised text were compared — not the file names.
 > his only MUN award is a **Verbal Commendation** — no other MUN award was
 > received. This list records what the supplied PDFs said; the Master CV and the
 > website now carry the corrected award. See `MASTER_CV_CONFLICTS.md` §1 and §10.
+
 - Leadership and activities (4): STEM Racing (F1 in Schools), Robotics & Coding
   Programme, ASDAN Environmental Short Course, Future UAE Exhibition.
 
@@ -97,16 +98,16 @@ identical to the table above:
 The committed PDF was rendered page by page (A4, 140 dpi) and measured from its
 text boxes; the DOCX was parsed for its real styles.
 
-| Check                | Result                                                                                   |
-| -------------------- | ---------------------------------------------------------------------------------------- |
-| Pages                | 2 × A4 (595 × 842 pt)                                                                    |
-| Margins              | 46 pt left on both pages, 47 pt top on page 1 / 52 pt on page 2, longest line ends at 550 pt (45 pt right) — symmetric |
-| Section hierarchy    | One 23 pt name, 10.5 pt subtitle, 9.2 pt body, 8.4–9.6 pt entry title/status/tech lines; Helvetica + Helvetica-Bold only |
-| Page break           | Page 1 ends inside Development Experience; page 2 opens with the `SELECTED PROJECTS` heading — no heading stranded at the bottom of a page |
-| Text clipping        | None: every line box is inside the page box, no line is cut by the right margin          |
-| Overlapping text     | 0 boxes overlap (was 6 — see below)                                                      |
-| Empty space          | Page 1 fills to 781 of 842 pt; page 2 ends at 630 pt, i.e. ~75 mm of white space after the last section, which is the normal end of a document, not a gap inside one |
-| DOCX                 | A4, 0.5 in margins, 71 paragraphs, real `Heading 2`/`Heading 3` styles, 0 tables, 0 images — fully editable, no text boxes |
+| Check             | Result                                                                                                                                                               |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Pages             | 2 × A4 (595 × 842 pt)                                                                                                                                                |
+| Margins           | 46 pt left on both pages, 47 pt top on page 1 / 52 pt on page 2, longest line ends at 550 pt (45 pt right) — symmetric                                               |
+| Section hierarchy | One 23 pt name, 10.5 pt subtitle, 9.2 pt body, 8.4–9.6 pt entry title/status/tech lines; Helvetica + Helvetica-Bold only                                             |
+| Page break        | Page 1 ends inside Development Experience; page 2 opens with the `SELECTED PROJECTS` heading — no heading stranded at the bottom of a page                           |
+| Text clipping     | None: every line box is inside the page box, no line is cut by the right margin                                                                                      |
+| Overlapping text  | 0 boxes overlap (was 6 — see below)                                                                                                                                  |
+| Empty space       | Page 1 fills to 781 of 842 pt; page 2 ends at 630 pt, i.e. ~75 mm of white space after the last section, which is the normal end of a document, not a gap inside one |
+| DOCX              | A4, 0.5 in margins, 71 paragraphs, real `Heading 2`/`Heading 3` styles, 0 tables, 0 images — fully editable, no text boxes                                           |
 
 One defect was found and fixed while inspecting: in the project list the project
 name was drawn at the cursor and the summary paragraph then advanced only

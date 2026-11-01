@@ -5,7 +5,10 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Sign in | Andrew Mathews" },
-      { name: "description", content: "Private sign-in for the site admin area." },
+      {
+        name: "description",
+        content: "Private sign-in for the site admin area.",
+      },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

@@ -2,7 +2,10 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import ProjectDetail from "@/pages/ProjectDetail";
 import NotFound from "@/pages/NotFound";
 import { allProjects, type Project } from "@/data/portfolio";
-import { getPublishedProject, listPublishedProjects } from "@/lib/projects.functions";
+import {
+  getPublishedProject,
+  listPublishedProjects,
+} from "@/lib/projects.functions";
 import { projectJsonLd } from "@/lib/project-schema";
 import { SITE_NAME, SITE_URL, ogImagePath } from "@/data/seo";
 
@@ -17,7 +20,9 @@ function absolute(url?: string) {
 }
 
 export const Route = createFileRoute("/projects/$slug")({
-  loader: async ({ params }): Promise<{ project: Project; catalogue: Project[] }> => {
+  loader: async ({
+    params,
+  }): Promise<{ project: Project; catalogue: Project[] }> => {
     let project: Project | null = null;
     let catalogue: Project[] = allProjects;
 
@@ -36,7 +41,10 @@ export const Route = createFileRoute("/projects/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: `Project not found | ${SITE_NAME}` }, { name: "robots", content: "noindex" }],
+        meta: [
+          { title: `Project not found | ${SITE_NAME}` },
+          { name: "robots", content: "noindex" },
+        ],
       };
     }
 
@@ -47,7 +55,9 @@ export const Route = createFileRoute("/projects/$slug")({
       absolute(project.seo?.ogImage) ??
       absolute(project.featuredImage) ??
       `${SITE_URL}${ogImagePath("/projects")}`;
-    const title = project.seo?.title || `${project.name} | ${project.category} by ${SITE_NAME}`;
+    const title =
+      project.seo?.title ||
+      `${project.name} | ${project.category} by ${SITE_NAME}`;
     const description = (
       project.seo?.description ||
       `${project.name} is ${project.description.charAt(0).toLowerCase()}${project.description.slice(1)}`
@@ -86,9 +96,24 @@ export const Route = createFileRoute("/projects/$slug")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-              { "@type": "ListItem", position: 2, name: "Projects", item: `${SITE_URL}/projects` },
-              { "@type": "ListItem", position: 3, name: project.name, item: url },
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: `${SITE_URL}/`,
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Projects",
+                item: `${SITE_URL}/projects`,
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: project.name,
+                item: url,
+              },
             ],
           }),
         },

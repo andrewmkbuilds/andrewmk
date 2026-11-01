@@ -35,9 +35,21 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(105% 68% at 50% -10%, hsl(216 96% 30% / 0.32), transparent 62%),
-    radial-gradient(62% 46% at 92% 4%, hsl(212 88% 34% / 0.16), transparent 72%),
-    radial-gradient(54% 40% at 2% 26%, hsl(204 96% 36% / 0.12), transparent 76%),
+    radial-gradient(
+      105% 68% at 50% -10%,
+      hsl(216 96% 30% / 0.32),
+      transparent 62%
+    ),
+    radial-gradient(
+      62% 46% at 92% 4%,
+      hsl(212 88% 34% / 0.16),
+      transparent 72%
+    ),
+    radial-gradient(
+      54% 40% at 2% 26%,
+      hsl(204 96% 36% / 0.12),
+      transparent 76%
+    ),
     linear-gradient(#080d19 0%, #060b14 42%, #050914 66%, #03060d 100%);
 }
 
