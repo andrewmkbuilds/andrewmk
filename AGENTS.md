@@ -187,14 +187,24 @@ into the blue-and-gold palette. Colours are never taken from the reference.
   (the lazy background mounts ~0.9 s in) and slid every dropped card home.
 - `src/components/ui/TechMarquee.tsx` is the infinite tools ribbon: **exactly two rows**,
   moving in opposite directions at different speeds (two CSS tracks each, duplicate
-  hidden from assistive tech, paused on hover/off-screen, static and capped at 15 chips
-  under reduced motion). The ribbon is full-bleed (`width: 100vw` + negative inline
-  margin, clipped at the screen edge, no end mask) and its animation duration scales with
-  the row length so a long row does not scroll faster than a short one. Row content comes
-  from `src/data/toolMarquee.ts`, which weaves two primary chips for every guest: the
-  five headline platforms (Base44, Lovable, GitHub, Claude, ChatGPT) recur constantly
-  while the rest of the owner-supplied build stack drifts past. Primary chips are the
-  larger, gold-edged variant.
+  hidden from assistive tech, paused on hover/off-screen, static and wrapped — never
+  capped — under reduced motion). The ribbon is full-bleed (`width: 100vw` + negative
+  inline margin, clipped at the screen edge, no end mask) and its animation duration
+  scales with the row length so a long row does not scroll faster than a short one. Row
+  content comes from `src/data/toolMarquee.ts`, which weaves two primary chips for every
+  guest: the five headline platforms (Base44, Lovable, GitHub, Claude, ChatGPT) recur
+  constantly while the rest of the owner-supplied build stack drifts past.
+- **One pill box, no size hierarchy.** `--marquee-chip-w` / `--marquee-chip-h` are declared
+  once on `.marquee` (re-tuned, not re-shaped, inside the 767 px query) and every `.marquee-chip`
+  takes them with `box-sizing: border-box`, `flex: 0 0 auto`, `justify-content: center`, and the
+  same inline padding, radius, 1 px border, 18 px mark slot, gap and mono type. Primary chips are
+  the gold-edge variant in colour only. The width fits the longest label ("Tailwind CSS") and the
+  label clips to an ellipsis instead of stretching its pill, so no name or logo can resize one —
+  `ui/TechMarquee.tsx` renders the same markup for the real group and its duplicated loop copy,
+  so both are identical by construction. Verified 2026-11-02 in the preview: all 168 rendered chips
+  measured exactly 184 × 44 px at 1146 px and 153.6 × 38 px at 375 px, with one computed padding
+  (`0 19.2px`), 999 px radius, 1 px border, 11.2 px gap, 14.5 px/1 mono type, an 18 × 18 icon slot,
+  every label centred to the pixel, and no label truncated.
 - `src/components/ui/CaseStudyRow.tsx` renders one project as a case study: numbered
   eyebrow, serif title, real highlights, figures taken from `project.results`, and a
   media panel that lifts when the row is hovered.
@@ -425,9 +435,9 @@ perceived depths, because three hand-tuned `translateZ` planes never agreed on o
   masks. Keep that effect; removing it silently brings the blank logos back for anyone blocking
   Logo.dev.
 - Mark _sizes_ stay uniform inside a collection, too: the ribbon's headline chips keep their gold
-  edge and larger padding but use the same mark size as every other chip, and the "Find Me Online"
-  and Contact rows render GitHub at the same size as the platforms below it. Chip/icon sizes are
-  chosen per group in the component, never per brand.
+  edge but use the same 18 px mark slot, padding and pill box as every other chip, and the "Find Me
+  Online" and Contact rows render GitHub at the same size as the platforms below it. Chip/icon
+  sizes are chosen per group in the component, never per brand.
 - Logo.dev: when `VITE_LOGO_DEV_TOKEN` (a Logo.dev publishable key) is present at dev-server start,
   `BrandLogo` requests `https://img.logo.dev/<domain>?token=…&size=…&format=png&retina=true&fallback=404`
   and falls back to the vendored mark on error. Without a token nothing is fetched remotely. Set it

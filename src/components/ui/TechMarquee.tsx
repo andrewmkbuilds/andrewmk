@@ -16,9 +16,10 @@ interface TechMarqueeProps {
  * the ribbon is off-screen or the tab is hidden, hovering pauses it, and under
  * prefers-reduced-motion it becomes a static wrapped list.
  *
- * Two sizes of chip carry the hierarchy: the five headline platforms are gold
- * edged and larger as chips, but every chip's brand mark is the same size, so
- * no brand reads bigger than another.
+ * One chip box carries the whole ribbon: the five headline platforms are gold
+ * edged, but every pill — primary, language or guest, and every duplicated copy
+ * the loop needs — is exactly the same width and height, with the same padding,
+ * radius, border, icon slot, gap and type. No name, logo or tier resizes a pill.
  */
 export function TechMarquee({
   items,

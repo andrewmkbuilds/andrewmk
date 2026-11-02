@@ -1301,6 +1301,13 @@
      has no visible seam. The ribbon is full-bleed: it spans the whole viewport
      edge to edge, even inside a padded parent, and clips at the screen edge. */
   .marquee {
+    /* One pill box for the whole ribbon, declared once here so every chip —
+       headline platform, language or guest tool, and every duplicated copy
+       the loop needs — is exactly the same width and height. The width fits
+       the longest label ("Tailwind CSS") at this font size, so a name can
+       never stretch its pill. */
+    --marquee-chip-w: 11.5rem;
+    --marquee-chip-h: 2.75rem;
     width: 100vw;
     margin-inline: calc(50% - 50vw);
     overflow: hidden;
@@ -1340,18 +1347,27 @@
   }
 
   /* A chip is a restrained pill: the tool's own mark, its name, nothing else.
-     The five headline platforms get a taller, gold-edged variant so the
-     hierarchy reads at a glance while both rows stay the same height. */
+     Every chip shares this one fixed box — same width, height, padding,
+     radius, border, icon slot, gap and type. The five headline platforms keep
+     the gold edge and tint as their only difference; they are never larger,
+     because a mixed-size row reads as unfinished. */
   .marquee-chip {
+    box-sizing: border-box;
     display: inline-flex;
+    flex: 0 0 auto;
+    width: var(--marquee-chip-w);
+    height: var(--marquee-chip-h);
     align-items: center;
+    justify-content: center;
     gap: 0.7rem;
-    padding: 0.72rem 1.2rem;
+    padding: 0 1.2rem;
     border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
     border-radius: 999px;
     background: color-mix(in oklab, var(--card) 55%, transparent);
     font-family: var(--font-mono);
     font-size: 14.5px;
+    font-weight: 400;
+    letter-spacing: normal;
     line-height: 1;
     white-space: nowrap;
     color: color-mix(in oklab, var(--foreground) 78%, transparent);
@@ -1363,14 +1379,19 @@
   }
 
   .marquee-chip-primary {
-    gap: 0.85rem;
-    padding: 1.15rem 1.95rem;
     border-color: color-mix(in oklab, var(--gold) 34%, transparent);
     background: color-mix(in oklab, var(--gold) 7%, var(--card));
-    font-size: 19px;
-    letter-spacing: 0.01em;
     color: var(--foreground);
     box-shadow: var(--elev-1);
+  }
+
+  /* The label owns the leftover width. A name wider than the box is clipped
+     inside the pill instead of growing it, and the ellipsis only ever shows
+     on a name nobody has added measurements for yet. */
+  .marquee-chip-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .marquee-chip:hover {
@@ -1385,33 +1406,34 @@
   }
 
   /* Every chip leads with the tool's own mark — or a gold dot when no official
-     mark exists — inside one fixed box, so names stay optically aligned. */
+     mark exists — inside this one fixed, non-shrinking slot. `BrandLogo` paints
+     each mark at the same 18 px box with `object-fit: contain` and its optical
+     scale, so a mark with transparent padding and one that bleeds to its own
+     edges still read at the same weight. */
   .marquee-chip-mark {
     display: inline-flex;
+    flex: 0 0 auto;
     width: 18px;
     height: 18px;
     align-items: center;
     justify-content: center;
   }
 
-  /* No larger mark for headline chips: every brand reads at one size. */
-
-  /* Phones: the ribbon keeps its two rows but tightens so a chip pair still
-     reads without the row turning into a single giant pill. */
+  /* Phones: the same single pill box, only tighter — still one width and one
+     height for every chip, so the row stays a grid of equal pills. */
   @media (max-width: 767px) {
+    .marquee {
+      --marquee-chip-w: 9.6rem;
+      --marquee-chip-h: 2.375rem;
+    }
     .marquee-group {
       gap: 0.85rem;
       padding-right: 0.85rem;
     }
     .marquee-chip {
-      gap: 0.55rem;
-      padding: 0.55rem 0.9rem;
+      gap: 0.5rem;
+      padding: 0 0.9rem;
       font-size: 12.5px;
-    }
-    .marquee-chip-primary {
-      gap: 0.6rem;
-      padding: 0.8rem 1.35rem;
-      font-size: 15px;
     }
   }
 
