@@ -24,9 +24,20 @@ docker compose -f docker-compose.base44.yml down -v         # stop + wipe DB (re
 
 ## Package manager
 
-`bun.lock` is the source of truth; the `web` service runs
+`bun.lock` is the **only** lockfile; the `web` service runs
 `bun install --frozen-lockfile` at container start (dependencies live in the bind-mounted
-`node_modules`, which is gitignored). `package-lock.json` is not used by the container.
+`node_modules`, which is gitignored). A `package-lock.json` used to sit next to it — unused
+by the container, and drifted out of sync with `package.json` (it still pinned
+`@img/sharp-wasm32@0.35.4` and lacked `gsap`, `docx` and `pdf-lib`), so `npm ci` failed outright.
+Cloudflare's builder picks the package manager from whichever lockfile it finds, so it was
+removed on 2026-11-02 rather than regenerated: one lockfile, one dependency tree. Do not add a
+second one back.
+
+The `scripts/*.ts` generators run through `tsx` (a devDependency) instead of `bunx tsx`, so
+`npm run build` works on a Node-only builder such as Cloudflare's. Verified 2026-11-02 in a clean
+`node:24` copy: `npm install` → `npm run build` → `.output/server/index.mjs` →
+`npx wrangler deploy --dry-run` all clean, and `bun install --frozen-lockfile && bun run build`
+identical.
 
 `bun run dev`'s `predev` step (sitemap + OG image generation via `bunx tsx`) is skipped in
 the container because it needs extra network fetches on every start; `public/sitemap.xml`
@@ -61,6 +72,17 @@ Two artifacts come out of the same source, and they are not interchangeable:
   Nitro generates (`nodejs_compat`, `no_bundle`, the `ASSETS` binding and its directory).
   `bun run deploy:check` (`wrangler deploy --dry-run`) validates the bundle without credentials —
   verified 2026-11-01: 134 modules, 5.6 MB raw / 1.35 MB gzip, 299 asset files.
+- **The Cloudflare checks give no log, so reproduce their builder instead.** `Cloudflare Pages` and
+  `Workers Builds: andrewmk` report only "Build failed." (no annotations, logs behind an
+  authenticated dashboard), and both fail in under a minute — too fast to be a compile. Their
+  build image runs Node, and the repo's lockfile picks the package manager, so the failure was
+  reproduced on a clean `git archive` copy in `node:24` (see "Package manager" for the two causes
+  and the fix, 2026-11-02). When a Cloudflare check goes red again, re-run that reproduction before
+  reading the app code: `npm install && npm run build && npx wrangler deploy --dry-run`.
+- **GitHub CI is red on its last step, not on the build.** The `CI` job's install, lint, format,
+  typecheck, `build`, `deploy:check` and `build:preview` steps pass; `scripts/selection-visual-check.py`
+  fails with every route "off-theme bg=(74, 67, 53)" — the text-selection colour against the
+  expected navy. That is a separate styling defect, not a build-output one.
 - Verified 2026-11-02 in the sandbox, in the order CI runs them: `lint`, `format:check`,
   `validate:data`, `typecheck`, `build` + `deploy:check`, `build:preview` all clean,
   `seo:regression` 16/16 routes, `a11y:check` 16/16, every `sitemap.xml` URL (38) below 400, and
