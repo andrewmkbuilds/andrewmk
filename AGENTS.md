@@ -280,23 +280,22 @@ list of the same cards renders instead of the stack under reduced motion.
 - **Adapted from the supplied "StackingCards" demo, not copied.** It ran on GSAP
   - ScrollTrigger with stock photography and an `#ebebe9` stage; here it runs on
     the site's existing `motion/react` scroll progress (no second animation
-    library), each card is built from `timeline` records and the only picture on
-    a plate is that chapter's own certificate, and the stage is transparent so
-    the ambient scene shows through. Geometry and plate styling live in
-    `src/styles/stacking-cards.css`; the plate is sized from the pinned stage so
-    it can never grow taller than the screen.
-- **The certificate preview is data, not a hand-picked file.** `TimelineEntry.credential`
-  names a `certificates[].id` (`robotics-2023`, `techfest-space-tech-2nd`,
-  `techfest-data-science-1st`, `robotics-2025` today); `/journey` resolves it
-  through `certificates` and passes `{ thumb, title, issuer }` to the plate, so a
-  renamed thumb or re-dated certificate reaches the card from the one dataset.
-  The preview is matted in `.stack-media-frame` (gold hairline, navy matte,
-  `object-contain` in a 4:3 box) beside the copy; chapters with no matching
-  document keep the full-width text column. Below 640 px the preview is hidden:
-  at 375 px it took a third of the line length and pushed the 14-chip 2025–2026
-  chapter 8 px past the bottom of its plate. Re-measured after that: every plate
-  at 375 / 768 / 1280 px has `textClipped: false`, the preview sits fully inside
-  the plate where it shows, and there is no sideways overflow.
+    library), each card is built from `timeline` records, and the stage is
+    transparent so the ambient scene shows through. Geometry and plate styling live
+    in `src/styles/stacking-cards.css`.
+- **The plate is capped, not stretched to the stage.** `--stack-max-h` used to be
+  the pinned screen, so every chapter was a full-height slab with a hole in it.
+  It is now 420 px from 992 px and 520 px from 640 px (uncapped on phones) and
+  the card is wider than tall (`--stack-ratio: 1.9` desktop), which measures
+  798 × 420 px at 1280 px instead of 1039 × 670 px. `.stack-copy` lost the
+  `margin-top: auto` that pinned the body to the foot — that auto margin was the
+  412 px void between title and description — so the copy sits 24 px under the
+  title, and `.stack-points` (`margin: auto 0 0`) takes the foot of the card so
+  the chips close the plate. Measured with a 440 px cap: every card's padding box
+  clears its content (tightest 56 px, the 14-chip 2025–2026 chapter), no clipping,
+  no sideways overflow; the 420 px cap tightens that remaining clearance to ~36 px
+  by the same measure. A plate carries no image — the certificate preview added
+  on 2026-11-02 was reverted at the owner's request.
 - **Transform only.** The demo's per-frame `clip-path` inset repainted the card
   every frame; the covered card now uses `y` / `scale` / `rotate` plus an
   opacity shade, so the whole stack is compositor work. Reduced motion comes
