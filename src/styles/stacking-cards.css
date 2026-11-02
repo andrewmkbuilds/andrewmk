@@ -6,10 +6,10 @@
 
    1. **No second animation library.** The same idea runs on this site's
       existing `motion/react` scroll progress; nothing new is installed.
-   2. **No stock imagery.** Every card is built from the entry's own record
-      (`src/data/portfolio.ts` timeline) — year, title, meta, body and the real
-      milestones — and the only picture on it is that chapter's own certificate
-      (`Certificate.thumb`), matted in `.stack-media`. Nothing is filler.
+   2. **No stock imagery.** The portfolio has never published product
+      screenshots, so each card is a typographic plate built from the entry's
+      own record (`src/data/portfolio.ts` timeline) — year, title, meta, body
+      and the real milestones.
    3. **Compositor-only motion.** The supplied clip-path inset and its
       `--stk-*` custom properties repaint every frame; here each card moves
       with transform (y / scale / rotate) and a shade overlay, so the whole
@@ -121,88 +121,11 @@
   z-index: 1;
 }
 
-/* Copy and credential share the plate's free middle: the text keeps the left
-   column and the certificate sits in its own matted frame on the right, so the
-   two never overlap however long the chapter is. */
-.stack-body {
-  display: flex;
-  flex: 1 1 auto;
-  align-items: stretch;
-  gap: clamp(12px, 2.4vw, 32px);
-  min-height: 0;
-  margin-top: clamp(10px, 2vw, 22px);
-}
-
-.stack-text {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  min-width: 0;
-}
-
 .stack-title {
-  margin-top: 0;
+  margin-top: clamp(10px, 2vw, 22px);
   font-size: clamp(1.35rem, 3.6vw, 2.6rem);
   line-height: 1.08;
   letter-spacing: -0.02em;
-}
-
-/* ── the credential preview ────────────────────────────────────────────── */
-
-/* The chapter's real document, set on the plate's own navy surface with a gold
-   hairline and a soft top glow, so a bright scan reads as a mounted original
-   rather than a pasted image. `object-contain` keeps the whole page visible. */
-.stack-media {
-  flex: 0 0 auto;
-  align-self: center;
-  width: clamp(88px, 30%, 236px);
-  margin: 0;
-}
-
-.stack-media-frame {
-  display: block;
-  padding: 6px;
-  border: 1px solid color-mix(in oklab, var(--gold) 28%, var(--border));
-  border-radius: 12px;
-  background:
-    radial-gradient(
-      120% 120% at 50% 0%,
-      color-mix(in oklab, var(--gold) 12%, transparent),
-      transparent 72%
-    ),
-    color-mix(in oklab, var(--background) 82%, transparent);
-  box-shadow: var(--elev-1);
-}
-
-.stack-media-frame img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 3;
-  object-fit: contain;
-  border-radius: 7px;
-  background: color-mix(in oklab, var(--foreground) 5%, transparent);
-}
-
-.stack-media-caption {
-  margin-top: 7px;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  line-height: 1.35;
-  letter-spacing: 0.1em;
-  text-align: right;
-  text-transform: uppercase;
-  color: color-mix(in oklab, var(--gold) 55%, var(--muted-foreground));
-}
-
-/* A phone plate is portrait and narrow: the preview would take a third of the
-   line length and push the 14-chip chapter past the bottom of its own card
-   (measured 8 px of clipped copy at 375 px), so it steps aside there and the
-   copy keeps the width it needs. */
-@media (max-width: 639px) {
-  .stack-media {
-    display: none;
-  }
 }
 
 .stack-copy {
