@@ -118,20 +118,18 @@ export function ProjectCard({
         aria-label={`View details for ${project.name}`}
       />
 
-      {project.screenshot && (
-        <div className="card-depth-md relative mb-5 overflow-hidden rounded-xl border border-border/70 bg-background/40">
-          <div className="aspect-[16/10] overflow-hidden">
-            <ProjectShot
-              project={project}
-              className="transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-            />
-          </div>
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-linear-to-t from-background/30 via-transparent to-transparent"
+      <div className="card-depth-md relative mb-5 overflow-hidden rounded-xl border border-border/70 bg-background/40">
+        <div className="aspect-[16/10] overflow-hidden">
+          <ProjectShot
+            project={project}
+            className="transition-transform duration-500 ease-out group-hover:scale-[1.03]"
           />
         </div>
-      )}
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-linear-to-t from-background/30 via-transparent to-transparent"
+        />
+      </div>
 
       <div className="card-depth-lg relative flex items-start justify-between gap-4">
         <div>

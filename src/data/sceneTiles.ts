@@ -36,7 +36,7 @@ const MAX_SCENE_PROJECTS = 10;
 function evidence(project: Project): number {
   return (
     (project.metrics ? 26 : 0) +
-    (project.screenshot ? 22 : 0) +
+    22 +
     (project.results?.length ? 12 : 0) +
     (project.gallery?.length ? 10 : 0) +
     (project.challenges?.length ? 6 : 0) +

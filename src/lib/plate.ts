@@ -1,10 +1,11 @@
 /**
  * Typographic plates.
  *
- * The portfolio publishes no product screenshots, so the image slots in the
- * borrowed slider components are filled with self-contained SVG plates built
- * from the same project records the rest of the site renders. Each plate is a
- * data URI: no network request, no build step, no new asset to maintain.
+ * Project screenshots are real assets (`Project.screenshot`), so plates are only
+ * for image slots that are not a project's own surface: the process rail, the
+ * drawer cards and the feature dialog's status sheet. Each plate is a
+ * self-contained SVG data URI built from the record: no network request, no
+ * build step, no new asset to maintain.
  */
 
 function esc(value: string) {

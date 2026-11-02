@@ -53,10 +53,9 @@ export const Route = createFileRoute("/projects/$slug")({
     const canonical = project.seo?.canonical || url;
     // Social scrapers cannot render SVG, so a bespoke preview artwork is not
     // advertised as a share card; those routes use the generated og:image.
-    const shareable =
-      project.screenshot && !project.screenshot.endsWith(".svg")
-        ? absolute(project.screenshot)
-        : undefined;
+    const shareable = !project.screenshot.endsWith(".svg")
+      ? absolute(project.screenshot)
+      : undefined;
     const image =
       absolute(project.seo?.ogImage) ??
       shareable ??

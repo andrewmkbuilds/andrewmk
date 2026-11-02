@@ -5,9 +5,9 @@ import type { Project } from "@/data/portfolio";
 /**
  * The starter pack's feature dialog, filled from one real project record.
  *
- * The tile is the project's typographic plate, the dialog carries that
- * project's own description, what it was built with and its published
- * results, and the primary action opens the full case study.
+ * The tile is the project's own screenshot, the dialog carries that project's
+ * own description, what it was built with and its published results, and the
+ * primary action opens the full case study.
  */
 export function FeatureSpotlight({
   project,
@@ -16,10 +16,8 @@ export function FeatureSpotlight({
   project: Project;
   className?: string;
 }) {
-  // The tile is the project's own screenshot when it publishes one — the same
-  // asset every other surface uses — and its typographic plate when it does not.
-  const plate =
-    project.screenshot ?? projectPlate(project.name, project.category, 1);
+  // The tile is the project's own screenshot — the same asset every other
+  // surface uses; only the status sheet stays a typographic plate.
   const detailPlate = projectPlate(project.status, project.category, 2);
 
   return (
@@ -28,7 +26,7 @@ export function FeatureSpotlight({
       label={project.category}
       title={project.name}
       tileImage={{
-        src: plate,
+        src: project.screenshot,
         alt: project.imageAlt ?? `${project.name} plate`,
       }}
       sheetTitle={project.name}
@@ -37,7 +35,10 @@ export function FeatureSpotlight({
       actionHref={`/projects/${project.slug}`}
       listItems={project.built.slice(0, 4)}
       mediaImages={[
-        { src: plate, alt: project.imageAlt ?? `${project.name} plate` },
+        {
+          src: project.screenshot,
+          alt: project.imageAlt ?? `${project.name} plate`,
+        },
         { src: detailPlate, alt: `${project.name} status plate` },
       ]}
       stats={(project.results ?? []).slice(0, 3).map((result) => ({

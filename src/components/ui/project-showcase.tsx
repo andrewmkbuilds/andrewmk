@@ -21,13 +21,12 @@ import type { Project } from "@/data/portfolio";
  * 1. **Real records, not demo rows.** Rows come from `src/data/portfolio.ts`
  *    (`Project[]`), each linking to its own `/projects/<slug>` page. No demo
  *    name, description, date or stock image survives.
- * 2. **One asset per project, never stock imagery.** A project that publishes
- *    a `screenshot` renders it through `ProjectShot`, so this preview shows the
- *    same asset as the card, case study, modal and project page. That field
+ * 2. **One asset per project, never stock imagery.** Every record publishes a
+ *    `screenshot`, rendered here through `ProjectShot`, so this preview shows
+ *    the same asset as the card, case study, modal and project page. That field
  *    holds either a capture of the project's own live site or — for projects
  *    with no public site, or one behind a login — a bespoke illustration of
- *    that specific product in `previews/`, each with its own composition. A
- *    record with no asset keeps the designed *plate* built from the record.
+ *    that specific product in `previews/`, each with its own composition.
  * 3. **One animation frame loop, driven by refs.** The demo kept the cursor in
  *    React state and used it as an effect dependency, so every pointer move
  *    tore down and restarted the loop (and re-rendered the whole list). Here
@@ -173,41 +172,7 @@ export function ProjectShowcase({ projects, className }: ProjectShowcaseProps) {
             active === index ? "scale-100 opacity-100" : "scale-105 opacity-0",
           )}
         >
-          {project.screenshot ? (
-            <ProjectShot project={project} />
-          ) : (
-            <>
-              <span
-                aria-hidden="true"
-                className="absolute inset-0 bg-[radial-gradient(125%_95%_at_10%_0%,color-mix(in_oklab,var(--primary)_26%,transparent),transparent_62%),radial-gradient(95%_80%_at_100%_100%,color-mix(in_oklab,var(--gold)_20%,transparent),transparent_72%)]"
-              />
-              <span
-                aria-hidden="true"
-                className="bg-grid absolute inset-0 opacity-25"
-              />
-              <div className="relative flex h-full flex-col justify-between p-4">
-                <div className="flex items-start justify-between gap-2">
-                  <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-gold">
-                    {project.status}
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    className="serif-display text-2xl text-foreground/15 tabular-nums"
-                  >
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
-                <div>
-                  <p className="serif-display headline-3d text-[1.6rem] leading-none text-foreground">
-                    {project.name}
-                  </p>
-                  <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.16em] text-muted-foreground">
-                    {project.tech.slice(0, 3).join(" · ")}
-                  </p>
-                </div>
-              </div>
-            </>
-          )}
+          <ProjectShot project={project} />
         </div>
       ))}
       <span

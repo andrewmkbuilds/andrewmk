@@ -279,9 +279,10 @@ Adapted from the 21st.dev "ProjectShowcase" demo.
   preview (3:2), the `CaseStudyRow` media panel (16:10 + caption strip), the `ProjectModal`
   hero (16:9), the project page hero (16:9), the curtain slider and the feature spotlight.
   Adding a project means adding its record and its file — never a second, hand-assigned
-  image per placement. `ProjectShot` renders nothing when the record has no screenshot, and
-  each caller keeps its typographic plate (status, name and stack on the primary/gold
-  gradient) as the fallback.
+  image per placement. `Project.screenshot` is a **required** field: every record publishes one
+  asset, so `ProjectShot` always paints and no caller carries a typographic plate fallback
+  (the plate branches were removed from the showcase, case study, card, modal, project hero,
+  curtain slider and spotlight on 2026-11-02).
 - **Two kinds of asset share `public/projects/`, told apart by format.** Live-site captures
   are `*.webp`; bespoke illustrations are `previews/<slug>.svg`. Eight projects publish a
   capture (Gradr, SiteScout AI, Scholara, CritiqueFlow, The Neon Rush, Horizon Motorsports,
@@ -339,8 +340,11 @@ Adapted from the 21st.dev "ProjectShowcase" demo.
   `element.focus()` alone does not fire React's delegated handler in the headless
   harness and reads as a false negative.
 - Verified in the preview at 1280 / 375 px: 15 rows with correct `/projects/<slug>`
-  hrefs, hover and keyboard previews, plate switching, viewport clamping, hiding on
-  leave, no console errors, no failed requests, no sideways overflow.
+  hrefs, hover and keyboard previews, screenshot switching, viewport clamping, hiding on
+  leave, no console errors, no failed requests, no sideways overflow. Re-verified
+  2026-11-02 after the plate fallback was removed: rows 1/5/10 showed
+  `sitescout-ai.webp`, `horizon-motorsports.webp` and `previews/home-serveai.svg` (each
+  1200 px wide, `object-fit: cover`, preview opacity 1 → 0 on leave, 0 console errors).
 
 ## The ambient background
 
@@ -820,10 +824,10 @@ touching any of it.
   motion/react in earlier sessions; replacing them with the GSAP originals would regress the
   journey stack and the home headline. `Pricing` is intentionally not mounted: the portfolio
   publishes no rates, and inventing tiers would break the content-source rule above.
-- **Screenshots first, plates as the fallback.** The curtain slider and the feature dialog show
-  `Project.screenshot` when the record publishes one; otherwise `src/lib/plate.ts` builds a
-  navy/gold typographic SVG data URI per record (the process rail and drawer cards are always
-  plates). Never point a pack image slot at a stock/CDN URL.
+- **Screenshots wherever a project is shown.** The curtain slider, the feature dialog tile and
+  every other project surface render `Project.screenshot`; `src/lib/plate.ts` still builds the
+  navy/gold typographic SVG data URIs used by the process rail, the drawer cards and the
+  dialog's status sheet. Never point a pack image slot at a stock/CDN URL.
 - **ASCII overlay is a rewrite, not a port.** The pack version needs three.js and a running
   shader; `src/components/ui/AsciiPlate.tsx` samples the image once into an offscreen grid and
   paints the glyphs onto one static canvas on mount/resize. Keeps the site's no-WebGL rule.

@@ -10,7 +10,7 @@ from Andrew; nothing was guessed.
 
 ## Reconciliation summary — finalised 2026-11-01
 
-Ten findings, nine closed. The Master CV data (`src/data/cv.ts`) now agrees with
+Eleven findings, ten closed. The Master CV data (`src/data/cv.ts`) now agrees with
 the site records on every field that a source settles: name, phone, Gavelling
 profile, education, committee types, the four MUN roles and their awards, the six
 competition results, the six project summaries and statuses, and every skill line.
@@ -20,7 +20,7 @@ against the earlier notes in `MASTER_CV_SOURCE_AUDIT.md`.
 
 | #   | Finding                                  | Status                                        |
 | --- | ---------------------------------------- | --------------------------------------------- |
-| 1   | IHSMUN 2025 committee and portfolio      | **Open** — awards settled, committee open     |
+| 1   | IHSMUN 2025 committee and portfolio      | Resolved — Lok Sabha B (2026-11-02)           |
 | 2   | Contact email                            | **Open** — needs Andrew's decision            |
 | 3   | Full name                                | Resolved — full documented name               |
 | 4   | Phone number                             | Resolved — documents are the only source      |
@@ -39,14 +39,12 @@ everything the site publishes stays as the site publishes it.
 
 **What is still open, in one line each:**
 
-1. Which committee did Andrew sit in at IHSMUN 2025 — Lok Sabha B (all four
-   supplied CVs, and the Master CV today) or FIA (the website, today)?
-2. Which email address should the CV carry — the older one in the supplied
+1. Which email address should the CV carry — the older one in the supplied
    documents, or the address the website publishes (`CONTACT_EMAIL`)?
 
 Nothing else in the Master CV is waiting on an answer.
 
-## 1. IHSMUN 2025 — committee, portfolio and awards · **Open (committee), resolved (awards)**
+## 1. IHSMUN 2025 — committee, portfolio and awards · **Resolved**
 
 | Source                                         | Committee   | Portfolio         | Awards                                     |
 | ---------------------------------------------- | ----------- | ----------------- | ------------------------------------------ |
@@ -62,13 +60,18 @@ or Best Delegate. The supplied documents' award lines were wrong, so the Master
 CV records **Verbal Commendation** for IHSMUN 2025 and the website keeps the
 same award.
 
-The committee is still open, and it is the one place where the Master CV
-currently follows the documents over the website: `cv.mun` says
-**Lok Sabha B · Kodikunnil Suresh** because all four supplied CVs say so, while
-the website publishes **FIA**. A delegate cannot have sat in both, so one side
-is wrong. Confirm the committee and the portfolio and the change is one entry in
-`src/data/cv.ts` (plus `munResults` in `src/data/portfolio.ts` if the site is
-the side that is wrong).
+**Committee resolved 2026-11-02 — Lok Sabha B · Kodikunnil Suresh.** The
+website's `munResults` said **FIA**, which is the committee of IHS UNSummit 2026
+and sits two lines below it in the same list, so the site record had copied its
+neighbour's committee. All four supplied CV documents name Lok Sabha B and the
+portfolio Kodikunnil Suresh, and the IHSMUN certificate is a domestic Indian
+conference record. `munResults` in `src/data/portfolio.ts` now reads
+**Lok Sabha B · Verbal Commendation**, so the site and `cv.mun` agree on
+committee, portfolio and award; `src/data/cv.ts` needed no change.
+
+This also settles §9: "domestic" is the Lok Sabha simulation, alongside UNSC
+(crisis) and FIA (specialised), so `cv.munHighlights` keeps all three committee
+types with a conference behind each one.
 
 ## 2. Contact email · **Open**
 
@@ -130,10 +133,11 @@ CV lists committee, portfolio and award together.
 
 The documents claim "crisis, specialised and domestic" committee experience. The
 three conferences map to UNSC (crisis), FIA (specialised) and Lok Sabha
-(domestic), so the claim is consistent. The Master CV states it without
-attributing a type to a specific conference, since no document does. If §1
-resolves IHSMUN 2025 to FIA, the domestic claim loses its conference and that
-highlight line needs revisiting.
+(domestic), so the claim is consistent. §1 resolving IHSMUN 2025 to Lok Sabha B
+keeps the domestic claim backed by a real conference; had it gone the other way
+the highlight line would have lost its domestic committee. The Master CV states
+the claim without attributing a type to a specific conference, since no document
+does.
 
 ## 10. Awards count · **Resolved (corrected 2026-11-01)**
 
@@ -161,6 +165,6 @@ if the site is re-mirrored. The live site itself needs the edit.
 2. Check the MUN and competition rows against the certificate gallery
    (`/achievements#certificates`); a certificate is the only record of what a
    conference actually printed.
-3. Re-check the two open items above before regenerating the deliverables with
+3. Re-check the open item above before regenerating the deliverables with
    `docker compose -f docker-compose.base44.yml exec -T web bunx tsx
 scripts/generate-master-cv.ts`.

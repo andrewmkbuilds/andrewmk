@@ -1,19 +1,14 @@
 import CurtainSlider from "@/components/annnimate/curtain-slider";
 import { featuredProjects } from "@/data/portfolio";
-import { projectPlate } from "@/lib/plate";
 
 /**
  * The starter pack's curtain slider, filled with the portfolio's four featured
- * records. Each slide is the project's own screenshot when the record publishes
- * one (`Project.screenshot`, the same asset every other surface uses), and the
- * typographic plate generated from the record (see `lib/plate.ts`) when it does
- * not.
+ * records. Each slide is the project's own screenshot — the same asset every
+ * other surface renders through `ui/ProjectShot.tsx`.
  */
 export function PortfolioCurtain({ className = "" }: { className?: string }) {
-  const slides = featuredProjects.map((project, index) => ({
-    src:
-      project.screenshot ??
-      projectPlate(project.name, project.category, index + 1),
+  const slides = featuredProjects.map((project) => ({
+    src: project.screenshot,
     alt: project.imageAlt ?? `${project.name} — ${project.category}`,
     title: project.name,
     label: project.category,

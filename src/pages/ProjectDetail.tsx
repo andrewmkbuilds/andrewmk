@@ -115,13 +115,11 @@ export default function ProjectDetail({
                 </div>
               )}
 
-              {project.screenshot && (
-                <figure className="mt-10 overflow-hidden rounded-2xl border border-border/80 shadow-card md:mt-12">
-                  <div className="aspect-[16/9]">
-                    <ProjectShot project={project} priority />
-                  </div>
-                </figure>
-              )}
+              <figure className="mt-10 overflow-hidden rounded-2xl border border-border/80 shadow-card md:mt-12">
+                <div className="aspect-[16/9]">
+                  <ProjectShot project={project} priority />
+                </div>
+              </figure>
             </motion.div>
           </div>
         </section>

@@ -584,7 +584,7 @@ An intelligent Tic Tac Toe engine that evaluates board states and selects optima
 
 ## Model United Nations
 
-- IHSMUN 2025 — FIA · Verbal Commendation
+- IHSMUN 2025 — Lok Sabha B · Verbal Commendation
 - Novara MUN 2026 — UNSC · Verbal Commendation
 - IHS UNSummit 2026 — FIA · Verbal Commendation
 

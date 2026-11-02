@@ -39,12 +39,14 @@ export interface Project {
   process?: string;
   learned?: string;
   /**
-   * The project's own screenshot — a capture of that project's live site,
-   * vendored in `public/projects/`. It is the single visual asset for the
-   * project: cards, the showcase preview, case studies, the modal and the
-   * project page all read this one field (see `ui/ProjectShot.tsx`).
+   * The project's own screenshot — a capture of that project's live site or,
+   * for a project with no public surface, its bespoke illustration — vendored
+   * in `public/projects/`. Every record publishes one: it is the single visual
+   * asset for the project, and cards, the showcase preview, case studies, the
+   * modal, the curtain slider and the project page all read this field through
+   * `ui/ProjectShot.tsx`.
    */
-  screenshot?: string;
+  screenshot: string;
   /** Describes what the screenshot shows, for assistive tech. */
   imageAlt?: string;
   images?: { url: string; alt?: string; caption?: string }[];
@@ -1877,7 +1879,7 @@ export const competitionResults: CompetitionResult[] = [
 export const munResults: MunResult[] = [
   {
     title: "IHSMUN 2025",
-    detail: "FIA · Verbal Commendation",
+    detail: "Lok Sabha B · Verbal Commendation",
     certKey: "mun-ihsmun-2025",
   },
   { title: "Novara MUN 2026", detail: "UNSC · Verbal Commendation" },

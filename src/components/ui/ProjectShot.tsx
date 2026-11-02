@@ -12,15 +12,14 @@ interface ProjectShotProps {
 /**
  * The one component that paints a project's screenshot.
  *
- * `Project.screenshot` is the project's single visual asset, vendored in
- * `/public/projects/`. Every surface — card, showcase preview, case study,
- * modal, project page, slider — renders it through here, so adding a project
- * only means adding its record and its file. Two kinds of asset live there:
- * a capture of the project's own live site (`*.webp`), and a bespoke
- * illustration (`previews/*.svg`) for projects with no public or accessible
- * site. The artwork is designed, never a faked screenshot: it abstracts the
- * product rather than claiming to be its interface. A record without an asset
- * renders nothing and the caller keeps its typographic plate.
+ * `Project.screenshot` is required: every record publishes exactly one visual
+ * asset, vendored in `/public/projects/`. Every surface — card, showcase
+ * preview, case study, modal, project page, curtain slider, spotlight — renders
+ * it through here, so adding a project only means adding its record and its
+ * file. Two kinds of asset live there: a capture of the project's own live site
+ * (`*.webp`), and a bespoke illustration (`previews/*.svg`) for projects with no
+ * public or accessible site. The artwork is designed, never a faked screenshot:
+ * it abstracts the product rather than claiming to be its interface.
  *
  * The image is never stretched: it fills the frame with `object-cover` and
  * anchors to the top of the asset, where each composition puts its subject.
@@ -30,8 +29,6 @@ export function ProjectShot({
   className,
   priority = false,
 }: ProjectShotProps) {
-  if (!project.screenshot) return null;
-
   return (
     <img
       src={project.screenshot}
