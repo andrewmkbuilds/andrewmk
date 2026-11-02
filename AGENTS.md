@@ -37,6 +37,38 @@ docker compose -f docker-compose.base44.yml exec -T web bunx tsx scripts/generat
 docker compose -f docker-compose.base44.yml exec -T web bunx tsx scripts/generate-og-images.ts
 ```
 
+## Production build, preview and deploy
+
+Two artifacts come out of the same source, and they are not interchangeable:
+
+| command                 | Nitro preset        | `.output/server/index.mjs`           | used for                               |
+| ----------------------- | ------------------- | ------------------------------------ | -------------------------------------- |
+| `bun run build`         | `cloudflare-module` | a Worker `fetch` handler (no server) | `wrangler deploy` — the deployed site  |
+| `bun run build:preview` | `node-server`       | starts an HTTP server                | `bun run preview`, the SEO/a11y stages |
+
+- **`vite preview` cannot serve this app — do not put it back.** TanStack Start's preview server
+  always imports `dist/server/server.js` while the Nitro build writes `.output/server/index.mjs`,
+  so every route answered HTTP 500 (`Cannot find module …/dist/server/server.js`). `bun run preview`
+  now runs `scripts/preview-server.mjs`, which imports the real Nitro entry and refuses to start on
+  the Cloudflare artifact (that preset starts no server, so a mismatch used to hang instead of
+  failing). CI builds with `bun run build:preview` and starts it with `PORT=4173`.
+- **The two builds share `.output`, so the last one wins.** Run the preview build after the
+  Cloudflare build, never the other way round, when both are needed in one job.
+- **Cloudflare deploys need a committed config.** Nitro's own `.output/server/wrangler.json` only
+  exists after a build, inside a gitignored directory, so `wrangler deploy` from a fresh checkout
+  failed with a bare "no wrangler configuration file" — the unreadable Workers Builds failure. The
+  root `wrangler.jsonc` points at the same bundle with repo-root paths; keep it in step with what
+  Nitro generates (`nodejs_compat`, `no_bundle`, the `ASSETS` binding and its directory).
+  `bun run deploy:check` (`wrangler deploy --dry-run`) validates the bundle without credentials —
+  verified 2026-11-01: 134 modules, 5.6 MB raw / 1.35 MB gzip, 299 asset files.
+- Verified 2026-11-02 in the sandbox, in the order CI runs them: `lint`, `format:check`,
+  `validate:data`, `typecheck`, `build` + `deploy:check`, `build:preview` all clean,
+  `seo:regression` 16/16 routes, `a11y:check` 16/16, every `sitemap.xml` URL (38) below 400, and
+  `/404`, `/robots.txt`, `/openapi.json`, `/llms.txt`, `/data/v1/*.json`, `/api/cv/pdf` (7.5 kB PDF)
+  and `/api/cv/docx` (12.8 kB DOCX) all served by the node preview build. The CV routes are
+  `/api/cv/pdf` and `/api/cv/docx` — `/api/cv.pdf` answers 404 in dev too, so it is not a build
+  regression.
+
 ## Backend (self-hosted Supabase subset)
 
 The app talks to `@supabase/supabase-js`, so the sandbox runs Postgres + PostgREST + GoTrue
@@ -725,11 +757,14 @@ touching any of it.
   palette and geometry overrides live in `src/styles/annnimate-theme.css`, imported from
   `src/styles.css`. Restyle there, never by hand-editing a component's demo CSS beyond the two
   mechanical edits below.
-- **Two mechanical edits only:** every `@font-face` Switzer block is stripped and the font stacks
+- **Mechanical edits only:** every `@font-face` Switzer block is stripped and the font stacks
   point at `var(--font-sans)`; `feature-dialog.jsx` takes an `actionHref` so the dialog's primary
-  action can open `/projects/<slug>`; `multi-level-drawer-menu.jsx` renders sub-links as anchors
-  when the entry is `{ label, href }`, and its demo page/logo are hidden by CSS. Any other change
-  to a vendored file will be lost on a re-download.
+  action can open `/projects/<slug>`, and its icon-only expand button carries
+  `aria-label={"Open ${title} details"}`; `multi-level-drawer-menu.jsx` renders sub-links as
+  anchors when the entry is `{ label, href }`, its hidden demo page uses a `<p>` instead of an
+  `<h1>` (it is visually hidden, but `a11y:check` counts the tag, and two `<h1>`s failed `/sitemap`),
+  and its demo page/logo are hidden by CSS. Any other change to a vendored file will be lost on a
+  re-download.
 - **GSAP is now a second animation library, deliberately scoped.** The pack runs on GSAP 3.15
   (`gsap` + `@gsap/react`), which is the only sane way to use 15 of its components. It is NOT a
   replacement for `motion/react`: existing entrance/scroll work stays where it is, and new

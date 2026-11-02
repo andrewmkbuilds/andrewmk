@@ -568,7 +568,7 @@ export default function MultiLevelDrawerMenu({
           <div className="mldm_page_inner">
             <div className="mldm_page_text">
               <p className="mldm_page_eyebrow">{heroEyebrow}</p>
-              <h1 className="mldm_page_heading">{heroHeading}</h1>
+              <p className="mldm_page_heading">{heroHeading}</p>
               <p className="mldm_page_sub">{heroSub}</p>
             </div>
             <div className="mldm_page_poster">

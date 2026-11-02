@@ -406,6 +406,7 @@ export default function FeatureDialog({
           type="button"
           className="fdg_toggle"
           data-anm-fdg-toggle
+          aria-label={`Open ${title} details`}
           aria-expanded="false"
           onClick={handleToggleClick}
         >

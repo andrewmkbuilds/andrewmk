@@ -1,0 +1,28 @@
+// Cloudflare Workers deployment for the Nitro build.
+//
+// Nitro writes the Worker bundle to `.output/server/index.mjs` with its own
+// generated `.output/server/wrangler.json` (a file that only exists after a
+// build). Committing this config at the repo root means `wrangler deploy` works
+// from a fresh checkout — `bun run build` produces the bundle first — instead of
+// failing with "no wrangler configuration file" as it did before.
+//
+// The settings mirror what Nitro generates for the cloudflare-module preset;
+// only the paths differ (repo-root relative instead of `.output/server`).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "andrewmkbuilds-andrewmk",
+  "main": ".output/server/index.mjs",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".output/public",
+  },
+  "no_bundle": true,
+  "rules": [
+    {
+      "type": "ESModule",
+      "globs": ["**/*.mjs", "**/*.js"],
+    },
+  ],
+}
