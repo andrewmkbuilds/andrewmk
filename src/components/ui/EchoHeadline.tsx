@@ -64,6 +64,11 @@ export interface EchoHeadlineProps {
   trigger?: "scrub" | "onEnter";
   /** Share of the track at the end where the finished slab holds. */
   hold?: number;
+  /**
+   * Section-header size: no sticky track, no scroll hint, and the slab plays
+   * once when it scrolls into view. Same slab, same 3D, just a heading.
+   */
+  compact?: boolean;
   once?: boolean;
   /** Comma-separated breakpoints the effect stays off on. */
   disable?: string;
@@ -115,6 +120,7 @@ export function EchoHeadline({
   fade = "opacity",
   trigger = "scrub",
   hold = 0.2,
+  compact = false,
   once = false,
   disable = "",
   className,
@@ -135,7 +141,9 @@ export function EchoHeadline({
   const rotYC = Math.min(80, Math.max(-80, Number(rotateY) || 0));
   const rotZC = Math.min(180, Math.max(-180, Number(rotateZ) || 0));
   const fadeC = fade === "color" ? "color" : "opacity";
-  const triggerC = trigger === "onEnter" ? "onEnter" : "scrub";
+  // A compact header has no scroll track to scrub, so it always plays on
+  // enter: one pass, then the finished slab holds.
+  const triggerC = compact || trigger === "onEnter" ? "onEnter" : "scrub";
   const holdC = Math.min(0.6, Math.max(0, Number(hold) || 0));
 
   // Farthest first, so the nearest echo paints last and the word, after them
@@ -295,6 +303,7 @@ export function EchoHeadline({
       ref={rootRef}
       className={cn(
         "eh-headline",
+        compact && "eh-is-compact",
         built && "eh-is-built",
         built && triggerC === "scrub" && "eh-is-scrub",
         className,
@@ -319,7 +328,7 @@ export function EchoHeadline({
 
         <div className="eh-rail">
           {eyebrow ? <p className="eh-eyebrow">{eyebrow}</p> : <span />}
-          {built ? (
+          {built && !compact ? (
             <motion.p className="eh-hint" style={{ opacity: hintOpacity }}>
               Scroll
             </motion.p>

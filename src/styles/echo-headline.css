@@ -118,9 +118,50 @@
   color: var(--muted-foreground);
 }
 
+/* ── Compact section header ─────────────────────────────────────────────
+   The same slab sized to a heading instead of the screen: no sticky track
+   (the root stays in flow at its own height), no scroll hint, and the rail
+   sits under the word as the section's caption. `--eh-size` is the one
+   dimension everything else is derived from, so the geometry keeps the full
+   version's proportions at any width.
+   ─────────────────────────────────────────────────────────────────────── */
+
+.eh-headline.eh-is-compact {
+  --eh-size: clamp(56px, 12vw, 132px);
+  --eh-margin: 0px;
+  border-block: 0;
+  /* The slab is a heading here, not a full-bleed stage: the echoes reach a
+     few pixels past the word's box, and clipping them would shave the
+     outermost layer. */
+  overflow: visible;
+}
+
+.eh-is-compact .eh-stage {
+  height: auto;
+  padding: calc(var(--eh-size) * 0.34) 0 calc(var(--eh-size) * 0.02);
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.eh-is-compact .eh-slab {
+  font-size: var(--eh-size);
+}
+
+.eh-is-compact .eh-rail {
+  position: static;
+  inset-inline: auto;
+  bottom: auto;
+  margin-top: calc(var(--eh-size) * 0.26);
+}
+
 @media (max-width: 767px) {
   .eh-headline {
     --eh-margin: 20px;
+  }
+
+  .eh-headline.eh-is-compact {
+    --eh-margin: 0px;
   }
 
   .eh-rail {

@@ -315,10 +315,21 @@ travel × i / (n − 1)` exactly, every plate's copy fits its own height
 
 ## Echo headline
 
-`src/components/ui/EchoHeadline.tsx` is the home page's one-word statement
-between the tools ribbon and the case studies: "Systems" grows a 3D slab of its
-own copies as you scroll, a trail of echoes fading into the navy room. CSS in
-`src/styles/echo-headline.css`; the component only writes `--eh-*` on the track.
+`src/components/ui/EchoHeadline.tsx` is the home page's one-word statement:
+"Systems" grows a 3D slab of its own copies, a trail of echoes fading into the
+navy room. CSS in `src/styles/echo-headline.css`; the component only writes
+`--eh-*` on the track.
+
+- **`compact` is the home page's mode (2026-11-02).** It used to run as a
+  full-screen 300vh scrub section between the tools ribbon and the case studies,
+  which meant a whole viewport of scroll for one word. It is now the header of the
+  `#work` section, directly above the featured card: `compact` drops the scrub
+  track and the scroll hint, sizes everything from one `--eh-size`
+  (`clamp(56px, 12vw, 132px)`) and plays `onEnter` once, so the same slab, fonts
+  and echo depth hold at heading scale. Measured in the preview: 230 px tall at
+  1272 px and 106 px at 375 px, and the echoes reach a few pixels past the word's
+  box — that is why the compact root is `overflow: visible` while the full
+  variant keeps `overflow: clip`.
 
 - **Adapted from the supplied demo, not copied.** It ran on GSAP + ScrollTrigger
   with a `#ebebe9` page and Switzer; here the scroll progress and its smoothing
