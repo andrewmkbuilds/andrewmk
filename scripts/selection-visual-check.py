@@ -3,7 +3,7 @@
 
 Selects real text across the site (hero, project cards, contact, form inputs,
 modal content) in Chromium, Firefox and WebKit — plus a mobile WebView profile —
-captures element screenshots, and asserts the highlight is the theme's green
+captures element screenshots, and asserts the highlight is the theme's gold
 accent rather than the browser-default blue. Also enforces a readability
 contrast ratio between the highlight background and the selected text.
 
@@ -201,11 +201,14 @@ def analyse(base: Path, shot: Path, forced_colors: bool = False,
 
     if bg[2] > bg[1] and bg[2] > bg[0]:
         return bg, text, "BLUE-FALLBACK"
-    if not (bg[1] >= bg[0] and bg[1] >= bg[2]):
+    # The theme's highlight is the gold accent mixed into the navy background
+    # (`--selection-bg`), so it sits on a warm ramp: red >= green >= blue.
+    # Anything else means the browser painted the selection with its own default.
+    if not (bg[0] >= bg[1] >= bg[2]):
         return bg, text, "off-theme"
     if text_sampled and ratio < min_contrast:
         return bg, text, f"low-contrast-{ratio:.2f}"
-    return bg, text, "green-ok"
+    return bg, text, "theme-ok"
 
 
 async def run_case(page, engine, vp_name, name, route, selector, kind, failures,
@@ -245,6 +248,21 @@ async def run_case(page, engine, vp_name, name, route, selector, kind, failures,
     except Exception:
         pass
     await page.wait_for_timeout(400)
+    # Wait for the element to settle before the baseline shot. A card still
+    # fading in through its reveal transition repaints its own gradient between
+    # the two captures, and that whole-surface shift then outweighs the
+    # highlight in the diff (Chromium reported the project card as
+    # BLUE-FALLBACK with no gold pixels at all while it was mid-reveal).
+    try:
+        await page.wait_for_function(
+            """(el) => getComputedStyle(el).opacity === '1'
+                 && el.getAnimations({ subtree: true })
+                      .every((a) => a.playState !== 'running')""",
+            arg=await el.element_handle(),
+            timeout=5000,
+        )
+    except Exception:
+        pass
 
     handle = await el.element_handle()
     target = handle  # what gets screenshotted
@@ -305,7 +323,7 @@ async def run_case(page, engine, vp_name, name, route, selector, kind, failures,
         resolved = await page.evaluate(RESOLVE_SELECTION_FG, handle)
         text_rgb = tuple(resolved) if resolved else None
     bg, fg, verdict = analyse(base, shot, forced_colors, floor, text_rgb)
-    expected = "forced-colors-ok" if forced_colors else "green-ok"
+    expected = "forced-colors-ok" if forced_colors else "theme-ok"
     print(f"  {engine}/{vp_name}/{name}: {verdict} bg={bg} fg={fg}")
     if verdict != expected:
         failures.append(f"{engine}/{vp_name}/{name}: {verdict} bg={bg} ({shot})")
@@ -353,7 +371,7 @@ async def main():
         for f in failures:
             print(" -", f)
         sys.exit(1)
-    print("\nSelection visual regression passed — highlight is theme green everywhere.")
+    print("\nSelection visual regression passed — highlight is theme gold everywhere.")
 
 
 if __name__ == "__main__":

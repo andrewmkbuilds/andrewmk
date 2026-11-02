@@ -79,10 +79,20 @@ Two artifacts come out of the same source, and they are not interchangeable:
   reproduced on a clean `git archive` copy in `node:24` (see "Package manager" for the two causes
   and the fix, 2026-11-02). When a Cloudflare check goes red again, re-run that reproduction before
   reading the app code: `npm install && npm run build && npx wrangler deploy --dry-run`.
-- **GitHub CI is red on its last step, not on the build.** The `CI` job's install, lint, format,
-  typecheck, `build`, `deploy:check` and `build:preview` steps pass; `scripts/selection-visual-check.py`
-  fails with every route "off-theme bg=(74, 67, 53)" — the text-selection colour against the
-  expected navy. That is a separate styling defect, not a build-output one.
+- **The selection check asserts the brand gold — the palette it was written against is gone.** The
+  `CI` job's install, lint, format, typecheck, `build`, `deploy:check` and `build:preview` steps
+  pass; `scripts/selection-visual-check.py` failed every route with `off-theme bg=(74, 67, 53)`
+  only because it still demanded a green highlight. `--selection-bg` is
+  `color-mix(in oklab, var(--gold) 38%, var(--background))`, i.e. a warm ramp
+  (red ≥ green ≥ blue), so that is the rule now; the browser-default blue
+  (`blue > green and blue > red`) is still rejected, the 4.5:1 contrast floor against
+  `--selection-fg` is unchanged, and the pass label is `theme-ok`. The baseline shot also waits for
+  the element to finish its reveal transition: Chromium captured the `/projects` card mid-fade and
+  diffed the card's own gradient shift as the highlight (`BLUE-FALLBACK`, zero gold pixels).
+  Verified 2026-11-02 in Chromium at 1280 px and 390 px — 18/18 measured cases `theme-ok`, 0
+  failures (the five contact-field cases skip in both because the lazy form's inputs are not
+  mounted). Firefox and WebKit were not re-run locally; their CI numbers for the same cases were
+  `bg=(73,66,52)` / `(24,18,8)`, warm ramps that pass the same rule.
 - Verified 2026-11-02 in the sandbox, in the order CI runs them: `lint`, `format:check`,
   `validate:data`, `typecheck`, `build` + `deploy:check`, `build:preview` all clean,
   `seo:regression` 16/16 routes, `a11y:check` 16/16, every `sitemap.xml` URL (38) below 400, and

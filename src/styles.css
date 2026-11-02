@@ -313,7 +313,7 @@
      Browsers (notably WebKit and Blink) drop author ::selection colors on
      disabled controls and fall back to the platform blue, and shadcn's
      `disabled:opacity-50` washes the highlight out. Restate the tokens and
-     pin -webkit-text-fill-color so the highlight stays on-brand blue. */
+     pin -webkit-text-fill-color so the highlight stays on-brand gold. */
   /* Disabled surfaces are rendered at ~50% opacity, which also washes out the
      highlight. Deepen the highlight for them so selected text keeps a 4.5:1
      ratio after that compositing. */
