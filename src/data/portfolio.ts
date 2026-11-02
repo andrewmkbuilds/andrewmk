@@ -62,6 +62,9 @@ export interface Project {
 export const featuredProjects: Project[] = [
   {
     slug: "gradr",
+    screenshot: "/projects/previews/gradr.svg",
+    imageAlt:
+      "Gradr preview artwork — a resume sheet beside an ATS score dial, match breakdown and interview chips.",
     name: "Gradr",
     category: "Career Technology · AI",
     description:
@@ -209,6 +212,9 @@ export const featuredProjects: Project[] = [
   },
   {
     slug: "stack-up",
+    screenshot: "/projects/previews/stack-up.svg",
+    imageAlt:
+      "Stack Up preview artwork — a streak calendar of gold bars, an XP coin and a savings goal ring.",
     name: "Stack Up",
     category: "Personal Finance · Gamification",
     description:
@@ -369,6 +375,9 @@ export const featuredProjects: Project[] = [
 
   {
     slug: "terracart",
+    screenshot: "/projects/previews/terracart.svg",
+    imageAlt:
+      "TerraCart preview artwork — a product page with an inline sustainability read, claim checks and a lower-impact alternative.",
     name: "TerraCart",
     category: "AI · Sustainability · E-commerce",
     description:
@@ -472,6 +481,9 @@ export const featuredProjects: Project[] = [
 
   {
     slug: "clientflow-os",
+    screenshot: "/projects/previews/clientflow-os.svg",
+    imageAlt:
+      "ClientFlow OS preview artwork — a client pipeline board running from enquiry to paid, with an invoice strip beneath.",
     name: "ClientFlow OS",
     category: "Business Operating System · AI",
     description:
@@ -1146,6 +1158,9 @@ export const ecosystemProjects: Project[] = [
 
   {
     slug: "cognos",
+    screenshot: "/projects/previews/cognos.svg",
+    imageAlt:
+      "COGNOS preview artwork — a raw thought captured and classified, feeding a connected idea graph.",
     name: "COGNOS",
     category: "Cognitive / AI",
     description:
@@ -1347,6 +1362,9 @@ export const ecosystemProjects: Project[] = [
 
   {
     slug: "ai-for-students",
+    screenshot: "/projects/previews/ai-for-students.svg",
+    imageAlt:
+      "AI for Students preview artwork — a dotted lesson path with milestones, an open lesson card and level progress.",
     name: "AI for Students",
     category: "Education / AI",
     description:
@@ -1360,6 +1378,9 @@ export const ecosystemProjects: Project[] = [
   },
   {
     slug: "home-serveai",
+    screenshot: "/projects/previews/home-serveai.svg",
+    imageAlt:
+      "Home ServeAI preview artwork — a city map with service pins, a matched route and a provider card.",
     name: "Home ServeAI",
     category: "Marketplace / AI",
     description:
@@ -1372,6 +1393,9 @@ export const ecosystemProjects: Project[] = [
   },
   {
     slug: "jarvis",
+    screenshot: "/projects/previews/jarvis.svg",
+    imageAlt:
+      "JARVIS preview artwork — a radial listening field around a microphone with a spoken request and reply.",
     name: "JARVIS",
     category: "AI Voice Assistant",
     description:
@@ -1383,6 +1407,9 @@ export const ecosystemProjects: Project[] = [
   },
   {
     slug: "gemlab",
+    screenshot: "/projects/previews/gemlab.svg",
+    imageAlt:
+      "GemLab preview artwork — three side-by-side persona conversations in friendly, professional and creative modes.",
     name: "GemLab",
     category: "AI / Tooling",
     description:
@@ -1394,6 +1421,9 @@ export const ecosystemProjects: Project[] = [
   },
   {
     slug: "security-camera-system",
+    screenshot: "/projects/previews/security-camera-system.svg",
+    imageAlt:
+      "Security Camera System preview artwork — a camera feed with a detected person, a recording overlay and a motion timeline.",
     name: "Security Camera System",
     category: "Computer Vision",
     description:
@@ -1405,6 +1435,9 @@ export const ecosystemProjects: Project[] = [
   },
   {
     slug: "currency-converter",
+    screenshot: "/projects/previews/currency-converter.svg",
+    imageAlt:
+      "Currency Converter preview artwork — stacked from and to amount panels with a swap control and a live rate table.",
     name: "Currency Converter",
     category: "Finance / Utility",
     description:
@@ -1416,6 +1449,9 @@ export const ecosystemProjects: Project[] = [
   },
   {
     slug: "gestureplay",
+    screenshot: "/projects/previews/gestureplay.svg",
+    imageAlt:
+      "GesturePlay preview artwork — a tracked hand skeleton beside rock, paper and pencil move cards.",
     name: "GesturePlay",
     category: "Computer Vision / Interactive",
     description:
@@ -1427,6 +1463,9 @@ export const ecosystemProjects: Project[] = [
   },
   {
     slug: "watch-walkie-talkie",
+    screenshot: "/projects/previews/watch-walkie-talkie.svg",
+    imageAlt:
+      "Watch Walkie Talkie preview artwork — a smartwatch push-to-talk dial paired with a phone over transmission arcs.",
     name: "Watch Walkie Talkie",
     category: "Real-Time Communication",
     description:
@@ -1447,6 +1486,9 @@ export const ecosystemProjects: Project[] = [
   },
   {
     slug: "conversacore-ai",
+    screenshot: "/projects/previews/conversacore-ai.svg",
+    imageAlt:
+      "ConversaCore AI preview artwork — one prompt routed between model nodes with a fallback path and a response panel.",
     name: "ConversaCore AI",
     category: "AI / Conversational",
     description:
@@ -1459,6 +1501,9 @@ export const ecosystemProjects: Project[] = [
   },
   {
     slug: "arabica-ai-chat",
+    screenshot: "/projects/previews/arabica-ai-chat.svg",
+    imageAlt:
+      "Arabica AI Chat preview artwork — mirrored English and Arabic conversations with translation between them.",
     name: "Arabica AI Chat",
     category: "AI / Multilingual",
     description:
@@ -1471,6 +1516,9 @@ export const ecosystemProjects: Project[] = [
   },
   {
     slug: "neurotac-ai",
+    screenshot: "/projects/previews/neurotac-ai.svg",
+    imageAlt:
+      "NeuroTac AI preview artwork — a tic tac toe board with scored candidate moves and a win probability bar.",
     name: "NeuroTac AI",
     category: "AI / Game",
     description:

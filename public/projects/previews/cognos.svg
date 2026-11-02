@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#060b18"/>
+      <stop offset="0.52" stop-color="#0a1729"/>
+      <stop offset="1" stop-color="#0d2338"/>
+    </linearGradient>
+    <radialGradient id="hub" cx="0.62" cy="0.42" r="0.55">
+      <stop offset="0" stop-color="#3d9fe0" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#3d9fe0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g1" cx="0.88" cy="0.6" r="0.3">
+      <stop offset="0" stop-color="#d9b268" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#d9b268" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#hub)"/>
+  <rect width="1200" height="800" fill="url(#g1)"/>
+
+  <text x="76" y="84" fill="#8fb6d6" font-family="ui-monospace, Menlo, monospace" font-size="15" letter-spacing="4">COGNITIVE · AI</text>
+
+  <!-- capture field -->
+  <g>
+    <rect x="76" y="176" width="304" height="300" rx="14" fill="#0b1a2a" fill-opacity="0.9" stroke="#ffffff" stroke-opacity="0.1"/>
+    <text x="100" y="210" fill="#d9b268" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="3">CAPTURE</text>
+    <rect x="100" y="230" width="256" height="86" rx="8" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.08"/>
+    <text x="116" y="262" fill="#dbe6ef" font-family="ui-monospace, Menlo, monospace" font-size="14">the connection is</text>
+    <text x="116" y="284" fill="#dbe6ef" font-family="ui-monospace, Menlo, monospace" font-size="14">the product</text>
+    <rect x="116" y="292" width="2" height="16" fill="#d9b268"/>
+
+    <g font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="2">
+      <rect x="100" y="342" width="76" height="26" rx="13" fill="#3d9fe0" fill-opacity="0.16" stroke="#3d9fe0" stroke-opacity="0.4"/>
+      <text x="138" y="359" text-anchor="middle" fill="#9ed4f4">IDEA</text>
+      <rect x="184" y="342" width="92" height="26" rx="13" fill="#d9b268" fill-opacity="0.14" stroke="#d9b268" stroke-opacity="0.4"/>
+      <text x="230" y="359" text-anchor="middle" fill="#e8c98f">QUESTION</text>
+      <rect x="284" y="342" width="72" height="26" rx="13" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.14"/>
+      <text x="320" y="359" text-anchor="middle" fill="#a9b8c6">TASK</text>
+    </g>
+    <text x="100" y="412" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="12">CLASSIFIED ON ENTRY</text>
+    <text x="100" y="440" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="12">NO FOLDERS · NO DECISIONS</text>
+  </g>
+
+  <!-- feed -->
+  <path d="M380 300 C 460 300, 470 250, 540 250" fill="none" stroke="#d9b268" stroke-opacity="0.5" stroke-width="2" stroke-dasharray="6 8"/>
+  <path d="M380 356 C 470 356, 500 400, 566 400" fill="none" stroke="#3d9fe0" stroke-opacity="0.4" stroke-width="2" stroke-dasharray="6 8"/>
+
+  <!-- idea graph -->
+  <g>
+    <g stroke="#3d9fe0" stroke-opacity="0.3" stroke-width="1.6" fill="none">
+      <path d="M560 252 C 620 230, 700 190, 760 194"/>
+      <path d="M560 252 C 610 270, 660 290, 700 300"/>
+      <path d="M700 300 C 740 260, 780 240, 806 246"/>
+      <path d="M700 300 C 720 330, 730 350, 762 362"/>
+      <path d="M806 246 C 840 270, 852 300, 856 322"/>
+      <path d="M856 322 C 900 330, 930 334, 952 336"/>
+      <path d="M762 362 C 800 390, 820 410, 846 420"/>
+      <path d="M856 322 C 840 360, 840 390, 846 420"/>
+      <path d="M600 372 C 620 400, 660 430, 700 444"/>
+      <path d="M700 444 C 740 470, 800 490, 840 494"/>
+      <path d="M846 420 C 880 440, 900 460, 908 480"/>
+    </g>
+    <g stroke="#d9b268" stroke-opacity="0.4" stroke-width="1.8" fill="none">
+      <path d="M952 336 C 980 320, 990 280, 988 244"/>
+      <path d="M846 420 C 900 420, 950 400, 966 372"/>
+    </g>
+
+    <circle cx="560" cy="252" r="44" fill="#3d9fe0" fill-opacity="0.16" filter="url(#blur)"/>
+    <circle cx="560" cy="252" r="26" fill="#123c58" stroke="#7cc7f0" stroke-width="2"/>
+    <circle cx="766" cy="194" r="14" fill="#14405e" stroke="#7cc7f0" stroke-opacity="0.7" stroke-width="1.6"/>
+    <circle cx="806" cy="246" r="20" fill="#14405e" stroke="#9ed4f4" stroke-opacity="0.8" stroke-width="1.8"/>
+    <circle cx="700" cy="300" r="30" fill="#d9b268" fill-opacity="0.14" filter="url(#blur)"/>
+    <circle cx="700" cy="300" r="19" fill="#3a2c11" stroke="#e8c98f" stroke-width="2"/>
+    <circle cx="856" cy="322" r="24" fill="#123c58" stroke="#7cc7f0" stroke-width="2"/>
+    <circle cx="952" cy="336" r="16" fill="#3a2c11" stroke="#e8c98f" stroke-opacity="0.85" stroke-width="1.8"/>
+    <circle cx="762" cy="362" r="11" fill="#14405e" stroke="#7cc7f0" stroke-opacity="0.6" stroke-width="1.4"/>
+    <circle cx="600" cy="372" r="9" fill="#123c58" stroke="#7cc7f0" stroke-opacity="0.6" stroke-width="1.4"/>
+    <circle cx="700" cy="444" r="14" fill="#123c58" stroke="#9ed4f4" stroke-opacity="0.7" stroke-width="1.6"/>
+    <circle cx="846" cy="420" r="22" fill="#3a2c11" stroke="#e8c98f" stroke-width="2"/>
+    <circle cx="908" cy="480" r="10" fill="#14405e" stroke="#7cc7f0" stroke-opacity="0.6" stroke-width="1.4"/>
+    <circle cx="988" cy="244" r="9" fill="#14405e" stroke="#7cc7f0" stroke-opacity="0.6" stroke-width="1.4"/>
+
+    <!-- cluster rings -->
+    <ellipse cx="836" cy="392" rx="180" ry="148" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-dasharray="4 10"/>
+    <ellipse cx="660" cy="300" rx="150" ry="120" fill="none" stroke="#d9b268" stroke-opacity="0.18" stroke-dasharray="4 10"/>
+  </g>
+
+  <!-- identity -->
+  <text x="76" y="690" fill="#f4f8fc" font-family="Georgia, 'Times New Roman', serif" font-size="66">COGNOS</text>
+  <line x1="82" y1="712" x2="286" y2="712" stroke="#d9b268" stroke-width="3"/>
+  <text x="76" y="752" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="3">CAPTURE · CLASSIFY · CONNECT</text>
+
+  <text x="1124" y="690" text-anchor="end" fill="#8fb6d6" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="3">IDEA GRAPH</text>
+  <text x="1124" y="716" text-anchor="end" fill="#5d7285" font-family="ui-monospace, Menlo, monospace" font-size="13">12 ENTRIES · 9 LINKS</text>
+</svg>

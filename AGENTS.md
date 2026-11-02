@@ -282,18 +282,31 @@ Adapted from the 21st.dev "ProjectShowcase" demo.
   image per placement. `ProjectShot` renders nothing when the record has no screenshot, and
   each caller keeps its typographic plate (status, name and stack on the primary/gold
   gradient) as the fallback.
-- **The screenshots are captures of the projects' own live sites, vendored in
-  `public/projects/`.** Six projects publish one (Scholara, CritiqueFlow, The Neon Rush,
-  Horizon Motorsports, DevOS, TabZen), each 1200×630 WebP (~20–40 KB) so no surface depends
-  on the live site at runtime. Capture at 1440×756 CSS at `deviceScaleFactor: 2` with the
-  puppeteer image, then resize to 1200×630 (`fit: cover`, Lanczos) — the same aspect the
-  project page declares for `og:image`, which reuses `screenshot`. Pick the frame that shows
-  the product itself (CritiqueFlow's dashboard, DevOS/TabZen's workspace, Neon Rush's mode
-  grid), not a blind top-left crop. Rendered crops anchor to the top (`object-cover
-object-top`) so the product header stays in frame; the image is never stretched. Stack Up,
-  COGNOS and AI for Students are login-gated with no public product surface (their `/`
-  redirects to a Base44 login form), and Gradr/TerraCart/ClientFlow OS publish no live URL —
-  those stay on plates rather than getting a fake, borrowed or login-screen asset.
+- **Two kinds of asset share `public/projects/`, told apart by format.** Live-site captures
+  are `*.webp`; bespoke illustrations are `previews/<slug>.svg`. Six projects publish a
+  capture (Scholara, CritiqueFlow, The Neon Rush, Horizon Motorsports, DevOS, TabZen), each
+  1200×630 WebP (~20–40 KB) so no surface depends on the live site at runtime. Capture at
+  1440×756 CSS at `deviceScaleFactor: 2` with the puppeteer image, then resize to 1200×630
+  (`fit: cover`, Lanczos). Pick the frame that shows the product itself (CritiqueFlow's
+  dashboard, DevOS/TabZen's workspace, Neon Rush's mode grid), not a blind top-left crop.
+  Rendered crops anchor to the top (`object-cover object-top`) so each composition's subject
+  stays in frame; the image is never stretched.
+- **The other sixteen projects have bespoke artwork, never a faked screenshot.**
+  Stack Up, COGNOS and AI for Students are login-gated with no public product surface (their
+  `/` redirects to a Base44 login form); Gradr, TerraCart, ClientFlow OS, Home ServeAI, JARVIS,
+  GemLab, Security Camera System, Currency Converter, GesturePlay, Watch Walkie Talkie,
+  ConversaCore AI, Arabica AI Chat and NeuroTac AI publish no live URL. Each one has its own
+  1200×800 SVG in `public/projects/previews/`, with a composition of its own — a resume sheet
+  and ATS dial, a streak calendar, an inline sustainability read, a pipeline board, an idea
+  graph, a lesson path, a service map, a radial listening field, three persona columns, a
+  camera feed with a detection box, stacked currency panels, a hand-landmark skeleton, a
+  watch/phone pair, a model router, mirrored bilingual conversations, a scored tic tac toe
+  board. They abstract the product from its README and record (they are illustrations, not
+  interface claims) and keep the navy/blue/gold palette. Keep each composition distinct: do
+  not add a seventeenth project by copying another's layout and swapping the title.
+- **`og:image` stays raster.** `src/routes/projects.$slug.tsx` only advertises a `screenshot`
+  as the share card when it is not an `.svg`, so artwork routes fall back to the generated
+  `og/projects` image. Browsers render the SVGs fine; social scrapers do not.
 - **The right-hand column is `projectMeta()`**: the completion year when the record
   publishes one (`endDate`/`startDate`; the four featured projects do), otherwise the
   project's real `status`. Ecosystem records publish no dates, so they show status —

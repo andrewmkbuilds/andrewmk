@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#05100f"/>
+      <stop offset="0.5" stop-color="#0a1b1d"/>
+      <stop offset="1" stop-color="#0c2430"/>
+    </linearGradient>
+    <radialGradient id="sage" cx="0.1" cy="0.1" r="0.8">
+      <stop offset="0" stop-color="#7ea88f" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#7ea88f" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gold" cx="0.95" cy="0.9" r="0.6">
+      <stop offset="0" stop-color="#d9b268" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#d9b268" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="frame" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0e2334"/>
+      <stop offset="1" stop-color="#0a1826"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#102a3c"/>
+      <stop offset="1" stop-color="#0c1f2e"/>
+    </linearGradient>
+    <linearGradient id="bottle" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7ea88f"/>
+      <stop offset="1" stop-color="#3d6f57"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#sage)"/>
+  <rect width="1200" height="800" fill="url(#gold)"/>
+
+  <text x="80" y="80" fill="#9dc4a9" font-family="ui-monospace, Menlo, monospace" font-size="15" letter-spacing="4">AI · SUSTAINABILITY · E-COMMERCE</text>
+  <text x="76" y="152" fill="#f4f8fc" font-family="Georgia, 'Times New Roman', serif" font-size="66">TerraCart</text>
+  <text x="1124" y="112" text-anchor="end" fill="#d9b268" font-family="ui-monospace, Menlo, monospace" font-size="14" letter-spacing="4">BROWSER EXTENSION</text>
+
+  <g>
+    <rect x="76" y="186" width="1048" height="520" rx="18" fill="url(#frame)" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1.5"/>
+    <path d="M76 226 h1048" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1.5"/>
+    <circle cx="108" cy="206" r="5.5" fill="#e06c5a" opacity="0.8"/>
+    <circle cx="128" cy="206" r="5.5" fill="#d9b268" opacity="0.8"/>
+    <circle cx="148" cy="206" r="5.5" fill="#7ea88f" opacity="0.8"/>
+    <rect x="176" y="194" width="360" height="24" rx="12" fill="#ffffff" fill-opacity="0.06"/>
+    <text x="194" y="211" fill="#8fa3b6" font-family="ui-monospace, Menlo, monospace" font-size="12">shop.example / product</text>
+  </g>
+
+  <g>
+    <rect x="116" y="266" width="300" height="404" rx="12" fill="url(#panel)" stroke="#ffffff" stroke-opacity="0.08"/>
+    <rect x="140" y="290" width="252" height="212" rx="8" fill="#08161f"/>
+    <rect x="236" y="352" width="60" height="118" rx="20" fill="url(#bottle)"/>
+    <rect x="256" y="330" width="20" height="26" rx="5" fill="#9dc4a9"/>
+    <rect x="240" y="392" width="52" height="34" rx="4" fill="#f2f6fb" fill-opacity="0.22"/>
+    <text x="266" y="414" text-anchor="middle" fill="#eaf3ee" font-family="ui-monospace, Menlo, monospace" font-size="10">ECO</text>
+    <rect x="140" y="522" width="196" height="10" rx="5" fill="#8fa3b6" opacity="0.7"/>
+    <rect x="140" y="544" width="132" height="8" rx="4" fill="#5f7488"/>
+    <text x="140" y="596" fill="#eaf3fb" font-family="Georgia, 'Times New Roman', serif" font-size="26">AED 42.00</text>
+    <rect x="140" y="616" width="118" height="30" rx="15" fill="#d9b268" fill-opacity="0.16" stroke="#d9b268" stroke-opacity="0.45"/>
+    <text x="199" y="636" text-anchor="middle" fill="#e8c98f" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="2">IN CART</text>
+  </g>
+
+  <g>
+    <rect x="444" y="266" width="644" height="404" rx="12" fill="#08151f" fill-opacity="0.72" stroke="#ffffff" stroke-opacity="0.06"/>
+    <text x="472" y="304" fill="#9dc4a9" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="4">SUSTAINABILITY READ</text>
+
+    <g transform="translate(560 396)">
+      <path d="M-58 0a58 58 0 0 1 116 0" fill="none" stroke="#ffffff" stroke-opacity="0.1" stroke-width="13"/>
+      <path d="M-58 0a58 58 0 0 1 116 0" fill="none" stroke="#d9b268" stroke-width="13" stroke-linecap="round"
+            stroke-dasharray="150 183"/>
+      <text x="0" y="-14" text-anchor="middle" fill="#f2f6fb" font-family="Georgia, 'Times New Roman', serif" font-size="42">B+</text>
+      <text x="0" y="16" text-anchor="middle" fill="#9dc4a9" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="3">GRADE</text>
+    </g>
+
+    <g font-family="ui-monospace, Menlo, monospace" font-size="14">
+      <circle cx="700" cy="352" r="11" fill="#7ea88f" fill-opacity="0.2" stroke="#7ea88f" stroke-opacity="0.7"/>
+      <path d="M695 352l4 4 8-9" fill="none" stroke="#9dc4a9" stroke-width="2"/>
+      <text x="726" y="357" fill="#cfdbe7">Recycled material</text>
+
+      <circle cx="700" cy="398" r="11" fill="#7ea88f" fill-opacity="0.2" stroke="#7ea88f" stroke-opacity="0.7"/>
+      <path d="M695 398l4 4 8-9" fill="none" stroke="#9dc4a9" stroke-width="2"/>
+      <text x="726" y="403" fill="#cfdbe7">Recyclable packaging</text>
+
+      <circle cx="700" cy="444" r="11" fill="#d9b268" fill-opacity="0.18" stroke="#d9b268" stroke-opacity="0.6"/>
+      <path d="M696 440l8 8M704 440l-8 8" stroke="#e8c98f" stroke-width="2"/>
+      <text x="726" y="449" fill="#a9b8c6">Origin unverified</text>
+
+      <circle cx="700" cy="490" r="11" fill="#7ea88f" fill-opacity="0.2" stroke="#7ea88f" stroke-opacity="0.7"/>
+      <path d="M695 490l4 4 8-9" fill="none" stroke="#9dc4a9" stroke-width="2"/>
+      <text x="726" y="495" fill="#cfdbe7">Low-impact shipping</text>
+    </g>
+
+    <line x1="472" y1="532" x2="1060" y2="532" stroke="#ffffff" stroke-opacity="0.08"/>
+
+    <g>
+      <rect x="472" y="552" width="588" height="86" rx="10" fill="#7ea88f" fill-opacity="0.08" stroke="#7ea88f" stroke-opacity="0.32"/>
+      <text x="494" y="580" fill="#9dc4a9" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="3">BETTER ALTERNATIVE · GRADE A</text>
+      <rect x="494" y="594" width="240" height="9" rx="4.5" fill="#c3d5cc" opacity="0.7"/>
+      <rect x="494" y="612" width="168" height="8" rx="4" fill="#7c9184"/>
+      <path d="M998 596h36l-12-12M1034 596l-12 12" fill="none" stroke="#d9b268" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g transform="rotate(-12 968 700)">
+    <circle cx="968" cy="700" r="52" fill="#07120f" fill-opacity="0.9" stroke="#d9b268" stroke-opacity="0.55" stroke-width="2" stroke-dasharray="5 7"/>
+    <path d="M950 712c-6-22 8-38 30-40-2 22-12 36-30 40z" fill="none" stroke="#9dc4a9" stroke-width="2.5"/>
+    <path d="M953 709c6-12 14-20 24-26" fill="none" stroke="#9dc4a9" stroke-width="2"/>
+    <path d="M944 720c8-2 16-1 24-4" fill="none" stroke="#9dc4a9" stroke-width="2"/>
+  </g>
+</svg>

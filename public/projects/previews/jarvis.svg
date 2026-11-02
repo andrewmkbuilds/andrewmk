@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050c17"/>
+      <stop offset="0.5" stop-color="#08172a"/>
+      <stop offset="1" stop-color="#0a2033"/>
+    </linearGradient>
+    <radialGradient id="core" cx="0.66" cy="0.48" r="0.42">
+      <stop offset="0" stop-color="#3d9fe0" stop-opacity="0.34"/>
+      <stop offset="0.55" stop-color="#3d9fe0" stop-opacity="0.1"/>
+      <stop offset="1" stop-color="#3d9fe0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="goldCore" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#f0d29a"/>
+      <stop offset="1" stop-color="#c19c58"/>
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="16" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#core)"/>
+
+  <!-- radial listening field -->
+  <g fill="none" stroke="#3d9fe0">
+    <circle cx="800" cy="404" r="320" stroke-opacity="0.12" stroke-width="1.5"/>
+    <circle cx="800" cy="404" r="262" stroke-opacity="0.16" stroke-width="1.5" stroke-dasharray="2 12"/>
+    <circle cx="800" cy="404" r="204" stroke-opacity="0.2" stroke-width="1.5"/>
+    <path d="M800 142a262 262 0 0 1 226 131" stroke-opacity="0.75" stroke-width="3" stroke-linecap="round"/>
+    <path d="M800 186a218 218 0 0 0-188 109" stroke-opacity="0.5" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M800 250a154 154 0 0 1 133 77" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round"/>
+    <path d="M800 666a262 262 0 0 1-226-131" stroke="#d9b268" stroke-opacity="0.55" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- radial ticks -->
+  <g stroke="#7cc7f0" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round">
+    <path d="M800 84v18"/><path d="M800 724v-18"/>
+    <path d="M480 404h18"/><path d="M1120 404h-18"/>
+    <path d="M575 179l13 13"/><path d="M1025 629l-13-13"/>
+    <path d="M1025 179l-13 13"/><path d="M575 629l13-13"/>
+  </g>
+
+  <!-- core -->
+  <g filter="url(#glow)">
+    <circle cx="800" cy="404" r="92" fill="#081522" stroke="#d9b268" stroke-opacity="0.5" stroke-width="2"/>
+    <circle cx="800" cy="404" r="72" fill="#0d2434" stroke="#7cc7f0" stroke-opacity="0.35" stroke-width="1.5"/>
+    <!-- mic -->
+    <rect x="786" y="364" width="28" height="52" rx="14" fill="none" stroke="url(#goldCore)" stroke-width="3"/>
+    <path d="M772 404a28 28 0 0 0 56 0" fill="none" stroke="#f0d29a" stroke-width="3" stroke-linecap="round"/>
+    <path d="M800 432v16" stroke="#f0d29a" stroke-width="3" stroke-linecap="round"/>
+    <path d="M786 448h28" stroke="#f0d29a" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- live bars -->
+  <g fill="#7cc7f0">
+    <rect x="928" y="386" width="6" height="36" rx="3" opacity="0.8"/>
+    <rect x="944" y="370" width="6" height="68" rx="3" opacity="0.55"/>
+    <rect x="960" y="392" width="6" height="24" rx="3" opacity="0.7"/>
+    <rect x="640" y="390" width="6" height="28" rx="3" opacity="0.6"/>
+    <rect x="656" y="376" width="6" height="56" rx="3" opacity="0.75"/>
+    <rect x="672" y="396" width="6" height="16" rx="3" opacity="0.5"/>
+  </g>
+
+  <!-- conversation -->
+  <g>
+    <rect x="76" y="246" width="366" height="92" rx="18" fill="#d9b268" fill-opacity="0.12" stroke="#d9b268" stroke-opacity="0.4"/>
+    <text x="104" y="284" fill="#f0dcb8" font-family="Georgia, 'Times New Roman', serif" font-size="22">Hey JARVIS, start my day</text>
+    <text x="104" y="312" fill="#b09055" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="2">VOICE · 0:02</text>
+
+    <rect x="76" y="356" width="404" height="112" rx="18" fill="#0d2434" stroke="#7cc7f0" stroke-opacity="0.3"/>
+    <text x="104" y="392" fill="#dbe9f4" font-family="Georgia, 'Times New Roman', serif" font-size="22">Opening your calendar and</text>
+    <text x="104" y="420" fill="#dbe9f4" font-family="Georgia, 'Times New Roman', serif" font-size="22">three reminders.</text>
+    <text x="104" y="448" fill="#7791a6" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="2">ACTION EXECUTED</text>
+  </g>
+
+  <!-- command chips -->
+  <g font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="2">
+    <rect x="76" y="520" width="102" height="34" rx="17" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="127" y="542" text-anchor="middle" fill="#a9b8c6">TIMER</text>
+    <rect x="190" y="520" width="118" height="34" rx="17" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="249" y="542" text-anchor="middle" fill="#a9b8c6">WEATHER</text>
+    <rect x="320" y="520" width="120" height="34" rx="17" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="380" y="542" text-anchor="middle" fill="#a9b8c6">REMIND</text>
+  </g>
+
+  <!-- identity -->
+  <text x="76" y="92" fill="#8fb6d6" font-family="ui-monospace, Menlo, monospace" font-size="15" letter-spacing="4">AI VOICE ASSISTANT</text>
+  <text x="72" y="694" fill="#f4f8fc" font-family="Georgia, 'Times New Roman', serif" font-size="88" letter-spacing="10">JARVIS</text>
+  <text x="76" y="734" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="3">VOICE · CONTEXT MEMORY · ACTIONS</text>
+</svg>

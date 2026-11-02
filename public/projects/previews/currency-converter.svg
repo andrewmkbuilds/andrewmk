@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#060e1a"/>
+      <stop offset="0.55" stop-color="#0a1a2b"/>
+      <stop offset="1" stop-color="#0f2739"/>
+    </linearGradient>
+    <radialGradient id="g" cx="0.85" cy="0.1" r="0.55">
+      <stop offset="0" stop-color="#d9b268" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#d9b268" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="b" cx="0.05" cy="0.9" r="0.6">
+      <stop offset="0" stop-color="#3d9fe0" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#3d9fe0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="coin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6e3b8"/>
+      <stop offset="1" stop-color="#c9a05a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#g)"/>
+  <rect width="1200" height="800" fill="url(#b)"/>
+
+  <text x="76" y="84" fill="#8fb6d6" font-family="ui-monospace, Menlo, monospace" font-size="15" letter-spacing="4">FINANCE · UTILITY · DESKTOP</text>
+  <text x="72" y="150" fill="#f4f8fc" font-family="Georgia, 'Times New Roman', serif" font-size="54">Currency Converter</text>
+  <text x="76" y="180" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="3">170+ CURRENCIES · LIVE RATES</text>
+
+  <!-- FROM panel -->
+  <g>
+    <rect x="76" y="214" width="430" height="152" rx="14" fill="#0b1c2b" stroke="#ffffff" stroke-opacity="0.1"/>
+    <text x="104" y="250" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="3">FROM</text>
+    <text x="104" y="318" fill="#f4f8fc" font-family="Georgia, 'Times New Roman', serif" font-size="48">1,000.00</text>
+    <rect x="360" y="230" width="118" height="42" rx="21" fill="#d9b268" fill-opacity="0.14" stroke="#d9b268" stroke-opacity="0.45"/>
+    <circle cx="388" cy="251" r="11" fill="url(#coin)"/>
+    <text x="410" y="257" fill="#f0d29a" font-family="ui-monospace, Menlo, monospace" font-size="14" letter-spacing="2">AED</text>
+    <line x1="104" y1="338" x2="478" y2="338" stroke="#ffffff" stroke-opacity="0.07"/>
+  </g>
+
+  <!-- swap -->
+  <g>
+    <line x1="291" y1="366" x2="291" y2="418" stroke="#d9b268" stroke-opacity="0.5" stroke-width="2" stroke-dasharray="4 6"/>
+    <circle cx="291" cy="392" r="30" fill="#0a1a29" stroke="#d9b268" stroke-opacity="0.55" stroke-width="2"/>
+    <path d="M282 400l9 9 9-9" fill="none" stroke="#f0d29a" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M282 384l9-9 9 9" fill="none" stroke="#f0d29a" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- TO panel -->
+  <g>
+    <rect x="76" y="418" width="430" height="152" rx="14" fill="#0b1c2b" stroke="#7cc7f0" stroke-opacity="0.3"/>
+    <text x="104" y="454" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="3">TO</text>
+    <text x="104" y="522" fill="#eef6fd" font-family="Georgia, 'Times New Roman', serif" font-size="48">272.25</text>
+    <rect x="360" y="434" width="118" height="42" rx="21" fill="#3d9fe0" fill-opacity="0.14" stroke="#3d9fe0" stroke-opacity="0.45"/>
+    <circle cx="388" cy="455" r="11" fill="#7cc7f0" fill-opacity="0.7"/>
+    <text x="410" y="461" fill="#9ed4f4" font-family="ui-monospace, Menlo, monospace" font-size="14" letter-spacing="2">USD</text>
+    <line x1="104" y1="542" x2="478" y2="542" stroke="#ffffff" stroke-opacity="0.07"/>
+  </g>
+
+  <text x="76" y="606" fill="#5f7285" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="2">RATE CACHED 04:12 · OFFLINE FALLBACK</text>
+
+  <!-- rate table -->
+  <g>
+    <line x1="560" y1="214" x2="1124" y2="214" stroke="#ffffff" stroke-opacity="0.1"/>
+    <text x="560" y="196" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="3">TODAY · 1 AED =</text>
+
+    <g font-family="ui-monospace, Menlo, monospace" font-size="15">
+      <circle cx="576" cy="258" r="13" fill="#7cc7f0" fill-opacity="0.25" stroke="#7cc7f0" stroke-opacity="0.5"/>
+      <text x="608" y="263" fill="#dbe6ef">USD</text>
+      <text x="740" y="263" fill="#f4f8fc">0.2723</text>
+      <rect x="880" y="244" width="72" height="26" rx="13" fill="#7ea88f" fill-opacity="0.15"/>
+      <text x="916" y="262" text-anchor="middle" fill="#9dc4a9" font-size="12">+0.4%</text>
+      <path d="M980 268l18-10 16 6 18-16 16 4 18-12 16 8" fill="none" stroke="#7cc7f0" stroke-opacity="0.7" stroke-width="2"/>
+
+      <circle cx="576" cy="330" r="13" fill="#d9b268" fill-opacity="0.25" stroke="#d9b268" stroke-opacity="0.5"/>
+      <text x="608" y="335" fill="#dbe6ef">EUR</text>
+      <text x="740" y="335" fill="#f4f8fc">0.2510</text>
+      <rect x="880" y="316" width="72" height="26" rx="13" fill="#d9b268" fill-opacity="0.14"/>
+      <text x="916" y="334" text-anchor="middle" fill="#e8c98f" font-size="12">-0.1%</text>
+      <path d="M980 336l18-6 16 10 18-4 16-8 18 6 16-4" fill="none" stroke="#d9b268" stroke-opacity="0.7" stroke-width="2"/>
+
+      <circle cx="576" cy="402" r="13" fill="#9dc4a9" fill-opacity="0.25" stroke="#9dc4a9" stroke-opacity="0.5"/>
+      <text x="608" y="407" fill="#dbe6ef">GBP</text>
+      <text x="740" y="407" fill="#f4f8fc">0.2158</text>
+      <rect x="880" y="388" width="72" height="26" rx="13" fill="#7ea88f" fill-opacity="0.15"/>
+      <text x="916" y="406" text-anchor="middle" fill="#9dc4a9" font-size="12">+0.7%</text>
+      <path d="M980 402l18-14 16 10 18-8 16 2 18-12 16 6" fill="none" stroke="#9dc4a9" stroke-opacity="0.7" stroke-width="2"/>
+
+      <circle cx="576" cy="474" r="13" fill="#c3a3d6" fill-opacity="0.25" stroke="#c3a3d6" stroke-opacity="0.5"/>
+      <text x="608" y="479" fill="#dbe6ef">INR</text>
+      <text x="740" y="479" fill="#f4f8fc">22.940</text>
+      <rect x="880" y="460" width="72" height="26" rx="13" fill="#d9b268" fill-opacity="0.14"/>
+      <text x="916" y="478" text-anchor="middle" fill="#e8c98f" font-size="12">-0.3%</text>
+      <path d="M980 470l18 6 16-10 18 4 16-6 18 10 16-8" fill="none" stroke="#c3a3d6" stroke-opacity="0.7" stroke-width="2"/>
+    </g>
+    <line x1="560" y1="512" x2="1124" y2="512" stroke="#ffffff" stroke-opacity="0.08"/>
+    <text x="560" y="546" fill="#5f7285" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="2">TEXT INPUT · NO NETWORK DEPENDENCY</text>
+  </g>
+</svg>

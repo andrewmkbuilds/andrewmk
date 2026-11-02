@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#060e1a"/>
+      <stop offset="0.58" stop-color="#0a1a2c"/>
+      <stop offset="1" stop-color="#0f2a41"/>
+    </linearGradient>
+    <radialGradient id="bloom" cx="0.16" cy="0.04" r="0.8">
+      <stop offset="0" stop-color="#3d9fe0" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#3d9fe0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="goldbloom" cx="0.98" cy="0.96" r="0.62">
+      <stop offset="0" stop-color="#d9b268" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#d9b268" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stop-color="#f8fbfe"/>
+      <stop offset="0.62" stop-color="#e4ecf5"/>
+      <stop offset="1" stop-color="#cfdcea"/>
+    </linearGradient>
+    <linearGradient id="ringgold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6e0b2"/>
+      <stop offset="0.55" stop-color="#d9b268"/>
+      <stop offset="1" stop-color="#b78c46"/>
+    </linearGradient>
+    <filter id="paperShadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="26" stdDeviation="26" flood-color="#02070e" flood-opacity="0.6"/>
+    </filter>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="14" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#bloom)"/>
+  <rect width="1200" height="800" fill="url(#goldbloom)"/>
+
+  <line x1="600" y1="96" x2="600" y2="664" stroke="#ffffff" stroke-opacity="0.07" stroke-width="1.5"/>
+  <line x1="1120" y1="96" x2="1120" y2="664" stroke="#d9b268" stroke-opacity="0.35" stroke-width="1.5"/>
+
+  <g transform="rotate(-4 326 398)" filter="url(#paperShadow)">
+    <rect x="96" y="118" width="460" height="560" rx="12" fill="url(#paper)"/>
+    <rect x="96" y="118" width="460" height="12" rx="6" fill="#d9b268" opacity="0.85"/>
+    <rect x="140" y="176" width="66" height="6" rx="3" fill="#b78c46"/>
+    <rect x="140" y="204" width="252" height="20" rx="6" fill="#102a41"/>
+    <rect x="140" y="238" width="150" height="10" rx="5" fill="#7d93a8"/>
+
+    <line x1="140" y1="280" x2="472" y2="280" stroke="#b9cadb" stroke-width="1.4"/>
+    <rect x="140" y="300" width="332" height="9" rx="4.5" fill="#9fb2c4"/>
+    <rect x="140" y="322" width="300" height="9" rx="4.5" fill="#9fb2c4"/>
+    <rect x="140" y="344" width="248" height="9" rx="4.5" fill="#a9bccd"/>
+
+    <rect x="140" y="386" width="84" height="7" rx="3.5" fill="#b78c46"/>
+    <rect x="140" y="410" width="316" height="9" rx="4.5" fill="#9fb2c4"/>
+    <rect x="140" y="432" width="272" height="9" rx="4.5" fill="#9fb2c4"/>
+    <rect x="140" y="454" width="298" height="9" rx="4.5" fill="#a9bccd"/>
+
+    <rect x="140" y="496" width="84" height="7" rx="3.5" fill="#b78c46"/>
+    <rect x="140" y="520" width="228" height="9" rx="4.5" fill="#9fb2c4"/>
+    <rect x="140" y="542" width="286" height="9" rx="4.5" fill="#9fb2c4"/>
+
+    <circle cx="472" cy="414" r="9" fill="#d9b268" opacity="0.55"/>
+    <circle cx="472" cy="458" r="9" fill="#d9b268" opacity="0.35"/>
+    <circle cx="472" cy="524" r="9" fill="#d9b268" opacity="0.7"/>
+  </g>
+
+  <g filter="url(#glow)">
+    <circle cx="622" cy="206" r="74" fill="#081625" fill-opacity="0.94" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.5"/>
+    <circle cx="622" cy="206" r="58" fill="none" stroke="#ffffff" stroke-opacity="0.1" stroke-width="12"/>
+    <circle cx="622" cy="206" r="58" fill="none" stroke="url(#ringgold)" stroke-width="12" stroke-linecap="round"
+            stroke-dasharray="317 365" transform="rotate(-90 622 206)"/>
+    <text x="622" y="218" text-anchor="middle" fill="#f4ead6" font-family="Georgia, 'Times New Roman', serif" font-size="44">87</text>
+  </g>
+  <text x="622" y="308" text-anchor="middle" fill="#d9b268" font-family="ui-monospace, Menlo, monospace" font-size="15" letter-spacing="5">ATS</text>
+
+  <text x="700" y="196" fill="#d9b268" font-family="ui-monospace, Menlo, monospace" font-size="17" letter-spacing="4">RESUME MATCH</text>
+
+  <g font-family="ui-monospace, Menlo, monospace" font-size="16" fill="#c3d1de">
+    <text x="700" y="252">IMPACT VERBS</text>
+    <rect x="700" y="266" width="360" height="8" rx="4" fill="#ffffff" fill-opacity="0.08"/>
+    <rect x="700" y="266" width="291" height="8" rx="4" fill="#3d9fe0"/>
+
+    <text x="700" y="318">KEYWORD COVERAGE</text>
+    <rect x="700" y="332" width="360" height="8" rx="4" fill="#ffffff" fill-opacity="0.08"/>
+    <rect x="700" y="332" width="324" height="8" rx="4" fill="#7cc7f0"/>
+
+    <text x="700" y="384">QUANTIFIED RESULTS</text>
+    <rect x="700" y="398" width="360" height="8" rx="4" fill="#ffffff" fill-opacity="0.08"/>
+    <rect x="700" y="398" width="234" height="8" rx="4" fill="#d9b268"/>
+  </g>
+
+  <g>
+    <rect x="700" y="452" width="370" height="112" rx="10" fill="#0b1d30" stroke="#ffffff" stroke-opacity="0.09"/>
+    <text x="720" y="480" fill="#8fa4b8" font-family="ui-monospace, Menlo, monospace" font-size="14" letter-spacing="3">SUGGESTED REWRITE</text>
+    <rect x="720" y="496" width="290" height="8" rx="4" fill="#5d6f82"/>
+    <rect x="720" y="514" width="256" height="8" rx="4" fill="#d9b268" opacity="0.85"/>
+    <rect x="720" y="532" width="180" height="8" rx="4" fill="#3d9fe0" opacity="0.8"/>
+  </g>
+
+  <g font-family="ui-monospace, Menlo, monospace" font-size="14" letter-spacing="2">
+    <rect x="700" y="592" width="112" height="34" rx="17" fill="#d9b268" fill-opacity="0.12" stroke="#d9b268" stroke-opacity="0.4"/>
+    <text x="756" y="614" text-anchor="middle" fill="#e8c98f">INTERVIEW</text>
+    <rect x="824" y="592" width="112" height="34" rx="17" fill="#3d9fe0" fill-opacity="0.12" stroke="#3d9fe0" stroke-opacity="0.4"/>
+    <text x="880" y="614" text-anchor="middle" fill="#9ed4f4">TRACKING</text>
+    <rect x="948" y="592" width="122" height="34" rx="17" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="1009" y="614" text-anchor="middle" fill="#aebccb">ANALYTICS</text>
+  </g>
+
+  <text x="700" y="716" fill="#f2f6fb" fill-opacity="0.15" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="4">CAREER ACCELERATOR</text>
+  <text x="700" y="768" fill="#f4f8fc" font-family="Georgia, 'Times New Roman', serif" font-size="74" font-style="italic">Gradr<tspan fill="#d9b268">.</tspan></text>
+</svg>

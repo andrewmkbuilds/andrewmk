@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050d18"/>
+      <stop offset="0.5" stop-color="#08182a"/>
+      <stop offset="1" stop-color="#0b2237"/>
+    </linearGradient>
+    <radialGradient id="blue" cx="0.2" cy="0.15" r="0.7">
+      <stop offset="0" stop-color="#3d9fe0" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#3d9fe0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gold" cx="0.9" cy="0.85" r="0.5">
+      <stop offset="0" stop-color="#d9b268" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#d9b268" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="pinGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#blue)"/>
+  <rect width="1200" height="800" fill="url(#gold)"/>
+
+  <!-- street grid -->
+  <g stroke="#ffffff" stroke-opacity="0.09" stroke-width="2">
+    <path d="M-40 610 L1240 470"/>
+    <path d="M-40 470 L1240 330"/>
+    <path d="M-40 300 L1240 150"/>
+    <path d="M120 840 L300 40"/>
+    <path d="M420 840 L560 40"/>
+    <path d="M700 840 L800 40"/>
+    <path d="M1010 840 L1080 40"/>
+  </g>
+  <g fill="#3d9fe0" fill-opacity="0.06" stroke="#3d9fe0" stroke-opacity="0.12">
+    <rect x="150" y="470" width="240" height="120" rx="8" transform="rotate(-6 270 530)"/>
+    <rect x="460" y="330" width="210" height="120" rx="8" transform="rotate(-6 565 390)"/>
+    <rect x="740" y="170" width="240" height="140" rx="8" transform="rotate(-6 860 240)"/>
+    <rect x="760" y="470" width="280" height="120" rx="8" transform="rotate(-6 900 530)"/>
+  </g>
+  <g stroke="#3d9fe0" stroke-opacity="0.18" stroke-width="10" stroke-linecap="round">
+    <path d="M40 700 L1140 590"/>
+  </g>
+
+  <!-- route -->
+  <path d="M330 540 C 470 540, 520 470, 640 440 C 760 410, 820 360, 930 320"
+        fill="none" stroke="#d9b268" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="10 12"/>
+
+  <!-- pins -->
+  <g>
+    <circle cx="330" cy="540" r="42" fill="#d9b268" fill-opacity="0.3" filter="url(#pinGlow)"/>
+    <path d="M330 502c-18 0-32 14-32 31 0 23 32 49 32 49s32-26 32-49c0-17-14-31-32-31z" fill="#d9b268"/>
+    <circle cx="330" cy="534" r="11" fill="#20180a"/>
+
+    <path d="M640 404c-14 0-25 11-25 24 0 18 25 38 25 38s25-20 25-38c0-13-11-24-25-24z" fill="#2f7fb8"/>
+    <circle cx="640" cy="429" r="8" fill="#08131f"/>
+
+    <path d="M930 286c-14 0-25 11-25 24 0 18 25 38 25 38s25-20 25-38c0-13-11-24-25-24z" fill="#3d9fe0" opacity="0.8"/>
+    <circle cx="930" cy="311" r="8" fill="#08131f"/>
+  </g>
+
+  <!-- ETA chip -->
+  <g>
+    <rect x="952" y="132" width="172" height="52" rx="26" fill="#0c2133" stroke="#d9b268" stroke-opacity="0.4"/>
+    <circle cx="984" cy="158" r="7" fill="#7ea88f"/>
+    <text x="1000" y="164" fill="#e8c98f" font-family="ui-monospace, Menlo, monospace" font-size="14" letter-spacing="2">ARRIVING 12 MIN</text>
+  </g>
+
+  <!-- match card -->
+  <g>
+    <rect x="76" y="602" width="392" height="150" rx="14" fill="#0b1c2b" fill-opacity="0.95" stroke="#ffffff" stroke-opacity="0.12"/>
+    <circle cx="132" cy="662" r="30" fill="#123c58" stroke="#7cc7f0" stroke-opacity="0.6" stroke-width="2"/>
+    <path d="M120 668c4-9 20-9 24 0" fill="none" stroke="#9ed4f4" stroke-width="2.5"/>
+    <circle cx="132" cy="652" r="7" fill="#9ed4f4"/>
+    <text x="180" y="648" fill="#eef3f8" font-family="Georgia, 'Times New Roman', serif" font-size="26">Plumbing · matched</text>
+    <text x="180" y="676" fill="#8fa3b6" font-family="ui-monospace, Menlo, monospace" font-size="13">4.9 rating · 5 yrs · Al Barsha</text>
+    <rect x="180" y="696" width="88" height="30" rx="15" fill="#d9b268" fill-opacity="0.16" stroke="#d9b268" stroke-opacity="0.45"/>
+    <text x="224" y="716" text-anchor="middle" fill="#e8c98f" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="2">ONE-OFF</text>
+    <rect x="280" y="696" width="104" height="30" rx="15" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="332" y="716" text-anchor="middle" fill="#a9b8c6" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="2">MONTHLY</text>
+  </g>
+
+  <!-- identity -->
+  <text x="76" y="92" fill="#8fb6d6" font-family="ui-monospace, Menlo, monospace" font-size="15" letter-spacing="4">MARKETPLACE · AI</text>
+  <text x="72" y="182" fill="#f4f8fc" font-family="Georgia, 'Times New Roman', serif" font-size="72">Home Serve<tspan fill="#d9b268">AI</tspan></text>
+  <text x="76" y="220" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="3">SMART MATCHING · TRACKING · RECURRING</text>
+</svg>

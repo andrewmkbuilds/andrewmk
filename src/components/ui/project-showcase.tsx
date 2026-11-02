@@ -21,12 +21,13 @@ import type { Project } from "@/data/portfolio";
  * 1. **Real records, not demo rows.** Rows come from `src/data/portfolio.ts`
  *    (`Project[]`), each linking to its own `/projects/<slug>` page. No demo
  *    name, description, date or stock image survives.
- * 2. **Real screenshots, no stock imagery.** A project that publishes a
- *    `screenshot` — a capture of its own live site, vendored in
- *    `/public/projects/` — renders it through `ProjectShot`, so this preview
- *    shows the same asset as the card, case study, modal and project page.
- *    Projects with no published site (or one behind a login) keep the designed
- *    *plate* built from the record — the same fallback the other surfaces use.
+ * 2. **One asset per project, never stock imagery.** A project that publishes
+ *    a `screenshot` renders it through `ProjectShot`, so this preview shows the
+ *    same asset as the card, case study, modal and project page. That field
+ *    holds either a capture of the project's own live site or — for projects
+ *    with no public site, or one behind a login — a bespoke illustration of
+ *    that specific product in `previews/`, each with its own composition. A
+ *    record with no asset keeps the designed *plate* built from the record.
  * 3. **One animation frame loop, driven by refs.** The demo kept the cursor in
  *    React state and used it as an effect dependency, so every pointer move
  *    tore down and restarted the loop (and re-rendered the whole list). Here
