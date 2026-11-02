@@ -1,9 +1,14 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
   beforeLoad: async () => {
+    // Imported here rather than at module scope: this route module is part of
+    // the eagerly-loaded route tree on every page, so a top-level import pulled
+    // the whole Supabase client (~110 KB) into the shared entry chunk that the
+    // homepage has to download before it can hydrate. Deferring it keeps that
+    // weight on the admin routes that actually use it.
+    const { supabase } = await import("@/integrations/supabase/client");
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) throw redirect({ to: "/auth" });
 

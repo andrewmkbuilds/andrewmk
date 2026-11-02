@@ -1,4 +1,27 @@
 # Static-host headers (Cloudflare Pages / nitro deploy).
+#
+# Cache policy: only Vite's content-hashed client assets (`/assets/<name>-<hash>.js`)
+# are immutable — their URL changes whenever their bytes change, so a one-year
+# cache can never serve stale code. Everything whose URL is stable (HTML routes,
+# project images, the generated sitemap/OG files) keeps a short lifetime and is
+# revalidated, so a deployment shows up immediately.
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Hashed build output: JS chunks, the stylesheet and content-hashed images.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Self-hosted webfonts are not hashed, so they get a day rather than a year.
+/fonts/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# Project screenshots and brand marks change only when a project does.
+/projects/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/brands/*
+  Cache-Control: public, max-age=604800
+
 # `/.well-known/api-catalog` has no extension, so a static server cannot infer
 # its type; RFC 9727 specifies application/linkset+json.
 /.well-known/api-catalog

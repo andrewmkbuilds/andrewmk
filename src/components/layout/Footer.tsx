@@ -3,8 +3,8 @@ import { ArrowRight, ArrowUp } from "lucide-react";
 import { SketchSeparator, SketchStar } from "@/components/ui/Sketch";
 import { SocialIcons } from "@/components/ui/SocialIcons";
 import { Parallax } from "@/components/ui/Parallax";
-import logoUrl from "@/assets/andrewbuilds-logo.png";
-import { PROFILE_TITLE } from "@/data/portfolio";
+import logoUrl from "@/assets/andrewbuilds-logo.webp";
+import { PROFILE_TITLE } from "@/data/identity";
 
 const links = [
   { href: "/", label: "Home" },

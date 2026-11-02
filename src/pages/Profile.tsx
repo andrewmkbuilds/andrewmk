@@ -9,7 +9,7 @@ import {
   Wrench,
   Globe,
 } from "lucide-react";
-import logoUrl from "@/assets/andrewbuilds-logo.png";
+import logoUrl from "@/assets/andrewbuilds-logo.webp";
 import {
   allProjects,
   buildingCategories,

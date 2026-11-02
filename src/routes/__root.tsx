@@ -114,17 +114,33 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         },
       ],
       links: [
-        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        // Brand marks come from img.logo.dev when a publishable token is
+        // configured (src/components/ui/BrandLogo.tsx). The ribbon and social
+        // rows request them immediately, so opening the connection with the
+        // document saves a DNS + TLS round trip on the first mark. Read from the
+        // env directly: importing `logoDevEnabled` would pull the whole brand
+        // registry into the entry chunk.
+        ...(import.meta.env["VITE_LOGO_DEV_TOKEN"]
+          ? [{ rel: "preconnect", href: "https://img.logo.dev" }]
+          : []),
+        // Fonts are self-hosted (src/styles/fonts.css). Preloading the two faces
+        // that set the first screen — the Sora display headline and the Inter
+        // body text — starts them with the stylesheet instead of after it, so
+        // the LCP text does not wait for a second round trip. `crossOrigin` is
+        // required on font preloads even for same-origin files.
         {
-          rel: "preconnect",
-          href: "https://fonts.gstatic.com",
+          rel: "preload",
+          href: "/fonts/sora-latin.woff2",
+          as: "font",
+          type: "font/woff2",
           crossOrigin: "anonymous",
         },
         {
-          rel: "stylesheet",
-          // Only the weights the site actually renders, so the font CSS and the
-          // downloaded files stay small on first load.
-          href: "https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap",
+          rel: "preload",
+          href: "/fonts/inter-latin.woff2",
+          as: "font",
+          type: "font/woff2",
+          crossOrigin: "anonymous",
         },
         { rel: "stylesheet", href: appCss },
         { rel: "icon", type: "image/png", href: "/favicon.png" },

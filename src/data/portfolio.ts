@@ -2011,8 +2011,18 @@ export const currentlyBuilding = [
   { name: "Horizon Motorsports", status: "Active", note: "UAE racing team." },
 ];
 
-export const GITHUB_URL = "https://github.com/andrewmkbuilds";
-export const LINKTREE_URL = "https://linktr.ee/andrewmkbuilds";
+// The identity constants live in `./identity` so a component that only needs
+// the positioning line (the footer, on every route) does not pull the whole
+// project dataset into the shared layout chunk. Re-exported here so existing
+// `@/data/portfolio` imports keep working.
+export {
+  CONTACT_EMAIL,
+  GITHUB_URL,
+  LINKTREE_URL,
+  PROFILE_IDENTITY,
+  PROFILE_TITLE,
+  SCHOOL,
+} from "./identity";
 
 export interface SocialLink {
   id: string;
@@ -2024,9 +2034,6 @@ export interface SocialLink {
   /** Label for the visit button. */
   cta: string;
 }
-
-/** Public contact address shown on the contact page. */
-export const CONTACT_EMAIL = "buildwithandrewmk@gmail.com";
 
 export const socialLinks: SocialLink[] = [
   {
@@ -2079,15 +2086,6 @@ export const socialLinks: SocialLink[] = [
     cta: "View All My Links",
   },
 ];
-
-/** One-line professional description, used wherever the site states who I am. */
-export const PROFILE_TITLE = "Student Developer · AI Builder · Systems Thinker";
-
-/** Verbatim identity line from the source About page and Person JSON-LD. */
-export const PROFILE_IDENTITY =
-  "Student · Developer · AI Builder · Systems Thinker";
-
-export const SCHOOL = "The Indian High School, Dubai";
 
 export interface SkillGroup {
   title: string;

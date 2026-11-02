@@ -32,7 +32,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { SocialIcons } from "@/components/ui/SocialIcons";
 import { Magnetic } from "@/components/ui/Magnetic";
-import logoUrl from "@/assets/andrewbuilds-logo.png";
+import logoUrl from "@/assets/andrewbuilds-logo.webp";
 
 /**
  * Route match for the active pill. Derived from the router's resolved location

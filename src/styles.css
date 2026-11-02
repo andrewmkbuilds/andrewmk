@@ -1,4 +1,6 @@
-/* Fonts are loaded via <link> tags in src/routes/__root.tsx */
+/* Self-hosted @font-face rules (see src/styles/fonts.css). The critical faces
+   are also preloaded from src/routes/__root.tsx. */
+@import "./styles/fonts.css";
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";

@@ -1,4 +1,4 @@
-import { allProjects } from "@/data/portfolio";
+import { SCENE_PROJECT_ROWS } from "./scene-pool.generated";
 
 /**
  * The words on the ambient wall behind every page: **project names only**.
@@ -11,9 +11,16 @@ import { allProjects } from "@/data/portfolio";
  * shortlist and not a ranked top ten. `lib/scene-selection.ts` draws a fresh
  * sample from it on every page load, so the wall is a different slice of the
  * work each visit; adding a record to `portfolio.ts` is enough to put it in
- * the draw. `sceneLane` groups records by the first segment of their own
- * `category` so one draw can span the portfolio's kinds (products, AI tools,
- * utilities, experiments) instead of clustering on the same few flagships.
+ * the draw (`scripts/generate-scene-pool.ts` extracts the index, `predev` and
+ * `prebuild` run it). `sceneLane` groups records by the first segment of their
+ * own `category` so one draw can span the portfolio's kinds (products, AI
+ * tools, utilities, experiments) instead of clustering on the same few
+ * flagships.
+ *
+ * This module reads the generated index rather than `allProjects` itself: the
+ * scene is mounted by the layout on every route, so importing the full records
+ * here shipped every project description, feature list and challenge in the
+ * shared layout chunk.
  */
 export type SceneProject = {
   slug: string;
@@ -23,7 +30,7 @@ export type SceneProject = {
 
 const bySlug = new Map<string, SceneProject>();
 
-for (const project of allProjects) {
+for (const project of SCENE_PROJECT_ROWS) {
   if (!project.slug || !project.name || bySlug.has(project.slug)) continue;
   bySlug.set(project.slug, {
     slug: project.slug,

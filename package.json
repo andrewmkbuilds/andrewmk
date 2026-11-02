@@ -4,7 +4,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "predev": "tsx scripts/generate-sitemap.ts && tsx scripts/generate-og-images.ts && tsx scripts/generate-public-data.ts",
+    "predev": "tsx scripts/generate-sitemap.ts && tsx scripts/generate-og-images.ts && tsx scripts/generate-scene-pool.ts && tsx scripts/generate-public-data.ts",
     "data:generate": "tsx scripts/generate-public-data.ts",
     "dev": "vite dev",
     "preview:check": "tsx scripts/preview-check.ts",
@@ -13,7 +13,7 @@
     "selection:check": "python3 scripts/selection-visual-check.py",
     "ci:verify": "bun run seo:regression && bun run a11y:check && bun run selection:check && bun run cta:check && bun run pop:check && bun run disclosure:check",
     "validate:data": "tsx scripts/validate-portfolio-data.ts",
-    "prebuild": "tsx scripts/validate-portfolio-data.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-og-images.ts && tsx scripts/generate-public-data.ts",
+    "prebuild": "tsx scripts/validate-portfolio-data.ts && tsx scripts/generate-sitemap.ts && tsx scripts/generate-og-images.ts && tsx scripts/generate-scene-pool.ts && tsx scripts/generate-public-data.ts",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "build:preview": "NITRO_PRESET=node-server vite build",
@@ -25,7 +25,8 @@
     "format:check": "prettier --check .",
     "cta:check": "python3 scripts/cta-visual-check.py",
     "pop:check": "python3 scripts/home-pop-check.py",
-    "disclosure:check": "python3 scripts/pop-disclosure-check.py"
+    "disclosure:check": "python3 scripts/pop-disclosure-check.py",
+    "scene:generate": "tsx scripts/generate-scene-pool.ts"
   },
   "overrides": {
     "rolldown": "1.2.1"

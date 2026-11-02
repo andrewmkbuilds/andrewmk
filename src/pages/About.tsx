@@ -13,7 +13,7 @@ import { SocialMark } from "@/components/ui/SocialMark";
 import TextReveal from "@/components/annnimate/text-reveal";
 import ElasticDivider from "@/components/annnimate/elastic-divider";
 import { AsciiPlate } from "@/components/ui/AsciiPlate";
-import logoUrl from "@/assets/andrewbuilds-logo.png";
+import logoUrl from "@/assets/andrewbuilds-logo.webp";
 
 export default function About() {
   return (
