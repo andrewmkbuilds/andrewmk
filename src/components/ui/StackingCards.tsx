@@ -35,6 +35,16 @@ import { cn } from "@/lib/utils";
  * them on click or keyboard.
  */
 
+/** The real document behind a milestone, taken from `data/certificates`. */
+export interface StackingCardCredential {
+  /** Preview file for the card (`Certificate.thumb`), served from /public. */
+  thumb: string;
+  /** The certificate's own title, used as the image's alternative text. */
+  title: string;
+  /** Issuer line printed under the preview. */
+  issuer?: string | undefined;
+}
+
 export interface StackingCardItem {
   /** The label line on the plate — the year on the journey timeline. */
   eyebrow: string;
@@ -43,6 +53,8 @@ export interface StackingCardItem {
   body?: string[] | undefined;
   /** Real milestones from the entry; rendered as chips, never as invented copy. */
   points?: string[] | undefined;
+  /** The certificate that documents this chapter, when one exists. */
+  credential?: StackingCardCredential | undefined;
 }
 
 interface StackingCardsProps {
@@ -78,34 +90,58 @@ function CardFace({
         </span>
       </div>
 
-      <h3 className="stack-title headline-3d font-semibold text-balance text-foreground">
-        {item.title}
-      </h3>
+      <div className="stack-body">
+        <div className="stack-text">
+          <h3 className="stack-title headline-3d font-semibold text-balance text-foreground">
+            {item.title}
+          </h3>
 
-      {item.meta ? (
-        <p className="mt-2 font-mono text-[10.5px] uppercase tracking-[0.16em] text-primary">
-          {item.meta}
-        </p>
-      ) : null}
+          {item.meta ? (
+            <p className="mt-2 font-mono text-[10.5px] uppercase tracking-[0.16em] text-primary">
+              {item.meta}
+            </p>
+          ) : null}
 
-      <div className="stack-copy">
-        {item.body?.map((line) => (
-          <p
-            key={line}
-            className="text-[13px] leading-relaxed text-muted-foreground sm:text-sm md:text-[15px]"
-          >
-            {line}
-          </p>
-        ))}
-
-        {item.points?.length ? (
-          <ul className="stack-points">
-            {item.points.map((point) => (
-              <li key={point} className="stack-point">
-                {point}
-              </li>
+          <div className="stack-copy">
+            {item.body?.map((line) => (
+              <p
+                key={line}
+                className="text-[13px] leading-relaxed text-muted-foreground sm:text-sm md:text-[15px]"
+              >
+                {line}
+              </p>
             ))}
-          </ul>
+
+            {item.points?.length ? (
+              <ul className="stack-points">
+                {item.points.map((point) => (
+                  <li key={point} className="stack-point">
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        </div>
+
+        {item.credential ? (
+          <figure className="stack-media">
+            <span className="stack-media-frame">
+              <img
+                src={item.credential.thumb}
+                alt={`${item.credential.title} — the document behind ${item.title}`}
+                width={720}
+                height={505}
+                loading="lazy"
+                decoding="async"
+              />
+            </span>
+            {item.credential.issuer ? (
+              <figcaption className="stack-media-caption">
+                {item.credential.issuer}
+              </figcaption>
+            ) : null}
+          </figure>
         ) : null}
       </div>
 

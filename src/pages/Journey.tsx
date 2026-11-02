@@ -5,13 +5,37 @@ import { StackingCards } from "@/components/ui/StackingCards";
 import { PortfolioRail } from "@/components/ui/PortfolioRail";
 import { SkillBadge } from "@/components/ui/Badges";
 import { timeline } from "@/data/portfolio";
+import { certificates } from "@/data/certificates";
 import type { StackingCardItem } from "@/components/ui/StackingCards";
 
-/** Each milestone is one chapter of the stack: the year is its label line. */
-const chapters: StackingCardItem[] = timeline.map(({ year, ...rest }) => ({
-  eyebrow: year,
-  ...rest,
-}));
+/**
+ * Each milestone is one chapter of the stack: the year is its label line, and
+ * the chapter's own certificate (when the entry names one) supplies the
+ * document preview on the plate. The image is read from `certificates`, so a
+ * renamed thumb or a re-dated certificate reaches the card without a second
+ * copy of it here.
+ */
+const chapters: StackingCardItem[] = timeline.map(
+  ({ year, credential, ...rest }) => {
+    const document = credential
+      ? certificates.find((cert) => cert.id === credential)
+      : undefined;
+
+    return {
+      eyebrow: year,
+      ...rest,
+      ...(document
+        ? {
+            credential: {
+              thumb: document.thumb,
+              title: document.title,
+              issuer: document.issuer,
+            },
+          }
+        : {}),
+    };
+  },
+);
 import {
   Bot,
   BrainCircuit,

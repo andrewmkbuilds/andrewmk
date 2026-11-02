@@ -1715,6 +1715,12 @@ export interface TimelineEntry {
   meta?: string;
   body: string[];
   points?: string[];
+  /**
+   * The certificate that documents this milestone, by `id` in
+   * `src/data/certificates.ts`. The journey card shows that document's own
+   * preview instead of a stand-in image; entries without one omit the field.
+   */
+  credential?: string;
 }
 
 export const timeline: TimelineEntry[] = [
@@ -1726,6 +1732,7 @@ export const timeline: TimelineEntry[] = [
       "Completed the Mbot@IHS robotics after-school programme and built and presented an original model at a school exhibition.",
       "This was the beginning of the building journey.",
     ],
+    credential: "robotics-2023",
   },
   {
     year: "2023",
@@ -1749,6 +1756,7 @@ export const timeline: TimelineEntry[] = [
       '2nd Place at Math Expo "Math & Me"',
       "Recognition through school exhibitions and events",
     ],
+    credential: "techfest-space-tech-2nd",
   },
   {
     year: "2025",
@@ -1763,6 +1771,7 @@ export const timeline: TimelineEntry[] = [
       "3rd Place Shot Put at Annual Athletic Meet",
       "Additional robotics certification",
     ],
+    credential: "techfest-data-science-1st",
   },
   {
     year: "2025-2026",
@@ -1788,6 +1797,7 @@ export const timeline: TimelineEntry[] = [
       "Computer vision systems",
       "Multiple AI experiments",
     ],
+    credential: "robotics-2025",
   },
   {
     year: "2026",

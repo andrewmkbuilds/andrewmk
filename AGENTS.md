@@ -280,11 +280,23 @@ list of the same cards renders instead of the stack under reduced motion.
 - **Adapted from the supplied "StackingCards" demo, not copied.** It ran on GSAP
   - ScrollTrigger with stock photography and an `#ebebe9` stage; here it runs on
     the site's existing `motion/react` scroll progress (no second animation
-    library), each card is built from `timeline` records (the portfolio publishes
-    no product screenshots), and the stage is transparent so the ambient scene
-    shows through. Geometry and plate styling live in
+    library), each card is built from `timeline` records and the only picture on
+    a plate is that chapter's own certificate, and the stage is transparent so
+    the ambient scene shows through. Geometry and plate styling live in
     `src/styles/stacking-cards.css`; the plate is sized from the pinned stage so
     it can never grow taller than the screen.
+- **The certificate preview is data, not a hand-picked file.** `TimelineEntry.credential`
+  names a `certificates[].id` (`robotics-2023`, `techfest-space-tech-2nd`,
+  `techfest-data-science-1st`, `robotics-2025` today); `/journey` resolves it
+  through `certificates` and passes `{ thumb, title, issuer }` to the plate, so a
+  renamed thumb or re-dated certificate reaches the card from the one dataset.
+  The preview is matted in `.stack-media-frame` (gold hairline, navy matte,
+  `object-contain` in a 4:3 box) beside the copy; chapters with no matching
+  document keep the full-width text column. Below 640 px the preview is hidden:
+  at 375 px it took a third of the line length and pushed the 14-chip 2025–2026
+  chapter 8 px past the bottom of its plate. Re-measured after that: every plate
+  at 375 / 768 / 1280 px has `textClipped: false`, the preview sits fully inside
+  the plate where it shows, and there is no sideways overflow.
 - **Transform only.** The demo's per-frame `clip-path` inset repainted the card
   every frame; the covered card now uses `y` / `scale` / `rotate` plus an
   opacity shade, so the whole stack is compositor work. Reduced motion comes
