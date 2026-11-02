@@ -783,6 +783,15 @@ follows and the reasons behind them:
   `.is-revealed` (styles in the "MOTION BUDGET" block at the end of `src/styles.css`). No per-element
   springs, no inline animation styles, and `prefers-reduced-motion` is handled in CSS so SSR and
   hydration agree.
+- **A clipped reveal clips an inner wrapper, never the observed node.** Chrome reports a target whose
+  own `clip-path` clips it to zero height as never intersecting, so `.reveal-mask` sitting on the
+  observed element meant the reveal could never fire: every `SectionHeading` — the gold uppercase
+  eyebrow, the serif title and the subtitle — stayed at `opacity: 0` / `inset(0 0 100%)` on every page
+  (the "sections have no headers" report, 2026-11-02). `Reveal` now renders `reveal-mask` /
+  `reveal-clip` on a child `div`, and `styles.css` resets the clip through
+  `.reveal.is-revealed > .reveal-mask`. Verified in headless Chromium at 1078 px: all 10 home section
+  headings reach `is-revealed` with opacity 1 while scrolling, and 390 px shows the headings with no
+  sideways overflow.
 - **No `backdrop-filter` on sticky or repeated surfaces.** A blurred sticky header repaints the strip
   every scroll frame; `.glass`, `.sticker` and `.tape` use layered translucent gradients instead.
 - **No `filter: blur()` light fields.** Ambient and hero glows are radial gradients whose falloff is

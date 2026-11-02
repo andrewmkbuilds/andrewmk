@@ -1005,6 +1005,12 @@
   );
 }
 
+/* Section eyebrow: the gold accent tag carries a light of its own. Paint only
+   (text-shadow), so it never changes layout or triggers a repaint on scroll. */
+@utility heading-glow {
+  text-shadow: 0 0 18px color-mix(in oklab, var(--gold) 45%, transparent);
+}
+
 /* ═══════════════════════════════════════════════════════════════════════
    DEPTH SYSTEM — one physical space for the whole site.
 
@@ -2692,6 +2698,14 @@ html[data-cursor-out] .cursor-layer {
   }
 
   .reveal-clip.is-revealed {
+    clip-path: inset(0 0 0 0);
+  }
+
+  /* The clip lives on an inner wrapper (`Reveal` renders it), because an
+     IntersectionObserver cannot see a target clipped to zero height — the
+     observed node must stay unclipped for the reveal to ever fire. */
+  .reveal.is-revealed > .reveal-mask,
+  .reveal.is-revealed > .reveal-clip {
     clip-path: inset(0 0 0 0);
   }
 

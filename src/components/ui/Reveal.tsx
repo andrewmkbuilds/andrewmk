@@ -91,17 +91,15 @@ export function Reveal({
 }: RevealProps) {
   const ref = useRevealRef<HTMLElement>();
   const Comp = as as ElementType;
+  // A clipped reveal keeps its clip-path on an inner wrapper. Chrome reports a
+  // target clipped to zero height as never intersecting, so an element carrying
+  // `.reveal-mask` itself could never trigger its own reveal and stayed hidden.
+  const clipped = variant === "mask" || variant === "clip";
 
   return (
     <Comp
       ref={ref}
-      className={cn(
-        "reveal",
-        scale && "reveal-scale",
-        variant === "mask" && "reveal-mask",
-        variant === "clip" && "reveal-clip",
-        className,
-      )}
+      className={cn("reveal", scale && !clipped && "reveal-scale", className)}
       style={
         {
           "--reveal-y": `${y}px`,
@@ -109,7 +107,13 @@ export function Reveal({
         } as CSSProperties
       }
     >
-      {children}
+      {clipped ? (
+        <div className={variant === "mask" ? "reveal-mask" : "reveal-clip"}>
+          {children}
+        </div>
+      ) : (
+        children
+      )}
     </Comp>
   );
 }

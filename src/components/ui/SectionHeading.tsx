@@ -57,7 +57,7 @@ export function SectionHeading({
         <div className="h-full w-full rounded-full bg-gold/[0.07] blur-[70px]" />
       </Parallax>
       {label && (
-        <p className="mb-4 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-gold">
+        <p className="heading-glow mb-4 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-gold">
           <SketchStar className="sketch-star h-3 w-3 shrink-0" weight={2.2} />
           <span aria-hidden="true" className="hairline-gold inline-block w-8" />
           {label}
