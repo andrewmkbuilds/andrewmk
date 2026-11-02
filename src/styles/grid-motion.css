@@ -24,40 +24,21 @@
   isolation: isolate;
   overflow: hidden;
   pointer-events: none;
-  /* The wall fades into the room at every edge, so it never reads as a
-     rectangle pasted behind the page. */
-  -webkit-mask-image:
-    linear-gradient(
-      to right,
-      transparent 0%,
-      #000 24%,
-      #000 76%,
-      transparent 100%
-    ),
-    linear-gradient(
-      to bottom,
-      transparent 0%,
-      #000 22%,
-      #000 62%,
-      transparent 100%
-    );
-  mask-image:
-    linear-gradient(
-      to right,
-      transparent 0%,
-      #000 24%,
-      #000 76%,
-      transparent 100%
-    ),
-    linear-gradient(
-      to bottom,
-      transparent 0%,
-      #000 22%,
-      #000 62%,
-      transparent 100%
-    );
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
+  /* One elliptical falloff, not two intersecting linear masks: the wall
+     dissolves into the room at every edge with no straight-line seam and no
+     visible corner where the two gradients used to meet. */
+  -webkit-mask-image: radial-gradient(
+    ellipse 96% 92% at 50% 42%,
+    #000 34%,
+    rgb(0 0 0 / 0.72) 64%,
+    transparent 92%
+  );
+  mask-image: radial-gradient(
+    ellipse 96% 92% at 50% 42%,
+    #000 34%,
+    rgb(0 0 0 / 0.72) 64%,
+    transparent 92%
+  );
 }
 
 .gm-plane {
@@ -84,13 +65,17 @@
   width: var(--gm-tile-w);
   height: var(--gm-tile-h);
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 16px;
+  /* A near-invisible panel: the three-stop gradient falls away instead of
+     banding, and nothing here is opaque enough to read as a pasted slab
+     behind the copy. */
   background: linear-gradient(
-    160deg,
-    hsl(214 62% 22% / 0.85),
-    hsl(220 64% 12% / 0.9)
+    168deg,
+    hsl(214 56% 27% / 0.5),
+    hsl(220 62% 15% / 0.46) 62%,
+    hsl(222 66% 10% / 0.44)
   );
-  color: hsl(212 30% 56%);
+  color: hsl(212 26% 64%);
   font-size: var(--gm-font, 14px);
   font-weight: 500;
   letter-spacing: 0.02em;
@@ -100,11 +85,15 @@
   opacity: calc(1 - var(--gm-dim, 0.4) * (1 - var(--spot, 0)));
 }
 
+/* One lit top edge and one hairline ring — the whole face is drawn by these
+   two shadows, so the tile has structure without a visible fill. */
 .gm-tile::after {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: inset 0 0 0 1px hsl(208 90% 70% / 0.16);
+  box-shadow:
+    inset 0 1px 0 hsl(208 92% 88% / 0.06),
+    inset 0 0 0 1px hsl(210 68% 74% / 0.055);
   content: "";
   pointer-events: none;
 }

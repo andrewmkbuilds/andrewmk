@@ -112,19 +112,20 @@ export function SceneBackground() {
           <GridMotion
             className="scene-grid"
             items={items}
-            // Six rows instead of eight: the wall reads the same at this scale
-            // but mounts a third fewer tiles, and every one of them is a node
-            // the per-frame light pass used to walk.
-            rows={6}
-            gap={16}
-            aspectRatio={1.8}
-            angle={-16}
-            tilt={30}
-            speed={7}
+            // Eight rows of wider, shorter tiles: a finer architectural grain
+            // than six slabs, so the wall reads as a lit surface behind the
+            // copy instead of a stack of panels competing with it. The lean is
+            // eased slightly (30° → 28°) for the same reason.
+            rows={8}
+            gap={18}
+            aspectRatio={2}
+            angle={-14}
+            tilt={28}
+            speed={6}
             direction="alternate"
-            parallax={0.3}
-            spotlight={0.5}
-            dim={0.5}
+            parallax={0.28}
+            spotlight={0.45}
+            dim={0.45}
           />
         </Suspense>
       )}

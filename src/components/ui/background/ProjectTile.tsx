@@ -20,22 +20,26 @@ import type { SceneProject } from "@/data/sceneTiles";
 type Variant = "plinth" | "edge" | "display" | "whisper";
 type Tone = "slate" | "azure" | "gold";
 
+/**
+ * A nine-tile rhythm: four resting labels, two editorial names, two captions
+ * and a single watermark. The older twelve-tile cycle put three display names
+ * and three turned labels in every run, which read as noise rather than
+ * composition at this tile count.
+ */
 const PATTERN: Variant[] = [
   "plinth",
   "display",
   "edge",
   "plinth",
   "whisper",
+  "plinth",
   "display",
   "edge",
   "plinth",
-  "display",
-  "whisper",
-  "plinth",
-  "edge",
 ];
 
-const TONES: Tone[] = ["slate", "gold", "azure", "slate"];
+/** Blue holds the wall; gold and azure are punctuation. */
+const TONES: Tone[] = ["slate", "azure", "slate", "gold", "slate", "azure"];
 
 /** Stable 0…1 from two integers — no Math.random, no hydration drift. */
 function spread(index: number, salt: number): number {
@@ -54,11 +58,16 @@ export function ProjectTile({
   const tone = TONES[index % TONES.length] ?? "slate";
   const drift = variant === "display" || variant === "whisper";
 
+  // Tight offsets: a tile is a plate, not a scatter. Drift and rotation stay
+  // small enough that the wall still reads as a grid.
   const style = {
-    "--name-x": `${((spread(index, 1) - 0.5) * 26).toFixed(2)}%`,
-    "--name-y": `${((spread(index, 2) - 0.5) * 30).toFixed(2)}%`,
-    "--name-rot": `${((spread(index, 3) - 0.5) * (drift ? 7 : 3)).toFixed(2)}deg`,
-    "--name-scale": (0.9 + spread(index, 4) * (drift ? 0.55 : 0.2)).toFixed(3),
+    "--name-x": `${((spread(index, 1) - 0.5) * (drift ? 18 : 8)).toFixed(2)}%`,
+    "--name-y": `${((spread(index, 2) - 0.5) * (drift ? 20 : 10)).toFixed(2)}%`,
+    "--name-rot": `${((spread(index, 3) - 0.5) * (drift ? 4 : 1.6)).toFixed(2)}deg`,
+    "--name-scale": (drift
+      ? 0.94 + spread(index, 4) * 0.12
+      : 0.96 + spread(index, 4) * 0.08
+    ).toFixed(3),
   } as CSSProperties;
 
   return (

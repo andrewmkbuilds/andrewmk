@@ -435,7 +435,7 @@ perceived depths, because three hand-tuned `translateZ` planes never agreed on o
 
 - `src/components/ui/AmbientLayers.tsx` is the mount point only; the scene lives in
   `src/components/ui/background/SceneBackground.tsx` and its stylesheet in `src/styles/scene-3d.css`
-  (imported from `src/styles.css`). Back to front: `.scene-base` (a `#080d19 → #050914` room lit
+  (imported from `src/styles.css`). Back to front: `.scene-base` (a `#070c17 → #03060c` room lit
   from above) → `.scene-bloom-blue` / `.scene-bloom-gold` → `.scene-grid` (the GridMotion wall,
   styles in `src/styles/grid-motion.css`) → `.scene-vignette` → `.ambient-grain`.
 - **The depth is one perspective and one lean.** The tile plane is turned (`angle`) and leaned back
@@ -468,8 +468,16 @@ perceived depths, because three hand-tuned `translateZ` planes never agreed on o
 - **Budget:** no `backdrop-filter`, no `filter: blur()`, no canvas, and no permanent `will-change`.
   Every animation is `transform` / `opacity` on the compositor: the two blooms drift on CSS
   keyframes and the wall is the only JavaScript on the layer.
-- Mobile (`max-width: 767px`) keeps the same room with the wall dropped to `opacity: 0.6` (from
-  `0.72`). `prefers-reduced-motion` stops the blooms, and GridMotion paints exactly one static
+- **The wall is a lit surface, not a stack of panels (2026-11-02).** Tile faces are near-invisible
+  on purpose: three-stop fills at ~0.5 alpha with one lit top edge and one hairline ring
+  (`grid-motion.css`), so what reads is the grid and the names rather than tiled slabs behind the
+  copy. Eight rows of 2:1 tiles (`rows={8}`, `aspectRatio={2}`, lean eased to 28°) replaced six
+  1.8:1 slabs at 30°, `ProjectTile`'s label offsets/rotations are halved, and its nine-tile rhythm
+  carries two display names instead of three. The room lost its third gradient (one overhead cone,
+  one warm right edge, one low wash) and the wall's mask is a single elliptical
+  `radial-gradient` — the old two intersected linear masks left a visible corner.
+- Mobile (`max-width: 767px`) keeps the same room with the wall dropped to `opacity: 0.56` (from
+  `0.7`). `prefers-reduced-motion` stops the blooms, and GridMotion paints exactly one static
   frame — no rAF loop, no pointer listeners; `scripts/a11y-keyboard-motion.cjs` asserts "no
   animation is running" and "ambient light drift is off" on every route, so run it after touching
   the scene.

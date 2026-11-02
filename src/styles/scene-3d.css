@@ -30,27 +30,31 @@
 
 /* ── The room ────────────────────────────────────────────────────────── */
 
+/* One light, not three. A wide overhead cone lights the top of the room, one
+   warm edge sits far right, and a low wash grounds the foot of the page — so
+   there is no blotchy shoulder where two same-weight gradients meet. */
 .scene-base {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background:
     radial-gradient(
-      105% 68% at 50% -10%,
-      hsl(216 96% 30% / 0.32),
-      transparent 62%
+      124% 74% at 50% -20%,
+      hsl(216 92% 34% / 0.28),
+      hsl(218 88% 22% / 0.1) 46%,
+      transparent 74%
     ),
     radial-gradient(
-      62% 46% at 92% 4%,
-      hsl(212 88% 34% / 0.16),
+      54% 46% at 96% -6%,
+      hsl(40 88% 64% / 0.09),
+      transparent 74%
+    ),
+    radial-gradient(
+      86% 42% at 50% 116%,
+      hsl(214 84% 30% / 0.1),
       transparent 72%
     ),
-    radial-gradient(
-      54% 40% at 2% 26%,
-      hsl(204 96% 36% / 0.12),
-      transparent 76%
-    ),
-    linear-gradient(#080d19 0%, #060b14 42%, #050914 66%, #03060d 100%);
+    linear-gradient(180deg, #070c17 0%, #060a12 46%, #04070e 76%, #03060c 100%);
 }
 
 /* ── Distant light ───────────────────────────────────────────────────── */
@@ -63,14 +67,14 @@
 }
 
 .scene-bloom-blue {
-  left: 12%;
-  top: -18%;
-  width: 84vw;
-  height: 68vh;
+  left: 6%;
+  top: -26%;
+  width: 88vw;
+  height: 64vh;
   background: radial-gradient(
     closest-side,
-    hsl(210 100% 62% / 0.3),
-    hsl(216 96% 44% / 0.12) 56%,
+    hsl(212 100% 64% / 0.2),
+    hsl(216 96% 44% / 0.08) 52%,
     transparent 100%
   );
   animation: scene-drift-a 56s ease-in-out infinite;
@@ -78,12 +82,12 @@
 
 .scene-bloom-gold {
   right: 0%;
-  top: 2%;
-  width: 44vw;
-  height: 48vh;
+  top: 0%;
+  width: 42vw;
+  height: 44vh;
   background: radial-gradient(
     closest-side,
-    hsl(42 96% 72% / 0.14),
+    hsl(42 92% 70% / 0.1),
     transparent 100%
   );
   animation: scene-drift-b 74s ease-in-out infinite;
@@ -92,24 +96,29 @@
 /* ── The depth field ─────────────────────────────────────────────────── */
 
 /* The wall is deliberately quiet: a third of the room's luminance at most,
-   so body copy and glass panels stay the brightest things on screen. */
+   so body copy and glass panels stay the brightest things on screen. Tile
+   faces are near-invisible on their own — what reads is the hairline grid and
+   the occasional name, which keeps the surface clean instead of tiled. */
 .scene-grid {
-  opacity: 0.72;
+  opacity: 0.7;
 }
 
 /* ── Atmosphere ──────────────────────────────────────────────────────── */
 
+/* A three-stop falloff instead of a two-stop one: the eye reads the old edge
+   as a ring, the extra stop as distance. */
 .scene-vignette {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background:
     radial-gradient(
-      ellipse 118% 88% at 50% 42%,
-      transparent 44%,
-      hsl(222 72% 2% / 0.62) 100%
+      ellipse 124% 96% at 50% 38%,
+      transparent 34%,
+      hsl(222 72% 3% / 0.26) 70%,
+      hsl(222 74% 2% / 0.6) 100%
     ),
-    linear-gradient(180deg, hsl(222 72% 2% / 0.35), transparent 20%);
+    linear-gradient(180deg, hsl(222 72% 2% / 0.3), transparent 20%);
 }
 
 /* ── Motion ──────────────────────────────────────────────────────────── */
@@ -138,7 +147,7 @@
 
 @media (max-width: 767px) {
   .scene-grid {
-    opacity: 0.6;
+    opacity: 0.56;
   }
 }
 

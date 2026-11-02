@@ -19,7 +19,7 @@
 .scene-name {
   display: block;
   max-width: 100%;
-  text-shadow: 0 1px 14px hsl(222 80% 3% / 0.55);
+  text-shadow: 0 2px 16px hsl(222 80% 3% / 0.6);
   transform: translate(var(--name-x, 0%), var(--name-y, 0%))
     rotate(var(--name-rot, 0deg)) scale(var(--name-scale, 1));
   transform-origin: center;
@@ -27,15 +27,15 @@
 
 /* Tone: the wall stays blue, gold is the occasional accent. */
 .scene-name--slate {
-  color: hsl(212 34% 70%);
+  color: hsl(212 28% 66%);
 }
 
 .scene-name--azure {
-  color: hsl(199 68% 72%);
+  color: hsl(199 58% 68%);
 }
 
 .scene-name--gold {
-  color: hsl(41 62% 66%);
+  color: hsl(41 56% 63%);
 }
 
 /* ── Plinth: a project name as a labelled tile face ──────────────────── */
@@ -43,11 +43,12 @@
 .scene-name--plinth {
   padding: 0 0.6em;
   font-family: var(--font-heading);
-  font-size: 0.8em;
-  font-weight: 600;
-  letter-spacing: 0.24em;
+  font-size: 0.76em;
+  font-weight: 500;
+  letter-spacing: 0.2em;
   line-height: 1.1;
   text-transform: uppercase;
+  opacity: 0.88;
 }
 
 /* ── Edge: the same label, off-centre and slightly turned ────────────── */
@@ -56,34 +57,35 @@
   width: 100%;
   padding: 0 0.9em;
   font-family: var(--font-heading);
-  font-size: 0.76em;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-size: 0.74em;
+  font-weight: 500;
+  letter-spacing: 0.16em;
   line-height: 1.1;
   text-align: left;
   text-transform: uppercase;
-  opacity: 0.78;
+  opacity: 0.7;
 }
 
 /* ── Display: the editorial voice, larger than its own tile ──────────── */
 
 .scene-name--display {
   font-family: var(--font-serif);
-  font-size: 2.3em;
+  font-size: 2.1em;
   font-style: italic;
   letter-spacing: -0.005em;
   line-height: 1;
   white-space: nowrap;
+  opacity: 0.92;
 }
 
 /* ── Whisper: a caption that barely raises its voice ─────────────────── */
 
 .scene-name--whisper {
   font-family: var(--font-mono);
-  font-size: 0.62em;
-  letter-spacing: 0.42em;
+  font-size: 0.6em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 /* ── Two registers drop the tile face and spill into the wall ────────── */
