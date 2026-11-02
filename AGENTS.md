@@ -414,7 +414,18 @@ perceived depths, because three hand-tuned `translateZ` planes never agreed on o
   at every viewport height — which is what the old three-plane scene could not do. Rows drift in
   alternating directions (`direction="alternate"`), and the tiles nearest the cursor lift out of
   `dim` through each tile's `--spot` custom property. Tile words come from
-  `src/data/sceneTiles.ts`: real project and skill names only, never invented brands.
+  `src/data/sceneTiles.ts`: real project names only, never invented brands.
+- **The wall re-draws on every page load.** `SCENE_PROJECT_POOL` is the whole
+  `allProjects` set (23 records, deduplicated by slug), and `lib/scene-selection.ts`
+  draws 12 of them — shuffled, then taken one per `category` lane so a draw spans
+  products, AI tools, utilities and experiments instead of the same flagships.
+  Nothing is hardcoded and nothing is saved permanently: the draw runs in
+  `SceneBackground`'s mount effect (client-only, so SSR and hydration never
+  disagree — the plane is `opacity: 0` until the client loop fades it in), the
+  result lives in state so re-renders and client-side route changes keep it, and
+  `sessionStorage` holds only the previous draw's signature so two consecutive
+  loads cannot show the same wall. The tiled wall still repeats names by design —
+  the sample size is what stops it repeating the same handful.
 - **One rAF loop, no React state.** `reactbits/GridMotion.tsx` writes each row's `transform` and
   each lit tile's `--spot` per frame, reads the root rect once per frame, and stops entirely when
   the wall scrolls out of view. Only `pointerType === "mouse"` drives parallax — do not gate the

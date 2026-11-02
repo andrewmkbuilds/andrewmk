@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import GridMotion from "@/components/reactbits/GridMotion";
 import { ProjectTile } from "./ProjectTile";
-import { SCENE_PROJECTS } from "@/data/sceneTiles";
+import type { SceneProject } from "@/data/sceneTiles";
+import { chooseSceneProjects } from "@/lib/scene-selection";
 import { subscribeScroll } from "@/lib/scroll";
 
 /**
@@ -20,6 +21,11 @@ import { subscribeScroll } from "@/lib/scroll";
  * neighbours (styles in `src/styles/scene-names.css`). The wall is the site's
  * identity statement: this is a portfolio of things that were actually built.
  *
+ * Which projects hang on it changes every page load: `lib/scene-selection.ts`
+ * draws a fresh sample from the whole portfolio, so no fixed four names own
+ * the wall. The draw happens after hydration (the server cannot know it) and
+ * lives in state, so re-renders never reshuffle it.
+ *
  * GridMotion replaced the hand-built CSS 3D scene on 2026-11-01: its slab /
  * cube / ring geometry resolved at inconsistent perceived depths (the same
  * object read differently at different viewport heights, because three
@@ -37,12 +43,28 @@ import { subscribeScroll } from "@/lib/scroll";
 export function SceneBackground() {
   const rootRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * The wall's projects are drawn on the client, after hydration: the server
+   * cannot know which combination this visit gets, and painting a `Math.random`
+   * pick on both sides would mismatch. The plane stays `opacity: 0` until the
+   * client loop fades it in, so the wall still arrives as one piece.
+   *
+   * `chooseSceneProjects()` runs once per mount and the result is held in
+   * state, so re-renders and client-side route changes keep the same wall; a
+   * fresh document load draws a new one.
+   */
+  const [projects, setProjects] = useState<SceneProject[]>([]);
+
+  useEffect(() => {
+    setProjects(chooseSceneProjects());
+  }, []);
+
   const items = useMemo(
     () =>
-      SCENE_PROJECTS.map((project, index) => (
+      projects.map((project, index) => (
         <ProjectTile key={project.slug} project={project} index={index} />
       )),
-    [],
+    [projects],
   );
 
   // Scroll depth: the wall drifts against the page a little as it scrolls, so
@@ -74,21 +96,23 @@ export function SceneBackground() {
       <div className="scene-bloom scene-bloom-blue" />
       <div className="scene-bloom scene-bloom-gold" />
 
-      {/* the depth field — real project names only */}
-      <GridMotion
-        className="scene-grid"
-        items={items}
-        rows={8}
-        gap={16}
-        aspectRatio={1.8}
-        angle={-16}
-        tilt={30}
-        speed={7}
-        direction="alternate"
-        parallax={0.3}
-        spotlight={0.5}
-        dim={0.5}
-      />
+      {/* the depth field — real project names, re-drawn each visit */}
+      {items.length > 0 && (
+        <GridMotion
+          className="scene-grid"
+          items={items}
+          rows={8}
+          gap={16}
+          aspectRatio={1.8}
+          angle={-16}
+          tilt={30}
+          speed={7}
+          direction="alternate"
+          parallax={0.3}
+          spotlight={0.5}
+          dim={0.5}
+        />
+      )}
 
       {/* atmosphere: vignette, then grain so gradients read as a surface */}
       <div className="scene-vignette" />

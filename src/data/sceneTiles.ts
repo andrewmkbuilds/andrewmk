@@ -1,8 +1,4 @@
-import {
-  ecosystemProjects,
-  featuredProjects,
-  type Project,
-} from "@/data/portfolio";
+import { allProjects } from "@/data/portfolio";
 
 /**
  * The words on the ambient wall behind every page: **project names only**.
@@ -11,45 +7,40 @@ import {
  * so it never lists languages, frameworks or generic technical words. Every
  * name comes from `src/data/portfolio.ts`; nothing is invented here.
  *
- * Selection is derived from the records, not from a second hand-kept list, so
- * adding a project to the portfolio is enough for it to be considered:
- *
- * - the featured flagships come first, in the order the portfolio publishes
- *   them (`featuredProjects`);
- * - the ecosystem records are then ranked by the evidence a record actually
- *   carries — measured metrics, a vendored screenshot, published results, a
- *   walkthrough, a live URL — so a thin stub record stays off the wall until
- *   it has substance;
- * - the list is capped (`MAX_SCENE_PROJECTS`) rather than showing every
- *   project at once: the wall should read as a curated identity, not a
- *   directory. A new record enters on its own once it outranks the current
- *   tail.
+ * The pool is the **whole** portfolio, deduplicated by slug — not a hand-kept
+ * shortlist and not a ranked top ten. `lib/scene-selection.ts` draws a fresh
+ * sample from it on every page load, so the wall is a different slice of the
+ * work each visit; adding a record to `portfolio.ts` is enough to put it in
+ * the draw. `sceneLane` groups records by the first segment of their own
+ * `category` so one draw can span the portfolio's kinds (products, AI tools,
+ * utilities, experiments) instead of clustering on the same few flagships.
  */
 export type SceneProject = {
   slug: string;
   name: string;
+  category: string;
 };
 
-const MAX_SCENE_PROJECTS = 10;
+const bySlug = new Map<string, SceneProject>();
 
-/** How much published work backs a record. Ordering only — never copy. */
-function evidence(project: Project): number {
-  return (
-    (project.metrics ? 26 : 0) +
-    22 +
-    (project.results?.length ? 12 : 0) +
-    (project.gallery?.length ? 10 : 0) +
-    (project.challenges?.length ? 6 : 0) +
-    (project.live ? 8 : 0) +
-    (project.fullDescription ? 4 : 0)
-  );
+for (const project of allProjects) {
+  if (!project.slug || !project.name || bySlug.has(project.slug)) continue;
+  bySlug.set(project.slug, {
+    slug: project.slug,
+    name: project.name,
+    category: project.category,
+  });
 }
 
-const ranked = ecosystemProjects
-  .map((project, index) => ({ project, index, weight: evidence(project) }))
-  .sort((a, b) => b.weight - a.weight || a.index - b.index)
-  .map(({ project }) => project);
+/** Every project on the site, in portfolio order. */
+export const SCENE_PROJECT_POOL: SceneProject[] = [...bySlug.values()];
 
-export const SCENE_PROJECTS: SceneProject[] = [...featuredProjects, ...ranked]
-  .slice(0, MAX_SCENE_PROJECTS)
-  .map((project) => ({ slug: project.slug, name: project.name }));
+/**
+ * The record's own leading category word — "Career Technology" from
+ * "Career Technology · AI", "Education" from "Education / AI". Only ever used
+ * to spread a draw across categories; nothing branches on a specific lane.
+ */
+export function sceneLane(project: { category: string }): string {
+  const first = project.category.split(/[·/]/)[0] ?? "";
+  return first.trim().toLowerCase() || "other";
+}
