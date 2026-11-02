@@ -48,11 +48,75 @@ function wellKnownContentTypes(): Plugin {
 const previewMode = process.env["BASE44_PREVIEW_MODE"] === "1";
 const sandboxHostDomain = process.env["BASE44_SANDBOX_HOST_DOMAIN"];
 
+/**
+ * Hybrid rendering.
+ *
+ * TanStack Start renders every route on the server (Nitro: `cloudflare-module`
+ * for deploy, `node-server` for the local preview build). The routes below are
+ * pure content — the same HTML for every visitor, changed only by a commit — so
+ * they are prerendered at build time (SSG) instead of rendered per request.
+ *
+ * Routes deliberately left out, and why:
+ * - `/projects`: its loader reads the published catalogue from the database at
+ *   request time, so a project an admin publishes appears without a rebuild.
+ * - `/projects/$slug`: per-project metadata comes from that same runtime
+ *   catalogue, so it stays SSR and answers with its own title/OG tags at once.
+ * - `/blog`, `/blog/$slug`, `/auth`, `/admin/*`: request-dependent (database,
+ *   session, `ssr: false`).
+ *
+ * `crawlLinks` stays off: the prerender list is explicit, so a newly linked
+ * dynamic route can never be frozen into a static file by accident.
+ */
+/**
+ * Only the deploy build prerenders.
+ *
+ * TanStack's prerender pass boots the built server through its preview shim.
+ * That shim works with the Cloudflare module build (`bun run build`) — the
+ * artifact that actually serves visitors — but not with Nitro's
+ * `node-server` entry, whose module does not expose `fetch`; there every route
+ * answered `server.fetch is not a function` and 0 pages prerendered.
+ * `build:preview` is the local SEO/a11y harness, so it stays pure SSR.
+ */
+const SSG_ENABLED = process.env["NITRO_PRESET"] !== "node-server";
+
+const PRERENDERED_ROUTES = [
+  "/",
+  "/about",
+  "/journey",
+  "/skills",
+  "/achievements",
+  "/resume",
+  "/profile",
+  "/now",
+  "/press-kit",
+  "/faq",
+  "/colophon",
+  "/sitemap",
+  "/developers",
+  "/contact",
+];
+
 export default defineConfig({
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
+    // `public/sitemap.xml` is generated from src/data/seo.ts by
+    // scripts/generate-sitemap.ts in prebuild; Start's own sitemap would
+    // overwrite it with a different shape.
+    sitemap: { enabled: false },
+    prerender: {
+      enabled: SSG_ENABLED,
+      crawlLinks: false,
+      failOnError: true,
+      autoStaticPathsDiscovery: false,
+    },
+    pages: SSG_ENABLED
+      ? PRERENDERED_ROUTES.map((path) => ({
+          path,
+          prerender: { enabled: true, crawlLinks: false },
+        }))
+      : [],
   },
   vite: {
     plugins: [wellKnownContentTypes()],

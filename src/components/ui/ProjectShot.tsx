@@ -38,6 +38,16 @@ interface ProjectShotProps {
  * image fill exactly that box, so nothing can overflow it. Pass `fit` only to
  * override the default for one surface.
  */
+/**
+ * Intrinsic size of the two asset kinds, both 1200 px wide (see AGENTS.md,
+ * "One screenshot asset per project"): a live capture is 1200×630, a bespoke
+ * illustration is 1200×800. Declaring it lets the browser reserve the box
+ * before the file arrives, so a late image cannot shift the layout.
+ */
+const ASSET_WIDTH = 1200;
+const CAPTURE_HEIGHT = 630;
+const ARTWORK_HEIGHT = 800;
+
 export function ProjectShot({
   project,
   className,
@@ -51,7 +61,12 @@ export function ProjectShot({
     <img
       src={project.screenshot}
       alt={project.imageAlt ?? `${project.name} interface`}
+      width={ASSET_WIDTH}
+      height={artwork ? ARTWORK_HEIGHT : CAPTURE_HEIGHT}
       loading={priority ? "eager" : "lazy"}
+      // The project page's hero and the opened project sheet are the LCP
+      // element; everything below the fold stays at the default priority.
+      fetchPriority={priority ? "high" : "auto"}
       decoding="async"
       className={cn(
         "block h-full w-full max-h-full max-w-full",

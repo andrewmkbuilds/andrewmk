@@ -1,6 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import GridMotion from "@/components/reactbits/GridMotion";
+import { Suspense, lazy, useEffect, useMemo, useRef, useState } from "react";
 import { ProjectTile } from "./ProjectTile";
+
+// The wall is client-only decoration that arrives after hydration (see below),
+// so its animation code is fetched then instead of blocking the first paint.
+// `lazy` is safe here: `items` is empty on the server and on the first client
+// render, so the chunk is never requested during SSR or hydration.
+const GridMotion = lazy(() => import("@/components/reactbits/GridMotion"));
 import type { SceneProject } from "@/data/sceneTiles";
 import { chooseSceneProjects } from "@/lib/scene-selection";
 import { subscribeScroll } from "@/lib/scroll";
@@ -103,23 +108,25 @@ export function SceneBackground() {
 
       {/* the depth field — real project names, re-drawn each visit */}
       {items.length > 0 && (
-        <GridMotion
-          className="scene-grid"
-          items={items}
-          // Six rows instead of eight: the wall reads the same at this scale
-          // but mounts a third fewer tiles, and every one of them is a node
-          // the per-frame light pass used to walk.
-          rows={6}
-          gap={16}
-          aspectRatio={1.8}
-          angle={-16}
-          tilt={30}
-          speed={7}
-          direction="alternate"
-          parallax={0.3}
-          spotlight={0.5}
-          dim={0.5}
-        />
+        <Suspense fallback={null}>
+          <GridMotion
+            className="scene-grid"
+            items={items}
+            // Six rows instead of eight: the wall reads the same at this scale
+            // but mounts a third fewer tiles, and every one of them is a node
+            // the per-frame light pass used to walk.
+            rows={6}
+            gap={16}
+            aspectRatio={1.8}
+            angle={-16}
+            tilt={30}
+            speed={7}
+            direction="alternate"
+            parallax={0.3}
+            spotlight={0.5}
+            dim={0.5}
+          />
+        </Suspense>
       )}
 
       {/* atmosphere: vignette, then grain so gradients read as a surface */}

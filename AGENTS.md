@@ -65,6 +65,18 @@ Two artifacts come out of the same source, and they are not interchangeable:
   failing). CI builds with `bun run build:preview` and starts it with `PORT=4173`.
 - **The two builds share `.output`, so the last one wins.** Run the preview build after the
   Cloudflare build, never the other way round, when both are needed in one job.
+- **Only the deploy build prerenders; the preview build stays pure SSR.** `vite.config.ts` sets
+  `tanstackStart.prerender` with an explicit route list (the content routes: `/`, `/about`,
+  `/journey`, `/skills`, `/achievements`, `/resume`, `/profile`, `/now`, `/press-kit`, `/faq`,
+  `/colophon`, `/sitemap`, `/developers`, `/contact`) and `crawlLinks: false`, so a new dynamic
+  route can never be frozen into a static file. It is gated on `NITRO_PRESET !== "node-server"`:
+  TanStack's prerender pass boots the built server through its preview shim, which works for the
+  `cloudflare-module` artifact but not Nitro's `node-server` entry (no `fetch` export — every
+  route failed and 0 pages prerendered). `/projects`, `/projects/$slug` and `/blog/*` deliberately
+  stay SSR because their metadata comes from the database at request time. `sitemap.enabled` is
+  off so `scripts/generate-sitemap.ts` keeps owning `public/sitemap.xml`. Verified 2026-11-02:
+  `bun run build` prerendered all 14 pages with real content (OG tags and the custom sitemap
+  intact) and `typecheck` was clean.
 - **The root `wrangler.jsonc` holds shared settings only — never `main` or an assets binding.**
   Nitro reads it and merges it into the deploy config it writes for whichever target it built:
   `.output/server/wrangler.json` for Workers (`bun run build`), `dist/_worker.js/wrangler.json`
