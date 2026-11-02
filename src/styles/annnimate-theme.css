@@ -396,9 +396,18 @@
   color: var(--muted-foreground);
 }
 
+/* Each step's media is a typographic plate (1600×1000), so its frame takes that
+   ratio and contains the artwork: the pack's 4:3 box cropped the plate's own
+   title and number off the sides at every width. */
 .anm-rail .prl_step_media {
   border: 1px solid var(--border);
   background: var(--card);
+  aspect-ratio: 16 / 10;
+}
+
+.anm-rail .prl_step_media img {
+  object-fit: contain;
+  object-position: center;
 }
 
 /* ── ScaleSlider ─────────────────────────────────────────────────────────── */
@@ -537,6 +546,21 @@
 .anm-drawer .mldm_sublink:hover .mldm_sublink_label,
 .anm-drawer .mldm_card:hover .mldm_card_label {
   color: var(--gold-glow) !important;
+}
+
+/* The drawer's media slots hold typographic plates (1600×1000), not photos, so
+   they contain the artwork instead of cropping it: the pack's 1:1 cards and 4:3
+   poster used to cut the plate's title off. The plate and the frame share the
+   navy surface, so the contained edges read as margin, not letterbox. */
+.anm-drawer .mldm_card_media,
+.anm-drawer .mldm_page_poster {
+  background-color: var(--card);
+}
+
+.anm-drawer .mldm_card_img,
+.anm-drawer .mldm_page_poster_img {
+  object-fit: contain;
+  object-position: center;
 }
 
 .anm-drawer .mldm_explore,

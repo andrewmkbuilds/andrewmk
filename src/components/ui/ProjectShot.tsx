@@ -7,6 +7,8 @@ interface ProjectShotProps {
   className?: string;
   /** Above-the-fold screenshots skip lazy loading. */
   priority?: boolean;
+  /** Overrides how the asset fills its frame; defaults by asset kind (see below). */
+  fit?: "cover" | "contain";
 }
 
 /**
@@ -21,21 +23,43 @@ interface ProjectShotProps {
  * public or accessible site. The artwork is designed, never a faked screenshot:
  * it abstracts the product rather than claiming to be its interface.
  *
- * The image is never stretched: it fills the frame with `object-cover` and
- * anchors to the top of the asset, where each composition puts its subject.
+ * Fitting follows the asset, because the two kinds fill a frame differently:
+ *
+ * - A live capture (1200×630, ~1.9:1) fills the frame with `object-cover` and
+ *   anchors to the top, where each composition puts its subject. The frame's
+ *   own ratio (16:10, 3:2, 16:9) trims the sides, never the product's own top
+ *   edge, and the image is never stretched.
+ * - A bespoke illustration (1200×800, 1.5:1) is a finished composition that
+ *   reaches its bottom margin, so a wide frame (16:9) would cut it off. It is
+ *   `object-contain`: the whole drawing shows, centred, on the frame's own
+ *   surface instead of being cropped.
+ *
+ * Every caller's frame supplies the aspect ratio; `h-full w-full` makes the
+ * image fill exactly that box, so nothing can overflow it. Pass `fit` only to
+ * override the default for one surface.
  */
 export function ProjectShot({
   project,
   className,
   priority = false,
+  fit,
 }: ProjectShotProps) {
+  const artwork = /\.svg(\?|$)/i.test(project.screenshot);
+  const mode = fit ?? (artwork ? "contain" : "cover");
+
   return (
     <img
       src={project.screenshot}
       alt={project.imageAlt ?? `${project.name} interface`}
       loading={priority ? "eager" : "lazy"}
       decoding="async"
-      className={cn("block h-full w-full object-cover object-top", className)}
+      className={cn(
+        "block h-full w-full max-h-full max-w-full",
+        mode === "contain"
+          ? "object-contain object-center"
+          : "object-cover object-top",
+        className,
+      )}
     />
   );
 }

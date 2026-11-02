@@ -291,8 +291,17 @@ Adapted from the 21st.dev "ProjectShowcase" demo.
   resize to 1200×630, or at 1440×756 and resize the same way. Pick the frame that shows the
   product itself (Gradr's Career Command Center, SiteScout's discovery dashboard, CritiqueFlow's
   dashboard, DevOS/TabZen's workspace, Neon Rush's mode grid), not a blind top-left crop.
-  Rendered crops anchor to the top (`object-cover object-top`) so each composition's subject
-  stays in frame; the image is never stretched.
+  **Fitting follows the asset, in `ProjectShot` only** (2026-11-02): a live capture fills the
+  frame with `object-cover object-top` so each composition's subject stays in frame, while a
+  `previews/*.svg` illustration — a finished composition that reaches its bottom margin — is
+  `object-contain object-center`, because a 16:9 frame used to cut the artwork's bottom off. The
+  image is never stretched (`max-h-full max-w-full` plus the frame's own aspect ratio), and
+  `fit` is the one override. Typographic plates from `src/lib/plate.ts` render in frames of every
+  ratio (16:10 rail, 4:3 drawer poster, 1:1 drawer card, fixed-height dialog cells), so their copy
+  sits in a centred safe box (x 380–1220, y 186–862 of 1600×1000) that every crop from 16:9 to
+  about 5:6 keeps visible: the title wraps to at most two lines instead of running off the side.
+  The rail's and drawer's plate frames are owned by `src/styles/annnimate-theme.css` (16:10 +
+  contain), never by the vendored pack CSS.
 - **Live URLs are owner-confirmed; the domain is not the project.** Gradr is
   `https://gradr.me` (the AI career platform — `gradr.xyz` is an unrelated card-grading site),
   ClientFlow OS is `https://clientflowos.base44.app`, and SiteScout AI is
