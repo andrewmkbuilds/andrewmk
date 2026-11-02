@@ -1,28 +1,19 @@
-// Cloudflare Workers deployment for the Nitro build.
+// Shared Cloudflare settings for this Nitro build.
 //
-// Nitro writes the Worker bundle to `.output/server/index.mjs` with its own
-// generated `.output/server/wrangler.json` (a file that only exists after a
-// build). Committing this config at the repo root means `wrangler deploy` works
-// from a fresh checkout — `bun run build` produces the bundle first — instead of
-// failing with "no wrangler configuration file" as it did before.
+// Nitro reads this file and merges it into its own generated deploy config:
+// `.output/server/wrangler.json` for the Workers bundle (`bun run build`) and
+// `dist/_worker.js/wrangler.json` for the Pages bundle Cloudflare's builder
+// produces. Nitro adds the target-specific fields itself — the Worker entry
+// point, the assets binding and its directory for Workers, and
+// `pages_build_output_dir` for Pages — so only the shared settings belong here.
 //
-// The settings mirror what Nitro generates for the cloudflare-module preset;
-// only the paths differ (repo-root relative instead of `.output/server`).
+// Do NOT put `main` or an `assets` binding back: Cloudflare Pages reserves the
+// `ASSETS` binding name and has no Worker entry point, and the merged Pages
+// config is rejected with "The name 'ASSETS' is reserved in Pages projects"
+// (the failing Pages deployment of 2026-11-02).
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "andrewmkbuilds-andrewmk",
-  "main": ".output/server/index.mjs",
   "compatibility_date": "2026-11-01",
   "compatibility_flags": ["nodejs_compat"],
-  "assets": {
-    "binding": "ASSETS",
-    "directory": ".output/public",
-  },
-  "no_bundle": true,
-  "rules": [
-    {
-      "type": "ESModule",
-      "globs": ["**/*.mjs", "**/*.js"],
-    },
-  ],
 }

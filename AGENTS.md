@@ -65,13 +65,20 @@ Two artifacts come out of the same source, and they are not interchangeable:
   failing). CI builds with `bun run build:preview` and starts it with `PORT=4173`.
 - **The two builds share `.output`, so the last one wins.** Run the preview build after the
   Cloudflare build, never the other way round, when both are needed in one job.
-- **Cloudflare deploys need a committed config.** Nitro's own `.output/server/wrangler.json` only
-  exists after a build, inside a gitignored directory, so `wrangler deploy` from a fresh checkout
-  failed with a bare "no wrangler configuration file" — the unreadable Workers Builds failure. The
-  root `wrangler.jsonc` points at the same bundle with repo-root paths; keep it in step with what
-  Nitro generates (`nodejs_compat`, `no_bundle`, the `ASSETS` binding and its directory).
-  `bun run deploy:check` (`wrangler deploy --dry-run`) validates the bundle without credentials —
-  verified 2026-11-01: 134 modules, 5.6 MB raw / 1.35 MB gzip, 299 asset files.
+- **The root `wrangler.jsonc` holds shared settings only — never `main` or an assets binding.**
+  Nitro reads it and merges it into the deploy config it writes for whichever target it built:
+  `.output/server/wrangler.json` for Workers (`bun run build`), `dist/_worker.js/wrangler.json`
+  for Cloudflare Pages (the builder sets `CF_PAGES`, which makes Nitro pick `cloudflare-pages`).
+  Nitro adds the target's own fields — the Worker entry point, the `ASSETS` binding and its
+  directory for Workers, `pages_build_output_dir` for Pages — so the root file keeps only `name`,
+  `compatibility_date` and `compatibility_flags`. Workers-only fields there used to be copied into
+  the Pages config, which Cloudflare rejected with "The name 'ASSETS' is reserved in Pages
+  projects" and failed the Pages deployment (fixed 2026-11-02). `wrangler` follows Nitro's
+  generated `.wrangler/deploy/config.json`, so `bun run deploy:check` validates the Workers bundle
+  after a build — verified 2026-11-02: 134 modules, 5.6 MB raw / 1.34 MB gzip, 318 asset files.
+  Verify the Pages side with `CF_PAGES=1 bun run build`, then
+  `bunx wrangler pages deploy dist --project-name andrewmkbuilds-andrewmk --branch main`:
+  it must reach the credentials error, not a configuration error.
 - **The Cloudflare checks give no log, so reproduce their builder instead.** `Cloudflare Pages` and
   `Workers Builds: andrewmk` report only "Build failed." (no annotations, logs behind an
   authenticated dashboard), and both fail in under a minute — too fast to be a compile. Their
