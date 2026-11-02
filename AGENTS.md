@@ -851,6 +851,16 @@ touching any of it.
   field, elastic divider, `TextReveal`. About: `TextReveal`, elastic divider, ASCII plate of the
   brand mark. Journey: process rail from the four build disciplines. Skills: rotating-words wheel.
   FAQ: pack accordion. Sitemap: two-panel drawer index with real routes.
+- **`SkillCloud` no longer uses the pack's physics cloud (2026-11-02).** `MagneticTagCloud`
+  positions every tag absolutely at `left/top: 50%` and tilts it at rest, and `.anm-cloud` set
+  `overflow: visible` with a collapsed wrapper height — measured at 768 px, all 28 tags sat
+  outside the wrapper's 48 px box and spilled over the focus-area cards, with the tilt growing
+  into a 45° tumble on hover. `ui/SkillCloud.tsx` now renders the same 28 real skills (same order,
+  same tone cycle, same `/skills` links) as plain pills in a flex-wrap list inside a padded,
+  bordered panel. Do not re-mount `annnimate/magnetic-tag-cloud` here: a tag may never be
+  absolutely positioned or rotated in this section. Verified at 768 / 375 / 1280 px: 0 tags
+  outside the panel, 0 tag overlaps, 0 non-identity transforms, 8–10 px gaps, no clipped label,
+  no sideways document overflow.
 - **`EchoHeadline` and `StackingCards` stay native.** Both pack components were already adapted to
   motion/react in earlier sessions; replacing them with the GSAP originals would regress the
   journey stack and the home headline. `Pricing` is intentionally not mounted: the portfolio

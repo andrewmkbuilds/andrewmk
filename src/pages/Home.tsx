@@ -479,9 +479,9 @@ export default function Home() {
             </Reveal>
           </div>
 
-          {/* The full toolkit as a magnetic cloud: sweep the pointer through
-              it and the tags scatter, tilt and snap home. Each tag links to
-              the page where the capability is grouped. */}
+          {/* The full toolkit as a wrapped tag cloud: every capability keeps
+              its own box and spacing inside the panel. Each tag links to the
+              page where the capability is grouped. */}
           <SkillCloud className="mt-10" />
         </div>
       </section>
