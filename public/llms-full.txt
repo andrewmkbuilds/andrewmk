@@ -118,16 +118,17 @@ More ambitious products. More competitions. More experiments. More systems.
 - ClientFlow OS (In Active Development): Business operating system.
 - Horizon Motorsports (Active): UAE racing team.
 
-## Projects (22)
+## Projects (23)
 
 Featured: Gradr, Stack Up, TerraCart, ClientFlow OS.
-Archive: Scholara, CritiqueFlow, The Neon Rush, Horizon Motorsports, DevOS, COGNOS, TabZen, AI for Students, Home ServeAI, JARVIS, GemLab, Security Camera System, Currency Converter, GesturePlay, Watch Walkie Talkie, ConversaCore AI, Arabica AI Chat, NeuroTac AI.
+Archive: SiteScout AI, Scholara, CritiqueFlow, The Neon Rush, Horizon Motorsports, DevOS, COGNOS, TabZen, AI for Students, Home ServeAI, JARVIS, GemLab, Security Camera System, Currency Converter, GesturePlay, Watch Walkie Talkie, ConversaCore AI, Arabica AI Chat, NeuroTac AI.
 
 ### Gradr
 
 - Category: Career Technology · AI
 - Status: Building
 - Tech: AI, React
+- Live: https://gradr.me
 - Case study: https://andrewmk.is-a.dev/projects/gradr
 - JSON: https://andrewmk.is-a.dev/data/v1/projects/gradr.json
 
@@ -194,6 +195,7 @@ Results:
 - Category: Business Operating System · AI
 - Status: In Active Development
 - Tech: AI, React
+- Live: https://clientflowos.base44.app
 - Source: https://github.com/andrewmkbuilds/ClientFlow-OS
 - Case study: https://andrewmk.is-a.dev/projects/clientflow-os
 - JSON: https://andrewmk.is-a.dev/data/v1/projects/clientflow-os.json
@@ -209,6 +211,24 @@ Results:
 - Modules: 8 — Clients, projects, comms, payments, docs, automation.
 - Payments: Stripe — Webhook-driven state.
 - Code: Public repo — github.com/andrewmkbuilds/ClientFlow-OS
+
+---
+
+### SiteScout AI
+
+- Category: Agency Technology · AI
+- Status: Live
+- Tech: AI, React
+- Live: https://sitescout-ai.base44.app
+- Case study: https://andrewmk.is-a.dev/projects/sitescout-ai
+- JSON: https://andrewmk.is-a.dev/data/v1/projects/sitescout-ai.json
+
+AI-powered client acquisition for web agencies — discover local businesses, audit their websites, score the real opportunities, and carry every lead through to a signed client.
+
+Problem: An agency's next client is usually a local business with a weak website, but finding those businesses means scrolling maps, opening sites one at a time and keeping notes in a spreadsheet. SiteScout AI turns that manual sweep into one pipeline: it discovers businesses by industry and location, checks what their sites actually do, separates real opportunities from noise, and keeps the outreach that follows in the same place.
+
+
+
 
 ---
 
@@ -307,7 +327,7 @@ Results:
 - Category: Productivity / AI
 - Status: Live
 - Tech: Python, AI Integration
-- Live: https://dev-os-flow.base44.app/
+- Live: https://dev-os-flow.base44.app
 - Case study: https://andrewmk.is-a.dev/projects/devos
 - JSON: https://andrewmk.is-a.dev/data/v1/projects/devos.json
 
@@ -330,7 +350,7 @@ Results:
 - Category: Cognitive / AI
 - Status: Live
 - Tech: AI APIs, NLP, Graph Architecture
-- Live: https://cognos-app.base44.app/
+- Live: https://cognos-app.base44.app
 - Case study: https://andrewmk.is-a.dev/projects/cognos
 - JSON: https://andrewmk.is-a.dev/data/v1/projects/cognos.json
 
@@ -374,7 +394,7 @@ Results:
 - Category: Education / AI
 - Status: Live
 - Tech: AI Tutoring, APIs, Gamification
-- Live: https://ai-for-students.base44.app/
+- Live: https://ai-for-students.base44.app
 - Case study: https://andrewmk.is-a.dev/projects/ai-for-students
 - JSON: https://andrewmk.is-a.dev/data/v1/projects/ai-for-students.json
 

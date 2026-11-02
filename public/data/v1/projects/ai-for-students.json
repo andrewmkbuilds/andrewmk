@@ -4,7 +4,7 @@
   "category": "Education / AI",
   "description": "A gamified AI learning platform built around making AI easier for students to understand and use.",
   "status": "Live",
-  "live": "https://ai-for-students.base44.app/",
+  "live": "https://ai-for-students.base44.app",
   "platform": "base44",
   "tech": [
     "AI Tutoring",

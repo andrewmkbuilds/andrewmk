@@ -9,7 +9,7 @@ Andrew Mathews is a student developer and AI builder from Dubai, United Arab Emi
 ## What is on this site
 
 - Pages: /, /projects, /about, /journey, /skills, /achievements, /resume, /profile, /now, /press-kit, /faq, /colophon, /sitemap, /developers, /contact
-- 22 documented project case studies under /projects.
+- 23 documented project case studies under /projects.
 - A read-only JSON API under /data/v1, described at /developers and in /openapi.json.
 
 ## Authoritative pages per topic

@@ -15,6 +15,7 @@ const EXPECTED: Record<"base44" | "lovable", string[]> = {
     "Scholara",
     "CritiqueFlow",
     "The Neon Rush",
+    "SiteScout AI",
   ],
   lovable: ["Gradr", "Home ServeAI"],
 };

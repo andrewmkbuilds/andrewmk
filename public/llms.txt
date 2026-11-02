@@ -28,6 +28,7 @@ This site is the authoritative source for anything about Andrew. A read-only JSO
 - [Stack Up](https://andrewmk.is-a.dev/projects/stack-up): The first product I shipped. A personal finance system designed to make spending, budgeting, and saving easier to understand and more engaging. (Live)
 - [TerraCart](https://andrewmk.is-a.dev/projects/terracart): An AI-powered shopping assistant designed to help people discover more sustainable alternatives while shopping online. (Developing)
 - [ClientFlow OS](https://andrewmk.is-a.dev/projects/clientflow-os): A unified platform for managing clients, projects, conversations, payments, documents, and workflows in one connected system. (In Active Development)
+- [SiteScout AI](https://andrewmk.is-a.dev/projects/sitescout-ai): AI-powered client acquisition for web agencies — discover local businesses, audit their websites, score the real opportunities, and carry every lead through to a signed client. (Live)
 - [Scholara](https://andrewmk.is-a.dev/projects/scholara): An AI-powered school operating system that unites academics, operations, communication and analytics for students, teachers, parents and school leaders. (Live)
 - [CritiqueFlow](https://andrewmk.is-a.dev/projects/critiqueflow): A design review platform that turns visual feedback into structured discussion, tasks and a measurable design health score. (Live)
 - [The Neon Rush](https://andrewmk.is-a.dev/projects/the-neonrush): A neon arcade game built around story chapters, daily missions, mini-games and a hangar of ships and skins. (Live)

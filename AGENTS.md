@@ -283,17 +283,25 @@ Adapted from the 21st.dev "ProjectShowcase" demo.
   each caller keeps its typographic plate (status, name and stack on the primary/gold
   gradient) as the fallback.
 - **Two kinds of asset share `public/projects/`, told apart by format.** Live-site captures
-  are `*.webp`; bespoke illustrations are `previews/<slug>.svg`. Six projects publish a
-  capture (Scholara, CritiqueFlow, The Neon Rush, Horizon Motorsports, DevOS, TabZen), each
-  1200×630 WebP (~20–40 KB) so no surface depends on the live site at runtime. Capture at
-  1440×756 CSS at `deviceScaleFactor: 2` with the puppeteer image, then resize to 1200×630
-  (`fit: cover`, Lanczos). Pick the frame that shows the product itself (CritiqueFlow's
+  are `*.webp`; bespoke illustrations are `previews/<slug>.svg`. Eight projects publish a
+  capture (Gradr, SiteScout AI, Scholara, CritiqueFlow, The Neon Rush, Horizon Motorsports,
+  DevOS, TabZen), each 1200×630 WebP (~20–40 KB) so no surface depends on the live site at
+  runtime. Capture at 1600×840 CSS at `deviceScaleFactor: 2` with the Playwright image, then
+  resize to 1200×630, or at 1440×756 and resize the same way. Pick the frame that shows the
+  product itself (Gradr's Career Command Center, SiteScout's discovery dashboard, CritiqueFlow's
   dashboard, DevOS/TabZen's workspace, Neon Rush's mode grid), not a blind top-left crop.
   Rendered crops anchor to the top (`object-cover object-top`) so each composition's subject
   stays in frame; the image is never stretched.
-- **The other sixteen projects have bespoke artwork, never a faked screenshot.**
-  Stack Up, COGNOS and AI for Students are login-gated with no public product surface (their
-  `/` redirects to a Base44 login form); Gradr, TerraCart, ClientFlow OS, Home ServeAI, JARVIS,
+- **Live URLs are owner-confirmed; the domain is not the project.** Gradr is
+  `https://gradr.me` (the AI career platform — `gradr.xyz` is an unrelated card-grading site),
+  ClientFlow OS is `https://clientflowos.base44.app`, and SiteScout AI is
+  `https://sitescout-ai.base44.app`. `gradr.me` currently fails DNSSEC validation
+  (`No DNSKEY matches DS RRs`), so validating resolvers cannot reach it; capture it with
+  Chromium's `--host-resolver-rules=MAP gradr.me <A record>`. Fix the domain's DNSSEC before
+  promoting the URL anywhere it matters.
+- **The other fifteen projects have bespoke artwork, never a faked screenshot.**
+  Stack Up, COGNOS, ClientFlow OS and AI for Students are login-gated with no public product
+  surface (their `/` redirects to a Base44 login form); TerraCart, Home ServeAI, JARVIS,
   GemLab, Security Camera System, Currency Converter, GesturePlay, Watch Walkie Talkie,
   ConversaCore AI, Arabica AI Chat and NeuroTac AI publish no live URL. Each one has its own
   1200×800 SVG in `public/projects/previews/`, with a composition of its own — a resume sheet
@@ -470,8 +478,10 @@ sites, GitHub, social media or inference.
 
 - When the source contradicts the repo, the source wins. Content the source does not publish
   (a project, award, role, skill list or blog post) is removed rather than kept.
-- The 19 project slugs are exactly the source's `/projects/<slug>` routes; the four featured ones
-  are Gradr, Stack Up, TerraCart and ClientFlow OS, the other 15 form the ecosystem grid.
+- The four featured project slugs are Gradr, Stack Up, TerraCart and ClientFlow OS; every other
+  record forms the ecosystem grid. `SiteScout AI` (added 2026-11-02) came from the owner's
+  confirmed URL list and its own live site rather than the source site — verify it is published
+  there before treating it as source-confirmed like the rest.
 - Certificates are the source's 34 gallery entries with the same titles, issuers, dates, categories
   and file names.
 - `/blog` publishes nothing unless an admin writes a post — the source shows "No posts yet".

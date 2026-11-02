@@ -62,9 +62,9 @@ export interface Project {
 export const featuredProjects: Project[] = [
   {
     slug: "gradr",
-    screenshot: "/projects/previews/gradr.svg",
+    screenshot: "/projects/gradr.webp",
     imageAlt:
-      "Gradr preview artwork — a resume sheet beside an ATS score dial, match breakdown and interview chips.",
+      "Gradr homepage — the “Your AI career command center” hero beside a Career Command Center panel showing an ATS score, keyword coverage and live job matches.",
     name: "Gradr",
     category: "Career Technology · AI",
     description:
@@ -80,6 +80,7 @@ export const featuredProjects: Project[] = [
     ],
     tech: ["AI", "React"],
     status: "Building",
+    live: "https://gradr.me",
     startDate: "2025-09-01",
     filters: ["AI", "React", "Lovable"],
     featured: true,
@@ -500,6 +501,7 @@ export const featuredProjects: Project[] = [
     ],
     tech: ["AI", "React"],
     status: "In Active Development",
+    live: "https://clientflowos.base44.app",
     startDate: "2025-10-01",
     github: "https://github.com/andrewmkbuilds/ClientFlow-OS",
     filters: ["AI", "React"],
@@ -614,6 +616,67 @@ export const featuredProjects: Project[] = [
 ];
 
 export const ecosystemProjects: Project[] = [
+  {
+    slug: "sitescout-ai",
+    screenshot: "/projects/sitescout-ai.webp",
+    imageAlt:
+      "SiteScout AI homepage — the “Find Your Next Client Before Your Competitors Do” hero above a preview dashboard of discovered businesses, website audits and an opportunity funnel.",
+    name: "SiteScout AI",
+    category: "Agency Technology · AI",
+    description:
+      "AI-powered client acquisition for web agencies — discover local businesses, audit their websites, score the real opportunities, and carry every lead through to a signed client.",
+    built: [
+      "Business discovery",
+      "Website audits",
+      "Opportunity scoring",
+      "AI outreach",
+      "Lead pipeline",
+      "Team roles and audit logs",
+    ],
+    tech: ["AI", "React"],
+    status: "Live",
+    live: "https://sitescout-ai.base44.app",
+    filters: ["AI", "Base44"],
+    platform: "base44",
+    problem:
+      "An agency's next client is usually a local business with a weak website, but finding those businesses means scrolling maps, opening sites one at a time and keeping notes in a spreadsheet. SiteScout AI turns that manual sweep into one pipeline: it discovers businesses by industry and location, checks what their sites actually do, separates real opportunities from noise, and keeps the outreach that follows in the same place.",
+    stack: [
+      {
+        group: "Interface",
+        items: ["React", "TypeScript", "Tailwind CSS", "Dashboard layouts"],
+      },
+      {
+        group: "Discovery",
+        items: [
+          "Location and industry search",
+          "Multi-source verification",
+          "CSV import",
+        ],
+      },
+      {
+        group: "Intelligence",
+        items: [
+          "Website audits",
+          "Performance and SEO checks",
+          "Mobile and conversion signals",
+          "Opportunity scoring",
+        ],
+      },
+      {
+        group: "Workspace",
+        items: [
+          "Lead pipeline",
+          "AI outreach drafting",
+          "Organization roles",
+          "Audit logs",
+        ],
+      },
+      {
+        group: "Platform",
+        items: ["Base44", "Postgres", "Row-level security"],
+      },
+    ],
+  },
   {
     slug: "scholara",
     name: "Scholara",
@@ -1048,7 +1111,7 @@ export const ecosystemProjects: Project[] = [
     ],
     tech: ["Python", "AI Integration"],
     status: "Live",
-    live: "https://dev-os-flow.base44.app/",
+    live: "https://dev-os-flow.base44.app",
     screenshot: "/projects/devos.webp",
     imageAlt:
       "DevOS workspace — task metrics, the focus timer, contribution activity and the AI assistant.",
@@ -1168,7 +1231,7 @@ export const ecosystemProjects: Project[] = [
     built: ["Thought capture", "AI classification", "Idea graph mapping"],
     tech: ["AI APIs", "NLP", "Graph Architecture"],
     status: "Live",
-    live: "https://cognos-app.base44.app/",
+    live: "https://cognos-app.base44.app",
     filters: ["AI", "Base44"],
     platform: "base44",
     problem:
@@ -1372,7 +1435,7 @@ export const ecosystemProjects: Project[] = [
     built: ["Guided AI lessons", "Gamification", "API-driven tutoring"],
     tech: ["AI Tutoring", "APIs", "Gamification"],
     status: "Live",
-    live: "https://ai-for-students.base44.app/",
+    live: "https://ai-for-students.base44.app",
     filters: ["AI", "Base44"],
     platform: "base44",
   },

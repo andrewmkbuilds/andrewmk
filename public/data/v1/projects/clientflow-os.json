@@ -5,6 +5,7 @@
   "description": "A unified platform for managing clients, projects, conversations, payments, documents, and workflows in one connected system.",
   "problem": "Small studios and freelancers run their business across six tools that do not talk: a CRM, a chat app, a spreadsheet of projects, an invoicing tool, a drive folder and a notes app. Every handoff between them is manual and every status question costs a search. ClientFlow OS collapses the client lifecycle — enquiry to delivery to payment — into one connected system.",
   "status": "In Active Development",
+  "live": "https://clientflowos.base44.app",
   "github": "https://github.com/andrewmkbuilds/ClientFlow-OS",
   "tech": [
     "AI",

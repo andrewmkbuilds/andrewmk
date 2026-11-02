@@ -5,7 +5,7 @@
   "description": "AI-powered developer command center designed to bring tasks, focus sessions, and project threads into one place.",
   "problem": "Building alone means context lives in five places at once — a task list, a terminal, a notes file, a chat with an AI assistant, and whatever was open when you stopped. DevOS came out of my own workflow: one command center where the task, the focus session and the project thread are the same object, so picking work back up does not require reconstructing it.",
   "status": "Live",
-  "live": "https://dev-os-flow.base44.app/",
+  "live": "https://dev-os-flow.base44.app",
   "platform": "base44",
   "tech": [
     "Python",

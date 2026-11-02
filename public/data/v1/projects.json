@@ -1,5 +1,5 @@
 {
-  "count": 22,
+  "count": 23,
   "featured": [
     "gradr",
     "stack-up",
@@ -61,6 +61,20 @@
       "featured": true,
       "caseStudy": "https://andrewmk.is-a.dev/projects/clientflow-os",
       "url": "https://andrewmk.is-a.dev/data/v1/projects/clientflow-os.json"
+    },
+    {
+      "slug": "sitescout-ai",
+      "name": "SiteScout AI",
+      "category": "Agency Technology · AI",
+      "description": "AI-powered client acquisition for web agencies — discover local businesses, audit their websites, score the real opportunities, and carry every lead through to a signed client.",
+      "status": "Live",
+      "tech": [
+        "AI",
+        "React"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/sitescout-ai",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/sitescout-ai.json"
     },
     {
       "slug": "scholara",
