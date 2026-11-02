@@ -300,6 +300,21 @@
   background-color: hsl(221 62% 5% / 0);
 }
 
+/* The sheet is in the server-rendered markup, and the pack only hides it from
+   GSAP's set() on mount. Until hydration ran, the whole project sheet painted
+   as a fixed overlay over the page — the "project screen instead of the home
+   page" bug. Keep it hidden in CSS; the open timeline writes inline autoAlpha
+   and `.is-open` covers the no-JS/resting state. */
+.anm-feature .fdg_modal {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.anm-feature.fdg_stage.is-open .fdg_modal {
+  visibility: visible;
+  opacity: 1;
+}
+
 .anm-feature .fdg_tile:focus-visible,
 .anm-feature .fdg_btn:focus-visible {
   outline: 2px solid var(--gold);

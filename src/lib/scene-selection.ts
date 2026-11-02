@@ -93,9 +93,23 @@ function sample(count: number): SceneProject[] {
   return shuffle(picked);
 }
 
+/**
+ * The draw for this document.
+ *
+ * `Layout` — and with it the scene — remounts on every client-side route
+ * change, so a bare draw would reshuffle the wall and rebuild every tile on
+ * each navigation. The sample is therefore taken once per page load and reused
+ * for the rest of the document's life; a genuine reload draws again.
+ */
+let documentDraw: { count: number; projects: SceneProject[] } | null = null;
+
 export function chooseSceneProjects(
   count: number = SCENE_PROJECT_COUNT,
 ): SceneProject[] {
+  if (documentDraw && documentDraw.count === count) {
+    return documentDraw.projects;
+  }
+
   const target = Math.max(1, Math.min(count, SCENE_PROJECT_POOL.length));
   const previous = readPrevious();
 
@@ -115,5 +129,6 @@ export function chooseSceneProjects(
   }
 
   remember(signature(picked));
+  documentDraw = { count, projects: picked };
   return picked;
 }

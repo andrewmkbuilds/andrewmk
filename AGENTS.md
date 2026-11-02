@@ -141,8 +141,14 @@ Quirks worth knowing:
   cannot apply stops the `schema` job instead of scrolling past. `00-roles.sql` pre-creates
   GoTrue's empty `auth.schema_migrations` metadata table, avoiding its initial missing-table log
   while GoTrue records its migrations normally.
-- **Navigation is a full document load.** The site's nav links are plain `<a href>`s (no client-side
-  route transition), so each click re-renders the route server-side. Check a route with
+- **Navigation is mixed, and the scroll reset must handle both.** Header/logo links are TanStack
+  `Link`s (client-side, and a card's own link may be a plain `<a href>`), so a route change can
+  happen inside one document. `ScrollToTop` therefore resets `document.scrollingElement.scrollTop`
+  (not just `window.scrollTo`, which does nothing while `body` owns the overflow) and skips
+  history pops so Back/Forward keep their position. Verified 2026-11-02: from `/projects` scrolled
+  4 200 px, the header link landed on `/` at scroll 0 with the homepage `<h1>`.
+- **A plain `<a href>` is a full document load.** With those, each click re-renders the route
+  server-side. Check a route with
   `curl -s http://localhost:3000/blog | grep -ao '<h1[^>]*>[^<]*'` or by opening the path directly;
   a pushState-based SPA navigation helper will report the route as not rendered. (The preview
   `navigate()` helper is one of those — it drives `history.pushState`, which this router does not
@@ -421,14 +427,18 @@ perceived depths, because three hand-tuned `translateZ` planes never agreed on o
   products, AI tools, utilities and experiments instead of the same flagships.
   Nothing is hardcoded and nothing is saved permanently: the draw runs in
   `SceneBackground`'s mount effect (client-only, so SSR and hydration never
-  disagree — the plane is `opacity: 0` until the client loop fades it in), the
-  result lives in state so re-renders and client-side route changes keep it, and
-  `sessionStorage` holds only the previous draw's signature so two consecutive
-  loads cannot show the same wall. The tiled wall still repeats names by design —
+  disagree — the plane is `opacity: 0` until the client loop fades it in), and
+  `lib/scene-selection.ts` caches the draw for the life of the document. That
+  cache matters: `Layout` (and with it the scene) remounts on every client-side
+  route change, so without it each navigation reshuffled the wall and rebuilt
+  every tile. `sessionStorage` holds only the previous draw's signature so two
+  consecutive loads cannot show the same wall. The tiled wall still repeats names by design —
   the sample size is what stops it repeating the same handful.
 - **One rAF loop, no React state.** `reactbits/GridMotion.tsx` writes each row's `transform` and
-  each lit tile's `--spot` per frame, reads the root rect once per frame, and stops entirely when
-  the wall scrolls out of view. Only `pointerType === "mouse"` drives parallax — do not gate the
+  each lit tile's `--spot` per frame, measures the root box only on mount/resize (a
+  `getBoundingClientRect()` inside the loop was a forced layout after the previous frame's
+  writes), skips every tile that is already dark while the pointer is away, stops when the tab is
+  hidden, and stops entirely when the wall scrolls out of view. Only `pointerType === "mouse"` drives parallax — do not gate the
   listener on `(pointer: fine)`, which is false in embedded and automated browsers. Verify by
   dispatching a `PointerEvent("pointermove")` and reading a tile's `--spot` (measured: 10 tiles
   lit at the viewport centre).
@@ -900,6 +910,15 @@ touching any of it.
 - **ASCII overlay is a rewrite, not a port.** The pack version needs three.js and a running
   shader; `src/components/ui/AsciiPlate.tsx` samples the image once into an offscreen grid and
   paints the glyphs onto one static canvas on mount/resize. Keeps the site's no-WebGL rule.
+- **The feature dialog's sheet is hidden in CSS, not only by GSAP.** `feature-dialog.jsx` renders
+  the whole Gradr sheet into the server HTML and only hides it from a GSAP `set()` on mount, so
+  before hydration the sheet painted as a full-screen project overlay over whatever route was
+  loading — the "project screen on the homepage" bug (fixed 2026-11-02). `annnimate-theme.css`
+  pins the sheet's `.fdg_modal` wrapper to `visibility: hidden; opacity: 0` and shows it again
+  while the stage carries `.is-open`; GSAP's inline autoAlpha takes over once it runs. Keep those
+  two rules if the theme is ever rewritten. `ui/FeatureSpotlight.tsx` also releases the dialog's
+  `body` scroll lock on unmount, because leaving the route while the sheet is open unmounts it
+  before its close leg can unlock.
 - **Reduced motion** is handled inside the pack components and by the theme's override block.
   Do not disable a component's internal check.
 - Verified 2026-11-01 in the preview (1280 px): the home spotlight dialog opens in-viewport with

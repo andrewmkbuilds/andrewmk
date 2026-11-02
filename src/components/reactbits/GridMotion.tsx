@@ -116,6 +116,22 @@ export default function GridMotion({
     pointer: { x: 0, y: 0, active: false },
   });
   const [size, setSize] = useState({ width: 0, height: 0 });
+  /**
+   * The root's viewport box, measured on resize instead of every frame.
+   *
+   * Reading `getBoundingClientRect()` inside the loop is a layout read after
+   * the previous frame's `transform` writes — a forced synchronous layout on
+   * every animation frame. The wall is a fixed layer, so its box only changes
+   * when it is measured (mount/resize); the loop uses the cached value.
+   */
+  const rectRef = useRef({
+    left: 0,
+    top: 0,
+    width: 0,
+    height: 0,
+    clientWidth: 0,
+    clientHeight: 0,
+  });
 
   const rowCount = clamp(Math.round(rows), 1, 12);
   const aspect = clamp(aspectRatio, 0.3, 4);
@@ -173,7 +189,20 @@ export default function GridMotion({
     const root = rootRef.current;
     if (!root) return undefined;
 
+    const syncRect = () => {
+      const rect = root.getBoundingClientRect();
+      rectRef.current = {
+        left: rect.left,
+        top: rect.top,
+        width: rect.width,
+        height: rect.height,
+        clientWidth: root.clientWidth,
+        clientHeight: root.clientHeight,
+      };
+    };
+
     const observer = new ResizeObserver(() => {
+      syncRect();
       const width = Math.round(root.clientWidth);
       const height = Math.round(root.clientHeight);
       setSize((current) =>
@@ -182,10 +211,17 @@ export default function GridMotion({
           : { width, height },
       );
     });
+    syncRect();
     observer.observe(root);
+    // A fixed layer keeps its box while the page scrolls; refresh the cache on
+    // a resize/orientation change too (it can precede the observer's tick).
+    window.addEventListener("resize", syncRect, { passive: true });
 
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
-      return () => observer.disconnect();
+      return () => {
+        observer.disconnect();
+        window.removeEventListener("resize", syncRect);
+      };
     }
 
     const motion = motionRef.current;
@@ -209,6 +245,7 @@ export default function GridMotion({
 
     return () => {
       observer.disconnect();
+      window.removeEventListener("resize", syncRect);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerdown", onMove);
       window.removeEventListener("pointerup", onUp);
@@ -250,10 +287,10 @@ export default function GridMotion({
         plane.style.opacity = String(1 - (1 - motion.intro) ** 3);
       }
 
-      const rect = root.getBoundingClientRect();
-      const scale = rect.width ? root.clientWidth / rect.width : 1;
-      const halfWidth = root.clientWidth / 2 || 1;
-      const halfHeight = root.clientHeight / 2 || 1;
+      const rect = rectRef.current;
+      const scale = rect.width ? rect.clientWidth / rect.width : 1;
+      const halfWidth = rect.clientWidth / 2 || 1;
+      const halfHeight = rect.clientHeight / 2 || 1;
       const px = (motion.pointer.x - rect.left) * scale - halfWidth;
       const py = (motion.pointer.y - rect.top) * scale - halfHeight;
       const inside =
@@ -280,6 +317,11 @@ export default function GridMotion({
         (0.6 + 2.2 * s.spotStrength) *
         Math.max(layout.tileWidth, layout.tileHeight);
       const settle = 1 - Math.exp(-dt / 0.22);
+      // The per-tile light is the only real work in this loop. With the
+      // pointer away (or the wall dimmed out) every tile that has already
+      // faded to zero is skipped, so scrolling with a still mouse costs only
+      // the two row transforms.
+      const lit = !reduce && inside && s.spotStrength > 0;
 
       rowEls.forEach((row, r) => {
         const drift =
@@ -318,13 +360,22 @@ export default function GridMotion({
         const marks = written[r] ?? new Float32Array(0);
 
         for (let k = 0; k < list.length; k++) {
+          const previous = values[k] ?? 0;
+          if (!lit && previous < 0.004) {
+            // Dark and staying dark: nothing to compute, nothing to write.
+            if ((marks[k] ?? 0) !== 0) {
+              marks[k] = 0;
+              list[k]?.style.setProperty("--spot", "0");
+            }
+            continue;
+          }
           let wanted = 0;
-          if (inside && s.spotStrength > 0) {
+          if (lit) {
             const distance =
               Math.hypot(left + k * layout.step - planeX, rowY - planeY) / reach;
             wanted = 1 - smoothstep(0.25, 1, distance);
           }
-          values[k] = (values[k] ?? 0) + (wanted - (values[k] ?? 0)) * settle;
+          values[k] = previous + (wanted - previous) * settle;
           const current = values[k] ?? 0;
           const mark = marks[k] ?? 0;
           if (Math.abs(current - mark) > 0.004 || (wanted === 0 && current < 0.004 && mark !== 0)) {
@@ -345,12 +396,27 @@ export default function GridMotion({
       }
     });
     visibility.observe(root);
+
+    // A hidden tab draws nothing: stop the loop rather than leave a rAF chain
+    // running behind it, and resume when the tab comes back.
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        if (raf) cancelAnimationFrame(raf);
+        raf = 0;
+      } else if (visible && !raf && !reduce) {
+        last = performance.now();
+        raf = requestAnimationFrame(frame);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
     raf = requestAnimationFrame(frame);
 
     return () => {
       alive = false;
       cancelAnimationFrame(raf);
       visibility.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
     };
   }, [layout, tiles, angle]);
 

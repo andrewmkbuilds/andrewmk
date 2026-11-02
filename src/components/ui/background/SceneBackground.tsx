@@ -77,6 +77,11 @@ export function SceneBackground() {
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
       return undefined;
     }
+    // Phones keep the same static room: a scroll-linked transform on the wall
+    // costs a compositing update every frame for depth nobody can see.
+    if (window.matchMedia("(max-width: 767px)").matches) {
+      return undefined;
+    }
     return subscribeScroll((y) => {
       const drift = Math.max(-130, Math.min(130, -y * 0.07));
       root.style.setProperty("--gm-drift", `${drift.toFixed(1)}px`);
@@ -101,7 +106,10 @@ export function SceneBackground() {
         <GridMotion
           className="scene-grid"
           items={items}
-          rows={8}
+          // Six rows instead of eight: the wall reads the same at this scale
+          // but mounts a third fewer tiles, and every one of them is a node
+          // the per-frame light pass used to walk.
+          rows={6}
           gap={16}
           aspectRatio={1.8}
           angle={-16}

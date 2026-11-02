@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import FeatureDialog from "@/components/annnimate/feature-dialog";
 import { projectPlate } from "@/lib/plate";
 import type { Project } from "@/data/portfolio";
@@ -19,6 +20,17 @@ export function FeatureSpotlight({
   // The tile is the project's own screenshot — the same asset every other
   // surface uses; only the status sheet stays a typographic plate.
   const detailPlate = projectPlate(project.status, project.category, 2);
+
+  // The pack dialog locks body scroll while its sheet is open. Leaving the
+  // route with it open unmounts the sheet before its close leg can unlock, so
+  // release the lock here — otherwise the next route cannot scroll.
+  useEffect(() => {
+    return () => {
+      if (document.body.style.overflow === "hidden") {
+        document.body.style.overflow = "";
+      }
+    };
+  }, []);
 
   return (
     <FeatureDialog

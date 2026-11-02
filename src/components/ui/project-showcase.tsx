@@ -67,8 +67,17 @@ export function ProjectShowcase({ projects, className }: ProjectShowcaseProps) {
   const [hovered, setHovered] = useState<number | null>(null);
   const [focused, setFocused] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
+  /**
+   * Only rows the reader has actually pointed at (or focused) mount their
+   * screenshot. Painting all 15 previews up front fetched every asset on page
+   * load — the floating card is a hover surface, so its images can load on
+   * demand. Kept so a previously seen shot still cross-fades in.
+   */
+  const [seen, setSeen] = useState<number[]>([]);
   const active = hovered ?? focused;
   const visible = active !== null;
+  const markSeen = (index: number) =>
+    setSeen((prev) => (prev.includes(index) ? prev : [...prev, index]));
 
   const previewRef = useRef<HTMLDivElement>(null);
   const target = useRef({ x: 0, y: 0 });
@@ -142,6 +151,7 @@ export function ProjectShowcase({ projects, className }: ProjectShowcaseProps) {
   ) => {
     if (event.pointerType !== "mouse") return;
     followPointer(event);
+    markSeen(index);
     setHovered(index);
   };
 
@@ -151,6 +161,7 @@ export function ProjectShowcase({ projects, className }: ProjectShowcaseProps) {
       x: window.innerWidth - PREVIEW_WIDTH - GUTTER * 3,
       y: rect.top + rect.height / 2 - PREVIEW_HEIGHT / 2,
     };
+    markSeen(index);
     setFocused(index);
   };
 
@@ -164,17 +175,23 @@ export function ProjectShowcase({ projects, className }: ProjectShowcaseProps) {
       )}
       style={{ boxShadow: "var(--elev-3)" }}
     >
-      {projects.map((project, index) => (
-        <div
-          key={project.slug}
-          className={cn(
-            "absolute inset-0 transition-[opacity,scale] duration-500 ease-out motion-reduce:transition-none",
-            active === index ? "scale-100 opacity-100" : "scale-105 opacity-0",
-          )}
-        >
-          <ProjectShot project={project} />
-        </div>
-      ))}
+      {seen.map((index) => {
+        const project = projects[index];
+        if (!project) return null;
+        return (
+          <div
+            key={project.slug}
+            className={cn(
+              "absolute inset-0 transition-[opacity,scale] duration-500 ease-out motion-reduce:transition-none",
+              active === index
+                ? "scale-100 opacity-100"
+                : "scale-105 opacity-0",
+            )}
+          >
+            <ProjectShot project={project} />
+          </div>
+        );
+      })}
       <span
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-linear-to-t from-background/25 to-transparent"
