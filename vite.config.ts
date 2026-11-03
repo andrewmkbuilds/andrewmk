@@ -68,16 +68,28 @@ const sandboxHostDomain = process.env["BASE44_SANDBOX_HOST_DOMAIN"];
  * dynamic route can never be frozen into a static file by accident.
  */
 /**
- * Only the deploy build prerenders.
+ * Only the Worker build prerenders.
  *
- * TanStack's prerender pass boots the built server through its preview shim.
- * That shim works with the Cloudflare module build (`bun run build`) — the
- * artifact that actually serves visitors — but not with Nitro's
- * `node-server` entry, whose module does not expose `fetch`; there every route
- * answered `server.fetch is not a function` and 0 pages prerendered.
- * `build:preview` is the local SEO/a11y harness, so it stays pure SSR.
+ * TanStack's prerender pass boots the built server through its preview shim,
+ * which loads Nitro's `index.mjs` entry. That works with the Cloudflare module
+ * build (`bun run build`) — the artifact that actually serves visitors — but
+ * not with:
+ *
+ * - Nitro's `node-server` entry, whose module does not expose `fetch`; there
+ *   every route answered `server.fetch is not a function` and 0 pages
+ *   prerendered. `build:preview` is the local SEO/a11y harness, so it stays
+ *   pure SSR.
+ * - Nitro's `cloudflare-pages` target (the builder sets `CF_PAGES`), which
+ *   emits its worker as `dist/_worker.js/index.js` instead of `index.mjs`.
+ *   The shim cannot load it, every route answered Internal Server Error and
+ *   the whole Pages build failed. That target renders the same routes on
+ *   demand instead of freezing them at build time.
  */
-const SSG_ENABLED = process.env["NITRO_PRESET"] !== "node-server";
+const NITRO_TARGET =
+  process.env["NITRO_PRESET"] ??
+  (process.env["CF_PAGES"] ? "cloudflare-pages" : "cloudflare-module");
+const SSG_ENABLED =
+  NITRO_TARGET !== "node-server" && NITRO_TARGET !== "cloudflare-pages";
 
 const PRERENDERED_ROUTES = [
   "/",

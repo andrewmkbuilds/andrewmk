@@ -69,10 +69,16 @@ Two artifacts come out of the same source, and they are not interchangeable:
   `tanstackStart.prerender` with an explicit route list (the content routes: `/`, `/about`,
   `/journey`, `/skills`, `/achievements`, `/resume`, `/profile`, `/now`, `/press-kit`, `/faq`,
   `/colophon`, `/sitemap`, `/developers`, `/contact`) and `crawlLinks: false`, so a new dynamic
-  route can never be frozen into a static file. It is gated on `NITRO_PRESET !== "node-server"`:
-  TanStack's prerender pass boots the built server through its preview shim, which works for the
-  `cloudflare-module` artifact but not Nitro's `node-server` entry (no `fetch` export — every
-  route failed and 0 pages prerendered). `/projects`, `/projects/$slug` and `/blog/*` deliberately
+  route can never be frozen into a static file. It is gated to the `cloudflare-module` target only
+  (`SSG_ENABLED` in `vite.config.ts`): TanStack's prerender pass boots the built server through
+  its preview shim, which loads Nitro's `index.mjs` entry, and neither other target has one.
+  Nitro's `node-server` entry exposes no `fetch` (every route failed and 0 pages prerendered), and
+  Nitro's `cloudflare-pages` target (what the Pages builder sets `CF_PAGES` for) emits
+  `dist/_worker.js/index.js` — the shim could not load it, every prerendered route answered
+  Internal Server Error and the whole Pages build failed. The Pages target therefore renders those
+  routes on demand; the Worker deploy keeps full SSG. Verified 2026-11-03: `CF_PAGES=1 bun run
+build` exits 0 with `dist/_worker.js/index.js` + `dist/_routes.json` and no failed fetches.
+  `/projects`, `/projects/$slug` and `/blog/*` deliberately
   stay SSR because their metadata comes from the database at request time. `sitemap.enabled` is
   off so `scripts/generate-sitemap.ts` keeps owning `public/sitemap.xml`. Verified 2026-11-02:
   `bun run build` prerendered all 14 pages with real content (OG tags and the custom sitemap
@@ -91,6 +97,14 @@ Two artifacts come out of the same source, and they are not interchangeable:
   Verify the Pages side with `CF_PAGES=1 bun run build`, then
   `bunx wrangler pages deploy dist --project-name andrewmkbuilds-andrewmk --branch main`:
   it must reach the credentials error, not a configuration error.
+- **`import.meta.dir` is Bun-only — the scripts must not use it.** `scripts/generate-scene-pool.ts`
+  used it to locate `src/data/scene-pool.generated.ts`, which is fine under `bun` but `undefined`
+  under Node, where `tsx` runs on the CI and Cloudflare builders: `prebuild` died with
+  `ERR_INVALID_ARG_TYPE` from `resolve(undefined, …)` before Vite ever started, which failed the
+  `CI` job, `Cloudflare Pages` and `Workers Builds: andrewmk` in under a minute. It derives the
+  directory from `fileURLToPath(import.meta.url)` now. Verified 2026-11-03 on `node:24` (the
+  version CI runs): `node node_modules/tsx/dist/cli.mjs scripts/generate-scene-pool.ts` writes
+  23 projects. Keep every `scripts/*.ts` Node-portable — no `Bun.*` globals.
 - **The Cloudflare checks give no log, so reproduce their builder instead.** `Cloudflare Pages` and
   `Workers Builds: andrewmk` report only "Build failed." (no annotations, logs behind an
   authenticated dashboard), and both fail in under a minute — too fast to be a compile. Their
@@ -330,6 +344,12 @@ navy room. CSS in `src/styles/echo-headline.css`; the component only writes
   1272 px and 106 px at 375 px, and the echoes reach a few pixels past the word's
   box — that is why the compact root is `overflow: visible` while the full
   variant keeps `overflow: clip`.
+- **The header sits on `SectionHeading`'s grid (2026-11-03).** Its `<header>` carries the same
+  `mb-10 md:mb-14` rhythm, its subtitle uses the same `max-w-3xl` copy column (it was `max-w-2xl`,
+  672 px against the section's 768 px), and the featured card has no top margin of its own — the
+  old `mt-10` wrapper collapsed into the header margin and became a second source of truth.
+  Measured in the preview after the change: header bottom → card top 56 px at 1280 px and 40 px at
+  375 px, the same gap every `SectionHeading` section uses, with no sideways overflow.
 
 - **Adapted from the supplied demo, not copied.** It ran on GSAP + ScrollTrigger
   with a `#ebebe9` page and Switzer; here the scroll progress and its smoothing

@@ -400,17 +400,18 @@ export default function Home() {
               rotateX={20}
               rotateY={20}
             />
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            {/* Same copy column and `mb-10 md:mb-14` gap as SectionHeading,
+                so the first card starts on the section grid. */}
+            <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
               Different problems. Different systems. One constant: build it.
             </p>
           </header>
           {/* One flag build, opened in place. Not wrapped in Reveal: a
               transformed ancestor would become the containing block for the
-              dialog's fixed overlay. */}
+              dialog's fixed overlay. It carries no top margin of its own — the
+              header's `mb-10 md:mb-14` owns the gap. */}
           {featuredProjects[0] ? (
-            <div className="mt-10">
-              <FeatureSpotlight project={featuredProjects[0]} />
-            </div>
+            <FeatureSpotlight project={featuredProjects[0]} />
           ) : null}
           <div className="mt-16 grid gap-20 md:gap-28">
             {featuredProjects.map((project, i) => (

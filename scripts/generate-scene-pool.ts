@@ -15,8 +15,14 @@
 // enough to put it on the wall.
 
 import { writeFileSync } from "fs";
-import { resolve } from "path";
+import { dirname, resolve } from "path";
+import { fileURLToPath } from "url";
 import { allProjects } from "../src/data/portfolio";
+
+// `import.meta.dir` is Bun-only; the Cloudflare/CI builder runs this through
+// tsx on Node, where it is undefined and `resolve(undefined, …)` throws
+// ERR_INVALID_ARG_TYPE. Derive the directory from the module URL instead.
+const here = dirname(fileURLToPath(import.meta.url));
 
 const seen = new Set<string>();
 const rows: { slug: string; name: string; category: string }[] = [];
@@ -54,8 +60,5 @@ ${body}
 ];
 `;
 
-writeFileSync(
-  resolve(import.meta.dir, "../src/data/scene-pool.generated.ts"),
-  output,
-);
+writeFileSync(resolve(here, "../src/data/scene-pool.generated.ts"), output);
 console.log(`scene pool: ${rows.length} projects`);
