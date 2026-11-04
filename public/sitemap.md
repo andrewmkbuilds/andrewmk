@@ -2,7 +2,7 @@
 
 ## Pages
 
-- [Home](https://andrewmk.is-a.dev/): Andrew Mathews Kalathil is a student developer and AI builder in Dubai, UAE. His official portfolio: AI applications, web products, robotics and STEM projects.
+- [Home](https://andrewmk.is-a.dev/): Official portfolio of Andrew Mathews Kalathil, a student developer from Dubai building software, AI applications, automation tools and STEM projects.
 - [Projects](https://andrewmk.is-a.dev/projects): Software, AI systems, tools and experiments built by Andrew Mathews Kalathil, with the technology stack and build platform for each project.
 - [About](https://andrewmk.is-a.dev/about): About Andrew Mathews Kalathil: a student developer in Dubai working across full-stack development, AI, automation and robotics, and how he approaches building.
 - [Journey](https://andrewmk.is-a.dev/journey): From a robotics programme at age 9 to shipping AI products: the timeline behind Andrew Mathews Kalathil's work as a student developer in Dubai.

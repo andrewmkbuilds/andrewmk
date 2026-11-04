@@ -9,6 +9,7 @@
     "dev": "vite dev",
     "preview:check": "tsx scripts/preview-check.ts",
     "seo:regression": "tsx scripts/seo-regression.ts",
+    "seo:indexnow": "tsx scripts/indexnow.ts",
     "a11y:check": "tsx scripts/a11y-check.ts",
     "selection:check": "python3 scripts/selection-visual-check.py",
     "ci:verify": "bun run seo:regression && bun run a11y:check && bun run selection:check && bun run cta:check && bun run pop:check && bun run disclosure:check",

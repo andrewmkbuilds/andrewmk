@@ -160,7 +160,7 @@ export default function Home() {
 
             <p
               style={{ animationDelay: "120ms" }}
-              className="enter mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
+              className="enter-rise mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
             >
               I&rsquo;m Andrew Mathews Kalathil — a student developer and AI
               builder from Dubai, UAE. This is my official portfolio: I build

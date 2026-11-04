@@ -52,12 +52,20 @@ export default function Developers() {
                       <h2 className="font-mono text-sm text-foreground">
                         {resource.path}
                       </h2>
-                      <a
-                        href={resource.path}
-                        className="font-mono text-xs uppercase tracking-[0.14em] text-gold link-underline"
-                      >
-                        Open
-                      </a>
+                      {/* A templated path (`/projects/{slug}.json`) has no page
+                          to open, so it is shown as an example, not a link. */}
+                      {resource.path.includes("{") ? (
+                        <span className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground/70">
+                          Template
+                        </span>
+                      ) : (
+                        <a
+                          href={resource.path}
+                          className="font-mono text-xs uppercase tracking-[0.14em] text-gold link-underline"
+                        >
+                          Open
+                        </a>
+                      )}
                     </div>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                       {resource.description}

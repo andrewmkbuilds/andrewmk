@@ -51,12 +51,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         // so the browser chrome on mobile continues the page surface.
         { name: "theme-color", content: "#080D19" },
         {
-          title: "Andrew Mathews Kalathil — Student Developer & AI Builder",
+          title: "Andrew Mathews Kalathil | Student Developer & AI Builder",
         },
         {
           name: "description",
           content:
-            "Andrew Mathews Kalathil is a student developer and AI builder in Dubai, UAE, creating AI applications, robotics projects and web products.",
+            "Official portfolio of Andrew Mathews Kalathil, a student developer from Dubai building software, AI applications, automation tools and STEM projects.",
         },
         { name: "author", content: AUTHOR },
         {

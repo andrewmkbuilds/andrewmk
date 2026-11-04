@@ -57,9 +57,9 @@ export const routes: RouteMeta[] = [
   {
     path: "/",
     label: "Home",
-    title: "Andrew Mathews Kalathil — Student Developer & AI Builder",
+    title: "Andrew Mathews Kalathil | Student Developer & AI Builder",
     description:
-      "Andrew Mathews Kalathil is a student developer and AI builder in Dubai, UAE. His official portfolio: AI applications, web products, robotics and STEM projects.",
+      "Official portfolio of Andrew Mathews Kalathil, a student developer from Dubai building software, AI applications, automation tools and STEM projects.",
     ogHeadline: "Student developer & AI builder",
     ogLabel: "Andrew Mathews Kalathil",
     ogDescription:
@@ -219,6 +219,21 @@ export const routes: RouteMeta[] = [
 
 export const indexableRoutes = routes.filter((r) => !r.noindex);
 
+/**
+ * Trim a generated description to the meta budget without cutting a word in
+ * half. Project summaries and blog excerpts are written for the page, not for
+ * the SERP, so a bare `slice()` shipped descriptions that ended mid-word
+ * ("…carry ever") or on a lonely comma.
+ */
+export function clampMetaDescription(value: string, max = 158): string {
+  const text = value.trim().replace(/\s+/g, " ");
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max - 1);
+  const lastSpace = cut.lastIndexOf(" ");
+  const trimmed = lastSpace > 60 ? cut.slice(0, lastSpace) : cut;
+  return `${trimmed.replace(/[,;:.\s]+$/, "")}…`;
+}
+
 export function routeSlug(path: string) {
   return path === "/" ? "home" : path.replace(/^\//, "").replace(/\//g, "-");
 }
@@ -298,6 +313,8 @@ export function personJsonLd() {
       "AI automation",
       "Computer vision",
       "Robotics",
+      "Internet of Things (IoT)",
+      "Cybersecurity",
       "Product design",
       "STEM engineering competitions",
     ],

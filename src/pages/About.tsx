@@ -71,6 +71,14 @@ export default function About() {
                     STEM Racing, and showcase projects through exhibitions.
                   </p>
                 </Reveal>
+                <Reveal delay={240}>
+                  <p className="text-muted-foreground leading-relaxed">
+                    My interests run wider than web apps: robotics and IoT (2nd
+                    Place in the IoT pathway at Techfest), computer vision,
+                    automation, and cybersecurity — how software is secured, and
+                    what it takes to keep it that way.
+                  </p>
+                </Reveal>
               </div>
             </div>
 

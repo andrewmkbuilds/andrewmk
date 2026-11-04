@@ -806,7 +806,24 @@ practice name "AndrewBuilds").
   `/sitemap.xml` so no host sniffs it as HTML; `scripts/seo-check.ts` now accepts
   `<lastmod>` but rejects one that is not a real W3C date.
 - Project `<title>`s use `name | category by <full name>` and fall back to
-  `name by <full name>` when that would pass 70 characters.
+  `name by <full name>` when that would pass 70 characters. Descriptions run
+  through `clampMetaDescription()` in `src/data/seo.ts`, which trims at a word
+  boundary and never leaves a trailing comma.
+- **IndexNow is wired, and its key is public on purpose (2026-11-04).**
+  `src/data/indexnow.ts` holds the key; `scripts/generate-public-data.ts` writes
+  `public/<key>.txt` from it (the protocol's ownership proof), so the constant and
+  the served file cannot drift. The key is _not_ a credential — it is published at
+  the site root by design, so it belongs in neither the secrets store nor
+  `compose` env. Announce changed URLs with
+  `bunx tsx scripts/indexnow.ts` (only sitemap URLs whose `<lastmod>` changed),
+  `--all` (every public URL) or explicit URLs (a removed page); `--dry-run`
+  prints the payload. It is deliberately **not** part of `predev`/`prebuild` —
+  a build must never POST to Bing. Non-public paths (`/admin`, `/auth`, `/api`,
+  `/404`) are rejected before sending, and `.indexnow-state.json` (gitignored)
+  remembers what was accepted so a re-run does not resubmit it.
+- Submitting the sitemap in Google Search Console and Bing Webmaster Tools, and
+  passing that IndexNow key to Bing, are external account steps — a key file in
+  the repo does not register anything, so never report the site as verified.
 
 ## What to check after a change
 

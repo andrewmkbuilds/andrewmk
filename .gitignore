@@ -31,6 +31,9 @@ dist-ssr
 # selection visual regression artifacts
 artifacts/
 
+# IndexNow submission memory (which URLs were already announced)
+.indexnow-state.json
+
 # Build output — never commit (stale bundles)
 .output
 .wrangler

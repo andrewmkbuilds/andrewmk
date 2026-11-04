@@ -2800,6 +2800,19 @@ html[data-cursor-out] .cursor-layer {
   }
 }
 
+/* Same rise, no fade: the element is painted at full opacity from the first
+   frame and only travels. Used for the hero paragraph, which is the mobile
+   LCP candidate — an opacity-0 start kept the largest text block out of the
+   LCP until the entrance finished (measured as the 5.1 s mobile LCP). */
+@keyframes enter-rise {
+  from {
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
 @keyframes word-rise {
   from {
     opacity: 0;
@@ -2867,6 +2880,10 @@ html[data-cursor-out] .cursor-layer {
     animation: enter-up 0.55s var(--ease-out-expo) both;
   }
 
+  .enter-rise {
+    animation: enter-rise 0.55s var(--ease-out-expo) both;
+  }
+
   .reveal-word {
     display: inline-block;
     animation: word-rise 0.7s var(--ease-out-expo) both;
@@ -2883,6 +2900,7 @@ html[data-cursor-out] .cursor-layer {
       transition: none !important;
     }
     .enter,
+    .enter-rise,
     .reveal-word {
       animation: none !important;
     }

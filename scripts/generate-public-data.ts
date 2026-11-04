@@ -15,6 +15,7 @@ import { faqEntries } from "../src/data/faq";
 import { bios, pressFacts } from "../src/data/pressKit";
 import { certificates } from "../src/data/certificates";
 import { SITE_URL, indexableRoutes } from "../src/data/seo";
+import { INDEXNOW_KEY } from "../src/data/indexnow";
 import {
   CONTACT_EMAIL,
   FULL_NAME,
@@ -677,6 +678,12 @@ ${allProjects
 ${pressFacts.map((fact) => `- ${fact.label}: ${fact.value}`).join("\n")}
 `,
 );
+
+/* ── IndexNow key file ────────────────────────────────────────────────────
+   IndexNow proves host ownership with a file named after the key at the site
+   root. Written from the same constant the submit script uses. */
+
+write(`${INDEXNOW_KEY}.txt`, `${INDEXNOW_KEY}\n`);
 
 console.log(`generate-public-data: wrote ${written.length} files`);
 written.forEach((file) => console.log(`  public/${file}`));

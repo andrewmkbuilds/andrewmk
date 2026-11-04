@@ -7,10 +7,22 @@ import {
   listPublishedProjects,
 } from "@/lib/projects.functions";
 import { projectJsonLd } from "@/lib/project-schema";
-import { SITE_NAME, SITE_URL, ogImagePath } from "@/data/seo";
+import {
+  SITE_NAME,
+  SITE_URL,
+  clampMetaDescription,
+  ogImagePath,
+} from "@/data/seo";
 
 function staticProject(slug: string) {
   return allProjects.find((p) => p.slug === slug);
+}
+
+/** Lowercase a sentence start without mangling an acronym ("AI-powered"). */
+function lowerFirst(text: string) {
+  return /^[A-Z]{2}/.test(text)
+    ? text
+    : `${text.charAt(0).toLowerCase()}${text.slice(1)}`;
 }
 
 /** Absolute URL for an image reference that may be site-relative. */
@@ -68,10 +80,10 @@ export const Route = createFileRoute("/projects/$slug")({
       (withCategory.length <= 70
         ? withCategory
         : `${project.name} by ${SITE_NAME}`);
-    const description = (
+    const description = clampMetaDescription(
       project.seo?.description ||
-      `${project.name} is ${project.description.charAt(0).toLowerCase()}${project.description.slice(1)}`
-    ).slice(0, 158);
+        `${project.name} is ${lowerFirst(project.description)}`,
+    );
 
     return {
       meta: [
