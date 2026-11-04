@@ -176,6 +176,36 @@ export const certificateMix: Slice[] = (() => {
     .sort((a, b) => b.value - a.value || a.label.localeCompare(b.label));
 })();
 
+/**
+ * The projects that name a given technology — the evidence behind `/skills`.
+ *
+ * A record names a technology in its `tech` tags, its `filters` or its grouped
+ * `stack` entries; nothing is inferred beyond those fields, so the index never
+ * claims a project uses something its own record does not say. Keys are lower
+ * case so a skill label matches whatever casing the record uses, and a project
+ * counts once per technology even when it names it in more than one field.
+ */
+export function projectsByTechnology(
+  projects: Project[],
+): Map<string, Project[]> {
+  const map = new Map<string, Project[]>();
+  for (const project of projects) {
+    const named = new Set<string>();
+    for (const key of [...project.tech, ...project.filters]) {
+      named.add(key.toLowerCase());
+    }
+    for (const group of project.stack ?? []) {
+      for (const item of group.items) named.add(item.toLowerCase());
+    }
+    for (const key of named) {
+      const list = map.get(key);
+      if (list) list.push(project);
+      else map.set(key, [project]);
+    }
+  }
+  return map;
+}
+
 /** Projects that publish a live URL — a real, countable fraction. */
 export function liveCount(projects: Project[]): number {
   return projects.filter((project) => Boolean(project.live)).length;

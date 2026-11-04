@@ -137,7 +137,9 @@ export default function FeatureDialog({
   }, []);
 
   const setOpenAria = useCallback((open) => {
-    toggleRef.current?.setAttribute('aria-expanded', open ? 'true' : 'false');
+    // The toggle opens a modal dialog, not an inline disclosure: it advertises
+    // `aria-haspopup="dialog"` and must NOT report `aria-expanded` (the sheet
+    // keeps its own aria-hidden/inert state, and focus moves into the dialog).
     const sheet = sheetRef.current;
     if (!sheet) return;
     sheet.setAttribute('aria-hidden', open ? 'false' : 'true');
@@ -409,7 +411,7 @@ export default function FeatureDialog({
           className="fdg_toggle"
           data-anm-fdg-toggle
           aria-label={`Open ${title} details`}
-          aria-expanded="false"
+          aria-haspopup="dialog"
           onClick={handleToggleClick}
         >
           <svg className="fdg_glyph" viewBox="0 0 16 16" fill="none" aria-hidden="true">

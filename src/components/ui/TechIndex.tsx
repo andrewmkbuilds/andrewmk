@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "@/lib/router-compat";
 import { cn } from "@/lib/utils";
 import { StatusBadge } from "./Badges";
+import { projectsByTechnology } from "@/data/visuals";
 import type { Project, SkillGroup } from "@/data/portfolio";
 
 interface TechIndexProps {
@@ -14,31 +15,18 @@ interface TechIndexProps {
 /**
  * Skills as a relationship, not a logo wall.
  *
- * Each capability is a chip; a chip that a project record actually names opens
- * the list of projects that use it. A capability with no matching record stays
- * a quiet label instead of a fake link, so the index never claims a project
- * uses something its own record does not say. No proficiency scores, no
- * percentages — the evidence is the linked work.
+ * Every capability is a chip and every chip is a button: selecting one opens
+ * the projects whose record names that technology (its tags, filters or stack),
+ * so nothing on this panel looks clickable and then does nothing. A capability
+ * no shipped record names yet says so in the panel instead of claiming work.
+ * No proficiency scores, no percentages — the evidence is the linked work.
  */
 export function TechIndex({ groups, projects, className }: TechIndexProps) {
   const [group, setGroup] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
 
   /** label (lower case) → the projects whose record names it. */
-  const usage = useMemo(() => {
-    const map = new Map<string, Project[]>();
-    for (const project of projects) {
-      const keys = new Set(
-        [...project.tech, ...project.filters].map((key) => key.toLowerCase()),
-      );
-      for (const key of keys) {
-        const list = map.get(key);
-        if (list) list.push(project);
-        else map.set(key, [project]);
-      }
-    }
-    return map;
-  }, [projects]);
+  const usage = useMemo(() => projectsByTechnology(projects), [projects]);
 
   const tabs = ["All", ...groups.map((entry) => entry.title)];
   const visibleGroups =
@@ -91,25 +79,13 @@ export function TechIndex({ groups, projects, className }: TechIndexProps) {
               <ul className="mt-3 flex list-none flex-wrap gap-2 p-0">
                 {entry.items.map((item) => {
                   const count = usage.get(item.toLowerCase())?.length ?? 0;
-                  if (count === 0) {
-                    return (
-                      <li key={item}>
-                        <span
-                          className="ti-chip"
-                          data-empty="true"
-                          title="A capability, not a named tool — see the projects for context"
-                        >
-                          {item}
-                        </span>
-                      </li>
-                    );
-                  }
                   return (
                     <li key={item}>
                       <button
                         type="button"
                         className="ti-chip focus-ring"
                         data-active={selected === item}
+                        data-empty={count === 0 ? "true" : undefined}
                         aria-pressed={selected === item}
                         onClick={() =>
                           setSelected((current) =>
@@ -118,7 +94,7 @@ export function TechIndex({ groups, projects, className }: TechIndexProps) {
                         }
                       >
                         {item}
-                        <span className="ti-count">{count}</span>
+                        {count > 0 && <span className="ti-count">{count}</span>}
                       </button>
                     </li>
                   );
@@ -147,6 +123,13 @@ export function TechIndex({ groups, projects, className }: TechIndexProps) {
             <h3 className="mt-2 font-[family-name:var(--font-display)] text-2xl text-foreground">
               {selected}
             </h3>
+            {selectedProjects.length === 0 && (
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                No shipped project record names this one yet — it is a
+                capability, not a tool a project lists. The projects that are
+                linked above each name the technologies they actually use.
+              </p>
+            )}
             <ul className="mt-5 grid list-none gap-3 p-0">
               {selectedProjects.map((project) => (
                 <li key={project.slug}>

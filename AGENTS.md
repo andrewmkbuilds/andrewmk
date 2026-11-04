@@ -922,6 +922,26 @@ The `react-refresh/only-export-components` warnings (16, all in
 `src/components/ui/`) are deliberate: those files export a small helper next to
 their component, and splitting them for fast refresh is not worth the churn.
 
+### Unit tests
+
+`bun run test` runs vitest on jsdom (`vitest.config.ts`, separate from `vite.config.ts` so
+TanStack Start's router never boots for a component test; CI runs it right after `typecheck`).
+`src/test/setup.ts` stubs `IntersectionObserver` only — the reveal wrappers every tested component
+renders call it on mount. The suites cover what is easy to break and expensive to eyeball:
+
+- `ui/__tests__/TimelineTrack.test.tsx` — year/title/meta/first paragraph always visible, the
+  details disclosure toggles `aria-expanded` and `data-open`, the proof action stays outside the
+  panel and fires, and a stop with nothing to unfold renders no button.
+- `ui/__tests__/DataCharts.test.tsx` — every bar label/value written as text, bar widths scaled
+  against the largest value, donut slice count + centre total + hover readout, meter fraction and
+  fill ratio (including a zero total).
+- `data/__tests__/visuals.test.ts` — `projectsByTechnology()` reads tags, filters and stack items,
+  lists a project once per technology, and matches case-insensitively.
+
+Verified 2026-11-04: 15/15 tests pass, `eslint` 0 errors and `prettier --check` clean with the
+suite in place. The dependencies (`vitest`, `jsdom`, `@testing-library/react`, `@testing-library/dom`)
+are dev-only and live in the one `bun.lock`.
+
 Type casts to the Supabase client live in one place, `src/lib/db-client.ts`
 (`asDbClient` / `DbClient`), because the generated `requireSupabaseAuth` context
 type does not match `SupabaseClient` in every query position. Use it instead of
@@ -951,6 +971,14 @@ docker run --rm --user root --network host -v "$PWD:/repo" -w /repo \
   and under `prefers-reduced-motion: reduce` the decorative canvas holds a single still frame (two
   pixel reads a moment apart must be identical), no animation runs, reveal wrappers are visible,
   keyboard traversal still works and **every visible text line still renders**.
+- **The Gradr tile's expand button is a dialog trigger, not a disclosure (2026-11-04).**
+  `annnimate/feature-dialog.jsx` put `aria-expanded` on `.fdg_toggle` although it opens a modal
+  sheet and moves focus inside it, so the check read "Space opens, Enter does not toggle"
+  (reproduced: `false` → Space `true` → Enter still `true`). The button now carries
+  `aria-haspopup="dialog"` and no expanded state — a dialog is not an expanding region — so the
+  assertion lands on a real inline disclosure (`AI & Machine Learning, focus area` on `/`,
+  `What's inside TerraCart` on `/work`) and the check passes on every route. This is one of the
+  pack's mechanical edits: re-apply it if `feature-dialog.jsx` is ever re-downloaded.
 - The text-parity check compares unique visible lines in `<main>` while ignoring `aria-hidden`
   decoration. It is what caught the marquee's reduced-motion chip cap (`nth-child(n + 16)`
   display:none) hiding tools; do not cap the static ribbon again.
@@ -1226,9 +1254,24 @@ existing records — nothing here adds or infers content.
   The Neon Rush, Stack Up — `spotlightSlugs`), alternating sides ≥900px. Those slugs are removed
   from the card grid and the ecosystem grid so nothing appears twice; the remaining featured
   records (TerraCart, ClientFlow OS) keep the card layout.
-- **`ui/TechIndex.tsx` replaces the six skill cards on `/skills`.** A chip is a button only when
-  a project record names that technology; a capability with no matching record stays a dashed,
-  non-interactive label. No proficiency scores. `ti-panel` marks the result panel.
+- **`ui/TechIndex.tsx` replaces the six skill cards on `/skills`.** Every chip is a button
+  (`aria-pressed`) that opens the projects naming it in `ti-panel`; no proficiency scores.
+- **Every chip filters, and the index reads the record's whole technology set (2026-11-04).**
+  `projectsByTechnology()` in `src/data/visuals.ts` indexes `tech`, `filters` **and** each `stack`
+  group's items — a record names a technology in any of those fields and nothing is inferred, so
+  TypeScript (stack-only) becomes a live chip while "Robotics" (a capability) does not invent work.
+  A chip no shipped record names is still a button and answers in the panel, instead of the old
+  dashed label that glowed on hover and did nothing. Verified in the preview: 28/28 chips
+  interactive, "TypeScript" → Gradr, ClientFlow OS and SiteScout AI, "Robotics" → honest empty
+  state, 0 console errors, no sideways overflow.
+- **The project name stays on screen (2026-11-04).** `ui/ProjectTitleBar.tsx` sits in the case
+  study's flow under the hero and sticks at `top: 4.5rem`, just under the floating header, once
+  `#project-title` leaves the viewport. It is `inert` + `aria-hidden` while parked under the hero
+  (so its hidden "All projects" link is never a tab stop), reserves its own 44 px — no layout
+  shift — and uses a layered translucent fill, never `backdrop-filter`. Measured on
+  `/projects/gradr` in headless Chromium at 1494 px and 390 px: hidden/opacity 0 at the top,
+  `data-visible` at 72 px against a header bottom of 68 px when scrolled, hidden again on return,
+  no sideways overflow.
 - **Editorial:** `ui/ReadingProgress.tsx` (2px rule, driven by the shared listener in
   `lib/scroll.ts`, one CSS variable per frame) on case studies and blog posts; `project.solution`
   renders as a `.pull-quote`; the case-study aside lists "On this page" anchors built from the
@@ -1241,6 +1284,7 @@ existing records — nothing here adds or infers content.
   (May 2024 → 2026) with the certificate viewer opening from a stop, plus a 7-slice donut;
   `/projects` 4 showcases, 7 technology bars, 6-slice status donut, meter `12 / 23`; a case
   study's flow selecting "Job tracker" and its TOC anchors; `/skills` 28 chips; 0 console errors
-  and no sideways overflow at 375px. Not automated: the `/skills` selection panel's project list
-  (the chip's `aria-pressed` was asserted, but the panel was queried through the wrong live
-  region).
+  and no sideways overflow at 375px. Re-verified 2026-11-04: the `/skills` panel's project list
+  (its `/projects/<slug>` links match the selected chip, and a capability with no record shows the
+  honest empty state). Note the "Robotics" rotating-words button also exists on `/skills` — target
+  the `.ti-chip` element when driving the panel.

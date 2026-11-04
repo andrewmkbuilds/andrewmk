@@ -783,6 +783,7 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted-foreground);
+    cursor: pointer;
     transition:
       border-color 0.25s ease,
       color 0.25s ease,
@@ -801,14 +802,64 @@
     color: var(--gold);
   }
 
+  /* A capability no project record names yet: still a real button, so the
+     hover glow never promises something the click does not do. */
   .ti-chip[data-empty="true"] {
     border-style: dashed;
-    cursor: default;
+    color: color-mix(in oklab, var(--muted-foreground) 82%, transparent);
   }
 
   .ti-count {
     font-size: 0.58rem;
     color: var(--gold);
+  }
+
+  /* ── Case study title bar ──────────────────────────────────────────── */
+
+  /* Sticks below the floating header while the hero <h1> is scrolled away.
+     Laid out in the article flow, so reserving its height costs no shift. */
+  .project-bar {
+    position: sticky;
+    top: 4.5rem;
+    z-index: 30;
+    border-bottom: 1px solid transparent;
+    background: transparent;
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease,
+      background-color 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  .project-bar[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    border-bottom-color: var(--border);
+    /* Layered translucent fill, never backdrop-filter: this strip is on
+       screen for the whole case study. */
+    background: color-mix(in oklab, var(--background) 90%, transparent);
+    box-shadow: 0 14px 30px -24px hsl(220 60% 2% / 0.9);
+  }
+
+  .project-bar-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    line-height: 1.1;
+    color: var(--foreground);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-bar {
+      transition: none;
+    }
   }
 
   /* ── Editorial: reading progress and pull quotes ───────────────────── */

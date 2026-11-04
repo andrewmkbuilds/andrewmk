@@ -13,6 +13,7 @@ import { StatusBadge } from "@/components/ui/Badges";
 import { ProjectTimeline } from "@/components/ui/ProjectTimeline";
 import { ProjectShot } from "@/components/ui/ProjectShot";
 import { SystemFlow } from "@/components/ui/SystemFlow";
+import { ProjectTitleBar } from "@/components/ui/ProjectTitleBar";
 import { ReadingProgress } from "@/components/ui/ReadingProgress";
 import { allProjects, type Project } from "@/data/portfolio";
 
@@ -87,7 +88,10 @@ export default function ProjectDetail({
                 />
                 {project.category}
               </p>
-              <h1 className="headline-3d text-display mt-4 text-[2.75rem] text-balance text-foreground md:text-[4rem] leading-[1.02]">
+              <h1
+                id="project-title"
+                className="headline-3d text-display mt-4 text-[2.75rem] text-balance text-foreground md:text-[4rem] leading-[1.02]"
+              >
                 {project.name}
               </h1>
               <p className="mt-5 text-base leading-relaxed text-muted-foreground md:text-lg">
@@ -148,6 +152,9 @@ export default function ProjectDetail({
             </motion.div>
           </div>
         </section>
+
+        {/* Keeps the project's name on screen for the rest of the case study. */}
+        <ProjectTitleBar name={project.name} targetId="project-title" />
 
         {/* The published walkthrough, as connected stages: every title and
             step below is copied from the project's own gallery record. */}

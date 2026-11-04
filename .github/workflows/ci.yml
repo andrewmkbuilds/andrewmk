@@ -36,6 +36,11 @@ jobs:
       - name: TypeScript
         run: bun run typecheck
 
+      # Component and data-derivation unit tests (vitest + jsdom). Fast, and
+      # independent of the build below.
+      - name: Unit tests
+        run: bun run test
+
       # Nitro's default target is the cloudflare-module Worker bundle that gets
       # deployed; `wrangler deploy --dry-run` validates that bundle end to end
       # (entry point, assets binding, compatibility flags) without credentials.
