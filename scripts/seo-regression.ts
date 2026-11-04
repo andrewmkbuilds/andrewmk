@@ -7,6 +7,8 @@
  *   - a reachable, non-empty og:image (plus twitter:image parity)
  *   - valid JSON-LD: WebPage + BreadcrumbList everywhere, and an ItemList of
  *     SoftwareApplication entries (with build platform + stack) on /projects
+ *   - one Person + one WebSite node per route, with the name, current age and
+ *     role line from src/data/identity.ts
  *   - sitemap.xml coverage and a robots.txt that does not block crawlers
  *
  * Sources:
@@ -23,11 +25,13 @@ import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 
 import {
+  AUTHOR,
   SITE_URL,
   indexableRoutes,
   ogImagePath,
   routes,
 } from "../src/data/seo";
+import { AGE, ROLE_SUMMARY } from "../src/data/identity";
 
 const args = process.argv.slice(2);
 const argValue = (name: string) =>
@@ -200,6 +204,37 @@ async function checkRoute(route: (typeof routes)[number]) {
   if (!types.includes("WebPage")) fail(route.path, "missing WebPage JSON-LD");
   if (!types.includes("BreadcrumbList"))
     fail(route.path, "missing BreadcrumbList JSON-LD");
+
+  // The identity graph: one Person node carrying the full indexed name and
+  // verified profiles, plus the WebSite node the pages belong to.
+  const person = blocks.find((b) => b["@type"] === "Person");
+  if (!person) fail(route.path, "missing Person JSON-LD");
+  else {
+    if (person["name"] !== AUTHOR)
+      fail(route.path, `Person name is "${String(person["name"])}"`);
+    if (!person["@id"]) fail(route.path, "Person JSON-LD missing @id");
+    const sameAs = person["sameAs"];
+    if (!Array.isArray(sameAs) || sameAs.length === 0)
+      fail(route.path, "Person JSON-LD missing sameAs profiles");
+    // The graph must publish the current age and role line from identity.ts,
+    // not a biography left behind by an earlier edit.
+    const biography = String(person["description"] ?? "");
+    if (!biography.includes(`${AGE}-year-old`))
+      fail(route.path, `Person description does not state age ${AGE}`);
+    if (person["jobTitle"] !== ROLE_SUMMARY)
+      fail(
+        route.path,
+        `Person jobTitle is "${String(person["jobTitle"] ?? "")}"`,
+      );
+  }
+  const website = blocks.find((b) => b["@type"] === "WebSite");
+  if (!website) fail(route.path, "missing WebSite JSON-LD");
+  else if (!website["@id"]) fail(route.path, "WebSite JSON-LD missing @id");
+
+  if (route.path === "/profile" && !types.includes("ProfilePage"))
+    fail(route.path, "missing ProfilePage JSON-LD");
+  if (route.path === "/" && !html.includes(AUTHOR))
+    fail(route.path, `homepage never names "${AUTHOR}"`);
   for (const block of blocks) {
     if (block["@context"] !== "https://schema.org") {
       fail(

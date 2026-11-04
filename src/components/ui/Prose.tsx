@@ -27,7 +27,7 @@ export function Prose({ content }: { content: string }) {
           return (
             <h2
               key={i}
-              className="text-display mt-10 text-2xl text-foreground md:text-3xl"
+              className="type-section mt-10 text-2xl text-foreground md:text-3xl"
             >
               {block.slice(3)}
             </h2>

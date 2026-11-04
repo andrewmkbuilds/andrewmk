@@ -73,18 +73,19 @@ export default function Profile() {
               <div className="px-6 pb-7 md:px-8">
                 <img
                   src={logoUrl}
-                  alt="AndrewBuilds logo — Andrew Mathews, student developer in Dubai"
+                  alt="AndrewBuilds logo — Andrew Mathews Kalathil, student developer in Dubai"
                   width={96}
                   height={96}
                   className="-mt-12 h-24 w-24 rounded-2xl border border-gold/40 bg-card p-2 shadow-card"
                 />
                 <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
                   <div>
-                    <h1 className="headline-3d text-3xl font-bold text-foreground md:text-4xl">
-                      Andrew Mathews
+                    <h1 className="headline-3d text-display text-[2.4rem] text-foreground md:text-[3rem] leading-[1.02]">
+                      Andrew Mathews Kalathil
                     </h1>
                     <p className="mt-1.5 text-primary">
-                      Student Developer · AI Builder · Robotics &amp; Systems
+                      14-Year-Old Developer · AI Builder · Robotics &amp;
+                      Systems
                     </p>
                     <p className="mt-2 flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
                       <MapPin className="size-3.5 text-gold" />
@@ -132,12 +133,12 @@ export default function Profile() {
 
           <Panel icon={Globe} title="About">
             <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-              I'm a student developer from Dubai who builds AI systems, software
-              products and robotics projects. I started with a school robotics
-              programme at nine and have been shipping ever since — from
-              computer-vision experiments and Python tools to full AI-powered
-              products. I care about systems that solve a complete problem, not
-              features in isolation.
+              I'm a 14-year-old student developer from Dubai who builds AI
+              systems, software products and robotics projects. I started with a
+              school robotics programme at nine and have been shipping ever
+              since — from computer-vision experiments and Python tools to full
+              AI-powered products. I care about systems that solve a complete
+              problem, not features in isolation.
             </p>
             <ul className="mt-5 grid gap-2 sm:grid-cols-2">
               {currentlyBuilding.map((item) => (

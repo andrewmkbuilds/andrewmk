@@ -65,6 +65,9 @@ Two artifacts come out of the same source, and they are not interchangeable:
   failing). CI builds with `bun run build:preview` and starts it with `PORT=4173`.
 - **The two builds share `.output`, so the last one wins.** Run the preview build after the
   Cloudflare build, never the other way round, when both are needed in one job.
+- **The prerender route list lives in `src/data/prerender.ts`.** `vite.config.ts` and
+  `scripts/seo-check.ts` both import it, so the check can never demand a static file for a route
+  the build does not prerender.
 - **Only the deploy build prerenders; the preview build stays pure SSR.** `vite.config.ts` sets
   `tanstackStart.prerender` with an explicit route list (the content routes: `/`, `/about`,
   `/journey`, `/skills`, `/achievements`, `/resume`, `/profile`, `/now`, `/press-kit`, `/faq`,
@@ -252,6 +255,38 @@ The visual language is built around one physical space rather than flat panels:
   verification steps are written up in `docs/CARD_INTERACTIONS.md`.
 - `SectionHeading` and every page `<h1>` use the dimensional heading utilities, so
   new pages inherit the type treatment by reusing those, not by adding new shadows.
+
+## Typographic identity
+
+Four self-hosted faces (`src/styles/fonts.css`, no third-party font requests), each with one
+job. Do not add a fifth without a reason this list can name:
+
+| token            | face             | used for                                                   |
+| ---------------- | ---------------- | ---------------------------------------------------------- |
+| `--font-display` | Instrument Serif | page titles, the hero statement, statistics, project names |
+| `--font-heading` | Sora             | section titles, navigation, interface                      |
+| `--font-sans`    | Inter            | body copy                                                  |
+| `--font-mono`    | JetBrains Mono   | labels, metadata, technical detail                         |
+
+- **Utilities, not per-element styling.** `text-display` (serif, weight 400), `type-section`
+  (Sora 600, tracking −0.028em), `brand-name` (uppercase tracked Sora, the name as a mark),
+  `display-numeral` (serif figures) and `.section-kicker` all live in `src/styles.css`. A new
+  surface inherits the identity by using them.
+- **Instrument Serif ships one weight.** `text-display` sets `font-synthesis-weight: none` so a
+  leftover `font-bold` on a call site cannot make the browser fake a bolder face. Do not add
+  `font-bold`/`font-semibold` to a display heading.
+- **Section kickers number themselves.** `main` resets `counter-reset: section-number`; each
+  `.section-kicker` increments it and its `::before` prints `01`, `02`… in serif italic gold.
+  Layout remounts per route, so every page starts at 01 — never hardcode an index in a page.
+- **Page titles are serif, section titles are Sora.** That two-voice hierarchy is the identity:
+  serif for what the page _is_, geometric sans for what a _section_ is, mono for labels.
+- **The hero masthead** (`ui/Monogram.tsx` + `brand-name`) is the name treatment: an "AK" seal,
+  the full name tracked in Sora, then the location and status in mono. Keep the name in
+  `Andrew Mathews Kalathil` form there and in the footer.
+- **`annnimate-theme.css` is unlayered and wins over Tailwind utilities.** `.anm-scramble
+[data-anm-dual-scramble]` resets `font: inherit`, which silently erased the masthead's Sora
+  until it was given an equally unlayered `.brand-name` exception. Any Tailwind type class placed
+  inside a vendored pack wrapper needs the same treatment.
 
 ## Editorial layer
 
@@ -748,6 +783,106 @@ docker compose -f docker-compose.base44.yml exec -T web \
   `/skills`. Adding a second page for the same facts would split the same content across two
   URLs. Extend the existing page instead.
 
+## Identity and search visibility
+
+The site is the searchable entity for one person, and its full indexed name is
+**Andrew Mathews Kalathil** (published in running copy as "Andrew Mathews",
+practice name "AndrewBuilds").
+
+- `src/data/identity.ts` holds `FULL_NAME`, `SHORT_NAME`, `NAME_ALIASES`,
+  `PERSON_DESCRIPTION` and `SOCIAL_PROFILES`; `src/data/seo.ts` re-exports the
+  name as `SITE_NAME`/`AUTHOR` and builds the entity graph — `personJsonLd()`
+  and `websiteJsonLd()` (rendered once in `src/routes/__root.tsx`),
+  `profilePageJsonLd()` (on `/profile`), plus the per-route `WebPage` and
+  `BreadcrumbList`. Every node shares the `#person` / `#website` `@id`s, so a
+  crawler resolves one person and one site. Keep any new schema block
+  referencing those ids rather than repeating the person inline.
+- Every fact in the schema must also be visible on the page it describes: the
+  name appears in the home intro and `<h1>`, `/about`, `/profile` and the press
+  kit. Adding a `knowsAbout` term or an `affiliation` means publishing it on a
+  page first — `nationality` and any employment claim are deliberately absent.
+- `scripts/seo-regression.ts` fails if a route loses its Person or WebSite
+  node, if `Person.name` drifts from `AUTHOR`, if `/profile` loses its
+  `ProfilePage`, or if the homepage stops naming the author. It also fails when
+  `Person.jobTitle` stops equalling `ROLE_SUMMARY` or `Person.description` stops
+  stating `AGE` — both read from `src/data/identity.ts`, so changing the age or
+  the role line in that one file is enough for the check to police all 16 routes
+  (verified 2026-11-04: `bunx tsx scripts/seo-regression.ts --base=http://localhost:3000`
+  → 16/16).
+- `scripts/seo-check.ts` reads the prerendered HTML the build actually wrote —
+  `.output/public/` for the Worker build, `dist/` for the Pages target
+  (`--dir=` overrides) — and only expects a file for the routes in
+  `src/data/prerender.ts`. `/projects` and `/404` are rendered on demand, so they
+  are fetched from `--base=<url>` when one is given and otherwise reported as
+  skipped; a prerendered route with no file still fails. Verified 2026-11-04
+  against a real `bun run build`: 16/16 routes with `--base`, 14/14 + a skip
+  note without it.
+- `public/robots.txt` allows search **and** AI crawlers (GPTBot, OAI-SearchBot,
+  ClaudeBot, PerplexityBot, Google-Extended, …) and disallows only `/admin`,
+  `/auth` and `/404`. `src/data/seo.ts` is still the only source of route
+  metadata for `sitemap.xml`, `og/` and `llms.txt`.
+- **Analytics is one GA4 tag, declared on the root route (2026-11-04).**
+  `GA_MEASUREMENT_ID` (`G-S26JLKHBRS`) lives in `src/routes/__root.tsx`'s
+  `head().scripts`: the async `gtag/js` library first, then the stock inline
+  `gtag('config', …)` queue. The root route is shared by every page and by the
+  prerender pass, so each page carries the tag exactly once — never add a second
+  copy in a page route, a layout component or a hand-written `public/*.html`.
+  GA4's enhanced measurement records the site's history-based navigations, and
+  `src/lib/analytics.ts` forwards named events to the same `gtag`. Verified
+  2026-11-04 on 6 routes: both scripts inside `<head>`, `window.dataLayer`
+  holding `js`/`config` plus `gtm.dom`/`gtm.load`, 0 console errors.
+- **The share cards are drawn with fonts committed in the repo (2026-11-04).**
+  `scripts/generate-og-images.ts` renders text through librsvg, which resolves
+  families via fontconfig — and an image with no fonts at all turns every glyph
+  into a tofu box, which is what every one of the 16 cards had become.
+  `scripts/og-fonts/` now carries Sora and JetBrains Mono (SIL OFL, licence
+  files alongside); the generator writes a fontconfig config pointing at them
+  and, only when the host has no usable font, re-runs itself once in a child
+  process that carries `FONTCONFIG_PATH` — librsvg reads that variable as it
+  starts, so assigning `process.env` at runtime is too late (measured: still
+  tofu). A host with fonts (CI, Cloudflare) builds exactly as before. Add a face
+  by dropping its TTF in there and naming it in the SVG.
+- `scripts/generate-sitemap.ts` writes `<lastmod>` from `git log -1` on each
+  page's source files. A build host without git (the `web` container) reuses the
+  previous sitemap's dates instead of stamping the build time, so the committed
+  file stays stable; run it from a checkout with history (or `node:24` with the
+  repo mounted) to refresh the dates.
+- **The sitemap only advertises pages that exist and are worth indexing.** Every
+  loc is built through `locFor()` (canonical `https://andrewmk.is-a.dev` +
+  percent-encoded segments), duplicates are dropped, and `/blog` plus its articles
+  are listed **only when at least one post is published** — the empty listing says
+  "No posts yet", so it is a thin page until then (verified 2026-11-04: 0 published
+  posts → 38 URLs, no `/blog` entry; a temporary published row added `/blog` and
+  `/blog/<slug>` with their `updated_at` as `<lastmod>`, and both disappeared again
+  once the row was deleted). The generator then validates the whole document
+  against the sitemap protocol before writing (single 0.9 `urlset`, one `<loc>`
+  per `<url>`, HTTPS canonical locs, ≤2048-character locs, no duplicates,
+  W3C `lastmod`, known `changefreq`, 0–1 `priority`, ≤50 000 URLs) and **fails
+  `prebuild` rather than write an invalid file**. Validated with the official
+  `sitemap.xsd` (`lxml`) on 2026-11-04.
+- `public/_headers` pins `Content-Type: application/xml; charset=utf-8` on
+  `/sitemap.xml` so no host sniffs it as HTML; `scripts/seo-check.ts` now accepts
+  `<lastmod>` but rejects one that is not a real W3C date.
+- Project `<title>`s use `name | category by <full name>` and fall back to
+  `name by <full name>` when that would pass 70 characters. Descriptions run
+  through `clampMetaDescription()` in `src/data/seo.ts`, which trims at a word
+  boundary and never leaves a trailing comma.
+- **IndexNow is wired, and its key is public on purpose (2026-11-04).**
+  `src/data/indexnow.ts` holds the key; `scripts/generate-public-data.ts` writes
+  `public/<key>.txt` from it (the protocol's ownership proof), so the constant and
+  the served file cannot drift. The key is _not_ a credential — it is published at
+  the site root by design, so it belongs in neither the secrets store nor
+  `compose` env. Announce changed URLs with
+  `bunx tsx scripts/indexnow.ts` (only sitemap URLs whose `<lastmod>` changed),
+  `--all` (every public URL) or explicit URLs (a removed page); `--dry-run`
+  prints the payload. It is deliberately **not** part of `predev`/`prebuild` —
+  a build must never POST to Bing. Non-public paths (`/admin`, `/auth`, `/api`,
+  `/404`) are rejected before sending, and `.indexnow-state.json` (gitignored)
+  remembers what was accepted so a re-run does not resubmit it.
+- Submitting the sitemap in Google Search Console and Bing Webmaster Tools, and
+  passing that IndexNow key to Bing, are external account steps — a key file in
+  the repo does not register anything, so never report the site as verified.
+
 ## What to check after a change
 
 ```sh
@@ -878,6 +1013,15 @@ follows and the reasons behind them:
   listeners — and its pointer channel ignores every event that is not `pointerType === "mouse"`.
 - **Below-the-fold bundles are split.** The home contact form is `React.lazy`; TanStack splits each
   route file into its own chunk automatically (verified in `vite build` output).
+- **Every `<img>` declares `width` and `height` (2026-11-04).** That includes the gallery and pack
+  images, not just `ProjectShot` / `BrandLogo` / the header and footer logos: `CertificateCard`
+  thumbnails, the vendored `scale-slider`, `image-fly-in`, `feature-dialog`,
+  `multi-level-drawer-menu` and `process-rail` images now carry them too. Every one of those sits
+  in a ratio-locked frame, so the attributes change no pixels and cannot distort artwork — they
+  just reserve the box and satisfy the image-dimension audit. Measured on the dev server's SSR
+  HTML: 228 images on `/`, 93 on `/projects`, 146 on `/achievements` (68 cards + 34 rail + 10
+  fly-in), 0 without dimensions; the pack attributes are mechanical edits that a re-download of
+  the pack would drop, so re-apply them if a component is ever re-fetched.
 - **Fonts** are limited to the weights the design uses (Sora 400/600/700, Inter 400/500/600,
   JetBrains Mono 400/500, Instrument Serif).
 

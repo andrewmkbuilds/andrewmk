@@ -64,6 +64,11 @@ export function CertificateCard({
           <img
             src={certificate.thumb}
             alt={`Preview of ${certificate.title}`}
+            // The card frame owns the box (`aspect-3/2` rail, `aspect-4/3`
+            // grid); declaring that same ratio here reserves it before the
+            // thumbnail arrives, so the gallery cannot shift as images load.
+            width={1200}
+            height={compact ? 800 : 900}
             loading="lazy"
             decoding="async"
             className="h-full w-full object-contain p-2 transition-transform duration-500 group-hover:scale-[1.03]"

@@ -1,0 +1,9 @@
+# Security contact for https://andrewmk.is-a.dev/ (RFC 9116).
+# Only published, verified channels are listed: the site's contact page and the
+# owner's GitHub profile. No mailbox or policy URL is claimed that does not exist.
+
+Contact: https://andrewmk.is-a.dev/contact
+Contact: https://github.com/andrewmkbuilds
+Expires: 2027-06-30T00:00:00.000Z
+Canonical: https://andrewmk.is-a.dev/.well-known/security.txt
+Preferred-Languages: en

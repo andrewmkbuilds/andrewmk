@@ -58,6 +58,16 @@
   color: inherit;
 }
 
+/* The hero masthead sets its own name treatment; the pack's inherit reset is
+   unlayered, so it needs this equally unlayered exception to keep Sora. */
+.anm-scramble [data-anm-dual-scramble].brand-name {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.19em;
+  line-height: 1.1;
+}
+
 /* ── Accordion ───────────────────────────────────────────────────────────── */
 
 .anm-accordion .accordion_item {

@@ -38,7 +38,7 @@ export default function BlogPostPage({ post }: { post: Post }) {
               <span aria-hidden="true" className="hairline-gold h-px w-10" />
               <span>{post.reading_minutes} min read</span>
             </div>
-            <h1 className="headline-3d text-display mt-4 text-3xl text-balance text-foreground md:text-5xl">
+            <h1 className="headline-3d text-display mt-4 text-4xl text-balance text-foreground md:text-6xl leading-[1.02]">
               {post.title}
             </h1>
             {post.excerpt && (

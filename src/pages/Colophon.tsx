@@ -34,10 +34,10 @@ const stack: { title: string; items: string[] }[] = [
   {
     title: "Type and colour",
     items: [
-      "Sora — headings",
+      "Instrument Serif — display voice: page titles, the hero statement, statistics",
+      "Sora — section titles, navigation and interface",
       "Inter — body text",
-      "JetBrains Mono — labels, metadata, code",
-      "Instrument Serif — editorial emphasis and pull quotes",
+      "JetBrains Mono — labels, metadata and technical detail",
       "Navy base with a gold rim light; tokens for elevation and motion",
     ],
   },
@@ -77,10 +77,10 @@ export default function Colophon() {
       <section className="py-20 md:py-28">
         <div className="container">
           <Reveal className="max-w-3xl">
-            <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-primary">
+            <p className="mb-4 font-mono text-[10.5px] uppercase tracking-[0.24em] text-gold">
               Colophon
             </p>
-            <h1 className="headline-3d text-4xl font-bold leading-[1.08] text-balance text-foreground md:text-5xl">
+            <h1 className="headline-3d text-display text-[2.75rem] text-balance text-foreground md:text-[3.6rem] leading-[1.02]">
               How this site is{" "}
               <em className="serif-display mark-underline italic text-gold">
                 made

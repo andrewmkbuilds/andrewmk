@@ -135,7 +135,7 @@ export function Header() {
                 className="h-[30px] w-[30px] rounded-full object-cover ring-1 ring-gold/35 shadow-[var(--elev-1)] transition-transform duration-500 group-hover:scale-105"
               />
             </span>
-            <span className="hidden font-mono text-[13px] font-semibold tracking-tight text-foreground min-[380px]:inline">
+            <span className="font-heading hidden text-[13.5px] font-semibold tracking-[0.01em] text-foreground min-[380px]:inline">
               Andrew<span className="text-primary">Builds</span>
             </span>
           </Link>

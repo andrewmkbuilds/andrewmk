@@ -572,7 +572,7 @@ export default function MultiLevelDrawerMenu({
               <p className="mldm_page_sub">{heroSub}</p>
             </div>
             <div className="mldm_page_poster">
-              <img className="mldm_page_poster_img" src={heroImage} alt="" />
+              <img className="mldm_page_poster_img" src={heroImage} alt="" width="1600" height="1000" />
             </div>
           </div>
         </section>
@@ -685,7 +685,7 @@ export default function MultiLevelDrawerMenu({
                   href={card.href || '#'}
                 >
                   <span className="mldm_card_media">
-                    <img className="mldm_card_img" src={card.src} alt={card.alt || ''} />
+                    <img className="mldm_card_img" src={card.src} alt={card.alt || ''} width="1600" height="1000" />
                   </span>
                   <span className="mldm_card_label">{card.label}</span>
                 </a>

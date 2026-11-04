@@ -23,10 +23,10 @@ export default function About() {
           <div className="grid gap-12 lg:grid-cols-3">
             <div className="lg:col-span-2">
               <Reveal>
-                <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
+                <p className="font-mono text-[10.5px] uppercase tracking-[0.24em] text-gold mb-4">
                   About
                 </p>
-                <h1 className="headline-3d text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
+                <h1 className="headline-3d text-display text-[2.75rem] text-balance text-foreground md:text-[3.6rem] leading-[1.02]">
                   I don&rsquo;t just learn technology. I{" "}
                   <em className="serif-display mark-underline italic text-gold">
                     apply
@@ -44,7 +44,8 @@ export default function About() {
                     stagger={0.028}
                     duration={0.7}
                   >
-                    I'm a student, builder, and systems thinker based in Dubai.{" "}
+                    I'm Andrew Mathews Kalathil — a 14-year-old student
+                    developer, builder and systems thinker based in Dubai.{" "}
                     <strong>
                       I work across artificial intelligence, software
                       development, robotics, product design, and engineering
@@ -70,6 +71,14 @@ export default function About() {
                     STEM Racing, and showcase projects through exhibitions.
                   </p>
                 </Reveal>
+                <Reveal delay={240}>
+                  <p className="text-muted-foreground leading-relaxed">
+                    My interests run wider than web apps: robotics and IoT (2nd
+                    Place in the IoT pathway at Techfest), computer vision,
+                    automation, and cybersecurity — how software is secured, and
+                    what it takes to keep it that way.
+                  </p>
+                </Reveal>
               </div>
             </div>
 
@@ -89,6 +98,20 @@ export default function About() {
                     Profile
                   </h2>
                   <dl className="mt-4 space-y-3 text-sm">
+                    <div>
+                      <dt className="font-mono text-xs text-muted-foreground">
+                        Name
+                      </dt>
+                      <dd className="text-foreground">
+                        Andrew Mathews Kalathil
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="font-mono text-xs text-muted-foreground">
+                        Age
+                      </dt>
+                      <dd className="text-foreground">14</dd>
+                    </div>
                     <div>
                       <dt className="font-mono text-xs text-muted-foreground">
                         Identity

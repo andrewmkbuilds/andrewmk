@@ -1,6 +1,7 @@
 // Structured data for the project catalogue: an ItemList of SoftwareApplication
 // entries, each carrying its stack and the platform it was built with.
-import { AUTHOR, SITE_URL } from "@/data/seo";
+import { AUTHOR, PERSON_ID, SITE_URL } from "@/data/seo";
+import { FULL_NAME } from "@/data/identity";
 import { allProjects, featuredProjects, type Project } from "@/data/portfolio";
 
 const PLATFORM_LABEL: Record<NonNullable<Project["platform"]>, string> = {
@@ -24,8 +25,13 @@ export function projectJsonLd(project: Project, pagePath: string) {
     applicationCategory: project.category,
     url: project.live ?? `${SITE_URL}${pagePath}#${project.slug}`,
     ...(project.github ? { codeRepository: project.github } : {}),
-    author: { "@type": "Person", name: AUTHOR, url: `${SITE_URL}/` },
-    creator: { "@type": "Person", name: AUTHOR, url: `${SITE_URL}/` },
+    author: {
+      "@type": "Person",
+      "@id": PERSON_ID,
+      name: AUTHOR,
+      url: `${SITE_URL}/`,
+    },
+    creator: { "@id": PERSON_ID },
     operatingSystem: "Web",
     keywords: [
       ...project.tech,
@@ -99,14 +105,14 @@ export const allProjectsJsonLd = () =>
   projectItemListJsonLd(
     allProjects,
     "/projects",
-    "Projects by Andrew Mathews",
-    "Software, AI systems, tools and experiments built by Andrew Mathews, with stack and build platform for each.",
+    `Projects by ${FULL_NAME}`,
+    `Software, AI systems, tools and experiments built by ${FULL_NAME}, with stack and build platform for each.`,
   );
 
 export const featuredProjectsJsonLd = () =>
   projectItemListJsonLd(
     featuredProjects,
     "/projects",
-    "Featured work by Andrew Mathews",
-    "Selected products built by Andrew Mathews, with stack and build platform for each.",
+    `Featured work by ${FULL_NAME}`,
+    `Selected products built by ${FULL_NAME}, with stack and build platform for each.`,
   );

@@ -1,14 +1,47 @@
+# Robots policy — Andrew Mathews Kalathil's portfolio (https://andrewmk.is-a.dev/)
+# Public pages are open to search engines and to AI answer engines. The admin
+# dashboard, the sign-in page and the error page are never indexed.
+
 User-agent: Googlebot
 Allow: /
+Disallow: /admin
+Disallow: /auth
+Disallow: /404
 
 User-agent: Bingbot
 Allow: /
+Disallow: /admin
+Disallow: /auth
+Disallow: /404
+
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /admin
+Disallow: /auth
+Disallow: /404
 
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
+
+# AI crawlers and answer engines: allowed to read the public pages so the
+# portfolio can be discovered, crawled and cited accurately.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-User
+User-agent: Claude-SearchBot
+User-agent: PerplexityBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+Allow: /
+Disallow: /admin
+Disallow: /auth
+Disallow: /404
 
 User-agent: *
 Allow: /

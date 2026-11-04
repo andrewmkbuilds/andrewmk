@@ -63,7 +63,7 @@ export default function ProjectDetail({
                 />
                 {project.category}
               </p>
-              <h1 className="headline-3d text-display mt-4 text-4xl text-balance text-foreground md:text-6xl">
+              <h1 className="headline-3d text-display mt-4 text-[2.75rem] text-balance text-foreground md:text-[4rem] leading-[1.02]">
                 {project.name}
               </h1>
               <p className="mt-5 text-base leading-relaxed text-muted-foreground md:text-lg">
@@ -244,7 +244,7 @@ export default function ProjectDetail({
         {project.stack && project.stack.length > 0 && (
           <section className="divider-gold py-16 md:py-20">
             <div className="container">
-              <h2 className="text-display text-2xl text-foreground md:text-3xl">
+              <h2 className="type-section text-2xl text-foreground md:text-3xl">
                 Tech stack
               </h2>
               <ul className="mt-8 grid list-none gap-5 p-0 sm:grid-cols-2 lg:grid-cols-4">
@@ -275,7 +275,7 @@ export default function ProjectDetail({
         {project.challenges && project.challenges.length > 0 && (
           <section className="divider-gold py-16 md:py-20">
             <div className="container">
-              <h2 className="text-display text-2xl text-foreground md:text-3xl">
+              <h2 className="type-section text-2xl text-foreground md:text-3xl">
                 Challenges &amp; how I solved them
               </h2>
               <ul className="mt-8 grid list-none gap-5 p-0 md:grid-cols-2">
@@ -304,7 +304,7 @@ export default function ProjectDetail({
         {project.metrics && (
           <section className="divider-gold py-16 md:py-20">
             <div className="container">
-              <h2 className="text-display text-2xl text-foreground md:text-3xl">
+              <h2 className="type-section text-2xl text-foreground md:text-3xl">
                 {project.metrics.title}
               </h2>
               {project.metrics.intro && (
@@ -316,7 +316,7 @@ export default function ProjectDetail({
                 {project.metrics.items.map((m, i) => (
                   <Reveal key={m.label} delay={i * 60} className="h-full">
                     <div className="pop-card h-full rounded-xl border border-gold/25 bg-card p-6 shadow-card">
-                      <dd className="text-display text-3xl leading-none text-gold md:text-4xl">
+                      <dd className="display-numeral text-4xl leading-none text-gold md:text-5xl">
                         {m.value}
                       </dd>
                       <dt className="mt-3 font-mono text-[11px] uppercase tracking-[0.16em] text-foreground">
@@ -363,7 +363,7 @@ export default function ProjectDetail({
         {project.results && project.results.length > 0 && (
           <section className="divider-gold py-16 md:py-20">
             <div className="container">
-              <h2 className="text-display text-2xl text-foreground md:text-3xl">
+              <h2 className="type-section text-2xl text-foreground md:text-3xl">
                 Results so far
               </h2>
               <dl className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -394,7 +394,7 @@ export default function ProjectDetail({
         {others.length > 0 && (
           <section className="divider-gold py-16 md:py-20">
             <div className="container">
-              <h2 className="text-display text-2xl text-foreground md:text-3xl">
+              <h2 className="type-section text-2xl text-foreground md:text-3xl">
                 Related work
               </h2>
               <ul className="mt-8 grid list-none gap-5 p-0 md:grid-cols-3">

@@ -49,16 +49,23 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-[minmax(0,1.3fr)_minmax(0,0.85fr)_minmax(0,0.85fr)]">
           <div>
             <div className="flex items-center gap-3">
-              <img
-                src={logoUrl}
-                alt="AndrewBuilds logo"
-                width={40}
-                height={40}
-                className="h-10 w-10 rounded-md ring-1 ring-foreground/15 shadow-[var(--elev-1)]"
-              />
-              <p className="text-lg font-semibold text-foreground">
-                Andrew Mathews
-              </p>
+              <span className="relative inline-flex">
+                <img
+                  src={logoUrl}
+                  alt="AndrewBuilds logo"
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 rounded-md ring-1 ring-foreground/15 shadow-[var(--elev-1)]"
+                />
+              </span>
+              <div>
+                <p className="text-display text-[1.6rem] leading-none text-foreground">
+                  Andrew Mathews Kalathil
+                </p>
+                <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.24em] text-gold">
+                  AndrewBuilds
+                </p>
+              </div>
             </div>
             <p className="mt-3 max-w-xs font-mono text-sm text-muted-foreground">
               {PROFILE_TITLE}
@@ -151,7 +158,7 @@ export function Footer() {
         aria-hidden="true"
         className="container relative pointer-events-none select-none"
       >
-        <p className="headline-3d -mb-[0.18em] bg-linear-to-b from-foreground/[0.10] to-transparent bg-clip-text text-[clamp(2.75rem,12.5vw,10rem)] font-semibold leading-[0.8] tracking-tight text-transparent">
+        <p className="headline-3d -mb-[0.18em] bg-linear-to-b from-foreground/[0.10] to-transparent bg-clip-text text-[clamp(2.75rem,12.5vw,10rem)] font-serif italic leading-[0.8] tracking-[-0.02em] text-transparent">
           AndrewBuilds
         </p>
       </div>

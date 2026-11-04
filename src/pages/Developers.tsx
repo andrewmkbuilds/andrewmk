@@ -16,10 +16,10 @@ export default function Developers() {
       <section className="py-20 md:py-28">
         <div className="container">
           <Reveal className="max-w-3xl">
-            <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-primary">
+            <p className="mb-4 font-mono text-[10.5px] uppercase tracking-[0.24em] text-gold">
               Developers
             </p>
-            <h1 className="headline-3d text-4xl font-bold leading-[1.08] text-balance text-foreground md:text-5xl">
+            <h1 className="headline-3d text-display text-[2.75rem] text-balance text-foreground md:text-[3.6rem] leading-[1.02]">
               The public{" "}
               <em className="serif-display mark-underline italic text-gold">
                 data layer
@@ -52,12 +52,20 @@ export default function Developers() {
                       <h2 className="font-mono text-sm text-foreground">
                         {resource.path}
                       </h2>
-                      <a
-                        href={resource.path}
-                        className="font-mono text-xs uppercase tracking-[0.14em] text-gold link-underline"
-                      >
-                        Open
-                      </a>
+                      {/* A templated path (`/projects/{slug}.json`) has no page
+                          to open, so it is shown as an example, not a link. */}
+                      {resource.path.includes("{") ? (
+                        <span className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground/70">
+                          Template
+                        </span>
+                      ) : (
+                        <a
+                          href={resource.path}
+                          className="font-mono text-xs uppercase tracking-[0.14em] text-gold link-underline"
+                        >
+                          Open
+                        </a>
+                      )}
                     </div>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                       {resource.description}
