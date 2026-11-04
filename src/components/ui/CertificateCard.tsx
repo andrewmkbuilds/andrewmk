@@ -51,13 +51,9 @@ export function CertificateCard({
         verifyUrl && "certificate-verified-card",
         className,
       )}
-      onPointerMove={(e) => {
-        const el = e.currentTarget as HTMLElement;
-        const rect = el.getBoundingClientRect();
-        el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-        el.style.setProperty("--my", `${e.clientY - rect.top}px`);
-      }}
     >
+      <span aria-hidden="true" className="fx-sheen" />
+
       <button
         type="button"
         onClick={() => onOpen(certificate)}

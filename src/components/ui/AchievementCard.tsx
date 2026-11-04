@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Award, Medal, Star, Trophy, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CardSparkles } from "./CardFx";
 
 /** The award mark follows how the result is actually described. */
 function awardIcon(place: string): LucideIcon {
@@ -46,13 +47,11 @@ export function AchievementCard({
         "gold-hover transition-colors duration-300 hover:border-gold/40",
         className,
       )}
-      onPointerMove={(e) => {
-        const el = e.currentTarget as HTMLElement;
-        const rect = el.getBoundingClientRect();
-        el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-        el.style.setProperty("--my", `${e.clientY - rect.top}px`);
-      }}
     >
+      {/* First places are the cards worth the extra light. */}
+      {/1st|first|gold/i.test(place) && <CardSparkles />}
+      <span aria-hidden="true" className="fx-sheen" />
+
       {typeof index === "number" && (
         <span
           aria-hidden="true"

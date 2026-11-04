@@ -22,7 +22,7 @@ export function FindMeOnline() {
         <div className="mt-12 grid gap-4 lg:grid-cols-3">
           {/* Primary: GitHub, with live public repo preview */}
           <Reveal className="lg:col-span-2">
-            <div className="group lift-3d h-full rounded-xl border border-border bg-card p-6 shadow-card hover:border-gold/40 hover:shadow-glow">
+            <div className="spotlight group lift-3d h-full rounded-xl border border-border bg-card p-6 shadow-card hover:border-gold/40 hover:shadow-glow">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="flex items-start gap-4">
                   <span className="flex h-11 w-11 items-center justify-center rounded-lg border border-primary/25 bg-primary/10 text-primary">
@@ -75,7 +75,7 @@ export function FindMeOnline() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${link.cta} — ${link.handle} (opens in a new tab)`}
-                    className="group lift-3d flex h-full items-start gap-4 rounded-xl border border-border bg-card p-5 shadow-card hover:border-gold/40 hover:shadow-glow focus-ring"
+                    className="spotlight group lift-3d flex h-full items-start gap-4 rounded-xl border border-border bg-card p-5 shadow-card hover:border-gold/40 hover:shadow-glow focus-ring"
                   >
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background/60 text-muted-foreground transition-colors group-hover:border-gold/40 group-hover:text-gold">
                       <SocialMark id={link.id} size="md" />

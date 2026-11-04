@@ -10,7 +10,6 @@ import { HeroCardStack } from "@/components/ui/HeroCardStack";
 import { TechMarquee } from "@/components/ui/TechMarquee";
 import { marqueeRows } from "@/data/toolMarquee";
 import { CaseStudyRow } from "@/components/ui/CaseStudyRow";
-import { Tilt3D } from "@/components/ui/Tilt3D";
 import { Parallax } from "@/components/ui/Parallax";
 import { TechConstellation } from "@/components/ui/TechConstellation";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -474,9 +473,7 @@ export default function Home() {
               ))}
             </div>
             <Reveal delay={120} className="h-full">
-              <Tilt3D className="h-full" intensity={5}>
-                <TechConstellation className="h-full min-h-[340px]" />
-              </Tilt3D>
+              <TechConstellation className="spotlight lift-3d h-full min-h-[340px]" />
             </Reveal>
           </div>
 
@@ -643,7 +640,7 @@ export default function Home() {
                 ].map((item) => (
                   <li
                     key={item.k}
-                    className="lift-3d rounded-xl border border-border bg-card p-5 shadow-card"
+                    className="spotlight lift-3d rounded-xl border border-border bg-card p-5 shadow-card"
                   >
                     <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
                       {item.k}
@@ -674,7 +671,7 @@ export default function Home() {
                 {["Robotics", "Software", "AI", "Systems"].map((step, i) => (
                   <li
                     key={step}
-                    className="lift-3d flex items-center gap-3 rounded-xl border border-border bg-card p-5 shadow-card"
+                    className="spotlight lift-3d flex items-center gap-3 rounded-xl border border-border bg-card p-5 shadow-card"
                   >
                     <span className="font-mono text-xs text-gold">
                       0{i + 1}
@@ -757,7 +754,7 @@ export default function Home() {
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {currentlyBuilding.map((item, i) => (
               <Reveal key={item.name} delay={i * 60} className="h-full">
-                <div className="lift-3d h-full rounded-xl border border-border bg-card p-6 shadow-card">
+                <div className="spotlight lift-3d h-full rounded-xl border border-border bg-card p-6 shadow-card">
                   <div className="flex items-center gap-2">
                     <StatusDot />
                     <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-primary">

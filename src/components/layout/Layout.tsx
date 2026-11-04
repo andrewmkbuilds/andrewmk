@@ -4,6 +4,7 @@ import { Footer } from "./Footer";
 import { PageTransition } from "@/components/ui/PageTransition";
 import { AmbientLayers } from "@/components/ui/AmbientLayers";
 import { CursorLayer } from "@/components/ui/CursorLayer";
+import { CardFxTracker } from "@/components/ui/CardFx";
 
 interface LayoutProps {
   children: ReactNode;
@@ -18,6 +19,7 @@ export function Layout({ children }: LayoutProps) {
     <div className="relative flex min-h-dvh flex-col overflow-x-clip">
       <AmbientLayers />
       <CursorLayer />
+      <CardFxTracker />
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:font-mono focus:text-sm focus:text-primary-foreground"

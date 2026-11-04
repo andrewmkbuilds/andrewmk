@@ -1,15 +1,10 @@
 import { useId, useRef, useState } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 
-import {
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useSpring,
-  useTransform,
-} from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Link } from "@/lib/router-compat";
 import { cn } from "@/lib/utils";
+import { CardSparkles } from "./CardFx";
 import { TechTag } from "./TechTag";
 import { BuiltBy, PlatformBadge } from "./BuiltBy";
 import { Badge } from "./badge";
@@ -30,7 +25,6 @@ export function ProjectCard({
   variant = "compact",
   className,
 }: ProjectCardProps) {
-  const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const uid = useId().replace(/[:]/g, "");
   const triggerId = `project-details-trigger-${uid}`;
@@ -41,60 +35,15 @@ export function ProjectCard({
     project.stack?.length || project.challenges?.length,
   );
 
-  // pointer-driven tilt (very restrained) + spotlight tracking
-  const px = useMotionValue(0.5);
-  const py = useMotionValue(0.5);
-  const rotX = useSpring(useTransform(py, [0, 1], [2.5, -2.5]), {
-    stiffness: 200,
-    damping: 24,
-  });
-  const rotY = useSpring(useTransform(px, [0, 1], [-3, 3]), {
-    stiffness: 200,
-    damping: 24,
-  });
-
-  const handleMove = (e: React.PointerEvent<HTMLElement>) => {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const nx = (e.clientX - rect.left) / rect.width;
-    const ny = (e.clientY - rect.top) / rect.height;
-    el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-    el.style.setProperty("--my", `${e.clientY - rect.top}px`);
-    if (!reduce && e.pointerType === "mouse") {
-      px.set(nx);
-      py.set(ny);
-    }
-  };
-
-  const reset = () => {
-    px.set(0.5);
-    py.set(0.5);
-  };
-
   return (
     <motion.article
-      ref={ref}
       data-cursor="view"
-      onPointerMove={handleMove}
-      onPointerLeave={reset}
       onKeyDown={(event) => {
         if (event.key !== "Escape" || !detailsOpen) return;
         event.stopPropagation();
         setDetailsOpen(false);
         triggerRef.current?.focus();
       }}
-
-      style={
-        reduce
-          ? {}
-          : {
-              rotateX: rotX,
-              rotateY: rotY,
-              transformPerspective: 1000,
-              transformStyle: "preserve-3d",
-            }
-      }
       whileHover={reduce ? {} : { y: -6 }}
       transition={{ type: "spring", stiffness: 260, damping: 26 }}
       className={cn(
@@ -103,7 +52,10 @@ export function ProjectCard({
         className,
       )}
     >
-      {/* accent wash that rises on hover — isolated so the card can keep 3D depth */}
+      {variant === "featured" && <CardSparkles />}
+      <span aria-hidden="true" className="fx-sheen" />
+
+      {/* accent wash that rises on hover */}
       <span
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl"

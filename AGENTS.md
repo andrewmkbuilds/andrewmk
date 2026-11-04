@@ -232,8 +232,23 @@ The visual language is built around one physical space rather than flat panels:
 - `src/styles.css` owns the tokens and utilities: `--elev-1..3` elevation ladder,
   `--ease-out-expo` / `--dur-*` motion scale, `.glass`, `.headline-3d`,
   `.headline-3d-gold`, `.aurora*`, `.depth-floor`, `.sheen`.
-- `Tilt3D` publishes `--mx` / `--my`; pass `glare` to render the `.sheen` light that
-  follows the pointer (desktop pointers only).
+- **Cards do not tilt (2026-11-03).** `Tilt3D` and the pointer-driven rotation in
+  `ProjectCard` were removed: a card lifts vertically and lights up instead of
+  rotating. `ui/CardFx.tsx` owns the whole interactive layer — `CardFxTracker`
+  mounts once in `Layout` and writes `--mx` / `--my` on the `.spotlight` card under
+  the cursor (one delegated `pointermove`, one rect per card entry, one rAF), and
+  `CardSparkles` renders the featured-card lights. `styles.css` holds `.spotlight`
+  (blue + gold radial at the cursor), `.edge-glow` (a blue→gold conic arc masked to
+  the 1px border, animated only while hovered — the keyframes are `paused`, not
+  removed, so the arc neither repaints at rest nor jumps), `.fx-sheen` (one light
+  streak per hover) and `.lift-3d` (translate-only elevation). Gate the pointer
+  listener on `pointerType === "mouse"`, never on `(pointer: fine)` — that query is
+  false in embedded/automated browsers. Touch gets a static centred light plus an
+  `:active` press, and `prefers-reduced-motion` stops the border animation, the
+  sparkles and the streak. Verified in the preview 2026-11-03: 23 project cards,
+  `--mx/--my` moved 25%/30% → 80%/75% on a mouse move and stayed unset for a touch
+  move, 4 featured cards carry 24 sparkle dots, no inline rotation, no sideways
+  overflow at 1535 / 375 px, 0 console errors.
 - `SectionHeading` and every page `<h1>` use the dimensional heading utilities, so
   new pages inherit the type treatment by reusing those, not by adding new shadows.
 
