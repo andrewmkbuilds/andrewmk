@@ -748,6 +748,39 @@ docker compose -f docker-compose.base44.yml exec -T web \
   `/skills`. Adding a second page for the same facts would split the same content across two
   URLs. Extend the existing page instead.
 
+## Identity and search visibility
+
+The site is the searchable entity for one person, and its full indexed name is
+**Andrew Mathews Kalathil** (published in running copy as "Andrew Mathews",
+practice name "AndrewBuilds").
+
+- `src/data/identity.ts` holds `FULL_NAME`, `SHORT_NAME`, `NAME_ALIASES`,
+  `PERSON_DESCRIPTION` and `SOCIAL_PROFILES`; `src/data/seo.ts` re-exports the
+  name as `SITE_NAME`/`AUTHOR` and builds the entity graph — `personJsonLd()`
+  and `websiteJsonLd()` (rendered once in `src/routes/__root.tsx`),
+  `profilePageJsonLd()` (on `/profile`), plus the per-route `WebPage` and
+  `BreadcrumbList`. Every node shares the `#person` / `#website` `@id`s, so a
+  crawler resolves one person and one site. Keep any new schema block
+  referencing those ids rather than repeating the person inline.
+- Every fact in the schema must also be visible on the page it describes: the
+  name appears in the home intro and `<h1>`, `/about`, `/profile` and the press
+  kit. Adding a `knowsAbout` term or an `affiliation` means publishing it on a
+  page first — `nationality` and any employment claim are deliberately absent.
+- `scripts/seo-regression.ts` fails if a route loses its Person or WebSite
+  node, if `Person.name` drifts from `AUTHOR`, if `/profile` loses its
+  `ProfilePage`, or if the homepage stops naming the author.
+- `public/robots.txt` allows search **and** AI crawlers (GPTBot, OAI-SearchBot,
+  ClaudeBot, PerplexityBot, Google-Extended, …) and disallows only `/admin`,
+  `/auth` and `/404`. `src/data/seo.ts` is still the only source of route
+  metadata for `sitemap.xml`, `og/` and `llms.txt`.
+- `scripts/generate-sitemap.ts` writes `<lastmod>` from `git log -1` on each
+  page's source files. A build host without git (the `web` container) reuses the
+  previous sitemap's dates instead of stamping the build time, so the committed
+  file stays stable; run it from a checkout with history (or `node:24` with the
+  repo mounted) to refresh the dates.
+- Project `<title>`s use `name | category by <full name>` and fall back to
+  `name by <full name>` when that would pass 70 characters.
+
 ## What to check after a change
 
 ```sh

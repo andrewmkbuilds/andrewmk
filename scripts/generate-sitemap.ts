@@ -1,16 +1,88 @@
 // Runs before `vite dev` and `vite build` (predev/prebuild hooks); writes public/sitemap.xml.
 // Route metadata lives in src/data/seo.ts so runtime <head> and the sitemap can never drift.
-// No <lastmod>: the project has no authoritative per-page change timestamp.
+// <lastmod> comes from the page's own source history in git, and is omitted when
+// git history is unavailable (a shallow build checkout) rather than being
+// stamped with the build time — an inaccurate lastmod is worse than none.
 
-import { writeFileSync } from "fs";
+import { execFileSync } from "child_process";
+import { readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import { SITE_URL, indexableRoutes } from "../src/data/seo";
 import { allProjects } from "../src/data/portfolio";
 
-const urls = indexableRoutes.map((route) =>
-  [
+const previousSitemapPath = resolve("public/sitemap.xml");
+
+/** Source files whose last commit is the page's last content change. */
+const ROUTE_SOURCES: Record<string, string[]> = {
+  "/": ["src/pages/Home.tsx", "src/routes/index.tsx"],
+  "/projects": ["src/pages/Projects.tsx", "src/routes/projects.index.tsx"],
+  "/about": ["src/pages/About.tsx", "src/routes/about.tsx"],
+  "/journey": ["src/pages/Journey.tsx", "src/routes/journey.tsx"],
+  "/skills": ["src/pages/Skills.tsx", "src/routes/skills.tsx"],
+  "/achievements": [
+    "src/pages/Achievements.tsx",
+    "src/routes/achievements.tsx",
+  ],
+  "/resume": ["src/pages/Resume.tsx", "src/routes/resume.tsx"],
+  "/profile": ["src/pages/Profile.tsx", "src/routes/profile.tsx"],
+  "/now": ["src/pages/Now.tsx", "src/routes/now.tsx"],
+  "/press-kit": ["src/pages/PressKit.tsx", "src/routes/press-kit.tsx"],
+  "/faq": ["src/pages/Faq.tsx", "src/routes/faq.tsx"],
+  "/colophon": ["src/pages/Colophon.tsx", "src/routes/colophon.tsx"],
+  "/sitemap": ["src/pages/Sitemap.tsx", "src/routes/sitemap.tsx"],
+  "/developers": ["src/pages/Developers.tsx", "src/routes/developers.tsx"],
+  "/contact": ["src/pages/Contact.tsx", "src/routes/contact.tsx"],
+};
+
+/** Every project page renders from the same record set and detail template. */
+const PROJECT_SOURCES = [
+  "src/data/portfolio.ts",
+  "src/pages/ProjectDetail.tsx",
+  "src/routes/projects.$slug.tsx",
+];
+
+function lastModified(paths: string[]): string | undefined {
+  if (paths.length === 0) return undefined;
+  try {
+    const out = execFileSync(
+      "git",
+      ["log", "-1", "--format=%cI", "--", ...paths],
+      { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] },
+    ).trim();
+    return /^\d{4}-\d{2}-\d{2}T/.test(out) ? out : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+// Build hosts without git history (a local container run) keep the last
+// known dates instead of dropping them: reusing a real date beats stamping the
+// build time, and it keeps the committed sitemap stable across environments.
+const previousLastmod = new Map<string, string>();
+try {
+  const existing = readFileSync(previousSitemapPath, "utf8");
+  for (const match of existing.matchAll(
+    /<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g,
+  )) {
+    previousLastmod.set(match[1]!, match[2]!);
+  }
+} catch {
+  // No previous sitemap — nothing to carry over.
+}
+
+function lastmodFor(loc: string, paths: string[]): string | undefined {
+  return lastModified(paths) ?? previousLastmod.get(loc);
+}
+
+const urls = indexableRoutes.map((route) => {
+  const lastmod = lastmodFor(
+    `${SITE_URL}${route.path}`,
+    ROUTE_SOURCES[route.path] ?? [],
+  );
+  return [
     `  <url>`,
     `    <loc>${SITE_URL}${route.path}</loc>`,
+    lastmod ? `    <lastmod>${lastmod}</lastmod>` : null,
     route.changefreq
       ? `    <changefreq>${route.changefreq}</changefreq>`
       : null,
@@ -18,8 +90,8 @@ const urls = indexableRoutes.map((route) =>
     `  </url>`,
   ]
     .filter(Boolean)
-    .join("\n"),
-);
+    .join("\n");
+});
 
 // Project case-study pages: published rows from the content dashboard when the
 // database is reachable at build time, otherwise the bundled portfolio data.
@@ -47,25 +119,38 @@ if (dbUrl && dbKey) {
 }
 
 for (const slug of projectSlugs) {
+  const loc = `${SITE_URL}/projects/${slug}`;
+  const projectLastmod = lastmodFor(loc, PROJECT_SOURCES);
   urls.push(
     [
       `  <url>`,
-      `    <loc>${SITE_URL}/projects/${slug}</loc>`,
+      `    <loc>${loc}</loc>`,
+      projectLastmod ? `    <lastmod>${projectLastmod}</lastmod>` : null,
       `    <changefreq>monthly</changefreq>`,
       `    <priority>0.7</priority>`,
       `  </url>`,
-    ].join("\n"),
+    ]
+      .filter(Boolean)
+      .join("\n"),
   );
 }
+
+const blogLastmod = lastmodFor(`${SITE_URL}/blog`, [
+  "src/pages/Blog.tsx",
+  "src/routes/blog.index.tsx",
+]);
 
 urls.push(
   [
     `  <url>`,
     `    <loc>${SITE_URL}/blog</loc>`,
+    blogLastmod ? `    <lastmod>${blogLastmod}</lastmod>` : null,
     `    <changefreq>weekly</changefreq>`,
     `    <priority>0.8</priority>`,
     `  </url>`,
-  ].join("\n"),
+  ]
+    .filter(Boolean)
+    .join("\n"),
 );
 
 // Published blog posts, when build-time database credentials are available.

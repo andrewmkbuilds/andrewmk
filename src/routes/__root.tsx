@@ -18,61 +18,14 @@ import { Button } from "@/components/ui/button";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import NotFound from "@/pages/NotFound";
 import { reportLovableError } from "@/lib/lovable-error-reporting";
-import { AUTHOR, SITE_NAME, SITE_URL } from "@/data/seo";
-import { PROFILE_IDENTITY } from "@/data/portfolio";
+import { AUTHOR, personJsonLd, websiteJsonLd } from "@/data/seo";
 
 import appCss from "../styles.css?url";
 
-// ported from index.html — sitewide JSON-LD
-const personJsonLd = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: AUTHOR,
-  url: `${SITE_URL}/`,
-  jobTitle: PROFILE_IDENTITY,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Dubai",
-    addressRegion: "Dubai",
-    addressCountry: "AE",
-  },
-  homeLocation: {
-    "@type": "Place",
-    name: "Dubai, United Arab Emirates",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Dubai",
-      addressCountry: "AE",
-    },
-  },
-  workLocation: {
-    "@type": "Place",
-    name: "Dubai, United Arab Emirates",
-  },
-  nationality: { "@type": "Country", name: "United Arab Emirates" },
-  knowsAbout: [
-    "Artificial intelligence",
-    "Robotics",
-    "Web development",
-    "STEM competitions in the UAE",
-  ],
-  sameAs: [
-    "https://github.com/andrewmkbuilds",
-    "https://x.com/Andrew444884",
-    "https://www.instagram.com/andrewmkbuilds/",
-    "https://lovable.dev/@andrewbuilds",
-    "https://app.base44.com/@andrewmkbuilds",
-    "https://linktr.ee/andrewmkbuilds",
-  ],
-});
-
-const websiteJsonLd = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: SITE_NAME,
-  url: `${SITE_URL}/`,
-  author: { "@type": "Person", name: AUTHOR },
-});
+// Sitewide identity graph: one Person node and one WebSite node, both carrying
+// stable @ids that every page-level schema block references.
+const personLd = JSON.stringify(personJsonLd());
+const websiteLd = JSON.stringify(websiteJsonLd());
 
 // Inject the public Supabase config (URL + publishable key) from server-side
 // process.env into the browser at runtime, so the client works even when the
@@ -95,13 +48,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { charSet: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1.0" },
         {
-          title:
-            "Andrew Mathews | Student Developer, AI Builder & Robotics Engineer",
+          title: "Andrew Mathews Kalathil — Student Developer & AI Builder",
         },
         {
           name: "description",
           content:
-            "Andrew Mathews is a student developer and technology builder from Dubai, UAE, creating AI applications, robotics projects, web apps, and innovative technology solutions.",
+            "Andrew Mathews Kalathil is a student developer and AI builder in Dubai, UAE, creating AI applications, robotics projects and web products.",
         },
         { name: "author", content: AUTHOR },
         {
@@ -149,8 +101,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         ...(supabaseBootstrap
           ? [{ type: "text/javascript", children: supabaseBootstrap }]
           : []),
-        { type: "application/ld+json", children: personJsonLd },
-        { type: "application/ld+json", children: websiteJsonLd },
+        { type: "application/ld+json", children: personLd },
+        { type: "application/ld+json", children: websiteLd },
       ],
     }),
     shellComponent: RootShell,

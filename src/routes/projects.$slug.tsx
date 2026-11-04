@@ -60,9 +60,14 @@ export const Route = createFileRoute("/projects/$slug")({
       absolute(project.seo?.ogImage) ??
       shareable ??
       `${SITE_URL}${ogImagePath("/projects")}`;
+    // Keep the indexed name in every project title, but stay inside the ~70
+    // character budget: the category is dropped when the full form overflows.
+    const withCategory = `${project.name} | ${project.category} by ${SITE_NAME}`;
     const title =
       project.seo?.title ||
-      `${project.name} | ${project.category} by ${SITE_NAME}`;
+      (withCategory.length <= 70
+        ? withCategory
+        : `${project.name} by ${SITE_NAME}`);
     const description = (
       project.seo?.description ||
       `${project.name} is ${project.description.charAt(0).toLowerCase()}${project.description.slice(1)}`

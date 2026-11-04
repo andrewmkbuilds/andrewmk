@@ -2017,11 +2017,17 @@ export const currentlyBuilding = [
 // `@/data/portfolio` imports keep working.
 export {
   CONTACT_EMAIL,
+  FULL_NAME,
   GITHUB_URL,
   LINKTREE_URL,
+  LOCATION,
+  NAME_ALIASES,
+  PERSON_DESCRIPTION,
   PROFILE_IDENTITY,
   PROFILE_TITLE,
   SCHOOL,
+  SHORT_NAME,
+  SOCIAL_PROFILES,
 } from "./identity";
 
 export interface SocialLink {

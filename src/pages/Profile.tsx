@@ -73,7 +73,7 @@ export default function Profile() {
               <div className="px-6 pb-7 md:px-8">
                 <img
                   src={logoUrl}
-                  alt="AndrewBuilds logo — Andrew Mathews, student developer in Dubai"
+                  alt="AndrewBuilds logo — Andrew Mathews Kalathil, student developer in Dubai"
                   width={96}
                   height={96}
                   className="-mt-12 h-24 w-24 rounded-2xl border border-gold/40 bg-card p-2 shadow-card"
@@ -81,7 +81,7 @@ export default function Profile() {
                 <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
                   <div>
                     <h1 className="headline-3d text-3xl font-bold text-foreground md:text-4xl">
-                      Andrew Mathews
+                      Andrew Mathews Kalathil
                     </h1>
                     <p className="mt-1.5 text-primary">
                       Student Developer · AI Builder · Robotics &amp; Systems

@@ -23,6 +23,7 @@ import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 
 import {
+  AUTHOR,
   SITE_URL,
   indexableRoutes,
   ogImagePath,
@@ -200,6 +201,27 @@ async function checkRoute(route: (typeof routes)[number]) {
   if (!types.includes("WebPage")) fail(route.path, "missing WebPage JSON-LD");
   if (!types.includes("BreadcrumbList"))
     fail(route.path, "missing BreadcrumbList JSON-LD");
+
+  // The identity graph: one Person node carrying the full indexed name and
+  // verified profiles, plus the WebSite node the pages belong to.
+  const person = blocks.find((b) => b["@type"] === "Person");
+  if (!person) fail(route.path, "missing Person JSON-LD");
+  else {
+    if (person["name"] !== AUTHOR)
+      fail(route.path, `Person name is "${String(person["name"])}"`);
+    if (!person["@id"]) fail(route.path, "Person JSON-LD missing @id");
+    const sameAs = person["sameAs"];
+    if (!Array.isArray(sameAs) || sameAs.length === 0)
+      fail(route.path, "Person JSON-LD missing sameAs profiles");
+  }
+  const website = blocks.find((b) => b["@type"] === "WebSite");
+  if (!website) fail(route.path, "missing WebSite JSON-LD");
+  else if (!website["@id"]) fail(route.path, "WebSite JSON-LD missing @id");
+
+  if (route.path === "/profile" && !types.includes("ProfilePage"))
+    fail(route.path, "missing ProfilePage JSON-LD");
+  if (route.path === "/" && !html.includes(AUTHOR))
+    fail(route.path, `homepage never names "${AUTHOR}"`);
   for (const block of blocks) {
     if (block["@context"] !== "https://schema.org") {
       fail(
