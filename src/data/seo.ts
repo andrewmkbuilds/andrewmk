@@ -3,10 +3,12 @@
 // (sitemap, og:image generation, prerendered head tags, SEO checks).
 
 import {
+  AGE,
   FULL_NAME,
   LOCATION,
   NAME_ALIASES,
   PERSON_DESCRIPTION,
+  ROLE_SUMMARY,
   SCHOOL,
   SOCIAL_PROFILES,
   SHORT_NAME,
@@ -306,7 +308,9 @@ export function personJsonLd() {
     url: `${SITE_URL}/`,
     mainEntityOfPage: { "@id": `${SITE_URL}/#webpage` },
     description: PERSON_DESCRIPTION,
-    jobTitle: "Student Developer",
+    // The role line the site publishes for the person, from identity.ts, so the
+    // graph cannot drift from the copy the public files state.
+    jobTitle: ROLE_SUMMARY,
     knowsAbout: [
       "Full-stack web development",
       "Artificial intelligence",
@@ -349,7 +353,7 @@ export function websiteJsonLd() {
     name: SITE_NAME,
     alternateName: SHORT_NAME,
     url: `${SITE_URL}/`,
-    description: `The official portfolio of ${FULL_NAME}, a 14-year-old student developer and AI builder in Dubai, UAE.`,
+    description: `The official portfolio of ${FULL_NAME}, a ${AGE}-year-old student developer and AI builder in Dubai, UAE.`,
     inLanguage: "en",
     author: { "@id": PERSON_ID },
     publisher: { "@id": PERSON_ID },

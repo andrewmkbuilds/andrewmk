@@ -414,7 +414,7 @@ export default function ImageFlyIn({
             className={`ifi_card ifi_card_${img.aspect}${img.hideMobile ? ' ifi_card_hide_mobile' : ''}`}
             data-anm-ifi-card
           >
-            <img className="ifi_card_img" src={img.src} alt={img.alt || ''} />
+            <img className="ifi_card_img" src={img.src} alt={img.alt || ''} width="1200" height="900" />
           </div>
         ))}
       </div>

@@ -365,7 +365,7 @@ const ScaleSlider = forwardRef(function ScaleSlider({
         {images.map(function (src, i) {
           return (
             <div className="scs_card" key={i} ref={setCardRef} data-anm-scale-slider-card>
-              <img className="scs_img" src={src} alt="" draggable="false" />
+              <img className="scs_img" src={src} alt="" width="1200" height="1200" draggable="false" />
             </div>
           );
         })}

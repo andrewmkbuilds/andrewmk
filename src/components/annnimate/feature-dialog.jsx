@@ -397,6 +397,8 @@ export default function FeatureDialog({
             className="fdg_tile_img"
             src={tileImage.src}
             alt={tileImage.alt}
+            width="1200"
+            height="630"
             loading="eager"
             decoding="async"
           />
@@ -472,7 +474,7 @@ export default function FeatureDialog({
               <div className="fdg_media_row">
                 {mediaImages.map((img) => (
                   <div key={img.src} className="fdg_media_cell">
-                    <img className="fdg_sheet_img" src={img.src} alt={img.alt} loading="lazy" decoding="async" />
+                    <img className="fdg_sheet_img" src={img.src} alt={img.alt} width="1600" height="1000" loading="lazy" decoding="async" />
                   </div>
                 ))}
               </div>
@@ -487,7 +489,7 @@ export default function FeatureDialog({
               </div>
 
               <div className="fdg_sheet_media">
-                <img className="fdg_sheet_img" src={sheetImage.src} alt={sheetImage.alt} loading="lazy" decoding="async" />
+                <img className="fdg_sheet_img" src={sheetImage.src} alt={sheetImage.alt} width="1600" height="1000" loading="lazy" decoding="async" />
               </div>
 
               <p className="fdg_outro">{outro}</p>

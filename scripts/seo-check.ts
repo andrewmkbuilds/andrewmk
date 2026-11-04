@@ -1,6 +1,13 @@
 // CI/build guard: verifies canonical tags, metadata uniqueness, og:image wiring,
 // sitemap coverage and robots.txt correctness against the built output.
-// Run with: bunx tsx scripts/seo-check.ts  (wired into `postbuild`).
+// Run with: bunx tsx scripts/seo-check.ts
+//
+// Only the routes in src/data/prerender.ts have an HTML file in `dist/`.
+// `/projects` and `/404` are rendered by the server on demand (their metadata
+// comes from the database at request time), so this check fetches them from a
+// running server when one is given with `--base=http://localhost:4173` and
+// otherwise reports them as skipped — it never demands a static file for a route
+// the build is not supposed to prerender.
 
 import { existsSync, readFileSync } from "fs";
 import { resolve } from "path";
@@ -11,25 +18,63 @@ import {
   routes,
   routeSlug,
 } from "../src/data/seo";
+import { isPrerendered } from "../src/data/prerender";
 
-const DIST = resolve("dist");
+const args = process.argv.slice(2);
+const BASE = (
+  args.find((a) => a.startsWith("--base="))?.split("=")[1] ?? ""
+).replace(/\/$/, "");
+// The deploy build (`cloudflare-module`) writes its prerendered pages to
+// `.output/public/`; the Pages target writes `dist/`. Check whichever this
+// checkout actually produced, and let `--dir=` name it explicitly.
+const DIST = resolve(
+  args.find((a) => a.startsWith("--dir="))?.split("=")[1] ??
+    (existsSync(resolve(".output/public/index.html"))
+      ? ".output/public"
+      : "dist"),
+);
 const errors: string[] = [];
 const fail = (message: string) => errors.push(message);
+const skipped: string[] = [];
 
 const read = (path: string) =>
   existsSync(path) ? readFileSync(path, "utf8") : null;
+
+/** Fetch a route from the server given with `--base`, if there is one. */
+async function fetchHtml(path: string) {
+  if (!BASE) return null;
+  try {
+    const res = await fetch(`${BASE}${path}`, {
+      headers: { "user-agent": "seo-check" },
+    });
+    if (!res.ok) return null;
+    return await res.text();
+  } catch {
+    return null;
+  }
+}
+
+async function loadHtml(path: string) {
+  const file =
+    path === "/"
+      ? resolve(DIST, "index.html")
+      : resolve(DIST, `.${path}/index.html`);
+  const local = read(file);
+  if (local) return local;
+  const remote = await fetchHtml(path);
+  if (remote) return remote;
+  return null;
+}
 
 const titles = new Map<string, string>();
 const descriptions = new Map<string, string>();
 
 for (const route of routes) {
-  const file =
-    route.path === "/"
-      ? resolve(DIST, "index.html")
-      : resolve(DIST, `.${route.path}/index.html`);
-  const html = read(file);
+  const html = await loadHtml(route.path);
   if (!html) {
-    fail(`${route.path}: no prerendered HTML at ${file}`);
+    if (isPrerendered(route.path))
+      fail(`${route.path}: no prerendered HTML at dist and no --base`);
+    else skipped.push(route.path);
     continue;
   }
 
@@ -94,7 +139,13 @@ for (const route of routes) {
 }
 
 // Sitemap
-const sitemap = read(resolve(DIST, "sitemap.xml"));
+const sitemap =
+  read(resolve(DIST, "sitemap.xml")) ??
+  (BASE
+    ? await fetch(`${BASE}/sitemap.xml`)
+        .then((r) => (r.ok ? r.text() : null))
+        .catch(() => null)
+    : null);
 if (!sitemap) fail("sitemap.xml missing from dist");
 else {
   const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
@@ -125,7 +176,13 @@ else {
 }
 
 // robots.txt
-const robots = read(resolve(DIST, "robots.txt"));
+const robots =
+  read(resolve(DIST, "robots.txt")) ??
+  (BASE
+    ? await fetch(`${BASE}/robots.txt`)
+        .then((r) => (r.ok ? r.text() : null))
+        .catch(() => null)
+    : null);
 if (!robots) fail("robots.txt missing from dist");
 else {
   if (/^\s*Disallow:\s*\/\s*$/m.test(robots))
@@ -134,10 +191,17 @@ else {
     fail("robots.txt: sitemap directive missing");
 }
 
+if (skipped.length) {
+  console.log(
+    `Server-rendered, not in dist: ${skipped.join(", ")}` +
+      (BASE ? "" : " — pass --base=<url> to check them too"),
+  );
+}
+
 if (errors.length) {
   console.error(`SEO check failed (${errors.length}):`);
   for (const error of errors) console.error(`  - ${error}`);
   process.exit(1);
 }
 
-console.log(`SEO check passed (${routes.length} routes)`);
+console.log(`SEO check passed (${routes.length - skipped.length} routes)`);

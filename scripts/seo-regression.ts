@@ -7,6 +7,8 @@
  *   - a reachable, non-empty og:image (plus twitter:image parity)
  *   - valid JSON-LD: WebPage + BreadcrumbList everywhere, and an ItemList of
  *     SoftwareApplication entries (with build platform + stack) on /projects
+ *   - one Person + one WebSite node per route, with the name, current age and
+ *     role line from src/data/identity.ts
  *   - sitemap.xml coverage and a robots.txt that does not block crawlers
  *
  * Sources:
@@ -29,6 +31,7 @@ import {
   ogImagePath,
   routes,
 } from "../src/data/seo";
+import { AGE, ROLE_SUMMARY } from "../src/data/identity";
 
 const args = process.argv.slice(2);
 const argValue = (name: string) =>
@@ -213,6 +216,16 @@ async function checkRoute(route: (typeof routes)[number]) {
     const sameAs = person["sameAs"];
     if (!Array.isArray(sameAs) || sameAs.length === 0)
       fail(route.path, "Person JSON-LD missing sameAs profiles");
+    // The graph must publish the current age and role line from identity.ts,
+    // not a biography left behind by an earlier edit.
+    const biography = String(person["description"] ?? "");
+    if (!biography.includes(`${AGE}-year-old`))
+      fail(route.path, `Person description does not state age ${AGE}`);
+    if (person["jobTitle"] !== ROLE_SUMMARY)
+      fail(
+        route.path,
+        `Person jobTitle is "${String(person["jobTitle"] ?? "")}"`,
+      );
   }
   const website = blocks.find((b) => b["@type"] === "WebSite");
   if (!website) fail(route.path, "missing WebSite JSON-LD");

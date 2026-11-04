@@ -2,10 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import Blog from "@/pages/Blog";
 import { listPublishedPosts } from "@/lib/blog.functions";
 import { SITE_NAME, SITE_URL, ogImagePath } from "@/data/seo";
+import { FULL_NAME } from "@/data/identity";
 
 const title = `Blog | ${SITE_NAME}`;
-const description =
-  "Essays by Andrew Mathews on shipping software, AI experiments, robotics, and the engineering habits behind his projects.";
+const description = `Essays by ${FULL_NAME} on shipping software, AI experiments, robotics, and the engineering habits behind his projects.`;
 
 export const Route = createFileRoute("/blog/")({
   loader: async () => {

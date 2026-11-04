@@ -65,6 +65,9 @@ Two artifacts come out of the same source, and they are not interchangeable:
   failing). CI builds with `bun run build:preview` and starts it with `PORT=4173`.
 - **The two builds share `.output`, so the last one wins.** Run the preview build after the
   Cloudflare build, never the other way round, when both are needed in one job.
+- **The prerender route list lives in `src/data/prerender.ts`.** `vite.config.ts` and
+  `scripts/seo-check.ts` both import it, so the check can never demand a static file for a route
+  the build does not prerender.
 - **Only the deploy build prerenders; the preview build stays pure SSR.** `vite.config.ts` sets
   `tanstackStart.prerender` with an explicit route list (the content routes: `/`, `/about`,
   `/journey`, `/skills`, `/achievements`, `/resume`, `/profile`, `/now`, `/press-kit`, `/faq`,
@@ -258,12 +261,12 @@ The visual language is built around one physical space rather than flat panels:
 Four self-hosted faces (`src/styles/fonts.css`, no third-party font requests), each with one
 job. Do not add a fifth without a reason this list can name:
 
-| token              | face              | used for                                                        |
-| ------------------ | ----------------- | --------------------------------------------------------------- |
-| `--font-display`   | Instrument Serif  | page titles, the hero statement, statistics, project names       |
-| `--font-heading`   | Sora              | section titles, navigation, interface                            |
-| `--font-sans`      | Inter             | body copy                                                        |
-| `--font-mono`      | JetBrains Mono    | labels, metadata, technical detail                               |
+| token            | face             | used for                                                   |
+| ---------------- | ---------------- | ---------------------------------------------------------- |
+| `--font-display` | Instrument Serif | page titles, the hero statement, statistics, project names |
+| `--font-heading` | Sora             | section titles, navigation, interface                      |
+| `--font-sans`    | Inter            | body copy                                                  |
+| `--font-mono`    | JetBrains Mono   | labels, metadata, technical detail                         |
 
 - **Utilities, not per-element styling.** `text-display` (serif, weight 400), `type-section`
   (Sora 600, tracking −0.028em), `brand-name` (uppercase tracked Sora, the name as a mark),
@@ -276,12 +279,12 @@ job. Do not add a fifth without a reason this list can name:
   `.section-kicker` increments it and its `::before` prints `01`, `02`… in serif italic gold.
   Layout remounts per route, so every page starts at 01 — never hardcode an index in a page.
 - **Page titles are serif, section titles are Sora.** That two-voice hierarchy is the identity:
-  serif for what the page *is*, geometric sans for what a *section* is, mono for labels.
+  serif for what the page _is_, geometric sans for what a _section_ is, mono for labels.
 - **The hero masthead** (`ui/Monogram.tsx` + `brand-name`) is the name treatment: an "AK" seal,
   the full name tracked in Sora, then the location and status in mono. Keep the name in
   `Andrew Mathews Kalathil` form there and in the footer.
 - **`annnimate-theme.css` is unlayered and wins over Tailwind utilities.** `.anm-scramble
-  [data-anm-dual-scramble]` resets `font: inherit`, which silently erased the masthead's Sora
+[data-anm-dual-scramble]` resets `font: inherit`, which silently erased the masthead's Sora
   until it was given an equally unlayered `.brand-name` exception. Any Tailwind type class placed
   inside a vendored pack wrapper needs the same treatment.
 
@@ -800,7 +803,20 @@ practice name "AndrewBuilds").
   page first — `nationality` and any employment claim are deliberately absent.
 - `scripts/seo-regression.ts` fails if a route loses its Person or WebSite
   node, if `Person.name` drifts from `AUTHOR`, if `/profile` loses its
-  `ProfilePage`, or if the homepage stops naming the author.
+  `ProfilePage`, or if the homepage stops naming the author. It also fails when
+  `Person.jobTitle` stops equalling `ROLE_SUMMARY` or `Person.description` stops
+  stating `AGE` — both read from `src/data/identity.ts`, so changing the age or
+  the role line in that one file is enough for the check to police all 16 routes
+  (verified 2026-11-04: `bunx tsx scripts/seo-regression.ts --base=http://localhost:3000`
+  → 16/16).
+- `scripts/seo-check.ts` reads the prerendered HTML the build actually wrote —
+  `.output/public/` for the Worker build, `dist/` for the Pages target
+  (`--dir=` overrides) — and only expects a file for the routes in
+  `src/data/prerender.ts`. `/projects` and `/404` are rendered on demand, so they
+  are fetched from `--base=<url>` when one is given and otherwise reported as
+  skipped; a prerendered route with no file still fails. Verified 2026-11-04
+  against a real `bun run build`: 16/16 routes with `--base`, 14/14 + a skip
+  note without it.
 - `public/robots.txt` allows search **and** AI crawlers (GPTBot, OAI-SearchBot,
   ClaudeBot, PerplexityBot, Google-Extended, …) and disallows only `/admin`,
   `/auth` and `/404`. `src/data/seo.ts` is still the only source of route
@@ -987,6 +1003,15 @@ follows and the reasons behind them:
   listeners — and its pointer channel ignores every event that is not `pointerType === "mouse"`.
 - **Below-the-fold bundles are split.** The home contact form is `React.lazy`; TanStack splits each
   route file into its own chunk automatically (verified in `vite build` output).
+- **Every `<img>` declares `width` and `height` (2026-11-04).** That includes the gallery and pack
+  images, not just `ProjectShot` / `BrandLogo` / the header and footer logos: `CertificateCard`
+  thumbnails, the vendored `scale-slider`, `image-fly-in`, `feature-dialog`,
+  `multi-level-drawer-menu` and `process-rail` images now carry them too. Every one of those sits
+  in a ratio-locked frame, so the attributes change no pixels and cannot distort artwork — they
+  just reserve the box and satisfy the image-dimension audit. Measured on the dev server's SSR
+  HTML: 228 images on `/`, 93 on `/projects`, 146 on `/achievements` (68 cards + 34 rail + 10
+  fly-in), 0 without dimensions; the pack attributes are mechanical edits that a re-download of
+  the pack would drop, so re-apply them if a component is ever re-fetched.
 - **Fonts** are limited to the weights the design uses (Sora 400/600/700, Inter 400/500/600,
   JetBrains Mono 400/500, Instrument Serif).
 

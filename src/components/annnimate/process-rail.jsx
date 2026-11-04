@@ -587,7 +587,7 @@ export default function ProcessRail({
                       className="prl_step_media"
                       data-anm-prl-media
                     >
-                      <img src={step.image} alt={step.alt || ''} loading="lazy" />
+                      <img src={step.image} alt={step.alt || ''} width="1600" height="1000" loading="lazy" />
                     </span>
                   ) : null}
                 </button>

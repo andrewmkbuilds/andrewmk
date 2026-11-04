@@ -8,6 +8,7 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import { readFileSync } from "node:fs";
 import { resolve as resolvePath } from "node:path";
 import type { Plugin } from "vite";
+import { PRERENDERED_ROUTES } from "./src/data/prerender";
 
 /**
  * `/.well-known/api-catalog` has no file extension, so a static server has no
@@ -91,22 +92,9 @@ const NITRO_TARGET =
 const SSG_ENABLED =
   NITRO_TARGET !== "node-server" && NITRO_TARGET !== "cloudflare-pages";
 
-const PRERENDERED_ROUTES = [
-  "/",
-  "/about",
-  "/journey",
-  "/skills",
-  "/achievements",
-  "/resume",
-  "/profile",
-  "/now",
-  "/press-kit",
-  "/faq",
-  "/colophon",
-  "/sitemap",
-  "/developers",
-  "/contact",
-];
+// `PRERENDERED_ROUTES` lives in src/data/prerender.ts so scripts/seo-check.ts
+// reads the same list and never expects a static file for a server-rendered
+// route.
 
 export default defineConfig({
   tanstackStart: {
