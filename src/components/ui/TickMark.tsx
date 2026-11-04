@@ -16,8 +16,8 @@ import { useReveal } from "./Reveal";
  * Surrounding text is never hidden or delayed.
  */
 
-/** Gap between ticks inside one list. */
-const STAGGER_MS = 180;
+/** Gap between ticks inside one list — the card layer's settle cadence. */
+const STAGGER_MS = 120;
 
 interface TickMarkProps {
   children: ReactNode;

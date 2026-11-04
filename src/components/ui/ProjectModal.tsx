@@ -1,10 +1,11 @@
-import { ArrowRight, ExternalLink, X } from "lucide-react";
+import { ArrowRight, Check, ExternalLink, X } from "lucide-react";
 import { SocialMark } from "@/components/ui/SocialMark";
 import { Link } from "@/lib/router-compat";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { TechTag } from "./TechTag";
+import { TickMark } from "./TickMark";
 import { BuiltBy, PlatformBadge } from "./BuiltBy";
 import { ProjectShot } from "./ProjectShot";
 import type { Project } from "@/data/portfolio";
@@ -143,12 +144,17 @@ export function ProjectModal({
 
                     <Section title="What I built">
                       <ul className="grid list-none gap-2.5 p-0 sm:grid-cols-2">
-                        {project.built.map((item) => (
+                        {project.built.map((item, i) => (
                           <li
                             key={item}
                             className="flex items-start gap-2.5 rounded-lg border border-border/70 bg-background/40 p-3 text-sm text-muted-foreground"
                           >
-                            <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
+                            <TickMark className="mt-0.5" index={i}>
+                              <Check
+                                className="h-3.5 w-3.5 text-gold"
+                                aria-hidden="true"
+                              />
+                            </TickMark>
                             {item}
                           </li>
                         ))}

@@ -248,7 +248,8 @@ The visual language is built around one physical space rather than flat panels:
   sparkles and the streak. Verified in the preview 2026-11-03: 23 project cards,
   `--mx/--my` moved 25%/30% → 80%/75% on a mouse move and stayed unset for a touch
   move, 4 featured cards carry 24 sparkle dots, no inline rotation, no sideways
-  overflow at 1535 / 375 px, 0 console errors.
+  overflow at 1535 / 375 px, 0 console errors. The class contract, timing and
+  verification steps are written up in `docs/CARD_INTERACTIONS.md`.
 - `SectionHeading` and every page `<h1>` use the dimensional heading utilities, so
   new pages inherit the type treatment by reusing those, not by adding new shadows.
 
@@ -841,14 +842,18 @@ follows and the reasons behind them:
 - **Ticks draw themselves in (2026-11-04).** `ui/TickMark.tsx` wraps an existing check icon
   unchanged and observes its own wrapper with that same shared observer; the `.tick` block in
   `styles.css` walks the icon's own stroke in with `stroke-dashoffset` (100 → 0) while the mark
-  settles from `scale(0.86)`, staggered 180 ms per item through `--tick-delay`. It fires once (the
-  observer unobserves), and the text beside a tick is never hidden or delayed; reduced motion,
+  settles from `scale(0.86)`, staggered 120 ms per item through `--tick-delay`. The settle uses the
+  card layer's motion (`--ease-out-expo`, 0.45s lift, 0.3s fade), so a checklist and a `.lift-3d`
+  card read as one system — see `docs/CARD_INTERACTIONS.md`. It fires once (the observer
+  unobserves), and the text beside a tick is never hidden or delayed; reduced motion,
   `scripting: none` and print all show the tick already drawn. Wired into `CaseStudyRow` (the home
-  highlights), `ProjectTimeline` (a completed milestone) and `/resume`. The "What I built" lists in
-  `ProjectCard`, `ProjectModal` and `ProjectDetail` carry gold dots, not ticks, and were left alone.
-  Verified in the preview 2026-11-04: the 12 home ticks start at opacity 0 / `100px` dashoffset and
-  end at 1 / 0 with 0/180/360 ms delays while the row text stayed at opacity 1, and
-  `/projects/stack-up` + `/resume` serve the wrapper in SSR.
+  highlights), `ProjectTimeline` (a completed milestone), `/resume`, and the two "What I built"
+  feature lists — `ProjectModal` and `ProjectDetail`. `ProjectCard`'s list stays gold dots: it
+  lives inside a collapsed `pop-panel`, so its ticks would reveal while the panel is closed and be
+  spent before anyone opened it.
+  Verified in the preview 2026-11-04: ticks start at opacity 0 / `100px` dashoffset and end at
+  1 / 0 on a 120 ms cadence while the row text stayed at opacity 1, and `/projects/stack-up` +
+  `/resume` serve the wrapper in SSR.
 - **No `backdrop-filter` on sticky or repeated surfaces.** A blurred sticky header repaints the strip
   every scroll frame; `.glass`, `.sticker` and `.tape` use layered translucent gradients instead.
 - **No `filter: blur()` light fields.** Ambient and hero glows are radial gradients whose falloff is

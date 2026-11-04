@@ -1,11 +1,12 @@
 import { Link } from "@/lib/router-compat";
-import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ExternalLink } from "lucide-react";
 import { SocialMark } from "@/components/ui/SocialMark";
 import { motion } from "motion/react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/Reveal";
 import { TechTag } from "@/components/ui/TechTag";
+import { TickMark } from "@/components/ui/TickMark";
 import { BuiltBy, PlatformBadge } from "@/components/ui/BuiltBy";
 import { StatusDot } from "@/components/ui/StatusDot";
 import { StatusBadge } from "@/components/ui/Badges";
@@ -174,12 +175,17 @@ export default function ProjectDetail({
                   What I built
                 </h2>
                 <ul className="mt-4 grid list-none gap-2.5 p-0 sm:grid-cols-2">
-                  {project.built.map((item) => (
+                  {project.built.map((item, i) => (
                     <li
                       key={item}
                       className="flex items-start gap-2.5 rounded-lg border border-border/70 bg-card p-3 text-sm text-muted-foreground"
                     >
-                      <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-gold" />
+                      <TickMark className="mt-0.5" index={i}>
+                        <Check
+                          className="h-3.5 w-3.5 text-gold"
+                          aria-hidden="true"
+                        />
+                      </TickMark>
                       {item}
                     </li>
                   ))}
