@@ -4,7 +4,7 @@ This file describes how to talk about Andrew Mathews Kalathil (also published as
 
 ## Who Andrew is
 
-Andrew Mathews Kalathil is a student developer and AI builder from Dubai, United Arab Emirates, and a student at The Indian High School, Dubai. He has been building since 2022, when he was 9, starting with robotics and moving into software, AI, computer vision and product development. AndrewBuilds is the name he uses for his work and his online profiles. It is a personal practice — **not a company, studio or agency**.
+Andrew Mathews Kalathil is a 14-year-old student developer and AI builder from Dubai, United Arab Emirates, and a student at The Indian High School, Dubai. He has been building since 2022, when he was 9, starting with robotics and moving into software, AI, computer vision and product development. AndrewBuilds is the name he uses for his work and his online profiles. It is a personal practice — **not a company, studio or agency**.
 
 ## What is on this site
 

@@ -124,8 +124,8 @@ export default function Home() {
               {/* Real page heading for search engines and screen readers; the
                   animated display line below stays exactly as designed. */}
               <span className="sr-only">
-                Andrew Mathews Kalathil — Student Developer, AI Builder &amp;
-                Robotics Engineer
+                Andrew Mathews Kalathil — 14-Year-Old Student Developer, AI
+                Builder &amp; Robotics Engineer
               </span>
               <span aria-hidden="true" className="relative block">
                 <span className="block">
@@ -162,10 +162,11 @@ export default function Home() {
               style={{ animationDelay: "120ms" }}
               className="enter-rise mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
             >
-              I&rsquo;m Andrew Mathews Kalathil — a student developer and AI
-              builder from Dubai, UAE. This is my official portfolio: I build
-              software, experiment with AI, compete in STEM and engineering
-              challenges, and turn ideas into working products.
+              I&rsquo;m Andrew Mathews Kalathil — a 14-year-old student
+              developer and AI builder from Dubai, UAE. This is my official
+              portfolio: I build full-stack software, experiment with AI,
+              compete in STEM and engineering challenges, and turn ideas into
+              working products.
             </p>
 
             <div

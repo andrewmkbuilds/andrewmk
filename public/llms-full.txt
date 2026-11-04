@@ -8,6 +8,7 @@ Data API: https://andrewmk.is-a.dev/data/v1/index.json
 - Name: Andrew Mathews Kalathil
 - Also known as: Andrew Mathews · AndrewBuilds · andrewmkbuilds
 - Practice: AndrewBuilds (a personal practice, not a company or agency)
+- Age: 14
 - Identity: Student · Developer · AI Builder · Systems Thinker
 - Positioning: Student Developer · AI Builder · Systems Thinker
 - School: The Indian High School, Dubai
@@ -19,7 +20,7 @@ Data API: https://andrewmk.is-a.dev/data/v1/index.json
 
 ## About
 
-Andrew Mathews Kalathil is a student, builder and systems thinker based in Dubai. He works across artificial intelligence, software development, robotics, product design and engineering competitions. He started building with robotics at age 9 through the Mbot@IHS programme, and from there moved deeper into software, AI, computer vision and product development. Today he builds everything from small Python experiments to full product systems such as Gradr, TerraCart and ClientFlow OS, competes in STEM and engineering challenges, takes part in MUN conferences, works on F1 in Schools / STEM Racing, and shows projects at exhibitions.
+Andrew Mathews Kalathil is a 14-year-old student developer, builder and systems thinker based in Dubai. He works across artificial intelligence, full-stack software development, automation, robotics, product design and engineering competitions. He started building with robotics at age 9 through the Mbot@IHS programme, and from there moved deeper into software, AI, computer vision and product development. Today he builds everything from small Python experiments to full product systems such as Gradr, TerraCart and ClientFlow OS, competes in STEM and engineering challenges, takes part in MUN conferences, works on F1 in Schools / STEM Racing, and shows projects at exhibitions.
 
 Working principles:
 
@@ -31,23 +32,23 @@ Working principles:
 
 ### Short · first person
 
-I'm Andrew Mathews Kalathil, a student developer and AI builder from Dubai. I started building with robotics at age 9 and now build AI applications, web products and systems that solve real problems.
+I'm Andrew Mathews Kalathil, a 14-year-old student developer and AI builder from Dubai. I started building with robotics at age 9 and now build AI applications, web products and systems that solve real problems.
 
 ### Short · third person
 
-Andrew Mathews Kalathil is a student developer and AI builder from Dubai, UAE. He started building with robotics at age 9 and now builds AI applications, web products and systems that solve real problems.
+Andrew Mathews Kalathil is a 14-year-old student developer and AI builder from Dubai, UAE. He started building with robotics at age 9 and now builds AI applications, web products and systems that solve real problems.
 
 ### Medium · first person
 
-I'm Andrew Mathews Kalathil, a student developer and systems thinker based in Dubai. I work across artificial intelligence, software development, robotics and product design. I started with the Mbot@IHS robotics programme at age 9, and moved from there into software, AI and computer vision. Today I build everything from small Python experiments to full product systems such as Gradr, TerraCart and ClientFlow OS, and I compete in STEM and engineering challenges, take part in Model United Nations conferences, and show projects at exhibitions.
+I'm Andrew Mathews Kalathil, a 14-year-old student developer and systems thinker based in Dubai. I work across artificial intelligence, software development, robotics and product design. I started with the Mbot@IHS robotics programme at age 9, and moved from there into software, AI and computer vision. Today I build everything from small Python experiments to full product systems such as Gradr, TerraCart and ClientFlow OS, and I compete in STEM and engineering challenges, take part in Model United Nations conferences, and show projects at exhibitions.
 
 ### Medium · third person
 
-Andrew Mathews Kalathil is a student developer and systems thinker based in Dubai, UAE. He works across artificial intelligence, software development, robotics and product design. He began with the Mbot@IHS robotics programme at age 9 and moved from there into software, AI and computer vision. He now builds everything from small Python experiments to full product systems such as Gradr, TerraCart and ClientFlow OS, competes in STEM and engineering challenges, takes part in Model United Nations conferences, and shows projects at exhibitions.
+Andrew Mathews Kalathil is a 14-year-old student developer and systems thinker based in Dubai, UAE. He works across artificial intelligence, software development, robotics and product design. He began with the Mbot@IHS robotics programme at age 9 and moved from there into software, AI and computer vision. He now builds everything from small Python experiments to full product systems such as Gradr, TerraCart and ClientFlow OS, competes in STEM and engineering challenges, takes part in Model United Nations conferences, and shows projects at exhibitions.
 
 ### Long · first person
 
-I'm Andrew Mathews Kalathil, a student developer and AI builder from Dubai, United Arab Emirates, and a student at The Indian High School, Dubai. I don't just learn technology — I apply it. I started building in 2022 at age 9 through the Mbot@IHS robotics programme, where I built and presented an original model at a school exhibition. That gave me the instinct to build physically; from there I moved deeper into software, AI, computer vision and product development.
+I'm Andrew Mathews Kalathil, a 14-year-old student developer and AI builder from Dubai, United Arab Emirates, and a student at The Indian High School, Dubai. I don't just learn technology — I apply it. I started building in 2022 at age 9 through the Mbot@IHS robotics programme, where I built and presented an original model at a school exhibition. That gave me the instinct to build physically; from there I moved deeper into software, AI, computer vision and product development.
 
 Today I work across AI applications and assistants, full-stack web products, robotics and engineering, and data work. My flagship products are Gradr, an AI career accelerator; Stack Up, a personal-finance app built around gamification; TerraCart, a sustainable shopping assistant; and ClientFlow OS, a business operating system. Alongside them sits a larger archive of tools and experiments.
 
@@ -55,7 +56,7 @@ Outside of building, I compete in STEM and engineering challenges — Techfest, 
 
 ### Long · third person
 
-Andrew Mathews Kalathil is a student developer and AI builder from Dubai, United Arab Emirates, and a student at The Indian High School, Dubai. He describes his approach simply: he does not just learn technology, he applies it. He started building in 2022 at age 9 through the Mbot@IHS robotics programme, where he built and presented an original model at a school exhibition — the beginning of a move from hardware into software, AI, computer vision and product development.
+Andrew Mathews Kalathil is a 14-year-old student developer and AI builder from Dubai, United Arab Emirates, and a student at The Indian High School, Dubai. He describes his approach simply: he does not just learn technology, he applies it. He started building in 2022 at age 9 through the Mbot@IHS robotics programme, where he built and presented an original model at a school exhibition — the beginning of a move from hardware into software, AI, computer vision and product development.
 
 He works across AI applications and assistants, full-stack web products, robotics and engineering, and data work. His flagship products are Gradr, an AI career accelerator; Stack Up, a personal-finance app built around gamification; TerraCart, a sustainable shopping assistant; and ClientFlow OS, a business operating system, alongside a larger archive of tools and experiments.
 
@@ -628,7 +629,7 @@ Techfest, FLL, F1 in Schools / STEM Racing, MUN, Exhibitions
 
 ### Who is Andrew Mathews?
 
-Andrew Mathews is a student developer and technology builder based in Dubai, United Arab Emirates. He studies at The Indian High School, Dubai, and has been building since age 9, starting with robotics and moving into software, AI and product development.
+Andrew Mathews is a 14-year-old student developer and technology builder based in Dubai, United Arab Emirates. He studies at The Indian High School, Dubai, and has been building since age 9, starting with robotics and moving into software, AI and product development.
 
 Source: https://andrewmk.is-a.dev/about
 

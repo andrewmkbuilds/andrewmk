@@ -57,13 +57,13 @@ export const routes: RouteMeta[] = [
   {
     path: "/",
     label: "Home",
-    title: "Andrew Mathews Kalathil | Student Developer & AI Builder",
+    title: "Andrew Mathews Kalathil | 14-Year-Old Developer & AI Builder",
     description:
-      "Official portfolio of Andrew Mathews Kalathil, a student developer from Dubai building software, AI applications, automation tools and STEM projects.",
-    ogHeadline: "Student developer & AI builder",
+      "Meet Andrew Mathews Kalathil, a 14-year-old student developer from Dubai building full-stack applications, AI tools, automation systems and technology projects.",
+    ogHeadline: "14-year-old developer & AI builder",
     ogLabel: "Andrew Mathews Kalathil",
     ogDescription:
-      "Building AI applications, web products, robotics and STEM projects from Dubai, UAE.",
+      "Building full-stack applications, AI tools and automation systems from Dubai, UAE.",
     changefreq: "weekly",
     priority: "1.0",
   },
@@ -82,7 +82,7 @@ export const routes: RouteMeta[] = [
     label: "About",
     title: "About Andrew Mathews Kalathil — Developer in Dubai",
     description:
-      "About Andrew Mathews Kalathil: a student developer in Dubai working across full-stack development, AI, automation and robotics, and how he approaches building.",
+      "About Andrew Mathews Kalathil, a 14-year-old student developer in Dubai working across full-stack development, AI, automation and robotics.",
     ogHeadline: "Systems over features.",
     changefreq: "monthly",
     priority: "0.8",
@@ -92,7 +92,7 @@ export const routes: RouteMeta[] = [
     label: "Journey",
     title: "Andrew Mathews Kalathil — Journey & Timeline",
     description:
-      "From a robotics programme at age 9 to shipping AI products: the timeline behind Andrew Mathews Kalathil's work as a student developer in Dubai.",
+      "From a robotics programme at age 9 to shipping AI products at 14: the timeline behind Andrew Mathews Kalathil's work as a student developer in Dubai.",
     ogHeadline: "From robotics at 9 to shipping AI products.",
     changefreq: "monthly",
     priority: "0.7",
@@ -132,7 +132,7 @@ export const routes: RouteMeta[] = [
     label: "Profile",
     title: "Andrew Mathews Kalathil — Developer Profile",
     description:
-      "A profile view of Andrew Mathews Kalathil — about, projects, education, honours, certifications, skills and every place to find him online.",
+      "A profile view of Andrew Mathews Kalathil, a 14-year-old student developer in Dubai — projects, education, honours, certifications, skills and links.",
     ogHeadline: "Student developer, AI builder, systems thinker.",
     changefreq: "monthly",
     priority: "0.8",
@@ -349,7 +349,7 @@ export function websiteJsonLd() {
     name: SITE_NAME,
     alternateName: SHORT_NAME,
     url: `${SITE_URL}/`,
-    description: `The official portfolio of ${FULL_NAME}, a student developer and AI builder in Dubai, UAE.`,
+    description: `The official portfolio of ${FULL_NAME}, a 14-year-old student developer and AI builder in Dubai, UAE.`,
     inLanguage: "en",
     author: { "@id": PERSON_ID },
     publisher: { "@id": PERSON_ID },

@@ -84,7 +84,8 @@ export default function Profile() {
                       Andrew Mathews Kalathil
                     </h1>
                     <p className="mt-1.5 text-primary">
-                      Student Developer · AI Builder · Robotics &amp; Systems
+                      14-Year-Old Developer · AI Builder · Robotics &amp;
+                      Systems
                     </p>
                     <p className="mt-2 flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
                       <MapPin className="size-3.5 text-gold" />
@@ -132,12 +133,12 @@ export default function Profile() {
 
           <Panel icon={Globe} title="About">
             <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-              I'm a student developer from Dubai who builds AI systems, software
-              products and robotics projects. I started with a school robotics
-              programme at nine and have been shipping ever since — from
-              computer-vision experiments and Python tools to full AI-powered
-              products. I care about systems that solve a complete problem, not
-              features in isolation.
+              I'm a 14-year-old student developer from Dubai who builds AI
+              systems, software products and robotics projects. I started with a
+              school robotics programme at nine and have been shipping ever
+              since — from computer-vision experiments and Python tools to full
+              AI-powered products. I care about systems that solve a complete
+              problem, not features in isolation.
             </p>
             <ul className="mt-5 grid gap-2 sm:grid-cols-2">
               {currentlyBuilding.map((item) => (

@@ -28,9 +28,19 @@ export const NAME_ALIASES = [
 
 export const LOCATION = "Dubai, United Arab Emirates";
 
+/** Current age, published as "14-year-old" in prose and schema descriptions. */
+export const AGE = 14;
+
+/** Age when the public building record starts (2022, Mbot@IHS robotics). */
+export const BUILDING_SINCE_AGE = 9;
+
+/** The role line the public files state for the person. */
+export const ROLE_SUMMARY =
+  "Student Developer, Full-Stack Builder, AI & Automation Enthusiast, STEM Innovator";
+
 /** One-sentence entity description shared by the Person schema and the public files. */
 export const PERSON_DESCRIPTION =
-  "Andrew Mathews Kalathil is a student developer and AI builder in Dubai, United Arab Emirates, working across full-stack web development, AI and automation, robotics and STEM innovation.";
+  "Andrew Mathews Kalathil is a 14-year-old student developer and AI builder from Dubai, United Arab Emirates, working across full-stack web development, AI and automation, robotics and STEM innovation.";
 
 /** Verified public profiles, used for Person.sameAs and the About page. */
 export const SOCIAL_PROFILES = [

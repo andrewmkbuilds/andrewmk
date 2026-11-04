@@ -44,8 +44,8 @@ export default function About() {
                     stagger={0.028}
                     duration={0.7}
                   >
-                    I'm Andrew Mathews Kalathil — a student, builder, and
-                    systems thinker based in Dubai.{" "}
+                    I'm Andrew Mathews Kalathil — a 14-year-old student
+                    developer, builder and systems thinker based in Dubai.{" "}
                     <strong>
                       I work across artificial intelligence, software
                       development, robotics, product design, and engineering
@@ -105,6 +105,12 @@ export default function About() {
                       <dd className="text-foreground">
                         Andrew Mathews Kalathil
                       </dd>
+                    </div>
+                    <div>
+                      <dt className="font-mono text-xs text-muted-foreground">
+                        Age
+                      </dt>
+                      <dd className="text-foreground">14</dd>
                     </div>
                     <div>
                       <dt className="font-mono text-xs text-muted-foreground">

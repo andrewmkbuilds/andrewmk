@@ -2,14 +2,14 @@
 
 ## Pages
 
-- [Home](https://andrewmk.is-a.dev/): Official portfolio of Andrew Mathews Kalathil, a student developer from Dubai building software, AI applications, automation tools and STEM projects.
+- [Home](https://andrewmk.is-a.dev/): Meet Andrew Mathews Kalathil, a 14-year-old student developer from Dubai building full-stack applications, AI tools, automation systems and technology projects.
 - [Projects](https://andrewmk.is-a.dev/projects): Software, AI systems, tools and experiments built by Andrew Mathews Kalathil, with the technology stack and build platform for each project.
-- [About](https://andrewmk.is-a.dev/about): About Andrew Mathews Kalathil: a student developer in Dubai working across full-stack development, AI, automation and robotics, and how he approaches building.
-- [Journey](https://andrewmk.is-a.dev/journey): From a robotics programme at age 9 to shipping AI products: the timeline behind Andrew Mathews Kalathil's work as a student developer in Dubai.
+- [About](https://andrewmk.is-a.dev/about): About Andrew Mathews Kalathil, a 14-year-old student developer in Dubai working across full-stack development, AI, automation and robotics.
+- [Journey](https://andrewmk.is-a.dev/journey): From a robotics programme at age 9 to shipping AI products at 14: the timeline behind Andrew Mathews Kalathil's work as a student developer in Dubai.
 - [Skills](https://andrewmk.is-a.dev/skills): The AI, software, computer-vision, robotics, product and competition capabilities behind Andrew Mathews Kalathil's projects, grouped by discipline.
 - [Achievements](https://andrewmk.is-a.dev/achievements): STEM competitions, engineering challenges, MUN results and exhibitions Andrew Mathews Kalathil has taken part in, listed with their results.
 - [Résumé](https://andrewmk.is-a.dev/resume): The full résumé of Andrew Mathews Kalathil: education, projects, STEM and MUN competition results, certificates and technical skills.
-- [Profile](https://andrewmk.is-a.dev/profile): A profile view of Andrew Mathews Kalathil — about, projects, education, honours, certifications, skills and every place to find him online.
+- [Profile](https://andrewmk.is-a.dev/profile): A profile view of Andrew Mathews Kalathil, a 14-year-old student developer in Dubai — projects, education, honours, certifications, skills and links.
 - [Now](https://andrewmk.is-a.dev/now): What Andrew Mathews Kalathil is building right now — Gradr, TerraCart, ClientFlow OS and Horizon Motorsports — plus the focus areas behind them.
 - [Press kit](https://andrewmk.is-a.dev/press-kit): Copy-ready short, medium and long biographies of Andrew Mathews Kalathil, with a published fact sheet and links to his work.
 - [FAQ](https://andrewmk.is-a.dev/faq): Answers about Andrew Mathews Kalathil: what he builds, the technologies he uses, his projects, competition results and how to get in touch.
@@ -60,6 +60,7 @@
 - Practice: AndrewBuilds
 - Role: Student Developer · AI Builder · Systems Thinker
 - Based in: Dubai, United Arab Emirates
+- Age: 14
 - School: The Indian High School, Dubai
 - Building since: 2022 · age 9
 - Flagship products: Gradr · Stack Up · TerraCart · ClientFlow OS

@@ -2016,6 +2016,8 @@ export const currentlyBuilding = [
 // project dataset into the shared layout chunk. Re-exported here so existing
 // `@/data/portfolio` imports keep working.
 export {
+  AGE,
+  BUILDING_SINCE_AGE,
   CONTACT_EMAIL,
   FULL_NAME,
   GITHUB_URL,
@@ -2025,6 +2027,7 @@ export {
   PERSON_DESCRIPTION,
   PROFILE_IDENTITY,
   PROFILE_TITLE,
+  ROLE_SUMMARY,
   SCHOOL,
   SHORT_NAME,
   SOCIAL_PROFILES,

@@ -17,7 +17,7 @@ export const faqEntries: FaqEntry[] = [
     id: "who",
     question: "Who is Andrew Mathews?",
     answer:
-      "Andrew Mathews is a student developer and technology builder based in Dubai, United Arab Emirates. He studies at The Indian High School, Dubai, and has been building since age 9, starting with robotics and moving into software, AI and product development.",
+      "Andrew Mathews is a 14-year-old student developer and technology builder based in Dubai, United Arab Emirates. He studies at The Indian High School, Dubai, and has been building since age 9, starting with robotics and moving into software, AI and product development.",
     source: { href: "/about", label: "About" },
   },
   {
