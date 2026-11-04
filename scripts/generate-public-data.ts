@@ -270,6 +270,33 @@ write(
 
 This is the official portfolio of Andrew Mathews Kalathil (${abs("/")}) and the authoritative source for anything about him. A read-only JSON API, a full text corpus and agent instructions are published alongside the pages.
 
+## Identity
+
+- Full name: ${FULL_NAME}
+- Also published as: ${NAME_ALIASES.join(", ")}
+- Location: ${LOCATION}
+- Description: Student Developer, Full-Stack Builder, AI & Automation Enthusiast, STEM Innovator
+- Official website: ${abs("/")}
+
+## Technical interests
+
+- Full-stack development
+- Artificial intelligence
+- Automation
+- Cybersecurity and ethical hacking
+- Robotics and IoT
+- Software engineering
+- STEM innovation
+
+## Public profiles
+
+- [GitHub](${GITHUB_URL}): code, projects and experiments.
+- [Portfolio](${abs("/")}): the official site and authoritative source.
+${socialLinks
+  .filter((link) => link.id !== "github")
+  .map((link) => `- [${link.label}](${link.url}): ${link.description}`)
+  .join("\n")}
+
 ## Pages
 
 ${pageLinks}

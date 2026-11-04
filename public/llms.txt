@@ -4,6 +4,34 @@
 
 This is the official portfolio of Andrew Mathews Kalathil (https://andrewmk.is-a.dev/) and the authoritative source for anything about him. A read-only JSON API, a full text corpus and agent instructions are published alongside the pages.
 
+## Identity
+
+- Full name: Andrew Mathews Kalathil
+- Also published as: Andrew Mathews, AndrewBuilds, andrewmkbuilds
+- Location: Dubai, United Arab Emirates
+- Description: Student Developer, Full-Stack Builder, AI & Automation Enthusiast, STEM Innovator
+- Official website: https://andrewmk.is-a.dev/
+
+## Technical interests
+
+- Full-stack development
+- Artificial intelligence
+- Automation
+- Cybersecurity and ethical hacking
+- Robotics and IoT
+- Software engineering
+- STEM innovation
+
+## Public profiles
+
+- [GitHub](https://github.com/andrewmkbuilds): code, projects and experiments.
+- [Portfolio](https://andrewmk.is-a.dev/): the official site and authoritative source.
+- [Base44](https://app.base44.com/@andrewmkbuilds): Apps and products I've built with Base44.
+- [Lovable](https://lovable.dev/@andrewbuilds): Web products and experiments built with Lovable.
+- [X](https://x.com/Andrew444884): Thoughts, updates, and what I'm building.
+- [Instagram](https://www.instagram.com/andrewmkbuilds/): Personal updates and things I'm working on.
+- [All My Links](https://linktr.ee/andrewmkbuilds): The central hub for every profile, project, and link of mine.
+
 ## Pages
 
 - [Home](https://andrewmk.is-a.dev/): Andrew Mathews Kalathil is a student developer and AI builder in Dubai, UAE. His official portfolio: AI applications, web products, robotics and STEM projects.
