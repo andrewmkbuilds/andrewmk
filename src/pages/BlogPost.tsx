@@ -3,6 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { Prose } from "@/components/ui/Prose";
 import { TechTag } from "@/components/ui/TechTag";
+import { ReadingProgress } from "@/components/ui/ReadingProgress";
 import type { BlogPost as Post } from "@/lib/blog.functions";
 
 function formatDate(value: string | null) {
@@ -18,6 +19,7 @@ export default function BlogPostPage({ post }: { post: Post }) {
   return (
     <Layout>
       <article className="py-16 md:py-24">
+        <ReadingProgress />
         <div className="container max-w-3xl">
           <Link
             to="/blog"

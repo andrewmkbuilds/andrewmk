@@ -1,0 +1,875 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   DATA VISUALS — timelines, charts, flow diagrams, showcases, tech index.
+
+   One system for "information gets a format that fits it". Everything here
+   is built from the same tokens as the rest of the site (--gold, --primary,
+   --border, --ease-out-expo) so a new surface reads as part of the site
+   rather than a dashboard bolted on. Motion is opacity/transform only and
+   every transition is disabled under prefers-reduced-motion.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@layer components {
+  /* ── Timeline ──────────────────────────────────────────────────────── */
+
+  .tl-list {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tl-item {
+    position: relative;
+    padding-left: 3.4rem;
+    padding-bottom: 2.1rem;
+  }
+
+  .tl-item:last-child {
+    padding-bottom: 0;
+  }
+
+  /* The spine is drawn per item, so scrolling literally fills it in: each
+     segment turns gold the moment its milestone is revealed. */
+  .tl-item::before {
+    content: "";
+    position: absolute;
+    left: 1.05rem;
+    top: 2.1rem;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
+    transition: background 0.7s var(--ease-out-expo);
+  }
+
+  .tl-item:last-child::before {
+    display: none;
+  }
+
+  .tl-item.is-revealed::before {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--gold) 62%, var(--border)),
+      var(--border)
+    );
+  }
+
+  .tl-marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: grid;
+    width: 2.1rem;
+    height: 2.1rem;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--background);
+    color: var(--muted-foreground);
+    transition:
+      border-color 0.4s var(--ease-out-expo),
+      color 0.4s var(--ease-out-expo),
+      box-shadow 0.4s var(--ease-out-expo);
+  }
+
+  .tl-item--complete .tl-marker {
+    border-color: color-mix(in oklab, var(--gold) 52%, var(--border));
+    color: var(--gold);
+  }
+
+  .tl-item--current .tl-marker {
+    border-color: var(--gold);
+    color: var(--gold);
+    box-shadow:
+      0 0 0 4px color-mix(in oklab, var(--gold) 15%, transparent),
+      0 0 0 9px color-mix(in oklab, var(--gold) 6%, transparent);
+  }
+
+  .tl-item--upcoming .tl-marker {
+    border-style: dashed;
+  }
+
+  .tl-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .tl-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .tl-flag {
+    border: 1px solid color-mix(in oklab, var(--gold) 45%, transparent);
+    border-radius: 999px;
+    padding: 0.1rem 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .tl-flag--soon {
+    border-style: dashed;
+    border-color: var(--border);
+    color: var(--muted-foreground);
+  }
+
+  .tl-title {
+    margin-top: 0.45rem;
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    line-height: 1.12;
+    color: var(--foreground);
+    text-wrap: balance;
+  }
+
+  .tl-meta {
+    margin-top: 0.3rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  .tl-body {
+    margin-top: 0.65rem;
+    max-width: 52ch;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: color-mix(in oklab, var(--foreground) 76%, transparent);
+  }
+
+  .tl-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    border-bottom: 1px solid transparent;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+    transition: color 0.25s ease;
+  }
+
+  .tl-toggle:hover,
+  .tl-toggle:focus-visible {
+    color: var(--gold);
+  }
+
+  .tl-toggle svg {
+    transition: transform 0.3s var(--ease-out-expo);
+  }
+
+  .tl-toggle[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+
+  /* Collapsed height animates through grid-template-rows, and the content is
+     visibility:hidden while closed so it stays out of the tab order. */
+  .tl-details {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition: grid-template-rows 0.34s var(--ease-out-expo);
+  }
+
+  .tl-details[data-open="true"] {
+    grid-template-rows: 1fr;
+    visibility: visible;
+  }
+
+  .tl-details > div {
+    overflow: hidden;
+  }
+
+  .tl-details-inner {
+    display: grid;
+    gap: 0.6rem;
+    padding-top: 0.8rem;
+  }
+
+  .tl-details-body {
+    max-width: 52ch;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: color-mix(in oklab, var(--foreground) 72%, transparent);
+  }
+
+  .tl-points {
+    display: grid;
+    gap: 0.45rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tl-points li {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: color-mix(in oklab, var(--foreground) 80%, transparent);
+  }
+
+  .tl-points li::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 0.3rem;
+    height: 0.3rem;
+    margin-top: 0.5rem;
+    border-radius: 999px;
+    background: var(--gold);
+  }
+
+  .tl-action {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) - 2px);
+    padding: 0.5rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--foreground);
+    transition:
+      border-color 0.25s ease,
+      color 0.25s ease;
+  }
+
+  .tl-action:hover,
+  .tl-action:focus-visible {
+    border-color: color-mix(in oklab, var(--gold) 55%, var(--border));
+    color: var(--gold);
+  }
+
+  /* Desktop: one spine down the middle, milestones alternating either side. */
+  @media (min-width: 900px) {
+    .tl-list::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0.6rem;
+      bottom: 0.6rem;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .tl-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 4.5rem minmax(0, 1fr);
+      padding-left: 0;
+      padding-bottom: 2.9rem;
+    }
+
+    .tl-item::before {
+      display: none;
+    }
+
+    .tl-marker {
+      position: relative;
+      left: auto;
+      top: auto;
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: center;
+    }
+
+    .tl-card {
+      grid-column: 3;
+      grid-row: 1;
+      padding-left: 0.6rem;
+    }
+
+    .tl-item:nth-child(even) .tl-card {
+      grid-column: 1;
+      grid-row: 1;
+      padding-left: 0;
+      padding-right: 0.6rem;
+    }
+  }
+
+  /* ── Charts ────────────────────────────────────────────────────────── */
+
+  .chart {
+    display: grid;
+    gap: 0.35rem;
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 4px);
+    background: color-mix(in oklab, var(--card) 86%, transparent);
+    padding: 1.5rem;
+    box-shadow: var(--elev-1, 0 1px 0 hsl(220 40% 6% / 0.4));
+  }
+
+  .chart-title {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--foreground);
+    text-wrap: balance;
+  }
+
+  .chart-caption {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  .chart-body {
+    display: grid;
+    gap: 1.35rem;
+    align-items: center;
+    margin-top: 1.35rem;
+  }
+
+  @media (min-width: 640px) {
+    .chart-body--donut {
+      grid-template-columns: 170px minmax(0, 1fr);
+    }
+  }
+
+  .chart-donut {
+    position: relative;
+    width: 160px;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .chart-donut svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: rotate(-90deg);
+    overflow: visible;
+  }
+
+  .chart-track {
+    fill: none;
+    stroke: color-mix(in oklab, var(--border) 70%, transparent);
+    stroke-width: 12;
+  }
+
+  .chart-slice {
+    fill: none;
+    stroke-width: 12;
+    transition:
+      opacity 0.25s ease,
+      stroke-width 0.25s ease;
+  }
+
+  .chart-slice--dim {
+    opacity: 0.32;
+  }
+
+  .chart-slice--on {
+    stroke-width: 14;
+  }
+
+  .chart-center {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 0.1rem;
+    text-align: center;
+  }
+
+  .chart-center-value {
+    font-family: var(--font-display);
+    font-size: 2.1rem;
+    line-height: 1;
+    color: var(--gold);
+  }
+
+  .chart-center-label {
+    max-width: 6.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  .chart-legend {
+    display: grid;
+    gap: 0.1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .chart-legend-row {
+    display: grid;
+    grid-template-columns: 0.6rem minmax(0, 1fr) auto;
+    gap: 0.6rem;
+    align-items: center;
+    width: 100%;
+    border-radius: calc(var(--radius) - 4px);
+    padding: 0.3rem 0.35rem;
+    text-align: left;
+    transition: background 0.2s ease;
+  }
+
+  .chart-legend-row:hover,
+  .chart-legend-row:focus-visible {
+    background: color-mix(in oklab, var(--gold) 10%, transparent);
+  }
+
+  .chart-swatch {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 2px;
+  }
+
+  .chart-legend-label {
+    font-size: 0.85rem;
+    color: var(--muted-foreground);
+  }
+
+  .chart-legend-value {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--foreground);
+  }
+
+  .chart-bars {
+    display: grid;
+    gap: 0.55rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .chart-bar {
+    display: grid;
+    grid-template-columns: minmax(5.5rem, 9rem) minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .chart-bar-label {
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--foreground);
+  }
+
+  .chart-bar-track {
+    height: 0.45rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--border) 55%, transparent);
+  }
+
+  .chart-bar-fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(
+      90deg,
+      var(--gold),
+      color-mix(in oklab, var(--primary) 65%, var(--gold))
+    );
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.9s var(--ease-out-expo);
+  }
+
+  .chart.is-revealed .chart-bar-fill {
+    transform: scaleX(var(--bar, 0));
+  }
+
+  .chart-bar-value {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted-foreground);
+  }
+
+  .meter {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .meter-track {
+    height: 0.5rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--border) 55%, transparent);
+  }
+
+  .meter-fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--primary), var(--gold));
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.9s var(--ease-out-expo);
+  }
+
+  .meter.is-revealed .meter-fill {
+    transform: scaleX(var(--p, 0));
+  }
+
+  /* ── Flow diagram ──────────────────────────────────────────────────── */
+
+  .flow {
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 4px);
+    background: color-mix(in oklab, var(--card) 70%, transparent);
+    padding: 1.25rem;
+  }
+
+  .flow-chain-shell {
+    position: relative;
+  }
+
+  .flow-chain {
+    position: relative;
+    display: grid;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .flow-progress {
+    position: absolute;
+    left: 1.05rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--gold);
+    opacity: 0.6;
+    transform: scaleY(var(--flow-p, 0));
+    transform-origin: top center;
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+
+  .flow-step {
+    position: relative;
+    display: flex;
+    min-width: 0;
+  }
+
+  .flow-node {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 2px);
+    background: color-mix(in oklab, var(--background) 78%, transparent);
+    padding: 0.7rem 0.85rem;
+    text-align: left;
+    transition:
+      border-color 0.3s ease,
+      background 0.3s ease,
+      transform 0.3s var(--ease-out-expo);
+  }
+
+  .flow-node:hover {
+    border-color: color-mix(in oklab, var(--gold) 42%, var(--border));
+  }
+
+  .flow-node[aria-pressed="true"] {
+    border-color: color-mix(in oklab, var(--gold) 68%, var(--border));
+    background: color-mix(in oklab, var(--gold) 11%, var(--background));
+  }
+
+  .flow-index {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+  }
+
+  .flow-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--foreground);
+    text-wrap: balance;
+  }
+
+  .flow-panel {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 1.15rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1.1rem;
+  }
+
+  .flow-panel-title {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    color: var(--foreground);
+  }
+
+  .flow-panel-body {
+    max-width: 62ch;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: color-mix(in oklab, var(--foreground) 74%, transparent);
+  }
+
+  .flow-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 0.3rem 0 0;
+    padding: 0;
+  }
+
+  .flow-steps li {
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) - 4px);
+    padding: 0.25rem 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    color: var(--muted-foreground);
+  }
+
+  @media (min-width: 900px) {
+    .flow-chain {
+      display: flex;
+      align-items: stretch;
+      gap: 0.6rem;
+    }
+
+    .flow-step {
+      flex: 1 1 0;
+    }
+
+    .flow-progress {
+      left: 0;
+      right: 0;
+      top: 50%;
+      bottom: auto;
+      width: auto;
+      height: 1px;
+      transform: scaleX(var(--flow-p, 0));
+      transform-origin: left center;
+    }
+  }
+
+  /* ── Flagship showcase ─────────────────────────────────────────────── */
+
+  .spot {
+    position: relative;
+    display: grid;
+    gap: 1.75rem;
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .spot {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 3rem;
+    }
+
+    .spot[data-flip="true"] .spot-media {
+      order: 2;
+    }
+  }
+
+  .spot-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .spot-num {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    letter-spacing: 0;
+    color: color-mix(in oklab, var(--gold) 75%, transparent);
+  }
+
+  .spot-name {
+    margin-top: 0.6rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.1rem, 4.4vw, 3.1rem);
+    line-height: 1.02;
+    color: var(--foreground);
+    text-wrap: balance;
+  }
+
+  .spot-frame {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 6px);
+    background: var(--card);
+    padding: 0.5rem;
+  }
+
+  .spot-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0.5rem;
+    border-radius: calc(var(--radius) + 2px);
+    box-shadow: inset 0 0 0 1px
+      color-mix(in oklab, var(--gold) 14%, transparent);
+    pointer-events: none;
+  }
+
+  .spot-media img {
+    transition: transform 0.8s var(--ease-out-expo);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .spot-media:hover img {
+      transform: scale(1.02);
+    }
+  }
+
+  .spot-result {
+    border-left: 1px solid color-mix(in oklab, var(--gold) 45%, transparent);
+    padding-left: 0.7rem;
+  }
+
+  .spot-result-value {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1.1;
+    color: var(--foreground);
+  }
+
+  .spot-result-label {
+    margin-top: 0.2rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  /* ── Technology index ──────────────────────────────────────────────── */
+
+  .ti-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--card) 55%, transparent);
+    padding: 0.4rem 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+    transition:
+      border-color 0.25s ease,
+      color 0.25s ease,
+      background 0.25s ease;
+  }
+
+  .ti-chip:hover,
+  .ti-chip:focus-visible {
+    border-color: color-mix(in oklab, var(--gold) 45%, var(--border));
+    color: var(--foreground);
+  }
+
+  .ti-chip[data-active="true"] {
+    border-color: var(--gold);
+    background: color-mix(in oklab, var(--gold) 12%, transparent);
+    color: var(--gold);
+  }
+
+  .ti-chip[data-empty="true"] {
+    border-style: dashed;
+    cursor: default;
+  }
+
+  .ti-count {
+    font-size: 0.58rem;
+    color: var(--gold);
+  }
+
+  /* ── Editorial: reading progress and pull quotes ───────────────────── */
+
+  .read-bar {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 60;
+    height: 2px;
+    pointer-events: none;
+  }
+
+  .read-bar > span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--gold));
+    transform: scaleX(var(--read, 0));
+    transform-origin: left center;
+    transition: transform 0.12s linear;
+  }
+
+  .pull-quote {
+    position: relative;
+    margin: 0;
+    padding-left: 1.1rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+    line-height: 1.4;
+    color: color-mix(in oklab, var(--foreground) 92%, transparent);
+  }
+
+  .pull-quote::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.15em;
+    bottom: 0.15em;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  /* ── Reduced motion ────────────────────────────────────────────────── */
+
+  @media (prefers-reduced-motion: reduce) {
+    .tl-item::before,
+    .tl-marker,
+    .tl-details,
+    .tl-toggle svg,
+    .chart-slice,
+    .chart-bar-fill,
+    .meter-fill,
+    .flow-progress,
+    .flow-node,
+    .spot-media img,
+    .read-bar > span {
+      transition: none !important;
+    }
+
+    .chart-bar-fill,
+    .meter-fill {
+      transform: scaleX(var(--bar, var(--p, 0)));
+    }
+  }
+}

@@ -1175,3 +1175,57 @@ touching any of it.
   the curtain slider's transition, the sitemap drawer's panels, the journey rail and the skills
   wheel (they render server-side and mount without errors; check them by hand before changing
   their styles).
+
+## Visual information system (2026-11-04)
+
+Information is presented by type, from one shared set of components. All of it reads from the
+existing records — nothing here adds or infers content.
+
+- **`src/data/visuals.ts` is the only derivation layer.** `journeyMilestones` (from `timeline`),
+  `awardTimeline` (competitions + MUN, dated from the certificate that backs each result),
+  `technologyUsage` / `statusMix` / `liveCount` (counts over the project catalogue),
+  `certificateMix` (categories printed on the 34 certificates), `tailSlices` and
+  `spotlightSlugs`. Change the source records and every timeline, chart and count follows.
+- **`ui/TimelineTrack.tsx` is the one chronological presentation.** Vertical rail on phones;
+  at ≥900px the spine runs down the middle and milestones alternate sides. Each segment fills
+  gold when its item is revealed (the shared reveal observer), so the line is the progress
+  indicator. Details unfold behind a button with `aria-expanded` + `aria-controls`; the first
+  paragraph, year, meta and status never depend on interaction. The proof action (e.g. "View
+  certificate") stays outside the disclosure. Used by `/journey` (milestones) and
+  `/achievements` (dated results). **`/journey` no longer mounts `StackingCards`** — the stack
+  stays in the library, unmounted, like `portfolio-gallery.tsx`; do not re-mount both, they
+  present the same seven chapters.
+- **`ui/DataCharts.tsx` is hand-rolled SVG + CSS, no chart library.** `recharts` is still in
+  `package.json` (only `ui/chart.tsx`, itself unmounted), so importing it would add ~100 KB
+  gzip to a route for four charts. Bars animate with `scaleX` from `.is-revealed`; the donut is
+  stroke-dasharray circles. Every figure is also written out as text (legend, bar rows), so the
+  numbers survive without the graphic, print and screen readers. Do not add a "summed Other"
+  slice to the technology bar chart: records name several technologies each, so that sum is not
+  a project count.
+- **`ui/SystemFlow.tsx` draws a project's published walkthrough** (`project.gallery` titles,
+  captions and `lines`) as selectable, connected stages; the gold line follows the selection and
+  ArrowLeft/ArrowRight move between nodes. Every stage title stays visible; only the detail is
+  behind a click. Mounted on `/projects/$slug` as "How it works" — the gallery data was not
+  rendered anywhere before.
+- **`ui/ProjectSpotlight.tsx` gives the flagships a full row** on `/projects` (Gradr, Scholara,
+  The Neon Rush, Stack Up — `spotlightSlugs`), alternating sides ≥900px. Those slugs are removed
+  from the card grid and the ecosystem grid so nothing appears twice; the remaining featured
+  records (TerraCart, ClientFlow OS) keep the card layout.
+- **`ui/TechIndex.tsx` replaces the six skill cards on `/skills`.** A chip is a button only when
+  a project record names that technology; a capability with no matching record stays a dashed,
+  non-interactive label. No proficiency scores. `ti-panel` marks the result panel.
+- **Editorial:** `ui/ReadingProgress.tsx` (2px rule, driven by the shared listener in
+  `lib/scroll.ts`, one CSS variable per frame) on case studies and blog posts; `project.solution`
+  renders as a `.pull-quote`; the case-study aside lists "On this page" anchors built from the
+  sections that record actually renders, with `scroll-mt-24` on each heading.
+- **Styles live in `src/styles/data-visuals.css`** (`@layer components`, prefixed classes: `tl-`,
+  `chart-`, `flow-`, `spot-`, `ti-`, `read-bar`, `pull-quote`). Motion is opacity/transform only
+  and the whole file's transitions are disabled under `prefers-reduced-motion`.
+- Verified 2026-11-04 in the preview: `/journey` 7 timeline chapters alternating with details
+  opening (`aria-expanded=true`, panel visible); `/achievements` 9 dated award stops
+  (May 2024 → 2026) with the certificate viewer opening from a stop, plus a 7-slice donut;
+  `/projects` 4 showcases, 7 technology bars, 6-slice status donut, meter `12 / 23`; a case
+  study's flow selecting "Job tracker" and its TOC anchors; `/skills` 28 chips; 0 console errors
+  and no sideways overflow at 375px. Not automated: the `/skills` selection panel's project list
+  (the chip's `aria-pressed` was asserted, but the panel was queried through the wrong live
+  region).

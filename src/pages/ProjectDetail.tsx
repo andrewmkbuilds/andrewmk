@@ -12,6 +12,8 @@ import { StatusDot } from "@/components/ui/StatusDot";
 import { StatusBadge } from "@/components/ui/Badges";
 import { ProjectTimeline } from "@/components/ui/ProjectTimeline";
 import { ProjectShot } from "@/components/ui/ProjectShot";
+import { SystemFlow } from "@/components/ui/SystemFlow";
+import { ReadingProgress } from "@/components/ui/ReadingProgress";
 import { allProjects, type Project } from "@/data/portfolio";
 
 interface ProjectDetailProps {
@@ -36,9 +38,31 @@ export default function ProjectDetail({
 }: ProjectDetailProps) {
   const others = related(project, catalogue);
 
+  /**
+   * The case study's own contents, built from the sections this record
+   * actually renders — so the rail never points at a heading that is absent.
+   */
+  const sections = [
+    project.problem ? { id: "problem", label: "Problem" } : null,
+    project.fullDescription ? { id: "overview", label: "Overview" } : null,
+    project.solution ? { id: "solution", label: "Solution" } : null,
+    { id: "built", label: "What I built" },
+    project.stack && project.stack.length > 0
+      ? { id: "stack", label: "Tech stack" }
+      : null,
+    project.challenges && project.challenges.length > 0
+      ? { id: "challenges", label: "Challenges" }
+      : null,
+    project.metrics ? { id: "metrics", label: project.metrics.title } : null,
+    project.results && project.results.length > 0
+      ? { id: "results", label: "Results" }
+      : null,
+  ].filter((entry): entry is { id: string; label: string } => entry !== null);
+
   return (
     <Layout>
       <article>
+        <ReadingProgress />
         <section className="relative overflow-hidden bg-hero-veil grain">
           <div className="absolute inset-0 bg-grid" aria-hidden="true" />
           <div className="container relative py-16 md:py-24">
@@ -125,6 +149,37 @@ export default function ProjectDetail({
           </div>
         </section>
 
+        {/* The published walkthrough, as connected stages: every title and
+            step below is copied from the project's own gallery record. */}
+        {project.gallery && project.gallery.length > 1 && (
+          <section
+            className="divider-gold py-16 md:py-20"
+            aria-labelledby="flow-heading"
+          >
+            <div className="container">
+              <h2
+                id="flow-heading"
+                className="type-section scroll-mt-24 text-2xl text-foreground md:text-3xl"
+              >
+                How it works
+              </h2>
+              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                The flows {project.name} actually ships, in the order a user
+                meets them. Select a stage to see what it does.
+              </p>
+              <SystemFlow
+                className="mt-8"
+                stages={project.gallery.map((panel) => ({
+                  title: panel.title,
+                  detail: panel.caption,
+                  steps: panel.lines ?? [],
+                }))}
+                caption="Stages as published in the project walkthrough."
+              />
+            </div>
+          </section>
+        )}
+
         <ProjectTimeline project={project} />
 
         <section className="divider-gold py-16 md:py-20">
@@ -132,7 +187,10 @@ export default function ProjectDetail({
             <div className="space-y-10">
               {project.problem && (
                 <Reveal>
-                  <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
+                  <h2
+                    id="problem"
+                    className="scroll-mt-24 font-mono text-[11px] uppercase tracking-[0.2em] text-gold"
+                  >
                     Problem
                   </h2>
                   <p className="mt-4 text-base leading-relaxed text-muted-foreground">
@@ -143,7 +201,10 @@ export default function ProjectDetail({
 
               {project.fullDescription && (
                 <Reveal delay={40}>
-                  <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
+                  <h2
+                    id="overview"
+                    className="scroll-mt-24 font-mono text-[11px] uppercase tracking-[0.2em] text-gold"
+                  >
                     Overview
                   </h2>
                   <div className="mt-4 space-y-4">
@@ -161,17 +222,23 @@ export default function ProjectDetail({
 
               {project.solution && (
                 <Reveal delay={50}>
-                  <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
+                  <h2
+                    id="solution"
+                    className="scroll-mt-24 font-mono text-[11px] uppercase tracking-[0.2em] text-gold"
+                  >
                     Solution
                   </h2>
-                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                    {project.solution}
-                  </p>
+                  <blockquote className="mt-4">
+                    <p className="pull-quote">{project.solution}</p>
+                  </blockquote>
                 </Reveal>
               )}
 
               <Reveal delay={70}>
-                <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
+                <h2
+                  id="built"
+                  className="scroll-mt-24 font-mono text-[11px] uppercase tracking-[0.2em] text-gold"
+                >
                   What I built
                 </h2>
                 <ul className="mt-4 grid list-none gap-2.5 p-0 sm:grid-cols-2">
@@ -236,6 +303,35 @@ export default function ProjectDetail({
                     </dd>
                   </div>
                 </dl>
+
+                {sections.length > 1 && (
+                  <nav
+                    aria-label="On this page"
+                    className="mt-6 border-t border-border pt-5"
+                  >
+                    <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
+                      On this page
+                    </p>
+                    <ol className="mt-3 grid list-none gap-1.5 p-0">
+                      {sections.map((section, index) => (
+                        <li key={section.id}>
+                          <a
+                            href={`#${section.id}`}
+                            className="focus-ring flex items-baseline gap-2 rounded-sm text-sm text-muted-foreground transition-colors hover:text-gold"
+                          >
+                            <span
+                              className="font-mono text-[0.6rem] text-muted-foreground/70"
+                              aria-hidden="true"
+                            >
+                              {String(index + 1).padStart(2, "0")}
+                            </span>
+                            {section.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ol>
+                  </nav>
+                )}
               </aside>
             </Reveal>
           </div>
@@ -244,7 +340,10 @@ export default function ProjectDetail({
         {project.stack && project.stack.length > 0 && (
           <section className="divider-gold py-16 md:py-20">
             <div className="container">
-              <h2 className="type-section text-2xl text-foreground md:text-3xl">
+              <h2
+                id="stack"
+                className="type-section scroll-mt-24 text-2xl text-foreground md:text-3xl"
+              >
                 Tech stack
               </h2>
               <ul className="mt-8 grid list-none gap-5 p-0 sm:grid-cols-2 lg:grid-cols-4">
@@ -275,7 +374,10 @@ export default function ProjectDetail({
         {project.challenges && project.challenges.length > 0 && (
           <section className="divider-gold py-16 md:py-20">
             <div className="container">
-              <h2 className="type-section text-2xl text-foreground md:text-3xl">
+              <h2
+                id="challenges"
+                className="type-section scroll-mt-24 text-2xl text-foreground md:text-3xl"
+              >
                 Challenges &amp; how I solved them
               </h2>
               <ul className="mt-8 grid list-none gap-5 p-0 md:grid-cols-2">
@@ -304,7 +406,10 @@ export default function ProjectDetail({
         {project.metrics && (
           <section className="divider-gold py-16 md:py-20">
             <div className="container">
-              <h2 className="type-section text-2xl text-foreground md:text-3xl">
+              <h2
+                id="metrics"
+                className="type-section scroll-mt-24 text-2xl text-foreground md:text-3xl"
+              >
                 {project.metrics.title}
               </h2>
               {project.metrics.intro && (
@@ -363,7 +468,10 @@ export default function ProjectDetail({
         {project.results && project.results.length > 0 && (
           <section className="divider-gold py-16 md:py-20">
             <div className="container">
-              <h2 className="type-section text-2xl text-foreground md:text-3xl">
+              <h2
+                id="results"
+                className="type-section scroll-mt-24 text-2xl text-foreground md:text-3xl"
+              >
                 Results so far
               </h2>
               <dl className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">

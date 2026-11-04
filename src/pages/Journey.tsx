@@ -1,17 +1,11 @@
 import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { StackingCards } from "@/components/ui/StackingCards";
+import { TimelineTrack } from "@/components/ui/TimelineTrack";
 import { PortfolioRail } from "@/components/ui/PortfolioRail";
 import { SkillBadge } from "@/components/ui/Badges";
-import { timeline } from "@/data/portfolio";
-import type { StackingCardItem } from "@/components/ui/StackingCards";
-
-/** Each milestone is one chapter of the stack: the year is its label line. */
-const chapters: StackingCardItem[] = timeline.map(({ year, ...rest }) => ({
-  eyebrow: year,
-  ...rest,
-}));
+import { journeyMilestones } from "@/data/visuals";
+import type { TimelineStop } from "@/components/ui/TimelineTrack";
 import {
   Bot,
   BrainCircuit,
@@ -26,6 +20,17 @@ const flow: { label: string; icon: LucideIcon }[] = [
   { label: "AI", icon: BrainCircuit },
   { label: "Systems", icon: Layers },
 ];
+
+/** Every chapter of the journey, as a dated stop on the timeline. */
+const stops: TimelineStop[] = journeyMilestones.map((milestone) => ({
+  id: milestone.id,
+  label: milestone.label,
+  title: milestone.title,
+  meta: milestone.meta,
+  body: milestone.body,
+  points: milestone.points,
+  status: milestone.status,
+}));
 
 export default function Journey() {
   return (
@@ -65,10 +70,18 @@ export default function Journey() {
           </Reveal>
 
           <div className="mt-16">
-            <h2 className="sr-only">Timeline of milestones</h2>
-            <StackingCards
-              items={chapters}
-              ariaLabel="Timeline of milestones"
+            <div className="mb-8 flex flex-wrap items-end justify-between gap-3 border-b border-border pb-4">
+              <h2 className="type-section text-2xl text-foreground md:text-3xl">
+                The timeline
+              </h2>
+              <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-muted-foreground">
+                {stops.length} chapters · 2022 → now
+              </p>
+            </div>
+            <TimelineTrack
+              label="Timeline of milestones"
+              stops={stops}
+              className="mx-auto max-w-5xl"
             />
           </div>
         </div>

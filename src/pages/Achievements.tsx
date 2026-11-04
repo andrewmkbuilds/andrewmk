@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { AchievementCard } from "@/components/ui/AchievementCard";
 import { AchievementBadge } from "@/components/ui/Badges";
 import { CertificateGallery } from "@/components/ui/CertificateGallery";
 import { CertificateViewer } from "@/components/ui/CertificateViewer";
 import { PackAccordion } from "@/components/ui/PackAccordion";
 import { CertificateScale } from "@/components/ui/CertificateScale";
+import { TimelineTrack } from "@/components/ui/TimelineTrack";
+import { DonutChart } from "@/components/ui/DataCharts";
 import SplitFlapBoard from "@/components/annnimate/split-flap-board";
 import ImageFlyIn from "@/components/annnimate/image-fly-in";
 import ElasticDivider from "@/components/annnimate/elastic-divider";
@@ -19,13 +20,37 @@ import {
   competitionResults,
   exhibitions,
   fllSeasons,
-  munResults,
 } from "@/data/portfolio";
+import {
+  awardTimeline,
+  certificateMix,
+  tailSlices,
+  type AwardEntry,
+} from "@/data/visuals";
+import type { TimelineStop } from "@/components/ui/TimelineTrack";
 
 const exhibitionLoop = ["Build", "Demonstrate", "Explain", "Iterate"];
 
 const certById = (id?: string): Certificate | undefined =>
   id ? certificates.find((c) => c.id === id) : undefined;
+
+function toStop(award: AwardEntry): TimelineStop {
+  return {
+    id: award.id,
+    label: award.when || award.event,
+    title:
+      award.kind === "competition" && award.detail
+        ? `${award.title} — ${award.detail}`
+        : award.title,
+    meta:
+      award.kind === "competition"
+        ? award.event
+        : [award.event, award.detail].filter(Boolean).join(" · "),
+    body: award.issuer ? [award.issuer] : undefined,
+    kind: "award",
+    status: "complete",
+  };
+}
 
 export default function Achievements() {
   const [proof, setProof] = useState<Certificate | null>(null);
@@ -46,6 +71,17 @@ export default function Achievements() {
     aspect: ["portrait_md", "portrait_sm", "square_sm", "portrait_lg"][i % 4],
     hideMobile: i > 5,
   }));
+
+  /** Each award keeps its proof action, so the timeline is also the archive. */
+  const awardStops: TimelineStop[] = awardTimeline.map((award) => {
+    const cert = certById(award.certId);
+    return {
+      ...toStop(award),
+      action: cert
+        ? { label: "View certificate", onClick: () => setProof(cert) }
+        : undefined,
+    };
+  });
 
   return (
     <Layout>
@@ -114,72 +150,45 @@ export default function Achievements() {
         </div>
       </section>
 
+      {/* Every result in chronological order, each with its own proof. */}
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="container">
+          <SectionHeading
+            label="Results"
+            title="The Record, In *Order*"
+            subtitle="Competitions, athletics and MUN on one dated timeline. Open an entry for the organisation behind it, or go straight to the certificate that documents the result."
+          />
+          <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
+            <TimelineTrack
+              label="Awards and results in chronological order"
+              stops={awardStops}
+            />
+            <Reveal className="lg:sticky lg:top-28">
+              <DonutChart
+                data={tailSlices(certificateMix, 6)}
+                title="Certificate archive by area"
+                caption={`${certificates.length} originals`}
+                centerLabel="originals"
+              />
+              <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+                Counted from the category printed on each certificate in the
+                archive. The full set is browsable in the gallery further down.
+              </p>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* The record, as a mechanical split-flap board. */}
       <section className="border-t border-border py-20 md:py-24">
         <div className="container">
           <SectionHeading
-            label="The record"
+            label="The board"
             title="Results, *Flapped* Into Place"
             subtitle="Tap the board, use the arrows, or press the left and right arrow keys."
           />
           <div className="mt-8 overflow-x-auto pb-2">
             <SplitFlapBoard className="anm-flap" sets={flapSets} />
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-border py-20 md:py-28">
-        <div className="container">
-          <SectionHeading label="Results" title="Competitions" />
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {competitionResults.map((result, i) => (
-              <Reveal
-                key={`${result.place}-${result.detail}`}
-                delay={i * 60}
-                className="h-full"
-              >
-                <AchievementCard
-                  {...result}
-                  className="h-full"
-                  onViewProof={
-                    certById(result.certKey)
-                      ? () => setProof(certById(result.certKey)!)
-                      : undefined
-                  }
-                />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-border py-20 md:py-28">
-        <div className="container">
-          <SectionHeading label="Diplomacy" title="MUN" />
-          <div className="grid gap-5 md:grid-cols-3">
-            {munResults.map((mun, i) => (
-              <Reveal key={mun.title} delay={i * 60} className="h-full">
-                <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-gold/40">
-                  <h3 className="text-lg font-semibold text-foreground">
-                    {mun.title}
-                  </h3>
-                  {mun.detail && (
-                    <p className="mt-2 font-mono text-sm text-primary">
-                      {mun.detail}
-                    </p>
-                  )}
-                  {certById(mun.certKey) && (
-                    <button
-                      type="button"
-                      onClick={() => setProof(certById(mun.certKey)!)}
-                      className="focus-ring mt-4 inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-2.5 font-mono text-xs text-foreground transition-colors hover:border-gold/50 hover:text-gold"
-                    >
-                      View Certificate <span aria-hidden="true">&rarr;</span>
-                    </button>
-                  )}
-                </div>
-              </Reveal>
-            ))}
           </div>
         </div>
       </section>

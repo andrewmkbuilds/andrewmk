@@ -2,8 +2,13 @@ import { Link } from "@/lib/router-compat";
 import { Layout } from "@/components/layout/Layout";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { SkillBadge } from "@/components/ui/Badges";
-import { PROFILE_TITLE, SCHOOL, skillGroups } from "@/data/portfolio";
+import { TechIndex } from "@/components/ui/TechIndex";
+import {
+  PROFILE_TITLE,
+  SCHOOL,
+  allProjects,
+  skillGroups,
+} from "@/data/portfolio";
 import RotatingWords from "@/components/annnimate/rotating-words";
 import { ArrowRight } from "lucide-react";
 
@@ -17,8 +22,9 @@ const disciplines = [
 ];
 
 /**
- * Skills — grouped by what the skill is actually used for, with a short note on
- * where each capability comes from. Deliberately not a logo wall.
+ * Skills — grouped by what the skill is actually used for, and linked back to
+ * the work that uses it. Deliberately not a logo wall, and deliberately no
+ * proficiency scores: the evidence is the projects.
  */
 export default function Skills() {
   return (
@@ -64,23 +70,20 @@ export default function Skills() {
             />
           </Reveal>
 
-          <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {skillGroups.map((group, i) => (
-              <Reveal key={group.title} delay={i * 50} className="h-full">
-                <div className="spotlight lift-3d h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-gold/40">
-                  <h2 className="text-lg font-semibold text-foreground">
-                    {group.title}
-                  </h2>
-                  <ul className="mt-5 flex list-none flex-wrap gap-2 p-0">
-                    {group.items.map((item) => (
-                      <li key={item}>
-                        <SkillBadge label={item} size="sm" />
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-            ))}
+          <div className="mt-14 border-t border-border pt-10">
+            <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
+              <h2 className="type-section text-2xl text-foreground md:text-3xl">
+                Capability index
+              </h2>
+              <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-muted-foreground">
+                {skillGroups.reduce(
+                  (total, group) => total + group.items.length,
+                  0,
+                )}{" "}
+                capabilities · {skillGroups.length} areas
+              </p>
+            </div>
+            <TechIndex groups={skillGroups} projects={allProjects} />
           </div>
         </div>
       </section>

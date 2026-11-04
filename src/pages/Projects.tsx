@@ -5,18 +5,30 @@ import { Reveal } from "@/components/ui/Reveal";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { ProjectModal } from "@/components/ui/ProjectModal";
 import { ProjectGrid } from "@/components/ui/ProjectGrid";
+import { ProjectSpotlight } from "@/components/ui/ProjectSpotlight";
 import { PortfolioCurtain } from "@/components/ui/PortfolioCurtain";
+import { BarChart, DonutChart, Meter } from "@/components/ui/DataCharts";
 import {
   ecosystemProjects,
   featuredProjects,
   type Project,
 } from "@/data/portfolio";
+import {
+  liveCount,
+  spotlightSlugs,
+  statusMix,
+  tailSlices,
+  technologyUsage,
+} from "@/data/visuals";
 
 interface ProjectsProps {
   /** Supplied by the route loader from the content dashboard; falls back to the built-in data. */
   featured?: Project[];
   ecosystem?: Project[];
 }
+
+const isSpotlight = (project: Project) =>
+  (spotlightSlugs as readonly string[]).includes(project.slug);
 
 export default function Projects({
   featured = featuredProjects,
@@ -29,6 +41,21 @@ export default function Projects({
     setSelected(project);
     setOpen(true);
   };
+
+  const catalogue = [...featured, ...ecosystem];
+  /** Flagships keep the order named in `spotlightSlugs`, not the record order. */
+  const flagships = spotlightSlugs
+    .map((slug) => catalogue.find((project) => project.slug === slug))
+    .filter((project): project is Project => Boolean(project));
+  const featuredRest = featured.filter((project) => !isSpotlight(project));
+  const ecosystemRest = ecosystem.filter((project) => !isSpotlight(project));
+
+  const techUsage = technologyUsage(catalogue);
+  // No "Other" bucket in this bar chart: one project names several
+  // technologies, so summing the remainder would read as a project count.
+  const techChart = techUsage.slice(0, 7);
+  const statusChart = tailSlices(statusMix(catalogue), 5);
+  const live = liveCount(catalogue);
 
   return (
     <Layout>
@@ -67,21 +94,86 @@ export default function Projects({
           <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
             Drag, swipe or use the arrows · the four flagship builds
           </p>
+        </div>
+      </section>
 
-          <div className="mt-12 grid gap-6 lg:grid-cols-2">
-            {featured.map((project, i) => (
-              <Reveal key={project.slug} delay={i * 70} className="h-full">
-                <ProjectCard
-                  project={project}
-                  onOpen={openProject}
-                  variant="featured"
-                  className="h-full"
-                />
+      {/* Flagships get weight: a full case-study row each, alternating sides. */}
+      <section className="border-t border-border py-20 md:py-28">
+        <div className="container">
+          <SectionHeading
+            label="Flagship builds"
+            title="The Systems That *Carry* the Rest"
+            subtitle="The builds with the most depth behind them — status, real figures and a link straight into the case study or the live product."
+          />
+          <div className="mt-14 grid gap-20 md:gap-24">
+            {flagships.map((project, index) => (
+              <Reveal key={project.slug}>
+                <ProjectSpotlight project={project} index={index} />
               </Reveal>
             ))}
           </div>
         </div>
       </section>
+
+      {/* The catalogue in numbers — counts derived from the same records. */}
+      <section className="border-t border-border py-20 md:py-24">
+        <div className="container">
+          <SectionHeading
+            label="In numbers"
+            title="The Ecosystem, *Counted*"
+            subtitle="Every figure below is a count over these project records — technologies named, statuses published, live URLs. Nothing is estimated."
+          />
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            <Reveal className="lg:col-span-2">
+              <BarChart
+                data={techChart}
+                title="Technologies named across the catalogue"
+                caption={`${catalogue.length} records · top 7 of ${techUsage.length} technologies named`}
+                unit="projects"
+              />
+            </Reveal>
+            <Reveal delay={80}>
+              <DonutChart
+                data={statusChart}
+                title="Where the work stands"
+                caption={`${catalogue.length} records`}
+              />
+            </Reveal>
+          </div>
+          <Reveal delay={120} className="mt-5 max-w-2xl">
+            <Meter
+              value={live}
+              total={catalogue.length}
+              label="Publishing a live URL"
+              note="Records that link a working product you can open right now. The rest are in development, built for a closed audience, or concepts."
+            />
+          </Reveal>
+        </div>
+      </section>
+
+      {featuredRest.length > 0 && (
+        <section className="border-t border-border py-20 md:py-24">
+          <div className="container">
+            <SectionHeading
+              label="More flagships"
+              title="Also *Featured*"
+              subtitle="The rest of the featured set — open any card for the short case."
+            />
+            <div className="mt-10 grid gap-6 lg:grid-cols-2">
+              {featuredRest.map((project, i) => (
+                <Reveal key={project.slug} delay={i * 70} className="h-full">
+                  <ProjectCard
+                    project={project}
+                    onOpen={openProject}
+                    variant="featured"
+                    className="h-full"
+                  />
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="border-t border-border py-20 md:py-28">
         <div className="container">
@@ -90,7 +182,7 @@ export default function Projects({
             title="Everything I Build Has a Purpose."
             subtitle="Systems, tools, experiments, and concepts built to solve specific problems."
           />
-          <ProjectGrid projects={ecosystem} />
+          <ProjectGrid projects={ecosystemRest} />
           <Reveal className="mt-10 font-mono text-sm text-muted-foreground">
             <span className="text-primary">//</span> More systems in
             development.
