@@ -689,7 +689,9 @@ ${pressFacts.map((fact) => `- ${fact.label}: ${fact.value}`).join("\n")}
    IndexNow proves host ownership with a file named after the key at the site
    root. Written from the same constant the submit script uses. */
 
-write(`${INDEXNOW_KEY}.txt`, `${INDEXNOW_KEY}\n`);
+// No trailing newline: the protocol's proof is the file's exact content, so the
+// body must be the key alone and nothing else.
+write(`${INDEXNOW_KEY}.txt`, INDEXNOW_KEY);
 
 console.log(`generate-public-data: wrote ${written.length} files`);
 written.forEach((file) => console.log(`  public/${file}`));
