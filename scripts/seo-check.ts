@@ -108,8 +108,20 @@ else {
   }
   if (new Set(locs).size !== locs.length)
     fail("sitemap: duplicate <loc> entries");
-  if (/<lastmod>/.test(sitemap))
-    fail("sitemap: <lastmod> present without an authoritative source");
+  // <lastmod> comes from git history in scripts/generate-sitemap.ts, so it may be
+  // present — but it must be a real W3C date and never stamped with the build time.
+  const lastmods = [...sitemap.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map(
+    (m) => m[1]!,
+  );
+  for (const lastmod of lastmods) {
+    if (
+      !/^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2}))?$/.test(
+        lastmod,
+      )
+    ) {
+      fail(`sitemap: invalid <lastmod> (${lastmod})`);
+    }
+  }
 }
 
 // robots.txt

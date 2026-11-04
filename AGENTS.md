@@ -789,6 +789,22 @@ practice name "AndrewBuilds").
   previous sitemap's dates instead of stamping the build time, so the committed
   file stays stable; run it from a checkout with history (or `node:24` with the
   repo mounted) to refresh the dates.
+- **The sitemap only advertises pages that exist and are worth indexing.** Every
+  loc is built through `locFor()` (canonical `https://andrewmk.is-a.dev` +
+  percent-encoded segments), duplicates are dropped, and `/blog` plus its articles
+  are listed **only when at least one post is published** — the empty listing says
+  "No posts yet", so it is a thin page until then (verified 2026-11-04: 0 published
+  posts → 38 URLs, no `/blog` entry; a temporary published row added `/blog` and
+  `/blog/<slug>` with their `updated_at` as `<lastmod>`, and both disappeared again
+  once the row was deleted). The generator then validates the whole document
+  against the sitemap protocol before writing (single 0.9 `urlset`, one `<loc>`
+  per `<url>`, HTTPS canonical locs, ≤2048-character locs, no duplicates,
+  W3C `lastmod`, known `changefreq`, 0–1 `priority`, ≤50 000 URLs) and **fails
+  `prebuild` rather than write an invalid file**. Validated with the official
+  `sitemap.xsd` (`lxml`) on 2026-11-04.
+- `public/_headers` pins `Content-Type: application/xml; charset=utf-8` on
+  `/sitemap.xml` so no host sniffs it as HTML; `scripts/seo-check.ts` now accepts
+  `<lastmod>` but rejects one that is not a real W3C date.
 - Project `<title>`s use `name | category by <full name>` and fall back to
   `name by <full name>` when that would pass 70 characters.
 

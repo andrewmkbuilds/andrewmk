@@ -74,24 +74,67 @@ function lastmodFor(loc: string, paths: string[]): string | undefined {
   return lastModified(paths) ?? previousLastmod.get(loc);
 }
 
-const urls = indexableRoutes.map((route) => {
-  const lastmod = lastmodFor(
-    `${SITE_URL}${route.path}`,
-    ROUTE_SOURCES[route.path] ?? [],
-  );
+function escapeXml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+/** Absolute canonical URL for a site path, percent-encoded per segment. */
+function locFor(path: string): string {
+  const encoded = path
+    .split("/")
+    .map((segment) => encodeURIComponent(segment))
+    .join("/");
+  return escapeXml(`${SITE_URL}${encoded}`);
+}
+
+/** Locs already emitted, so the same page can never appear twice. */
+const seenLocs = new Set<string>();
+let duplicateCount = 0;
+
+interface UrlEntry {
+  loc: string;
+  lastmod?: string | undefined;
+  changefreq?: string | undefined;
+  priority?: string | undefined;
+}
+
+/** A `<url>` block, or null when its loc was already emitted by an earlier entry. */
+function urlEntry(entry: UrlEntry): string | null {
+  if (seenLocs.has(entry.loc)) {
+    duplicateCount += 1;
+    return null;
+  }
+  seenLocs.add(entry.loc);
   return [
     `  <url>`,
-    `    <loc>${SITE_URL}${route.path}</loc>`,
-    lastmod ? `    <lastmod>${lastmod}</lastmod>` : null,
-    route.changefreq
-      ? `    <changefreq>${route.changefreq}</changefreq>`
+    `    <loc>${entry.loc}</loc>`,
+    entry.lastmod ? `    <lastmod>${entry.lastmod}</lastmod>` : null,
+    entry.changefreq
+      ? `    <changefreq>${entry.changefreq}</changefreq>`
       : null,
-    route.priority ? `    <priority>${route.priority}</priority>` : null,
+    entry.priority ? `    <priority>${entry.priority}</priority>` : null,
     `  </url>`,
   ]
     .filter(Boolean)
     .join("\n");
-});
+}
+
+const urls = indexableRoutes
+  .map((route) => {
+    const loc = locFor(route.path);
+    return urlEntry({
+      loc,
+      lastmod: lastmodFor(loc, ROUTE_SOURCES[route.path] ?? []),
+      changefreq: route.changefreq,
+      priority: route.priority,
+    });
+  })
+  .filter((entry): entry is string => entry !== null);
 
 // Project case-study pages: published rows from the content dashboard when the
 // database is reachable at build time, otherwise the bundled portfolio data.
@@ -119,42 +162,25 @@ if (dbUrl && dbKey) {
 }
 
 for (const slug of projectSlugs) {
-  const loc = `${SITE_URL}/projects/${slug}`;
-  const projectLastmod = lastmodFor(loc, PROJECT_SOURCES);
-  urls.push(
-    [
-      `  <url>`,
-      `    <loc>${loc}</loc>`,
-      projectLastmod ? `    <lastmod>${projectLastmod}</lastmod>` : null,
-      `    <changefreq>monthly</changefreq>`,
-      `    <priority>0.7</priority>`,
-      `  </url>`,
-    ]
-      .filter(Boolean)
-      .join("\n"),
-  );
+  const loc = locFor(`/projects/${slug}`);
+  const entry = urlEntry({
+    loc,
+    lastmod: lastmodFor(loc, PROJECT_SOURCES),
+    changefreq: "monthly",
+    priority: "0.7",
+  });
+  if (entry) urls.push(entry);
 }
 
-const blogLastmod = lastmodFor(`${SITE_URL}/blog`, [
-  "src/pages/Blog.tsx",
-  "src/routes/blog.index.tsx",
-]);
+// Blog: the index and its articles come from Supabase. A listing with no
+// published article is a thin page, so it is only advertised once it has one —
+// and every published article is listed alongside it.
+interface BlogPostRow {
+  slug: string;
+  updated_at?: string;
+}
 
-urls.push(
-  [
-    `  <url>`,
-    `    <loc>${SITE_URL}/blog</loc>`,
-    blogLastmod ? `    <lastmod>${blogLastmod}</lastmod>` : null,
-    `    <changefreq>weekly</changefreq>`,
-    `    <priority>0.8</priority>`,
-    `  </url>`,
-  ]
-    .filter(Boolean)
-    .join("\n"),
-);
-
-// Published blog posts, when build-time database credentials are available.
-// Cloudflare builds without them simply ship the static routes above.
+let blogPosts: BlogPostRow[] = [];
 try {
   const url = process.env["SUPABASE_URL"] ?? process.env["VITE_SUPABASE_URL"];
   const key =
@@ -165,31 +191,129 @@ try {
       `${url}/rest/v1/blog_posts?select=slug,updated_at&published=eq.true&order=published_at.desc`,
       { headers: { apikey: key } },
     );
-    if (res.ok) {
-      const posts = (await res.json()) as {
-        slug: string;
-        updated_at?: string;
-      }[];
-      for (const post of posts) {
-        urls.push(
-          [
-            `  <url>`,
-            `    <loc>${SITE_URL}/blog/${encodeURIComponent(post.slug)}</loc>`,
-            post.updated_at
-              ? `    <lastmod>${post.updated_at}</lastmod>`
-              : null,
-            `    <changefreq>monthly</changefreq>`,
-            `    <priority>0.6</priority>`,
-            `  </url>`,
-          ]
-            .filter(Boolean)
-            .join("\n"),
-        );
-      }
-    }
+    if (res.ok) blogPosts = (await res.json()) as BlogPostRow[];
   }
 } catch (error) {
   console.warn("sitemap: skipped blog posts —", (error as Error).message);
+}
+
+if (blogPosts.length === 0) {
+  console.log("sitemap: /blog omitted — no published articles yet");
+} else {
+  const blogLoc = locFor("/blog");
+  const postDates = blogPosts
+    .map((post) => post.updated_at)
+    .filter((date): date is string => Boolean(date))
+    .sort();
+  const blogLastmod =
+    postDates[postDates.length - 1] ??
+    lastmodFor(blogLoc, ["src/pages/Blog.tsx", "src/routes/blog.index.tsx"]);
+
+  const indexEntry = urlEntry({
+    loc: blogLoc,
+    lastmod: blogLastmod,
+    changefreq: "weekly",
+    priority: "0.8",
+  });
+  if (indexEntry) urls.push(indexEntry);
+
+  for (const post of blogPosts) {
+    const entry = urlEntry({
+      loc: locFor(`/blog/${post.slug}`),
+      lastmod: post.updated_at,
+      changefreq: "monthly",
+      priority: "0.6",
+    });
+    if (entry) urls.push(entry);
+  }
+}
+
+/**
+ * Sitemap-protocol guard. The build fails instead of publishing a file a crawler
+ * would reject: one <urlset> root, one <loc> per <url>, canonical HTTPS locs,
+ * no duplicates, well-formed lastmod/changefreq/priority values.
+ */
+function sitemapProblems(xml: string): string[] {
+  const problems: string[] = [];
+  const changefreqs = new Set([
+    "always",
+    "hourly",
+    "daily",
+    "weekly",
+    "monthly",
+    "yearly",
+    "never",
+  ]);
+  const lastmodPattern =
+    /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2}))?$/;
+
+  if (!xml.startsWith(`<?xml version="1.0" encoding="UTF-8"?>`)) {
+    problems.push("missing XML declaration");
+  }
+  if (
+    !xml.includes(
+      `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
+    )
+  ) {
+    problems.push("missing sitemaps.org 0.9 urlset root");
+  }
+  if (/&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[0-9a-f]+;)/i.test(xml)) {
+    problems.push("unescaped ampersand");
+  }
+
+  const blocks = [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)];
+  if ((xml.match(/<url>/g) ?? []).length !== blocks.length) {
+    problems.push("unclosed <url> element");
+  }
+
+  const locs: string[] = [];
+  for (const block of blocks) {
+    const loc = block[1]?.match(/<loc>([^<]*)<\/loc>/)?.[1];
+    if (!loc) {
+      problems.push("a <url> has no <loc>");
+      continue;
+    }
+    locs.push(loc);
+    if (!loc.startsWith(`${SITE_URL}/`)) {
+      problems.push(`${loc} is not on the canonical domain ${SITE_URL}`);
+    }
+    if (!loc.startsWith("https://")) {
+      problems.push(`${loc} is not HTTPS`);
+    }
+    if (loc.length > 2048) problems.push(`${loc} exceeds 2048 characters`);
+    if (/[\s<>]/.test(loc))
+      problems.push(`${loc} contains whitespace or markup`);
+
+    const lastmod = block[1]?.match(/<lastmod>([^<]*)<\/lastmod>/)?.[1];
+    if (lastmod && !lastmodPattern.test(lastmod)) {
+      problems.push(`${loc} has an invalid <lastmod> (${lastmod})`);
+    }
+    const changefreq = block[1]?.match(
+      /<changefreq>([^<]*)<\/changefreq>/,
+    )?.[1];
+    if (changefreq && !changefreqs.has(changefreq)) {
+      problems.push(`${loc} has an invalid <changefreq> (${changefreq})`);
+    }
+    const priority = block[1]?.match(/<priority>([^<]*)<\/priority>/)?.[1];
+    if (priority) {
+      const value = Number(priority);
+      if (!Number.isFinite(value) || value < 0 || value > 1) {
+        problems.push(`${loc} has an invalid <priority> (${priority})`);
+      }
+    }
+  }
+
+  const duplicates = locs.filter((loc, index) => locs.indexOf(loc) !== index);
+  if (duplicates.length > 0) {
+    problems.push(`duplicate locs: ${[...new Set(duplicates)].join(", ")}`);
+  }
+  if (locs.length === 0) problems.push("no <url> entries");
+  if (locs.length > 50_000) problems.push(`${locs.length} URLs exceeds 50,000`);
+  if (Buffer.byteLength(xml, "utf8") > 52_428_800) {
+    problems.push("file exceeds the 50 MB uncompressed limit");
+  }
+
+  return problems;
 }
 
 const xml = [
@@ -199,5 +323,15 @@ const xml = [
   `</urlset>`,
 ].join("\n");
 
+const problems = sitemapProblems(xml);
+if (problems.length > 0) {
+  console.error(`sitemap.xml failed validation:\n- ${problems.join("\n- ")}`);
+  throw new Error("sitemap.xml failed sitemap-protocol validation");
+}
+
 writeFileSync(resolve("public/sitemap.xml"), xml);
-console.log(`sitemap.xml written (${urls.length} entries)`);
+console.log(
+  `sitemap.xml written (${urls.length} URLs${
+    duplicateCount > 0 ? `, ${duplicateCount} duplicate(s) skipped` : ""
+  })`,
+);

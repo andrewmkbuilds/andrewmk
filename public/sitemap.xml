@@ -228,10 +228,4 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url>
-    <loc>https://andrewmk.is-a.dev/blog</loc>
-    <lastmod>2026-10-30T19:35:30+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
 </urlset>
