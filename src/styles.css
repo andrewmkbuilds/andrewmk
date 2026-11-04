@@ -2904,6 +2904,72 @@ html[data-cursor-out] .cursor-layer {
   }
 }
 
+/* ── Tick reveal ──────────────────────────────────────────────────────────
+   The site's checkmarks draw themselves on, once, when their list scrolls
+   into view. `stroke-dashoffset` walks the icon's own path from hidden to
+   drawn while the mark fades and settles from 0.86 — the glyph, its size and
+   its colour are untouched, so only the paint is sequenced.
+
+   `<TickMark>` observes its wrapper with the shared reveal observer (one
+   class toggle per tick, no scroll handler), and `--tick-delay` staggers the
+   ticks inside one list by 180 ms. The text around them is never hidden or
+   delayed, and nothing replays because the observer unobserves on first
+   intersection.
+   ------------------------------------------------------------------------ */
+@layer utilities {
+  .tick {
+    display: inline-flex;
+    flex-shrink: 0;
+    opacity: 0;
+    transform: scale(0.86);
+    transition:
+      opacity 0.3s ease var(--tick-delay, 0ms),
+      transform 0.4s var(--ease-out-expo) var(--tick-delay, 0ms);
+  }
+
+  .tick svg :where(path, circle, line, polyline, polygon) {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    transition: stroke-dashoffset 0.6s var(--ease-out-expo)
+      var(--tick-delay, 0ms);
+  }
+
+  .tick.is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  .tick.is-revealed svg :where(path, circle, line, polyline, polygon) {
+    stroke-dashoffset: 0;
+  }
+
+  /* Reduced motion: the tick is simply there, fully drawn. */
+  @media (prefers-reduced-motion: reduce) {
+    .tick,
+    .tick.is-revealed {
+      opacity: 1;
+      transform: none;
+      transition: none !important;
+    }
+    .tick svg :where(path, circle, line, polyline, polygon) {
+      stroke-dasharray: none;
+      stroke-dashoffset: 0;
+      transition: none !important;
+    }
+  }
+
+  @media (scripting: none) {
+    .tick {
+      opacity: 1;
+      transform: none;
+    }
+    .tick svg :where(path, circle, line, polyline, polygon) {
+      stroke-dasharray: none;
+      stroke-dashoffset: 0;
+    }
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════════════════
    PRINT — the résumé page has a "Print / Save as PDF" action, so a printed
    page has to be legible on paper: light tokens, no fixed chrome, no
@@ -2943,12 +3009,18 @@ html[data-cursor-out] .cursor-layer {
   .reveal,
   .reveal-scale,
   .reveal-mask,
-  .reveal-clip {
+  .reveal-clip,
+  .tick {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
     transition: none !important;
     animation: none !important;
+  }
+
+  .tick svg :where(path, circle, line, polyline, polygon) {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
   }
 
   .surface {

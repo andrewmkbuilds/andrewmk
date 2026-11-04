@@ -1,5 +1,6 @@
 import { CheckCircle2, Circle, PlayCircle } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
+import { TickMark } from "@/components/ui/TickMark";
 import type { Project } from "@/data/portfolio";
 
 interface ProjectTimelineProps {
@@ -78,7 +79,9 @@ export function ProjectTimeline({ project }: ProjectTimelineProps) {
                 {inProgress ? (
                   <Circle className="h-3 w-3 text-muted-foreground md:h-4 md:w-4" />
                 ) : (
-                  <CheckCircle2 className="h-3 w-3 text-gold md:h-4 md:w-4" />
+                  <TickMark>
+                    <CheckCircle2 className="h-3 w-3 text-gold md:h-4 md:w-4" />
+                  </TickMark>
                 )}
               </span>
               <div className="flex-1">

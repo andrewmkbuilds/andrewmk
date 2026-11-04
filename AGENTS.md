@@ -838,6 +838,17 @@ follows and the reasons behind them:
   `.reveal.is-revealed > .reveal-mask`. Verified in headless Chromium at 1078 px: all 10 home section
   headings reach `is-revealed` with opacity 1 while scrolling, and 390 px shows the headings with no
   sideways overflow.
+- **Ticks draw themselves in (2026-11-04).** `ui/TickMark.tsx` wraps an existing check icon
+  unchanged and observes its own wrapper with that same shared observer; the `.tick` block in
+  `styles.css` walks the icon's own stroke in with `stroke-dashoffset` (100 → 0) while the mark
+  settles from `scale(0.86)`, staggered 180 ms per item through `--tick-delay`. It fires once (the
+  observer unobserves), and the text beside a tick is never hidden or delayed; reduced motion,
+  `scripting: none` and print all show the tick already drawn. Wired into `CaseStudyRow` (the home
+  highlights), `ProjectTimeline` (a completed milestone) and `/resume`. The "What I built" lists in
+  `ProjectCard`, `ProjectModal` and `ProjectDetail` carry gold dots, not ticks, and were left alone.
+  Verified in the preview 2026-11-04: the 12 home ticks start at opacity 0 / `100px` dashoffset and
+  end at 1 / 0 with 0/180/360 ms delays while the row text stayed at opacity 1, and
+  `/projects/stack-up` + `/resume` serve the wrapper in SSR.
 - **No `backdrop-filter` on sticky or repeated surfaces.** A blurred sticky header repaints the strip
   every scroll frame; `.glass`, `.sticker` and `.tape` use layered translucent gradients instead.
 - **No `filter: blur()` light fields.** Ambient and hero glows are radial gradients whose falloff is

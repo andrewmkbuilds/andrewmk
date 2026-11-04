@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import { SocialMark } from "@/components/ui/SocialMark";
 import { cn } from "@/lib/utils";
 import { Reveal } from "./Reveal";
+import { TickMark } from "./TickMark";
 import { Badge } from "./badge";
 import { StatusBadge } from "./Badges";
 import { ProjectShot } from "./ProjectShot";
@@ -106,15 +107,17 @@ export function CaseStudyRow({ project, index }: CaseStudyRowProps) {
 
           {highlights.length > 0 && (
             <ul className="mt-6 grid list-none gap-2.5 p-0">
-              {highlights.map((item) => (
+              {highlights.map((item, i) => (
                 <li
                   key={item}
                   className="flex items-start gap-2.5 text-sm text-foreground/85"
                 >
-                  <Check
-                    className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold"
-                    aria-hidden="true"
-                  />
+                  <TickMark className="mt-0.5" index={i}>
+                    <Check
+                      className="h-3.5 w-3.5 text-gold"
+                      aria-hidden="true"
+                    />
+                  </TickMark>
                   {item}
                 </li>
               ))}

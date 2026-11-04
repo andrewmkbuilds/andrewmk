@@ -1,5 +1,6 @@
 import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
+import { TickMark } from "@/components/ui/TickMark";
 import { Link } from "@/lib/router-compat";
 import { BadgeCheck, ExternalLink } from "lucide-react";
 import { CV_FILENAME } from "@/data/cv";
@@ -63,7 +64,9 @@ export default function Resume() {
                   to="/achievements#certificates"
                   className="focus-ring inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-gold"
                 >
-                  <BadgeCheck className="size-3.5" aria-hidden="true" />
+                  <TickMark>
+                    <BadgeCheck className="size-3.5" aria-hidden="true" />
+                  </TickMark>
                   Certificates and verified Credly credentials
                 </Link>
               </div>
