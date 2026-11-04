@@ -49,7 +49,7 @@ export default function Blog({ posts }: { posts: BlogPost[] }) {
               />
               Writing
             </p>
-            <h1 className="headline-3d text-display text-4xl text-balance text-foreground md:text-5xl">
+            <h1 className="headline-3d text-display text-5xl text-balance text-foreground md:text-6xl leading-[1.02]">
               Notes from the{" "}
               <em className="serif-display mark-underline italic text-gold">
                 build log

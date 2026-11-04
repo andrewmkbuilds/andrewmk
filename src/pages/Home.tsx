@@ -14,6 +14,7 @@ import { Parallax } from "@/components/ui/Parallax";
 import { TechConstellation } from "@/components/ui/TechConstellation";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { StatusDot } from "@/components/ui/StatusDot";
+import { Monogram } from "@/components/ui/Monogram";
 import { ProjectShowcase } from "@/components/ui/project-showcase";
 import { EchoHeadline } from "@/components/ui/EchoHeadline";
 import DualScramble from "@/components/annnimate/dual-scramble";
@@ -102,25 +103,29 @@ export default function Home() {
 
         <div className="container relative grid items-center gap-12 pt-32 pb-16 md:pt-40 md:pb-20 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] lg:gap-8 lg:pt-40 lg:pb-24">
           <div className="max-w-2xl">
-            {/* identity pill — name and place, the way the reference opens */}
-            <div className="enter mb-7 inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 py-1.5 pr-3.5 pl-3">
-              <span aria-hidden="true" className="text-sm">
-                👋
-              </span>
-              <DualScramble className="anm-scramble">
-                <span
-                  className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-gold-glow"
-                  data-anm-dual-scramble
-                  data-anm-trigger="load"
-                  data-anm-duration="0.9"
-                >
-                  Andrew Mathews · Dubai, UAE
+            {/* Masthead — the name set as a brand mark, then where the work
+                happens. The monogram seal carries the identity at a glance. */}
+            <div className="enter mb-8 flex items-center gap-3.5">
+              <Monogram className="h-11 w-11" />
+              <div className="min-w-0">
+                <DualScramble className="anm-scramble">
+                  <span
+                    className="brand-name block text-[11px] text-foreground sm:text-[12px]"
+                    data-anm-dual-scramble
+                    data-anm-trigger="load"
+                    data-anm-duration="0.9"
+                  >
+                    Andrew Mathews Kalathil
+                  </span>
+                </DualScramble>
+                <span className="mt-1.5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-gold-glow">
+                  <StatusDot />
+                  Dubai, United Arab Emirates
                 </span>
-              </DualScramble>
-              <StatusDot />
+              </div>
             </div>
 
-            <h1 className="headline-3d text-display text-[2.6rem] leading-[1.03] text-balance text-foreground sm:text-5xl md:text-6xl lg:text-[4.05rem]">
+            <h1 className="headline-3d text-display text-[2.75rem] leading-[0.94] text-balance text-foreground sm:text-[3.3rem] md:text-[4.05rem] lg:text-[4.5rem] xl:text-[4.9rem]">
               {/* Real page heading for search engines and screen readers; the
                   animated display line below stays exactly as designed. */}
               <span className="sr-only">
@@ -131,11 +136,11 @@ export default function Home() {
                 <span className="block">
                   <RevealWords text="I build systems that" delay={0.12} />
                 </span>
-                <span className="mt-1 block">
+                <span className="mt-1.5 block">
                   <RevealWords
                     text="solve"
                     delay={0.3}
-                    className="serif-display mark-underline pr-1 italic text-gold-glow"
+                    className="mark-underline pr-2 italic text-gold-glow"
                   />{" "}
                   <span className="text-primary">
                     <RevealWords text="real problems." delay={0.38} />
@@ -269,7 +274,7 @@ export default function Home() {
         <div className="container grid grid-cols-2 gap-8 py-12 md:grid-cols-4">
           {quickStats.map((stat, i) => (
             <Reveal key={stat.label} delay={i * 70}>
-              <p className="headline-3d text-display text-3xl text-foreground md:text-4xl">
+              <p className="display-numeral headline-3d text-4xl text-foreground md:text-5xl">
                 {stat.value}
               </p>
               <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
@@ -300,10 +305,10 @@ export default function Home() {
           <div className="flex flex-wrap items-baseline justify-between gap-3">
             <h2
               id="process-heading"
-              className="serif-display text-2xl text-foreground md:text-[2rem]"
+              className="type-section text-2xl text-foreground md:text-[2.1rem]"
             >
               From &ldquo;this would be cool&rdquo; to a{" "}
-              <em className="mark-underline italic text-gold">
+              <em className="serif-display mark-underline italic text-gold">
                 working product
               </em>
               .
@@ -359,10 +364,13 @@ export default function Home() {
           <div className="mb-10 flex flex-wrap items-end justify-between gap-3">
             <h2
               id="tools-heading"
-              className="serif-display text-2xl text-foreground md:text-[2rem]"
+              className="type-section text-2xl text-foreground md:text-[2.1rem]"
             >
               Stuff I build{" "}
-              <em className="mark-underline italic text-gold">with</em>.
+              <em className="serif-display mark-underline italic text-gold">
+                with
+              </em>
+              .
             </h2>
             <Link
               to="/projects"
@@ -797,7 +805,10 @@ export default function Home() {
                 className="headline-3d serif-display mt-4 text-4xl text-foreground md:text-6xl"
               >
                 Always building{" "}
-                <em className="mark-underline italic text-gold">something</em>.
+                <em className="serif-display mark-underline italic text-gold">
+                  something
+                </em>
+                .
               </h2>
               <p className="mt-4 max-w-xl text-muted-foreground">
                 Want to talk about technology, a project, collaboration, or

@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Reveal } from "./Reveal";
 import { Parallax } from "./Parallax";
-import { SketchStar } from "./Sketch";
 
 interface SectionHeadingProps {
   label?: string;
@@ -19,7 +18,7 @@ function renderTitle(title: string) {
       return (
         <em
           key={i}
-          className="serif-display mark-underline mark-underline-draw relative text-[1.06em] text-gold not-italic"
+          className="serif-display mark-underline relative text-[1.08em] italic text-gold"
         >
           {part.slice(1, -1)}
         </em>
@@ -29,6 +28,14 @@ function renderTitle(title: string) {
   });
 }
 
+/**
+ * The site's section opening.
+ *
+ * One editorial pattern, used everywhere: a serif italic index that counts up
+ * through the page, a hairline, the mono kicker, then a Sora section title with
+ * one word set in the gold serif. Pages get their identity from this rhythm
+ * rather than from a new heading style per route.
+ */
 export function SectionHeading({
   label,
   title,
@@ -57,17 +64,39 @@ export function SectionHeading({
         <div className="h-full w-full rounded-full bg-gold/[0.07] blur-[70px]" />
       </Parallax>
       {label && (
-        <p className="heading-glow mb-4 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-gold">
-          <SketchStar className="sketch-star h-3 w-3 shrink-0" weight={2.2} />
-          <span aria-hidden="true" className="hairline-gold inline-block w-8" />
-          {label}
+        <p
+          className={cn(
+            "mb-5 flex items-center gap-3 font-mono text-[10.5px] uppercase tracking-[0.24em] text-gold",
+            align === "center" && "justify-center",
+          )}
+        >
+          <span
+            aria-hidden="true"
+            className="section-kicker inline-flex items-baseline leading-none"
+          />
+          <span
+            aria-hidden="true"
+            className="hairline-gold inline-block h-px w-7 shrink-0 self-center"
+          />
+          <span>{label}</span>
+          {align !== "center" && (
+            <span
+              aria-hidden="true"
+              className="hairline-gold hidden h-px flex-1 self-center sm:block"
+            />
+          )}
         </p>
       )}
-      <h2 className="headline-3d text-3xl md:text-4xl lg:text-[2.75rem] font-semibold text-foreground leading-[1.1] text-balance">
+      <h2 className="headline-3d type-section text-[2rem] text-balance text-foreground md:text-[2.5rem] lg:text-[2.85rem]">
         {renderTitle(title)}
       </h2>
       {subtitle && (
-        <p className="mt-4 text-base md:text-lg text-muted-foreground leading-relaxed">
+        <p
+          className={cn(
+            "mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg",
+            align === "center" && "mx-auto",
+          )}
+        >
           {subtitle}
         </p>
       )}

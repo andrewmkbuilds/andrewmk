@@ -13,6 +13,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Section numbering for the editorial kickers (`.section-kicker`). Scoped to
+   the page body so the counter restarts with every route. */
+main {
+  counter-reset: section-number;
+}
+
 /* Andrew Mathews — Portfolio Design System (ported from src/index.css)
    60-30-10: deep navy base (60), slate-blue structure (30), logo blue accent (10) with gold as a
    restrained premium highlight. Derived from the AndrewBuilds logo (blue + gold).
@@ -61,9 +67,14 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  /* Three voices, one system:
+       display — Instrument Serif, the editorial voice of titles and figures
+       heading — Sora, the geometric voice of section titles and UI
+       sans    — Inter, the reading voice of body copy
+       mono    — JetBrains Mono, labels, metadata and technical detail */
   --font-sans: "Inter", system-ui, sans-serif;
   --font-heading: "Sora", "Inter", system-ui, sans-serif;
-  --font-display: "Sora", "Inter", system-ui, sans-serif;
+  --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
   --font-mono: "JetBrains Mono", monospace;
   /* Editorial serif: the voice of headlines, pull quotes and margin notes. */
   --font-serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
@@ -755,9 +766,40 @@
 
 @utility text-display {
   font-family: var(--font-display);
+  font-weight: 400;
+  /* Instrument Serif ships one weight; never let the browser fake a bolder
+     one from a leftover `font-bold` on a call site. */
+  font-synthesis-weight: none;
+  letter-spacing: -0.012em;
+  line-height: 0.98;
+}
+
+/* Section titles are the geometric voice: Sora, tight, quiet. The editorial
+   contrast comes from the serif word set inside them (see SectionHeading). */
+@utility type-section {
+  font-family: var(--font-heading);
   font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.03;
+  letter-spacing: -0.028em;
+  line-height: 1.08;
+}
+
+/* The name as a brand mark: tracked, uppercase, sans. */
+@utility brand-name {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.19em;
+  line-height: 1.1;
+}
+
+/* Figures set in the display serif — oversized, editorial numbers. */
+@utility display-numeral {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-synthesis-weight: none;
+  letter-spacing: -0.01em;
+  line-height: 0.88;
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 @utility text-eyebrow {
@@ -1296,6 +1338,32 @@
     font-weight: 400;
     letter-spacing: -0.015em;
     line-height: 0.98;
+  }
+
+  /* Editorial section kicker: a serif italic index that counts up through the
+     page's sections, then the mono label. The counter lives on <main>, which
+     Layout remounts per route, so every page numbers from 01. */
+  .section-kicker {
+    counter-increment: section-number;
+  }
+
+  .section-kicker::before {
+    content: counter(section-number, decimal-leading-zero);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.1rem;
+    letter-spacing: 0;
+    line-height: 1;
+    color: var(--gold);
+  }
+
+  /* A name set as a signature: serif, italic, tightly tracked. Used wherever
+     the person is introduced as a title rather than in running copy. */
+  .signature {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
   }
 
   /* Gold hand-drawn underline beneath an emphasised word. */

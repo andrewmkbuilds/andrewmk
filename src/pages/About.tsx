@@ -23,10 +23,10 @@ export default function About() {
           <div className="grid gap-12 lg:grid-cols-3">
             <div className="lg:col-span-2">
               <Reveal>
-                <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
+                <p className="font-mono text-[10.5px] uppercase tracking-[0.24em] text-gold mb-4">
                   About
                 </p>
-                <h1 className="headline-3d text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
+                <h1 className="headline-3d text-display text-[2.75rem] text-balance text-foreground md:text-[3.6rem] leading-[1.02]">
                   I don&rsquo;t just learn technology. I{" "}
                   <em className="serif-display mark-underline italic text-gold">
                     apply

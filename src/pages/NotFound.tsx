@@ -34,10 +34,10 @@ const NotFound = () => {
           className="pointer-events-none absolute -top-20 left-1/3 h-64 w-64 rounded-full bg-gold/10 blur-[110px]"
         />
         <div className="container relative">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">
+          <p className="font-mono text-[10.5px] uppercase tracking-[0.24em] text-gold">
             404
           </p>
-          <h1 className="headline-3d mt-4 text-4xl md:text-5xl font-bold text-foreground">
+          <h1 className="headline-3d text-display mt-4 text-[2.75rem] text-foreground md:text-[3.6rem] leading-[1.02]">
             This page isn't built yet.
           </h1>
           <p className="mt-4 max-w-md text-muted-foreground">

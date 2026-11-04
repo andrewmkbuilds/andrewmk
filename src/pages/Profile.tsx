@@ -80,7 +80,7 @@ export default function Profile() {
                 />
                 <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
                   <div>
-                    <h1 className="headline-3d text-3xl font-bold text-foreground md:text-4xl">
+                    <h1 className="headline-3d text-display text-[2.4rem] text-foreground md:text-[3rem] leading-[1.02]">
                       Andrew Mathews Kalathil
                     </h1>
                     <p className="mt-1.5 text-primary">

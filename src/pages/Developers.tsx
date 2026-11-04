@@ -16,10 +16,10 @@ export default function Developers() {
       <section className="py-20 md:py-28">
         <div className="container">
           <Reveal className="max-w-3xl">
-            <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-primary">
+            <p className="mb-4 font-mono text-[10.5px] uppercase tracking-[0.24em] text-gold">
               Developers
             </p>
-            <h1 className="headline-3d text-4xl font-bold leading-[1.08] text-balance text-foreground md:text-5xl">
+            <h1 className="headline-3d text-display text-[2.75rem] text-balance text-foreground md:text-[3.6rem] leading-[1.02]">
               The public{" "}
               <em className="serif-display mark-underline italic text-gold">
                 data layer

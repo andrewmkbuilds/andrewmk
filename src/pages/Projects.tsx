@@ -37,12 +37,12 @@ export default function Projects({
           {/* Staggered masthead: eyebrow, then title, then standfirst. */}
           <div className="max-w-3xl">
             <Reveal>
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
+              <p className="font-mono text-[10.5px] uppercase tracking-[0.24em] text-gold mb-4">
                 Projects
               </p>
             </Reveal>
             <Reveal delay={70}>
-              <h1 className="headline-3d text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
+              <h1 className="headline-3d text-display text-[2.75rem] text-balance text-foreground md:text-[3.6rem] leading-[1.02]">
                 Things I&rsquo;ve{" "}
                 <em className="serif-display mark-underline italic text-gold">
                   Built

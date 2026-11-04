@@ -253,6 +253,38 @@ The visual language is built around one physical space rather than flat panels:
 - `SectionHeading` and every page `<h1>` use the dimensional heading utilities, so
   new pages inherit the type treatment by reusing those, not by adding new shadows.
 
+## Typographic identity
+
+Four self-hosted faces (`src/styles/fonts.css`, no third-party font requests), each with one
+job. Do not add a fifth without a reason this list can name:
+
+| token              | face              | used for                                                        |
+| ------------------ | ----------------- | --------------------------------------------------------------- |
+| `--font-display`   | Instrument Serif  | page titles, the hero statement, statistics, project names       |
+| `--font-heading`   | Sora              | section titles, navigation, interface                            |
+| `--font-sans`      | Inter             | body copy                                                        |
+| `--font-mono`      | JetBrains Mono    | labels, metadata, technical detail                               |
+
+- **Utilities, not per-element styling.** `text-display` (serif, weight 400), `type-section`
+  (Sora 600, tracking −0.028em), `brand-name` (uppercase tracked Sora, the name as a mark),
+  `display-numeral` (serif figures) and `.section-kicker` all live in `src/styles.css`. A new
+  surface inherits the identity by using them.
+- **Instrument Serif ships one weight.** `text-display` sets `font-synthesis-weight: none` so a
+  leftover `font-bold` on a call site cannot make the browser fake a bolder face. Do not add
+  `font-bold`/`font-semibold` to a display heading.
+- **Section kickers number themselves.** `main` resets `counter-reset: section-number`; each
+  `.section-kicker` increments it and its `::before` prints `01`, `02`… in serif italic gold.
+  Layout remounts per route, so every page starts at 01 — never hardcode an index in a page.
+- **Page titles are serif, section titles are Sora.** That two-voice hierarchy is the identity:
+  serif for what the page *is*, geometric sans for what a *section* is, mono for labels.
+- **The hero masthead** (`ui/Monogram.tsx` + `brand-name`) is the name treatment: an "AK" seal,
+  the full name tracked in Sora, then the location and status in mono. Keep the name in
+  `Andrew Mathews Kalathil` form there and in the footer.
+- **`annnimate-theme.css` is unlayered and wins over Tailwind utilities.** `.anm-scramble
+  [data-anm-dual-scramble]` resets `font: inherit`, which silently erased the masthead's Sora
+  until it was given an equally unlayered `.brand-name` exception. Any Tailwind type class placed
+  inside a vendored pack wrapper needs the same treatment.
+
 ## Editorial layer
 
 The layout language borrowed from the reference design (aatmanjain.com), translated
