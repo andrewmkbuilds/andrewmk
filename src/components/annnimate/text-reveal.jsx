@@ -58,7 +58,12 @@ export default function TextReveal({
   useGSAP(
     () => {
       if (!fontsLoaded || !textRef.current) return;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        // The element ships hidden so unsplit text never flashes; a reader who
+        // asked for no motion still has to be able to read it.
+        textRef.current.style.visibility = 'visible';
+        return;
+      }
 
       // Determine split types
       const typesToSplit =
@@ -74,6 +79,10 @@ export default function TextReveal({
         linesClass: 'split-line',
         wordsClass: 'split-word',
         charsClass: 'split-char',
+        // Lines are clipped by their mask, so a line break measured at one
+        // width would cut words off at another. Re-split when the box or the
+        // fonts change instead of keeping the first measurement forever.
+        autoSplit: true,
       });
 
       // Get animation targets based on type
@@ -96,7 +105,7 @@ export default function TextReveal({
             : false;
 
       // Animate text reveal
-      gsap.to(targets, {
+      const tween = gsap.to(targets, {
         yPercent: 0,
         duration,
         stagger,
@@ -117,14 +126,18 @@ export default function TextReveal({
         },
       });
 
-      // Cleanup
+      // Cleanup — only this instance's work. Killing every ScrollTrigger on
+      // the page also killed the reveals of every other section still mounted,
+      // which left their copy parked outside its mask.
       return () => {
-        if (splitRef.current) {
-          splitRef.current.revert();
-        }
-        ScrollTrigger.getAll().forEach((st) => st.kill());
+        tween.scrollTrigger?.kill();
+        tween.kill();
         if (targets) {
           gsap.killTweensOf(targets);
+        }
+        if (splitRef.current) {
+          splitRef.current.revert();
+          splitRef.current = null;
         }
       };
     },

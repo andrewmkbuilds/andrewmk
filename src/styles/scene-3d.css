@@ -108,10 +108,25 @@
 /* A three-stop falloff instead of a two-stop one: the eye reads the old edge
    as a ring, the extra stop as distance. */
 .scene-vignette {
+  /* How far the wall is pushed back behind the reading column. The wall keeps
+     its presence at the page margins, where no copy sits over it. */
+  --scene-scrim: 0.58;
   position: absolute;
   inset: 0;
   pointer-events: none;
   background:
+    /* The reading band: body copy holds still while the wall drifts under it,
+       so a name crossing a paragraph reads as texture, never as a second line
+       of words competing with the text. */
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(222 72% 3% / calc(var(--scene-scrim) * 0.7)) 15%,
+      hsl(222 72% 3% / var(--scene-scrim)) 30%,
+      hsl(222 72% 3% / var(--scene-scrim)) 70%,
+      hsl(222 72% 3% / calc(var(--scene-scrim) * 0.7)) 85%,
+      transparent 100%
+    ),
     radial-gradient(
       ellipse 124% 96% at 50% 38%,
       transparent 34%,
@@ -148,6 +163,12 @@
 @media (max-width: 767px) {
   .scene-grid {
     opacity: 0.56;
+  }
+
+  /* Phones have no page margins to speak of, so a full-strength reading band
+     would erase the wall instead of seating the copy. */
+  .scene-vignette {
+    --scene-scrim: 0.32;
   }
 }
 

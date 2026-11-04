@@ -558,8 +558,16 @@ perceived depths, because three hand-tuned `translateZ` planes never agreed on o
   carries two display names instead of three. The room lost its third gradient (one overhead cone,
   one warm right edge, one low wash) and the wall's mask is a single elliptical
   `radial-gradient` — the old two intersected linear masks left a visible corner.
+- **The wall is pushed back behind the reading column (2026-11-04).** The vignette now opens with a
+  `90deg` reading band (`--scene-scrim`, 0.58 at 30–70 % of the width, fading out by 15 %/85 %) so a
+  project name crossing a paragraph reads as texture instead of a second line of competing words;
+  the type and cards stay the brightest things on the page. `scene-name--display` (the serif names
+  that spill over their neighbours) dropped from `opacity: 0.92` to `0.7` for the same reason. The
+  scene itself, its markup and the tile geometry are unchanged — the band is one extra gradient stop
+  inside `.scene-vignette`, so the compositor budget and the reduced-motion still frame are intact.
 - Mobile (`max-width: 767px`) keeps the same room with the wall dropped to `opacity: 0.56` (from
-  `0.7`). `prefers-reduced-motion` stops the blooms, and GridMotion paints exactly one static
+  `0.7`) and the reading band eased to `--scene-scrim: 0.32`, because a phone has no margins left to
+  carry the wall at full strength. `prefers-reduced-motion` stops the blooms, and GridMotion paints exactly one static
   frame — no rAF loop, no pointer listeners; `scripts/a11y-keyboard-motion.cjs` asserts "no
   animation is running" and "ambient light drift is off" on every route, so run it after touching
   the scene.
@@ -1165,6 +1173,13 @@ touching any of it.
   two rules if the theme is ever rewritten. `ui/FeatureSpotlight.tsx` also releases the dialog's
   `body` scroll lock on unmount, because leaving the route while the sheet is open unmounts it
   before its close leg can unlock.
+- **`annnimate/text-reveal.jsx` keeps three fixes (2026-11-04).** The element ships with
+  `visibility: hidden` so unsplit text never flashes, so the reduced-motion early return sets it
+  visible again — before that, a reader who asked for no motion got an invisible paragraph. SplitText
+  runs with `autoSplit: true`, because `.split-line` clips: line breaks measured at one width used to
+  cut words off at another. And cleanup kills only this instance's tween and ScrollTrigger; it used
+  to call `ScrollTrigger.getAll().forEach(st => st.kill())`, which killed every other section's
+  reveal still on the page and left their copy parked outside its mask.
 - **Reduced motion** is handled inside the pack components and by the theme's override block.
   Do not disable a component's internal check.
 - Verified 2026-11-01 in the preview (1280 px): the home spotlight dialog opens in-viewport with

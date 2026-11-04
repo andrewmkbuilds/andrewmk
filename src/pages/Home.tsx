@@ -612,7 +612,7 @@ export default function Home() {
         aria-labelledby="dubai-heading"
       >
         <div className="container">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-center">
             <div>
               <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">
                 Location
@@ -624,7 +624,7 @@ export default function Home() {
                 Based in Dubai, UAE
               </h2>
               <TextReveal
-                className="anm-reveal mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base"
+                className="anm-reveal mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base"
                 type="words"
                 start="top 85%"
                 stagger={0.02}
