@@ -773,6 +773,17 @@ practice name "AndrewBuilds").
   ClaudeBot, PerplexityBot, Google-Extended, …) and disallows only `/admin`,
   `/auth` and `/404`. `src/data/seo.ts` is still the only source of route
   metadata for `sitemap.xml`, `og/` and `llms.txt`.
+- **The share cards are drawn with fonts committed in the repo (2026-11-04).**
+  `scripts/generate-og-images.ts` renders text through librsvg, which resolves
+  families via fontconfig — and an image with no fonts at all turns every glyph
+  into a tofu box, which is what every one of the 16 cards had become.
+  `scripts/og-fonts/` now carries Sora and JetBrains Mono (SIL OFL, licence
+  files alongside); the generator writes a fontconfig config pointing at them
+  and, only when the host has no usable font, re-runs itself once in a child
+  process that carries `FONTCONFIG_PATH` — librsvg reads that variable as it
+  starts, so assigning `process.env` at runtime is too late (measured: still
+  tofu). A host with fonts (CI, Cloudflare) builds exactly as before. Add a face
+  by dropping its TTF in there and naming it in the SVG.
 - `scripts/generate-sitemap.ts` writes `<lastmod>` from `git log -1` on each
   page's source files. A build host without git (the `web` container) reuses the
   previous sitemap's dates instead of stamping the build time, so the committed

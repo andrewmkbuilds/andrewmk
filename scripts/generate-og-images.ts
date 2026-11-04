@@ -1,10 +1,70 @@
 // Generates one 1200x630 og:image per route into public/og/.
 // Runs before dev and build so every route has an accurate social preview.
 
+import { spawnSync } from "child_process";
 import { mkdirSync, writeFileSync } from "fs";
-import { resolve } from "path";
+import { tmpdir } from "os";
+import { dirname, join, resolve } from "path";
+import { fileURLToPath } from "url";
 import sharp from "sharp";
-import { routes, routeSlug, SITE_URL } from "../src/data/seo";
+import { routes, ogImagePath, SITE_URL } from "../src/data/seo";
+
+// Text is drawn by librsvg, which resolves families through fontconfig — and a
+// sandbox or CI image can ship no fonts at all, in which case every glyph came
+// out as a tofu box. Point fontconfig at the brand faces committed beside this
+// script (SIL OFL, licence files alongside) so a card renders the same wherever
+// it is built.
+const FONT_DIR = resolve(dirname(fileURLToPath(import.meta.url)), "og-fonts");
+const FONT_CONFIG_DIR = join(tmpdir(), "og-fontconfig");
+
+mkdirSync(join(FONT_CONFIG_DIR, "cache"), { recursive: true });
+writeFileSync(
+  join(FONT_CONFIG_DIR, "fonts.conf"),
+  `<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+<fontconfig>
+  <dir>${FONT_DIR}</dir>
+  <cachedir>${join(FONT_CONFIG_DIR, "cache")}</cachedir>
+</fontconfig>
+`,
+);
+
+/** Two words that cannot render alike unless the font really loaded. */
+async function fontsAvailable() {
+  const probe = (text: string) =>
+    sharp(
+      Buffer.from(
+        `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40"><text x="4" y="28" font-size="24" font-family="Sora" fill="#fff">${text}</text></svg>`,
+      ),
+    )
+      .png()
+      .raw()
+      .toBuffer();
+  const [a, b] = await Promise.all([probe("Andrew"), probe("IIIIII")]);
+  return !a.equals(b);
+}
+
+/**
+ * librsvg reads FONTCONFIG_PATH from the process environment as it starts, so a
+ * runtime `process.env` assignment is too late. Re-run this script once in a
+ * child process that carries it — only when the host really has no font, so a
+ * machine with fonts (CI, Cloudflare) builds exactly as before.
+ */
+function rerunWithFontConfig() {
+  const child = spawnSync(
+    process.execPath,
+    [...process.execArgv, ...process.argv.slice(1)],
+    {
+      stdio: "inherit",
+      env: {
+        ...process.env,
+        FONTCONFIG_PATH: FONT_CONFIG_DIR,
+        OG_FONT_CONFIG: "1",
+      },
+    },
+  );
+  process.exit(child.status ?? 1);
+}
 
 // The site's own navy / blue / gold tokens (src/styles.css), so a shared link
 // previews in the same palette as the page it points at.
@@ -60,12 +120,12 @@ function svg(label: string, headline: string, description: string) {
   <rect width="1200" height="630" fill="url(#veil)"/>
   <rect x="40" y="40" width="1120" height="550" rx="28" fill="${SURFACE}" stroke="${BORDER}"/>
   <rect x="40" y="40" width="1120" height="6" rx="3" fill="${GOLD}"/>
-  <g font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace">
+  <g font-family="'JetBrains Mono', monospace">
     <text x="88" y="140" font-size="22" letter-spacing="4" fill="${ACCENT}">${escapeXml(
       label.toUpperCase(),
     )}</text>
   </g>
-  <g font-family="'DejaVu Sans', 'Liberation Sans', Arial, sans-serif" fill="${TEXT}" font-weight="bold" font-size="58">
+  <g font-family="'Sora', sans-serif" fill="${TEXT}" font-weight="bold" font-size="58">
     ${headlineLines
       .map(
         (line, i) =>
@@ -73,7 +133,7 @@ function svg(label: string, headline: string, description: string) {
       )
       .join("\n    ")}
   </g>
-  <g font-family="'DejaVu Sans', 'Liberation Sans', Arial, sans-serif" fill="${MUTED}" font-size="26">
+  <g font-family="'Sora', sans-serif" fill="${MUTED}" font-size="26">
     ${descLines
       .map(
         (line, i) =>
@@ -91,14 +151,22 @@ function svg(label: string, headline: string, description: string) {
 </svg>`;
 }
 
-const outDir = resolve("public/og");
-mkdirSync(outDir, { recursive: true });
-
 const run = async () => {
+  if (!(await fontsAvailable())) {
+    if (process.env.OG_FONT_CONFIG !== "1") rerunWithFontConfig();
+    console.warn("og images: no font found, text will not render");
+  }
+
   for (const route of routes) {
-    const markup = svg(route.label, route.ogHeadline, route.description);
+    const markup = svg(
+      route.ogLabel ?? route.label,
+      route.ogHeadline,
+      route.ogDescription ?? route.description,
+    );
     const png = await sharp(Buffer.from(markup)).png().toBuffer();
-    writeFileSync(resolve(outDir, `${routeSlug(route.path)}.png`), png);
+    const target = resolve("public", ogImagePath(route.path).slice(1));
+    mkdirSync(dirname(target), { recursive: true });
+    writeFileSync(target, png);
   }
   console.log(`og images written (${routes.length})`);
 };

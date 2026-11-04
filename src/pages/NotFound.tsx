@@ -55,6 +55,25 @@ const NotFound = () => {
               <Link to="/projects">View projects</Link>
             </Button>
           </div>
+          <nav
+            aria-label="Popular sections"
+            className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground"
+          >
+            {[
+              { to: "/about", label: "About" },
+              { to: "/achievements", label: "Achievements" },
+              { to: "/resume", label: "Résumé" },
+              { to: "/contact", label: "Contact" },
+            ].map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="transition-colors hover:text-gold focus-visible:text-gold"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
         </div>
       </section>
     </Layout>

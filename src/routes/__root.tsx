@@ -47,6 +47,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       meta: [
         { charSet: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+        // Matches the room the site renders in and the manifest's theme colour,
+        // so the browser chrome on mobile continues the page surface.
+        { name: "theme-color", content: "#080D19" },
         {
           title: "Andrew Mathews Kalathil — Student Developer & AI Builder",
         },
@@ -96,6 +99,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         },
         { rel: "stylesheet", href: appCss },
         { rel: "icon", type: "image/png", href: "/favicon.png" },
+        {
+          rel: "apple-touch-icon",
+          sizes: "192x192",
+          href: "/icons/icon-192.png",
+        },
+        { rel: "manifest", href: "/site.webmanifest" },
       ],
       scripts: [
         ...(supabaseBootstrap

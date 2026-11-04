@@ -27,6 +27,13 @@
 /.well-known/api-catalog
   Content-Type: application/linkset+json; charset=utf-8
 
+# The web app manifest and the RFC 9116 security contact, declared explicitly so
+# no static host has to guess their types.
+/site.webmanifest
+  Content-Type: application/manifest+json; charset=utf-8
+/.well-known/security.txt
+  Content-Type: text/plain; charset=utf-8
+
 # The public data API is regenerated on every build/deploy.
 /data/v1/*
   Cache-Control: public, max-age=300

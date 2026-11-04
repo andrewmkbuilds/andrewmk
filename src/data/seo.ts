@@ -43,6 +43,10 @@ export interface RouteMeta {
   description: string;
   /** Headline rendered into the generated og:image. */
   ogHeadline: string;
+  /** Eyebrow of the og:image when it should differ from the route label. */
+  ogLabel?: string;
+  /** Shorter og:image copy when the meta description is too long to render. */
+  ogDescription?: string;
   noindex?: boolean;
   changefreq?:
     "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
@@ -56,7 +60,10 @@ export const routes: RouteMeta[] = [
     title: "Andrew Mathews Kalathil — Student Developer & AI Builder",
     description:
       "Andrew Mathews Kalathil is a student developer and AI builder in Dubai, UAE. His official portfolio: AI applications, web products, robotics and STEM projects.",
-    ogHeadline: "I build systems that solve real problems.",
+    ogHeadline: "Student developer & AI builder",
+    ogLabel: "Andrew Mathews Kalathil",
+    ogDescription:
+      "Building AI applications, web products, robotics and STEM projects from Dubai, UAE.",
     changefreq: "weekly",
     priority: "1.0",
   },
@@ -217,7 +224,8 @@ export function routeSlug(path: string) {
 }
 
 export function ogImagePath(path: string) {
-  return `/og/${routeSlug(path)}.png`;
+  // The homepage shares the site-wide social card served from the site root.
+  return path === "/" ? "/og-image.png" : `/og/${routeSlug(path)}.png`;
 }
 
 export function getRoute(path: string): RouteMeta {
