@@ -102,6 +102,90 @@ https://andrewmk.is-a.dev
 | Instagram | https://www.instagram.com/andrewmkbuilds/ |
 | Linktree  | https://linktr.ee/andrewmkbuilds          |
 
+## Search, structured data and discovery
+
+The site is built to be resolved as **one person**, not as a set of unrelated pages: a single
+canonical name, one entity graph shared by every route, one sitemap, and a set of
+machine-readable files that search engines and AI answer engines can read directly.
+
+### Canonical identity
+
+| What                    | Value                                                                           |
+| ----------------------- | ------------------------------------------------------------------------------- |
+| Indexed full name       | **Andrew Mathews Kalathil** (`FULL_NAME`)                                       |
+| Name in running copy    | Andrew Mathews (`SHORT_NAME`)                                                   |
+| Practice name / aliases | AndrewBuilds, andrewmkbuilds (`NAME_ALIASES`)                                   |
+| Location                | Dubai, United Arab Emirates                                                     |
+| Canonical site          | https://andrewmk.is-a.dev (`CUSTOM_DOMAIN_URL`, overridable by `VITE_SITE_URL`) |
+
+`src/data/identity.ts` is the only place these strings live. `src/data/seo.ts` re-exports them
+as `AUTHOR` / `SITE_NAME` and derives every page title, canonical URL, share card and
+machine-readable file from them, so the name cannot drift between a `<title>`, a JSON-LD node
+and `llms.txt`.
+
+### Structured data (JSON-LD)
+
+Two nodes render once, in the `head()` of `src/routes/__root.tsx`, so whichever URL a crawler
+lands on resolves the same entities:
+
+| Node                                | `@id`                  | Built by                    | Rendered on      |
+| ----------------------------------- | ---------------------- | --------------------------- | ---------------- |
+| `Person`                            | `/#person`             | `personJsonLd()`            | every route      |
+| `WebSite`                           | `/#website`            | `websiteJsonLd()`           | every route      |
+| `ProfilePage`                       | `/profile#profilepage` | `profilePageJsonLd()`       | `/profile`       |
+| `WebPage`                           | `<url>#webpage`        | `webPageJsonLd()`           | every route      |
+| `BreadcrumbList`                    | —                      | `breadcrumbJsonLd()`        | every route      |
+| `ItemList` of `SoftwareApplication` | —                      | `src/lib/project-schema.ts` | `/`, `/projects` |
+| `Article` / `BlogPosting`           | —                      | blog route head             | `/blog/<slug>`   |
+
+Page-level nodes reference the shared ids (`{"@id": "…/#person"}`) instead of restating the
+person, so a crawler sees one person and one site rather than a new node per page. Every fact
+in the schema is also published as visible copy — `knowsAbout` and `jobTitle` map to `/about`,
+`/skills` and `/profile`, `affiliation` to the education section, `sameAs` to the social links,
+`alternateName` to the press kit. Nothing is inferred, and a schema property is only added
+after its fact is visible on a page.
+
+### Discovery files
+
+Everything below is a static asset in `public/` (or generated into it at build time) and is
+served from the site root, with its content type pinned in `public/_headers`:
+
+| Path                          | Purpose                                                                                                                                                                                                                                                              |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/robots.txt`                 | Allows search engines **and** AI crawlers (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended, Applebot-Extended, CCBot); disallows only `/admin`, `/auth` and `/404`; points at the sitemap                           |
+| `/sitemap.xml`                | Written by `scripts/generate-sitemap.ts` from `indexableRoutes` plus the project pages. `<lastmod>` comes from git history, `/blog` is listed only once an article is published, and the document is validated against the sitemap 0.9 protocol before it is written |
+| `/sitemap.md`                 | Markdown mirror of the site structure for humans and agents                                                                                                                                                                                                          |
+| `/llms.txt`, `/llms-full.txt` | Curated index and full text corpus for AI assistants                                                                                                                                                                                                                 |
+| `/agents.md`                  | Instructions for AI systems on how to describe the site and its author                                                                                                                                                                                               |
+| `/openapi.json`               | Contract for the read-only JSON API                                                                                                                                                                                                                                  |
+| `/data/v1/*.json`             | Public read-only JSON API (profile, projects, experience, FAQ), regenerated on every build                                                                                                                                                                           |
+| `/.well-known/api-catalog`    | RFC 9727 linkset pointing at the API and its docs                                                                                                                                                                                                                    |
+| `/.well-known/security.txt`   | RFC 9116 security contact                                                                                                                                                                                                                                            |
+| `/site.webmanifest`           | Installable-app manifest: name, description, theme colour, icons                                                                                                                                                                                                     |
+| `/<indexnow-key>.txt`         | IndexNow ownership proof. The key is public by design, not a secret                                                                                                                                                                                                  |
+| `/og-image.png`, `/og/*.png`  | Per-route social share cards, generated by `scripts/generate-og-images.ts`                                                                                                                                                                                           |
+
+### Verifying
+
+```sh
+npm run seo:regression                                 # a running server (default :8080)
+npm run seo:regression -- --base=http://localhost:3000 # dev / staging server
+npm run seo:regression -- --source=dist                # prerendered build output
+npm run seo:indexnow -- --dry-run                      # what would be announced to Bing
+```
+
+`scripts/seo-regression.ts` walks every route registered in `src/data/seo.ts` and fails when a
+page loses its unique title (≤ 70 chars) or description, its single self-referencing canonical
+and `og:url`, its reachable `og:image`, its `WebPage` / `BreadcrumbList` JSON-LD, its **`Person`**
+node (name equal to `AUTHOR`, an `@id`, non-empty `sameAs`) or its **`WebSite`** node; when
+`/profile` loses its `ProfilePage`; when the project `ItemList` loses an item, a description or
+its stack; or when `sitemap.xml` / `robots.txt` stop covering the public routes.
+`scripts/seo-check.ts` runs the canonical, metadata and og:image half of that against `dist/`.
+
+Adding a page means registering it in `src/data/seo.ts` — that one entry feeds the head tags,
+the sitemap, the share card and the regression suite. A page that only restates facts already
+published elsewhere should extend the existing route instead.
+
 ## Development
 
 This portfolio is an evolving personal project rather than a finished deliverable — projects, case studies, certificates and blog posts are added as the work happens, and the design and structure change along with it.
