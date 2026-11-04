@@ -821,6 +821,16 @@ practice name "AndrewBuilds").
   ClaudeBot, PerplexityBot, Google-Extended, …) and disallows only `/admin`,
   `/auth` and `/404`. `src/data/seo.ts` is still the only source of route
   metadata for `sitemap.xml`, `og/` and `llms.txt`.
+- **Analytics is one GA4 tag, declared on the root route (2026-11-04).**
+  `GA_MEASUREMENT_ID` (`G-S26JLKHBRS`) lives in `src/routes/__root.tsx`'s
+  `head().scripts`: the async `gtag/js` library first, then the stock inline
+  `gtag('config', …)` queue. The root route is shared by every page and by the
+  prerender pass, so each page carries the tag exactly once — never add a second
+  copy in a page route, a layout component or a hand-written `public/*.html`.
+  GA4's enhanced measurement records the site's history-based navigations, and
+  `src/lib/analytics.ts` forwards named events to the same `gtag`. Verified
+  2026-11-04 on 6 routes: both scripts inside `<head>`, `window.dataLayer`
+  holding `js`/`config` plus `gtm.dom`/`gtm.load`, 0 console errors.
 - **The share cards are drawn with fonts committed in the repo (2026-11-04).**
   `scripts/generate-og-images.ts` renders text through librsvg, which resolves
   families via fontconfig — and an image with no fonts at all turns every glyph

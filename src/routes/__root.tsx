@@ -27,6 +27,18 @@ import appCss from "../styles.css?url";
 const personLd = JSON.stringify(personJsonLd());
 const websiteLd = JSON.stringify(websiteJsonLd());
 
+// Google tag (GA4). Declared on the root route, so it is emitted exactly once on
+// every page — including the prerendered deploy build. This is the stock gtag.js
+// snippet: the inline half only queues commands into `dataLayer`, so it does not
+// depend on the async library having arrived yet.
+const GA_MEASUREMENT_ID = "G-S26JLKHBRS";
+const gtagLoader = [
+  "window.dataLayer=window.dataLayer||[];",
+  "function gtag(){dataLayer.push(arguments);}",
+  "gtag('js',new Date());",
+  `gtag('config',${JSON.stringify(GA_MEASUREMENT_ID)});`,
+].join("");
+
 // Inject the public Supabase config (URL + publishable key) from server-side
 // process.env into the browser at runtime, so the client works even when the
 // VITE_ build-time variables aren't set (e.g. in a preview sandbox).
@@ -107,6 +119,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { rel: "manifest", href: "/site.webmanifest" },
       ],
       scripts: [
+        // First in <head>: the tag library, then the inline config that queues it.
+        {
+          async: true,
+          src: `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`,
+        },
+        { type: "text/javascript", children: gtagLoader },
         ...(supabaseBootstrap
           ? [{ type: "text/javascript", children: supabaseBootstrap }]
           : []),
