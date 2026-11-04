@@ -1,0 +1,25 @@
+{
+  "slug": "neurotac-ai",
+  "name": "NeuroTac AI",
+  "category": "AI / Game",
+  "description": "An intelligent Tic Tac Toe engine that evaluates board states and selects optimal moves.",
+  "status": "Built",
+  "github": "https://github.com/andrewmkbuilds/NeuroTac-AI",
+  "tech": [
+    "Python",
+    "AI Decision Logic",
+    "Game Theory"
+  ],
+  "built": [
+    "Board evaluation",
+    "Optimal move search",
+    "Game logic"
+  ],
+  "filters": [
+    "Python",
+    "AI"
+  ],
+  "featured": false,
+  "caseStudy": "https://andrewmk.is-a.dev/projects/neurotac-ai",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/neurotac-ai.json"
+}

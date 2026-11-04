@@ -1,0 +1,293 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Andrew Mathews — public data API",
+    "version": "v1",
+    "summary": "Read-only public information about Andrew Mathews and AndrewBuilds.",
+    "description": "Static, read-only JSON generated from the same content that powers the site. No authentication, no write endpoints, no private data. Responses are application/json; an unknown path returns 404.",
+    "contact": {
+      "url": "https://andrewmk.is-a.dev/contact",
+      "email": "buildwithandrewmk@gmail.com"
+    },
+    "license": {
+      "name": "Public information — attribute andrewmk.is-a.dev"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://andrewmk.is-a.dev"
+    }
+  ],
+  "paths": {
+    "/data/v1/index.json": {
+      "get": {
+        "summary": "Read index",
+        "description": "Catalog of every endpoint in this version, with the site URL and generation date.",
+        "operationId": "get-index",
+        "responses": {
+          "200": {
+            "description": "Catalog of every endpoint in this version, with the site URL and generation date.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {},
+                    "generatedAt": {},
+                    "site": {},
+                    "resources": {},
+                    "docs": {}
+                  },
+                  "additionalProperties": true,
+                  "x-resource": "index"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No resource at this path (never HTML)."
+          }
+        }
+      }
+    },
+    "/data/v1/profile.json": {
+      "get": {
+        "summary": "Read profile",
+        "description": "Identity, positioning line, school, location, quick stats, working principles, focus areas and public profiles.",
+        "operationId": "get-profile",
+        "responses": {
+          "200": {
+            "description": "Identity, positioning line, school, location, quick stats, working principles, focus areas and public profiles.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {},
+                    "practice": {},
+                    "identity": {},
+                    "title": {},
+                    "school": {},
+                    "location": {},
+                    "stats": {},
+                    "principles": {},
+                    "focus": {},
+                    "links": {},
+                    "contact": {}
+                  },
+                  "additionalProperties": true,
+                  "x-resource": "profile"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No resource at this path (never HTML)."
+          }
+        }
+      }
+    },
+    "/data/v1/projects.json": {
+      "get": {
+        "summary": "Read projects",
+        "description": "Every documented project as a summary record, with links to its case study and its own JSON endpoint.",
+        "operationId": "get-projects",
+        "responses": {
+          "200": {
+            "description": "Every documented project as a summary record, with links to its case study and its own JSON endpoint.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {},
+                    "featured": {},
+                    "projects": {}
+                  },
+                  "additionalProperties": true,
+                  "x-resource": "projects"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No resource at this path (never HTML)."
+          }
+        }
+      }
+    },
+    "/data/v1/projects/{slug}.json": {
+      "get": {
+        "summary": "Read project",
+        "description": "One project in full: problem, stack, features, challenges, results, status, live and source links.",
+        "operationId": "get-project",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Project slug, as listed in /data/v1/projects.json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One project in full: problem, stack, features, challenges, results, status, live and source links.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "slug": {},
+                    "name": {},
+                    "category": {},
+                    "description": {},
+                    "problem": {},
+                    "status": {},
+                    "live": {},
+                    "github": {},
+                    "platform": {},
+                    "tech": {},
+                    "built": {},
+                    "stack": {},
+                    "features": {},
+                    "challenges": {},
+                    "results": {},
+                    "metrics": {},
+                    "caseStudy": {}
+                  },
+                  "additionalProperties": true,
+                  "x-resource": "project"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No resource at this path (never HTML)."
+          }
+        }
+      }
+    },
+    "/data/v1/recognition.json": {
+      "get": {
+        "summary": "Read recognition",
+        "description": "Competition results, Model United Nations results and verified credentials. MUN recognition is limited to Verbal Commendation.",
+        "operationId": "get-recognition",
+        "responses": {
+          "200": {
+            "description": "Competition results, Model United Nations results and verified credentials. MUN recognition is limited to Verbal Commendation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "competitionResults": {},
+                    "munResults": {},
+                    "achievementGroups": {},
+                    "verifiedCredentials": {},
+                    "munAwardPolicy": {}
+                  },
+                  "additionalProperties": true,
+                  "x-resource": "recognition"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No resource at this path (never HTML)."
+          }
+        }
+      }
+    },
+    "/data/v1/experience.json": {
+      "get": {
+        "summary": "Read experience",
+        "description": "The published chronology: milestones, seasons and exhibitions, in the site's own wording.",
+        "operationId": "get-experience",
+        "responses": {
+          "200": {
+            "description": "The published chronology: milestones, seasons and exhibitions, in the site's own wording.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timeline": {},
+                    "fllSeasons": {},
+                    "exhibitions": {}
+                  },
+                  "additionalProperties": true,
+                  "x-resource": "experience"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No resource at this path (never HTML)."
+          }
+        }
+      }
+    },
+    "/data/v1/resources.json": {
+      "get": {
+        "summary": "Read resources",
+        "description": "Skills taxonomy, certification groups, the certificate list and the areas Andrew builds in.",
+        "operationId": "get-resources",
+        "responses": {
+          "200": {
+            "description": "Skills taxonomy, certification groups, the certificate list and the areas Andrew builds in.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "skills": {},
+                    "certificationGroups": {},
+                    "certificates": {},
+                    "buildAreas": {}
+                  },
+                  "additionalProperties": true,
+                  "x-resource": "resources"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No resource at this path (never HTML)."
+          }
+        }
+      }
+    },
+    "/data/v1/faq.json": {
+      "get": {
+        "summary": "Read faq",
+        "description": "The FAQ, word for word as it appears on /faq, with the page each answer comes from.",
+        "operationId": "get-faq",
+        "responses": {
+          "200": {
+            "description": "The FAQ, word for word as it appears on /faq, with the page each answer comes from.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {},
+                    "faq": {}
+                  },
+                  "additionalProperties": true,
+                  "x-resource": "faq"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No resource at this path (never HTML)."
+          }
+        }
+      }
+    }
+  },
+  "x-generated-from": "https://andrewmk.is-a.dev/data/v1/index.json"
+}

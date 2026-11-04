@@ -12,7 +12,8 @@ export interface AuditEntry {
 /** Writes an immutable audit row. Never throws: auditing must not break the action. */
 export async function recordAudit(entry: AuditEntry): Promise<void> {
   try {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin } =
+      await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("admin_audit_log").insert({
       actor_id: entry.actorId,
       actor_email: entry.actorEmail,
@@ -30,7 +31,10 @@ export async function recordAudit(entry: AuditEntry): Promise<void> {
 const escapeHtml = (value: string) =>
   value.replace(
     /[&<>"']/g,
-    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" })[c]!,
+    (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        c
+      ]!,
   );
 
 /**
@@ -46,26 +50,37 @@ export async function notifyAdmin(
   const to = process.env["CONTACT_TO_EMAIL"];
   if (!apiKey || !to) return null;
 
-  const from = process.env["CONTACT_FROM_EMAIL"] ?? "Portfolio <onboarding@resend.dev>";
+  const from =
+    process.env["CONTACT_FROM_EMAIL"] ?? "Portfolio <onboarding@resend.dev>";
   const rows = lines
-    .map(([k, v]) => `<p><strong>${escapeHtml(k)}:</strong> ${escapeHtml(v)}</p>`)
+    .map(
+      ([k, v]) => `<p><strong>${escapeHtml(k)}:</strong> ${escapeHtml(v)}</p>`,
+    )
     .join("\n");
 
   try {
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
-      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         from,
         to: [to],
         subject,
         html: `<h2>${escapeHtml(subject)}</h2>\n${rows}${
-          body ? `<hr /><p>${escapeHtml(body).replace(/\n/g, "<br />")}</p>` : ""
+          body
+            ? `<hr /><p>${escapeHtml(body).replace(/\n/g, "<br />")}</p>`
+            : ""
         }`,
       }),
     });
     if (!response.ok) {
-      return { ok: false, error: `${response.status} ${await response.text()}`.slice(0, 500) };
+      return {
+        ok: false,
+        error: `${response.status} ${await response.text()}`.slice(0, 500),
+      };
     }
     return { ok: true };
   } catch (error) {
@@ -74,12 +89,18 @@ export async function notifyAdmin(
 }
 
 /** RFC 4180 CSV serialisation. */
-export function toCsv(headers: string[], rows: Array<Array<string | number | null>>): string {
+export function toCsv(
+  headers: string[],
+  rows: Array<Array<string | number | null>>,
+): string {
   const cell = (value: string | number | null) => {
     const text = value === null || value === undefined ? "" : String(value);
     // Guard against spreadsheet formula injection.
     const safe = /^[=+\-@\t\r]/.test(text) ? `'${text}` : text;
     return `"${safe.replace(/"/g, '""')}"`;
   };
-  return [headers.map(cell).join(","), ...rows.map((r) => r.map(cell).join(","))].join("\r\n");
+  return [
+    headers.map(cell).join(","),
+    ...rows.map((r) => r.map(cell).join(",")),
+  ].join("\r\n");
 }

@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0d14"/>
+      <stop offset="0.5" stop-color="#111a24"/>
+      <stop offset="1" stop-color="#0b2233"/>
+    </linearGradient>
+    <radialGradient id="warm" cx="0.12" cy="0.12" r="0.6">
+      <stop offset="0" stop-color="#d9b268" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#d9b268" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cool" cx="0.9" cy="0.88" r="0.55">
+      <stop offset="0" stop-color="#3d9fe0" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#3d9fe0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="divider" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d9b268" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#d9b268" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#d9b268" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#warm)"/>
+  <rect width="1200" height="800" fill="url(#cool)"/>
+
+  <!-- center divider -->
+  <rect x="598" y="150" width="2" height="440" fill="url(#divider)"/>
+  <circle cx="599" cy="392" r="30" fill="#101a25" stroke="#d9b268" stroke-opacity="0.6" stroke-width="2"/>
+  <path d="M588 392h22M604 384l8 8-8 8" fill="none" stroke="#f0d29a" stroke-width="2.4" stroke-linecap="round"/>
+
+  <!-- english side -->
+  <g>
+    <text x="76" y="152" fill="#e8c98f" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="4">ENGLISH</text>
+    <rect x="76" y="176" width="470" height="98" rx="18" fill="#d9b268" fill-opacity="0.1" stroke="#d9b268" stroke-opacity="0.32"/>
+    <text x="104" y="214" fill="#f0dcb8" font-family="Georgia, 'Times New Roman', serif" font-size="24">Good morning — can you help me</text>
+    <text x="104" y="246" fill="#f0dcb8" font-family="Georgia, 'Times New Roman', serif" font-size="24">practise this conversation?</text>
+
+    <rect x="76" y="294" width="430" height="86" rx="18" fill="#ffffff" fill-opacity="0.05"/>
+    <text x="104" y="330" fill="#dbe6ef" font-family="Georgia, 'Times New Roman', serif" font-size="22">Of course. Would you like to start</text>
+    <text x="104" y="358" fill="#dbe6ef" font-family="Georgia, 'Times New Roman', serif" font-size="22">in Arabic or in English?</text>
+
+    <rect x="76" y="400" width="336" height="72" rx="18" fill="#d9b268" fill-opacity="0.07" stroke="#d9b268" stroke-opacity="0.2"/>
+    <rect x="104" y="424" width="250" height="8" rx="4" fill="#c7ae7c" opacity="0.6"/>
+    <rect x="104" y="444" width="180" height="8" rx="4" fill="#9c8558" opacity="0.6"/>
+
+    <text x="76" y="516" fill="#6f8395" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="2">DETECTED · ENGLISH</text>
+  </g>
+
+  <!-- arabic side (mirrored layout) -->
+  <g>
+    <text x="1124" y="152" text-anchor="end" fill="#9ed4f4" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="4">ARABIC · RTL</text>
+    <rect x="654" y="176" width="470" height="98" rx="18" fill="#3d9fe0" fill-opacity="0.1" stroke="#7cc7f0" stroke-opacity="0.3"/>
+    <text x="1096" y="214" text-anchor="end" fill="#d6ebf8" font-family="Georgia, 'Times New Roman', serif" font-size="24">Sabah al khayr — can you help me</text>
+    <text x="1096" y="246" text-anchor="end" fill="#d6ebf8" font-family="Georgia, 'Times New Roman', serif" font-size="24">practise this conversation?</text>
+
+    <rect x="694" y="294" width="430" height="86" rx="18" fill="#ffffff" fill-opacity="0.05"/>
+    <text x="1096" y="330" text-anchor="end" fill="#dbe6ef" font-family="Georgia, 'Times New Roman', serif" font-size="22">Bil tab' — nashra' bil arabiyya</text>
+    <text x="1096" y="358" text-anchor="end" fill="#dbe6ef" font-family="Georgia, 'Times New Roman', serif" font-size="22">aw bil ingliziyya?</text>
+
+    <rect x="788" y="400" width="336" height="72" rx="18" fill="#3d9fe0" fill-opacity="0.07" stroke="#7cc7f0" stroke-opacity="0.2"/>
+    <rect x="846" y="424" width="250" height="8" rx="4" fill="#8fbcd6" opacity="0.55"/>
+    <rect x="916" y="444" width="180" height="8" rx="4" fill="#6f9ab2" opacity="0.55"/>
+
+    <text x="1124" y="516" text-anchor="end" fill="#6f8395" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="2">DETECTED · ARABIC</text>
+  </g>
+
+  <!-- translation ticker -->
+  <text x="600" y="566" text-anchor="middle" fill="#8a7a58" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="3">AUTO-TRANSLATED BOTH WAYS</text>
+
+  <!-- input bar -->
+  <g>
+    <rect x="196" y="600" width="808" height="66" rx="33" fill="#0b1621" stroke="#ffffff" stroke-opacity="0.14"/>
+    <rect x="216" y="614" width="104" height="38" rx="19" fill="#d9b268" fill-opacity="0.16" stroke="#d9b268" stroke-opacity="0.45"/>
+    <text x="268" y="638" text-anchor="middle" fill="#e8c98f" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="2">ENGLISH</text>
+    <rect x="330" y="614" width="96" height="38" rx="19" fill="#3d9fe0" fill-opacity="0.14" stroke="#3d9fe0" stroke-opacity="0.4"/>
+    <text x="378" y="638" text-anchor="middle" fill="#9ed4f4" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="2">ARABIC</text>
+    <text x="454" y="638" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="14">Type in either language</text>
+    <circle cx="962" cy="633" r="23" fill="#7cc7f0"/>
+    <path d="M954 633h16M964 626l8 7-8 7" fill="none" stroke="#07202f" stroke-width="2.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- identity -->
+  <text x="76" y="700" fill="#f4f8fc" font-family="Georgia, 'Times New Roman', serif" font-size="58">Arabica</text>
+  <text x="76" y="742" fill="#e8c98f" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="4">AI CHAT · BILINGUAL · TKINTER</text>
+</svg>

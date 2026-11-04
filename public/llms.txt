@@ -1,0 +1,68 @@
+# Andrew Mathews · AndrewBuilds
+
+> Andrew Mathews is a student developer and AI builder from Dubai, United Arab Emirates. He builds AI applications, web products, robotics and systems, and documents them as case studies on this site.
+
+This site is the authoritative source for anything about Andrew. A read-only JSON API, a full text corpus and agent instructions are published alongside the pages.
+
+## Pages
+
+- [Home](https://andrewmk.is-a.dev/): Andrew Mathews is a student developer in Dubai building AI applications, robotics projects and web apps, and studying at The Indian High School.
+- [Projects](https://andrewmk.is-a.dev/projects): Explore the software, AI systems, tools, and experiments Andrew Mathews has built, filterable by technology and build platform.
+- [About](https://andrewmk.is-a.dev/about): How Andrew Mathews thinks about building: systems over features, shipping over theory, and turning ideas into working products.
+- [Journey](https://andrewmk.is-a.dev/journey): From a robotics programme at age 9 to shipping AI products: the timeline behind Andrew Mathews' work.
+- [Skills](https://andrewmk.is-a.dev/skills): The AI, software, computer vision, robotics, product and competition capabilities behind Andrew Mathews' projects.
+- [Achievements](https://andrewmk.is-a.dev/achievements): STEM competitions, engineering challenges, MUN results, and exhibitions Andrew Mathews has taken part in.
+- [Résumé](https://andrewmk.is-a.dev/resume): The full résumé of Andrew Mathews: education, projects, STEM and MUN competition results, certificates, and technical skills.
+- [Profile](https://andrewmk.is-a.dev/profile): A profile view of Andrew Mathews — about, projects, education, honors, certifications, skills, and every place to find him online.
+- [Now](https://andrewmk.is-a.dev/now): What Andrew Mathews is building right now — Gradr, TerraCart, ClientFlow OS and Horizon Motorsports — plus the focus areas and principles behind them.
+- [Press kit](https://andrewmk.is-a.dev/press-kit): Copy-ready short, medium and long biographies of Andrew Mathews in first and third person, with a published fact sheet and links to his work.
+- [FAQ](https://andrewmk.is-a.dev/faq): Answers about Andrew Mathews: what he builds, the technologies he works with, his projects, his competition and MUN results, and how to get in touch.
+- [Colophon](https://andrewmk.is-a.dev/colophon): How this website is made: the application stack, design system, typefaces, motion budget, data sources and hosting.
+- [Sitemap](https://andrewmk.is-a.dev/sitemap): Every page on the site, organised by section and searchable, with links to the XML, Markdown and machine-readable sitemaps.
+- [Developers](https://andrewmk.is-a.dev/developers): The public read-only JSON API for this site, with the llms.txt, llms-full.txt, agents.md and OpenAPI files that make it readable by developers and AI agents.
+- [Contact](https://andrewmk.is-a.dev/contact): Get in touch with Andrew Mathews to talk about technology, projects, collaboration, or something he is building.
+
+## Project case studies
+
+- [Gradr](https://andrewmk.is-a.dev/projects/gradr): An AI-powered career accelerator designed to help students, graduates, and early-career professionals build stronger resumes, prepare for interviews, and manage their career journey. (Building)
+- [Stack Up](https://andrewmk.is-a.dev/projects/stack-up): The first product I shipped. A personal finance system designed to make spending, budgeting, and saving easier to understand and more engaging. (Live)
+- [TerraCart](https://andrewmk.is-a.dev/projects/terracart): An AI-powered shopping assistant designed to help people discover more sustainable alternatives while shopping online. (Developing)
+- [ClientFlow OS](https://andrewmk.is-a.dev/projects/clientflow-os): A unified platform for managing clients, projects, conversations, payments, documents, and workflows in one connected system. (In Active Development)
+- [SiteScout AI](https://andrewmk.is-a.dev/projects/sitescout-ai): AI-powered client acquisition for web agencies — discover local businesses, audit their websites, score the real opportunities, and carry every lead through to a signed client. (Live)
+- [Scholara](https://andrewmk.is-a.dev/projects/scholara): An AI-powered school operating system that unites academics, operations, communication and analytics for students, teachers, parents and school leaders. (Live)
+- [CritiqueFlow](https://andrewmk.is-a.dev/projects/critiqueflow): A design review platform that turns visual feedback into structured discussion, tasks and a measurable design health score. (Live)
+- [The Neon Rush](https://andrewmk.is-a.dev/projects/the-neonrush): A neon arcade game built around story chapters, daily missions, mini-games and a hangar of ships and skins. (Live)
+- [Horizon Motorsports](https://andrewmk.is-a.dev/projects/horizon-motorsports): Digital home for Horizon Motorsports, a UAE-based racing team competing in FLL, Techfest, and engineering competitions. (Active)
+- [DevOS](https://andrewmk.is-a.dev/projects/devos): AI-powered developer command center designed to bring tasks, focus sessions, and project threads into one place. (Live)
+- [COGNOS](https://andrewmk.is-a.dev/projects/cognos): An AI cognitive operating system designed to capture raw thoughts, classify them, and map connections between ideas. (Live)
+- [TabZen](https://andrewmk.is-a.dev/projects/tabzen): Intelligent tab management that groups tabs by context, summarizes them, and archives them without losing information. (Live)
+- [AI for Students](https://andrewmk.is-a.dev/projects/ai-for-students): A gamified AI learning platform built around making AI easier for students to understand and use. (Live)
+- [Home ServeAI](https://andrewmk.is-a.dev/projects/home-serveai): AI-powered home services marketplace concept featuring smart matching, real-time tracking, and recurring service management. (Concept)
+- [JARVIS](https://andrewmk.is-a.dev/projects/jarvis): Voice-powered AI assistant designed to understand spoken commands, maintain context, and execute actions. (Experiment)
+- [GemLab](https://andrewmk.is-a.dev/projects/gemlab): Multi-persona AI chatbot environment with Friendly, Professional, and Creative conversation modes. (Built)
+- [Security Camera System](https://andrewmk.is-a.dev/projects/security-camera-system): An intelligent motion-activated recording system that detects movement through a webcam and automatically manages recordings. (Built)
+- [Currency Converter](https://andrewmk.is-a.dev/projects/currency-converter): Desktop currency converter supporting 170+ currencies with live exchange rates and offline fallback. (Built)
+- [GesturePlay](https://andrewmk.is-a.dev/projects/gestureplay): Rock, Paper, Scissors, Pencil played entirely through webcam hand gestures. (Built)
+- [Watch Walkie Talkie](https://andrewmk.is-a.dev/projects/watch-walkie-talkie): Push-to-talk voice communication concept connecting smartwatches and phones for instant communication. (Concept)
+- [ConversaCore AI](https://andrewmk.is-a.dev/projects/conversacore-ai): Multi-model conversational platform with dynamic model selection, persona-driven responses, and fallback systems. (Built)
+- [Arabica AI Chat](https://andrewmk.is-a.dev/projects/arabica-ai-chat): Bilingual AI chat focused on English-Arabic conversation, translation, and context-aware responses. (Built)
+- [NeuroTac AI](https://andrewmk.is-a.dev/projects/neurotac-ai): An intelligent Tic Tac Toe engine that evaluates board states and selects optimal moves. (Built)
+
+## Data
+
+- [index](https://andrewmk.is-a.dev/data/v1/index.json): Catalog of every endpoint in this version, with the site URL and generation date.
+- [profile](https://andrewmk.is-a.dev/data/v1/profile.json): Identity, positioning line, school, location, quick stats, working principles, focus areas and public profiles.
+- [projects](https://andrewmk.is-a.dev/data/v1/projects.json): Every documented project as a summary record, with links to its case study and its own JSON endpoint.
+- [project](https://andrewmk.is-a.dev/data/v1/projects/{slug}.json): One project in full: problem, stack, features, challenges, results, status, live and source links.
+- [recognition](https://andrewmk.is-a.dev/data/v1/recognition.json): Competition results, Model United Nations results and verified credentials. MUN recognition is limited to Verbal Commendation.
+- [experience](https://andrewmk.is-a.dev/data/v1/experience.json): The published chronology: milestones, seasons and exhibitions, in the site's own wording.
+- [resources](https://andrewmk.is-a.dev/data/v1/resources.json): Skills taxonomy, certification groups, the certificate list and the areas Andrew builds in.
+- [faq](https://andrewmk.is-a.dev/data/v1/faq.json): The FAQ, word for word as it appears on /faq, with the page each answer comes from.
+
+## For developers and agents
+
+- [Developers](https://andrewmk.is-a.dev/developers): endpoint documentation, schemas, caching and versioning.
+- [llms-full.txt](https://andrewmk.is-a.dev/llms-full.txt): the same information as one plain-text document.
+- [agents.md](https://andrewmk.is-a.dev/agents.md): how to describe Andrew accurately and what never to claim.
+- [openapi.json](https://andrewmk.is-a.dev/openapi.json): OpenAPI 3.1 description of the API.
+- [Sitemap](https://andrewmk.is-a.dev/sitemap.xml): every indexable page.

@@ -1,5 +1,12 @@
 import { motion, useReducedMotion } from "motion/react";
-import { Download, FileText, Maximize2 } from "lucide-react";
+import {
+  ArrowUpRight,
+  BadgeCheck,
+  Download,
+  ExternalLink,
+  FileText,
+  Maximize2,
+} from "lucide-react";
 import {
   certificateDateLabel,
   certificateDownloadName,
@@ -7,6 +14,7 @@ import {
   type Certificate,
 } from "@/data/certificates";
 import { cn } from "@/lib/utils";
+import { BrandLogo } from "./BrandLogo";
 
 interface CertificateCardProps {
   certificate: Certificate;
@@ -14,6 +22,11 @@ interface CertificateCardProps {
   className?: string;
   /** Compact layout used by the mobile swipe rail. */
   compact?: boolean;
+}
+
+/** Short title without the document-type suffix, for accessible link names. */
+function credentialName(certificate: Certificate) {
+  return certificate.title.split("—")[0]?.trim() || certificate.title;
 }
 
 export function CertificateCard({
@@ -25,6 +38,8 @@ export function CertificateCard({
   const reduce = useReducedMotion();
   const { org, program } = certificateIssuerParts(certificate);
   const dateLabel = certificateDateLabel(certificate);
+  const { verifyUrl, verifyPlatform = "Credly" } = certificate;
+  const credentialLabel = `View ${credentialName(certificate)} credential on ${verifyPlatform} (opens in a new tab)`;
 
   return (
     <motion.article
@@ -33,15 +48,12 @@ export function CertificateCard({
       className={cn(
         "surface spotlight edge-glow lift-3d group relative isolate flex h-full flex-col overflow-hidden rounded-xl",
         "gold-hover transition-colors duration-300 hover:border-gold/40",
+        verifyUrl && "certificate-verified-card",
         className,
       )}
-      onPointerMove={(e) => {
-        const el = e.currentTarget as HTMLElement;
-        const rect = el.getBoundingClientRect();
-        el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-        el.style.setProperty("--my", `${e.clientY - rect.top}px`);
-      }}
     >
+      <span aria-hidden="true" className="fx-sheen" />
+
       <button
         type="button"
         onClick={() => onOpen(certificate)}
@@ -66,13 +78,17 @@ export function CertificateCard({
         </span>
       </button>
 
-      <div className={cn("relative flex flex-1 flex-col", compact ? "p-4" : "p-5")}>
+      <div
+        className={cn("relative flex flex-1 flex-col", compact ? "p-4" : "p-5")}
+      >
         <div className="flex items-center justify-between gap-3">
           <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
             {certificate.category}
           </p>
           {dateLabel && (
-            <p className="shrink-0 font-mono text-[11px] text-muted-foreground">{dateLabel}</p>
+            <p className="shrink-0 font-mono text-[11px] text-muted-foreground">
+              {dateLabel}
+            </p>
           )}
         </div>
 
@@ -85,31 +101,85 @@ export function CertificateCard({
           {certificate.title}
         </h3>
 
-        <p className="mt-1.5 text-sm leading-snug text-foreground/75">{org}</p>
-        {program && (
-          <p className="mt-0.5 text-xs leading-snug text-muted-foreground">{program}</p>
-        )}
+        <div className="mt-2 flex items-start gap-2">
+          {certificate.issuer && (
+            <span className="credential-issuer-mark mt-0.5 inline-flex">
+              <BrandLogo issuer name={certificate.issuer} size="md" />
+            </span>
+          )}
+          <div className="min-w-0">
+            <p className="text-sm leading-snug text-foreground/75">{org}</p>
+            {program && (
+              <p className="mt-0.5 text-xs leading-snug text-muted-foreground">
+                {program}
+              </p>
+            )}
+          </div>
+        </div>
         {certificate.date && certificate.date !== dateLabel && (
-          <p className="mt-1 font-mono text-[11px] text-muted-foreground/80">{certificate.date}</p>
+          <p className="mt-1 font-mono text-[11px] text-muted-foreground/80">
+            {certificate.date}
+          </p>
         )}
 
-        <div className="mt-4 flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => onOpen(certificate)}
-            className="focus-ring inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-lg border border-border px-3 text-sm text-foreground transition-colors hover:border-gold/50 hover:text-gold"
-          >
-            <Maximize2 className="size-4" />
-            View
-          </button>
+        {verifyUrl && (
           <a
-            href={certificate.file}
-            download={certificateDownloadName(certificate)}
-            aria-label={`Download ${certificate.title}`}
-            className="focus-ring inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-gold/30 bg-gold/5 text-gold transition-colors hover:border-gold/60 hover:bg-gold/15"
+            href={verifyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={credentialLabel}
+            className="credential-verified focus-ring mt-3 inline-flex w-fit items-center gap-1.5 rounded-full border border-gold/35 bg-gold/[0.07] px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-gold"
           >
-            <Download className="size-4" />
+            <BadgeCheck
+              aria-hidden="true"
+              className="credential-check size-3.5"
+            />
+            <span className="credential-verified-text" aria-hidden="true">
+              <span className="credential-verified-idle">Verified</span>
+              <span className="credential-verified-hover">
+                Verified on {verifyPlatform}
+                <ArrowUpRight className="credential-verified-arrow size-3" />
+              </span>
+            </span>
           </a>
+        )}
+
+        <div className="mt-auto pt-4">
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => onOpen(certificate)}
+              className="focus-ring inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-lg border border-border px-3 text-sm text-foreground transition-colors hover:border-gold/50 hover:text-gold"
+            >
+              <Maximize2 className="size-4" />
+              View
+            </button>
+            <a
+              href={certificate.file}
+              download={certificateDownloadName(certificate)}
+              aria-label={`Download ${certificate.title}`}
+              className="focus-ring inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-gold/30 bg-gold/5 text-gold transition-colors hover:border-gold/60 hover:bg-gold/15"
+            >
+              <Download className="size-4" />
+            </a>
+          </div>
+
+          {verifyUrl && (
+            <a
+              href={verifyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={credentialLabel}
+              className="focus-ring credential-cta mt-2 inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-lg border border-gold/40 bg-gold/10 px-3 font-mono text-[11px] uppercase tracking-[0.12em] text-gold transition-colors hover:bg-gold/20"
+            >
+              <ExternalLink aria-hidden="true" className="size-3.5" />
+              View credential
+              <ArrowUpRight
+                aria-hidden="true"
+                className="credential-arrow size-3.5"
+              />
+            </a>
+          )}
         </div>
       </div>
 

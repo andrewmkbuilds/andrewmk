@@ -1,0 +1,66 @@
+/**
+ * Self-hosted webfonts.
+ *
+ * The four families below used to be requested from `fonts.googleapis.com` via
+ * a render-blocking <link>, which cost two extra connections and a stylesheet
+ * round trip before the first text could paint. They are now served from
+ * `/public/fonts` on the site's own origin: no third-party origin, cacheable
+ * with the rest of the static assets, and preloadable (see `src/routes/__root.tsx`).
+ *
+ * Two reductions on top of Google's files:
+ *
+ * 1. Google serves these as variable fonts, so one file per family covers every
+ *    weight the design uses (Sora 400–700, Inter 400–600, JetBrains Mono
+ *    400–500) — its three per-weight URLs were byte identical.
+ * 2. Each file is subset to the glyphs the site actually sets: basic Latin,
+ *    Latin-1/Latin Extended-A, general punctuation, currency, arrows and
+ *    common maths, plus every character that appears in `src/`. Unknown glyphs
+ *    (an unusual character in a future blog post, for example) fall through to
+ *    the next family in the stack instead of downloading a second subset.
+ *
+ * Result: 148 KB of latin webfonts became 124 KB, and the browser now makes no
+ * cross-origin font requests at all.
+ *
+ * Licences: Sora, Inter, JetBrains Mono and Instrument Serif are all SIL Open
+ * Font License 1.1 (https://openfontlicense.org).
+ */
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/sora-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/instrument-serif-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/instrument-serif-italic-latin.woff2") format("woff2");
+}

@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#040b12"/>
+      <stop offset="0.6" stop-color="#07161f"/>
+      <stop offset="1" stop-color="#0a2030"/>
+    </linearGradient>
+    <linearGradient id="feed" x1="0" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#0b1e2b"/>
+      <stop offset="0.55" stop-color="#0c2635"/>
+      <stop offset="1" stop-color="#071821"/>
+    </linearGradient>
+    <radialGradient id="lamp" cx="0.28" cy="0.08" r="0.55">
+      <stop offset="0" stop-color="#4fbfc4" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#4fbfc4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="person" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9fd8d6"/>
+      <stop offset="1" stop-color="#3f8f9c"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+
+  <text x="76" y="82" fill="#7fc3c6" font-family="ui-monospace, Menlo, monospace" font-size="15" letter-spacing="4">COMPUTER VISION</text>
+  <text x="1124" y="82" text-anchor="end" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="3">PYTHON · OPENCV</text>
+
+  <!-- feed -->
+  <rect x="76" y="112" width="1048" height="440" rx="6" fill="url(#feed)"/>
+  <rect x="76" y="112" width="1048" height="440" fill="url(#lamp)"/>
+  <g stroke="#4fbfc4" stroke-opacity="0.12" stroke-width="1.5">
+    <path d="M76 300 H1124"/>
+    <path d="M76 420 H1124"/>
+    <path d="M300 112 V552"/>
+    <path d="M780 112 V552"/>
+  </g>
+
+  <!-- floor -->
+  <path d="M76 470 H1124 V552 H76Z" fill="#061318" opacity="0.8"/>
+  <path d="M76 470 H1124" stroke="#4fbfc4" stroke-opacity="0.2"/>
+
+  <!-- detected subject -->
+  <g>
+    <rect x="430" y="182" width="240" height="300" fill="none" stroke="#d9b268" stroke-width="3"/>
+    <g stroke="#d9b268" stroke-width="6" stroke-linecap="round">
+      <path d="M430 206V182h24"/>
+      <path d="M646 182h24v24"/>
+      <path d="M670 458v24h-24"/>
+      <path d="M454 482h-24v-24"/>
+    </g>
+    <rect x="430" y="156" width="170" height="24" fill="#d9b268"/>
+    <text x="440" y="173" fill="#1b1408" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1">PERSON 0.94</text>
+
+    <circle cx="550" cy="246" r="38" fill="url(#person)" opacity="0.9"/>
+    <path d="M500 482c0-56 22-94 50-94s50 38 50 94z" fill="url(#person)" opacity="0.85"/>
+  </g>
+
+  <!-- HUD -->
+  <g font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="2">
+    <text x="100" y="146" fill="#9fd8d6">CAM 01 · 04:12:08</text>
+    <text x="100" y="536" fill="#5f8b8f">1080p · 30 FPS</text>
+    <circle cx="1048" cy="140" r="6" fill="#e06c5a"/>
+    <text x="1100" y="146" text-anchor="end" fill="#e8a89f">REC 00:12</text>
+  </g>
+
+  <!-- motion graph -->
+  <g>
+    <text x="76" y="596" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="3">MOTION ENERGY</text>
+    <g fill="#3f8f9c" fill-opacity="0.55">
+      <rect x="76" y="660" width="10" height="14" rx="2"/>
+      <rect x="94" y="652" width="10" height="22" rx="2"/>
+      <rect x="112" y="646" width="10" height="28" rx="2"/>
+      <rect x="130" y="656" width="10" height="18" rx="2"/>
+      <rect x="148" y="628" width="10" height="46" rx="2" fill="#d9b268" fill-opacity="0.8"/>
+      <rect x="166" y="606" width="10" height="68" rx="2" fill="#d9b268" fill-opacity="0.85"/>
+      <rect x="184" y="636" width="10" height="38" rx="2" fill="#d9b268" fill-opacity="0.6"/>
+      <rect x="202" y="660" width="10" height="14" rx="2"/>
+      <rect x="220" y="654" width="10" height="20" rx="2"/>
+      <rect x="238" y="664" width="10" height="10" rx="2"/>
+      <rect x="256" y="658" width="10" height="16" rx="2"/>
+      <rect x="274" y="648" width="10" height="26" rx="2"/>
+      <rect x="292" y="662" width="10" height="12" rx="2"/>
+    </g>
+    <line x1="76" y1="674" x2="320" y2="674" stroke="#ffffff" stroke-opacity="0.12"/>
+
+    <!-- clip thumbs -->
+    <g>
+      <rect x="360" y="614" width="120" height="68" rx="6" fill="#0c212d" stroke="#4fbfc4" stroke-opacity="0.25"/>
+      <path d="M400 638l18-10v28l-18-10z" fill="#4fbfc4" opacity="0.5"/>
+      <rect x="494" y="614" width="120" height="68" rx="6" fill="#0c212d" stroke="#4fbfc4" stroke-opacity="0.25"/>
+      <path d="M534 638l18-10v28l-18-10z" fill="#4fbfc4" opacity="0.5"/>
+      <rect x="628" y="614" width="120" height="68" rx="6" fill="#0c212d" stroke="#d9b268" stroke-opacity="0.4"/>
+      <path d="M668 638l18-10v28l-18-10z" fill="#d9b268" opacity="0.7"/>
+    </g>
+  </g>
+
+  <!-- identity -->
+  <text x="800" y="642" fill="#f4f8fc" font-family="Georgia, 'Times New Roman', serif" font-size="44">Security Camera</text>
+  <text x="800" y="686" fill="#f4f8fc" font-family="Georgia, 'Times New Roman', serif" font-size="44" font-style="italic" fill-opacity="0.55">System</text>
+  <text x="800" y="716" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="3">MOTION TRIGGER · AUTO RECORD</text>
+</svg>

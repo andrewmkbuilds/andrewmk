@@ -1,0 +1,391 @@
+{
+  "skills": [
+    {
+      "title": "AI",
+      "items": [
+        "Generative AI",
+        "AI APIs",
+        "AI applications",
+        "AI assistants",
+        "AI integrations"
+      ]
+    },
+    {
+      "title": "Software",
+      "items": [
+        "Python",
+        "TypeScript",
+        "JavaScript",
+        "React",
+        "Flutter",
+        "Tkinter"
+      ]
+    },
+    {
+      "title": "Computer Vision",
+      "items": [
+        "OpenCV",
+        "MediaPipe",
+        "Motion detection",
+        "Gesture recognition"
+      ]
+    },
+    {
+      "title": "Robotics",
+      "items": [
+        "Robotics",
+        "Sensors",
+        "Hardware integration",
+        "Engineering competitions"
+      ]
+    },
+    {
+      "title": "Product",
+      "items": [
+        "Product design",
+        "Systems thinking",
+        "Rapid prototyping",
+        "Problem solving"
+      ]
+    },
+    {
+      "title": "Competition",
+      "items": [
+        "Techfest",
+        "FLL",
+        "F1 in Schools / STEM Racing",
+        "MUN",
+        "Exhibitions"
+      ]
+    }
+  ],
+  "certificationGroups": [
+    {
+      "title": "AI & developer skills",
+      "items": [
+        {
+          "name": "Claude 101",
+          "detail": "Anthropic · completion certificate"
+        },
+        {
+          "name": "Claude Code 101",
+          "detail": "Anthropic · completion certificate"
+        },
+        {
+          "name": "AI Fluency for Students",
+          "detail": "Anthropic · completion certificate"
+        },
+        {
+          "name": "Software Engineer Intern",
+          "detail": "HackerRank · certificate of accomplishment"
+        },
+        {
+          "name": "Frontend Developer (React)",
+          "detail": "HackerRank · certificate of accomplishment"
+        }
+      ]
+    },
+    {
+      "title": "Data & cloud",
+      "items": [
+        {
+          "name": "MongoDB Indexing Design Fundamentals",
+          "detail": "MongoDB · proof of completion"
+        },
+        {
+          "name": "CRUD Operations in MongoDB",
+          "detail": "MongoDB · proof of completion"
+        },
+        {
+          "name": "Google Cloud learning track",
+          "detail": "DataCamp · four statement-of-accomplishment courses"
+        }
+      ]
+    },
+    {
+      "title": "Academic & programmes",
+      "items": [
+        {
+          "name": "Environmental Short Course",
+          "detail": "ASDAN · 4 credits"
+        },
+        {
+          "name": "TKS 2026–27",
+          "detail": "The Knowledge Society · accepted for the 2026–27 cohort"
+        }
+      ]
+    }
+  ],
+  "buildAreas": [
+    {
+      "id": "ai-ml",
+      "title": "AI & Machine Learning",
+      "description": "AI-first applications and assistants built with modern models, APIs, and custom logic — from career tools to conversational systems."
+    },
+    {
+      "id": "software",
+      "title": "Software Development",
+      "description": "Full applications built end to end: interface design, application logic, data models, and deployment of things that actually run."
+    },
+    {
+      "id": "robotics",
+      "title": "Robotics & Engineering",
+      "description": "Competition robotics and engineering builds, from FLL and STEM Racing to hardware experiments and exhibition demonstrations."
+    },
+    {
+      "id": "vision",
+      "title": "Computer Vision",
+      "description": "Experiments in perception: gesture control, camera systems, and interfaces that respond to the physical world."
+    },
+    {
+      "id": "product",
+      "title": "Product Development",
+      "description": "Taking an idea from a rough concept through structure, interface, and iteration until it becomes a usable product."
+    },
+    {
+      "id": "data",
+      "title": "Data Science",
+      "description": "Working with data to find patterns, build dashboards, and turn scattered information into something understandable."
+    }
+  ],
+  "certificates": [
+    {
+      "id": "claude-code-101",
+      "title": "Claude Code 101 — Certificate of Completion",
+      "issuer": "Anthropic",
+      "category": "Certifications"
+    },
+    {
+      "id": "claude-101",
+      "title": "Claude 101 — Certificate of Completion",
+      "issuer": "Anthropic",
+      "category": "Certifications"
+    },
+    {
+      "id": "tks-letter-of-acceptance",
+      "title": "Letter of Acceptance — TKS 2026–2027",
+      "issuer": "The Knowledge Society (TKS)",
+      "date": "2026–2027",
+      "category": "Certifications"
+    },
+    {
+      "id": "ai-fluency-students",
+      "title": "AI Fluency for Students — Certificate of Completion",
+      "issuer": "Anthropic",
+      "category": "Certifications"
+    },
+    {
+      "id": "hackerrank-software-engineer-intern",
+      "title": "Software Engineer Intern — Certificate of Accomplishment",
+      "issuer": "HackerRank",
+      "date": "29 Sep 2026",
+      "category": "Certifications"
+    },
+    {
+      "id": "hackerrank-frontend-react",
+      "title": "Frontend Developer (React) — Certificate of Accomplishment",
+      "issuer": "HackerRank",
+      "date": "29 Sep 2026",
+      "category": "Certifications"
+    },
+    {
+      "id": "mongodb-indexing-design",
+      "title": "MongoDB Indexing Design Fundamentals — Proof of Completion",
+      "issuer": "MongoDB",
+      "date": "7 Oct 2026",
+      "category": "Certifications",
+      "verifyUrl": "https://www.credly.com/badges/0bf7e882-82bd-4937-85fe-a1e20f178359"
+    },
+    {
+      "id": "mongodb-crud-operations",
+      "title": "CRUD Operations in MongoDB — Proof of Completion",
+      "issuer": "MongoDB",
+      "date": "7 Oct 2026",
+      "category": "Certifications",
+      "verifyUrl": "https://www.credly.com/badges/979430cc-755a-47e1-b7a0-e2742a1419b8"
+    },
+    {
+      "id": "datacamp-trust-security",
+      "title": "Trust and Security with Google Cloud — Statement of Accomplishment",
+      "issuer": "DataCamp",
+      "date": "7 Oct 2026",
+      "category": "Certifications"
+    },
+    {
+      "id": "datacamp-modernize-infrastructure",
+      "title": "Modernize Infrastructure and Applications with Google Cloud — Statement of Accomplishment",
+      "issuer": "DataCamp",
+      "date": "7 Oct 2026",
+      "category": "Certifications"
+    },
+    {
+      "id": "datacamp-digital-transformation",
+      "title": "Digital Transformation with Google Cloud — Statement of Accomplishment",
+      "issuer": "DataCamp",
+      "date": "6 Oct 2026",
+      "category": "Certifications"
+    },
+    {
+      "id": "datacamp-innovating-ai",
+      "title": "Innovating with Google Cloud AI — Statement of Accomplishment",
+      "issuer": "DataCamp",
+      "date": "6 Oct 2026",
+      "category": "Certifications"
+    },
+    {
+      "id": "fll-innovation",
+      "title": "Innovation Award — Winner",
+      "issuer": "FIRST LEGO League UAE (UNEARTHED)",
+      "date": "Dubai Regional 2025-2026",
+      "category": "FLL"
+    },
+    {
+      "id": "fll-participation",
+      "title": "Certificate of Participation — Challenge: Dubai Regional",
+      "issuer": "FIRST LEGO League UAE (UNEARTHED)",
+      "date": "2025-2026",
+      "category": "FLL"
+    },
+    {
+      "id": "techfest-data-science-1st",
+      "title": "Certificate of Merit — 1st Position, Data Science pathway",
+      "issuer": "The Indian High School, Dubai · Group Techfest",
+      "date": "6 May 2025",
+      "category": "Data Science"
+    },
+    {
+      "id": "techfest-iot-2nd",
+      "title": "Certificate of Merit — 2nd Position, IoT pathway",
+      "issuer": "The Indian High School, Dubai · Group Techfest",
+      "date": "6 May 2025",
+      "category": "IoT"
+    },
+    {
+      "id": "techfest-space-tech-2nd",
+      "title": "Certificate of Appreciation — 2nd Position, Space Tech pathway",
+      "issuer": "The Indian High School, Dubai · Group Techfest",
+      "date": "9 May 2024",
+      "category": "Space Tech"
+    },
+    {
+      "id": "techfest-digiquizz",
+      "title": "Certificate of Participation — Digiquizz pathway",
+      "issuer": "The Indian High School, Dubai · Group Techfest",
+      "date": "6 May 2025",
+      "category": "TechFest"
+    },
+    {
+      "id": "techfest-coding",
+      "title": "Certificate of Participation — Coding pathway",
+      "issuer": "The Indian High School, Dubai · Group Techfest",
+      "date": "9 May 2024",
+      "category": "TechFest"
+    },
+    {
+      "id": "techfest-data-science-participation",
+      "title": "Certificate of Participation — Data Science pathway",
+      "issuer": "The Indian High School, Dubai · Group Techfest",
+      "date": "9 May 2024",
+      "category": "Data Science"
+    },
+    {
+      "id": "techfest-design",
+      "title": "Certificate of Participation — Design pathway",
+      "issuer": "The Indian High School, Dubai · Group Techfest",
+      "date": "9 May 2024",
+      "category": "TechFest"
+    },
+    {
+      "id": "techfest-space-tech-appreciation",
+      "title": "Certificate of Appreciation — 2nd Position, Space Tech pathway",
+      "issuer": "The Indian High School, Dubai · Group Techfest",
+      "date": "9 May 2024",
+      "category": "Space Tech"
+    },
+    {
+      "id": "robotics-2025",
+      "title": "Certificate of Participation — Robotics & Coding @IHS, after school program",
+      "issuer": "The Indian High School, Dubai",
+      "date": "Academic year 2025-2026",
+      "category": "Robotics"
+    },
+    {
+      "id": "robotics-2023",
+      "title": "Certificate of Participation — Robotics with mBot @IHS, after school program",
+      "issuer": "The Indian High School, Dubai",
+      "date": "28 February 2023 · Academic year 2022-2023",
+      "category": "Robotics"
+    },
+    {
+      "id": "mun-ihsmun-2025",
+      "title": "IHSMUN 2025 — Certificate of Participation",
+      "issuer": "The Indian High School, Dubai",
+      "date": "24-26 October 2025",
+      "category": "MUN"
+    },
+    {
+      "id": "math-expo",
+      "title": "Certificate of Participation — Second prize, Math Expo “Math & Me”",
+      "issuer": "The Indian High School, Dubai",
+      "date": "31 May 2024",
+      "category": "STEM / Engineering"
+    },
+    {
+      "id": "tech-sphere",
+      "title": "Certificate of Appreciation — SMILE and SHINE Tech Sphere",
+      "issuer": "The Indian High School, Dubai",
+      "date": "29 November 2024",
+      "category": "STEM / Engineering"
+    },
+    {
+      "id": "creative-model",
+      "title": "Certificate of Participation — Creative and Innovative Model / Experiment",
+      "issuer": "The Indian High School, Dubai",
+      "category": "STEM / Engineering"
+    },
+    {
+      "id": "asdan-environmental",
+      "title": "Environmental Short Course — 4 ASDAN credits",
+      "issuer": "ASDAN",
+      "date": "Issued 29 January 2026",
+      "category": "Certifications"
+    },
+    {
+      "id": "skill-up",
+      "title": "Certificate of Appreciation — Skill Up initiative",
+      "issuer": "The Indian High School, Oud Metha, Dubai",
+      "date": "14 October 2024",
+      "category": "Academic"
+    },
+    {
+      "id": "future-uae-exhibition",
+      "title": "Certificate of Participation — Future UAE Exhibition",
+      "issuer": "The Indian High School, Dubai",
+      "date": "12 May 2025",
+      "category": "Academic"
+    },
+    {
+      "id": "sst-exhibition",
+      "title": "Certificate of Participation — SST Exhibition: UAE Legacy, Progress and Destiny",
+      "issuer": "The Indian High School, Dubai",
+      "date": "20 September 2024",
+      "category": "Academic"
+    },
+    {
+      "id": "republic-day",
+      "title": "Certificate of Participation — Republic Day celebrations",
+      "issuer": "The Indian High School, Dubai",
+      "date": "26 January 2024",
+      "category": "Academic"
+    },
+    {
+      "id": "shot-put",
+      "title": "Certificate of Merit — Third position, Shot Put (Grade 7)",
+      "issuer": "The Indian High School, Dubai · Annual Athletic Meet 2025",
+      "date": "12 November 2025",
+      "category": "Other"
+    }
+  ],
+  "skillsPage": "https://andrewmk.is-a.dev/skills",
+  "achievementsPage": "https://andrewmk.is-a.dev/achievements"
+}

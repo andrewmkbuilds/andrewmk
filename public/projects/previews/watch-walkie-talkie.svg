@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#060d18"/>
+      <stop offset="0.5" stop-color="#08182a"/>
+      <stop offset="1" stop-color="#0c2437"/>
+    </linearGradient>
+    <radialGradient id="gold" cx="0.18" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#d9b268" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#d9b268" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blue" cx="0.88" cy="0.42" r="0.45">
+      <stop offset="0" stop-color="#3d9fe0" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#3d9fe0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0f2839"/>
+      <stop offset="1" stop-color="#081620"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22374a"/>
+      <stop offset="1" stop-color="#0e1f2d"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#gold)"/>
+  <rect width="1200" height="800" fill="url(#blue)"/>
+
+  <text x="76" y="84" fill="#8fb6d6" font-family="ui-monospace, Menlo, monospace" font-size="15" letter-spacing="4">REAL-TIME COMMUNICATION</text>
+
+  <!-- watch -->
+  <g>
+    <rect x="196" y="196" width="96" height="120" rx="18" fill="#12222f"/>
+    <rect x="196" y="516" width="96" height="120" rx="18" fill="#12222f"/>
+    <rect x="142" y="286" width="204" height="260" rx="58" fill="url(#body)" stroke="#ffffff" stroke-opacity="0.14" stroke-width="2"/>
+    <rect x="168" y="312" width="152" height="208" rx="44" fill="url(#screen)"/>
+    <circle cx="244" cy="416" r="58" fill="none" stroke="#d9b268" stroke-opacity="0.35" stroke-width="2"/>
+    <circle cx="244" cy="416" r="44" fill="#d9b268" fill-opacity="0.14" stroke="#d9b268" stroke-opacity="0.6" stroke-width="2"/>
+    <text x="244" y="424" text-anchor="middle" fill="#f0d29a" font-family="ui-monospace, Menlo, monospace" font-size="15" letter-spacing="2">PTT</text>
+    <text x="244" y="362" text-anchor="middle" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="2">CH 03</text>
+    <text x="244" y="478" text-anchor="middle" fill="#9dc4a9" font-family="ui-monospace, Menlo, monospace" font-size="10" letter-spacing="2">HOLD</text>
+    <rect x="318" y="404" width="8" height="34" rx="4" fill="#3d4f61"/>
+  </g>
+
+  <!-- transmission arcs -->
+  <g fill="none" stroke="#d9b268" stroke-linecap="round">
+    <path d="M400 372a64 64 0 0 1 0 88" stroke-opacity="0.65" stroke-width="3"/>
+    <path d="M444 344a116 116 0 0 1 0 144" stroke-opacity="0.42" stroke-width="3"/>
+    <path d="M488 316a168 168 0 0 1 0 200" stroke-opacity="0.24" stroke-width="3"/>
+  </g>
+  <g fill="#7cc7f0">
+    <rect x="540" y="398" width="7" height="36" rx="3.5" opacity="0.9"/>
+    <rect x="556" y="378" width="7" height="76" rx="3.5" opacity="0.7"/>
+    <rect x="572" y="392" width="7" height="48" rx="3.5" opacity="0.8"/>
+    <rect x="588" y="368" width="7" height="96" rx="3.5" opacity="0.55"/>
+    <rect x="604" y="388" width="7" height="56" rx="3.5" opacity="0.75"/>
+    <rect x="620" y="376" width="7" height="80" rx="3.5" opacity="0.5"/>
+    <rect x="636" y="396" width="7" height="40" rx="3.5" opacity="0.7"/>
+  </g>
+
+  <!-- phone -->
+  <g>
+    <rect x="716" y="196" width="212" height="404" rx="30" fill="url(#body)" stroke="#ffffff" stroke-opacity="0.14" stroke-width="2"/>
+    <rect x="730" y="210" width="184" height="376" rx="22" fill="url(#screen)"/>
+    <rect x="784" y="222" width="76" height="8" rx="4" fill="#1d3040"/>
+    <text x="822" y="278" text-anchor="middle" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="2">PAIRED · WATCH 01</text>
+    <circle cx="822" cy="368" r="46" fill="#3d9fe0" fill-opacity="0.14" stroke="#7cc7f0" stroke-opacity="0.55" stroke-width="2"/>
+    <circle cx="822" cy="368" r="16" fill="#7cc7f0" fill-opacity="0.7"/>
+    <g fill="none" stroke="#7cc7f0" stroke-width="4" stroke-linecap="round">
+      <path d="M822 396a28 28 0 0 0 0-56" stroke-opacity="0.7"/>
+      <path d="M842 410a46 46 0 0 0 0-84" stroke-opacity="0.4"/>
+    </g>
+    <text x="822" y="452" text-anchor="middle" fill="#eaf3fb" font-family="Georgia, 'Times New Roman', serif" font-size="26">Listening</text>
+    <rect x="754" y="480" width="136" height="34" rx="17" fill="#d9b268" fill-opacity="0.16" stroke="#d9b268" stroke-opacity="0.45"/>
+    <text x="822" y="502" text-anchor="middle" fill="#e8c98f" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="2">RELEASE TO SEND</text>
+    <text x="822" y="552" text-anchor="middle" fill="#5f7285" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="2">REAL-TIME AUDIO</text>
+  </g>
+
+  <!-- identity -->
+  <text x="76" y="706" fill="#f4f8fc" font-family="Georgia, 'Times New Roman', serif" font-size="62">Watch Walkie Talkie</text>
+  <text x="76" y="742" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="3">PUSH-TO-TALK ACROSS DEVICES</text>
+</svg>

@@ -1,0 +1,190 @@
+.accordion_section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0;
+}
+
+/* Individual accordion item */
+.accordion_item {
+  border-bottom: 1px solid #e6e6e6;
+}
+
+/* Remove border from last item */
+.accordion_item_last {
+  border-bottom: none;
+}
+
+/* Trigger button */
+.accordion_trigger {
+  display: flex;
+  width: 100%;
+  padding: 1.25rem 0;
+  justify-content: space-between;
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: #646464;
+  transition: color 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Hover state - black color inherited by children */
+.accordion_trigger:hover {
+  color: #0c0c0c;
+}
+
+/* Active state - black color */
+.accordion_trigger[aria-expanded="true"] {
+  color: #0c0c0c;
+}
+
+.accordion_trigger:focus {
+  outline: none;
+}
+
+.accordion_trigger:focus-visible {
+  outline: 2px solid #a4fb81;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Question text - inherits color from trigger */
+.accordion_title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: inherit;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Icon container - inherits color from trigger */
+.accordion_icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  color: inherit;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Icon paths - GPU accelerated */
+[data-anm-accordion-icon-vertical],
+[data-anm-accordion-icon-horizontal] {
+  transform: translateZ(0);
+  will-change: opacity;
+}
+
+/* Content wrapper */
+.accordion_content {
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: height;
+}
+
+/* Answer text */
+.accordion_text {
+  padding-bottom: 1.25rem;
+  font-size: 0.875rem;
+  color: #737373;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Split text lines - for stagger animation */
+.accordion_split_line {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Demo page wrapper */
+.accordion_demo_wrap {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+/* Left column - Title */
+.accordion_demo_title {
+  grid-column: 1 / 5;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 500;
+  color: #0a0a0a;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0;
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+}
+
+/* Right column - Accordion */
+.accordion_demo_content {
+  grid-column: 6 / 13;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .accordion_trigger,
+  .accordion_icon,
+  .accordion_content {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .accordion_item {
+    border-width: 2px;
+  }
+
+  .accordion_trigger:focus-visible {
+    outline-width: 3px;
+  }
+}
+
+@media (max-width: 991px) {
+  .accordion_demo_wrap {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 3rem 1.5rem;
+  }
+
+  .accordion_demo_title {
+    grid-column: 1 / -1;
+    position: static;
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+  }
+
+  .accordion_demo_content {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 479px) {
+  .accordion_demo_wrap {
+    padding: 2rem 1rem;
+    gap: 2rem;
+  }
+
+  .accordion_trigger {
+    padding: 1rem 0;
+  }
+
+  .accordion_title {
+    font-size: 0.9375rem;
+  }
+
+  .accordion_text {
+    font-size: 0.8125rem;
+    padding-bottom: 1rem;
+  }
+}

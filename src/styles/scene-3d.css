@@ -1,0 +1,164 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   THE AMBIENT BACKGROUND
+
+   A near-black navy room holding one dimensional field. Mounted once by
+   components/ui/background/SceneBackground.tsx.
+
+   Structure:
+     .scene-base       the room: a #080d19 → #050914 foundation lit from above
+     .scene-bloom      two soft light fields, behind the wall
+     .scene-grid       the React Bits GridMotion wall (see styles/grid-motion.css)
+     .scene-vignette   the falloff that seats the content
+     .ambient-grain    the film grain that stops gradients banding
+
+   The depth comes from one perspective and one lean, not from hand-tuned
+   planes: the wall is rotated and leaned once, so it recedes the same way at
+   every viewport height. This replaced the earlier three-plane CSS 3D scene,
+   whose slabs, cube and rings read at inconsistent perceived depths.
+
+   Budget rules (see AGENTS.md › The ambient background):
+     • no canvas, no WebGL, no filter: blur(), no backdrop-filter
+     • only transform / opacity animate, on the compositor
+     • the only JavaScript is GridMotion's single rAF loop
+     • phones get a fainter wall, reduced motion gets a still one
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.scene {
+  isolation: isolate;
+  background: #050914;
+}
+
+/* ── The room ────────────────────────────────────────────────────────── */
+
+/* One light, not three. A wide overhead cone lights the top of the room, one
+   warm edge sits far right, and a low wash grounds the foot of the page — so
+   there is no blotchy shoulder where two same-weight gradients meet. */
+.scene-base {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      124% 74% at 50% -20%,
+      hsl(216 92% 34% / 0.28),
+      hsl(218 88% 22% / 0.1) 46%,
+      transparent 74%
+    ),
+    radial-gradient(
+      54% 46% at 96% -6%,
+      hsl(40 88% 64% / 0.09),
+      transparent 74%
+    ),
+    radial-gradient(
+      86% 42% at 50% 116%,
+      hsl(214 84% 30% / 0.1),
+      transparent 72%
+    ),
+    linear-gradient(180deg, #070c17 0%, #060a12 46%, #04070e 76%, #03060c 100%);
+}
+
+/* ── Distant light ───────────────────────────────────────────────────── */
+
+.scene-bloom {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.scene-bloom-blue {
+  left: 6%;
+  top: -26%;
+  width: 88vw;
+  height: 64vh;
+  background: radial-gradient(
+    closest-side,
+    hsl(212 100% 64% / 0.2),
+    hsl(216 96% 44% / 0.08) 52%,
+    transparent 100%
+  );
+  animation: scene-drift-a 56s ease-in-out infinite;
+}
+
+.scene-bloom-gold {
+  right: 0%;
+  top: 0%;
+  width: 42vw;
+  height: 44vh;
+  background: radial-gradient(
+    closest-side,
+    hsl(42 92% 70% / 0.1),
+    transparent 100%
+  );
+  animation: scene-drift-b 74s ease-in-out infinite;
+}
+
+/* ── The depth field ─────────────────────────────────────────────────── */
+
+/* The wall is deliberately quiet: a third of the room's luminance at most,
+   so body copy and glass panels stay the brightest things on screen. Tile
+   faces are near-invisible on their own — what reads is the hairline grid and
+   the occasional name, which keeps the surface clean instead of tiled. */
+.scene-grid {
+  opacity: 0.7;
+}
+
+/* ── Atmosphere ──────────────────────────────────────────────────────── */
+
+/* A three-stop falloff instead of a two-stop one: the eye reads the old edge
+   as a ring, the extra stop as distance. */
+.scene-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 124% 96% at 50% 38%,
+      transparent 34%,
+      hsl(222 72% 3% / 0.26) 70%,
+      hsl(222 74% 2% / 0.6) 100%
+    ),
+    linear-gradient(180deg, hsl(222 72% 2% / 0.3), transparent 20%);
+}
+
+/* ── Motion ──────────────────────────────────────────────────────────── */
+
+@keyframes scene-drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-3%, 2%, 0) scale(1.06);
+  }
+}
+
+@keyframes scene-drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.04);
+  }
+  50% {
+    transform: translate3d(4%, -3%, 0) scale(0.97);
+  }
+}
+
+/* ── Phones: the same room, quieter ──────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .scene-grid {
+    opacity: 0.56;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-bloom {
+    animation: none !important;
+  }
+}
+
+@media print {
+  .scene {
+    display: none !important;
+  }
+}

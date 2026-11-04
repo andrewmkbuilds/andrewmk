@@ -13,7 +13,9 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 export function projectJsonLd(project: Project, pagePath: string) {
-  const platform = project.platform ? PLATFORM_LABEL[project.platform] : undefined;
+  const platform = project.platform
+    ? PLATFORM_LABEL[project.platform]
+    : undefined;
 
   return {
     "@type": "SoftwareApplication",
@@ -25,25 +27,47 @@ export function projectJsonLd(project: Project, pagePath: string) {
     author: { "@type": "Person", name: AUTHOR, url: `${SITE_URL}/` },
     creator: { "@type": "Person", name: AUTHOR, url: `${SITE_URL}/` },
     operatingSystem: "Web",
-    keywords: [...project.tech, ...(platform ? [`Built with ${platform}`] : [])].join(", "),
+    keywords: [
+      ...project.tech,
+      ...(platform ? [`Built with ${platform}`] : []),
+    ].join(", "),
     featureList: project.built,
     ...(platform
       ? {
           isBasedOn: { "@type": "SoftwareApplication", name: platform },
           additionalProperty: [
-            { "@type": "PropertyValue", name: "Build platform", value: platform },
-            { "@type": "PropertyValue", name: "Stack", value: project.tech.join(", ") },
+            {
+              "@type": "PropertyValue",
+              name: "Build platform",
+              value: platform,
+            },
+            {
+              "@type": "PropertyValue",
+              name: "Stack",
+              value: project.tech.join(", "),
+            },
             { "@type": "PropertyValue", name: "Status", value: project.status },
           ],
         }
       : {
           additionalProperty: [
-            { "@type": "PropertyValue", name: "Stack", value: project.tech.join(", ") },
+            {
+              "@type": "PropertyValue",
+              name: "Stack",
+              value: project.tech.join(", "),
+            },
             { "@type": "PropertyValue", name: "Status", value: project.status },
           ],
         }),
     ...(STATUS_LABEL[project.status]
-      ? { offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: STATUS_LABEL[project.status] } }
+      ? {
+          offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "USD",
+            availability: STATUS_LABEL[project.status],
+          },
+        }
       : {}),
   };
 }

@@ -1,0 +1,92 @@
+{
+  "slug": "cognos",
+  "name": "COGNOS",
+  "category": "Cognitive / AI",
+  "description": "An AI cognitive operating system designed to capture raw thoughts, classify them, and map connections between ideas.",
+  "problem": "Notes apps store text; they do not store thinking. Ideas arrive unformed, at bad times, and the connection between two of them is usually the valuable part. COGNOS was an attempt to build a capture surface that classifies a raw thought the moment it lands and then shows how it relates to everything captured before.",
+  "status": "Live",
+  "live": "https://cognos-app.base44.app",
+  "platform": "base44",
+  "tech": [
+    "AI APIs",
+    "NLP",
+    "Graph Architecture"
+  ],
+  "built": [
+    "Thought capture",
+    "AI classification",
+    "Idea graph mapping"
+  ],
+  "filters": [
+    "AI",
+    "Base44"
+  ],
+  "featured": false,
+  "stack": [
+    {
+      "group": "Capture",
+      "items": [
+        "Fast entry",
+        "Voice-to-text input",
+        "Tag inference"
+      ]
+    },
+    {
+      "group": "AI layer",
+      "items": [
+        "Classification",
+        "Embeddings",
+        "Similarity linking",
+        "NLP cleanup"
+      ]
+    },
+    {
+      "group": "Graph",
+      "items": [
+        "Node/edge model",
+        "Cluster detection",
+        "Interactive map"
+      ]
+    },
+    {
+      "group": "Platform",
+      "items": [
+        "Base44",
+        "Persistent store"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "title": "Classification that is useful, not noisy",
+      "detail": "Over-eager tagging made everything look connected. I constrained the label set and added a confidence threshold, so low-certainty entries stay unclassified rather than polluting the graph."
+    },
+    {
+      "title": "Meaningful edges",
+      "detail": "Keyword overlap linked unrelated notes. Switching to embedding similarity with a minimum distance produced far fewer but far better connections."
+    },
+    {
+      "title": "Graphs that stay readable",
+      "detail": "Past a few hundred nodes the map turned into hairball. Rendering now collapses clusters by default and expands on demand."
+    }
+  ],
+  "results": [
+    {
+      "label": "Status",
+      "value": "Live",
+      "note": "Usable at cognos-app.base44.app."
+    },
+    {
+      "label": "Pipeline",
+      "value": "Capture → classify → connect",
+      "note": "Fully automatic."
+    },
+    {
+      "label": "Link quality",
+      "value": "Embedding-based",
+      "note": "Replaced keyword matching."
+    }
+  ],
+  "caseStudy": "https://andrewmk.is-a.dev/projects/cognos",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/cognos.json"
+}

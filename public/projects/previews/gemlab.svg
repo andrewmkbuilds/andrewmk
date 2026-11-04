@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#070d19"/>
+      <stop offset="0.5" stop-color="#0a1828"/>
+      <stop offset="1" stop-color="#0e2337"/>
+    </linearGradient>
+    <radialGradient id="b1" cx="0.25" cy="0.1" r="0.55">
+      <stop offset="0" stop-color="#3d9fe0" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#3d9fe0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="b2" cx="0.55" cy="0.9" r="0.5">
+      <stop offset="0" stop-color="#d9b268" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#d9b268" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="pGold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#12303f"/>
+      <stop offset="1" stop-color="#0b1e2b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#b1)"/>
+  <rect width="1200" height="800" fill="url(#b2)"/>
+
+  <text x="76" y="84" fill="#8fb6d6" font-family="ui-monospace, Menlo, monospace" font-size="15" letter-spacing="4">AI · TOOLING · DESKTOP</text>
+  <text x="72" y="152" fill="#f4f8fc" font-family="Georgia, 'Times New Roman', serif" font-size="60">GemLab</text>
+
+  <!-- mode switch -->
+  <g>
+    <rect x="640" y="96" width="484" height="52" rx="26" fill="#0b1c2b" stroke="#ffffff" stroke-opacity="0.12"/>
+    <rect x="646" y="102" width="152" height="40" rx="20" fill="#d9b268" fill-opacity="0.18" stroke="#d9b268" stroke-opacity="0.5"/>
+    <text x="722" y="128" text-anchor="middle" fill="#f0d29a" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="2">FRIENDLY</text>
+    <text x="884" y="128" text-anchor="middle" fill="#8199ac" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="2">PROFESSIONAL</text>
+    <text x="1046" y="128" text-anchor="middle" fill="#8199ac" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="2">CREATIVE</text>
+  </g>
+
+  <!-- persona 1 -->
+  <g>
+    <rect x="76" y="244" width="322" height="400" rx="16" fill="#0b1c2b" stroke="#ffffff" stroke-opacity="0.09"/>
+    <rect x="76" y="244" width="322" height="3" rx="1.5" fill="#d9b268"/>
+    <text x="102" y="286" fill="#e8c98f" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="3">FRIENDLY</text>
+    <circle cx="366" cy="281" r="9" fill="#d9b268" fill-opacity="0.35"/>
+
+    <rect x="102" y="312" width="228" height="66" rx="18" fill="#ffffff" fill-opacity="0.05"/>
+    <rect x="120" y="330" width="180" height="7" rx="3.5" fill="#c3d1de" opacity="0.6"/>
+    <rect x="120" y="348" width="140" height="7" rx="3.5" fill="#7d90a3"/>
+
+    <rect x="102" y="396" width="270" height="80" rx="18" fill="#d9b268" fill-opacity="0.1" stroke="#d9b268" stroke-opacity="0.25"/>
+    <rect x="120" y="416" width="212" height="7" rx="3.5" fill="#e8c98f" opacity="0.55"/>
+    <rect x="120" y="436" width="228" height="7" rx="3.5" fill="#b09055" opacity="0.7"/>
+    <rect x="120" y="454" width="152" height="7" rx="3.5" fill="#b09055" opacity="0.5"/>
+
+    <rect x="102" y="494" width="208" height="58" rx="18" fill="#ffffff" fill-opacity="0.05"/>
+    <rect x="120" y="512" width="164" height="7" rx="3.5" fill="#c3d1de" opacity="0.55"/>
+    <rect x="120" y="530" width="112" height="7" rx="3.5" fill="#7d90a3"/>
+
+    <text x="102" y="600" fill="#6f8395" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="2">WARM · CASUAL</text>
+  </g>
+
+  <!-- persona 2 (foreground) -->
+  <g>
+    <rect x="430" y="206" width="340" height="470" rx="16" fill="url(#pGold)" stroke="#7cc7f0" stroke-opacity="0.26" stroke-width="1.5"/>
+    <rect x="430" y="206" width="340" height="3" rx="1.5" fill="#7cc7f0"/>
+    <text x="458" y="250" fill="#9ed4f4" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="3">PROFESSIONAL</text>
+    <circle cx="738" cy="245" r="9" fill="#3d9fe0" fill-opacity="0.4"/>
+
+    <rect x="458" y="276" width="240" height="64" rx="6" fill="#ffffff" fill-opacity="0.05"/>
+    <rect x="476" y="294" width="190" height="7" rx="3.5" fill="#c3d1de" opacity="0.65"/>
+    <rect x="476" y="312" width="146" height="7" rx="3.5" fill="#7d90a3"/>
+
+    <rect x="458" y="358" width="286" height="92" rx="6" fill="#3d9fe0" fill-opacity="0.12" stroke="#7cc7f0" stroke-opacity="0.3"/>
+    <rect x="476" y="378" width="228" height="7" rx="3.5" fill="#9ed4f4" opacity="0.6"/>
+    <rect x="476" y="398" width="246" height="7" rx="3.5" fill="#7cb6d8" opacity="0.7"/>
+    <rect x="476" y="418" width="180" height="7" rx="3.5" fill="#7cb6d8" opacity="0.5"/>
+
+    <rect x="458" y="468" width="204" height="58" rx="6" fill="#ffffff" fill-opacity="0.05"/>
+    <rect x="476" y="486" width="160" height="7" rx="3.5" fill="#c3d1de" opacity="0.55"/>
+    <rect x="476" y="504" width="124" height="7" rx="3.5" fill="#7d90a3"/>
+
+    <rect x="458" y="546" width="286" height="56" rx="6" fill="#3d9fe0" fill-opacity="0.1"/>
+    <rect x="476" y="564" width="196" height="7" rx="3.5" fill="#9ed4f4" opacity="0.5"/>
+    <rect x="476" y="582" width="140" height="7" rx="3.5" fill="#6f97b5"/>
+
+    <text x="458" y="638" fill="#6f8395" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="2">PRECISE · STRUCTURED</text>
+  </g>
+
+  <!-- persona 3 -->
+  <g>
+    <rect x="802" y="244" width="322" height="400" rx="16" fill="#0b1c2b" stroke="#ffffff" stroke-opacity="0.09"/>
+    <rect x="802" y="244" width="322" height="3" rx="1.5" fill="#7ea88f"/>
+    <text x="828" y="286" fill="#9dc4a9" font-family="ui-monospace, Menlo, monospace" font-size="12" letter-spacing="3">CREATIVE</text>
+    <circle cx="1092" cy="281" r="9" fill="#7ea88f" fill-opacity="0.4"/>
+
+    <rect x="828" y="312" width="200" height="58" rx="29" fill="#ffffff" fill-opacity="0.05"/>
+    <rect x="848" y="330" width="150" height="7" rx="3.5" fill="#c3d1de" opacity="0.6"/>
+    <rect x="848" y="348" width="112" height="7" rx="3.5" fill="#7d90a3"/>
+
+    <rect x="828" y="388" width="272" height="94" rx="29" fill="#7ea88f" fill-opacity="0.1" stroke="#7ea88f" stroke-opacity="0.28"/>
+    <rect x="848" y="410" width="210" height="7" rx="3.5" fill="#bcd6c6" opacity="0.55"/>
+    <rect x="848" y="430" width="232" height="7" rx="3.5" fill="#8fb5a0" opacity="0.7"/>
+    <rect x="848" y="450" width="166" height="7" rx="3.5" fill="#8fb5a0" opacity="0.5"/>
+
+    <rect x="828" y="500" width="188" height="58" rx="29" fill="#ffffff" fill-opacity="0.05"/>
+    <rect x="848" y="518" width="146" height="7" rx="3.5" fill="#c3d1de" opacity="0.55"/>
+    <rect x="848" y="536" width="102" height="7" rx="3.5" fill="#7d90a3"/>
+
+    <text x="828" y="600" fill="#6f8395" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="2">PLAYFUL · EXPLORATORY</text>
+  </g>
+
+  <text x="76" y="700" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="3">ONE PROMPT · THREE PERSONAS · THREADED REPLIES</text>
+</svg>

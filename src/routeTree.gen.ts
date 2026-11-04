@@ -15,10 +15,17 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AchievementsRouteImport } from './routes/achievements'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ColophonRouteImport } from './routes/colophon'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DevelopersRouteImport } from './routes/developers'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as JourneyRouteImport } from './routes/journey'
+import { Route as NowRouteImport } from './routes/now'
+import { Route as PressKitRouteImport } from './routes/press-kit'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ResumeRouteImport } from './routes/resume'
+import { Route as SitemapRouteImport } from './routes/sitemap'
+import { Route as SkillsRouteImport } from './routes/skills'
 import { Route as WorkRouteImport } from './routes/work'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
@@ -30,6 +37,8 @@ import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated/admin.messages'
 import { Route as AuthenticatedAdminProjectsRouteImport } from './routes/_authenticated/admin.projects'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
+import { Route as ApiCvDocxRouteImport } from './routes/api/cv.docx'
+import { Route as ApiCvPdfRouteImport } from './routes/api/cv.pdf'
 import { Route as AuthenticatedAdminSettingsSecurityRouteImport } from './routes/_authenticated/admin.settings.security'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
 
@@ -62,14 +71,39 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ColophonRoute = ColophonRouteImport.update({
+  id: '/colophon',
+  path: '/colophon',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DevelopersRoute = DevelopersRouteImport.update({
+  id: '/developers',
+  path: '/developers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JourneyRoute = JourneyRouteImport.update({
   id: '/journey',
   path: '/journey',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NowRoute = NowRouteImport.update({
+  id: '/now',
+  path: '/now',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PressKitRoute = PressKitRouteImport.update({
+  id: '/press-kit',
+  path: '/press-kit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -80,6 +114,16 @@ const ProfileRoute = ProfileRouteImport.update({
 const ResumeRoute = ResumeRouteImport.update({
   id: '/resume',
   path: '/resume',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapRoute = SitemapRouteImport.update({
+  id: '/sitemap',
+  path: '/sitemap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsRoute = SkillsRouteImport.update({
+  id: '/skills',
+  path: '/skills',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WorkRoute = WorkRouteImport.update({
@@ -140,6 +184,16 @@ const AuthenticatedAdminSettingsRoute =
     path: '/admin/settings',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiCvDocxRoute = ApiCvDocxRouteImport.update({
+  id: '/api/cv/docx',
+  path: '/api/cv/docx',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCvPdfRoute = ApiCvPdfRouteImport.update({
+  id: '/api/cv/pdf',
+  path: '/api/cv/pdf',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminSettingsSecurityRoute =
   AuthenticatedAdminSettingsSecurityRouteImport.update({
     id: '/security',
@@ -158,10 +212,17 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/achievements': typeof AchievementsRoute
   '/auth': typeof AuthRoute
+  '/colophon': typeof ColophonRoute
   '/contact': typeof ContactRoute
+  '/developers': typeof DevelopersRoute
+  '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
+  '/now': typeof NowRoute
+  '/press-kit': typeof PressKitRoute
   '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
+  '/sitemap': typeof SitemapRoute
+  '/skills': typeof SkillsRoute
   '/work': typeof WorkRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -172,6 +233,8 @@ export interface FileRoutesByFullPath {
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/projects': typeof AuthenticatedAdminProjectsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRouteWithChildren
+  '/api/cv/docx': typeof ApiCvDocxRoute
+  '/api/cv/pdf': typeof ApiCvPdfRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/settings/security': typeof AuthenticatedAdminSettingsSecurityRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -182,10 +245,17 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/achievements': typeof AchievementsRoute
   '/auth': typeof AuthRoute
+  '/colophon': typeof ColophonRoute
   '/contact': typeof ContactRoute
+  '/developers': typeof DevelopersRoute
+  '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
+  '/now': typeof NowRoute
+  '/press-kit': typeof PressKitRoute
   '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
+  '/sitemap': typeof SitemapRoute
+  '/skills': typeof SkillsRoute
   '/work': typeof WorkRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -196,6 +266,8 @@ export interface FileRoutesByTo {
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/projects': typeof AuthenticatedAdminProjectsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRouteWithChildren
+  '/api/cv/docx': typeof ApiCvDocxRoute
+  '/api/cv/pdf': typeof ApiCvPdfRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/settings/security': typeof AuthenticatedAdminSettingsSecurityRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -208,10 +280,17 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/achievements': typeof AchievementsRoute
   '/auth': typeof AuthRoute
+  '/colophon': typeof ColophonRoute
   '/contact': typeof ContactRoute
+  '/developers': typeof DevelopersRoute
+  '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
+  '/now': typeof NowRoute
+  '/press-kit': typeof PressKitRoute
   '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
+  '/sitemap': typeof SitemapRoute
+  '/skills': typeof SkillsRoute
   '/work': typeof WorkRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -222,6 +301,8 @@ export interface FileRoutesById {
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/_authenticated/admin/projects': typeof AuthenticatedAdminProjectsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRouteWithChildren
+  '/api/cv/docx': typeof ApiCvDocxRoute
+  '/api/cv/pdf': typeof ApiCvPdfRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/settings/security': typeof AuthenticatedAdminSettingsSecurityRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -234,10 +315,17 @@ export interface FileRouteTypes {
     | '/about'
     | '/achievements'
     | '/auth'
+    | '/colophon'
     | '/contact'
+    | '/developers'
+    | '/faq'
     | '/journey'
+    | '/now'
+    | '/press-kit'
     | '/profile'
     | '/resume'
+    | '/sitemap'
+    | '/skills'
     | '/work'
     | '/blog/$slug'
     | '/projects/$slug'
@@ -248,6 +336,8 @@ export interface FileRouteTypes {
     | '/admin/messages'
     | '/admin/projects'
     | '/admin/settings'
+    | '/api/cv/docx'
+    | '/api/cv/pdf'
     | '/admin/'
     | '/admin/settings/security'
     | '/api/public/media/$'
@@ -258,10 +348,17 @@ export interface FileRouteTypes {
     | '/about'
     | '/achievements'
     | '/auth'
+    | '/colophon'
     | '/contact'
+    | '/developers'
+    | '/faq'
     | '/journey'
+    | '/now'
+    | '/press-kit'
     | '/profile'
     | '/resume'
+    | '/sitemap'
+    | '/skills'
     | '/work'
     | '/blog/$slug'
     | '/projects/$slug'
@@ -272,6 +369,8 @@ export interface FileRouteTypes {
     | '/admin/messages'
     | '/admin/projects'
     | '/admin/settings'
+    | '/api/cv/docx'
+    | '/api/cv/pdf'
     | '/admin'
     | '/admin/settings/security'
     | '/api/public/media/$'
@@ -283,10 +382,17 @@ export interface FileRouteTypes {
     | '/about'
     | '/achievements'
     | '/auth'
+    | '/colophon'
     | '/contact'
+    | '/developers'
+    | '/faq'
     | '/journey'
+    | '/now'
+    | '/press-kit'
     | '/profile'
     | '/resume'
+    | '/sitemap'
+    | '/skills'
     | '/work'
     | '/blog/$slug'
     | '/projects/$slug'
@@ -297,6 +403,8 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/messages'
     | '/_authenticated/admin/projects'
     | '/_authenticated/admin/settings'
+    | '/api/cv/docx'
+    | '/api/cv/pdf'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/settings/security'
     | '/api/public/media/$'
@@ -309,15 +417,24 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AchievementsRoute: typeof AchievementsRoute
   AuthRoute: typeof AuthRoute
+  ColophonRoute: typeof ColophonRoute
   ContactRoute: typeof ContactRoute
+  DevelopersRoute: typeof DevelopersRoute
+  FaqRoute: typeof FaqRoute
   JourneyRoute: typeof JourneyRoute
+  NowRoute: typeof NowRoute
+  PressKitRoute: typeof PressKitRoute
   ProfileRoute: typeof ProfileRoute
   ResumeRoute: typeof ResumeRoute
+  SitemapRoute: typeof SitemapRoute
+  SkillsRoute: typeof SkillsRoute
   WorkRoute: typeof WorkRoute
   BlogSlugRoute: typeof BlogSlugRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
+  ApiCvDocxRoute: typeof ApiCvDocxRoute
+  ApiCvPdfRoute: typeof ApiCvPdfRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
@@ -365,6 +482,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/colophon': {
+      id: '/colophon'
+      path: '/colophon'
+      fullPath: '/colophon'
+      preLoaderRoute: typeof ColophonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -372,11 +496,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/developers': {
+      id: '/developers'
+      path: '/developers'
+      fullPath: '/developers'
+      preLoaderRoute: typeof DevelopersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/journey': {
       id: '/journey'
       path: '/journey'
       fullPath: '/journey'
       preLoaderRoute: typeof JourneyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/now': {
+      id: '/now'
+      path: '/now'
+      fullPath: '/now'
+      preLoaderRoute: typeof NowRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/press-kit': {
+      id: '/press-kit'
+      path: '/press-kit'
+      fullPath: '/press-kit'
+      preLoaderRoute: typeof PressKitRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -391,6 +543,20 @@ declare module '@tanstack/react-router' {
       path: '/resume'
       fullPath: '/resume'
       preLoaderRoute: typeof ResumeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap': {
+      id: '/sitemap'
+      path: '/sitemap'
+      fullPath: '/sitemap'
+      preLoaderRoute: typeof SitemapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills': {
+      id: '/skills'
+      path: '/skills'
+      fullPath: '/skills'
+      preLoaderRoute: typeof SkillsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/work': {
@@ -470,6 +636,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/cv/docx': {
+      id: '/api/cv/docx'
+      path: '/api/cv/docx'
+      fullPath: '/api/cv/docx'
+      preLoaderRoute: typeof ApiCvDocxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/cv/pdf': {
+      id: '/api/cv/pdf'
+      path: '/api/cv/pdf'
+      fullPath: '/api/cv/pdf'
+      preLoaderRoute: typeof ApiCvPdfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin/settings/security': {
       id: '/_authenticated/admin/settings/security'
       path: '/security'
@@ -530,15 +710,24 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AchievementsRoute: AchievementsRoute,
   AuthRoute: AuthRoute,
+  ColophonRoute: ColophonRoute,
   ContactRoute: ContactRoute,
+  DevelopersRoute: DevelopersRoute,
+  FaqRoute: FaqRoute,
   JourneyRoute: JourneyRoute,
+  NowRoute: NowRoute,
+  PressKitRoute: PressKitRoute,
   ProfileRoute: ProfileRoute,
   ResumeRoute: ResumeRoute,
+  SitemapRoute: SitemapRoute,
+  SkillsRoute: SkillsRoute,
   WorkRoute: WorkRoute,
   BlogSlugRoute: BlogSlugRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
+  ApiCvDocxRoute: ApiCvDocxRoute,
+  ApiCvPdfRoute: ApiCvPdfRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport

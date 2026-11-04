@@ -1,0 +1,182 @@
+# Base44 sandbox stack for the Andrew Mathews portfolio (TanStack Start + Vite).
+#
+# Everything runs from the cloned source with a live-reloading dev server, so
+# edits in the repo appear in the preview without rebuilding an image.
+#
+#   web      - `vite dev` on host port 3000 (the preview entry point)
+#   gateway  - nginx on host port 8000, the Supabase-compatible API surface
+#              (/rest/v1 -> PostgREST, /auth/v1 -> GoTrue) with CORS for the
+#              preview origin
+#   rest     - PostgREST (the app's `@supabase/supabase-js` data layer)
+#   auth     - GoTrue (email + password admin sign-in at /auth)
+#   db       - Postgres, schema applied from supabase/apply_all.sql
+#
+# The Supabase URL/publishable/service keys below are LOCAL development values
+# minted from a dev-only JWT secret (see docker/base44/jwt.mjs); they are not
+# user credentials and never reach a real project.
+
+name: base44-portfolio-dev
+
+x-jwt-secret: &jwt-secret "base44-local-dev-jwt-secret-4f8c2b1e9d7a5c3f6b8e0d2a4c6e8f10"
+
+services:
+  db:
+    image: postgres:16
+    restart: on-failure
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./docker/base44/db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 24
+
+  # Creates the Postgres `auth` schema and its tables with GoTrue's own migrations.
+  auth-migrate:
+    image: supabase/gotrue:v2.170.0
+    restart: "no"
+    command: ["gotrue", "migrate"]
+    environment:
+      # `gotrue migrate` reads this one unprefixed.
+      API_EXTERNAL_URL: "https://8000-${BASE44_PUBLIC_HOST_SUFFIX}"
+      GOTRUE_API_EXTERNAL_URL: "https://8000-${BASE44_PUBLIC_HOST_SUFFIX}"
+      GOTRUE_SITE_URL: "https://3000-${BASE44_PUBLIC_HOST_SUFFIX}"
+      GOTRUE_JWT_SECRET: *jwt-secret
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_DATABASE_URL: "postgres://postgres:postgres@db:5432/postgres?search_path=auth&sslmode=disable"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Applies supabase/apply_all.sql (app tables, RLS policies, triggers, seed posts)
+  # plus the auth helper functions the policies call. Safe across restarts.
+  schema:
+    image: postgres:16
+    restart: "no"
+    environment:
+      PGPASSWORD: postgres
+    volumes:
+      - ./docker/base44/db/prelude.sql:/sql/prelude.sql:ro
+      - ./docker/base44/db/schema.sh:/sql/schema.sh:ro
+      - ./supabase/apply_all.sql:/sql/apply_all.sql:ro
+    command: ["sh", "/sql/schema.sh"]
+    depends_on:
+      auth-migrate:
+        condition: service_completed_successfully
+
+  auth:
+    image: supabase/gotrue:v2.170.0
+    restart: on-failure
+    command: ["gotrue", "serve"]
+    environment:
+      GOTRUE_API_HOST: 0.0.0.0
+      GOTRUE_API_PORT: "9999"
+      # Read unprefixed by GoTrue's config loader.
+      API_EXTERNAL_URL: "https://8000-${BASE44_PUBLIC_HOST_SUFFIX}"
+      GOTRUE_API_EXTERNAL_URL: "https://8000-${BASE44_PUBLIC_HOST_SUFFIX}"
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_DATABASE_URL: "postgres://postgres:postgres@db:5432/postgres?search_path=auth&sslmode=disable"
+      GOTRUE_SITE_URL: "https://3000-${BASE44_PUBLIC_HOST_SUFFIX}"
+      GOTRUE_URI_ALLOW_LIST: "https://3000-${BASE44_PUBLIC_HOST_SUFFIX},http://localhost:3000"
+      GOTRUE_JWT_SECRET: *jwt-secret
+      GOTRUE_JWT_AUD: authenticated
+      GOTRUE_JWT_EXP: "3600"
+      GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
+      GOTRUE_JWT_ADMIN_ROLES: service_role
+      GOTRUE_DISABLE_SIGNUP: "false"
+      GOTRUE_EXTERNAL_EMAIL_ENABLED: "true"
+      # No SMTP locally: auto-confirm so the first admin can sign up and be
+      # promoted by the bootstrap_first_admin trigger.
+      GOTRUE_MAILER_AUTOCONFIRM: "true"
+    depends_on:
+      db:
+        condition: service_healthy
+      schema:
+        condition: service_completed_successfully
+
+  rest:
+    image: postgrest/postgrest:v12.2.3
+    restart: on-failure
+    environment:
+      PGRST_DB_URI: "postgres://authenticator:postgres@db:5432/postgres"
+      PGRST_DB_SCHEMAS: public
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: *jwt-secret
+      PGRST_SERVER_PORT: "3000"
+      PGRST_LOG_LEVEL: info
+    depends_on:
+      db:
+        condition: service_healthy
+      schema:
+        condition: service_completed_successfully
+
+  gateway:
+    image: nginx:alpine
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./docker/base44/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - auth
+      - rest
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -q --spider http://127.0.0.1:8000/auth/v1/health || (echo 'auth api down'; exit 1); wget -q --spider 'http://127.0.0.1:8000/rest/v1/' || (echo 'rest api down'; exit 1)",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  web:
+    image: oven/bun:1
+    restart: on-failure
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    # Platform-managed secrets (last entry, so a dashboard value always wins).
+    # `VITE_LOGO_DEV_TOKEN` arrives here and Vite exposes it at dev-server
+    # start; without it BrandLogo stays on the vendored marks.
+    env_file:
+      - /run/base44/app.env
+    environment:
+      # Browser-reachable API origin: the preview proxy forwards this public host.
+      SUPABASE_URL: "https://8000-${BASE44_PUBLIC_HOST_SUFFIX}"
+      JWT_SECRET: *jwt-secret
+      BASE44_PREVIEW_MODE:
+      BASE44_PUBLIC_HOST_SUFFIX: "${BASE44_PUBLIC_HOST_SUFFIX}"
+      BASE44_SANDBOX_HOST_DOMAIN: "${BASE44_SANDBOX_HOST_DOMAIN}"
+    command:
+      - sh
+      - -ec
+      - |
+        export SUPABASE_PUBLISHABLE_KEY="$$(bun /app/docker/base44/jwt.mjs anon)"
+        export SUPABASE_SERVICE_ROLE_KEY="$$(bun /app/docker/base44/jwt.mjs service_role)"
+        bun install --frozen-lockfile
+        exec bunx --bun vite dev --host 0.0.0.0 --port 3000 --strictPort
+    depends_on:
+      gateway:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'bun -e "fetch(''http://127.0.0.1:3000/'').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 60s
+
+volumes:
+  db-data:

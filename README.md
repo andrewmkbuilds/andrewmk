@@ -16,32 +16,32 @@ The portfolio is a place to explore what I actually build, not a résumé page. 
 
 ## Featured Projects
 
-| Project | Focus | Status |
-| --- | --- | --- |
-| **Gradr** | AI career accelerator — resume analysis, ATS scoring, AI mock interviews, job tracking and career analytics | Building |
-| **Stack Up** | Personal finance system with expense tracking, budgets, savings goals, streaks and analytics. The first product I shipped | Live |
-| **TerraCart** | AI shopping assistant that analyses products and surfaces more sustainable alternatives | Developing |
-| **ClientFlow OS** | Unified system for clients, projects, conversations, payments, documents and workflow automation | In active development |
+| Project           | Focus                                                                                                                     | Status                |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| **Gradr**         | AI career accelerator — resume analysis, ATS scoring, AI mock interviews, job tracking and career analytics               | Building              |
+| **Stack Up**      | Personal finance system with expense tracking, budgets, savings goals, streaks and analytics. The first product I shipped | Live                  |
+| **TerraCart**     | AI shopping assistant that analyses products and surfaces more sustainable alternatives                                   | Developing            |
+| **ClientFlow OS** | Unified system for clients, projects, conversations, payments, documents and workflow automation                          | In active development |
 
 ## Other Projects
 
-| Project | Focus | Status |
-| --- | --- | --- |
-| **DevOS** | AI developer command center — tasks, focus sessions and project threads in one place | Live |
-| **COGNOS** | AI cognitive system that captures raw thoughts, classifies them and maps connections between ideas | Live |
-| **TabZen** | Intelligent tab management: context grouping, AI summaries and lossless archiving | Live |
-| **AI for Students** | Gamified platform for learning how to understand and use AI | Live |
-| **Home ServeAI** | Home services marketplace concept with smart matching and real-time tracking | Concept |
-| **JARVIS** | Voice AI assistant with spoken command handling, context memory and action execution | Experiment |
-| **GemLab** | Multi-persona AI chatbot environment (Friendly, Professional, Creative modes) | Built |
-| **Security Camera System** | Motion-activated recording with automatic recording management | Built |
-| **GesturePlay** | Rock, Paper, Scissors, Pencil played through webcam hand gestures | Built |
-| **Watch Walkie Talkie** | Push-to-talk voice communication between smartwatches and phones | Concept |
-| **ConversaCore AI** | Multi-model conversational platform with dynamic model selection and fallbacks | Built |
-| **Arabica AI Chat** | Bilingual English–Arabic chat with translation and context-aware replies | Built |
-| **NeuroTac AI** | Tic Tac Toe engine that evaluates board states and picks optimal moves | Built |
-| **Currency Converter** | Desktop converter for 170+ currencies with live rates and offline fallback | Built |
-| **Horizon Motorsports** | Digital home for a UAE-based racing team competing in FLL, Techfest and engineering competitions | Active |
+| Project                    | Focus                                                                                              | Status     |
+| -------------------------- | -------------------------------------------------------------------------------------------------- | ---------- |
+| **DevOS**                  | AI developer command center — tasks, focus sessions and project threads in one place               | Live       |
+| **COGNOS**                 | AI cognitive system that captures raw thoughts, classifies them and maps connections between ideas | Live       |
+| **TabZen**                 | Intelligent tab management: context grouping, AI summaries and lossless archiving                  | Live       |
+| **AI for Students**        | Gamified platform for learning how to understand and use AI                                        | Live       |
+| **Home ServeAI**           | Home services marketplace concept with smart matching and real-time tracking                       | Concept    |
+| **JARVIS**                 | Voice AI assistant with spoken command handling, context memory and action execution               | Experiment |
+| **GemLab**                 | Multi-persona AI chatbot environment (Friendly, Professional, Creative modes)                      | Built      |
+| **Security Camera System** | Motion-activated recording with automatic recording management                                     | Built      |
+| **GesturePlay**            | Rock, Paper, Scissors, Pencil played through webcam hand gestures                                  | Built      |
+| **Watch Walkie Talkie**    | Push-to-talk voice communication between smartwatches and phones                                   | Concept    |
+| **ConversaCore AI**        | Multi-model conversational platform with dynamic model selection and fallbacks                     | Built      |
+| **Arabica AI Chat**        | Bilingual English–Arabic chat with translation and context-aware replies                           | Built      |
+| **NeuroTac AI**            | Tic Tac Toe engine that evaluates board states and picks optimal moves                             | Built      |
+| **Currency Converter**     | Desktop converter for 170+ currencies with live rates and offline fallback                         | Built      |
+| **Horizon Motorsports**    | Digital home for a UAE-based racing team competing in FLL, Techfest and engineering competitions   | Active     |
 
 ## Technologies
 
@@ -75,7 +75,9 @@ Built with TanStack Start (React, TypeScript, Vite), Tailwind CSS and Motion, wi
 
 - IHSMUN 2025 — FIA · Verbal Commendation
 - Novara MUN 2026 — UNSC · Verbal Commendation
-- IHS UNSummit 2026 — FIA · Verbal Commendation + Best Resolution
+- IHS UNSummit 2026 — FIA · Verbal Commendation
+
+Verbal Commendation is the only MUN award received. No other MUN award is claimed.
 
 **Areas:** Techfest, Data Science, IoT, Space Tech, Coding, Robotics, FLL, STEM Racing / F1 in Schools
 
@@ -91,14 +93,14 @@ https://andrewmk.is-a.dev
 
 ## Socials
 
-| Platform | Link |
-| --- | --- |
-| GitHub | https://github.com/andrewmkbuilds |
-| Lovable | https://lovable.dev/@andrewbuilds |
-| Base44 | https://app.base44.com/@andrewmkbuilds |
-| X | https://x.com/Andrew444884 |
+| Platform  | Link                                      |
+| --------- | ----------------------------------------- |
+| GitHub    | https://github.com/andrewmkbuilds         |
+| Lovable   | https://lovable.dev/@andrewbuilds         |
+| Base44    | https://app.base44.com/@andrewmkbuilds    |
+| X         | https://x.com/Andrew444884                |
 | Instagram | https://www.instagram.com/andrewmkbuilds/ |
-| Linktree | https://linktr.ee/andrewmkbuilds |
+| Linktree  | https://linktr.ee/andrewmkbuilds          |
 
 ## Development
 

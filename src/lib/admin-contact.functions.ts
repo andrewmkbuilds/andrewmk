@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { asDbClient, type DbClient } from "@/lib/db-client";
 import { z } from "zod";
 
 export interface ContactMessageRow {
@@ -21,7 +22,7 @@ const listSchema = z.object({
   limit: z.number().int().min(1).max(200).optional().default(50),
 });
 
-async function isAdmin(supabase: { from: (t: string) => any }, userId: string): Promise<boolean> {
+async function isAdmin(supabase: DbClient, userId: string): Promise<boolean> {
   const { data, error } = await supabase
     .from("user_roles")
     .select("role")
@@ -31,24 +32,22 @@ async function isAdmin(supabase: { from: (t: string) => any }, userId: string): 
   return !error && !!data;
 }
 
-async function assertAdmin(supabase: { from: (t: string) => any }, userId: string) {
+async function assertAdmin(supabase: DbClient, userId: string) {
   if (!(await isAdmin(supabase, userId))) throw new Error("Forbidden");
 }
-
 
 export const listContactMessages = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => listSchema.parse(data ?? {}))
   .handler(async ({ data, context }): Promise<ContactMessageRow[]> => {
-    const supabase = context.supabase as never as {
-      rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>;
-      from: (t: string) => any;
-    };
+    const supabase = asDbClient(context.supabase);
     await assertAdmin(supabase, context.userId);
 
     let query = supabase
       .from("contact_messages")
-      .select("id,name,email,message,source_path,spam_score,delivery_status,created_at,handled_at,admin_note")
+      .select(
+        "id,name,email,message,source_path,spam_score,delivery_status,created_at,handled_at,admin_note",
+      )
       .order("created_at", { ascending: false })
       .limit(data.limit);
 
@@ -58,7 +57,9 @@ export const listContactMessages = createServerFn({ method: "POST" })
     if (data.search) {
       const term = data.search.replace(/[%,()]/g, " ").trim();
       if (term) {
-        query = query.or(`name.ilike.%${term}%,email.ilike.%${term}%,message.ilike.%${term}%`);
+        query = query.or(
+          `name.ilike.%${term}%,email.ilike.%${term}%,message.ilike.%${term}%`,
+        );
       }
     }
 
@@ -77,10 +78,7 @@ export const setContactMessageHandled = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => updateSchema.parse(data))
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
-    const supabase = context.supabase as never as {
-      rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>;
-      from: (t: string) => any;
-    };
+    const supabase = asDbClient(context.supabase);
     await assertAdmin(supabase, context.userId);
 
     const { data: before } = await supabase
@@ -102,7 +100,12 @@ export const setContactMessageHandled = createServerFn({ method: "POST" })
 
     const claims = context.claims as { email?: string } | undefined;
     const actorEmail = claims?.email ?? null;
-    const prev = (before ?? {}) as { name?: string; email?: string; handled_at?: string | null; admin_note?: string | null };
+    const prev = (before ?? {}) as {
+      name?: string;
+      email?: string;
+      handled_at?: string | null;
+      admin_note?: string | null;
+    };
 
     const { recordAudit, notifyAdmin } = await import("./admin-audit.server");
 
@@ -113,14 +116,19 @@ export const setContactMessageHandled = createServerFn({ method: "POST" })
       entity: "contact_message",
       entityId: data.id,
       details: {
-        from: { handled: Boolean(prev.handled_at), note: prev.admin_note ?? null },
+        from: {
+          handled: Boolean(prev.handled_at),
+          note: prev.admin_note ?? null,
+        },
         to: { handled: data.handled, note: data.note || null },
         subject_email: prev.email ?? null,
       },
     });
 
     await notifyAdmin(
-      data.handled ? "Contact message marked handled" : "Contact message reopened",
+      data.handled
+        ? "Contact message marked handled"
+        : "Contact message reopened",
       [
         ["From", prev.name ?? "unknown"],
         ["Email", prev.email ?? "unknown"],
@@ -135,72 +143,101 @@ export const setContactMessageHandled = createServerFn({ method: "POST" })
 
 export const getAdminStatus = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }): Promise<{ isAdmin: boolean; email: string | null }> => {
-    const supabase = context.supabase as never as { from: (t: string) => any };
-    const admin = await isAdmin(supabase, context.userId);
-    const claims = context.claims as { email?: string } | undefined;
-    return { isAdmin: admin, email: claims?.email ?? null };
-
-  });
+  .handler(
+    async ({
+      context,
+    }): Promise<{ isAdmin: boolean; email: string | null }> => {
+      const supabase = asDbClient(context.supabase);
+      const admin = await isAdmin(supabase, context.userId);
+      const claims = context.claims as { email?: string } | undefined;
+      return { isAdmin: admin, email: claims?.email ?? null };
+    },
+  );
 
 const exportSchema = listSchema;
 
 export const exportContactMessagesCsv = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => exportSchema.parse(data ?? {}))
-  .handler(async ({ data, context }): Promise<{ filename: string; csv: string; count: number }> => {
-    const supabase = context.supabase as never as {
-      rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>;
-      from: (t: string) => any;
-    };
-    await assertAdmin(supabase, context.userId);
+  .handler(
+    async ({
+      data,
+      context,
+    }): Promise<{ filename: string; csv: string; count: number }> => {
+      const supabase = asDbClient(context.supabase);
+      await assertAdmin(supabase, context.userId);
 
-    let query = supabase
-      .from("contact_messages")
-      .select("id,name,email,message,source_path,spam_score,delivery_status,created_at,handled_at,admin_note")
-      .order("created_at", { ascending: false })
-      .limit(1000);
+      let query = supabase
+        .from("contact_messages")
+        .select(
+          "id,name,email,message,source_path,spam_score,delivery_status,created_at,handled_at,admin_note",
+        )
+        .order("created_at", { ascending: false })
+        .limit(1000);
 
-    if (data.status === "open") query = query.is("handled_at", null);
-    if (data.status === "handled") query = query.not("handled_at", "is", null);
-    if (data.search) {
-      const term = data.search.replace(/[%,()]/g, " ").trim();
-      if (term) query = query.or(`name.ilike.%${term}%,email.ilike.%${term}%,message.ilike.%${term}%`);
-    }
+      if (data.status === "open") query = query.is("handled_at", null);
+      if (data.status === "handled")
+        query = query.not("handled_at", "is", null);
+      if (data.search) {
+        const term = data.search.replace(/[%,()]/g, " ").trim();
+        if (term)
+          query = query.or(
+            `name.ilike.%${term}%,email.ilike.%${term}%,message.ilike.%${term}%`,
+          );
+      }
 
-    const { data: rows, error } = await query;
-    if (error) throw new Error("Could not export messages.");
+      const { data: rows, error } = await query;
+      if (error) throw new Error("Could not export messages.");
 
-    const { recordAudit, toCsv } = await import("./admin-audit.server");
-    const list = (rows ?? []) as ContactMessageRow[];
+      const { recordAudit, toCsv } = await import("./admin-audit.server");
+      const list = (rows ?? []) as ContactMessageRow[];
 
-    const csv = toCsv(
-      ["Received", "Name", "Email", "Message", "Page", "Spam score", "Delivery", "Handled at", "Admin note"],
-      list.map((r) => [
-        r.created_at,
-        r.name,
-        r.email,
-        r.message,
-        r.source_path,
-        r.spam_score,
-        r.delivery_status,
-        r.handled_at,
-        r.admin_note,
-      ]),
-    );
+      const csv = toCsv(
+        [
+          "Received",
+          "Name",
+          "Email",
+          "Message",
+          "Page",
+          "Spam score",
+          "Delivery",
+          "Handled at",
+          "Admin note",
+        ],
+        list.map((r) => [
+          r.created_at,
+          r.name,
+          r.email,
+          r.message,
+          r.source_path,
+          r.spam_score,
+          r.delivery_status,
+          r.handled_at,
+          r.admin_note,
+        ]),
+      );
 
-    const claims = context.claims as { email?: string } | undefined;
-    await recordAudit({
-      actorId: context.userId,
-      actorEmail: claims?.email ?? null,
-      action: "export_csv",
-      entity: "contact_message",
-      details: { count: list.length, status: data.status, search: data.search },
-    });
+      const claims = context.claims as { email?: string } | undefined;
+      await recordAudit({
+        actorId: context.userId,
+        actorEmail: claims?.email ?? null,
+        action: "export_csv",
+        entity: "contact_message",
+        details: {
+          count: list.length,
+          status: data.status,
+          search: data.search,
+        },
+      });
 
-    const stamp = new Date().toISOString().slice(0, 10);
-    return { filename: `contact-messages-${data.status}-${stamp}.csv`, csv, count: list.length };
-  });
+      const stamp = new Date().toISOString().slice(0, 10);
+      return {
+        filename: `contact-messages-${data.status}-${stamp}.csv`,
+        csv,
+        count: list.length,
+      };
+    },
+  );
 
 export interface AuditLogRow {
   id: string;
@@ -215,13 +252,14 @@ export interface AuditLogRow {
 export const listAdminAuditLog = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) =>
-    z.object({ limit: z.number().int().min(1).max(200).optional().default(50) }).parse(data ?? {}),
+    z
+      .object({
+        limit: z.number().int().min(1).max(200).optional().default(50),
+      })
+      .parse(data ?? {}),
   )
   .handler(async ({ data, context }): Promise<AuditLogRow[]> => {
-    const supabase = context.supabase as never as {
-      rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>;
-      from: (t: string) => any;
-    };
+    const supabase = asDbClient(context.supabase);
     await assertAdmin(supabase, context.userId);
 
     const { data: rows, error } = await supabase

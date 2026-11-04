@@ -1,0 +1,26 @@
+{
+  "slug": "ai-for-students",
+  "name": "AI for Students",
+  "category": "Education / AI",
+  "description": "A gamified AI learning platform built around making AI easier for students to understand and use.",
+  "status": "Live",
+  "live": "https://ai-for-students.base44.app",
+  "platform": "base44",
+  "tech": [
+    "AI Tutoring",
+    "APIs",
+    "Gamification"
+  ],
+  "built": [
+    "Guided AI lessons",
+    "Gamification",
+    "API-driven tutoring"
+  ],
+  "filters": [
+    "AI",
+    "Base44"
+  ],
+  "featured": false,
+  "caseStudy": "https://andrewmk.is-a.dev/projects/ai-for-students",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/ai-for-students.json"
+}

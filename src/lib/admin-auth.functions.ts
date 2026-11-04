@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { asDbClient, type DbClient } from "@/lib/db-client";
 
 /**
  * Admin authentication server functions.
@@ -31,7 +32,8 @@ export interface AuthPageState {
 export const getAuthPageState = createServerFn({ method: "POST" }).handler(
   async (): Promise<AuthPageState> => {
     try {
-      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const { supabaseAdmin } =
+        await import("@/integrations/supabase/client.server");
       const { count, error } = await supabaseAdmin
         .from("user_roles")
         .select("*", { count: "exact", head: true })
@@ -55,7 +57,7 @@ export interface SignInState {
 export const getSignInState = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<SignInState> => {
-    const supabase = context.supabase as never as { from: (t: string) => any };
+    const supabase = asDbClient(context.supabase);
     const { data: role } = await supabase
       .from("user_roles")
       .select("role")

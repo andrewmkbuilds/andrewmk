@@ -3,27 +3,57 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2",
-  {
-    variants: {
-      variant: {
-        default: "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
-        secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        outline: "text-foreground",
-      },
+/**
+ * Badge primitives.
+ *
+ * Each tone is its own physical object rather than a recoloured pill: a
+ * technology chip is squared and mono, an award is gold with a moving sheen,
+ * a live status carries a pulsing dot, a link badge slides its arrow. The
+ * shapes, borders and micro-motions live in `styles.css` (`.badge*`), so a
+ * badge is one class away anywhere in the site.
+ */
+const badgeVariants = cva("badge", {
+  variants: {
+    tone: {
+      neutral: "badge-neutral",
+      tech: "badge-tech",
+      status: "badge-status",
+      achievement: "badge-achievement",
+      certification: "badge-certification",
+      skill: "badge-skill",
+      role: "badge-role",
+      category: "badge-category",
+      external: "badge-external",
+      live: "badge-live",
+      featured: "badge-featured",
     },
-    defaultVariants: {
-      variant: "default",
+    size: {
+      sm: "badge-sm",
+      md: "",
     },
   },
+  defaultVariants: {
+    tone: "neutral",
+    size: "md",
+  },
+});
+
+export type BadgeTone = NonNullable<VariantProps<typeof badgeVariants>["tone"]>;
+
+export interface BadgeProps
+  extends
+    React.HTMLAttributes<HTMLSpanElement>,
+    VariantProps<typeof badgeVariants> {}
+
+export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
+  ({ className, tone, size, ...props }, ref) => (
+    <span
+      ref={ref}
+      className={cn(badgeVariants({ tone, size }), className)}
+      {...props}
+    />
+  ),
 );
+Badge.displayName = "Badge";
 
-export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {}
-
-function Badge({ className, variant, ...props }: BadgeProps) {
-  return <div className={cn(badgeVariants({ variant }), className)} {...props} />;
-}
-
-export { Badge, badgeVariants };
+export { badgeVariants };

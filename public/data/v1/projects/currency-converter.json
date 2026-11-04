@@ -1,0 +1,25 @@
+{
+  "slug": "currency-converter",
+  "name": "Currency Converter",
+  "category": "Finance / Utility",
+  "description": "Desktop currency converter supporting 170+ currencies with live exchange rates and offline fallback.",
+  "status": "Built",
+  "tech": [
+    "Python",
+    "Tkinter",
+    "Open Exchange Rate API",
+    "Offline Caching"
+  ],
+  "built": [
+    "Live rates",
+    "Offline caching",
+    "Desktop UI"
+  ],
+  "filters": [
+    "Python",
+    "Tkinter"
+  ],
+  "featured": false,
+  "caseStudy": "https://andrewmk.is-a.dev/projects/currency-converter",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/currency-converter.json"
+}

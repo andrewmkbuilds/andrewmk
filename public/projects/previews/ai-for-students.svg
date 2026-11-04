@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07101c"/>
+      <stop offset="0.55" stop-color="#0b1b2a"/>
+      <stop offset="1" stop-color="#102a3c"/>
+    </linearGradient>
+    <radialGradient id="glowGold" cx="0.9" cy="0.1" r="0.6">
+      <stop offset="0" stop-color="#d9b268" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#d9b268" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowBlue" cx="0.05" cy="0.85" r="0.7">
+      <stop offset="0" stop-color="#3d9fe0" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#3d9fe0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="xp" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3d9fe0"/>
+      <stop offset="1" stop-color="#d9b268"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#glowGold)"/>
+  <rect width="1200" height="800" fill="url(#glowBlue)"/>
+
+  <text x="76" y="84" fill="#8fb6d6" font-family="ui-monospace, Menlo, monospace" font-size="15" letter-spacing="4">EDUCATION · AI</text>
+  <text x="72" y="156" fill="#f4f8fc" font-family="Georgia, 'Times New Roman', serif" font-size="62">AI for Students</text>
+  <text x="76" y="186" fill="#8fa3b6" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="3">GUIDED LESSONS · GAMIFIED PATH</text>
+
+  <!-- lesson path -->
+  <path d="M120 646 C 250 646, 250 520, 360 512 C 470 504, 452 386, 566 380 C 680 374, 690 300, 800 288 C 890 278, 940 240, 1010 214"
+        fill="none" stroke="#ffffff" stroke-opacity="0.18" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 14"/>
+
+  <!-- milestones -->
+  <g font-family="ui-monospace, Menlo, monospace">
+    <circle cx="120" cy="646" r="30" fill="#123c58" stroke="#7cc7f0" stroke-width="2.5"/>
+    <text x="120" y="654" text-anchor="middle" fill="#eaf3fb" font-family="Georgia, 'Times New Roman', serif" font-size="26">1</text>
+
+    <circle cx="360" cy="512" r="30" fill="#123c58" stroke="#7cc7f0" stroke-width="2.5"/>
+    <text x="360" y="520" text-anchor="middle" fill="#eaf3fb" font-family="Georgia, 'Times New Roman', serif" font-size="26">2</text>
+
+    <circle cx="566" cy="380" r="34" fill="#3a2c11" stroke="#e8c98f" stroke-width="3"/>
+    <circle cx="566" cy="380" r="46" fill="none" stroke="#d9b268" stroke-opacity="0.3" stroke-dasharray="3 9"/>
+    <text x="566" y="389" text-anchor="middle" fill="#f6e6c6" font-family="Georgia, 'Times New Roman', serif" font-size="28">3</text>
+
+    <circle cx="800" cy="288" r="30" fill="#0b1c2b" stroke="#ffffff" stroke-opacity="0.25" stroke-width="2.5" stroke-dasharray="5 7"/>
+    <text x="800" y="296" text-anchor="middle" fill="#a9b8c6" font-family="Georgia, 'Times New Roman', serif" font-size="26">4</text>
+
+    <circle cx="1010" cy="214" r="30" fill="#0b1c2b" stroke="#ffffff" stroke-opacity="0.25" stroke-width="2.5" stroke-dasharray="5 7"/>
+    <text x="1010" y="222" text-anchor="middle" fill="#a9b8c6" font-family="Georgia, 'Times New Roman', serif" font-size="26">5</text>
+  </g>
+
+  <!-- current lesson card -->
+  <g>
+    <rect x="480" y="424" width="246" height="132" rx="12" fill="#0e2335" stroke="#d9b268" stroke-opacity="0.45"/>
+    <rect x="480" y="424" width="246" height="4" rx="2" fill="#d9b268"/>
+    <text x="502" y="456" fill="#e8c98f" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="3">LESSON 03</text>
+    <text x="502" y="486" fill="#eef3f8" font-family="Georgia, 'Times New Roman', serif" font-size="24">What a prompt is</text>
+    <rect x="502" y="502" width="160" height="7" rx="3.5" fill="#5f7285"/>
+    <rect x="502" y="520" width="204" height="18" rx="9" fill="#ffffff" fill-opacity="0.06"/>
+    <rect x="502" y="520" width="132" height="18" rx="9" fill="url(#xp)"/>
+  </g>
+
+  <!-- badges -->
+  <g>
+    <rect x="820" y="404" width="72" height="72" rx="14" fill="#123c58" stroke="#7cc7f0" stroke-opacity="0.5"/>
+    <path d="M848 438h16M848 446h16M848 454h10" stroke="#9ed4f4" stroke-width="2.5"/>
+    <rect x="856" y="424" width="2" height="12" fill="#9ed4f4"/>
+    <text x="856" y="496" text-anchor="middle" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="10" letter-spacing="2">LEARN</text>
+
+    <rect x="910" y="404" width="72" height="72" rx="14" fill="#3a2c11" stroke="#e8c98f" stroke-opacity="0.6"/>
+    <path d="M934 440l7-16 7 16 16 2-12 11 4 16-15-8-15 8 4-16-12-11z" fill="none" stroke="#f0d29a" stroke-width="2"/>
+    <text x="946" y="496" text-anchor="middle" fill="#b09055" font-family="ui-monospace, Menlo, monospace" font-size="10" letter-spacing="2">APPLY</text>
+
+    <rect x="1000" y="404" width="72" height="72" rx="14" fill="#0b211f" stroke="#7ea88f" stroke-opacity="0.5"/>
+    <path d="M1024 448l10 10 18-22" fill="none" stroke="#9dc4a9" stroke-width="3" stroke-linecap="round"/>
+    <text x="1036" y="496" text-anchor="middle" fill="#6f8c7b" font-family="ui-monospace, Menlo, monospace" font-size="10" letter-spacing="2">PASS</text>
+  </g>
+
+  <!-- level bar -->
+  <g>
+    <text x="76" y="704" fill="#d9b268" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="3">LEVEL 3</text>
+    <rect x="76" y="716" width="520" height="10" rx="5" fill="#ffffff" fill-opacity="0.09"/>
+    <rect x="76" y="716" width="312" height="10" rx="5" fill="url(#xp)"/>
+    <text x="596" y="726" fill="#8fa3b6" font-family="ui-monospace, Menlo, monospace" font-size="13">1 240 XP</text>
+    <text x="700" y="704" fill="#e8c98f" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="3">+ 40 XP</text>
+    <text x="700" y="726" fill="#6f8395" font-family="ui-monospace, Menlo, monospace" font-size="12">LESSON COMPLETE</text>
+  </g>
+</svg>

@@ -6,7 +6,18 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist", ".output", ".vinxi"] },
+  // Vendored third-party components (React Bits registry) are kept byte-for-byte
+  // as published, so they are not linted or reformatted by this repo.
+  {
+    ignores: [
+      "dist",
+      ".output",
+      ".vinxi",
+      "src/components/reactbits/**",
+      // Annnimate starter-pack sources, vendored byte-for-byte as JSX.
+      "src/components/annnimate/**",
+    ],
+  },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],
@@ -32,7 +43,10 @@ export default tseslint.config(
           ],
         },
       ],
-      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+      "react-refresh/only-export-components": [
+        "warn",
+        { allowConstantExport: true },
+      ],
       "@typescript-eslint/no-unused-vars": "off",
     },
   },

@@ -27,19 +27,43 @@ jobs:
       - name: Lint
         run: bun run lint
 
+      - name: Formatting
+        run: bun run format:check
+
       - name: Validate portfolio data
         run: bun run validate:data
 
-      - name: Build
+      - name: TypeScript
+        run: bun run typecheck
+
+      # Nitro's default target is the cloudflare-module Worker bundle that gets
+      # deployed; `wrangler deploy --dry-run` validates that bundle end to end
+      # (entry point, assets binding, compatibility flags) without credentials.
+      # Run before the preview build below, which rewrites .output.
+      - name: Build (Cloudflare Workers bundle)
         run: bun run build
+
+      - name: Cloudflare deploy dry-run
+        run: bun run deploy:check
+        env:
+          WRANGLER_SEND_METRICS: "false"
+
+      # `vite preview` cannot serve a Nitro build (its TanStack preview plugin
+      # imports dist/server/server.js), so the preview runs Nitro's own node
+      # server entry, built into .output/server/index.mjs here.
+      - name: Build (Nitro node server, for the preview stage)
+        run: bun run build:preview
 
       - name: Start preview server
         run: |
-          bun run preview --port 4173 &
+          PORT=4173 bun run preview &
           for i in $(seq 1 60); do
             curl -sf -o /dev/null http://localhost:4173/ && break
             sleep 2
           done
+          # Fail this step loudly if the server never answered, instead of
+          # letting every later check report a 500.
+          curl -sf -o /dev/null http://localhost:4173/
 
       - name: SEO regression checks
         run: bun run seo:regression -- --base=http://localhost:4173
@@ -68,4 +92,3 @@ jobs:
           name: selection-visual
           path: artifacts/selection-visual
           if-no-files-found: ignore
-

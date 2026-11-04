@@ -1,0 +1,118 @@
+{
+  "slug": "stack-up",
+  "name": "Stack Up",
+  "category": "Personal Finance · Gamification",
+  "description": "The first product I shipped. A personal finance system designed to make spending, budgeting, and saving easier to understand and more engaging.",
+  "problem": "Most budgeting apps assume you already have the discipline they are supposed to build. They show you a pie chart after the money is gone. Stack Up started from the opposite question: what would make a student actually open a finance app on a normal Tuesday? The answer was progress — visible streaks, goals that move, and numbers small enough to act on.",
+  "status": "Live",
+  "live": "https://stackup-app.base44.app/",
+  "platform": "base44",
+  "tech": [
+    "React"
+  ],
+  "built": [
+    "Expense tracking",
+    "Budget management",
+    "Savings goals",
+    "Gamification",
+    "Streaks",
+    "Financial analytics"
+  ],
+  "filters": [
+    "Base44",
+    "React"
+  ],
+  "featured": true,
+  "stack": [
+    {
+      "group": "Interface",
+      "items": [
+        "React",
+        "Component-driven UI",
+        "Responsive layouts",
+        "Charting"
+      ]
+    },
+    {
+      "group": "Logic",
+      "items": [
+        "Budget engine",
+        "Streak & XP rules",
+        "Goal projection",
+        "Category rollups"
+      ]
+    },
+    {
+      "group": "Data",
+      "items": [
+        "Per-user records",
+        "Transaction history",
+        "Recurring entries",
+        "Auth"
+      ]
+    },
+    {
+      "group": "Platform",
+      "items": [
+        "Base44",
+        "Hosted deployment"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "title": "Gamifying finance without encouraging bad habits",
+      "detail": "Early reward rules accidentally rewarded activity, which meant more transactions scored higher. I rewrote the scoring so streaks come from consistent logging and staying inside budget, and goal progress is the only thing that drives levels."
+    },
+    {
+      "title": "Making budgets survive real life",
+      "detail": "A rigid monthly cap breaks the first time an unexpected bill lands. Budgets became rolling, with carry-over and a separate 'irregular' bucket, so one bad week does not invalidate the whole month."
+    },
+    {
+      "title": "Keeping data entry under ten seconds",
+      "detail": "Retention died on friction. I cut the add-expense flow to a single sheet with remembered categories and recurring entries, which removed most repeat typing."
+    },
+    {
+      "title": "Shipping a first product end to end",
+      "detail": "This was the first thing I took from idea to live URL — auth, data modelling, state, deployment. The lesson that carried into every project after it was to ship a narrow version and let real usage decide the next feature."
+    }
+  ],
+  "results": [
+    {
+      "label": "Status",
+      "value": "Live",
+      "note": "Publicly usable at stackup-app.base44.app."
+    },
+    {
+      "label": "First shipped product",
+      "value": "2024",
+      "note": "Idea to deployed app end to end."
+    },
+    {
+      "label": "Core modules",
+      "value": "5",
+      "note": "Expenses, budgets, goals, streaks, analytics."
+    },
+    {
+      "label": "Entry time",
+      "value": "< 10s",
+      "note": "Design target for logging a spend."
+    }
+  ],
+  "metrics": {
+    "title": "Early traction",
+    "intro": "Stack Up attracted 600+ visitors within its first week after launch, demonstrating strong early interest following launch.",
+    "source": "Figure measures website visitors, not registered or active users.",
+    "items": [
+      {
+        "value": "600+",
+        "label": "Website visitors",
+        "note": "First week after launch."
+      }
+    ]
+  },
+  "startDate": "2024-09-01",
+  "endDate": "2025-03-01",
+  "caseStudy": "https://andrewmk.is-a.dev/projects/stack-up",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/stack-up.json"
+}

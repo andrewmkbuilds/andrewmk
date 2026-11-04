@@ -1,0 +1,24 @@
+{
+  "slug": "security-camera-system",
+  "name": "Security Camera System",
+  "category": "Computer Vision",
+  "description": "An intelligent motion-activated recording system that detects movement through a webcam and automatically manages recordings.",
+  "status": "Built",
+  "tech": [
+    "Python",
+    "OpenCV",
+    "Haar Cascade Classifiers"
+  ],
+  "built": [
+    "Motion detection",
+    "Automatic recording",
+    "Recording management"
+  ],
+  "filters": [
+    "Python",
+    "OpenCV"
+  ],
+  "featured": false,
+  "caseStudy": "https://andrewmk.is-a.dev/projects/security-camera-system",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/security-camera-system.json"
+}

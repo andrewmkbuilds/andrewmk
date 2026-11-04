@@ -35,6 +35,13 @@ export interface Certificate {
   type: "image" | "pdf";
   /** Links this certificate to an achievement already listed on the site. */
   achievementKey?: string;
+  /**
+   * Official public credential page. Present only where a real one exists —
+   * never inferred, and never a page hosted by this portfolio.
+   */
+  verifyUrl?: string;
+  /** Named verification platform shown on the credential action. */
+  verifyPlatform?: string;
 }
 
 const DIR = "/certificates";
@@ -106,6 +113,9 @@ export const certificates: Certificate[] = [
     file: `${DIR}/mongodb-indexing-design-fundamentals-certificate.jpg`,
     thumb: `${DIR}/thumbs/mongodb-indexing-design-fundamentals-certificate.webp`,
     type: "image",
+    verifyUrl:
+      "https://www.credly.com/badges/0bf7e882-82bd-4937-85fe-a1e20f178359",
+    verifyPlatform: "Credly",
   },
   {
     id: "mongodb-crud-operations",
@@ -116,6 +126,9 @@ export const certificates: Certificate[] = [
     file: `${DIR}/mongodb-crud-operations-certificate.jpg`,
     thumb: `${DIR}/thumbs/mongodb-crud-operations-certificate.webp`,
     type: "image",
+    verifyUrl:
+      "https://www.credly.com/badges/979430cc-755a-47e1-b7a0-e2742a1419b8",
+    verifyPlatform: "Credly",
   },
   {
     id: "datacamp-trust-security",
@@ -129,7 +142,8 @@ export const certificates: Certificate[] = [
   },
   {
     id: "datacamp-modernize-infrastructure",
-    title: "Modernize Infrastructure and Applications with Google Cloud — Statement of Accomplishment",
+    title:
+      "Modernize Infrastructure and Applications with Google Cloud — Statement of Accomplishment",
     issuer: "DataCamp",
     date: "7 Oct 2026",
     category: "Certifications",
@@ -139,7 +153,8 @@ export const certificates: Certificate[] = [
   },
   {
     id: "datacamp-digital-transformation",
-    title: "Digital Transformation with Google Cloud — Statement of Accomplishment",
+    title:
+      "Digital Transformation with Google Cloud — Statement of Accomplishment",
     issuer: "DataCamp",
     date: "6 Oct 2026",
     category: "Certifications",
@@ -263,7 +278,8 @@ export const certificates: Certificate[] = [
   },
   {
     id: "robotics-2025",
-    title: "Certificate of Participation — Robotics & Coding @IHS, after school program",
+    title:
+      "Certificate of Participation — Robotics & Coding @IHS, after school program",
     issuer: "The Indian High School, Dubai",
     date: "Academic year 2025-2026",
     category: "Robotics",
@@ -273,7 +289,8 @@ export const certificates: Certificate[] = [
   },
   {
     id: "robotics-2023",
-    title: "Certificate of Participation — Robotics with mBot @IHS, after school program",
+    title:
+      "Certificate of Participation — Robotics with mBot @IHS, after school program",
     issuer: "The Indian High School, Dubai",
     date: "28 February 2023 · Academic year 2022-2023",
     category: "Robotics",
@@ -294,7 +311,8 @@ export const certificates: Certificate[] = [
   },
   {
     id: "math-expo",
-    title: "Certificate of Participation — Second prize, Math Expo \u201cMath & Me\u201d",
+    title:
+      "Certificate of Participation — Second prize, Math Expo \u201cMath & Me\u201d",
     issuer: "The Indian High School, Dubai",
     date: "31 May 2024",
     category: "STEM / Engineering",
@@ -315,7 +333,8 @@ export const certificates: Certificate[] = [
   },
   {
     id: "creative-model",
-    title: "Certificate of Participation — Creative and Innovative Model / Experiment",
+    title:
+      "Certificate of Participation — Creative and Innovative Model / Experiment",
     issuer: "The Indian High School, Dubai",
     category: "STEM / Engineering",
     file: `${DIR}/4n-creative-model-presentation-certificate.jpg`,
@@ -354,7 +373,8 @@ export const certificates: Certificate[] = [
   },
   {
     id: "sst-exhibition",
-    title: "Certificate of Participation — SST Exhibition: UAE Legacy, Progress and Destiny",
+    title:
+      "Certificate of Participation — SST Exhibition: UAE Legacy, Progress and Destiny",
     issuer: "The Indian High School, Dubai",
     date: "20 September 2024",
     category: "Academic",
@@ -414,8 +434,18 @@ export function certificateFor(key: string): Certificate | undefined {
  * "Issued 29 January 2026", "2025-2026" and "Academic year 2022-2023".
  */
 const MONTHS = [
-  "january", "february", "march", "april", "may", "june",
-  "july", "august", "september", "october", "november", "december",
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
 ];
 
 export function certificateSortKey(cert: Certificate): number {
@@ -443,11 +473,16 @@ export function certificateDateLabel(cert: Certificate): string {
 }
 
 /** Issuer split into organisation and programme, for two-line card display. */
-export function certificateIssuerParts(cert: Certificate): { org: string; program?: string } {
+export function certificateIssuerParts(cert: Certificate): {
+  org: string;
+  program?: string;
+} {
   if (!cert.issuer) return { org: "Independent" };
   const [org, ...rest] = cert.issuer.split("·").map((part) => part.trim());
   const program = rest.join(" · ");
-  return program ? { org: org ?? cert.issuer, program } : { org: org ?? cert.issuer };
+  return program
+    ? { org: org ?? cert.issuer, program }
+    : { org: org ?? cert.issuer };
 }
 
 /** Newest certificates first — used by the gallery and résumé. */

@@ -1,0 +1,112 @@
+{
+  "timeline": [
+    {
+      "year": "2022",
+      "title": "First Robotics Certification",
+      "meta": "Age 9 · Grade 4",
+      "body": [
+        "Completed the Mbot@IHS robotics after-school programme and built and presented an original model at a school exhibition.",
+        "This was the beginning of the building journey."
+      ]
+    },
+    {
+      "year": "2023",
+      "title": "Exploring Beyond Hardware",
+      "meta": "Age 10 · Grade 4-5",
+      "body": [
+        "After robotics, the focus expanded toward software and discovering what could be built beyond physical hardware."
+      ]
+    },
+    {
+      "year": "2024",
+      "title": "Techfest Breakout",
+      "meta": "Age 11 · Grade 5-6",
+      "body": [
+        "Participated across Coding, Data Science, and Space Tech pathways."
+      ],
+      "points": [
+        "2nd Place Space Tech at Group Techfest",
+        "Certificate of Merit",
+        "Certificate of Appreciation",
+        "2nd Place at Math Expo \"Math & Me\"",
+        "Recognition through school exhibitions and events"
+      ]
+    },
+    {
+      "year": "2025",
+      "title": "Stack Up Ships",
+      "meta": "Age 12-13 · Grade 6-7",
+      "body": [
+        "Stack Up became the first live application shipped."
+      ],
+      "points": [
+        "1st Place Data Science at Techfest",
+        "2nd Place IoT at Techfest",
+        "FLL UAE Dubai Regional Innovation Award",
+        "IHSMUN",
+        "3rd Place Shot Put at Annual Athletic Meet",
+        "Additional robotics certification"
+      ]
+    },
+    {
+      "year": "2025-2026",
+      "title": "From Projects to an Ecosystem",
+      "meta": "Age 13-14 · Grade 7",
+      "body": [
+        "Started building a broader ecosystem of products and experiments.",
+        "Also founded Horizon Motorsports and participated in STEM Racing / F1 in Schools."
+      ],
+      "points": [
+        "Gradr",
+        "ClientFlow OS",
+        "DevOS",
+        "COGNOS",
+        "TabZen",
+        "TerraCart",
+        "Home ServeAI",
+        "AI for Students",
+        "JARVIS",
+        "GemLab",
+        "GesturePlay",
+        "Watch Walkie Talkie",
+        "Computer vision systems",
+        "Multiple AI experiments"
+      ]
+    },
+    {
+      "year": "2026",
+      "title": "Novara MUN Secretariat",
+      "meta": "Head of Admins · July 2026",
+      "body": [
+        "Joined the Novara MUN 2026 secretariat as Head of Admins, running the conference's administration."
+      ]
+    },
+    {
+      "year": "NOW",
+      "title": "Building What's Next",
+      "body": [
+        "More ambitious products. More competitions. More experiments. More systems."
+      ]
+    }
+  ],
+  "fllSeasons": [
+    {
+      "season": "2025–26",
+      "title": "FIRST LEGO League · UNEARTHED",
+      "detail": "Dubai Regional 2025–2026.",
+      "points": [
+        "Innovation Award — Winner at the Dubai Regional",
+        "Certificate of Participation — Challenge: Dubai Regional"
+      ]
+    }
+  ],
+  "exhibitions": [
+    "Robotics exhibitions",
+    "School exhibitions",
+    "TechFest",
+    "STEM / engineering demonstrations",
+    "Other project showcases"
+  ],
+  "journeyPage": "https://andrewmk.is-a.dev/journey",
+  "resumePage": "https://andrewmk.is-a.dev/resume"
+}

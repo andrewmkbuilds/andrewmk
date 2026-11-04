@@ -1,0 +1,351 @@
+{
+  "count": 23,
+  "featured": [
+    "gradr",
+    "stack-up",
+    "terracart",
+    "clientflow-os"
+  ],
+  "projects": [
+    {
+      "slug": "gradr",
+      "name": "Gradr",
+      "category": "Career Technology · AI",
+      "description": "An AI-powered career accelerator designed to help students, graduates, and early-career professionals build stronger resumes, prepare for interviews, and manage their career journey.",
+      "status": "Building",
+      "tech": [
+        "AI",
+        "React"
+      ],
+      "featured": true,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/gradr",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/gradr.json"
+    },
+    {
+      "slug": "stack-up",
+      "name": "Stack Up",
+      "category": "Personal Finance · Gamification",
+      "description": "The first product I shipped. A personal finance system designed to make spending, budgeting, and saving easier to understand and more engaging.",
+      "status": "Live",
+      "tech": [
+        "React"
+      ],
+      "featured": true,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/stack-up",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/stack-up.json"
+    },
+    {
+      "slug": "terracart",
+      "name": "TerraCart",
+      "category": "AI · Sustainability · E-commerce",
+      "description": "An AI-powered shopping assistant designed to help people discover more sustainable alternatives while shopping online.",
+      "status": "Developing",
+      "tech": [
+        "AI",
+        "Browser Extension"
+      ],
+      "featured": true,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/terracart",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/terracart.json"
+    },
+    {
+      "slug": "clientflow-os",
+      "name": "ClientFlow OS",
+      "category": "Business Operating System · AI",
+      "description": "A unified platform for managing clients, projects, conversations, payments, documents, and workflows in one connected system.",
+      "status": "In Active Development",
+      "tech": [
+        "AI",
+        "React"
+      ],
+      "featured": true,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/clientflow-os",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/clientflow-os.json"
+    },
+    {
+      "slug": "sitescout-ai",
+      "name": "SiteScout AI",
+      "category": "Agency Technology · AI",
+      "description": "AI-powered client acquisition for web agencies — discover local businesses, audit their websites, score the real opportunities, and carry every lead through to a signed client.",
+      "status": "Live",
+      "tech": [
+        "AI",
+        "React"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/sitescout-ai",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/sitescout-ai.json"
+    },
+    {
+      "slug": "scholara",
+      "name": "Scholara",
+      "category": "Education · School OS · AI",
+      "description": "An AI-powered school operating system that unites academics, operations, communication and analytics for students, teachers, parents and school leaders.",
+      "status": "Live",
+      "tech": [
+        "AI",
+        "Base44"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/scholara",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/scholara.json"
+    },
+    {
+      "slug": "critiqueflow",
+      "name": "CritiqueFlow",
+      "category": "Design Tooling · Review",
+      "description": "A design review platform that turns visual feedback into structured discussion, tasks and a measurable design health score.",
+      "status": "Live",
+      "tech": [
+        "React",
+        "Base44"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/critiqueflow",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/critiqueflow.json"
+    },
+    {
+      "slug": "the-neonrush",
+      "name": "The Neon Rush",
+      "category": "Game · Interactive",
+      "description": "A neon arcade game built around story chapters, daily missions, mini-games and a hangar of ships and skins.",
+      "status": "Live",
+      "tech": [
+        "Game",
+        "Base44"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/the-neonrush",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/the-neonrush.json"
+    },
+    {
+      "slug": "horizon-motorsports",
+      "name": "Horizon Motorsports",
+      "category": "Racing / Community",
+      "description": "Digital home for Horizon Motorsports, a UAE-based racing team competing in FLL, Techfest, and engineering competitions.",
+      "status": "Active",
+      "tech": [
+        "React",
+        "Framer Motion"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/horizon-motorsports",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/horizon-motorsports.json"
+    },
+    {
+      "slug": "devos",
+      "name": "DevOS",
+      "category": "Productivity / AI",
+      "description": "AI-powered developer command center designed to bring tasks, focus sessions, and project threads into one place.",
+      "status": "Live",
+      "tech": [
+        "Python",
+        "AI Integration"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/devos",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/devos.json"
+    },
+    {
+      "slug": "cognos",
+      "name": "COGNOS",
+      "category": "Cognitive / AI",
+      "description": "An AI cognitive operating system designed to capture raw thoughts, classify them, and map connections between ideas.",
+      "status": "Live",
+      "tech": [
+        "AI APIs",
+        "NLP",
+        "Graph Architecture"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/cognos",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/cognos.json"
+    },
+    {
+      "slug": "tabzen",
+      "name": "TabZen",
+      "category": "Productivity / Browser",
+      "description": "Intelligent tab management that groups tabs by context, summarizes them, and archives them without losing information.",
+      "status": "Live",
+      "tech": [
+        "Browser Extension",
+        "AI Summarization"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/tabzen",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/tabzen.json"
+    },
+    {
+      "slug": "ai-for-students",
+      "name": "AI for Students",
+      "category": "Education / AI",
+      "description": "A gamified AI learning platform built around making AI easier for students to understand and use.",
+      "status": "Live",
+      "tech": [
+        "AI Tutoring",
+        "APIs",
+        "Gamification"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/ai-for-students",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/ai-for-students.json"
+    },
+    {
+      "slug": "home-serveai",
+      "name": "Home ServeAI",
+      "category": "Marketplace / AI",
+      "description": "AI-powered home services marketplace concept featuring smart matching, real-time tracking, and recurring service management.",
+      "status": "Concept",
+      "tech": [
+        "Marketplace Architecture",
+        "AI Matching",
+        "Real-Time Tracking"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/home-serveai",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/home-serveai.json"
+    },
+    {
+      "slug": "jarvis",
+      "name": "JARVIS",
+      "category": "AI Voice Assistant",
+      "description": "Voice-powered AI assistant designed to understand spoken commands, maintain context, and execute actions.",
+      "status": "Experiment",
+      "tech": [
+        "Flutter",
+        "Python",
+        "Gemini API",
+        "Android Studio"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/jarvis",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/jarvis.json"
+    },
+    {
+      "slug": "gemlab",
+      "name": "GemLab",
+      "category": "AI / Tooling",
+      "description": "Multi-persona AI chatbot environment with Friendly, Professional, and Creative conversation modes.",
+      "status": "Built",
+      "tech": [
+        "Python",
+        "Tkinter",
+        "Google Gemini API",
+        "Threading"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/gemlab",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/gemlab.json"
+    },
+    {
+      "slug": "security-camera-system",
+      "name": "Security Camera System",
+      "category": "Computer Vision",
+      "description": "An intelligent motion-activated recording system that detects movement through a webcam and automatically manages recordings.",
+      "status": "Built",
+      "tech": [
+        "Python",
+        "OpenCV",
+        "Haar Cascade Classifiers"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/security-camera-system",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/security-camera-system.json"
+    },
+    {
+      "slug": "currency-converter",
+      "name": "Currency Converter",
+      "category": "Finance / Utility",
+      "description": "Desktop currency converter supporting 170+ currencies with live exchange rates and offline fallback.",
+      "status": "Built",
+      "tech": [
+        "Python",
+        "Tkinter",
+        "Open Exchange Rate API",
+        "Offline Caching"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/currency-converter",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/currency-converter.json"
+    },
+    {
+      "slug": "gestureplay",
+      "name": "GesturePlay",
+      "category": "Computer Vision / Interactive",
+      "description": "Rock, Paper, Scissors, Pencil played entirely through webcam hand gestures.",
+      "status": "Built",
+      "tech": [
+        "Python",
+        "OpenCV",
+        "MediaPipe",
+        "Tkinter",
+        "Pillow"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/gestureplay",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/gestureplay.json"
+    },
+    {
+      "slug": "watch-walkie-talkie",
+      "name": "Watch Walkie Talkie",
+      "category": "Real-Time Communication",
+      "description": "Push-to-talk voice communication concept connecting smartwatches and phones for instant communication.",
+      "status": "Concept",
+      "tech": [
+        "Flutter",
+        "Python",
+        "Real-Time Audio Streaming",
+        "Cross-Device Communication"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/watch-walkie-talkie",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/watch-walkie-talkie.json"
+    },
+    {
+      "slug": "conversacore-ai",
+      "name": "ConversaCore AI",
+      "category": "AI / Conversational",
+      "description": "Multi-model conversational platform with dynamic model selection, persona-driven responses, and fallback systems.",
+      "status": "Built",
+      "tech": [
+        "Python",
+        "Multi-Model AI",
+        "Tkinter"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/conversacore-ai",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/conversacore-ai.json"
+    },
+    {
+      "slug": "arabica-ai-chat",
+      "name": "Arabica AI Chat",
+      "category": "AI / Multilingual",
+      "description": "Bilingual AI chat focused on English-Arabic conversation, translation, and context-aware responses.",
+      "status": "Built",
+      "tech": [
+        "Python",
+        "Tkinter",
+        "Translation API",
+        "AI"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/arabica-ai-chat",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/arabica-ai-chat.json"
+    },
+    {
+      "slug": "neurotac-ai",
+      "name": "NeuroTac AI",
+      "category": "AI / Game",
+      "description": "An intelligent Tic Tac Toe engine that evaluates board states and selects optimal moves.",
+      "status": "Built",
+      "tech": [
+        "Python",
+        "AI Decision Logic",
+        "Game Theory"
+      ],
+      "featured": false,
+      "caseStudy": "https://andrewmk.is-a.dev/projects/neurotac-ai",
+      "url": "https://andrewmk.is-a.dev/data/v1/projects/neurotac-ai.json"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "slug": "watch-walkie-talkie",
+  "name": "Watch Walkie Talkie",
+  "category": "Real-Time Communication",
+  "description": "Push-to-talk voice communication concept connecting smartwatches and phones for instant communication.",
+  "status": "Concept",
+  "tech": [
+    "Flutter",
+    "Python",
+    "Real-Time Audio Streaming",
+    "Cross-Device Communication"
+  ],
+  "built": [
+    "Push-to-talk",
+    "Real-time audio streaming",
+    "Cross-device pairing"
+  ],
+  "filters": [
+    "Flutter",
+    "Python"
+  ],
+  "featured": false,
+  "caseStudy": "https://andrewmk.is-a.dev/projects/watch-walkie-talkie",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/watch-walkie-talkie.json"
+}

@@ -2,8 +2,18 @@ import { Layout } from "@/components/layout/Layout";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { TechTag } from "@/components/ui/TechTag";
-import { buildingCategories, principles, socialLinks } from "@/data/portfolio";
-import { getSocialIcon } from "@/components/ui/SocialIcons";
+import {
+  PROFILE_IDENTITY,
+  SCHOOL,
+  buildingCategories,
+  principles,
+  socialLinks,
+} from "@/data/portfolio";
+import { SocialMark } from "@/components/ui/SocialMark";
+import TextReveal from "@/components/annnimate/text-reveal";
+import ElasticDivider from "@/components/annnimate/elastic-divider";
+import { AsciiPlate } from "@/components/ui/AsciiPlate";
+import logoUrl from "@/assets/andrewbuilds-logo.webp";
 
 export default function About() {
   return (
@@ -16,38 +26,63 @@ export default function About() {
                 <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
                   About
                 </p>
-                <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
-                  I don't just learn technology. I apply it.
+                <h1 className="headline-3d text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
+                  I don&rsquo;t just learn technology. I{" "}
+                  <em className="serif-display mark-underline italic text-gold">
+                    apply
+                  </em>{" "}
+                  it.
                 </h1>
               </Reveal>
 
               <div className="mt-8 space-y-6">
                 <Reveal delay={60}>
-                  <p className="text-lg text-foreground leading-relaxed">
-                    I'm a student, builder, and systems thinker based in Dubai. I work across
-                    artificial intelligence, software development, robotics, product design, and
-                    engineering competitions.
-                  </p>
+                  <TextReveal
+                    className="anm-reveal text-lg text-foreground leading-relaxed"
+                    type="words"
+                    start="top 88%"
+                    stagger={0.028}
+                    duration={0.7}
+                  >
+                    I'm a student, builder, and systems thinker based in Dubai.{" "}
+                    <strong>
+                      I work across artificial intelligence, software
+                      development, robotics, product design, and engineering
+                      competitions.
+                    </strong>
+                  </TextReveal>
                 </Reveal>
                 <Reveal delay={120}>
                   <p className="text-muted-foreground leading-relaxed">
-                    I started building with robotics at age 9 through the Mbot@IHS programme. That
-                    experience gave me the initial instinct to build things physically. From there,
-                    I moved deeper into software, AI, computer vision, and product development.
+                    I started building with robotics at age 9 through the
+                    Mbot@IHS programme. That experience gave me the initial
+                    instinct to build things physically. From there, I moved
+                    deeper into software, AI, computer vision, and product
+                    development.
                   </p>
                 </Reveal>
                 <Reveal delay={180}>
                   <p className="text-muted-foreground leading-relaxed">
-                    Today, I build everything from small Python experiments to full product systems
-                    such as Gradr, TerraCart, and ClientFlow OS. I also compete in STEM and
-                    engineering challenges, participate in MUNs, work on F1 in Schools / STEM
-                    Racing, and showcase projects through exhibitions.
+                    Today, I build everything from small Python experiments to
+                    full product systems such as Gradr, TerraCart, and
+                    ClientFlow OS. I also compete in STEM and engineering
+                    challenges, participate in MUNs, work on F1 in Schools /
+                    STEM Racing, and showcase projects through exhibitions.
                   </p>
                 </Reveal>
               </div>
             </div>
 
             <div className="space-y-8">
+              {/* The brand mark sampled into data — the pack's ASCII overlay,
+                  painted once on a canvas instead of a running shader. */}
+              <Reveal>
+                <AsciiPlate
+                  src={logoUrl}
+                  alt="The AndrewBuilds mark rendered as a field of data characters"
+                  caption="The mark, in data"
+                />
+              </Reveal>
               <Reveal delay={80}>
                 <div className="rounded-xl border border-border bg-card p-6 shadow-card">
                   <h2 className="font-mono text-xs uppercase tracking-[0.16em] text-primary">
@@ -55,17 +90,27 @@ export default function About() {
                   </h2>
                   <dl className="mt-4 space-y-3 text-sm">
                     <div>
-                      <dt className="font-mono text-xs text-muted-foreground">Identity</dt>
-                      <dd className="text-foreground">
-                        Student · Developer · AI Builder · Systems Thinker
-                      </dd>
+                      <dt className="font-mono text-xs text-muted-foreground">
+                        Identity
+                      </dt>
+                      <dd className="text-foreground">{PROFILE_IDENTITY}</dd>
                     </div>
                     <div>
-                      <dt className="font-mono text-xs text-muted-foreground">Location</dt>
+                      <dt className="font-mono text-xs text-muted-foreground">
+                        School
+                      </dt>
+                      <dd className="text-foreground">{SCHOOL}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-mono text-xs text-muted-foreground">
+                        Location
+                      </dt>
                       <dd className="text-foreground">Dubai, UAE</dd>
                     </div>
                     <div>
-                      <dt className="font-mono text-xs text-muted-foreground">Started building</dt>
+                      <dt className="font-mono text-xs text-muted-foreground">
+                        Started building
+                      </dt>
                       <dd className="text-foreground">Age 9 · 2022</dd>
                     </div>
                   </dl>
@@ -81,7 +126,6 @@ export default function About() {
                   </p>
                   <ul className="mt-4 space-y-1">
                     {socialLinks.map((link) => {
-                      const Icon = getSocialIcon(link.id);
                       return (
                         <li key={link.id}>
                           <a
@@ -91,7 +135,11 @@ export default function About() {
                             aria-label={`${link.label} profile (${link.handle})`}
                             className="group flex items-start gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-secondary focus-ring"
                           >
-                            <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-gold" />
+                            <SocialMark
+                              id={link.id}
+                              size="md"
+                              className="mt-0.5 shrink-0 text-muted-foreground transition-colors group-hover:text-gold"
+                            />
                             <span className="min-w-0 flex-1">
                               <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
                                 <span className="text-sm text-foreground transition-colors group-hover:text-gold">
@@ -106,7 +154,6 @@ export default function About() {
                               </span>
                             </span>
                           </a>
-
                         </li>
                       );
                     })}
@@ -118,6 +165,15 @@ export default function About() {
         </div>
       </section>
 
+      {/* Sweep the cursor across the line and it rings like a string. */}
+      <div className="container" aria-hidden="true">
+        <ElasticDivider
+          className="anm-divider"
+          color="hsl(41 58% 60%)"
+          weight={1.2}
+        />
+      </div>
+
       <section className="border-t border-border py-20 md:py-28">
         <div className="container">
           <SectionHeading label="Approach" title="How I Think" />
@@ -125,11 +181,15 @@ export default function About() {
             {principles.map((p, i) => (
               <Reveal key={p.title} delay={i * 70} className="h-full">
                 <div className="group h-full rounded-xl border border-border bg-card p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 motion-reduce:hover:translate-y-0">
-                  <span className="font-mono text-xs text-primary">0{i + 1}</span>
+                  <span className="font-mono text-xs text-primary">
+                    0{i + 1}
+                  </span>
                   <h3 className="mt-3 text-xl font-semibold text-foreground transition-colors group-hover:text-gold">
                     {p.title}
                   </h3>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{p.body}</p>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                    {p.body}
+                  </p>
                 </div>
               </Reveal>
             ))}
@@ -144,7 +204,9 @@ export default function About() {
             {buildingCategories.map((cat, i) => (
               <Reveal key={cat.title} delay={i * 60} className="h-full">
                 <div className="h-full rounded-xl border border-border bg-card p-6 shadow-card transition-colors hover:border-gold/40">
-                  <h3 className="text-lg font-semibold text-foreground">{cat.title}</h3>
+                  <h3 className="text-lg font-semibold text-foreground">
+                    {cat.title}
+                  </h3>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {cat.items.map((item) => (
                       <TechTag key={item}>{item}</TechTag>

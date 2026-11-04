@@ -10,7 +10,9 @@ export const PUBLISHED_URL = "https://andrewmk.lovable.app";
 const DEFAULT_SITE_URL = CUSTOM_DOMAIN_URL;
 
 const envSiteUrl =
-  (typeof import.meta !== "undefined" ? (import.meta as { env?: Record<string, string> }).env?.["VITE_SITE_URL"] : undefined) ??
+  (typeof import.meta !== "undefined"
+    ? (import.meta as { env?: Record<string, string> }).env?.["VITE_SITE_URL"]
+    : undefined) ??
   (typeof process !== "undefined" ? process.env?.["VITE_SITE_URL"] : undefined);
 
 export const SITE_URL = (envSiteUrl || DEFAULT_SITE_URL).replace(/\/$/, "");
@@ -26,7 +28,8 @@ export interface RouteMeta {
   /** Headline rendered into the generated og:image. */
   ogHeadline: string;
   noindex?: boolean;
-  changefreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
+  changefreq?:
+    "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
   priority?: string;
 }
 
@@ -36,7 +39,7 @@ export const routes: RouteMeta[] = [
     label: "Home",
     title: "Andrew Mathews | Student Developer, AI Builder & Robotics Engineer",
     description:
-      "Andrew Mathews is a student developer and technology builder from Dubai, UAE, creating AI applications, robotics projects, web apps, and innovative technology solutions.",
+      "Andrew Mathews is a student developer in Dubai building AI applications, robotics projects and web apps, and studying at The Indian High School.",
     ogHeadline: "I build systems that solve real problems.",
     changefreq: "weekly",
     priority: "1.0",
@@ -72,6 +75,16 @@ export const routes: RouteMeta[] = [
     priority: "0.7",
   },
   {
+    path: "/skills",
+    label: "Skills",
+    title: "Skills | Andrew Mathews",
+    description:
+      "The AI, software, computer vision, robotics, product and competition capabilities behind Andrew Mathews' projects.",
+    ogHeadline: "What I build with.",
+    changefreq: "monthly",
+    priority: "0.7",
+  },
+  {
     path: "/achievements",
     label: "Achievements",
     title: "Achievements | Andrew Mathews",
@@ -100,6 +113,66 @@ export const routes: RouteMeta[] = [
     ogHeadline: "Student developer, AI builder, systems thinker.",
     changefreq: "monthly",
     priority: "0.8",
+  },
+  {
+    path: "/now",
+    label: "Now",
+    title: "Now | Andrew Mathews",
+    description:
+      "What Andrew Mathews is building right now — Gradr, TerraCart, ClientFlow OS and Horizon Motorsports — plus the focus areas and principles behind them.",
+    ogHeadline: "What I'm building right now.",
+    changefreq: "weekly",
+    priority: "0.7",
+  },
+  {
+    path: "/press-kit",
+    label: "Press kit",
+    title: "Press kit | Andrew Mathews",
+    description:
+      "Copy-ready short, medium and long biographies of Andrew Mathews in first and third person, with a published fact sheet and links to his work.",
+    ogHeadline: "Biographies and facts.",
+    changefreq: "monthly",
+    priority: "0.6",
+  },
+  {
+    path: "/faq",
+    label: "FAQ",
+    title: "FAQ | Andrew Mathews",
+    description:
+      "Answers about Andrew Mathews: what he builds, the technologies he works with, his projects, his competition and MUN results, and how to get in touch.",
+    ogHeadline: "Questions, answered.",
+    changefreq: "monthly",
+    priority: "0.6",
+  },
+  {
+    path: "/colophon",
+    label: "Colophon",
+    title: "Colophon | Andrew Mathews",
+    description:
+      "How this website is made: the application stack, design system, typefaces, motion budget, data sources and hosting.",
+    ogHeadline: "How this site is made.",
+    changefreq: "yearly",
+    priority: "0.5",
+  },
+  {
+    path: "/sitemap",
+    label: "Sitemap",
+    title: "Sitemap | Andrew Mathews",
+    description:
+      "Every page on the site, organised by section and searchable, with links to the XML, Markdown and machine-readable sitemaps.",
+    ogHeadline: "Every page, in one place.",
+    changefreq: "weekly",
+    priority: "0.5",
+  },
+  {
+    path: "/developers",
+    label: "Developers",
+    title: "Developers | Andrew Mathews",
+    description:
+      "The public read-only JSON API for this site, with the llms.txt, llms-full.txt, agents.md and OpenAPI files that make it readable by developers and AI agents.",
+    ogHeadline: "The public data layer.",
+    changefreq: "monthly",
+    priority: "0.6",
   },
   {
     path: "/contact",
@@ -139,7 +212,8 @@ export function getRoute(path: string): RouteMeta {
 
 export function breadcrumbJsonLd(route: RouteMeta) {
   const items = [{ name: "Home", item: `${SITE_URL}/` }];
-  if (route.path !== "/") items.push({ name: route.label, item: `${SITE_URL}${route.path}` });
+  if (route.path !== "/")
+    items.push({ name: route.label, item: `${SITE_URL}${route.path}` });
 
   return {
     "@context": "https://schema.org",

@@ -6,15 +6,22 @@ import { resolve } from "path";
 import sharp from "sharp";
 import { routes, routeSlug, SITE_URL } from "../src/data/seo";
 
-const BG = "#0C1216";
-const SURFACE = "#131C21";
-const BORDER = "#243036";
-const ACCENT = "#31B584";
-const TEXT = "#EDF3F1";
-const MUTED = "#9AAAA6";
+// The site's own navy / blue / gold tokens (src/styles.css), so a shared link
+// previews in the same palette as the page it points at.
+const BG = "#0B131E";
+const SURFACE = "#121C29";
+const BORDER = "#22303F";
+const ACCENT = "#2A97DF";
+const GOLD = "#D6A75B";
+const TEXT = "#F2F6F9";
+const MUTED = "#9AA6B5";
 
 const escapeXml = (value: string) =>
-  value.replace(/[<>&'"]/g, (c) => `&${{ "<": "lt", ">": "gt", "&": "amp", "'": "apos", '"': "quot" }[c]};`);
+  value.replace(
+    /[<>&'"]/g,
+    (c) =>
+      `&${{ "<": "lt", ">": "gt", "&": "amp", "'": "apos", '"': "quot" }[c]};`,
+  );
 
 /** Naive wrap tuned for the 58px headline size. */
 function wrap(text: string, maxChars: number, maxLines: number) {
@@ -52,7 +59,7 @@ function svg(label: string, headline: string, description: string) {
   <rect width="1200" height="630" fill="${BG}"/>
   <rect width="1200" height="630" fill="url(#veil)"/>
   <rect x="40" y="40" width="1120" height="550" rx="28" fill="${SURFACE}" stroke="${BORDER}"/>
-  <rect x="40" y="40" width="1120" height="6" rx="3" fill="${ACCENT}"/>
+  <rect x="40" y="40" width="1120" height="6" rx="3" fill="${GOLD}"/>
   <g font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace">
     <text x="88" y="140" font-size="22" letter-spacing="4" fill="${ACCENT}">${escapeXml(
       label.toUpperCase(),
@@ -60,7 +67,10 @@ function svg(label: string, headline: string, description: string) {
   </g>
   <g font-family="'DejaVu Sans', 'Liberation Sans', Arial, sans-serif" fill="${TEXT}" font-weight="bold" font-size="58">
     ${headlineLines
-      .map((line, i) => `<text x="88" y="${240 + i * 70}">${escapeXml(line)}</text>`)
+      .map(
+        (line, i) =>
+          `<text x="88" y="${240 + i * 70}">${escapeXml(line)}</text>`,
+      )
       .join("\n    ")}
   </g>
   <g font-family="'DejaVu Sans', 'Liberation Sans', Arial, sans-serif" fill="${MUTED}" font-size="26">

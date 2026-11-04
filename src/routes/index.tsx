@@ -10,7 +10,10 @@ export const Route = createFileRoute("/")({
       ...base,
       scripts: [
         ...base.scripts,
-        { type: "application/ld+json", children: JSON.stringify(featuredProjectsJsonLd()) },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(featuredProjectsJsonLd()),
+        },
       ],
     };
   },

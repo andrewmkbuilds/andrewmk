@@ -1,0 +1,27 @@
+{
+  "slug": "arabica-ai-chat",
+  "name": "Arabica AI Chat",
+  "category": "AI / Multilingual",
+  "description": "Bilingual AI chat focused on English-Arabic conversation, translation, and context-aware responses.",
+  "status": "Built",
+  "github": "https://github.com/andrewmkbuilds/Arabica-AI-Chat",
+  "tech": [
+    "Python",
+    "Tkinter",
+    "Translation API",
+    "AI"
+  ],
+  "built": [
+    "Bilingual chat",
+    "Translation",
+    "Context-aware replies"
+  ],
+  "filters": [
+    "Python",
+    "AI",
+    "Tkinter"
+  ],
+  "featured": false,
+  "caseStudy": "https://andrewmk.is-a.dev/projects/arabica-ai-chat",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/arabica-ai-chat.json"
+}

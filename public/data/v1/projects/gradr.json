@@ -1,0 +1,121 @@
+{
+  "slug": "gradr",
+  "name": "Gradr",
+  "category": "Career Technology · AI",
+  "description": "An AI-powered career accelerator designed to help students, graduates, and early-career professionals build stronger resumes, prepare for interviews, and manage their career journey.",
+  "problem": "Early-career candidates get almost no useful feedback. Resumes disappear into applicant tracking systems without explanation, interview practice is either expensive or unstructured, and applications end up scattered across spreadsheets, inboxes and browser tabs. The missing piece is not more advice — it is a system that reviews your material, tells you exactly what is weak, and keeps the whole search in one place.",
+  "status": "Building",
+  "live": "https://gradr.me",
+  "platform": "lovable",
+  "tech": [
+    "AI",
+    "React"
+  ],
+  "built": [
+    "AI resume analysis",
+    "ATS scoring",
+    "Job tracking",
+    "AI mock interviews",
+    "Interview analytics",
+    "Career development tools"
+  ],
+  "filters": [
+    "AI",
+    "React",
+    "Lovable"
+  ],
+  "featured": true,
+  "stack": [
+    {
+      "group": "Interface",
+      "items": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Component library"
+      ]
+    },
+    {
+      "group": "AI layer",
+      "items": [
+        "LLM APIs",
+        "Structured prompting",
+        "Scoring rubrics",
+        "Streaming responses"
+      ]
+    },
+    {
+      "group": "Backend",
+      "items": [
+        "Postgres",
+        "Row-level security",
+        "Auth",
+        "File storage",
+        "Server functions"
+      ]
+    },
+    {
+      "group": "Platform",
+      "items": [
+        "Lovable",
+        "MCP integration",
+        "Credit-based usage metering"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "title": "Making AI feedback specific, not generic",
+      "detail": "The first versions returned polite but useless advice. I moved from open-ended prompts to fixed scoring rubrics with structured output, so every response has to point at a real line in the resume or answer and explain what to change."
+    },
+    {
+      "title": "Approximating ATS behaviour honestly",
+      "detail": "Real applicant tracking systems are closed. Instead of pretending to replicate one, the score is built from things that are actually checkable — parseability, section structure, keyword coverage against the job description and formatting risks — and the app explains each component."
+    },
+    {
+      "title": "Keeping AI cost predictable",
+      "detail": "Long resumes and interview transcripts get expensive fast. Requests are trimmed and cached, heavy analysis runs on demand rather than on every keystroke, and usage is metered with a credit balance so cost stays bounded per user."
+    },
+    {
+      "title": "Data privacy on personal documents",
+      "detail": "Resumes are sensitive. Everything is scoped per user with row-level security, files live in access-controlled storage, and no document is readable across accounts."
+    }
+  ],
+  "results": [
+    {
+      "label": "Status",
+      "value": "In active development",
+      "note": "Core flows working end to end."
+    },
+    {
+      "label": "Core modules",
+      "value": "6",
+      "note": "Resume, ATS, interviews, tracker, analytics, plan."
+    },
+    {
+      "label": "Feedback loop",
+      "value": "Analyse → practise → apply",
+      "note": "One connected system."
+    },
+    {
+      "label": "Integrations",
+      "value": "MCP tools",
+      "note": "Resumes, jobs and reminders exposed to assistants."
+    }
+  ],
+  "metrics": {
+    "title": "Early traction",
+    "intro": "Gradr attracted 300+ visitors within its first three days after launch, demonstrating strong early interest in the platform.",
+    "source": "Figure measures website visitors, not registered or active users.",
+    "items": [
+      {
+        "value": "300+",
+        "label": "Website visitors",
+        "note": "First three days after launch."
+      }
+    ]
+  },
+  "startDate": "2025-09-01",
+  "caseStudy": "https://andrewmk.is-a.dev/projects/gradr",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/gradr.json"
+}

@@ -60,7 +60,9 @@ export function TechConstellation({ className }: { className?: string }) {
   const isDimmed = (name: string) =>
     active !== null &&
     active !== name &&
-    !LINKS.some(([a, b]) => (a === active && b === name) || (b === active && a === name));
+    !LINKS.some(
+      ([a, b]) => (a === active && b === name) || (b === active && a === name),
+    );
 
   const byName = Object.fromEntries(TECH.map((t) => [t.name, t]));
 
@@ -74,9 +76,12 @@ export function TechConstellation({ className }: { className?: string }) {
       )}
       onMouseLeave={() => setActive(null)}
     >
-      <div className="pointer-events-none absolute inset-0 bg-grid opacity-40" aria-hidden="true" />
       <div
-        className="pointer-events-none absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-[90px]"
+        className="pointer-events-none absolute inset-0 bg-grid opacity-40"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--primary)_14%,transparent),transparent_100%)]"
         aria-hidden="true"
       />
 
@@ -96,7 +101,9 @@ export function TechConstellation({ className }: { className?: string }) {
               stroke="var(--gold)"
               strokeWidth={lit ? 1.4 : 0.8}
               initial={reduce ? false : { pathLength: 0, opacity: 0 }}
-              whileInView={reduce ? {} : { pathLength: 1, opacity: lit ? 0.6 : 0.16 }}
+              whileInView={
+                reduce ? {} : { pathLength: 1, opacity: lit ? 0.6 : 0.16 }
+              }
               animate={{ opacity: lit ? 0.6 : 0.16 }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
@@ -110,11 +117,20 @@ export function TechConstellation({ className }: { className?: string }) {
           <motion.li
             key={tech.name}
             className="absolute"
-            style={{ left: `${tech.x}%`, top: `${tech.y}%`, translateX: "-50%", translateY: "-50%" }}
+            style={{
+              left: `${tech.x}%`,
+              top: `${tech.y}%`,
+              translateX: "-50%",
+              translateY: "-50%",
+            }}
             initial={reduce ? false : { opacity: 0, scale: 0.85 }}
             whileInView={reduce ? {} : { opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.5, delay: 0.05 * i, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.5,
+              delay: 0.05 * i,
+              ease: [0.22, 1, 0.36, 1],
+            }}
           >
             <button
               type="button"
@@ -146,7 +162,8 @@ export function TechConstellation({ className }: { className?: string }) {
       </ul>
 
       <p className="absolute bottom-4 left-5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-        <span className="text-primary">//</span> {active ? groupLabel[byName[active]!.group] : "Hover a node"}
+        <span className="text-primary">//</span>{" "}
+        {active ? groupLabel[byName[active]!.group] : "Hover a node"}
       </p>
     </div>
   );

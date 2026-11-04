@@ -11,7 +11,9 @@ const urls = indexableRoutes.map((route) =>
   [
     `  <url>`,
     `    <loc>${SITE_URL}${route.path}</loc>`,
-    route.changefreq ? `    <changefreq>${route.changefreq}</changefreq>` : null,
+    route.changefreq
+      ? `    <changefreq>${route.changefreq}</changefreq>`
+      : null,
     route.priority ? `    <priority>${route.priority}</priority>` : null,
     `  </url>`,
   ]
@@ -24,7 +26,8 @@ const urls = indexableRoutes.map((route) =>
 let projectSlugs = allProjects.map((p) => p.slug);
 const dbUrl = process.env["SUPABASE_URL"] ?? process.env["VITE_SUPABASE_URL"];
 const dbKey =
-  process.env["SUPABASE_PUBLISHABLE_KEY"] ?? process.env["VITE_SUPABASE_PUBLISHABLE_KEY"];
+  process.env["SUPABASE_PUBLISHABLE_KEY"] ??
+  process.env["VITE_SUPABASE_PUBLISHABLE_KEY"];
 if (dbUrl && dbKey) {
   try {
     const res = await fetch(
@@ -36,7 +39,10 @@ if (dbUrl && dbKey) {
       if (rows.length > 0) projectSlugs = rows.map((r) => r.slug);
     }
   } catch (error) {
-    console.warn("sitemap: falling back to bundled projects —", (error as Error).message);
+    console.warn(
+      "sitemap: falling back to bundled projects —",
+      (error as Error).message,
+    );
   }
 }
 
@@ -67,20 +73,26 @@ urls.push(
 try {
   const url = process.env["SUPABASE_URL"] ?? process.env["VITE_SUPABASE_URL"];
   const key =
-    process.env["SUPABASE_PUBLISHABLE_KEY"] ?? process.env["VITE_SUPABASE_PUBLISHABLE_KEY"];
+    process.env["SUPABASE_PUBLISHABLE_KEY"] ??
+    process.env["VITE_SUPABASE_PUBLISHABLE_KEY"];
   if (url && key) {
     const res = await fetch(
       `${url}/rest/v1/blog_posts?select=slug,updated_at&published=eq.true&order=published_at.desc`,
       { headers: { apikey: key } },
     );
     if (res.ok) {
-      const posts = (await res.json()) as { slug: string; updated_at?: string }[];
+      const posts = (await res.json()) as {
+        slug: string;
+        updated_at?: string;
+      }[];
       for (const post of posts) {
         urls.push(
           [
             `  <url>`,
             `    <loc>${SITE_URL}/blog/${encodeURIComponent(post.slug)}</loc>`,
-            post.updated_at ? `    <lastmod>${post.updated_at}</lastmod>` : null,
+            post.updated_at
+              ? `    <lastmod>${post.updated_at}</lastmod>`
+              : null,
             `    <changefreq>monthly</changefreq>`,
             `    <priority>0.6</priority>`,
             `  </url>`,

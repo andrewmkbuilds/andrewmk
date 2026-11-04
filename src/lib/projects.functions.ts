@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { asDbClient, type DbClient } from "@/lib/db-client";
 import type { Project } from "@/data/portfolio";
 
 /** Row shape of public.projects (the CMS table). */
@@ -54,10 +55,11 @@ export const PROJECT_COLUMNS =
 /** Drops keys whose value is undefined so optional fields stay truly absent. */
 function compact<T>(value: T): T {
   return Object.fromEntries(
-    Object.entries(value as Record<string, unknown>).filter(([, v]) => v !== undefined),
+    Object.entries(value as Record<string, unknown>).filter(
+      ([, v]) => v !== undefined,
+    ),
   ) as T;
 }
-
 
 /** Maps a CMS row onto the shape the existing public components already render. */
 export function toProject(row: CmsProject): Project {
@@ -87,7 +89,7 @@ export function toProject(row: CmsProject): Project {
     features: row.features?.length ? row.features : undefined,
     process: row.process ?? undefined,
     learned: row.learned ?? undefined,
-    featuredImage: row.featured_image ?? undefined,
+    screenshot: row.featured_image ?? undefined,
     imageAlt: row.image_alt ?? undefined,
     images: row.images?.length ? row.images : undefined,
     startDate: row.start_date ?? undefined,
@@ -100,7 +102,6 @@ export function toProject(row: CmsProject): Project {
     }),
   } as Project);
 }
-
 
 /** Publishable (anon) client — RLS only exposes published, non-archived rows. */
 function publicClient() {
@@ -142,7 +143,9 @@ export const listPublishedProjects = createServerFn({ method: "GET" }).handler(
 );
 
 export const getPublishedProject = createServerFn({ method: "GET" })
-  .inputValidator((data: unknown) => z.object({ slug: z.string().min(1).max(160) }).parse(data))
+  .inputValidator((data: unknown) =>
+    z.object({ slug: z.string().min(1).max(160) }).parse(data),
+  )
   .handler(async ({ data }): Promise<Project | null> => {
     const db = publicClient();
     if (!db) return null;
@@ -159,7 +162,7 @@ export const getPublishedProject = createServerFn({ method: "GET" })
 
 /* ---------------------------------- admin --------------------------------- */
 
-async function assertAdmin(supabase: { from: (t: string) => any }, userId: string) {
+async function assertAdmin(supabase: DbClient, userId: string) {
   const { data, error } = await supabase
     .from("user_roles")
     .select("role")
@@ -169,7 +172,8 @@ async function assertAdmin(supabase: { from: (t: string) => any }, userId: strin
   if (error || !data) throw new Error("Forbidden");
 }
 
-const jsonArray = <T extends z.ZodTypeAny>(schema: T) => z.array(schema).max(40).nullable().optional();
+const jsonArray = <T extends z.ZodTypeAny>(schema: T) =>
+  z.array(schema).max(40).nullable().optional();
 
 const projectSchema = z.object({
   id: z.string().uuid().optional(),
@@ -178,7 +182,10 @@ const projectSchema = z.object({
     .trim()
     .min(2)
     .max(120)
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Use lowercase words separated by hyphens."),
+    .regex(
+      /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+      "Use lowercase words separated by hyphens.",
+    ),
   name: z.string().trim().min(2).max(120),
   category: z.string().trim().max(120).default(""),
   description: z.string().trim().max(600).default(""),
@@ -197,10 +204,21 @@ const projectSchema = z.object({
   demo: z.string().trim().max(400).nullable().optional(),
   previously: z.string().trim().max(300).nullable().optional(),
   platform: z.enum(["base44", "lovable"]).nullable().optional(),
-  stack: jsonArray(z.object({ group: z.string().max(80), items: z.array(z.string().max(80)).max(30) })),
-  challenges: jsonArray(z.object({ title: z.string().max(160), detail: z.string().max(3000) })),
+  stack: jsonArray(
+    z.object({
+      group: z.string().max(80),
+      items: z.array(z.string().max(80)).max(30),
+    }),
+  ),
+  challenges: jsonArray(
+    z.object({ title: z.string().max(160), detail: z.string().max(3000) }),
+  ),
   results: jsonArray(
-    z.object({ label: z.string().max(120), value: z.string().max(120), note: z.string().max(300).optional() }),
+    z.object({
+      label: z.string().max(120),
+      value: z.string().max(120),
+      note: z.string().max(300).optional(),
+    }),
   ),
   gallery: jsonArray(
     z.object({
@@ -216,10 +234,19 @@ const projectSchema = z.object({
       source: z.string().max(400).optional(),
       items: z
         .array(
-          z.object({ value: z.string().max(80), label: z.string().max(160), note: z.string().max(300).optional() }),
+          z.object({
+            value: z.string().max(80),
+            label: z.string().max(160),
+            note: z.string().max(300).optional(),
+          }),
         )
         .max(20),
-      breakdown: z.array(z.object({ label: z.string().max(160), value: z.string().max(80) })).max(30).optional(),
+      breakdown: z
+        .array(
+          z.object({ label: z.string().max(160), value: z.string().max(80) }),
+        )
+        .max(30)
+        .optional(),
     })
     .nullable()
     .optional(),
@@ -252,7 +279,7 @@ export type ProjectInput = z.infer<typeof projectSchema>;
 export const listAllProjects = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<CmsProject[]> => {
-    const supabase = context.supabase as never as any;
+    const supabase = asDbClient(context.supabase);
     await assertAdmin(supabase, context.userId);
     const { data, error } = await supabase
       .from("projects")
@@ -265,9 +292,11 @@ export const listAllProjects = createServerFn({ method: "POST" })
 
 export const getProjectById = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) => z.object({ id: z.string().uuid() }).parse(data))
+  .inputValidator((data: unknown) =>
+    z.object({ id: z.string().uuid() }).parse(data),
+  )
   .handler(async ({ data, context }): Promise<CmsProject | null> => {
-    const supabase = context.supabase as never as any;
+    const supabase = asDbClient(context.supabase);
     await assertAdmin(supabase, context.userId);
     const { data: row, error } = await supabase
       .from("projects")
@@ -282,7 +311,7 @@ export const saveProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => projectSchema.parse(data))
   .handler(async ({ data, context }): Promise<CmsProject> => {
-    const supabase = context.supabase as never as any;
+    const supabase = asDbClient(context.supabase);
     await assertAdmin(supabase, context.userId);
 
     const { id, ...fields } = data;
@@ -327,11 +356,16 @@ export const saveProject = createServerFn({ method: "POST" })
 
 export const deleteProject = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) => z.object({ id: z.string().uuid() }).parse(data))
+  .inputValidator((data: unknown) =>
+    z.object({ id: z.string().uuid() }).parse(data),
+  )
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
-    const supabase = context.supabase as never as any;
+    const supabase = asDbClient(context.supabase);
     await assertAdmin(supabase, context.userId);
-    const { error } = await supabase.from("projects").delete().eq("id", data.id);
+    const { error } = await supabase
+      .from("projects")
+      .delete()
+      .eq("id", data.id);
     if (error) throw new Error("Could not delete project.");
 
     const { recordAudit } = await import("./admin-audit.server");
@@ -350,10 +384,21 @@ export const deleteProject = createServerFn({ method: "POST" })
 export const reorderProjects = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) =>
-    z.object({ order: z.array(z.object({ id: z.string().uuid(), sort_order: z.number().int().min(0) })).max(500) }).parse(data),
+    z
+      .object({
+        order: z
+          .array(
+            z.object({
+              id: z.string().uuid(),
+              sort_order: z.number().int().min(0),
+            }),
+          )
+          .max(500),
+      })
+      .parse(data),
   )
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
-    const supabase = context.supabase as never as any;
+    const supabase = asDbClient(context.supabase);
     await assertAdmin(supabase, context.userId);
     for (const item of data.order) {
       const { error } = await supabase

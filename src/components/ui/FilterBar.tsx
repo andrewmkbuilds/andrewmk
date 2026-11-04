@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import { useId, useRef } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface FilterBarProps {
@@ -14,18 +15,36 @@ interface FilterBarProps {
 /**
  * Filter chips with roving tabindex: one tab stop, arrow keys move between
  * options, Home/End jump to the ends — the pattern keyboard users expect.
+ *
+ * The active chip's surface is a single shared element (`layoutId`), so
+ * switching filters slides the highlight along the row with a spring instead
+ * of snapping between two static backgrounds.
  */
-export function FilterBar({ label, legend, options, value, onChange, className }: FilterBarProps) {
+export function FilterBar({
+  label,
+  legend,
+  options,
+  value,
+  onChange,
+  className,
+}: FilterBarProps) {
   const listRef = useRef<HTMLDivElement>(null);
+  const pillId = useId();
+  const reduce = useReducedMotion();
 
   const focusAt = (index: number) => {
-    const buttons = listRef.current?.querySelectorAll<HTMLButtonElement>("button[data-filter]");
+    const buttons = listRef.current?.querySelectorAll<HTMLButtonElement>(
+      "button[data-filter]",
+    );
     if (!buttons?.length) return;
     const next = (index + buttons.length) % buttons.length;
     buttons[next]?.focus();
   };
 
-  const onKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+  const onKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement>,
+    index: number,
+  ) => {
     switch (event.key) {
       case "ArrowRight":
       case "ArrowDown":
@@ -57,7 +76,12 @@ export function FilterBar({ label, legend, options, value, onChange, className }
           {legend}
         </span>
       )}
-      <div ref={listRef} role="group" aria-label={label} className="flex flex-wrap gap-2">
+      <div
+        ref={listRef}
+        role="group"
+        aria-label={label}
+        className="flex flex-wrap gap-2"
+      >
         {options.map((option, index) => {
           const active = option === value;
           return (
@@ -70,13 +94,39 @@ export function FilterBar({ label, legend, options, value, onChange, className }
               onKeyDown={(event) => onKeyDown(event, index)}
               aria-pressed={active}
               className={cn(
-                "rounded-full border px-4 py-2 font-mono text-xs transition-all duration-200 focus-ring",
+                "relative inline-flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-xs transition-colors duration-200 active:scale-[0.97] focus-ring motion-reduce:active:scale-100",
                 active
-                  ? "border-gold/60 bg-gold/10 text-gold"
+                  ? "border-gold/60 text-gold"
                   : "border-border text-muted-foreground hover:border-gold/40 hover:text-foreground",
               )}
             >
-              {option}
+              {active && (
+                <motion.span
+                  aria-hidden="true"
+                  layoutId={`filter-pill-${pillId}`}
+                  className="filter-pill absolute inset-0 rounded-full"
+                  transition={
+                    reduce
+                      ? { duration: 0 }
+                      : {
+                          type: "spring",
+                          stiffness: 420,
+                          damping: 34,
+                          mass: 0.55,
+                        }
+                  }
+                />
+              )}
+              <span className="relative inline-flex items-center gap-2">
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    "h-1 w-1 rounded-full bg-gold transition-transform duration-300",
+                    active ? "scale-100" : "scale-0",
+                  )}
+                />
+                {option}
+              </span>
             </button>
           );
         })}

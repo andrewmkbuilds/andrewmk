@@ -1,12 +1,16 @@
 import { useMemo, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { SearchX } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Reveal } from "./Reveal";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectModal } from "./ProjectModal";
 import { FilterBar } from "./FilterBar";
 import { getProjectPlatforms, platformFilters } from "./BuiltBy";
-import { ecosystemProjects, projectFilters, type Project } from "@/data/portfolio";
+import {
+  ecosystemProjects,
+  projectFilters,
+  type Project,
+} from "@/data/portfolio";
 
 interface ProjectGridProps {
   projects?: Project[];
@@ -32,11 +36,21 @@ function ProjectCardSkeleton() {
   );
 }
 
-export function ProjectGrid({ projects = ecosystemProjects, loading = false }: ProjectGridProps) {
+export function ProjectGrid({
+  projects = ecosystemProjects,
+  loading = false,
+}: ProjectGridProps) {
   const [active, setActive] = useState("All");
   const [platform, setPlatform] = useState("All");
   const [selected, setSelected] = useState<Project | null>(null);
   const [open, setOpen] = useState(false);
+  const reduce = useReducedMotion();
+
+  // One spring drives every card's layout change, so filtering reflows the
+  // grid as one physical object instead of snapping it.
+  const layoutTransition = reduce
+    ? { duration: 0 }
+    : { type: "spring" as const, stiffness: 380, damping: 32, mass: 0.6 };
 
   const visible = useMemo(
     () =>
@@ -78,7 +92,10 @@ export function ProjectGrid({ projects = ecosystemProjects, loading = false }: P
       </p>
 
       {loading ? (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-hidden="true">
+        <div
+          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+          aria-hidden="true"
+        >
           {Array.from({ length: 6 }).map((_, index) => (
             <ProjectCardSkeleton key={index} />
           ))}
@@ -86,10 +103,15 @@ export function ProjectGrid({ projects = ecosystemProjects, loading = false }: P
       ) : visible.length === 0 ? (
         <div className="rounded-xl border border-dashed border-border bg-card/40 px-6 py-12 text-center">
           <SearchX className="mx-auto h-8 w-8 text-muted-foreground/60" />
-          <p className="mt-4 font-mono text-sm text-foreground">No projects match these filters</p>
+          <p className="mt-4 font-mono text-sm text-foreground">
+            No projects match these filters
+          </p>
           <p className="mx-auto mt-2 max-w-sm text-sm text-muted-foreground">
             Nothing here combines{" "}
-            <span className="text-foreground">{active === "All" ? "every tech" : active}</span> with{" "}
+            <span className="text-foreground">
+              {active === "All" ? "every tech" : active}
+            </span>{" "}
+            with{" "}
             <span className="text-foreground">
               {platform === "All" ? "every platform" : platform}
             </span>
@@ -107,13 +129,34 @@ export function ProjectGrid({ projects = ecosystemProjects, loading = false }: P
           </Button>
         </div>
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {visible.map((project, index) => (
-            <Reveal key={project.slug} delay={Math.min(index, 6) * 50} className="h-full">
-              <ProjectCard project={project} onOpen={openProject} className="h-full" />
-            </Reveal>
-          ))}
-        </div>
+        <motion.div
+          layout
+          transition={layoutTransition}
+          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          <AnimatePresence mode="popLayout" initial={false}>
+            {visible.map((project, index) => (
+              <motion.div
+                key={project.slug}
+                layout
+                initial={reduce ? false : { opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduce ? {} : { opacity: 0, scale: 0.97 }}
+                transition={{
+                  ...layoutTransition,
+                  delay: reduce ? 0 : Math.min(index, 6) * 0.045,
+                }}
+                className="h-full"
+              >
+                <ProjectCard
+                  project={project}
+                  onOpen={openProject}
+                  className="h-full"
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       )}
 
       <ProjectModal project={selected} open={open} onOpenChange={setOpen} />

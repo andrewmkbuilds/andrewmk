@@ -1,0 +1,99 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   GRID MOTION — the ambient depth field
+
+   Adapted from the React Bits "GridMotion" component
+   (https://reactbits.dev/r/GridMotion-TS-TW, vendored in
+   src/components/reactbits/GridMotion.tsx). The demo's Tailwind utility
+   strings are replaced by the classes below so the palette lives here, next
+   to the rest of the scene, instead of inside the component.
+
+   One perspective plane holds a wall of tile rows; each row slides on the x
+   axis and the whole plane is leaned back in Z, so the wall recedes instead
+   of sitting flat. Only `transform` and `--spot` are written per frame —
+   no layout, no filter, no canvas, and no permanent `will-change`.
+
+   Variables written by the component:
+     --gm-gap, --gm-tile-w, --gm-tile-h, --gm-font   geometry
+     --gm-dim                                        how dark a resting tile is
+     --spot                                          pointer light, 0…1 per tile
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.gm {
+  position: absolute;
+  inset: 0;
+  isolation: isolate;
+  overflow: hidden;
+  pointer-events: none;
+  /* One elliptical falloff, not two intersecting linear masks: the wall
+     dissolves into the room at every edge with no straight-line seam and no
+     visible corner where the two gradients used to meet. */
+  -webkit-mask-image: radial-gradient(
+    ellipse 96% 92% at 50% 42%,
+    #000 34%,
+    rgb(0 0 0 / 0.72) 64%,
+    transparent 92%
+  );
+  mask-image: radial-gradient(
+    ellipse 96% 92% at 50% 42%,
+    #000 34%,
+    rgb(0 0 0 / 0.72) 64%,
+    transparent 92%
+  );
+}
+
+.gm-plane {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  transform-style: preserve-3d;
+}
+
+.gm-row {
+  position: absolute;
+  left: 0;
+  display: flex;
+  gap: var(--gm-gap, 16px);
+}
+
+.gm-tile {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--gm-tile-w);
+  height: var(--gm-tile-h);
+  overflow: hidden;
+  border-radius: 16px;
+  /* A near-invisible panel: the three-stop gradient falls away instead of
+     banding, and nothing here is opaque enough to read as a pasted slab
+     behind the copy. */
+  background: linear-gradient(
+    168deg,
+    hsl(214 56% 27% / 0.5),
+    hsl(220 62% 15% / 0.46) 62%,
+    hsl(222 66% 10% / 0.44)
+  );
+  color: hsl(212 26% 64%);
+  font-size: var(--gm-font, 14px);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+  opacity: calc(1 - var(--gm-dim, 0.4) * (1 - var(--spot, 0)));
+}
+
+/* One lit top edge and one hairline ring — the whole face is drawn by these
+   two shadows, so the tile has structure without a visible fill. */
+.gm-tile::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 1px 0 hsl(208 92% 88% / 0.06),
+    inset 0 0 0 1px hsl(210 68% 74% / 0.055);
+  content: "";
+  pointer-events: none;
+}

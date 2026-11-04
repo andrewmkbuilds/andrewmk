@@ -19,6 +19,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import NotFound from "@/pages/NotFound";
 import { reportLovableError } from "@/lib/lovable-error-reporting";
 import { AUTHOR, SITE_NAME, SITE_URL } from "@/data/seo";
+import { PROFILE_IDENTITY } from "@/data/portfolio";
 
 import appCss from "../styles.css?url";
 
@@ -28,7 +29,7 @@ const personJsonLd = JSON.stringify({
   "@type": "Person",
   name: AUTHOR,
   url: `${SITE_URL}/`,
-  jobTitle: "Student · Developer · AI Builder · Systems Thinker",
+  jobTitle: PROFILE_IDENTITY,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Dubai",
@@ -38,7 +39,11 @@ const personJsonLd = JSON.stringify({
   homeLocation: {
     "@type": "Place",
     name: "Dubai, United Arab Emirates",
-    address: { "@type": "PostalAddress", addressLocality: "Dubai", addressCountry: "AE" },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Dubai",
+      addressCountry: "AE",
+    },
   },
   workLocation: {
     "@type": "Place",
@@ -74,8 +79,8 @@ const websiteJsonLd = JSON.stringify({
 // VITE_ build-time variables aren't set (e.g. in a preview sandbox).
 const supabaseBootstrap = (() => {
   try {
-    const url = process.env['SUPABASE_URL'] || "";
-    const publishableKey = process.env['SUPABASE_PUBLISHABLE_KEY'] || "";
+    const url = process.env["SUPABASE_URL"] || "";
+    const publishableKey = process.env["SUPABASE_PUBLISHABLE_KEY"] || "";
     if (!url || !publishableKey) return "";
     return `window.__SUPABASE_CONFIG__=${JSON.stringify({ url, publishableKey })};`;
   } catch {
@@ -83,50 +88,77 @@ const supabaseBootstrap = (() => {
   }
 })();
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { title: "Andrew Mathews | Student Developer, AI Builder & Robotics Engineer" },
-      {
-        name: "description",
-        content:
-          "Andrew Mathews is a student developer and technology builder from Dubai, UAE, creating AI applications, robotics projects, web apps, and innovative technology solutions.",
-      },
-      { name: "author", content: AUTHOR },
-      {
-        name: "google-site-verification",
-        content: "N0LjBnLEMo8ZqJ1lwaVLoswy8UkfIXMwgdfk35YEY-s",
-      },
-      {
-        name: "Google-Site-Verification",
-        content: "uEoWQOpt1nytKyk_9WlQU6iTrvkXo7Peuln1-OrCufs",
-      },
-    ],
-    links: [
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap",
-      },
-      { rel: "stylesheet", href: appCss },
-      { rel: "icon", type: "image/png", href: "/favicon.png" },
-    ],
-    scripts: [
-      ...(supabaseBootstrap
-        ? [{ type: "text/javascript", children: supabaseBootstrap }]
-        : []),
-      { type: "application/ld+json", children: personJsonLd },
-      { type: "application/ld+json", children: websiteJsonLd },
-    ],
-  }),
-  shellComponent: RootShell,
-  component: RootComponent,
-  notFoundComponent: NotFound,
-  errorComponent: RootErrorComponent,
-});
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
+  {
+    head: () => ({
+      meta: [
+        { charSet: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+        {
+          title:
+            "Andrew Mathews | Student Developer, AI Builder & Robotics Engineer",
+        },
+        {
+          name: "description",
+          content:
+            "Andrew Mathews is a student developer and technology builder from Dubai, UAE, creating AI applications, robotics projects, web apps, and innovative technology solutions.",
+        },
+        { name: "author", content: AUTHOR },
+        {
+          name: "google-site-verification",
+          content: "N0LjBnLEMo8ZqJ1lwaVLoswy8UkfIXMwgdfk35YEY-s",
+        },
+        {
+          name: "Google-Site-Verification",
+          content: "uEoWQOpt1nytKyk_9WlQU6iTrvkXo7Peuln1-OrCufs",
+        },
+      ],
+      links: [
+        // Brand marks come from img.logo.dev when a publishable token is
+        // configured (src/components/ui/BrandLogo.tsx). The ribbon and social
+        // rows request them immediately, so opening the connection with the
+        // document saves a DNS + TLS round trip on the first mark. Read from the
+        // env directly: importing `logoDevEnabled` would pull the whole brand
+        // registry into the entry chunk.
+        ...(import.meta.env["VITE_LOGO_DEV_TOKEN"]
+          ? [{ rel: "preconnect", href: "https://img.logo.dev" }]
+          : []),
+        // Fonts are self-hosted (src/styles/fonts.css). Preloading the two faces
+        // that set the first screen — the Sora display headline and the Inter
+        // body text — starts them with the stylesheet instead of after it, so
+        // the LCP text does not wait for a second round trip. `crossOrigin` is
+        // required on font preloads even for same-origin files.
+        {
+          rel: "preload",
+          href: "/fonts/sora-latin.woff2",
+          as: "font",
+          type: "font/woff2",
+          crossOrigin: "anonymous",
+        },
+        {
+          rel: "preload",
+          href: "/fonts/inter-latin.woff2",
+          as: "font",
+          type: "font/woff2",
+          crossOrigin: "anonymous",
+        },
+        { rel: "stylesheet", href: appCss },
+        { rel: "icon", type: "image/png", href: "/favicon.png" },
+      ],
+      scripts: [
+        ...(supabaseBootstrap
+          ? [{ type: "text/javascript", children: supabaseBootstrap }]
+          : []),
+        { type: "application/ld+json", children: personJsonLd },
+        { type: "application/ld+json", children: websiteJsonLd },
+      ],
+    }),
+    shellComponent: RootShell,
+    component: RootComponent,
+    notFoundComponent: NotFound,
+    errorComponent: RootErrorComponent,
+  },
+);
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
@@ -169,8 +201,12 @@ function RootErrorComponent({ error, reset }: ErrorComponentProps) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-6">
       <div className="w-full max-w-md text-center">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">Error</p>
-        <h1 className="mt-4 text-3xl font-bold text-foreground">This page didn't load</h1>
+        <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">
+          Error
+        </p>
+        <h1 className="mt-4 text-3xl font-bold text-foreground">
+          This page didn't load
+        </h1>
         <p className="mt-3 text-muted-foreground">
           Something went wrong on our end. You can try again or head back home.
         </p>

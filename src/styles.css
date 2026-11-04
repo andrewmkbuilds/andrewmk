@@ -1,7 +1,15 @@
-/* Fonts are loaded via <link> tags in src/routes/__root.tsx */
+/* Self-hosted @font-face rules (see src/styles/fonts.css). The critical faces
+   are also preloaded from src/routes/__root.tsx. */
+@import "./styles/fonts.css";
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "./styles/grid-motion.css";
+@import "./styles/scene-names.css";
+@import "./styles/scene-3d.css";
+@import "./styles/stacking-cards.css";
+@import "./styles/echo-headline.css";
+@import "./styles/annnimate-theme.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -57,6 +65,8 @@
   --font-heading: "Sora", "Inter", system-ui, sans-serif;
   --font-display: "Sora", "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
+  /* Editorial serif: the voice of headlines, pull quotes and margin notes. */
+  --font-serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
@@ -67,41 +77,71 @@
 }
 
 @keyframes accordion-down {
-  from { height: 0; }
-  to { height: var(--radix-accordion-content-height); }
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
 }
 
 @keyframes accordion-up {
-  from { height: var(--radix-accordion-content-height); }
-  to { height: 0; }
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 
 @keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes fade-in-up {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fade-in {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes drift {
-  0% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -14px, 0); }
-  100% { transform: translate3d(0, 0, 0); }
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 :root {
   --radius: 0.625rem;
 
   /* 60% — Base: deep logo blue (the environment) */
-  --background: hsl(216 46% 8%);
+  --background: hsl(221 62% 5%);
   --foreground: hsl(210 26% 96%);
 
   /* 30% — Structure: lifted blue card surfaces, tonally separated from the base */
@@ -154,10 +194,8 @@
   --selection-fg: var(--foreground);
 }
 
-
-
 .dark {
-  --background: hsl(216 46% 8%);
+  --background: hsl(221 62% 5%);
   --foreground: hsl(210 26% 96%);
   --card: hsl(215 40% 12%);
   --card-foreground: hsl(210 26% 96%);
@@ -199,11 +237,21 @@
   padding-inline: 2rem;
   max-width: 100%;
 
-  @media (min-width: 640px) { max-width: 640px; }
-  @media (min-width: 768px) { max-width: 768px; }
-  @media (min-width: 1024px) { max-width: 1024px; }
-  @media (min-width: 1280px) { max-width: 1280px; }
-  @media (min-width: 1400px) { max-width: 1400px; }
+  @media (min-width: 640px) {
+    max-width: 640px;
+  }
+  @media (min-width: 768px) {
+    max-width: 768px;
+  }
+  @media (min-width: 1024px) {
+    max-width: 1024px;
+  }
+  @media (min-width: 1280px) {
+    max-width: 1280px;
+  }
+  @media (min-width: 1400px) {
+    max-width: 1400px;
+  }
 }
 
 @layer base {
@@ -233,8 +281,12 @@
   pre::selection,
   kbd::selection,
   samp::selection,
-  h1::selection, h2::selection, h3::selection,
-  h4::selection, h5::selection, h6::selection,
+  h1::selection,
+  h2::selection,
+  h3::selection,
+  h4::selection,
+  h5::selection,
+  h6::selection,
   [role="dialog"] ::selection,
   [data-state] ::selection {
     background-color: var(--selection-bg);
@@ -247,8 +299,12 @@
   textarea::-moz-selection,
   code::-moz-selection,
   pre::-moz-selection,
-  h1::-moz-selection, h2::-moz-selection, h3::-moz-selection,
-  h4::-moz-selection, h5::-moz-selection, h6::-moz-selection,
+  h1::-moz-selection,
+  h2::-moz-selection,
+  h3::-moz-selection,
+  h4::-moz-selection,
+  h5::-moz-selection,
+  h6::-moz-selection,
   [role="dialog"] ::-moz-selection {
     background-color: var(--selection-bg);
     color: var(--selection-fg);
@@ -259,7 +315,7 @@
      Browsers (notably WebKit and Blink) drop author ::selection colors on
      disabled controls and fall back to the platform blue, and shadcn's
      `disabled:opacity-50` washes the highlight out. Restate the tokens and
-     pin -webkit-text-fill-color so the highlight stays on-brand blue. */
+     pin -webkit-text-fill-color so the highlight stays on-brand gold. */
   /* Disabled surfaces are rendered at ~50% opacity, which also washes out the
      highlight. Deepen the highlight for them so selected text keeps a 4.5:1
      ratio after that compositing. */
@@ -338,8 +394,12 @@
     pre::selection,
     kbd::selection,
     samp::selection,
-    h1::selection, h2::selection, h3::selection,
-    h4::selection, h5::selection, h6::selection,
+    h1::selection,
+    h2::selection,
+    h3::selection,
+    h4::selection,
+    h5::selection,
+    h6::selection,
     [role="dialog"] ::selection,
     [data-state] ::selection {
       forced-color-adjust: none;
@@ -349,9 +409,6 @@
       text-shadow: none;
     }
   }
-
-
-
 
   html {
     scroll-behavior: smooth;
@@ -363,7 +420,12 @@
     overflow-x: hidden;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-heading font-semibold tracking-tight;
   }
 
@@ -392,7 +454,9 @@
     html {
       scroll-behavior: auto;
     }
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       animation-duration: 0.001ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.001ms !important;
@@ -415,7 +479,7 @@
   }
 
   .font-mono {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono", monospace;
   }
 
   .text-balance {
@@ -424,14 +488,29 @@
 
   .bg-grid {
     background-image:
-      linear-gradient(color-mix(in hsl, var(--border) 55%, transparent) 1px, transparent 1px),
-      linear-gradient(90deg, color-mix(in hsl, var(--border) 55%, transparent) 1px, transparent 1px);
+      linear-gradient(
+        color-mix(in hsl, var(--border) 55%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in hsl, var(--border) 55%, transparent) 1px,
+        transparent 1px
+      );
     background-size: 64px 64px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 40%, transparent 100%);
+    mask-image: radial-gradient(
+      ellipse 80% 60% at 50% 40%,
+      black 40%,
+      transparent 100%
+    );
   }
 
   .shadow-card {
-    box-shadow: 0 1px 0 color-mix(in hsl, var(--foreground) 4%, transparent) inset, 0 12px 30px -18px hsl(220 45% 2% / 0.9);
+    box-shadow:
+      0 1px 0 color-mix(in hsl, var(--foreground) 7%, transparent) inset,
+      0 -1px 0 hsl(220 45% 2% / 0.4) inset,
+      0 2px 4px -2px hsl(220 45% 2% / 0.55),
+      0 18px 36px -22px hsl(220 45% 2% / 0.9);
   }
 
   .shadow-glow {
@@ -439,7 +518,11 @@
   }
 
   .bg-hero-veil {
-    background-image: radial-gradient(ellipse 70% 55% at 50% 0%, color-mix(in hsl, var(--primary) 9%, transparent), transparent 70%);
+    background-image: radial-gradient(
+      ellipse 70% 55% at 50% 0%,
+      color-mix(in hsl, var(--primary) 5%, transparent),
+      transparent 70%
+    );
   }
 
   .link-underline {
@@ -447,7 +530,7 @@
   }
 
   .link-underline::after {
-    content: '';
+    content: "";
     @apply absolute -bottom-1 left-0 w-0 h-px bg-gold transition-all duration-300;
   }
 
@@ -455,10 +538,18 @@
     @apply w-full;
   }
 
-  .stagger-1 { animation-delay: 0.1s; }
-  .stagger-2 { animation-delay: 0.2s; }
-  .stagger-3 { animation-delay: 0.3s; }
-  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-1 {
+    animation-delay: 0.1s;
+  }
+  .stagger-2 {
+    animation-delay: 0.2s;
+  }
+  .stagger-3 {
+    animation-delay: 0.3s;
+  }
+  .stagger-4 {
+    animation-delay: 0.4s;
+  }
 
   /* Premium 3D lift for the Business Websites CTA.
      Flat + integrated at rest; elevated, glowing, slightly larger on hover/focus.
@@ -468,14 +559,11 @@
     transition:
       transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 0.34s cubic-bezier(0.22, 1, 0.36, 1),
-      filter 0.34s cubic-bezier(0.22, 1, 0.36, 1),
       background-color 0.2s ease;
-    will-change: transform, box-shadow;
   }
 
   .cta-pop .cta-arrow {
     transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: transform;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -485,7 +573,6 @@
         0 18px 38px -16px color-mix(in hsl, var(--fx) 48%, transparent),
         0 0 0 1px color-mix(in oklab, var(--fx) 26%, transparent),
         0 14px 26px -14px hsl(220 60% 2% / 0.95);
-      filter: brightness(1.08) contrast(1.04);
     }
 
     .cta-pop:hover .cta-arrow {
@@ -499,7 +586,6 @@
       0 18px 38px -16px color-mix(in hsl, var(--fx) 48%, transparent),
       0 0 0 1px color-mix(in oklab, var(--fx) 26%, transparent),
       0 14px 26px -14px hsl(220 60% 2% / 0.95);
-    filter: brightness(1.08) contrast(1.04);
   }
 
   .cta-pop:focus-visible .cta-arrow {
@@ -518,7 +604,6 @@
     .cta-pop:hover .cta-arrow,
     .cta-pop:focus-visible .cta-arrow {
       transform: none !important;
-      filter: none !important;
     }
     .cta-pop:hover,
     .cta-pop:focus-visible {
@@ -538,7 +623,6 @@
       transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 0.34s cubic-bezier(0.22, 1, 0.36, 1),
       border-color 0.3s ease;
-    will-change: transform, box-shadow;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -585,7 +669,6 @@
       transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 0.34s cubic-bezier(0.22, 1, 0.36, 1),
       border-color 0.3s ease;
-    will-change: transform, box-shadow;
     outline: none;
   }
 
@@ -654,7 +737,9 @@
   }
 
   .pop-chevron {
-    transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
+    transition:
+      transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.2s ease;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -665,10 +750,6 @@
     }
   }
 }
-
-
-
-
 
 /* ── Premium surface + motion utilities ─────────────────────────────── */
 
@@ -691,29 +772,59 @@
 @utility surface {
   position: relative;
   background:
-    linear-gradient(180deg, color-mix(in oklab, var(--foreground) 3%, transparent), transparent 40%),
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--foreground) 3%, transparent),
+      transparent 40%
+    ),
     var(--card);
   border: 1px solid var(--border);
   box-shadow:
-    inset 0 1px 0 color-mix(in oklab, var(--foreground) 6%, transparent),
-    0 24px 50px -32px hsl(220 60% 2% / 0.95);
+    inset 0 1px 0 color-mix(in oklab, var(--foreground) 7%, transparent),
+    inset 0 -1px 0 hsl(220 60% 2% / 0.45),
+    0 2px 4px -2px hsl(220 60% 2% / 0.6),
+    0 26px 54px -34px hsl(220 60% 2% / 0.95);
 }
 
-/* Pointer-tracked spotlight; requires --mx/--my set on the element */
+/* ── Card FX ──────────────────────────────────────────────────────────────
+   The interactive layer of a card, all of it paint-only: a pointer spotlight
+   (::before), a blue/gold arc that travels the border (::after) and, where a
+   card opts in, a light streak (`.fx-sheen`) and floating lights
+   (`.fx-sparkle`). Cards lift on hover — they never tilt or rotate.
+
+   `--mx` / `--my` are written by `<CardFxTracker>` (one delegated pointer
+   listener for the whole page) and fall back to the centre, so touch devices
+   and keyboard focus get the same light without a cursor.
+   ------------------------------------------------------------------------ */
+
+@property --fx-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* Pointer-tracked spotlight; the light itself stays well under the text. */
 @utility spotlight {
+  position: relative;
   &::before {
     content: "";
     position: absolute;
-    inset: -1px;
+    inset: 0;
     border-radius: inherit;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.4s ease;
-    background: radial-gradient(
-      320px circle at var(--mx, 50%) var(--my, 50%),
-      color-mix(in oklab, var(--fx) 14%, transparent),
-      transparent 60%
-    );
+    transition: opacity 0.45s var(--ease-out-expo);
+    background:
+      radial-gradient(
+        300px circle at var(--mx, 50%) var(--my, 50%),
+        color-mix(in oklab, var(--primary) 15%, transparent),
+        transparent 62%
+      ),
+      radial-gradient(
+        140px circle at var(--mx, 50%) var(--my, 50%),
+        color-mix(in oklab, var(--gold) 13%, transparent),
+        transparent 72%
+      );
   }
   &:hover::before,
   &:focus-within::before {
@@ -721,7 +832,10 @@
   }
 }
 
-/* Hairline gradient border that lights up on hover */
+/* Hairline border: a soft blue→gold arc sits on one corner at rest, and
+   travels the edge while the card is hovered. The animation is paused (not
+   removed) when idle, so nothing repaints until the pointer arrives and the
+   arc never jumps back to its start. */
 @utility edge-glow {
   &::after {
     content: "";
@@ -730,23 +844,151 @@
     border-radius: inherit;
     padding: 1px;
     pointer-events: none;
-    opacity: 0;
+    opacity: 0.4;
     transition: opacity 0.4s ease;
-    background: linear-gradient(
-      135deg,
-      color-mix(in oklab, var(--fx) 55%, transparent),
-      transparent 42%,
-      color-mix(in oklab, var(--gold) 38%, transparent)
+    background: conic-gradient(
+      from var(--fx-angle),
+      transparent 0deg 46%,
+      color-mix(in oklab, var(--primary) 60%, transparent) 66%,
+      color-mix(in oklab, var(--gold) 80%, transparent) 78%,
+      transparent 92%
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
       linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
     mask-composite: exclude;
+    animation: fx-edge-travel 6.5s linear infinite;
+    animation-play-state: paused;
   }
   &:hover::after,
   &:focus-within::after {
     opacity: 1;
+    animation-play-state: running;
+  }
+}
+
+@keyframes fx-edge-travel {
+  to {
+    --fx-angle: 360deg;
+  }
+}
+
+/* One light streak across the card face on hover — no loop, no repaint while
+   the pointer is elsewhere. Sits in document order so text stays above it. */
+.fx-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fx-sheen::before {
+  content: "";
+  position: absolute;
+  top: -60%;
+  bottom: -60%;
+  left: 0;
+  width: 38%;
+  opacity: 0;
+  transform: translate3d(-180%, 0, 0) rotate(10deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--gold) 10%, transparent) 45%,
+    color-mix(in oklab, var(--primary) 12%, transparent) 62%,
+    transparent
+  );
+  transition:
+    transform 1.1s var(--ease-out-expo),
+    opacity 0.6s ease;
+}
+
+.group:hover > .fx-sheen::before,
+.group:focus-within > .fx-sheen::before {
+  opacity: 1;
+  transform: translate3d(320%, 0, 0) rotate(10deg);
+}
+
+/* Restrained floating lights — featured cards only. */
+.fx-sparkles {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fx-sparkle {
+  position: absolute;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--gold-glow) 92%, white 6%);
+  box-shadow: 0 0 6px color-mix(in oklab, var(--gold) 55%, transparent);
+  opacity: 0.12;
+  animation: fx-sparkle var(--fx-dur, 14s) ease-in-out var(--fx-delay, 0s)
+    infinite;
+}
+
+.fx-sparkle-blue {
+  background: color-mix(in oklab, var(--primary-glow) 85%, white 8%);
+  box-shadow: 0 0 6px color-mix(in oklab, var(--primary) 55%, transparent);
+}
+
+@keyframes fx-sparkle {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.85);
+    opacity: 0.1;
+  }
+  35% {
+    transform: translate3d(var(--fx-dx, 6px), var(--fx-dy, -10px), 0) scale(1);
+    opacity: 0.55;
+  }
+  65% {
+    transform: translate3d(
+        calc(var(--fx-dx, 6px) * 0.4),
+        calc(var(--fx-dy, -10px) * 0.4),
+        0
+      )
+      scale(0.95);
+    opacity: 0.22;
+  }
+}
+
+/* No cursor: keep the light, drop the tracking, and answer the tap instead. */
+@media (hover: none) {
+  .spotlight::before {
+    opacity: 0.5;
+  }
+  .edge-glow::after {
+    opacity: 0.75;
+  }
+  .lift-3d:active {
+    transform: translateY(-3px) scale(1.002);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight::before {
+    transition: none;
+  }
+  .edge-glow::after {
+    opacity: 0.6;
+    animation: none !important;
+  }
+  .fx-sheen::before {
+    display: none;
+  }
+  .fx-sparkle {
+    opacity: 0.18;
+    animation: none !important;
+  }
+  .lift-3d {
+    transition: none !important;
   }
 }
 
@@ -796,21 +1038,19 @@
     }
   }
 
-  /* Soft perspective lift for smaller cards (services, achievements, socials) */
+  /* Elevation lift for smaller cards (services, achievements, socials).
+     Movement is vertical only: cards rise, they never rotate. */
   .lift-3d {
-    transform-style: preserve-3d;
-    perspective: 900px;
     transition:
       transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
       border-color 0.3s ease;
-    will-change: transform;
   }
 
   @media (hover: hover) and (pointer: fine) {
     .lift-3d:hover,
     .lift-3d:focus-within {
-      transform: translateY(-5px) rotateX(2.2deg) scale(1.008);
+      transform: translateY(-5px) scale(1.005);
       box-shadow:
         inset 0 1px 0 color-mix(in oklab, var(--foreground) 8%, transparent),
         0 30px 60px -30px hsl(220 60% 2% / 0.95),
@@ -827,7 +1067,8 @@
 
   @media (hover: hover) and (pointer: fine) {
     .panel-3d:hover {
-      transform: perspective(1200px) rotateX(3deg) rotateY(-3deg) translateZ(10px);
+      transform: perspective(1200px) rotateX(3deg) rotateY(-3deg)
+        translateZ(10px);
     }
   }
 
@@ -846,13 +1087,6 @@
 }
 
 @layer utilities {
-
-  .cursor-none-desktop {
-    @media (hover: hover) and (pointer: fine) {
-      cursor: none;
-    }
-  }
-
   .section-pad {
     padding-block: 5.5rem;
   }
@@ -863,7 +1097,6 @@
     }
   }
 }
-
 
 /* ── Gold accent utilities (premium secondary highlight) ─────────────── */
 
@@ -924,4 +1157,1919 @@
     color-mix(in oklab, var(--gold) 70%, transparent),
     transparent
   );
+}
+
+/* Section eyebrow: the gold accent tag carries a light of its own. Paint only
+   (text-shadow), so it never changes layout or triggers a repaint on scroll. */
+@utility heading-glow {
+  text-shadow: 0 0 18px color-mix(in oklab, var(--gold) 45%, transparent);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DEPTH SYSTEM — one physical space for the whole site.
+
+   Every surface shares a single virtual light (key light top-left, rim from
+   the brand accent) and a single motion scale, so cards, navigation, forms
+   and the footer read as objects inside the same environment rather than
+   flat panels. Elevation communicates hierarchy:
+     --elev-1  resting surface        --elev-2  interactive / raised
+     --elev-3  floating (nav, modals)
+   Motion is transform/opacity only and fully neutralised under
+   prefers-reduced-motion.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Motion scale — subtle (UI), standard (entrance), expressive (hero) */
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-subtle: 180ms;
+  --dur-standard: 340ms;
+  --dur-expressive: 620ms;
+
+  /* Virtual light */
+  --light-key: color-mix(in oklab, var(--foreground) 9%, transparent);
+
+  /* Elevation ladder */
+  --elev-1:
+    inset 0 1px 0 color-mix(in oklab, var(--foreground) 6%, transparent),
+    0 2px 4px -2px hsl(220 60% 2% / 0.55),
+    0 10px 24px -18px hsl(220 60% 2% / 0.9);
+  --elev-2:
+    inset 0 1px 0 color-mix(in oklab, var(--foreground) 8%, transparent),
+    0 3px 6px -3px hsl(220 60% 2% / 0.6),
+    0 18px 40px -26px hsl(220 60% 2% / 0.95);
+  --elev-3:
+    inset 0 1px 0 color-mix(in oklab, var(--foreground) 9%, transparent),
+    inset 0 -1px 0 hsl(220 60% 2% / 0.45), 0 30px 64px -34px hsl(220 60% 2% / 1);
+
+  /* Glass fill — layered translucency, lit from the top-left */
+  --glass-fill: linear-gradient(
+    150deg,
+    color-mix(in oklab, var(--foreground) 8%, transparent),
+    color-mix(in oklab, var(--card) 94%, transparent) 46%,
+    color-mix(in oklab, var(--background) 97%, transparent)
+  );
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes cue-nudge {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  /* Glass surface — sits above the ambient field without hiding it. */
+  /* Glass surface. No backdrop-filter: a blurred sticky header repaints the
+     whole strip on every scroll frame, which was the single biggest scroll
+     cost. An opaque gradient reads the same and stays on the compositor. */
+  .glass {
+    background: var(--glass-fill);
+    border: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
+    box-shadow:
+      var(--elev-2),
+      inset 0 1px 0 var(--light-key),
+      inset 0 -1px 0 hsl(220 60% 2% / 0.5);
+  }
+
+  .depth-1 {
+    box-shadow: var(--elev-1);
+  }
+  .depth-2 {
+    box-shadow: var(--elev-2);
+  }
+  .depth-3 {
+    box-shadow: var(--elev-3);
+  }
+
+  /* Dimensional display type: a lit top edge plus an atmospheric shadow.
+     Shadow only — the ink colour is untouched, so contrast is preserved. */
+  .headline-3d {
+    text-shadow:
+      0 1px 0 color-mix(in oklab, var(--foreground) 5%, transparent),
+      0 14px 38px hsl(220 70% 2% / 0.72);
+  }
+
+  .headline-3d-gold {
+    text-shadow:
+      0 1px 0 color-mix(in oklab, var(--gold) 20%, transparent),
+      0 14px 40px hsl(220 70% 2% / 0.68),
+      0 0 34px color-mix(in oklab, var(--gold) 16%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-cue,
+    .float-soft {
+      animation: none !important;
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   EDITORIAL LAYER — the reference design language, translated into the
+   AndrewBuilds blue + gold palette.
+
+   Three ideas, shared by every new surface:
+     paper      taped, slightly rotated cards that feel physically stuck down
+     hand       margin notes and hand-drawn underline marks (gold ink)
+     ribbon     infinite marquees of tools, paused and static under reduced motion
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@layer utilities {
+  /* Serif display line — optical scale is larger than the sans at the same size */
+  .serif-display {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 0.98;
+  }
+
+  /* Gold hand-drawn underline beneath an emphasised word. */
+  .mark-underline {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M2 9c34-6 66-7 98-5 30 2 62 5 98 2' fill='none' stroke='%23d8b463' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 0 96%;
+    background-size: 100% 0.32em;
+    padding-bottom: 0.06em;
+  }
+
+  /* Rotated ink note sitting in the margin of a headline. */
+  .note-hand {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--gold);
+    line-height: 1.1;
+  }
+
+  /* Translucent strip of tape holding a card to the page. */
+  .tape::before {
+    content: "";
+    position: absolute;
+    top: -0.7rem;
+    left: 50%;
+    z-index: 3;
+    width: 4.75rem;
+    height: 1.4rem;
+    translate: -50% 0;
+    rotate: -2.5deg;
+    background: linear-gradient(
+      115deg,
+      color-mix(in oklab, var(--gold) 22%, transparent),
+      color-mix(in oklab, var(--foreground) 12%, transparent)
+    );
+    border-left: 1px solid
+      color-mix(in oklab, var(--foreground) 10%, transparent);
+    border-right: 1px solid
+      color-mix(in oklab, var(--foreground) 10%, transparent);
+    box-shadow: 0 2px 8px -4px hsl(220 60% 2% / 0.9);
+    pointer-events: none;
+  }
+
+  /* Small tilted pill "sticker" — used for facts scattered around the hero. */
+  .sticker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+    border-radius: 999px;
+    border: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
+    background: color-mix(in oklab, var(--card) 82%, transparent);
+    padding: 0.3rem 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--foreground);
+    box-shadow: var(--elev-1);
+    rotate: -1.5deg;
+  }
+
+  .sticker-gold {
+    border-color: color-mix(in oklab, var(--gold) 42%, transparent);
+    background: color-mix(in oklab, var(--gold) 14%, var(--card));
+    color: var(--gold-glow);
+  }
+
+  /* Paper card: taped, tilted, lit from the top-left like everything else. */
+  .paper {
+    position: relative;
+    border-radius: 1rem;
+    border: 1px solid color-mix(in oklab, var(--foreground) 13%, transparent);
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--foreground) 6%, transparent),
+        transparent 45%
+      ),
+      var(--card);
+    box-shadow:
+      0 1px 0 color-mix(in oklab, var(--foreground) 10%, transparent) inset,
+      0 30px 60px -34px hsl(220 60% 2% / 1);
+    /* No transform transition: the hero cards are dragged through a motion
+       value, and a CSS transition on the same property smoothed (lagged)
+       every pointer move. */
+    transition: box-shadow 0.5s var(--ease-out-expo);
+  }
+
+  /* Media panel inside a case study that settles as the row is hovered. */
+  .case-media {
+    transition:
+      transform 0.6s var(--ease-out-expo),
+      box-shadow 0.6s var(--ease-out-expo);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .case-row:hover .case-media {
+      transform: translateY(-6px) rotate(-0.5deg) scale(1.012);
+      box-shadow:
+        0 40px 80px -44px hsl(220 60% 2% / 1),
+        0 0 0 1px color-mix(in oklab, var(--fx) 24%, transparent);
+    }
+  }
+
+  .case-row:focus-within .case-media {
+    box-shadow:
+      0 40px 80px -44px hsl(220 60% 2% / 1),
+      0 0 0 2px var(--fx);
+  }
+
+  /* The panel's contents drift a touch further than the panel itself, so the
+     composition reads as depth rather than a single sliding card. */
+  .case-media-inner {
+    transition: transform 0.7s var(--ease-out-expo);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .case-row:hover .case-media-inner {
+      transform: scale(1.02);
+    }
+  }
+
+  /* Case-study title: the rule draws along the baseline as the row engages. */
+  .case-title-link {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size 0.45s var(--ease-out-expo);
+  }
+
+  .case-row:hover .case-title-link,
+  .case-title-link:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  /* Arrow that steps forward when its row or button is engaged. */
+  .step-arrow {
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+  .group\/case:hover .step-arrow,
+  .case-row:hover .step-arrow {
+    transform: translateX(4px);
+  }
+
+  /* The band the ribbon sits in: a lit shelf, so the two rows read as one
+     display instead of two loose strips of pills. */
+  .marquee-band {
+    position: relative;
+    background-image:
+      radial-gradient(
+        120% 140% at 50% 0%,
+        color-mix(in oklab, var(--primary) 12%, transparent),
+        transparent 62%
+      ),
+      radial-gradient(
+        80% 120% at 82% 110%,
+        color-mix(in oklab, var(--gold) 10%, transparent),
+        transparent 66%
+      );
+  }
+
+  /* Infinite marquee ribbon. Two identical groups side by side, so the loop
+     has no visible seam. The ribbon is full-bleed: it spans the whole viewport
+     edge to edge, even inside a padded parent, and clips at the screen edge. */
+  .marquee {
+    /* One pill box for the whole ribbon, declared once here so every chip —
+       headline platform, language or guest tool, and every duplicated copy
+       the loop needs — is exactly the same width and height. The width fits
+       the longest label ("Tailwind CSS") at this font size, so a name can
+       never stretch its pill. */
+    --marquee-chip-w: 11.5rem;
+    --marquee-chip-h: 2.75rem;
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    overflow: hidden;
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 46s linear infinite;
+  }
+
+  .marquee-track-reverse {
+    animation-direction: reverse;
+    animation-duration: 58s;
+  }
+
+  /* Off-screen or hidden tab: stop the loop entirely (set from JS). */
+  .marquee-track[data-paused="true"] {
+    animation-play-state: paused;
+  }
+
+  /* Slowing to a crawl keeps the loop readable without the jump that
+     swapping animation-duration on hover would cause. */
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  .marquee-group {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    /* The seam gap must equal the in-group gap, or the loop shows a jump. */
+    gap: 1.35rem;
+    margin: 0;
+    padding: 0 1.35rem 0 0;
+    list-style: none;
+  }
+
+  /* A chip is a restrained pill: the tool's own mark, its name, nothing else.
+     Every chip shares this one fixed box — same width, height, padding,
+     radius, border, icon slot, gap and type. The five headline platforms keep
+     the gold edge and tint as their only difference; they are never larger,
+     because a mixed-size row reads as unfinished. */
+  .marquee-chip {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: 0 0 auto;
+    width: var(--marquee-chip-w);
+    height: var(--marquee-chip-h);
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    padding: 0 1.2rem;
+    border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--card) 55%, transparent);
+    font-family: var(--font-mono);
+    font-size: 14.5px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 1;
+    white-space: nowrap;
+    color: color-mix(in oklab, var(--foreground) 78%, transparent);
+    transition:
+      border-color 0.3s var(--ease-out-expo),
+      color 0.3s var(--ease-out-expo),
+      background-color 0.3s var(--ease-out-expo),
+      transform 0.3s var(--ease-out-expo);
+  }
+
+  .marquee-chip-primary {
+    border-color: color-mix(in oklab, var(--gold) 34%, transparent);
+    background: color-mix(in oklab, var(--gold) 7%, var(--card));
+    color: var(--foreground);
+    box-shadow: var(--elev-1);
+  }
+
+  /* The label owns the leftover width. A name wider than the box is clipped
+     inside the pill instead of growing it, and the ellipsis only ever shows
+     on a name nobody has added measurements for yet. */
+  .marquee-chip-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .marquee-chip:hover {
+    border-color: color-mix(in oklab, var(--gold) 55%, transparent);
+    color: var(--foreground);
+    transform: translateY(-2px);
+  }
+
+  .marquee-chip-primary:hover {
+    border-color: color-mix(in oklab, var(--gold) 70%, transparent);
+    background: color-mix(in oklab, var(--gold) 12%, var(--card));
+  }
+
+  /* Every chip leads with the tool's own mark — or a gold dot when no official
+     mark exists — inside this one fixed, non-shrinking slot. `BrandLogo` paints
+     each mark at the same 18 px box with `object-fit: contain` and its optical
+     scale, so a mark with transparent padding and one that bleeds to its own
+     edges still read at the same weight. */
+  .marquee-chip-mark {
+    display: inline-flex;
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Phones: the same single pill box, only tighter — still one width and one
+     height for every chip, so the row stays a grid of equal pills. */
+  @media (max-width: 767px) {
+    .marquee {
+      --marquee-chip-w: 9.6rem;
+      --marquee-chip-h: 2.375rem;
+    }
+    .marquee-group {
+      gap: 0.85rem;
+      padding-right: 0.85rem;
+    }
+    .marquee-chip {
+      gap: 0.5rem;
+      padding: 0 0.9rem;
+      font-size: 12.5px;
+    }
+  }
+
+  .marquee-chip-dot {
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--gold) 80%, transparent);
+  }
+
+  .marquee-brand {
+    color: color-mix(in oklab, var(--gold) 62%, var(--foreground));
+  }
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      width: 100%;
+      animation: none !important;
+    }
+    /* No loop, so the row becomes a static, centred set that wraps. Every
+       chip stays visible: truncating the list would hide tools from anyone
+       who asked for reduced motion. */
+    .marquee-group {
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0 1rem;
+    }
+    .marquee-track-copy {
+      display: none;
+    }
+    .case-media,
+    .case-media-inner,
+    .case-title-link,
+    .step-arrow {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   INTERACTION LAYER — cursor, pointer light, gold ink, badge family.
+
+   Everything here is either CSS-only or driven by the single shared pointer
+   subscription in `src/lib/pointer.ts`. Motion stays on `transform` and
+   `opacity`; hover states never trigger React renders. Desktop-only effects
+   are fenced behind `(hover: hover) and (pointer: fine)` and every animation
+   is switched off under `prefers-reduced-motion`.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Custom cursor ─────────────────────────────────────────────────────── */
+
+.cursor-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: none;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  will-change: transform;
+}
+
+.cursor-dot-core,
+.cursor-ring-core {
+  position: absolute;
+  border-radius: 999px;
+}
+
+.cursor-dot-core {
+  top: -2.5px;
+  left: -2.5px;
+  width: 5px;
+  height: 5px;
+  background: var(--gold-glow);
+  box-shadow: 0 0 10px color-mix(in oklab, var(--gold) 65%, transparent);
+  transition:
+    transform 0.22s var(--ease-out-expo),
+    opacity 0.2s ease;
+}
+
+.cursor-ring {
+  transition: transform 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cursor-ring-core {
+  top: -17px;
+  left: -17px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in oklab, var(--gold) 55%, transparent);
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklab, var(--gold) 9%, transparent),
+    transparent
+  );
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-glow);
+  transition:
+    transform 0.28s var(--ease-out-expo),
+    border-color 0.25s ease,
+    background-color 0.25s ease,
+    border-style 0.2s ease;
+}
+
+.cursor-ring-core::after {
+  content: "";
+}
+
+html[data-cursor="link"] .cursor-ring-core {
+  transform: scale(1.45);
+  border-color: color-mix(in oklab, var(--gold) 85%, transparent);
+}
+
+html[data-cursor="view"] .cursor-ring-core {
+  transform: scale(2.25);
+  border-color: color-mix(in oklab, var(--gold) 70%, transparent);
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklab, var(--gold) 13%, transparent),
+    transparent
+  );
+}
+
+html[data-cursor="view"] .cursor-ring-core::after {
+  content: "View";
+}
+
+html[data-cursor="cta"] .cursor-ring-core {
+  transform: scale(1.9);
+  border-color: color-mix(in oklab, var(--gold) 90%, transparent);
+}
+
+html[data-cursor="grab"] .cursor-ring-core {
+  transform: scale(2);
+  border-style: dashed;
+}
+
+html[data-cursor="grabbing"] .cursor-ring-core {
+  transform: scale(1.5);
+}
+
+html[data-cursor-press] .cursor-dot-core {
+  transform: scale(0.55);
+}
+
+html[data-cursor-out] .cursor-layer {
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cursor-layer {
+    display: block;
+  }
+
+  /* The native pointer steps aside for the designed one; text fields keep
+     their caret cursor so typing and selecting never feel blind. */
+  html.cursor-custom,
+  html.cursor-custom * {
+    cursor: none;
+  }
+
+  html.cursor-custom input,
+  html.cursor-custom textarea,
+  html.cursor-custom select,
+  html.cursor-custom [contenteditable="true"] {
+    cursor: text;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-layer {
+    display: none !important;
+  }
+  html.cursor-custom,
+  html.cursor-custom * {
+    cursor: auto;
+  }
+}
+
+/* ── Ambient grain ─────────────────────────────────────────────────────── */
+
+.ambient-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='gn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23gn)'/%3E%3C/svg%3E");
+}
+
+/* ── Hand-drawn ink ────────────────────────────────────────────────────── */
+
+/* The hero's "DRAG ME" cue: fades in after the cards land, then the arrow
+   nudges toward the top card every few seconds. Opacity/transform only. */
+.drag-hint {
+  animation: hint-fade 0.9s var(--ease-out-expo) 1.1s both;
+}
+
+.drag-hint-arrow {
+  animation: hint-nudge 5s var(--ease-out-expo) 2.2s infinite;
+}
+
+/* "drag" grip printed on the card face: appears on hover or when the card has
+   keyboard focus, so the affordance is discoverable without a label to read. */
+.card-grip {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--gold) 40%, transparent);
+  background: color-mix(in oklab, hsl(220 52% 4%) 62%, transparent);
+  padding: 0.15rem 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-glow);
+  opacity: 0;
+  transform: translateY(-2px);
+  transition:
+    opacity 0.28s var(--ease-out-expo),
+    transform 0.28s var(--ease-out-expo);
+  pointer-events: none;
+}
+
+.paper:hover .card-grip,
+.paper:focus-within .card-grip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hover lift for the draggable hero cards.
+   It uses the independent `translate` property, not the `transform` the drag
+   writes: a released card keeps its dragged `x`/`y`, so a hover change can
+   never pull it back to its resting spot. */
+.hero-card {
+  transition: translate var(--dur-standard) var(--ease-out-expo);
+}
+
+.hero-card:hover {
+  translate: 0 -6px;
+}
+
+/* Held in the hand: the card lifts off the page with a deeper, softer shadow,
+   and the grip label stays visible while the pointer is down. */
+.hero-card.is-dragging {
+  box-shadow: 0 34px 64px -22px hsl(220 70% 2% / 0.82);
+  cursor: grabbing;
+}
+
+.hero-card.is-dragging .card-grip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-card {
+    transition: none;
+  }
+  .hero-card:hover {
+    translate: none;
+  }
+}
+
+@keyframes hint-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hint-nudge {
+  0%,
+  72%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  80% {
+    transform: translate3d(-4px, 4px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drag-hint,
+  .drag-hint-arrow {
+    animation: none !important;
+  }
+}
+
+.sketch {
+  display: inline-block;
+  color: var(--gold);
+  line-height: 0;
+  pointer-events: none;
+}
+
+.sketch svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.sketch [data-draw] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.sketch.is-revealed [data-draw] {
+  animation: sketch-draw 1.05s var(--ease-out-expo) forwards;
+}
+
+.sketch.is-revealed [data-draw]:nth-of-type(2) {
+  animation-delay: 0.12s;
+}
+
+.sketch-star.is-revealed svg {
+  animation: sketch-pop 0.65s var(--ease-out-expo) both;
+}
+
+.sketch-underline {
+  display: block;
+  width: 100%;
+  height: 0.34em;
+}
+
+.sketch-circle {
+  position: absolute;
+  inset: -10% -7% -6%;
+  width: 114%;
+  height: 116%;
+  color: color-mix(in oklab, var(--gold) 80%, transparent);
+}
+
+.sketch-arrow {
+  width: 2.4rem;
+  height: 0.9rem;
+}
+
+.sketch-star {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+.sketch-bracket {
+  width: 0.75rem;
+  height: 100%;
+}
+
+.sketch-separator {
+  display: block;
+  width: 100%;
+  height: 14px;
+  color: color-mix(in oklab, var(--gold) 45%, transparent);
+  opacity: 0.75;
+}
+
+.sketch-flip {
+  transform: scaleX(-1);
+}
+
+@keyframes sketch-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes sketch-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-14deg);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Gold marker underline that draws itself in when its block reveals —
+   applied to every editorial underline that already sits inside a reveal. */
+.mark-underline-draw,
+.reveal .mark-underline {
+  background-size: 0% 0.32em;
+  transition: background-size 0.9s var(--ease-out-expo) 0.18s;
+}
+
+.reveal.is-revealed .mark-underline-draw,
+.reveal.is-revealed .mark-underline,
+.mark-underline-draw.is-revealed {
+  background-size: 100% 0.32em;
+}
+
+@media (scripting: none) {
+  .reveal .mark-underline {
+    background-size: 100% 0.32em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sketch [data-draw] {
+    stroke-dashoffset: 0;
+    animation: none !important;
+  }
+  .sketch.is-revealed svg {
+    animation: none !important;
+  }
+  .mark-underline-draw,
+  .reveal .mark-underline {
+    background-size: 100% 0.32em;
+    transition: none;
+  }
+}
+
+/* ── Badge family ──────────────────────────────────────────────────────── */
+
+.badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  max-width: 100%;
+  padding: 0.3rem 0.62rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--card) 72%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1;
+  color: var(--foreground);
+  /* A chip never truncates its label: in a narrow card it wraps onto a second
+     line instead of showing "F1 in Schools / STEM Raci…". */
+  white-space: normal;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 0.3s var(--ease-out-expo),
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.badge-sm {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.625rem;
+}
+
+.badge-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
+}
+
+.badge-icon {
+  width: 0.8rem;
+  height: 0.8rem;
+  flex-shrink: 0;
+  stroke-width: 1.75;
+  transition:
+    transform 0.35s var(--ease-out-expo),
+    color 0.3s ease;
+}
+
+.badge-icon-spin {
+  animation: badge-wind 6s linear infinite;
+  animation-play-state: paused;
+}
+
+.badge:hover .badge-icon-spin {
+  animation-play-state: running;
+}
+
+/* technology — squared chip, code voice */
+.badge-tech {
+  border-radius: 0.4rem;
+  border-color: color-mix(in oklab, var(--foreground) 12%, transparent);
+  background: color-mix(in oklab, var(--secondary) 80%, transparent);
+  color: color-mix(in oklab, var(--foreground) 82%, transparent);
+  letter-spacing: 0.01em;
+}
+
+.badge-tech .badge-icon {
+  color: color-mix(in oklab, var(--primary-glow) 75%, transparent);
+}
+
+/* status — project state */
+.badge-status {
+  border-color: color-mix(in oklab, var(--primary) 28%, transparent);
+  background: color-mix(in oklab, var(--primary) 9%, transparent);
+  color: var(--primary-glow);
+  letter-spacing: 0.03em;
+}
+
+.badge-status .badge-icon {
+  color: var(--primary-glow);
+}
+
+.badge-status-building {
+  border-color: color-mix(in oklab, var(--gold) 32%, transparent);
+  background: color-mix(in oklab, var(--gold) 10%, transparent);
+  color: var(--gold-glow);
+}
+
+.badge-status-building .badge-icon,
+.badge-status-active .badge-icon {
+  color: currentColor;
+}
+
+/* live — the only badge with a moving dot at rest */
+.badge-live {
+  border-color: color-mix(in oklab, var(--gold) 45%, transparent);
+  background: color-mix(in oklab, var(--gold) 12%, transparent);
+  color: var(--gold-glow);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.badge-pulse {
+  position: relative;
+  width: 0.4rem;
+  height: 0.4rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--gold);
+}
+
+.badge-pulse::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: inherit;
+  animation: badge-ping 2.4s var(--ease-out-expo) infinite;
+}
+
+/* achievement — gold medal with a light sweep */
+.badge-achievement {
+  border-color: color-mix(in oklab, var(--gold) 48%, transparent);
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--gold) 20%, transparent),
+    color-mix(in oklab, var(--gold) 6%, transparent)
+  );
+  color: var(--gold-glow);
+  letter-spacing: 0.04em;
+}
+
+.badge-achievement .badge-icon {
+  color: var(--gold);
+}
+
+.badge-achievement::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-130%);
+  background: linear-gradient(
+    105deg,
+    transparent 32%,
+    color-mix(in oklab, var(--gold-glow) 42%, transparent) 50%,
+    transparent 68%
+  );
+}
+
+.badge-achievement:hover::after,
+.badge-achievement:focus-within::after {
+  opacity: 1;
+  animation: badge-sheen 0.95s var(--ease-out-expo);
+}
+
+/* certification — seal edge, verified check */
+.badge-certification {
+  border-radius: 0.5rem;
+  border-color: color-mix(in oklab, var(--foreground) 16%, transparent);
+  background: color-mix(in oklab, var(--card) 85%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--gold) 12%, transparent);
+  color: color-mix(in oklab, var(--foreground) 88%, transparent);
+}
+
+.badge-certification .badge-icon {
+  color: var(--gold);
+}
+
+/* skill — dotted proficiency ring */
+.badge-skill {
+  border-style: dashed;
+  border-color: color-mix(in oklab, var(--foreground) 20%, transparent);
+  background: color-mix(in oklab, var(--muted) 60%, transparent);
+  color: color-mix(in oklab, var(--foreground) 86%, transparent);
+}
+
+.badge-skill .badge-icon {
+  color: color-mix(in oklab, var(--gold) 80%, transparent);
+}
+
+/* Skill names are phrases, not tokens: let them wrap instead of truncating. */
+.badge-skill {
+  white-space: normal;
+  align-items: flex-start;
+  text-align: left;
+  line-height: 1.25;
+}
+
+.badge-skill .badge-icon {
+  margin-top: 0.05rem;
+}
+
+/* role — the hero's paper stickers, spoken in uppercase */
+.badge-role {
+  border-color: color-mix(in oklab, var(--gold) 30%, transparent);
+  background: color-mix(in oklab, var(--gold) 9%, var(--card));
+  color: var(--gold-glow);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  box-shadow: var(--elev-1);
+}
+
+/* category — index mark with a gold spine */
+.badge-category {
+  border-radius: 0.3rem;
+  border-color: color-mix(in oklab, var(--foreground) 12%, transparent);
+  border-left: 2px solid color-mix(in oklab, var(--gold) 70%, transparent);
+  background: color-mix(in oklab, var(--card) 70%, transparent);
+  color: color-mix(in oklab, var(--foreground) 80%, transparent);
+  text-transform: uppercase;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+}
+
+/* external — the arrow travels */
+.badge-external {
+  border-color: color-mix(in oklab, var(--primary) 30%, transparent);
+  background: color-mix(in oklab, var(--primary) 8%, transparent);
+  color: var(--primary-glow);
+}
+
+.badge-arrow {
+  transition: transform 0.3s var(--ease-out-expo);
+}
+
+/* featured — the one resting shimmer, kept to a whisper */
+.badge-featured {
+  border-color: color-mix(in oklab, var(--gold) 40%, transparent);
+  background: color-mix(in oklab, var(--gold) 10%, transparent);
+  color: var(--gold-glow);
+  letter-spacing: 0.08em;
+}
+
+.badge-featured::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    color-mix(in oklab, var(--gold-glow) 26%, transparent) 50%,
+    transparent 60%
+  );
+  transform: translateX(-130%);
+  animation: badge-sheen 6s var(--ease-out-expo) infinite;
+}
+
+@keyframes badge-sheen {
+  0% {
+    transform: translateX(-130%);
+  }
+  55%,
+  100% {
+    transform: translateX(130%);
+  }
+}
+
+@keyframes badge-ping {
+  0% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(2.8);
+  }
+}
+
+@keyframes badge-wind {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Badge hover — interaction only, never at rest. */
+@media (hover: hover) and (pointer: fine) {
+  .badge:hover {
+    transform: translateY(-1.5px);
+  }
+
+  .badge-tech:hover {
+    border-color: color-mix(in oklab, var(--gold) 45%, transparent);
+    background: color-mix(in oklab, var(--gold) 8%, var(--secondary));
+    color: var(--gold-glow);
+  }
+
+  .badge-tech:hover .badge-icon {
+    transform: rotate(-9deg) scale(1.12);
+    color: var(--gold);
+  }
+
+  .badge-status:hover,
+  .badge-certification:hover,
+  .badge-skill:hover {
+    border-color: color-mix(in oklab, var(--gold) 45%, transparent);
+    color: var(--gold-glow);
+    box-shadow: 0 10px 24px -16px
+      color-mix(in oklab, var(--gold) 50%, transparent);
+  }
+
+  .badge-role:hover {
+    border-color: color-mix(in oklab, var(--gold) 60%, transparent);
+    background: color-mix(in oklab, var(--gold) 16%, var(--card));
+  }
+
+  .badge-role:hover .badge-icon {
+    transform: translateY(-1px) scale(1.1);
+  }
+
+  .badge-category:hover {
+    border-left-color: var(--gold-glow);
+    color: var(--foreground);
+  }
+
+  .badge-external:hover {
+    border-color: color-mix(in oklab, var(--gold) 50%, transparent);
+    color: var(--gold-glow);
+  }
+
+  .badge-external:hover .badge-arrow {
+    transform: translate(2px, -2px);
+  }
+
+  .badge-achievement:hover .badge-icon {
+    transform: translateY(-1px) rotate(-6deg) scale(1.1);
+  }
+
+  .badge-featured:hover .badge-icon {
+    transform: rotate(14deg) scale(1.12);
+  }
+}
+
+/* Award names are phrases too — wrap rather than truncate. */
+.badge-achievement {
+  white-space: normal;
+  align-items: flex-start;
+  text-align: left;
+  line-height: 1.25;
+}
+
+.badge-achievement .badge-icon {
+  margin-top: 0.05rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge,
+  .badge-icon,
+  .badge-arrow {
+    transition: none !important;
+  }
+  .badge:hover {
+    transform: none;
+  }
+  .badge-featured::after,
+  .badge-pulse::before,
+  .badge-icon-spin {
+    animation: none !important;
+  }
+  .badge-featured::after {
+    opacity: 0;
+  }
+}
+
+/* ── Brand marks ───────────────────────────────────────────────────────── */
+
+/*
+ * Official marks are painted with `currentColor` through a CSS mask, so one
+ * same-origin SVG reads correctly on light and dark surfaces, inherits the
+ * surrounding ink colour and costs no extra request. Sizes are fixed by the
+ * component, so a mark can never shift the layout it sits in.
+ */
+/*
+ * One slot, one optical weight. The box is always the same size; the artwork
+ * inside it is scaled by `--brand-scale` (see `src/data/brandOptics.ts`) so a
+ * square glyph and a flat wordmark read at the same size. `scale` is an
+ * individual transform property, so the hover transforms below still multiply
+ * on top of it instead of replacing it.
+ */
+.brand-mark,
+.brand-mark-img {
+  scale: var(--brand-scale, 1);
+  transform-origin: 50% 50%;
+}
+
+.brand-mark {
+  display: inline-block;
+  flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask-image: var(--brand-mark);
+  mask-image: var(--brand-mark);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  transition:
+    transform 0.35s var(--ease-out-expo),
+    background-color 0.3s ease;
+}
+
+.brand-mark-img {
+  display: inline-block;
+  flex-shrink: 0;
+  /* Never a plate: the logo sits directly on whatever surface holds it. */
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  object-fit: contain;
+  transition:
+    transform 0.35s var(--ease-out-expo),
+    filter 0.3s ease;
+}
+
+.badge .brand-mark {
+  color: color-mix(in oklab, var(--primary-glow) 75%, transparent);
+}
+
+/* One optical slot for every mark: the logo and a fallback glyph share the
+   same size and sit on the pill's own baseline, with no plate behind them. */
+.badge .brand-mark,
+.badge .brand-mark-img {
+  align-self: center;
+  vertical-align: middle;
+  margin-block: 0;
+}
+
+/* ── Verified credentials ──────────────────────────────────────────────── */
+
+/* The sliding surface of the active filter chip. */
+.filter-pill {
+  pointer-events: none;
+  border: 1px solid color-mix(in oklab, var(--gold) 60%, transparent);
+  background: color-mix(in oklab, var(--gold) 10%, transparent);
+  box-shadow: 0 10px 24px -18px
+    color-mix(in oklab, var(--gold) 70%, transparent);
+}
+
+.credential-verified {
+  transition:
+    transform 0.3s var(--ease-out-expo),
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Idle and hover labels share one grid cell, so the swap never reflows. */
+.credential-verified-text {
+  display: grid;
+}
+
+.credential-verified-text > span {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  white-space: nowrap;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s var(--ease-out-expo);
+}
+
+.credential-verified-hover {
+  opacity: 0;
+  transform: translateY(2px);
+}
+
+.credential-check,
+.credential-arrow {
+  transition:
+    transform 0.35s var(--ease-out-expo),
+    filter 0.3s ease;
+}
+
+.credential-issuer-mark .brand-mark,
+.credential-issuer-mark .brand-mark-img {
+  color: color-mix(in oklab, var(--foreground) 70%, transparent);
+}
+
+.credential-cta {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* A certificate with a real external credential page reads as verified even
+   before hover: a gold hairline and a quiet halo on the badge. */
+.certificate-verified-card {
+  border-color: color-mix(in oklab, var(--gold) 26%, transparent);
+}
+
+/* The checkmark arrives with the card's own reveal — CSS only, no JS timer. */
+@keyframes credential-check-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.reveal.is-revealed .certificate-verified-card .credential-check {
+  animation: credential-check-in 0.5s var(--ease-out-expo) 0.15s both;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .badge:hover .brand-mark {
+    background-color: var(--gold);
+    transform: scale(1.08);
+  }
+
+  .badge:hover .brand-mark-img {
+    transform: scale(1.08);
+  }
+
+  .marquee li:hover .marquee-brand {
+    transform: scale(1.15);
+  }
+
+  /* Only a mask-painted mark takes the gold tint; an image keeps its own ink. */
+  .marquee li:hover .brand-mark.marquee-brand {
+    background-color: var(--gold);
+  }
+
+  .certificate-verified-card:hover .credential-verified:not(:hover) {
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--gold) 9%, transparent);
+  }
+
+  .credential-verified:hover,
+  .credential-verified:focus-visible {
+    border-color: color-mix(in oklab, var(--gold) 65%, transparent);
+    background-color: color-mix(in oklab, var(--gold) 14%, transparent);
+    box-shadow:
+      0 0 0 3px color-mix(in oklab, var(--gold) 12%, transparent),
+      0 10px 22px -16px color-mix(in oklab, var(--gold) 70%, transparent);
+    transform: translateY(-1px);
+  }
+
+  .credential-verified:hover .credential-verified-idle,
+  .credential-verified:focus-visible .credential-verified-idle {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+
+  .credential-verified:hover .credential-verified-hover,
+  .credential-verified:focus-visible .credential-verified-hover {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .credential-verified:hover .credential-check,
+  .credential-verified:focus-visible .credential-check {
+    filter: drop-shadow(
+      0 0 6px color-mix(in oklab, var(--gold) 65%, transparent)
+    );
+    transform: scale(1.14);
+  }
+
+  .group:hover .credential-issuer-mark .brand-mark,
+  .group:hover .credential-issuer-mark .brand-mark-img {
+    transform: scale(1.12);
+  }
+
+  .group:hover .credential-cta,
+  .credential-cta:hover {
+    border-color: color-mix(in oklab, var(--gold) 70%, transparent);
+    background-color: color-mix(in oklab, var(--gold) 18%, transparent);
+  }
+
+  .group:hover .credential-arrow,
+  .credential-cta:hover .credential-arrow {
+    transform: translate(2px, -2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-mark,
+  .brand-mark-img,
+  .credential-verified,
+  .credential-verified-text > span,
+  .credential-check,
+  .credential-arrow,
+  .credential-cta {
+    transition: none !important;
+  }
+
+  .credential-verified-hover {
+    display: none;
+  }
+
+  .credential-verified:hover,
+  .credential-verified:focus-visible {
+    transform: none;
+  }
+
+  .reveal.is-revealed .certificate-verified-card .credential-check {
+    animation: none;
+  }
+}
+
+/* ── Buttons ───────────────────────────────────────────────────────────── */
+
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    transparent 34%,
+    hsl(0 0% 100% / 0.22) 50%,
+    transparent 66%
+  );
+  transform: translateX(-130%);
+  transition: transform 0.75s var(--ease-out-expo);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-shine:hover::after,
+  .btn-shine:focus-visible::after {
+    transform: translateX(130%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-shine::after {
+    display: none;
+  }
+}
+
+/* ── Navigation & page transitions ─────────────────────────────────────── */
+
+.nav-dot {
+  transition:
+    transform 0.35s var(--ease-out-expo),
+    opacity 0.3s ease;
+}
+
+.menu-stagger > * {
+  animation: enter-up 0.42s var(--ease-out-expo) both;
+}
+
+.menu-stagger > *:nth-child(1) {
+  animation-delay: 40ms;
+}
+.menu-stagger > *:nth-child(2) {
+  animation-delay: 80ms;
+}
+.menu-stagger > *:nth-child(3) {
+  animation-delay: 120ms;
+}
+.menu-stagger > *:nth-child(4) {
+  animation-delay: 160ms;
+}
+.menu-stagger > *:nth-child(5) {
+  animation-delay: 200ms;
+}
+.menu-stagger > *:nth-child(6) {
+  animation-delay: 240ms;
+}
+.menu-stagger > *:nth-child(7) {
+  animation-delay: 280ms;
+}
+.menu-stagger > *:nth-child(8) {
+  animation-delay: 320ms;
+}
+.menu-stagger > *:nth-child(9) {
+  animation-delay: 360ms;
+}
+.menu-stagger > *:nth-child(10) {
+  animation-delay: 400ms;
+}
+
+.page-enter {
+  /* `backwards`, not `both`: with a forwards fill the final keyframe's
+     identity `transform` stays on the element, and an element with any
+     transform becomes the containing block for `position: fixed`
+     descendants — which parked the in-page dialog ~11 000 px down the
+     document. The end state is opacity 1 / transform none anyway. */
+  animation: page-in 0.5s var(--ease-out-expo) backwards;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Timeline milestones ───────────────────────────────────────────────── */
+
+.timeline-icon {
+  transition:
+    transform 0.4s var(--ease-out-expo),
+    border-color 0.3s ease,
+    color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .timeline-icon {
+    transform: translateY(-1px) rotate(-6deg) scale(1.06);
+    border-color: color-mix(in oklab, var(--gold) 50%, transparent);
+    color: var(--gold-glow);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-icon,
+  .menu-stagger > *,
+  .page-enter {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MOTION BUDGET — reveals and entrances.
+
+   Scroll reveals are one shared IntersectionObserver adding `.is-revealed`;
+   hero entrances are CSS keyframes. Nothing here touches the main thread
+   beyond a class toggle, and only opacity/transform animate.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@keyframes enter-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes word-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 105%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, var(--reveal-y, 18px), 0);
+    transition:
+      opacity 0.5s var(--ease-out-expo),
+      transform 0.5s var(--ease-out-expo);
+  }
+
+  .reveal-scale {
+    transform: translate3d(0, var(--reveal-y, 18px), 0) scale(0.985);
+  }
+
+  .reveal.is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Section-level entrances. Same observer, different reveal grammar, so the
+     page never feels like one repeated fade. */
+  .reveal-mask {
+    transform: none;
+    clip-path: inset(0 0 100% 0);
+    transition:
+      opacity 0.45s var(--ease-out-expo),
+      clip-path 0.85s var(--ease-out-expo);
+  }
+
+  .reveal-mask.is-revealed {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .reveal-clip {
+    transform: none;
+    clip-path: inset(0 100% 0 0);
+    transition:
+      opacity 0.4s var(--ease-out-expo),
+      clip-path 0.9s var(--ease-out-expo);
+  }
+
+  .reveal-clip.is-revealed {
+    clip-path: inset(0 0 0 0);
+  }
+
+  /* The clip lives on an inner wrapper (`Reveal` renders it), because an
+     IntersectionObserver cannot see a target clipped to zero height — the
+     observed node must stay unclipped for the reveal to ever fire. */
+  .reveal.is-revealed > .reveal-mask,
+  .reveal.is-revealed > .reveal-clip {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .enter {
+    animation: enter-up 0.55s var(--ease-out-expo) both;
+  }
+
+  .reveal-word {
+    display: inline-block;
+    animation: word-rise 0.7s var(--ease-out-expo) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal-scale,
+    .reveal-mask,
+    .reveal-clip {
+      opacity: 1;
+      transform: none;
+      clip-path: none;
+      transition: none !important;
+    }
+    .enter,
+    .reveal-word {
+      animation: none !important;
+    }
+    .scroll-cue {
+      display: none;
+    }
+  }
+
+  /* Without JavaScript nothing would ever reveal; keep the content readable. */
+  @media (scripting: none) {
+    .reveal,
+    .reveal-scale,
+    .reveal-mask,
+    .reveal-clip {
+      opacity: 1;
+      transform: none;
+      clip-path: none;
+    }
+  }
+}
+
+/* ── Tick reveal ──────────────────────────────────────────────────────────
+   The site's checkmarks draw themselves on, once, when their list scrolls
+   into view. `stroke-dashoffset` walks the icon's own path from hidden to
+   drawn while the mark fades and settles from 0.86 — the glyph, its size and
+   its colour are untouched, so only the paint is sequenced.
+
+   `<TickMark>` observes its wrapper with the shared reveal observer (one
+   class toggle per tick, no scroll handler), and `--tick-delay` staggers the
+   ticks inside one list by 120 ms. The settle mirrors the card layer
+   (`.lift-3d` / `.spotlight`): the same `--ease-out-expo`, 0.45s of travel and
+   a 0.3s fade, so a checklist and a card feel like one motion system.
+   The text around them is never hidden or delayed, and nothing replays
+   because the observer unobserves on first intersection.
+   ------------------------------------------------------------------------ */
+@layer utilities {
+  .tick {
+    display: inline-flex;
+    flex-shrink: 0;
+    opacity: 0;
+    transform: scale(0.86);
+    transition:
+      opacity 0.3s ease var(--tick-delay, 0ms),
+      transform 0.45s var(--ease-out-expo) var(--tick-delay, 0ms);
+  }
+
+  .tick svg :where(path, circle, line, polyline, polygon) {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    transition: stroke-dashoffset 0.5s var(--ease-out-expo)
+      var(--tick-delay, 0ms);
+  }
+
+  .tick.is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  .tick.is-revealed svg :where(path, circle, line, polyline, polygon) {
+    stroke-dashoffset: 0;
+  }
+
+  /* Reduced motion: the tick is simply there, fully drawn. */
+  @media (prefers-reduced-motion: reduce) {
+    .tick,
+    .tick.is-revealed {
+      opacity: 1;
+      transform: none;
+      transition: none !important;
+    }
+    .tick svg :where(path, circle, line, polyline, polygon) {
+      stroke-dasharray: none;
+      stroke-dashoffset: 0;
+      transition: none !important;
+    }
+  }
+
+  @media (scripting: none) {
+    .tick {
+      opacity: 1;
+      transform: none;
+    }
+    .tick svg :where(path, circle, line, polyline, polygon) {
+      stroke-dasharray: none;
+      stroke-dashoffset: 0;
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PRINT — the résumé page has a "Print / Save as PDF" action, so a printed
+   page has to be legible on paper: light tokens, no fixed chrome, no
+   shadows, and cards that never split across a page break.
+   ═══════════════════════════════════════════════════════════════════════ */
+@media print {
+  :root {
+    --background: #ffffff;
+    --foreground: #101c2b;
+    --card: #ffffff;
+    --muted-foreground: #41505f;
+    --border: #c9d2dc;
+    --primary: #1c5c9e;
+    --gold: #7a5c16;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+  }
+
+  /* Site chrome and purely decorative layers never belong on paper. */
+  header,
+  footer,
+  [aria-hidden="true"] {
+    display: none !important;
+  }
+
+  main {
+    padding-top: 0 !important;
+  }
+
+  /* Scroll reveals start hidden and only switch on when they enter the
+     viewport. On paper there is no scrolling, so every revealed block must
+     print revealed — otherwise a PDF saved from a freshly loaded page shows
+     blank or half-clipped sections. */
+  .reveal,
+  .reveal-scale,
+  .reveal-mask,
+  .reveal-clip,
+  .tick {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .tick svg :where(path, circle, line, polyline, polygon) {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+
+  .surface {
+    background: #ffffff !important;
+    box-shadow: none !important;
+  }
+
+  /* Sections flow across pages: making a whole section unbreakable pushed it
+     to the next sheet and left half-empty pages. Individual cards and list
+     rows still never split, and a heading is never stranded at a page foot. */
+  section {
+    break-inside: auto;
+  }
+
+  li,
+  figure,
+  blockquote {
+    break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid-page;
+  }
+
+  /* The certificate list is single-column at paper width (A4 falls below the
+     `md` two-column breakpoint), so it is re-flowed into two columns here. */
+  .cert-list {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cert-list > li {
+    border: 0 !important;
+    border-bottom: 1px solid var(--border) !important;
+  }
+
+  .cert-list > li:nth-child(odd) {
+    border-right: 1px solid var(--border) !important;
+  }
+
+  .cert-list > li:nth-last-child(-n + 2) {
+    border-bottom: 0 !important;
+  }
+
+  a {
+    text-decoration: none;
+  }
 }

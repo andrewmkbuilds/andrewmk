@@ -29,17 +29,22 @@ export default function BlogPostPage({ post }: { post: Post }) {
 
           <header className="mt-8">
             <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-              <time dateTime={post.published_at ?? undefined} className="text-gold">
+              <time
+                dateTime={post.published_at ?? undefined}
+                className="text-gold"
+              >
                 {formatDate(post.published_at)}
               </time>
               <span aria-hidden="true" className="hairline-gold h-px w-10" />
               <span>{post.reading_minutes} min read</span>
             </div>
-            <h1 className="text-display mt-4 text-3xl text-balance text-foreground md:text-5xl">
+            <h1 className="headline-3d text-display mt-4 text-3xl text-balance text-foreground md:text-5xl">
               {post.title}
             </h1>
             {post.excerpt && (
-              <p className="mt-5 text-lg leading-relaxed text-muted-foreground">{post.excerpt}</p>
+              <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+                {post.excerpt}
+              </p>
             )}
             {post.tags.length > 0 && (
               <div className="mt-6 flex flex-wrap gap-2">

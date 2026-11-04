@@ -1,0 +1,95 @@
+{
+  "count": 10,
+  "faq": [
+    {
+      "id": "who",
+      "question": "Who is Andrew Mathews?",
+      "answer": "Andrew Mathews is a student developer and technology builder based in Dubai, United Arab Emirates. He studies at The Indian High School, Dubai, and has been building since age 9, starting with robotics and moving into software, AI and product development.",
+      "source": {
+        "href": "/about",
+        "label": "About"
+      }
+    },
+    {
+      "id": "what-i-build",
+      "question": "What does Andrew build?",
+      "answer": "AI applications and assistants, full web applications and tools, robotics and engineering projects, computer-vision experiments, and product systems taken from a rough concept through to something that runs.",
+      "source": {
+        "href": "/skills",
+        "label": "Skills"
+      }
+    },
+    {
+      "id": "technologies",
+      "question": "What technologies does he work with?",
+      "answer": "Python, TypeScript, JavaScript, React and Flutter, generative-AI models and APIs, OpenCV and MediaPipe for computer vision, and hardware and sensor work from competition robotics. The skills page lists the full set.",
+      "source": {
+        "href": "/skills",
+        "label": "Skills"
+      }
+    },
+    {
+      "id": "projects",
+      "question": "Which projects are on this site?",
+      "answer": "Nineteen projects are documented as case studies. The four featured ones are Gradr, an AI career accelerator; Stack Up, a personal-finance app with gamification; TerraCart, a sustainable shopping assistant; and ClientFlow OS, a business operating system. The rest form the project archive.",
+      "source": {
+        "href": "/projects",
+        "label": "Projects"
+      }
+    },
+    {
+      "id": "andrewbuilds",
+      "question": "What is AndrewBuilds?",
+      "answer": "AndrewBuilds is the name Andrew uses for his work and his online profiles — it is the wordmark on this site and the handle behind his GitHub, Linktree and build-platform accounts. It is a personal practice, not a company or an agency.",
+      "source": {
+        "href": "/profile",
+        "label": "Profile"
+      }
+    },
+    {
+      "id": "awards",
+      "question": "What has he won?",
+      "answer": "Competition results published here are: 1st Place Data Science and 2nd Place IoT at Techfest, 2nd Place Space Tech at Group Techfest, an Innovation Award at the FLL UAE Dubai Regional, 2nd Place at the \"Math & Me\" Math Expo, and 3rd Place Shot Put at the Annual Athletic Meet. In Model United Nations his only award is a Verbal Commendation, at IHSMUN 2025, Novara MUN 2026 and the IHS UNSummit 2026. No other MUN award is claimed.",
+      "source": {
+        "href": "/achievements",
+        "label": "Achievements"
+      }
+    },
+    {
+      "id": "journey",
+      "question": "How did he start building?",
+      "answer": "With the Mbot@IHS robotics programme in 2022, at age 9, building and presenting an original model at a school exhibition. The journey page records the milestones from there.",
+      "source": {
+        "href": "/journey",
+        "label": "Journey"
+      }
+    },
+    {
+      "id": "contact",
+      "question": "How can someone get in touch?",
+      "answer": "Through the contact page, which has a working form, or through any of the public profiles linked in the site footer and on the profile page.",
+      "source": {
+        "href": "/contact",
+        "label": "Contact"
+      }
+    },
+    {
+      "id": "built-with",
+      "question": "How was this website built?",
+      "answer": "It is a TanStack Start application with React, TypeScript, Tailwind CSS and Motion, rendering server-side. The colophon documents the stack, the design system and the ambient background in detail.",
+      "source": {
+        "href": "/colophon",
+        "label": "Colophon"
+      }
+    },
+    {
+      "id": "api",
+      "question": "Can this site's information be read by developers or AI agents?",
+      "answer": "Yes. A read-only, versioned JSON API is published under /data/v1, alongside /llms.txt, /llms-full.txt, /agents.md and an OpenAPI description. Everything it exposes is public information already on the site.",
+      "source": {
+        "href": "/developers",
+        "label": "Developers"
+      }
+    }
+  ]
+}

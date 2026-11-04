@@ -155,7 +155,12 @@ export default function AdminProjects() {
       title="Projects"
       description="Add, edit and publish the projects that appear in your portfolio. Drafts stay hidden from visitors and search engines."
       actions={
-        <Button type="button" variant="outline" size="sm" onClick={() => setDraft(EMPTY)}>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => setDraft(EMPTY)}
+        >
           <Plus className="h-4 w-4" aria-hidden="true" /> New project
         </Button>
       }
@@ -167,7 +172,8 @@ export default function AdminProjects() {
           </h2>
           {projects.isLoading ? (
             <p className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
-              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> Loading…
+              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />{" "}
+              Loading…
             </p>
           ) : (
             <ul className="mt-4 max-h-[32rem] list-none space-y-1 overflow-auto p-0">
@@ -314,7 +320,11 @@ export default function AdminProjects() {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="p-live">Live link</Label>
-              <Input id="p-live" value={draft.live ?? ""} onChange={(e) => set("live", e.target.value)} />
+              <Input
+                id="p-live"
+                value={draft.live ?? ""}
+                onChange={(e) => set("live", e.target.value)}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="p-github">GitHub link</Label>
@@ -344,7 +354,9 @@ export default function AdminProjects() {
                 value={draft.end_date ?? ""}
                 onChange={(e) => set("end_date", e.target.value)}
               />
-              <p className="text-xs text-muted-foreground">Leave empty for in-progress projects.</p>
+              <p className="text-xs text-muted-foreground">
+                Leave empty for in-progress projects.
+              </p>
             </div>
           </div>
 
@@ -422,7 +434,11 @@ export default function AdminProjects() {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <Button type="submit" disabled={saving.isPending} className="font-mono">
+            <Button
+              type="submit"
+              disabled={saving.isPending}
+              className="font-mono"
+            >
               {saving.isPending ? (
                 <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
               ) : (
@@ -432,7 +448,11 @@ export default function AdminProjects() {
             </Button>
             {draft.slug ? (
               <Button asChild type="button" variant="outline">
-                <a href={`/projects/${draft.slug}`} target="_blank" rel="noreferrer">
+                <a
+                  href={`/projects/${draft.slug}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <Eye className="h-4 w-4" aria-hidden="true" /> Preview page
                 </a>
               </Button>

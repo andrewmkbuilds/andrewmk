@@ -20,10 +20,15 @@ export const submitContactMessage = createServerFn({ method: "POST" })
 
     // Silent success for obvious bots: never tell them why they failed.
     if (spamScore >= 100) {
-      return { ok: true, delivery: "rejected", message: "Thanks — your message was received." };
+      return {
+        ok: true,
+        delivery: "rejected",
+        message: "Thanks — your message was received.",
+      };
     }
 
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin } =
+      await import("@/integrations/supabase/client.server");
 
     const countSince = async (ms: number) => {
       const { count } = await supabaseAdmin
@@ -44,10 +49,10 @@ export const submitContactMessage = createServerFn({ method: "POST" })
       return {
         ok: false,
         delivery: "rejected",
-        message: "You've sent a few messages already. Please try again in a little while.",
+        message:
+          "You've sent a few messages already. Please try again in a little while.",
       };
     }
-
 
     const email = spamScore >= 50 ? null : await deliverEmail(data);
     const deliveryStatus = email?.ok ? "email" : "stored";
@@ -69,7 +74,8 @@ export const submitContactMessage = createServerFn({ method: "POST" })
       return {
         ok: false,
         delivery: "rejected",
-        message: "Something went wrong saving your message. Please try again or reach me on GitHub.",
+        message:
+          "Something went wrong saving your message. Please try again or reach me on GitHub.",
       };
     }
 

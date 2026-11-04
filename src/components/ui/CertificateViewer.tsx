@@ -1,6 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { X, ZoomIn, ZoomOut, ExternalLink, Download, RotateCcw, FileText } from "lucide-react";
+import {
+  X,
+  ZoomIn,
+  ZoomOut,
+  ExternalLink,
+  Download,
+  RotateCcw,
+  FileText,
+} from "lucide-react";
 import {
   certificateDateLabel,
   certificateDownloadName,
@@ -17,20 +25,29 @@ interface CertificateViewerProps {
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 6;
 
-const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(max, Math.max(min, value));
 
 /**
  * Full-size, gold-accented certificate viewer.
  * Images: cursor-anchored wheel/pinch zoom, drag to pan, keyboard +/-/0.
  * PDFs: rendered as a real document in an embedded viewer, never as a flat image.
  */
-export function CertificateViewer({ certificate, onClose }: CertificateViewerProps) {
+export function CertificateViewer({
+  certificate,
+  onClose,
+}: CertificateViewerProps) {
   const reduce = useReducedMotion();
   const stageRef = useRef<HTMLDivElement | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const zoomRef = useRef(1);
   const offsetRef = useRef({ x: 0, y: 0 });
-  const dragRef = useRef<{ x: number; y: number; ox: number; oy: number } | null>(null);
+  const dragRef = useRef<{
+    x: number;
+    y: number;
+    ox: number;
+    oy: number;
+  } | null>(null);
 
   const [zoom, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -61,7 +78,11 @@ export function CertificateViewer({ certificate, onClose }: CertificateViewerPro
   const zoomFromCenter = useCallback(
     (factor: number) => {
       const rect = stageRef.current?.getBoundingClientRect();
-      zoomAt(zoomRef.current * factor, (rect?.width ?? 0) / 2, (rect?.height ?? 0) / 2);
+      zoomAt(
+        zoomRef.current * factor,
+        (rect?.width ?? 0) / 2,
+        (rect?.height ?? 0) / 2,
+      );
     },
     [zoomAt],
   );
@@ -95,7 +116,8 @@ export function CertificateViewer({ certificate, onClose }: CertificateViewerPro
     if (!el || !certificate || certificate.type !== "image") return;
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      const dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 100 : 1);
+      const dy =
+        e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 100 : 1);
       const rect = el.getBoundingClientRect();
       zoomAt(
         zoomRef.current * Math.exp(-dy * 0.0018),
@@ -134,12 +156,17 @@ export function CertificateViewer({ certificate, onClose }: CertificateViewerPro
       />
 
       <header className="relative z-10 flex items-start gap-3 border-b border-gold/20 bg-card/60 px-4 py-3 md:px-6">
-        <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px divider-gold" />
+        <span
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-px divider-gold"
+        />
         <div className="min-w-0 flex-1">
           <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
             {isPdf && <FileText className="size-3" />}
             {certificate.category}
-            {dateLabel && <span className="text-muted-foreground">· {dateLabel}</span>}
+            {dateLabel && (
+              <span className="text-muted-foreground">· {dateLabel}</span>
+            )}
           </p>
           <h2 className="mt-1 truncate text-sm font-semibold text-foreground md:text-base">
             {certificate.title}
@@ -222,8 +249,13 @@ export function CertificateViewer({ certificate, onClose }: CertificateViewerPro
         className="relative z-10 flex-1 overflow-hidden p-3 md:p-6"
       >
         {isPdf ? (
-          <div className="mx-auto flex h-full w-full max-w-5xl flex-col overflow-hidden rounded-xl border border-gold/25 bg-card"
-            style={{ boxShadow: "0 0 60px -30px color-mix(in oklab, var(--gold) 60%, transparent)" }}>
+          <div
+            className="mx-auto flex h-full w-full max-w-5xl flex-col overflow-hidden rounded-xl border border-gold/25 bg-card"
+            style={{
+              boxShadow:
+                "0 0 60px -30px color-mix(in oklab, var(--gold) 60%, transparent)",
+            }}
+          >
             <iframe
               src={`${certificate.file}#view=FitH`}
               title={`${certificate.title} (PDF document)`}
@@ -255,7 +287,11 @@ export function CertificateViewer({ certificate, onClose }: CertificateViewerPro
             ref={stageRef}
             className={cn(
               "relative h-full w-full touch-none overflow-hidden rounded-xl",
-              zoom > 1 ? (dragRef.current ? "cursor-grabbing" : "cursor-grab") : "cursor-zoom-in",
+              zoom > 1
+                ? dragRef.current
+                  ? "cursor-grabbing"
+                  : "cursor-grab"
+                : "cursor-zoom-in",
             )}
             onPointerDown={(e) => {
               if (zoomRef.current <= 1) return;
@@ -270,7 +306,10 @@ export function CertificateViewer({ certificate, onClose }: CertificateViewerPro
             onPointerMove={(e) => {
               const d = dragRef.current;
               if (!d) return;
-              setOffset({ x: d.ox + (e.clientX - d.x), y: d.oy + (e.clientY - d.y) });
+              setOffset({
+                x: d.ox + (e.clientX - d.x),
+                y: d.oy + (e.clientY - d.y),
+              });
             }}
             onPointerUp={() => {
               dragRef.current = null;
@@ -295,7 +334,10 @@ export function CertificateViewer({ certificate, onClose }: CertificateViewerPro
                 alt={`${certificate.title}${certificate.issuer ? ` — ${certificate.issuer}` : ""}`}
                 draggable={false}
                 className="max-h-full max-w-full select-none rounded-lg border border-gold/25 bg-card object-contain"
-                style={{ boxShadow: "0 0 80px -40px color-mix(in oklab, var(--gold) 70%, transparent)" }}
+                style={{
+                  boxShadow:
+                    "0 0 80px -40px color-mix(in oklab, var(--gold) 70%, transparent)",
+                }}
               />
             </div>
           </div>

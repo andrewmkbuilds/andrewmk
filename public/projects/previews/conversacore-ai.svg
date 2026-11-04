@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050c18"/>
+      <stop offset="0.5" stop-color="#091a2b"/>
+      <stop offset="1" stop-color="#0e2639"/>
+    </linearGradient>
+    <radialGradient id="hub" cx="0.5" cy="0.55" r="0.4">
+      <stop offset="0" stop-color="#3d9fe0" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#3d9fe0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="goldbl" cx="0.15" cy="0.1" r="0.5">
+      <stop offset="0" stop-color="#d9b268" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#d9b268" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#hub)"/>
+  <rect width="1200" height="800" fill="url(#goldbl)"/>
+
+  <text x="76" y="84" fill="#8fb6d6" font-family="ui-monospace, Menlo, monospace" font-size="15" letter-spacing="4">AI · CONVERSATIONAL · DESKTOP</text>
+  <text x="72" y="152" fill="#f4f8fc" font-family="Georgia, 'Times New Roman', serif" font-size="58">ConversaCore <tspan fill="#d9b268" font-style="italic">AI</tspan></text>
+
+  <!-- model nodes -->
+  <g font-family="ui-monospace, Menlo, monospace" font-size="14" letter-spacing="2">
+    <rect x="150" y="196" width="196" height="60" rx="12" fill="#0c2133" stroke="#ffffff" stroke-opacity="0.14"/>
+    <circle cx="182" cy="226" r="8" fill="#7cc7f0" opacity="0.8"/>
+    <text x="204" y="232" fill="#c3d4e2">GEMINI</text>
+
+    <rect x="502" y="196" width="196" height="60" rx="12" fill="#1a2a1a" stroke="#d9b268" stroke-opacity="0.5"/>
+    <circle cx="534" cy="226" r="8" fill="#f0d29a"/>
+    <text x="556" y="232" fill="#f0e2c4">GPT</text>
+    <text x="682" y="232" text-anchor="end" fill="#8a7a58" font-size="10">ACTIVE</text>
+
+    <rect x="854" y="196" width="196" height="60" rx="12" fill="#0c2133" stroke="#ffffff" stroke-opacity="0.14"/>
+    <circle cx="886" cy="226" r="8" fill="#9dc4a9" opacity="0.8"/>
+    <text x="908" y="232" fill="#c3d4e2">CLAUDE</text>
+  </g>
+
+  <!-- routing lines -->
+  <g fill="none" stroke-width="2.5">
+    <path d="M248 256 C 300 340, 430 380, 552 402" stroke="#7cc7f0" stroke-opacity="0.55"/>
+    <path d="M600 256 L600 396" stroke="#d9b268" stroke-opacity="0.9"/>
+    <path d="M952 256 C 900 340, 760 380, 648 402" stroke="#9dc4a9" stroke-opacity="0.4"/>
+    <path d="M700 226 C 760 226, 790 280, 790 330 C 790 372, 736 392, 700 402"
+          stroke="#d9b268" stroke-opacity="0.55" stroke-dasharray="6 8"/>
+  </g>
+  <text x="806" y="352" fill="#8a7a58" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="2">FALLBACK</text>
+
+  <!-- router -->
+  <g>
+    <circle cx="600" cy="470" r="96" fill="#3d9fe0" fill-opacity="0.14" filter="url(#soft)"/>
+    <circle cx="600" cy="470" r="66" fill="#0a1b2a" stroke="#7cc7f0" stroke-opacity="0.45" stroke-width="2"/>
+    <circle cx="600" cy="470" r="66" fill="none" stroke="#d9b268" stroke-opacity="0.4" stroke-width="2" stroke-dasharray="5 12"/>
+    <text x="600" y="462" text-anchor="middle" fill="#eaf3fb" font-family="Georgia, 'Times New Roman', serif" font-size="24">Router</text>
+    <text x="600" y="490" text-anchor="middle" fill="#7b93a8" font-family="ui-monospace, Menlo, monospace" font-size="10" letter-spacing="2">MODEL SELECT</text>
+  </g>
+
+  <!-- reply bubble -->
+  <g>
+    <rect x="762" y="470" width="300" height="120" rx="16" fill="#0c2133" stroke="#7cc7f0" stroke-opacity="0.25"/>
+    <text x="786" y="504" fill="#9ed4f4" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="3">RESPONSE · GPT</text>
+    <rect x="786" y="520" width="248" height="8" rx="4" fill="#a9cfe4" opacity="0.55"/>
+    <rect x="786" y="540" width="214" height="8" rx="4" fill="#7c9fb5" opacity="0.6"/>
+    <rect x="786" y="560" width="152" height="8" rx="4" fill="#7c9fb5" opacity="0.4"/>
+  </g>
+  <path d="M668 470 L750 500" stroke="#7cc7f0" stroke-opacity="0.45" stroke-width="2.5" fill="none"/>
+  <path d="M736 492l14 8-14 6" fill="#7cc7f0" fill-opacity="0.6"/>
+
+  <!-- persona + memory chips -->
+  <g font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="2">
+    <rect x="150" y="470" width="188" height="34" rx="17" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="244" y="492" text-anchor="middle" fill="#a9b8c6">PERSONA · ANALYST</text>
+    <rect x="150" y="516" width="188" height="34" rx="17" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="244" y="538" text-anchor="middle" fill="#a9b8c6">MEMORY · ON</text>
+    <rect x="150" y="562" width="188" height="34" rx="17" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="244" y="584" text-anchor="middle" fill="#a9b8c6">EXPORT · MARKDOWN</text>
+  </g>
+
+  <!-- prompt bar -->
+  <g>
+    <rect x="280" y="672" width="640" height="66" rx="33" fill="#0b1c2b" stroke="#ffffff" stroke-opacity="0.14"/>
+    <text x="316" y="712" fill="#8fa3b6" font-family="ui-monospace, Menlo, monospace" font-size="15">Ask anything, then compare models</text>
+    <circle cx="870" cy="705" r="24" fill="#d9b268"/>
+    <path d="M862 705h16M872 698l8 7-8 7" fill="none" stroke="#241a08" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+</svg>

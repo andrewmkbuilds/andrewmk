@@ -1,0 +1,98 @@
+{
+  "slug": "devos",
+  "name": "DevOS",
+  "category": "Productivity / AI",
+  "description": "AI-powered developer command center designed to bring tasks, focus sessions, and project threads into one place.",
+  "problem": "Building alone means context lives in five places at once — a task list, a terminal, a notes file, a chat with an AI assistant, and whatever was open when you stopped. DevOS came out of my own workflow: one command center where the task, the focus session and the project thread are the same object, so picking work back up does not require reconstructing it.",
+  "status": "Live",
+  "live": "https://dev-os-flow.base44.app",
+  "platform": "base44",
+  "tech": [
+    "Python",
+    "AI Integration"
+  ],
+  "built": [
+    "Task system",
+    "Focus sessions",
+    "Project threads",
+    "AI integration"
+  ],
+  "filters": [
+    "Python",
+    "AI",
+    "Base44"
+  ],
+  "featured": false,
+  "stack": [
+    {
+      "group": "Core",
+      "items": [
+        "Python",
+        "Task engine",
+        "Session timer",
+        "Thread store"
+      ]
+    },
+    {
+      "group": "AI layer",
+      "items": [
+        "Assistant integration",
+        "Context summarisation",
+        "Task breakdown"
+      ]
+    },
+    {
+      "group": "Interface",
+      "items": [
+        "Command-driven UI",
+        "Keyboard-first navigation",
+        "Project boards"
+      ]
+    },
+    {
+      "group": "Platform",
+      "items": [
+        "Base44",
+        "Hosted deployment"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "title": "Context that survives a break",
+      "detail": "Tasks alone were not enough to resume work. Attaching session notes and decisions to a persistent project thread turned resumption from re-reading code into reading four lines."
+    },
+    {
+      "title": "Keeping AI grounded in the project",
+      "detail": "Generic assistant answers were useless. Requests now carry a trimmed slice of the project thread and recent sessions, so suggestions reference actual decisions instead of guessing."
+    },
+    {
+      "title": "Avoiding another tool to maintain",
+      "detail": "The system only works if updating it is a side effect of working. Ending a focus block prompts a one-line note, and that single habit keeps the whole thread current."
+    }
+  ],
+  "results": [
+    {
+      "label": "Status",
+      "value": "Live",
+      "note": "Usable at dev-os-flow.base44.app."
+    },
+    {
+      "label": "Objects unified",
+      "value": "3",
+      "note": "Tasks, focus sessions, project threads."
+    },
+    {
+      "label": "Built for",
+      "value": "Solo builders",
+      "note": "Designed around my own workflow."
+    },
+    {
+      "label": "Interaction",
+      "value": "Keyboard-first",
+      "note": "Command-driven navigation."
+    }
+  ],
+  "caseStudy": "https://andrewmk.is-a.dev/projects/devos",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/devos.json"
+}

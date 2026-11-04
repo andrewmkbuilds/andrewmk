@@ -21,6 +21,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://andrewmk.is-a.dev/skills</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://andrewmk.is-a.dev/achievements</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -34,6 +39,36 @@
     <loc>https://andrewmk.is-a.dev/profile</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://andrewmk.is-a.dev/now</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://andrewmk.is-a.dev/press-kit</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://andrewmk.is-a.dev/faq</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://andrewmk.is-a.dev/colophon</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://andrewmk.is-a.dev/sitemap</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://andrewmk.is-a.dev/developers</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://andrewmk.is-a.dev/contact</loc>
@@ -57,6 +92,26 @@
   </url>
   <url>
     <loc>https://andrewmk.is-a.dev/projects/clientflow-os</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://andrewmk.is-a.dev/projects/sitescout-ai</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://andrewmk.is-a.dev/projects/scholara</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://andrewmk.is-a.dev/projects/critiqueflow</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://andrewmk.is-a.dev/projects/the-neonrush</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

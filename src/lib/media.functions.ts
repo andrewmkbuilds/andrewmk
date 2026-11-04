@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { asDbClient, type DbClient } from "@/lib/db-client";
 
 export interface MediaAsset {
   id: string;
@@ -15,12 +16,19 @@ export interface MediaAsset {
   created_at: string;
 }
 
-const COLUMNS = "id,path,url,filename,mime_type,size_bytes,alt,caption,title,created_at";
+const COLUMNS =
+  "id,path,url,filename,mime_type,size_bytes,alt,caption,title,created_at";
 const BUCKET = "media";
 
-const ALLOWED = ["image/png", "image/jpeg", "image/webp", "image/gif", "image/svg+xml"] as const;
+const ALLOWED = [
+  "image/png",
+  "image/jpeg",
+  "image/webp",
+  "image/gif",
+  "image/svg+xml",
+] as const;
 
-async function assertAdmin(supabase: { from: (t: string) => any }, userId: string) {
+async function assertAdmin(supabase: DbClient, userId: string) {
   const { data, error } = await supabase
     .from("user_roles")
     .select("role")
@@ -33,7 +41,7 @@ async function assertAdmin(supabase: { from: (t: string) => any }, userId: strin
 export const listMedia = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<MediaAsset[]> => {
-    const supabase = context.supabase as never as any;
+    const supabase = asDbClient(context.supabase);
     await assertAdmin(supabase, context.userId);
     const { data, error } = await supabase
       .from("media_assets")
@@ -60,11 +68,12 @@ export const uploadMedia = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }): Promise<MediaAsset> => {
-    const supabase = context.supabase as never as any;
+    const supabase = asDbClient(context.supabase);
     await assertAdmin(supabase, context.userId);
 
     const bytes = Buffer.from(data.base64, "base64");
-    if (bytes.byteLength > 10 * 1024 * 1024) throw new Error("Images must be 10 MB or smaller.");
+    if (bytes.byteLength > 10 * 1024 * 1024)
+      throw new Error("Images must be 10 MB or smaller.");
 
     const safeName = data.filename
       .toLowerCase()
@@ -73,10 +82,15 @@ export const uploadMedia = createServerFn({ method: "POST" })
       .slice(-80);
     const path = `${new Date().toISOString().slice(0, 7)}/${crypto.randomUUID().slice(0, 8)}-${safeName}`;
 
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { supabaseAdmin } =
+      await import("@/integrations/supabase/client.server");
     const upload = await supabaseAdmin.storage
       .from(BUCKET)
-      .upload(path, bytes, { contentType: data.mimeType, cacheControl: "31536000", upsert: false });
+      .upload(path, bytes, {
+        contentType: data.mimeType,
+        cacheControl: "31536000",
+        upsert: false,
+      });
     if (upload.error) throw new Error(upload.error.message ?? "Upload failed.");
 
     const row = {
@@ -96,7 +110,8 @@ export const uploadMedia = createServerFn({ method: "POST" })
       .insert(row)
       .select(COLUMNS)
       .single();
-    if (error) throw new Error(error.message ?? "Could not save the image details.");
+    if (error)
+      throw new Error(error.message ?? "Could not save the image details.");
     return saved as MediaAsset;
   });
 
@@ -113,11 +128,15 @@ export const updateMedia = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }): Promise<MediaAsset> => {
-    const supabase = context.supabase as never as any;
+    const supabase = asDbClient(context.supabase);
     await assertAdmin(supabase, context.userId);
     const { data: row, error } = await supabase
       .from("media_assets")
-      .update({ alt: data.alt, caption: data.caption ?? null, title: data.title ?? null })
+      .update({
+        alt: data.alt,
+        caption: data.caption ?? null,
+        title: data.title ?? null,
+      })
       .eq("id", data.id)
       .select(COLUMNS)
       .single();
@@ -127,9 +146,11 @@ export const updateMedia = createServerFn({ method: "POST" })
 
 export const deleteMedia = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) => z.object({ id: z.string().uuid() }).parse(data))
+  .inputValidator((data: unknown) =>
+    z.object({ id: z.string().uuid() }).parse(data),
+  )
   .handler(async ({ data, context }): Promise<{ ok: true }> => {
-    const supabase = context.supabase as never as any;
+    const supabase = asDbClient(context.supabase);
     await assertAdmin(supabase, context.userId);
 
     const { data: row } = await supabase
@@ -139,11 +160,15 @@ export const deleteMedia = createServerFn({ method: "POST" })
       .maybeSingle();
 
     if (row?.path) {
-      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const { supabaseAdmin } =
+        await import("@/integrations/supabase/client.server");
       await supabaseAdmin.storage.from(BUCKET).remove([row.path]);
     }
 
-    const { error } = await supabase.from("media_assets").delete().eq("id", data.id);
+    const { error } = await supabase
+      .from("media_assets")
+      .delete()
+      .eq("id", data.id);
     if (error) throw new Error("Could not delete the image.");
     return { ok: true };
   });

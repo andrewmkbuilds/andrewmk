@@ -1,9 +1,14 @@
 import { Layout } from "@/components/layout/Layout";
 import { Reveal } from "@/components/ui/Reveal";
 import { ContactForm } from "@/components/ui/ContactForm";
-import { Github, Mail, Share2 } from "lucide-react";
-import { CONTACT_EMAIL, GITHUB_URL, LINKTREE_URL, socialLinks } from "@/data/portfolio";
-import { getSocialIcon } from "@/components/ui/SocialIcons";
+import { Mail, Share2 } from "lucide-react";
+import {
+  CONTACT_EMAIL,
+  GITHUB_URL,
+  LINKTREE_URL,
+  socialLinks,
+} from "@/data/portfolio";
+import { SocialMark } from "@/components/ui/SocialMark";
 
 export default function Contact() {
   return (
@@ -14,11 +19,15 @@ export default function Contact() {
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
               Contact
             </p>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
-              Get in Touch
+            <h1 className="headline-3d text-4xl md:text-5xl font-bold text-foreground leading-[1.08] text-balance">
+              Get in{" "}
+              <em className="serif-display mark-underline italic text-gold">
+                Touch
+              </em>
             </h1>
             <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-              Want to talk about technology, a project, collaboration, or something I'm building?
+              Want to talk about technology, a project, collaboration, or
+              something I'm building?
             </p>
           </Reveal>
 
@@ -36,10 +45,13 @@ export default function Contact() {
                   aria-label="GitHub profile (@andrewmkbuilds)"
                   className="flex items-center gap-4 rounded-xl border border-primary/40 bg-card p-5 shadow-card transition-colors hover:border-gold focus-ring"
                 >
-                  <Github className="h-5 w-5 text-primary" />
+                  <SocialMark id="github" size="md" className="text-primary" />
                   <span>
                     <span className="block text-sm font-medium text-foreground">
-                      GitHub <span className="font-mono text-[10px] uppercase tracking-wider text-primary">· Primary</span>
+                      GitHub{" "}
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-primary">
+                        · Primary
+                      </span>
                     </span>
                     <span className="block font-mono text-xs text-muted-foreground">
                       @andrewmkbuilds
@@ -68,7 +80,8 @@ export default function Contact() {
                       linktr.ee/andrewmkbuilds
                     </span>
                     <span className="mt-1 block text-xs text-muted-foreground">
-                      The central place to find every profile, project, and link.
+                      The central place to find every profile, project, and
+                      link.
                     </span>
                   </span>
                 </a>
@@ -77,7 +90,6 @@ export default function Contact() {
                   {socialLinks
                     .filter((s) => s.id !== "github" && s.id !== "linktree")
                     .map((link) => {
-                      const Icon = getSocialIcon(link.id);
                       return (
                         <a
                           key={link.id}
@@ -87,7 +99,11 @@ export default function Contact() {
                           aria-label={`${link.label} profile (${link.handle})`}
                           className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 shadow-card transition-colors hover:border-gold/40 focus-ring"
                         >
-                          <Icon className="h-4 w-4 text-primary" />
+                          <SocialMark
+                            id={link.id}
+                            size="md"
+                            className="text-primary"
+                          />
                           <span>
                             <span className="block text-sm font-medium text-foreground">
                               {link.label}
@@ -107,7 +123,9 @@ export default function Contact() {
                 >
                   <Mail className="h-5 w-5 text-primary" />
                   <span>
-                    <span className="block text-sm font-medium text-foreground">Email</span>
+                    <span className="block text-sm font-medium text-foreground">
+                      Email
+                    </span>
                     <span className="block font-mono text-xs text-muted-foreground">
                       {CONTACT_EMAIL}
                     </span>

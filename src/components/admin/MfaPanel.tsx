@@ -20,7 +20,11 @@ export function MfaPanel() {
   const [factors, setFactors] = useState<Factor[]>([]);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
-  const [enroll, setEnroll] = useState<{ id: string; qr: string; secret: string } | null>(null);
+  const [enroll, setEnroll] = useState<{
+    id: string;
+    qr: string;
+    secret: string;
+  } | null>(null);
   const [code, setCode] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -63,7 +67,9 @@ export function MfaPanel() {
     if (!enroll) return;
     setBusy(true);
     setError(null);
-    const challenge = await supabase.auth.mfa.challenge({ factorId: enroll.id });
+    const challenge = await supabase.auth.mfa.challenge({
+      factorId: enroll.id,
+    });
     if (challenge.error || !challenge.data) {
       setBusy(false);
       setError(challenge.error?.message ?? "Could not start the challenge.");
@@ -88,7 +94,9 @@ export function MfaPanel() {
   async function disable(factorId: string) {
     setBusy(true);
     setError(null);
-    const { error: unenrollError } = await supabase.auth.mfa.unenroll({ factorId });
+    const { error: unenrollError } = await supabase.auth.mfa.unenroll({
+      factorId,
+    });
     setBusy(false);
     if (unenrollError) {
       setError(unenrollError.message);
@@ -107,14 +115,21 @@ export function MfaPanel() {
         {verified.length > 0 ? (
           <ShieldCheck className="h-5 w-5 text-primary" aria-hidden="true" />
         ) : (
-          <ShieldAlert className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
+          <ShieldAlert
+            className="h-5 w-5 text-muted-foreground"
+            aria-hidden="true"
+          />
         )}
-        <h2 id="mfa-heading" className="font-display text-lg font-semibold text-foreground">
+        <h2
+          id="mfa-heading"
+          className="font-display text-lg font-semibold text-foreground"
+        >
           Two-factor authentication
         </h2>
       </div>
       <p className="mt-2 text-sm text-muted-foreground">
-        Optional. When enabled, admin sign-in asks for a 6-digit code from your authenticator app.
+        Optional. When enabled, admin sign-in asks for a 6-digit code from your
+        authenticator app.
       </p>
 
       {loading ? (
@@ -163,8 +178,14 @@ export function MfaPanel() {
             />
           </div>
           <div className="flex gap-3">
-            <Button type="submit" disabled={busy} className="font-mono focus-ring">
-              {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
+            <Button
+              type="submit"
+              disabled={busy}
+              className="font-mono focus-ring"
+            >
+              {busy ? (
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+              ) : null}
               Verify and enable
             </Button>
             <Button
@@ -184,7 +205,9 @@ export function MfaPanel() {
           disabled={busy}
           onClick={startEnroll}
         >
-          {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
+          {busy ? (
+            <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+          ) : null}
           Enable two-factor
         </Button>
       )}

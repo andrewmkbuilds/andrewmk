@@ -2,7 +2,10 @@ import { forwardRef, type AnchorHTMLAttributes } from "react";
 import { Link, useLocation } from "@/lib/router-compat";
 import { cn } from "@/lib/utils";
 
-interface NavLinkCompatProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> {
+interface NavLinkCompatProps extends Omit<
+  AnchorHTMLAttributes<HTMLAnchorElement>,
+  "href"
+> {
   to: string;
   className?: string;
   activeClassName?: string;
@@ -11,10 +14,22 @@ interface NavLinkCompatProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement
 }
 
 const NavLink = forwardRef<HTMLAnchorElement, NavLinkCompatProps>(
-  ({ className, activeClassName, pendingClassName: _pendingClassName, to, end, ...props }, ref) => {
+  (
+    {
+      className,
+      activeClassName,
+      pendingClassName: _pendingClassName,
+      to,
+      end,
+      ...props
+    },
+    ref,
+  ) => {
     const { pathname } = useLocation();
     const isActive =
-      to === "/" || end ? pathname === to : pathname === to || pathname.startsWith(`${to}/`);
+      to === "/" || end
+        ? pathname === to
+        : pathname === to || pathname.startsWith(`${to}/`);
 
     return (
       <Link

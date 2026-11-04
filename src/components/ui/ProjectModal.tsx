@@ -1,10 +1,13 @@
-import { ArrowRight, ExternalLink, Github, X } from "lucide-react";
+import { ArrowRight, Check, ExternalLink, X } from "lucide-react";
+import { SocialMark } from "@/components/ui/SocialMark";
 import { Link } from "@/lib/router-compat";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { TechTag } from "./TechTag";
+import { TickMark } from "./TickMark";
 import { BuiltBy, PlatformBadge } from "./BuiltBy";
+import { ProjectShot } from "./ProjectShot";
 import type { Project } from "@/data/portfolio";
 
 interface ProjectModalProps {
@@ -16,7 +19,11 @@ interface ProjectModalProps {
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 /** Premium project presentation surface — a full case sheet, not a plain modal. */
-export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps) {
+export function ProjectModal({
+  project,
+  open,
+  onOpenChange,
+}: ProjectModalProps) {
   const reduce = useReducedMotion();
 
   return (
@@ -34,11 +41,19 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
               />
             </DialogPrimitive.Overlay>
 
-            <DialogPrimitive.Content asChild forceMount aria-describedby={undefined}>
+            <DialogPrimitive.Content
+              asChild
+              forceMount
+              aria-describedby={undefined}
+            >
               <motion.div
-                initial={reduce ? { opacity: 0 } : { opacity: 0, y: 28, scale: 0.985 }}
+                initial={
+                  reduce ? { opacity: 0 } : { opacity: 0, y: 28, scale: 0.985 }
+                }
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={reduce ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.99 }}
+                exit={
+                  reduce ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.99 }
+                }
                 transition={{ duration: 0.4, ease: EASE }}
                 className="surface grain fixed left-1/2 top-1/2 z-50 max-h-[90dvh] w-[calc(100vw-1.5rem)] max-w-3xl sm:w-[calc(100vw-3rem)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto overscroll-contain rounded-2xl"
               >
@@ -49,9 +64,23 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                 >
                   <div className="absolute inset-0 bg-grid opacity-50" />
                   <motion.div
-                    className="absolute -top-24 left-1/3 h-64 w-96 rounded-full bg-primary/12 blur-[100px]"
-                    animate={reduce ? {} : { x: [0, 40, 0], opacity: [0.7, 1, 0.7] }}
-                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute -top-24 left-1/3 h-64 w-96 bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--primary)_16%,transparent),transparent_100%)]"
+                    animate={
+                      reduce ? {} : { x: [0, 40, 0], opacity: [0.7, 1, 0.7] }
+                    }
+                    transition={{
+                      duration: 12,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  />
+                </div>
+
+                <div className="relative aspect-[16/9] overflow-hidden border-b border-border/70">
+                  <ProjectShot project={project} priority />
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-linear-to-t from-background/55 via-transparent to-background/25"
                   />
                 </div>
 
@@ -96,7 +125,12 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                     animate={reduce ? {} : "show"}
                     variants={{
                       hidden: {},
-                      show: { transition: { staggerChildren: 0.07, delayChildren: 0.14 } },
+                      show: {
+                        transition: {
+                          staggerChildren: 0.07,
+                          delayChildren: 0.14,
+                        },
+                      },
                     }}
                     className="mt-9 space-y-7"
                   >
@@ -110,12 +144,17 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
 
                     <Section title="What I built">
                       <ul className="grid list-none gap-2.5 p-0 sm:grid-cols-2">
-                        {project.built.map((item) => (
+                        {project.built.map((item, i) => (
                           <li
                             key={item}
                             className="flex items-start gap-2.5 rounded-lg border border-border/70 bg-background/40 p-3 text-sm text-muted-foreground"
                           >
-                            <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
+                            <TickMark className="mt-0.5" index={i}>
+                              <Check
+                                className="h-3.5 w-3.5 text-gold"
+                                aria-hidden="true"
+                              />
+                            </TickMark>
                             {item}
                           </li>
                         ))}
@@ -123,7 +162,9 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                     </Section>
 
                     <Section title="Current status">
-                      <p className="font-mono text-sm text-foreground">{project.status}</p>
+                      <p className="font-mono text-sm text-foreground">
+                        {project.status}
+                      </p>
                     </Section>
 
                     <Section title="Built by Andrew">
@@ -134,8 +175,15 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                       variants={itemVariants}
                       className="flex flex-wrap items-center gap-3 border-t border-border pt-6 [&_a]:w-full sm:[&_a]:w-auto"
                     >
-                      <Button asChild variant="secondary" className="cta-pop font-mono">
-                        <Link to={`/projects/${project.slug}`} onClick={() => onOpenChange(false)}>
+                      <Button
+                        asChild
+                        variant="secondary"
+                        className="cta-pop font-mono"
+                      >
+                        <Link
+                          to={`/projects/${project.slug}`}
+                          onClick={() => onOpenChange(false)}
+                        >
                           Read full case
                           <ArrowRight className="cta-arrow ml-2 h-4 w-4" />
                         </Link>
@@ -149,16 +197,32 @@ export function ProjectModal({ project, open, onOpenChange }: ProjectModalProps)
                       >
                         {project.live && (
                           <Button asChild className="font-mono">
-                            <a href={project.live} target="_blank" rel="noopener noreferrer">
+                            <a
+                              href={project.live}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
                               Live app
                               <ExternalLink className="ml-2 h-4 w-4" />
                             </a>
                           </Button>
                         )}
                         {project.github && (
-                          <Button asChild variant="outline" className="font-mono">
-                            <a href={project.github} target="_blank" rel="noopener noreferrer">
-                              <Github className="mr-2 h-4 w-4" />
+                          <Button
+                            asChild
+                            variant="outline"
+                            className="font-mono"
+                          >
+                            <a
+                              href={project.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <SocialMark
+                                id="github"
+                                size="md"
+                                className="mr-2"
+                              />
                               GitHub
                             </a>
                           </Button>
@@ -181,11 +245,19 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
 };
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
     <motion.section variants={itemVariants}>
       <div className="mb-3 flex items-center gap-3">
-        <h3 className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">{title}</h3>
+        <h3 className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
+          {title}
+        </h3>
         <span className="hairline-x flex-1" aria-hidden="true" />
       </div>
       {children}

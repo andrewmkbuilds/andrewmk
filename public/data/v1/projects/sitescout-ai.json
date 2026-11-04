@@ -1,0 +1,74 @@
+{
+  "slug": "sitescout-ai",
+  "name": "SiteScout AI",
+  "category": "Agency Technology · AI",
+  "description": "AI-powered client acquisition for web agencies — discover local businesses, audit their websites, score the real opportunities, and carry every lead through to a signed client.",
+  "problem": "An agency's next client is usually a local business with a weak website, but finding those businesses means scrolling maps, opening sites one at a time and keeping notes in a spreadsheet. SiteScout AI turns that manual sweep into one pipeline: it discovers businesses by industry and location, checks what their sites actually do, separates real opportunities from noise, and keeps the outreach that follows in the same place.",
+  "status": "Live",
+  "live": "https://sitescout-ai.base44.app",
+  "platform": "base44",
+  "tech": [
+    "AI",
+    "React"
+  ],
+  "built": [
+    "Business discovery",
+    "Website audits",
+    "Opportunity scoring",
+    "AI outreach",
+    "Lead pipeline",
+    "Team roles and audit logs"
+  ],
+  "filters": [
+    "AI",
+    "Base44"
+  ],
+  "featured": false,
+  "stack": [
+    {
+      "group": "Interface",
+      "items": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Dashboard layouts"
+      ]
+    },
+    {
+      "group": "Discovery",
+      "items": [
+        "Location and industry search",
+        "Multi-source verification",
+        "CSV import"
+      ]
+    },
+    {
+      "group": "Intelligence",
+      "items": [
+        "Website audits",
+        "Performance and SEO checks",
+        "Mobile and conversion signals",
+        "Opportunity scoring"
+      ]
+    },
+    {
+      "group": "Workspace",
+      "items": [
+        "Lead pipeline",
+        "AI outreach drafting",
+        "Organization roles",
+        "Audit logs"
+      ]
+    },
+    {
+      "group": "Platform",
+      "items": [
+        "Base44",
+        "Postgres",
+        "Row-level security"
+      ]
+    }
+  ],
+  "caseStudy": "https://andrewmk.is-a.dev/projects/sitescout-ai",
+  "url": "https://andrewmk.is-a.dev/data/v1/projects/sitescout-ai.json"
+}

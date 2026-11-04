@@ -1,0 +1,172 @@
+/* ── EchoHeadline ────────────────────────────────────────────────────────
+   One word that extrudes a 3D slab of its own copies as the page scrolls.
+   Geometry only: the component writes --eh-perspective / --eh-depth /
+   --eh-vanish / --eh-shift / --eh-rx / --eh-ry / --eh-rz / --eh-reach on
+   the track and the CSS does the 3D (see src/components/ui/EchoHeadline.tsx).
+   ─────────────────────────────────────────────────────────────────────── */
+
+.eh-headline {
+  --eh-margin: 40px;
+  --eh-ink: var(--foreground);
+  --eh-ground: var(--background);
+  position: relative;
+  width: 100%;
+  /* clip, never hidden: `overflow: hidden` computes overflow-y: auto, which
+     turns this into a scroll container and silently kills the sticky stage. */
+  overflow: clip;
+  border-block: 1px solid color-mix(in oklab, var(--gold) 16%, transparent);
+}
+
+/* Only scrub mode gets the tall sticky track. */
+.eh-headline.eh-is-scrub {
+  height: 300vh;
+}
+
+.eh-stage {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--eh-margin);
+}
+
+.eh-is-scrub .eh-stage {
+  position: sticky;
+  top: 0;
+}
+
+.eh-slab {
+  position: relative;
+  font-family: var(--font-serif);
+  font-size: clamp(52px, 30vw, 420px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  color: var(--eh-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.eh-word {
+  position: relative;
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+/* Copies of the word, stacked exactly on it and painted behind it. */
+.eh-echo {
+  position: absolute;
+  inset: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  visibility: hidden;
+  transform: rotateX(var(--eh-rx, 0deg)) rotateY(var(--eh-ry, 0deg))
+    translateZ(
+      calc(var(--eh-depth, 0em) * var(--eh-i, 0) * var(--eh-reach, 0) * -1)
+    );
+  color: color-mix(
+    in oklab,
+    var(--eh-ink),
+    var(--eh-ground) var(--eh-fade, 0%)
+  );
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.eh-is-revealed .eh-echo {
+  visibility: visible;
+}
+
+/* The slab grows away from the word, so the word shifts back to centre both. */
+.eh-is-built .eh-slab {
+  perspective: var(--eh-perspective, 40em);
+  perspective-origin: var(--eh-vanish, 50% 50%);
+  transform: rotate(var(--eh-rz, 0deg)) translate(var(--eh-shift, 0em, 0em));
+}
+
+.eh-is-built .eh-word {
+  transform: rotateX(var(--eh-rx, 0deg)) rotateY(var(--eh-ry, 0deg));
+}
+
+/* Bottom rail: the site's own eyebrow + scroll cue, out of the echo field. */
+.eh-rail {
+  position: absolute;
+  inset-inline: var(--eh-margin);
+  bottom: clamp(20px, 5vh, 48px);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  pointer-events: none;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+}
+
+.eh-eyebrow {
+  margin: 0;
+  color: var(--gold);
+}
+
+.eh-hint {
+  margin: 0;
+  color: var(--muted-foreground);
+}
+
+/* ── Compact section header ─────────────────────────────────────────────
+   The same slab sized to a heading instead of the screen: no sticky track
+   (the root stays in flow at its own height), no scroll hint, and the rail
+   sits under the word as the section's caption. `--eh-size` is the one
+   dimension everything else is derived from, so the geometry keeps the full
+   version's proportions at any width.
+   ─────────────────────────────────────────────────────────────────────── */
+
+.eh-headline.eh-is-compact {
+  --eh-size: clamp(56px, 12vw, 132px);
+  --eh-margin: 0px;
+  border-block: 0;
+  /* The slab is a heading here, not a full-bleed stage: the echoes reach a
+     few pixels past the word's box, and clipping them would shave the
+     outermost layer. */
+  overflow: visible;
+}
+
+.eh-is-compact .eh-stage {
+  height: auto;
+  padding: calc(var(--eh-size) * 0.34) 0 calc(var(--eh-size) * 0.02);
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.eh-is-compact .eh-slab {
+  font-size: var(--eh-size);
+}
+
+.eh-is-compact .eh-rail {
+  position: static;
+  inset-inline: auto;
+  bottom: auto;
+  margin-top: calc(var(--eh-size) * 0.26);
+}
+
+@media (max-width: 767px) {
+  .eh-headline {
+    --eh-margin: 20px;
+  }
+
+  .eh-headline.eh-is-compact {
+    --eh-margin: 0px;
+  }
+
+  .eh-rail {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

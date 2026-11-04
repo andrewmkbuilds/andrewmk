@@ -41,7 +41,7 @@ ROOT = Path(__file__).resolve().parent
 OUT = Path("artifacts/selection-device-cloud")
 
 # Reuse the local suite's cases + image analysis so both runners assert the
-# exact same thing (theme-green highlight, 4.5:1 selected-text contrast).
+# exact same thing (theme-gold highlight, 4.5:1 selected-text contrast).
 _spec = importlib.util.spec_from_file_location(
     "selection_visual_check", ROOT / "selection-visual-check.py"
 )
@@ -186,7 +186,7 @@ async def main():
         for f in failures:
             print(" -", f)
         sys.exit(1)
-    print("\nReal-device selection regression passed — ::selection is theme green "
+    print("\nReal-device selection regression passed — ::selection is theme gold "
           "on every device in the matrix.")
 
 

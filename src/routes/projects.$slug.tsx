@@ -2,7 +2,10 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import ProjectDetail from "@/pages/ProjectDetail";
 import NotFound from "@/pages/NotFound";
 import { allProjects, type Project } from "@/data/portfolio";
-import { getPublishedProject, listPublishedProjects } from "@/lib/projects.functions";
+import {
+  getPublishedProject,
+  listPublishedProjects,
+} from "@/lib/projects.functions";
 import { projectJsonLd } from "@/lib/project-schema";
 import { SITE_NAME, SITE_URL, ogImagePath } from "@/data/seo";
 
@@ -17,7 +20,9 @@ function absolute(url?: string) {
 }
 
 export const Route = createFileRoute("/projects/$slug")({
-  loader: async ({ params }): Promise<{ project: Project; catalogue: Project[] }> => {
+  loader: async ({
+    params,
+  }): Promise<{ project: Project; catalogue: Project[] }> => {
     let project: Project | null = null;
     let catalogue: Project[] = allProjects;
 
@@ -36,18 +41,28 @@ export const Route = createFileRoute("/projects/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: `Project not found | ${SITE_NAME}` }, { name: "robots", content: "noindex" }],
+        meta: [
+          { title: `Project not found | ${SITE_NAME}` },
+          { name: "robots", content: "noindex" },
+        ],
       };
     }
 
     const { project } = loaderData;
     const url = `${SITE_URL}/projects/${project.slug}`;
     const canonical = project.seo?.canonical || url;
+    // Social scrapers cannot render SVG, so a bespoke preview artwork is not
+    // advertised as a share card; those routes use the generated og:image.
+    const shareable = !project.screenshot.endsWith(".svg")
+      ? absolute(project.screenshot)
+      : undefined;
     const image =
       absolute(project.seo?.ogImage) ??
-      absolute(project.featuredImage) ??
+      shareable ??
       `${SITE_URL}${ogImagePath("/projects")}`;
-    const title = project.seo?.title || `${project.name} | ${project.category} by ${SITE_NAME}`;
+    const title =
+      project.seo?.title ||
+      `${project.name} | ${project.category} by ${SITE_NAME}`;
     const description = (
       project.seo?.description ||
       `${project.name} is ${project.description.charAt(0).toLowerCase()}${project.description.slice(1)}`
@@ -62,13 +77,16 @@ export const Route = createFileRoute("/projects/$slug")({
         { property: "og:description", content: description },
         { property: "og:url", content: url },
         { property: "og:type", content: "article" },
+        { property: "og:locale", content: "en_GB" },
         { property: "og:image", content: image },
         { property: "og:image:width", content: "1200" },
         { property: "og:image:height", content: "630" },
+        { property: "og:image:alt", content: project.name },
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: description },
         { name: "twitter:image", content: image },
+        { name: "twitter:image:alt", content: project.name },
       ],
       links: [{ rel: "canonical", href: canonical }],
       scripts: [
@@ -86,9 +104,24 @@ export const Route = createFileRoute("/projects/$slug")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-              { "@type": "ListItem", position: 2, name: "Projects", item: `${SITE_URL}/projects` },
-              { "@type": "ListItem", position: 3, name: project.name, item: url },
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: `${SITE_URL}/`,
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Projects",
+                item: `${SITE_URL}/projects`,
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: project.name,
+                item: url,
+              },
             ],
           }),
         },
